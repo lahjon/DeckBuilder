@@ -8,6 +8,8 @@ public class Database : MonoBehaviour
     public CardDatabase cardDatabase;
     public static Database instance; 
 
+    private List<Card> allCards { get { return cardDatabase.allCards; } }
+
     private void Awake()
     {
         if(instance == null)
@@ -33,10 +35,14 @@ public class Database : MonoBehaviour
 
     public Card GetRandomCard()
     {
-        int idx = Random.Range(0,cardDatabase.allCards.Count);
-        Debug.Log(idx);
-        Debug.Log(cardDatabase.allCards.Count);
-        return cardDatabase.allCards[idx];
+        int idx = Random.Range(0,allCards.Count);
+        return allCards[idx];
+    }
+
+    public List<Card> GetStartingDeck(string Character = "")
+    {
+        //Denn ska välja bara kort för relevant gubbe sen
+        return allCards;
     }
 }
 
