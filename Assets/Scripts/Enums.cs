@@ -7,6 +7,7 @@ Defender
 
 public enum CardRarity
 {
+Starting,
 Common, 
 Uncommon, 
 Rare

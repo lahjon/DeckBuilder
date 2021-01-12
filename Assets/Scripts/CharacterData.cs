@@ -15,4 +15,6 @@ public class CharacterData : ScriptableObject
     public int speed;       // cards to draw
     public int endurance;   // action points
     public int wisdom;      // deck size
+    
+    public List<Card> startingDeck;
 }

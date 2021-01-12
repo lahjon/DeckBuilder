@@ -20,3 +20,9 @@ MonoBehaviour:
   speed: 1
   endurance: -1
   wisdom: 0
+  startingDeck:
+  - {fileID: 11400000, guid: e79df00b8b6058a4fbb14199eed455b8, type: 2}
+  - {fileID: 11400000, guid: e79df00b8b6058a4fbb14199eed455b8, type: 2}
+  - {fileID: 11400000, guid: 5186cd9311da79743892c47dcf670dbc, type: 2}
+  - {fileID: 11400000, guid: d15b2cf2ab7139644a9986c96a20e51c, type: 2}
+  - {fileID: 11400000, guid: d15b2cf2ab7139644a9986c96a20e51c, type: 2}
