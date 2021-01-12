@@ -15,8 +15,15 @@ MonoBehaviour:
   charName: 
   artwork: {fileID: 21300000, guid: 83f9aa9b555a7e24cb671db65c22a3ca, type: 3}
   characterType: 0
-  strength: 2
-  cunning: 1
-  speed: 0
-  endurance: 0
-  wisdom: -1
+  stats:
+  - Type: 0
+    Value: 2
+  - Type: 1
+    Value: 1
+  - Type: 2
+    Value: 1
+  - Type: 3
+    Value: -2
+  - Type: 4
+    Value: -1
+  startingDeck: []

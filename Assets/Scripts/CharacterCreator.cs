@@ -10,7 +10,7 @@ public class CharacterCreator : MonoBehaviour
     public CharacterTypesUI characterTypesUI;
     public GameObject characterPrefab;
     private Dropdown[] myDropdownList;
-    private CharacterData selectedChar;
+    public CharacterData selectedChar;
     private CharacterData previousSelectedChar;
 
     public Image artwork;
@@ -85,20 +85,23 @@ public class CharacterCreator : MonoBehaviour
 
     void ConfirmCharacter(Dictionary<string, int> myStats, CharacterData aCharacter)
     {
-        foreach (KeyValuePair<string, int> item in myStats)
-            {
-                
-                Debug.Log(item.Key + "," + item.Value);
-            }
-
-            Debug.Log(aCharacter);
-            GameObject newCharacterPrefab = Instantiate(characterPrefab, new Vector3(500, 300, -60), Quaternion.identity);
+        // foreach (KeyValuePair<string, int> item in myStats)
+        // {
             
-            Character newCharacter = newCharacterPrefab.GetComponent<Character>();
+        //     Debug.Log(item.Key + "," + item.Value);
+        // }
 
-            //newCharacter.strength = 
-            
-            WorldManager.instance.aCharacter = newCharacter;
+        GameObject newCharacterPrefab = Instantiate(characterPrefab, new Vector3(500, 300, -60), Quaternion.identity);
+        
+        Character newCharacter = newCharacterPrefab.GetComponent<Character>();
+
+        newCharacter.strength = myStats["strength"];
+        newCharacter.cunning = myStats["cunning"];
+        newCharacter.speed = myStats["speed"];
+        newCharacter.endurance = myStats["endurance"];
+        newCharacter.wisdom = myStats["wisdom"];
+        
+        WorldManager.instance.aCharacter = newCharacter;
     }
 
     void ConfirmFailed()

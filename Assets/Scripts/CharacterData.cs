@@ -9,12 +9,7 @@ public class CharacterData : ScriptableObject
     public Sprite artwork;
     public CharacterType characterType;
 
-    // stats are +/- modifiers to starting stats
-    public int strength;    // card damage
-    public int cunning;     // skill power 
-    public int speed;       // cards to draw
-    public int endurance;   // action points
-    public int wisdom;      // deck size
+    public List<StatModifer> stats;
     
     public List<Card> startingDeck;
 }
