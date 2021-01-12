@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewCardDatabase", menuName = "Database/Card Database")]
 public class CardDatabase : ScriptableObject
 {
-    public List<Card> allCards;
+    public List<CardData> allCards;
 
-    public void UpdateDatabase(List<Card> allCardsUpdated)
+    public void UpdateDatabase(List<CardData> allCardsUpdated)
     {
         allCards = allCardsUpdated;
     }

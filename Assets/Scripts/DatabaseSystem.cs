@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Database : MonoBehaviour
+public class DatabaseSystem : MonoBehaviour
 {
     public CardDatabase cardDatabase;
-    public static Database instance; 
+    public CardDatabase StartingCardsBrute;
+    public static DatabaseSystem instance;
 
-    private List<Card> allCards { get { return cardDatabase.allCards; } }
+    private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
+
+    private List<CardData> allCards { get { return cardDatabase.allCards; } }
 
     private void Awake()
     {
@@ -21,12 +24,13 @@ public class Database : MonoBehaviour
         {
             Destroy(gameObject);
         }
-       
+
+        StartingCards["Brute"] = StartingCardsBrute;
     }
 
-    public void FetchCards(List<Card> allCards)
+    public void FetchCards(List<CardData> allCards)
     {
-        foreach(Card card in allCards)
+        foreach(CardData card in allCards)
         {
             Debug.Log(card);
         }
@@ -34,16 +38,16 @@ public class Database : MonoBehaviour
         
     }
 
-    public Card GetRandomCard()
+    public CardData GetRandomCard()
     {
         int idx = Random.Range(0,allCards.Count);
         return allCards[idx];
     }
 
-    public List<Card> GetStartingDeck(string Character = "")
+    public List<CardData> GetStartingDeck(string Character = "Brute")
     {
         //Denn ska välja bara kort för relevant gubbe sen
-        return allCards;
+        return StartingCards[Character].allCards;
     }
 }
 

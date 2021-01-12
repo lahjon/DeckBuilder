@@ -16,5 +16,5 @@ public class CharacterData : ScriptableObject
     public int endurance;   // action points
     public int wisdom;      // deck size
     
-    public List<Card> startingDeck;
+    public List<CardData> startingDeck;
 }

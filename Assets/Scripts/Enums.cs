@@ -24,7 +24,8 @@ public enum EffectType
     Damage,
     Poison,
     Block,
-    Weak
+    Weak,
+    Vurnerable
 }
 
 public enum Stats
