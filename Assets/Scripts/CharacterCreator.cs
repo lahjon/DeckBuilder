@@ -8,6 +8,7 @@ public class CharacterCreator : MonoBehaviour
     public List<CharacterData> characterData;
     public StatsController statsController;
     public CharacterTypesUI characterTypesUI;
+    public GameObject characterPrefab;
     private Dropdown[] myDropdownList;
     private CharacterData selectedChar;
     private CharacterData previousSelectedChar;
@@ -67,13 +68,13 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    public void ConfirmCharacter()
+    public void CreateCharacter()
     {
         if(statsController.statPoints == 0)
         {
             Dictionary<string, int> myStats = statsController.FetchStats();
 
-            CreateCharacter(myStats, selectedChar);
+            ConfirmCharacter(myStats, selectedChar);
 
         }
         else
@@ -82,7 +83,7 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    void CreateCharacter(Dictionary<string, int> myStats, CharacterData aCharacter)
+    void ConfirmCharacter(Dictionary<string, int> myStats, CharacterData aCharacter)
     {
         foreach (KeyValuePair<string, int> item in myStats)
             {
@@ -91,6 +92,13 @@ public class CharacterCreator : MonoBehaviour
             }
 
             Debug.Log(aCharacter);
+            GameObject newCharacterPrefab = Instantiate(characterPrefab, new Vector3(500, 300, -60), Quaternion.identity);
+            
+            Character newCharacter = newCharacterPrefab.GetComponent<Character>();
+
+            //newCharacter.strength = 
+            
+            WorldManager.instance.aCharacter = newCharacter;
     }
 
     void ConfirmFailed()
