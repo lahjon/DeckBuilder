@@ -18,3 +18,11 @@ public enum CharacterType
 Brute, 
 Rogue
 };
+
+public enum EffectType
+{
+    Damage,
+    Poison,
+    Block,
+    Weak
+}

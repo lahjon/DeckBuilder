@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce2a5bf285d62c447a1fcb365120462f, type: 3}
-  m_Name: AttackCard 4
+  m_Name: AttackCard 3
   m_EditorClassIdentifier: 
-  name: Mr. At7
-  description: an attacker
-  artwork: {fileID: 21300000, guid: 83f9aa9b555a7e24cb671db65c22a3ca, type: 3}
+  name: Poison Hit It
+  description: Le Poison2
+  artwork: {fileID: 21300000, guid: 85d8cbcaab452f74fa3d8a7b4a74bcaf, type: 3}
   cost: 1
-  damage: 2
-  block: 2
+  Effects:
+  - Type: 1
+    Value: 5
+    Times: 1
   cardRarity: 0
   cardType: 0

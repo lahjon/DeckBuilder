@@ -21,6 +21,7 @@ public class Database : MonoBehaviour
         {
             Destroy(gameObject);
         }
+       
     }
 
     public void FetchCards(List<Card> allCards)

@@ -9,10 +9,9 @@ public class Card : ScriptableObject
     public string description;
 
     public Sprite artwork;
-    
     public int cost;
-    public int damage;
-    public int block;
+
+    public List<Effect> Effects;
     public CardRarity cardRarity;
 
     public CardType cardType;

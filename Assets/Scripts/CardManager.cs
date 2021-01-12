@@ -24,6 +24,7 @@ public class CardManager : MonoBehaviour
     {
         //AddCard();
         DeckData = Database.instance.GetStartingDeck();
+        Debug.Log(DeckData.Count);
         DeckData.ForEach(x => Deck.Add(CreateCardFromData(x)));
         ShuffleDeck();
         DrawCards(DrawCount);
@@ -32,20 +33,25 @@ public class CardManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector2 outCoordinates;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(Canvas.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
+        Debug.Log("Mouse:" + Input.mousePosition.x + "," + Input.mousePosition.y);
+        Debug.Log(outCoordinates.x + "," + outCoordinates.y);
+        Hand[0].GetComponent<RectTransform>().position = outCoordinates;
     }
 
     //Behöver antagligen bytas till nåt med Horizontal group? vet ej. Måste googlas.
     private void DisplayHand()
     {
         for (int i = 0; i < Hand.Count; i++)
-            Hand[i].transform.position = new Vector3(-400 + 100 * i, 75, 0);
+            Hand[i].transform.position = new Vector2(100 * i, -75);
     }
 
     //Denna måste ändras till att blanda in discard om korten är slut! 
     private void DrawCards(int x)
     {
-        for(int i = 0; i < Mathf.Min(x, Deck.Count); i++)
+        int maxDraw = Deck.Count;
+        for(int i = 0; i < Mathf.Min(x, maxDraw); i++)
         {
             Hand.Add(Deck[0]);
             Deck.RemoveAt(0);
@@ -70,6 +76,7 @@ public class CardManager : MonoBehaviour
         aCard.transform.localScale = new Vector3(.4f, .4f, .4f);
         CardDisplay cardDisplay = aCard.GetComponent<CardDisplay>();
         cardDisplay.card = cardData;
+        cardDisplay.UpdateDisplay();
         return aCard;
     }
 
@@ -82,4 +89,6 @@ public class CardManager : MonoBehaviour
         cardDisplay.card = Database.instance.GetRandomCard();
         return aCard;
     }
+
+
 }
