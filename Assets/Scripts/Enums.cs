@@ -26,3 +26,12 @@ public enum EffectType
     Block,
     Weak
 }
+
+public enum Stats
+{
+    Strength,
+    Cunning,
+    Speed,
+    Endurance,
+    Wisdom
+}

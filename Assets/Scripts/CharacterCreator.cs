@@ -6,8 +6,11 @@ using UnityEngine.UI;
 public class CharacterCreator : MonoBehaviour
 {
     public List<CharacterData> characterData;
+    public StatsController statsController;
+    public CharacterTypesUI characterTypesUI;
     private Dropdown[] myDropdownList;
     private CharacterData selectedChar;
+    private CharacterData previousSelectedChar;
 
     public Image artwork;
     
@@ -25,28 +28,80 @@ public class CharacterCreator : MonoBehaviour
         myDropdownList[0].AddOptions(myDropdownOptions);
     }
 
-    public void SelectCharacter()
+    public void SelectCharacterDropDown()
     {
         foreach(CharacterData character in characterData)
         {
             if(character.name == myDropdownList[0].options[myDropdownList[0].value].text)
             {
+                previousSelectedChar = selectedChar;
                 selectedChar = character;
-                Debug.Log(character.strength);   
             }
-
         }
 
-        artwork.sprite = selectedChar.artwork;
+        SetData(selectedChar); 
+    }
+    public void SelectCharacter(CharacterData character)
+    {
+        previousSelectedChar = selectedChar;
+        selectedChar = character;
+        if(ResetData())
+            SetData(selectedChar);
+    }
 
+    private void SetData(CharacterData character)
+    {
+        artwork.sprite = selectedChar.artwork;
+    }
+
+    private bool ResetData()
+    {
+        if(previousSelectedChar != selectedChar)
+        {
+            statsController.ResetPoints();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void ConfirmCharacter()
+    {
+        if(statsController.statPoints == 0)
+        {
+            Dictionary<string, int> myStats = statsController.FetchStats();
+
+            CreateCharacter(myStats, selectedChar);
+
+        }
+        else
+        {
+            ConfirmFailed();
+        }
+    }
+
+    void CreateCharacter(Dictionary<string, int> myStats, CharacterData aCharacter)
+    {
+        foreach (KeyValuePair<string, int> item in myStats)
+            {
+                
+                Debug.Log(item.Key + "," + item.Value);
+            }
+
+            Debug.Log(aCharacter);
+    }
+
+    void ConfirmFailed()
+    {
+        Debug.Log("FAILURE!");
     }
 
     void Start()
     {
-        SetDropDown();
-        SelectCharacter();
-        
-
+        selectedChar = characterData[0];
+        SetData(selectedChar);
     }
 
 }

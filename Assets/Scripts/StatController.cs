@@ -36,7 +36,6 @@ public class StatController : MonoBehaviour
     public void ResetPoints()
     {
         currentValue = defaultValue;   
-        Debug.Log("HELLO");
         textValue.text = (currentValue).ToString();
     }
 

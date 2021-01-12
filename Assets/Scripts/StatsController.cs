@@ -40,4 +40,16 @@ public class StatsController : MonoBehaviour
         statControllers.ForEach(x => x.ResetPoints());
         pointValue.text = statPoints.ToString();
     }
+
+    public Dictionary<string, int> FetchStats()
+    {
+        Dictionary<string, int> characterStats = new Dictionary<string, int>();
+
+        foreach (StatController x in statControllers)
+        {
+            characterStats[x.type] = x.currentValue;
+        }
+
+        return characterStats;
+    }
 }
