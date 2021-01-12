@@ -17,7 +17,6 @@ public class CardDisplay : MonoBehaviour
     public Text damageText;
     public Text blockText;
 
-    // Start is called before the first frame update
     void Start()
     {
         nameText.text = card.name;
