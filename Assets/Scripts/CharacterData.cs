@@ -11,5 +11,5 @@ public class CharacterData : ScriptableObject
 
     public List<StatModifer> stats;
     
-    public List<Card> startingDeck;
+    public List<CardData> startingDeck;
 }
