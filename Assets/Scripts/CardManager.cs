@@ -34,7 +34,7 @@ public class CardManager : MonoBehaviour
     void Update()
     {
         Vector2 outCoordinates;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(Canvas.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasObject.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
         Debug.Log("Mouse:" + Input.mousePosition.x + "," + Input.mousePosition.y);
         Debug.Log(outCoordinates.x + "," + outCoordinates.y);
         Hand[0].GetComponent<RectTransform>().position = outCoordinates;
