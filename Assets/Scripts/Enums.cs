@@ -28,11 +28,21 @@ public enum EffectType
     Vurnerable
 }
 
-public enum Stats
+public enum CharacterStat
 {
     Strength,
     Cunning,
     Speed,
     Endurance,
     Wisdom
+}
+
+public enum WorldStates
+{
+    MainMenu,
+    Combat,
+    Overworld,
+    Menu,
+    Town,
+    Transition
 }

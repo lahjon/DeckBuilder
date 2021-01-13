@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class StatModifer
 {
-    public Stats   Type;
-    public int Value;
+    public CharacterStat type;
+    public int value;
 
 }

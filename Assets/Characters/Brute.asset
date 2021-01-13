@@ -16,14 +16,14 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 83f9aa9b555a7e24cb671db65c22a3ca, type: 3}
   characterType: 0
   stats:
-  - Type: 0
-    Value: 2
-  - Type: 1
-    Value: 1
-  - Type: 2
-    Value: 1
-  - Type: 3
-    Value: -2
-  - Type: 4
-    Value: -1
+  - type: 0
+    value: 3
+  - type: 1
+    value: 0
+  - type: 2
+    value: -2
+  - type: 3
+    value: 2
+  - type: 4
+    value: -2
   startingDeck: []

@@ -1556,6 +1556,7 @@ GameObject:
   - component: {fileID: 401710263}
   - component: {fileID: 401710268}
   - component: {fileID: 401710267}
+  - component: {fileID: 401710269}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1682,6 +1683,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401710262}
   m_CullTransparentMesh: 1
+--- !u!114 &401710269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401710262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1827e15ad01d37140a5ae8609d8ffef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &436968866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,7 +1706,7 @@ GameObject:
   - component: {fileID: 436968868}
   - component: {fileID: 436968867}
   m_Layer: 0
-  m_Name: WorldManager
+  m_Name: WorldSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1708,10 +1721,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 436968866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d551b4c8f2bbc4998837238b603269, type: 3}
+  m_Script: {fileID: 11500000, guid: 532757f1b6953d34fa11bd5ff45f2a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   aCharacter: {fileID: 0}
+  aState: 0
 --- !u!4 &436968868
 Transform:
   m_ObjectHideFlags: 0
@@ -2322,8 +2336,9 @@ MonoBehaviour:
   characterData:
   - {fileID: 11400000, guid: 20a52c86e4384fe4e852b1f68512b7cc, type: 2}
   - {fileID: 11400000, guid: ca0ae09d586ff414d8cf410e487ba9c1, type: 2}
+  aCanvasController: {fileID: 401710269}
   statsController: {fileID: 784782370}
-  characterTypesUI: {fileID: 0}
+  characterTypesUI: {fileID: 1223746768}
   characterPrefab: {fileID: 143385996355014696, guid: 38ba36d1ec37eb4479cf8c1051ec2713, type: 3}
   selectedChar: {fileID: 0}
   artwork: {fileID: 365481687}
@@ -2434,10 +2449,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 557644292}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c253b6a947bf744dab5a6957cc8ed97, type: 3}
+  m_Script: {fileID: 11500000, guid: 6dab00a6205b3f54c8e8afe35b4b10a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardDatabase: {fileID: 11400000, guid: 43b85aa678371cd4083ef7a57bf1470d, type: 2}
+  StartingCardsBrute: {fileID: 0}
 --- !u!4 &557644294
 Transform:
   m_ObjectHideFlags: 0

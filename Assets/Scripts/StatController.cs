@@ -37,19 +37,18 @@ public class StatController : MonoBehaviour
         if(statsController.aCharacterCreater.selectedChar != null)
         {
             List<StatModifer> allStats = statsController.aCharacterCreater.selectedChar.stats;
-            //string statType = type.text;
 
             foreach (var item in allStats)
             {
-                //Debug.Log(item.Type);
-                if(type == item.Type.ToString().ToLower())
+                Debug.Log(item.value);
+                if(type == item.type.ToString().ToLower())
                 {
-                    if(item.Value > 0)
+                    if(item.value > 0)
                     {
-                        minValue = item.Value;
+                        minValue = item.value;
 
                     }
-                    currentValue += item.Value;
+                    currentValue += item.value;
                 }
                 
             }

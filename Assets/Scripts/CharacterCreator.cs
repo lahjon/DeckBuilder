@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CharacterCreator : MonoBehaviour
 {
     public List<CharacterData> characterData;
+    public CanvasController aCanvasController;
     public StatsController statsController;
     public CharacterTypesUI characterTypesUI;
     public GameObject characterPrefab;
@@ -74,37 +75,18 @@ public class CharacterCreator : MonoBehaviour
         {
             Dictionary<string, int> myStats = statsController.FetchStats();
 
-            ConfirmCharacter(myStats, selectedChar);
+            WorldSystem.instance.StoreCharacter(myStats, selectedChar, characterPrefab);
+            WorldSystem.instance.CreateCharacter();
+            WorldSystem.instance.LoadByIndex(1);
 
         }
         else
         {
-            ConfirmFailed();
+            StartFailed();
         }
     }
 
-    void ConfirmCharacter(Dictionary<string, int> myStats, CharacterData aCharacter)
-    {
-        // foreach (KeyValuePair<string, int> item in myStats)
-        // {
-            
-        //     Debug.Log(item.Key + "," + item.Value);
-        // }
-
-        GameObject newCharacterPrefab = Instantiate(characterPrefab, new Vector3(500, 300, -60), Quaternion.identity);
-        
-        Character newCharacter = newCharacterPrefab.GetComponent<Character>();
-
-        newCharacter.strength = myStats["strength"];
-        newCharacter.cunning = myStats["cunning"];
-        newCharacter.speed = myStats["speed"];
-        newCharacter.endurance = myStats["endurance"];
-        newCharacter.wisdom = myStats["wisdom"];
-        
-        WorldManager.instance.aCharacter = newCharacter;
-    }
-
-    void ConfirmFailed()
+    void StartFailed()
     {
         Debug.Log("FAILURE!");
     }

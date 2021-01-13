@@ -16,19 +16,19 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 85d8cbcaab452f74fa3d8a7b4a74bcaf, type: 3}
   characterType: 1
   stats:
-  - Type: 0
-    Value: 1
-  - Type: 1
-    Value: 2
-  - Type: 2
-    Value: 0
-  - Type: 3
-    Value: 2
-  - Type: 4
-    Value: 1
+  - type: 0
+    value: -1
+  - type: 1
+    value: 2
+  - type: 2
+    value: 3
+  - type: 3
+    value: -1
+  - type: 4
+    value: 1
   startingDeck:
-  - {fileID: 11400000, guid: e79df00b8b6058a4fbb14199eed455b8, type: 2}
-  - {fileID: 11400000, guid: e79df00b8b6058a4fbb14199eed455b8, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
