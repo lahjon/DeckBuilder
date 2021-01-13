@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
     public int speed;
     public int endurance;
     public int wisdom;
+    public CharacterType characterType;
 
     void Awake()
     {
@@ -18,7 +19,7 @@ public class Character : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void MoveToStart(Vector3 position)
+    public void MoveToStartOfMap(Vector3 position)
     {
         gameObject.transform.Translate(position);
     }

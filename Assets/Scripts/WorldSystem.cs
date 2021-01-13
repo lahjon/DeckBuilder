@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class WorldSystem : MonoBehaviour
 {
     public static WorldSystem instance; 
-    public Character aCharacter;
-    public WorldStates aState = WorldStates.MainMenu;
+    public Character character;
+    public WorldState worldState = WorldState.MainMenu;
     private int currentScene = 0;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
@@ -45,10 +45,12 @@ public class WorldSystem : MonoBehaviour
         newCharacter.speed = characterStats["speed"];
         newCharacter.endurance = characterStats["endurance"];
         newCharacter.wisdom = characterStats["wisdom"];
-        
+
+        newCharacter.characterType = characterData.characterType;
+
         // update the world system
-        instance.aCharacter = newCharacter;
-        instance.aState = WorldStates.Transition;
+        instance.character = newCharacter;
+        instance.worldState = WorldState.Transition;
     }
 
     public void LoadByIndex(int sceneIndex) {
@@ -57,7 +59,7 @@ public class WorldSystem : MonoBehaviour
 
     private void UpdateStartScene()
     {
-        instance.aCharacter.MoveToStart(encounterManager.GetStartEncounter());
+        instance.character.MoveToStartOfMap(encounterManager.GetStartEncounter());
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

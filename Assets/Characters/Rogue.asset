@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f3fbc21d699164baa4dc60c171dda5, type: 3}
   m_Name: Rogue
   m_EditorClassIdentifier: 
-  charName: 
+  charName: KalleKanin
   artwork: {fileID: 21300000, guid: 85d8cbcaab452f74fa3d8a7b4a74bcaf, type: 3}
   characterType: 1
   stats:
@@ -26,9 +26,4 @@ MonoBehaviour:
     value: -1
   - type: 4
     value: 1
-  startingDeck:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingDeck: []

@@ -6,7 +6,7 @@ using UnityEngine;
 public class EncounterData : ScriptableObject
 {
 public new string name;
-public EncounterTypes type;
+public EncounterType type;
 public bool isCleared = false;
 [TextArea(15,20)]
 public string description;

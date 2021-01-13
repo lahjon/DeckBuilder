@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f3fbc21d699164baa4dc60c171dda5, type: 3}
   m_Name: Brute
   m_EditorClassIdentifier: 
-  charName: 
+  charName: "RagnarR\xF6vson"
   artwork: {fileID: 21300000, guid: 83f9aa9b555a7e24cb671db65c22a3ca, type: 3}
   characterType: 0
   stats:

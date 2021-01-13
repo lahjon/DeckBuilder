@@ -11,7 +11,7 @@ public class Encounter : MonoBehaviour
     public Material matNormal;
     
     private bool highlighted;
-    private EncounterTypes encounterType;
+    private EncounterType encounterType;
 
     void OnMouseOver()
     {
