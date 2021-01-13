@@ -28,7 +28,7 @@ public enum EffectType
     Vurnerable
 }
 
-public enum CharacterStat
+public enum CharacterStats
 {
     Strength,
     Cunning,
@@ -44,5 +44,16 @@ public enum WorldStates
     Overworld,
     Menu,
     Town,
+    Transition
+}
+
+public enum EncounterTypes
+{
+    Start,
+    RandomEvent,
+    Shop,
+    NormalCombat,
+    EliteCombat,
+    BossCombat,
     Transition
 }

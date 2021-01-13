@@ -7,7 +7,7 @@ public class StatController : MonoBehaviour
 {
     public string type;
     public Text textValue;
-    private int defaultValue = 3;
+    private int defaultValue = 1;
     public int currentValue;
     private int minValue = 1;
 

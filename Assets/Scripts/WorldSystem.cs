@@ -8,12 +8,13 @@ public class WorldSystem : MonoBehaviour
     public static WorldSystem instance; 
     public Character aCharacter;
     public WorldStates aState = WorldStates.MainMenu;
-    private int currentScene;
+    private int currentScene = 0;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
     private CharacterData characterData;
+    public EncounterManager encounterManager;
 
-    private void Awake()
+    void Awake()
     {
         if(instance == null)
         {
@@ -54,11 +55,20 @@ public class WorldSystem : MonoBehaviour
         StartCoroutine(LoadNewScene(sceneIndex));
     }
 
+    private void UpdateStartScene()
+    {
+        instance.aCharacter.MoveToStart(encounterManager.GetStartEncounter());
+    }
+
     IEnumerator LoadNewScene(int sceneNumber) {
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneNumber);
 
         while (!async.isDone) {
             yield return 0;
         }  
+        Debug.Log("Done loading new scene!");
+        currentScene = sceneNumber;
+        // TODO: break this into switch or find fancier solution
+        UpdateStartScene();
     }
 }

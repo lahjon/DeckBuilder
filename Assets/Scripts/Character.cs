@@ -17,6 +17,12 @@ public class Character : MonoBehaviour
         this.gameObject.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
     }
+
+    public void MoveToStart(Vector3 position)
+    {
+        gameObject.transform.Translate(position);
+    }
+    
     void Start()
     {
         

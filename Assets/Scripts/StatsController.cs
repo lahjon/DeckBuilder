@@ -6,7 +6,7 @@ using System.Linq;
 
 public class StatsController : MonoBehaviour
 {
-    private int defaultStartingStatPoints = 5;
+    private int defaultStartingStatPoints = 3;
     public int statPoints;
     public CharacterCreator aCharacterCreater;
     public Text pointValue;

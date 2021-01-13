@@ -69,7 +69,7 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    public void CreateCharacter()
+    public void ConfirmCreation()
     {
         if(statsController.statPoints == 0)
         {

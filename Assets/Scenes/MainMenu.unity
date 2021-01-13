@@ -1658,7 +1658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.7372549}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1695,6 +1695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1827e15ad01d37140a5ae8609d8ffef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeToBlack: 0
 --- !u!1 &436968866
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aCharacter: {fileID: 0}
   aState: 0
+  encounterMangager: {fileID: 0}
 --- !u!4 &436968868
 Transform:
   m_ObjectHideFlags: 0
@@ -6361,7 +6363,7 @@ GameObject:
   - component: {fileID: 2037746988}
   - component: {fileID: 2037746987}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonConfirm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6433,7 +6435,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 525911778}
         m_TargetAssemblyTypeName: CharacterCreator, Assembly-CSharp
-        m_MethodName: CreateCharacter
+        m_MethodName: ConfirmCreation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
