@@ -193,5 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   encounterData: {fileID: 11400000, guid: ee1994537771a83409ee813509eb6a8e, type: 2}
+  spriteRenderer: {fileID: 7389442953934121593}
   matHighlight: {fileID: 2100000, guid: d620a44321c2bb546b73f20685cc16c8, type: 2}
   matNormal: {fileID: 2100000, guid: 96c8f3b0021ac184bb8339870e47c232, type: 2}

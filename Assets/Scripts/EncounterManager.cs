@@ -6,7 +6,6 @@ using System.Linq;
 public class EncounterManager : MonoBehaviour
 {
     public List<Encounter> allEncounters;
-    public List<Texture2D> allIcons;
 
     void Awake()
     {

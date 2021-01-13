@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IconDatabase", menuName = "Database/Icon Database")]
 public class IconDatabase : ScriptableObject
 {
-    public List<Texture2D> allIcons;
+    public List<Sprite> allIcons;
 }

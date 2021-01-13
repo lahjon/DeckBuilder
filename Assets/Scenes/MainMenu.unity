@@ -1727,7 +1727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aCharacter: {fileID: 0}
   aState: 0
-  encounterMangager: {fileID: 0}
+  encounterManager: {fileID: 0}
 --- !u!4 &436968868
 Transform:
   m_ObjectHideFlags: 0
@@ -2456,6 +2456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardDatabase: {fileID: 11400000, guid: 43b85aa678371cd4083ef7a57bf1470d, type: 2}
   StartingCardsBrute: {fileID: 0}
+  iconDatabase: {fileID: 11400000, guid: 9252a63c9b449bc42b31f46678527cbe, type: 2}
 --- !u!4 &557644294
 Transform:
   m_ObjectHideFlags: 0
