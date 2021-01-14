@@ -19,7 +19,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
     public Text blockText;
 
     [HideInInspector]
-    public CardManager cardManager;
+    public PlayerController cardManager;
     IEnumerator CardFollower;
 
     public void Awake()
@@ -46,21 +46,16 @@ public class Card : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnMouseManual()
-    {
-        Debug.Log("KUKAR2");
-    }
-
     public void OnMouseEnter()
     {
-        Debug.Log("Mouse over card");
+        //Debug.Log("Mouse over card");
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         transform.SetAsLastSibling();
     }
 
     public void OnMouseExit()
     {
-        Debug.Log("Mouse left card");
+        //Debug.Log("Mouse left card");
         transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
         cardManager.ResetSiblingIndexes();
     }
@@ -88,17 +83,17 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     public void OnMouseClick()
     {
-        Debug.Log("Card Clicked");
-        if (cardManager.isCardSelected)
+        //Debug.Log("Card Clicked");
+        if (!cardManager.CardisSelectable(this))
             return;
 
-        cardManager.isCardSelected = true;
+        cardManager.ActiveCard = this;
         StartCoroutine(CardFollower);
     }
 
     public void OnMouseRightClick()
     {
-        Debug.Log("Card Right-Clicked");
+        //Debug.Log("Card Right-Clicked");
         cardManager.CancelCardSelection(this.gameObject);
         StopCoroutine(CardFollower);
     }

@@ -14,6 +14,9 @@ public class DatabaseSystem : MonoBehaviour
 
     private List<CardData> allCards { get { return cardDatabase.allCards; } }
 
+    public Dictionary<EffectType, int> effectEndOfTurnBehavior = new Dictionary<EffectType, int>();
+    public HashSet<EffectType> effectsStackable = new HashSet<EffectType>();
+
     private void Awake()
     {
         if(instance == null)
@@ -27,8 +30,19 @@ public class DatabaseSystem : MonoBehaviour
         }
 
         StartingCards["Brute"] = StartingCardsBrute;
+
     }
 
+    public void Start()
+    {
+        effectsStackable.Add(EffectType.Poison);
+        effectsStackable.Add(EffectType.Weak);
+        effectsStackable.Add(EffectType.Vurnerable);
+
+        effectEndOfTurnBehavior[EffectType.Poison] = -1;
+        effectEndOfTurnBehavior[EffectType.Weak] = -1;
+        effectEndOfTurnBehavior[EffectType.Vurnerable] = -1;
+    }
     public void FetchCards(List<CardData> allCards)
     {
         foreach(CardData card in allCards)

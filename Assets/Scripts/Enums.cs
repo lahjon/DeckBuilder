@@ -68,3 +68,10 @@ public enum EncounterType
     BossCombat,
     Transition
 }
+
+public enum CardTargetType
+{
+    Single,
+    Random,
+    ALL
+}

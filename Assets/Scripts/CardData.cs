@@ -11,7 +11,7 @@ public class CardData : ScriptableObject
     public Sprite artwork;
     public int cost;
 
-    public List<Effect> Effects;
+    public List<CardEffect> Effects;
     public CardRarity cardRarity;
 
     public CardType cardType;
