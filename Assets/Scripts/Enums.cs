@@ -19,9 +19,16 @@ Brute,
 Rogue
 };
 
+public enum CharacterVariables
+{
+Health, 
+Gold
+};
+
 public enum EncounterOutcomeType
 {
 Stat,
+Health,
 Gold, 
 Artifact,
 CardSpecified,
@@ -69,9 +76,9 @@ public enum EncounterType
     Transition
 }
 
-public enum CardTargetType
+public enum EncounterValue
 {
-    Single,
-    Random,
-    ALL
+    Positive, 
+    Negative, 
+    Neutral
 }

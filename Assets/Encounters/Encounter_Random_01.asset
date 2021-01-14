@@ -15,8 +15,12 @@ MonoBehaviour:
   name: Angry Mob
   type: 1
   encounterOutcome:
-    type: 0
-    value: 0
+  - type: 1
+    value: 3
+    encounterValue: 0
+  - type: 1
+    value: -3
+    encounterValue: 1
   encounterUI: {fileID: 6778569008487363425, guid: f5d833c508b4ea942a7b89b0a980db9e, type: 3}
   isCleared: 0
-  description: This is an angry mob that. You leave.
+  description: An angry mob approaches. They ask you if its ok to be angry?

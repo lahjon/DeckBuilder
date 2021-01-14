@@ -13,6 +13,7 @@ public class WorldSystem : MonoBehaviour
     private GameObject characterPrefab;
     private CharacterData characterData;
     public EncounterManager encounterManager;
+    public CharacterManager characterManager;
 
     void Awake()
     {
