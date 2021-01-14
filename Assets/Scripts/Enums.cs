@@ -19,9 +19,16 @@ Brute,
 Rogue
 };
 
+public enum CharacterVariables
+{
+Health, 
+Gold
+};
+
 public enum EncounterOutcomeType
 {
 Stat,
+Health,
 Gold, 
 Artifact,
 CardSpecified,
@@ -67,4 +74,11 @@ public enum EncounterType
     EliteCombat,
     BossCombat,
     Transition
+}
+
+public enum EncounterValue
+{
+    Positive, 
+    Negative, 
+    Neutral
 }

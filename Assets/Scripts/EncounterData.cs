@@ -7,7 +7,7 @@ public class EncounterData : ScriptableObject
 {
 public new string name;
 public EncounterType type;
-public EncounterOutcome encounterOutcome;
+public List<EncounterOutcome> encounterOutcome;
 public EncounterUI encounterUI;
 public bool isCleared = false;
 [TextArea(15,20)]

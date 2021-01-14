@@ -7,5 +7,6 @@ public class EncounterOutcome
 {
     public EncounterOutcomeType type;
     public int value;
+    public EncounterValue encounterValue;
 
 }
