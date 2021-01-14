@@ -10,13 +10,13 @@ public class CanvasController : MonoBehaviour
 
     void Awake()
     {
-        FadeToBlack();
+        FadeToColor();
     }
     public void DeactiveCanvas()
     {
         gameObject.SetActive(false);
     }
-    public void FadeToBlack()
+    public void FadeToColor()
     {
         Color color = gameObject.GetComponent<Image>().color;
         if(fadeToBlack)

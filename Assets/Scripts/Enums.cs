@@ -19,12 +19,15 @@ Brute,
 Rogue
 };
 
-public enum CharacterEffect
+public enum EncounterOutcomeType
 {
+Stat,
 Gold, 
 Artifact,
-Card,
-Companion
+CardSpecified,
+CardChoose,
+CompanionSpecified,
+CompanionChoose
 };
 
 public enum EffectType

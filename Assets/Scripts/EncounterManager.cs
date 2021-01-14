@@ -6,6 +6,7 @@ using System.Linq;
 public class EncounterManager : MonoBehaviour
 {
     public List<Encounter> allEncounters;
+    public Encounter currentEncounter;
 
     void Awake()
     {
@@ -16,6 +17,7 @@ public class EncounterManager : MonoBehaviour
     {
         return allEncounters[0].transform.position;
     }
+
 
 
 }

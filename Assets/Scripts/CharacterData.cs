@@ -10,6 +10,4 @@ public class CharacterData : ScriptableObject
     public CharacterType characterType;
 
     public List<StatModifer> stats;
-    
-    public List<CardData> startingDeck;
 }

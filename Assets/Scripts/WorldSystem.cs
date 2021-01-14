@@ -59,7 +59,7 @@ public class WorldSystem : MonoBehaviour
 
     private void UpdateStartScene()
     {
-        instance.character.MoveToStartOfMap(encounterManager.GetStartEncounter());
+        instance.character.MoveToLocation(encounterManager.GetStartEncounter(), encounterManager.allEncounters[0]);
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {
@@ -68,7 +68,6 @@ public class WorldSystem : MonoBehaviour
         while (!async.isDone) {
             yield return 0;
         }  
-        Debug.Log("Done loading new scene!");
         currentScene = sceneNumber;
         // TODO: break this into switch or find fancier solution
         UpdateStartScene();

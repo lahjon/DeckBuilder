@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Encounter_Start_01
   m_EditorClassIdentifier: 
   name: Start Act 1
-  type: 0
+  type: 1
+  encounterOutcome:
+    type: 0
+    value: 0
+  encounterUI: {fileID: 690251649078981938, guid: 2a10ffdb584dac34392af267e76b979f, type: 3}
   isCleared: 1
   description: This is the start of your journey.

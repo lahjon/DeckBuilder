@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     public int endurance;
     public int wisdom;
     public CharacterType characterType;
+    public Encounter currentEncounter;
 
     void Awake()
     {
@@ -19,9 +20,10 @@ public class Character : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void MoveToStartOfMap(Vector3 position)
+    public void MoveToLocation(Vector3 position, Encounter encounter)
     {
         gameObject.transform.Translate(position);
+        currentEncounter = encounter;
     }
     
     void Start()
