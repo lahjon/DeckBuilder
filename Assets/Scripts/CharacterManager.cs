@@ -30,7 +30,7 @@ public class CharacterManager : MonoBehaviour
         else if(type.ToString().ToLower() == "health")
         {
             currentHealth += value;
-            if(currentHealth < 0)
+            if(currentHealth < 1)
             {
                 currentHealth = 0;
                 KillCharacter();
