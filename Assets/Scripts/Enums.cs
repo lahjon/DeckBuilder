@@ -13,6 +13,12 @@ Uncommon,
 Rare
 };
 
+public enum CardTargetType
+{
+    Single, 
+    Multiple
+}
+
 public enum CharacterType
 {
 Brute, 
