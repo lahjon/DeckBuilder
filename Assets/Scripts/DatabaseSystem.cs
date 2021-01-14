@@ -7,6 +7,7 @@ public class DatabaseSystem : MonoBehaviour
 {
     public CardDatabase cardDatabase;
     public CardDatabase StartingCardsBrute;
+    public IconDatabase iconDatabase;
     public static DatabaseSystem instance;
 
     private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
@@ -46,7 +47,7 @@ public class DatabaseSystem : MonoBehaviour
 
     public List<CardData> GetStartingDeck(string Character = "Brute")
     {
-        //Denn ska välja bara kort för relevant gubbe sen
+        //Denn ska vï¿½lja bara kort fï¿½r relevant gubbe sen
         return StartingCards[Character].allCards;
     }
 }

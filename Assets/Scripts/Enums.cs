@@ -19,6 +19,14 @@ Brute,
 Rogue
 };
 
+public enum CharacterEffect
+{
+Gold, 
+Artifact,
+Card,
+Companion
+};
+
 public enum EffectType
 {
     Damage,
@@ -28,11 +36,32 @@ public enum EffectType
     Vurnerable
 }
 
-public enum Stats
+public enum CharacterStat
 {
     Strength,
     Cunning,
     Speed,
     Endurance,
     Wisdom
+}
+
+public enum WorldState
+{
+    MainMenu,
+    Combat,
+    Overworld,
+    Menu,
+    Town,
+    Transition
+}
+
+public enum EncounterType
+{
+    Start,
+    RandomEvent,
+    Shop,
+    NormalCombat,
+    EliteCombat,
+    BossCombat,
+    Transition
 }

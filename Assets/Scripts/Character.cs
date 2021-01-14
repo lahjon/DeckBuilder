@@ -10,6 +10,20 @@ public class Character : MonoBehaviour
     public int speed;
     public int endurance;
     public int wisdom;
+    public CharacterType characterType;
+
+    void Awake()
+    {
+        // unparent to keep in world
+        this.gameObject.transform.parent = null;
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void MoveToStartOfMap(Vector3 position)
+    {
+        gameObject.transform.Translate(position);
+    }
+    
     void Start()
     {
         

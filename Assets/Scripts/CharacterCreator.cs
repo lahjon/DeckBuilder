@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class CharacterCreator : MonoBehaviour
 {
     public List<CharacterData> characterData;
+    public CanvasController aCanvasController;
     public StatsController statsController;
     public CharacterTypesUI characterTypesUI;
     public GameObject characterPrefab;
     private Dropdown[] myDropdownList;
-    private CharacterData selectedChar;
+    public CharacterData selectedChar;
     private CharacterData previousSelectedChar;
 
     public Image artwork;
@@ -68,40 +69,24 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    public void CreateCharacter()
+    public void ConfirmCreation()
     {
         if(statsController.statPoints == 0)
         {
             Dictionary<string, int> myStats = statsController.FetchStats();
 
-            ConfirmCharacter(myStats, selectedChar);
+            WorldSystem.instance.StoreCharacter(myStats, selectedChar, characterPrefab);
+            WorldSystem.instance.CreateCharacter();
+            WorldSystem.instance.LoadByIndex(1);
 
         }
         else
         {
-            ConfirmFailed();
+            StartFailed();
         }
     }
 
-    void ConfirmCharacter(Dictionary<string, int> myStats, CharacterData aCharacter)
-    {
-        foreach (KeyValuePair<string, int> item in myStats)
-            {
-                
-                Debug.Log(item.Key + "," + item.Value);
-            }
-
-            Debug.Log(aCharacter);
-            GameObject newCharacterPrefab = Instantiate(characterPrefab, new Vector3(500, 300, -60), Quaternion.identity);
-            
-            Character newCharacter = newCharacterPrefab.GetComponent<Character>();
-
-            //newCharacter.strength = 
-            
-            WorldManager.instance.aCharacter = newCharacter;
-    }
-
-    void ConfirmFailed()
+    void StartFailed()
     {
         Debug.Log("FAILURE!");
     }

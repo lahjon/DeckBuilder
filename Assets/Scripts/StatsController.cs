@@ -6,8 +6,9 @@ using System.Linq;
 
 public class StatsController : MonoBehaviour
 {
-    private int defaultStartingStatPoints = 5;
+    private int defaultStartingStatPoints = 3;
     public int statPoints;
+    public CharacterCreator aCharacterCreater;
     public Text pointValue;
     public List<StatController> statControllers;
 
@@ -40,6 +41,9 @@ public class StatsController : MonoBehaviour
         statControllers.ForEach(x => x.ResetPoints());
         pointValue.text = statPoints.ToString();
     }
+
+
+
 
     public Dictionary<string, int> FetchStats()
     {

@@ -7,35 +7,60 @@ public class StatController : MonoBehaviour
 {
     public string type;
     public Text textValue;
-    private int defaultValue = 5;
+    private int defaultValue = 1;
     public int currentValue;
+    private int minValue = 1;
 
-    public GameObject statsController;
-    
+    public StatsController statsController;
 
     public void IncrementStat()
     {
-        int pt = statsController.GetComponent<StatsController>().RequestPoint();
+        int pt = statsController.RequestPoint();
         currentValue += pt;
         textValue.text = (currentValue).ToString();
     }
 
     public void DecrementStat()
     {
-        
-        if(currentValue > 1)
+        if(currentValue > minValue)
         {
             
             currentValue = currentValue - 1;
             textValue.text = (currentValue).ToString();
 
-            statsController.GetComponent<StatsController>().ReturnPoint();
+            statsController.ReturnPoint();
+        }
+    }
+
+    public void AddModifer()
+    {
+        if(statsController.aCharacterCreater.selectedChar != null)
+        {
+            List<StatModifer> allStats = statsController.aCharacterCreater.selectedChar.stats;
+
+            foreach (var item in allStats)
+            {
+                Debug.Log(item.value);
+                if(type == item.type.ToString().ToLower())
+                {
+                    if(item.value > 0)
+                    {
+                        minValue = item.value;
+
+                    }
+                    currentValue += item.value;
+                }
+                
+            }
+            Debug.Log(type);
+
         }
     }
 
     public void ResetPoints()
     {
         currentValue = defaultValue;   
+        AddModifer();
         textValue.text = (currentValue).ToString();
     }
 
