@@ -58,6 +58,11 @@ public class WorldSystem : MonoBehaviour
         StartCoroutine(LoadNewScene(sceneIndex));
     }
 
+    public void SwapState(WorldState aWorldState)
+    {
+        instance.worldState = aWorldState;
+    }
+
     private void UpdateStartScene()
     {
         instance.character.MoveToLocation(encounterManager.GetStartEncounter(), encounterManager.allEncounters[0]);
