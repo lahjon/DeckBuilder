@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Start Act 1
   type: 1
+  encounterDifficulty: 0
   encounterOutcome:
-    type: 0
+  - type: 0
     value: 0
-  encounterUI: {fileID: 690251649078981938, guid: 2a10ffdb584dac34392af267e76b979f, type: 3}
+    encounterValue: 0
+  - type: 0
+    value: 0
+    encounterValue: 0
+  encounterUI: {fileID: 0}
   isCleared: 1
   description: This is the start of your journey.

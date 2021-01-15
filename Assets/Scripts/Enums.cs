@@ -13,10 +13,25 @@ Uncommon,
 Rare
 };
 
+public enum Rarity
+{
+Common, 
+Uncommon, 
+Rare
+};
+
 public enum CardTargetType
 {
     Single, 
     Multiple
+}
+public enum EncounterDifficulty
+{
+    Easy, 
+    Normal,
+    Hard,
+    Challenging,
+    Impossible
 }
 
 public enum CharacterType

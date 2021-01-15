@@ -169,16 +169,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1577957614717447411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4fa0617336a2a443bfa68613719b408, type: 3}
+  m_Script: {fileID: 11500000, guid: ce2a5bf285d62c447a1fcb365120462f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardData: {fileID: 0}
-  nameText: {fileID: 1577957616059870876}
-  descriptionText: {fileID: 1577957615865623048}
-  artworkImage: {fileID: 1577957614699435812}
-  costText: {fileID: 1577957615183275145}
-  damageText: {fileID: 1577957615296818472}
-  blockText: {fileID: 1577957615692851394}
+  nameText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  artworkImage: {fileID: 0}
+  costText: {fileID: 0}
+  damageText: {fileID: 0}
+  blockText: {fileID: 0}
   cardManager: {fileID: 0}
 --- !u!114 &1568275771
 MonoBehaviour:

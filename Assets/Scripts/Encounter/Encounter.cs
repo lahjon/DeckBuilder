@@ -29,6 +29,10 @@ public class Encounter : MonoBehaviour
         encounterUI = encounterData.encounterUI;
 
         isCleared = encounterData.isCleared;
+    }
+
+    void Start()
+    {
         UpdateIcon();
     }
     void OnMouseOver()
@@ -91,7 +95,6 @@ public class Encounter : MonoBehaviour
 
     public void DestroyUI()
     {
-        Debug.Log(newEncounterUIPrefab);
         Destroy(newEncounterUIPrefab, 0.2f);
         isCleared = true;
         encounterUI = encounterData.encounterUI;
@@ -112,7 +115,7 @@ public class Encounter : MonoBehaviour
         encounterManager.currentEncounter = this;
     }
 
-    void UpdateIcon()
+    public void UpdateIcon()
     {
         List<Sprite> allIcons = DatabaseSystem.instance.iconDatabase.allIcons;
         Sprite icon = allIcons.Where(x => x.name == encounterType.ToString()).FirstOrDefault();

@@ -7,6 +7,7 @@ public class EncounterData : ScriptableObject
 {
 public new string name;
 public EncounterType type;
+public EncounterDifficulty encounterDifficulty;
 public List<EncounterOutcome> encounterOutcome;
 public EncounterUI encounterUI;
 public bool isCleared = false;
