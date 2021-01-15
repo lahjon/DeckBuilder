@@ -6,6 +6,7 @@ using System.Linq;
 public class DeckDisplayManager : MonoBehaviour
 {
     public List<Card> allCards;
+    public List<CardData> allCardsData;
     public GameObject cardPrefab;
     public RectTransform content;
     public Canvas canvas;
@@ -15,26 +16,25 @@ public class DeckDisplayManager : MonoBehaviour
     public Vector3 offsetHorizontal = new Vector3(400,0,0);
     public Vector3 offsetVertical = new Vector3(0,400,0);
     public int rows = 4;
+    private WorldState previousState;
 
     void UpdateAllCards()
     {
-        allCards = WorldSystem.instance.characterManager.playerCards;
+        allCardsData = WorldSystem.instance.characterManager.playerCardsData;
 
-        if(allCards.Count > createdObjects.Count)
+        if(allCardsData.Count > createdObjects.Count)
         {
-            while (allCards.Count > createdObjects.Count)
+            while (allCardsData.Count > createdObjects.Count)
             {
-                GameObject newCard = Instantiate(cardPrefab, new Vector3(50,-50,0), Quaternion.Euler(0, 0, 0)) as GameObject;
+                GameObject newCard = Instantiate(cardPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
                 newCard.transform.SetParent(content.gameObject.transform);
                 newCard.transform.localScale = new Vector3(1, 1, 1);
-                //Vector3 pos = startPos.transform.position + (offsetHorizontal * (createdObjects.Count % rows)) + (offsetVertical * (createdObjects.Count / rows));
-                //newCard.transform.position = pos;
                 createdObjects.Add(newCard);
             }
         }
-        else if(allCards.Count < createdObjects.Count)
+        else if(allCardsData.Count < createdObjects.Count)
         {
-            while (allCards.Count < createdObjects.Count)
+            while (allCardsData.Count < createdObjects.Count)
             {   
                 DestroyImmediate(createdObjects[(createdObjects.Count - 1)]);
                 createdObjects.RemoveAt(createdObjects.Count - 1);
@@ -50,9 +50,11 @@ public class DeckDisplayManager : MonoBehaviour
 
     void UpdateDeckDisplay()
     {
+        allCardsData = WorldSystem.instance.characterManager.playerCardsData;
+        
         for (int i = 0; i < createdObjects.Count; i++)
         {
-            createdObjects[i].GetComponent<Card>().cardData = allCards[i].cardData;
+            createdObjects[i].GetComponent<Card>().cardData = allCardsData[i];
             createdObjects[i].GetComponent<Card>().UpdateDisplay();
         }
     }
@@ -61,13 +63,15 @@ public class DeckDisplayManager : MonoBehaviour
     {
         if(!this.gameObject.activeSelf)
         {
+            previousState = WorldSystem.instance.worldState;
+            WorldSystem.instance.worldState = WorldState.Display;
             this.gameObject.SetActive(true);
             UpdateAllCards();
             
-        }
-            
+        }         
         else
         {
+            WorldSystem.instance.worldState = previousState;
             this.gameObject.SetActive(false);
         }
     }

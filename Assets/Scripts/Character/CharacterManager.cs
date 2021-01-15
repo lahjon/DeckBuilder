@@ -9,6 +9,7 @@ public class CharacterManager : MonoBehaviour
     public int currentHealth;
     public int maxHealth;
     public List<Card> playerCards;
+    public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
 
     void Awake()
@@ -46,6 +47,11 @@ public class CharacterManager : MonoBehaviour
     public void AddCardToDeck(Card newCard)
     {
         playerCards.Add(newCard); 
+    }
+
+    public void AddCardDataToDeck(CardData newCardData)
+    {
+        playerCardsData.Add(newCardData); 
     }
     public void KillCharacter()
     {

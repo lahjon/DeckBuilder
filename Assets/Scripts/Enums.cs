@@ -80,6 +80,7 @@ public enum WorldState
 {
     MainMenu,
     Shop,
+    Display,
     Combat,
     Overworld,
     Menu,

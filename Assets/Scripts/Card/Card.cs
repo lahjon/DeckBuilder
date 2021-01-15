@@ -48,22 +48,21 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     public void OnMouseEnter()
     {
-        //Debug.Log("Mouse over card");
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-        transform.SetAsLastSibling();
+
+        if(WorldSystem.instance.worldState == WorldState.Combat)
+        {
+            transform.SetAsLastSibling();
+        }
     }
 
     public void OnMouseExit()
     {
         transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+
         if(WorldSystem.instance.worldState == WorldState.Combat)
         {
-            //Debug.Log("Mouse left card");
             combatController.ResetSiblingIndexes();
-        }
-        else if(WorldSystem.instance.worldState == WorldState.Shop)
-        {
-            return;
         }
     }
 
@@ -93,19 +92,30 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     public void OnMouseClick()
     {
-        if(WorldSystem.instance.worldState == WorldState.Combat)
+        switch (WorldSystem.instance.worldState)
         {
-            //Debug.Log("Card Clicked");
-            if (!combatController.CardisSelectable(this))
-                return;
+            case WorldState.Combat:
 
-            combatController.ActiveCard = this;
-            StartCoroutine(CardFollower);
-        }
-        else if(WorldSystem.instance.worldState == WorldState.Shop)
-        {
-            WorldSystem.instance.shopManager.currentShop.PurchaseCard(this);
-            
+                //Debug.Log("Card Clicked");
+                if (!combatController.CardisSelectable(this))
+                    break;
+
+                combatController.ActiveCard = this;
+                StartCoroutine(CardFollower);
+                break;
+
+            case WorldState.Shop:
+
+                WorldSystem.instance.shopManager.currentShop.PurchaseCard(this);
+                break;
+
+            case WorldState.Display:
+
+                Debug.Log("In Display");
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -117,10 +127,5 @@ public class Card : MonoBehaviour, IPointerClickHandler
             combatController.CancelCardSelection(this.gameObject);
             StopCoroutine(CardFollower);
         }
-        else if(WorldSystem.instance.worldState == WorldState.Shop)
-        {
-            Debug.Log("Shop Right Click");
-        }
     }
-
 }

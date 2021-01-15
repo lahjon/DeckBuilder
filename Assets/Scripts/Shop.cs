@@ -55,7 +55,7 @@ public class Shop : MonoBehaviour
         if (characterGold >= goldCost)
         {
             WorldSystem.instance.characterManager.gold -= goldCost;
-            WorldSystem.instance.characterManager.AddCardToDeck(clickedCard);
+            WorldSystem.instance.characterManager.AddCardDataToDeck(clickedCard.cardData);
             WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
             clickedCard.gameObject.SetActive(false);
             clickedCard.ResetScale();
@@ -83,10 +83,14 @@ public class Shop : MonoBehaviour
     public void DebugRemoveCard()
     {
         // remove last
-        WorldSystem.instance.characterManager.playerCards.RemoveAt(WorldSystem.instance.characterManager.playerCards.Count - 1);
+        //WorldSystem.instance.characterManager.playerCards.RemoveAt(WorldSystem.instance.characterManager.playerCards.Count - 1);
+        WorldSystem.instance.characterManager.playerCardsData.RemoveAt(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
+    }
 
-        //// remove at index
-        //WorldSystem.instance.characterManager.playerCards.RemoveAt(1);
+    public void DebugAddGold()
+    {
+        WorldSystem.instance.characterManager.gold += 100;
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
     }
 
     public void LeaveShop()
