@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using TMPro;
 
-public class PlayerController : MonoBehaviour
+public class CombatController : MonoBehaviour
 {
     public GameObject TemplateCard;
     public TMP_Text lblEnergy;
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
             Hand[i].transform.SetSiblingIndex(i);
     }
 
-    //Denna måste ändras till att blanda in discard om korten är slut! 
+    //Denna mï¿½ste ï¿½ndras till att blanda in discard om korten ï¿½r slut! 
     private void DrawCards(int x)
     {
         for(int i = 0; i < x; i++)
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
         CardObject.transform.localScale = new Vector3(.4f, .4f, .4f);
         Card Card = CardObject.GetComponent<Card>();
         Card.cardData = cardData;
-        Card.cardManager = this;
+        Card.combatController = this;
         Card.UpdateDisplay();
         HideCard(CardObject);
         return CardObject;

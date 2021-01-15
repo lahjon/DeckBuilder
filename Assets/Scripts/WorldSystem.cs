@@ -14,6 +14,9 @@ public class WorldSystem : MonoBehaviour
     private CharacterData characterData;
     public EncounterManager encounterManager;
     public CharacterManager characterManager;
+    public ShopManager shopManager;
+    public CameraManager cameraManager;
+    public DeckDisplayManager deckDisplayManager;
 
     void Awake()
     {

@@ -8,9 +8,13 @@ public class CharacterManager : MonoBehaviour
     public int gold;
     public int currentHealth;
     public int maxHealth;
-
+    public List<Card> playerCards;
     public CharacterVariablesUI characterVariablesUI;
 
+    void Awake()
+    {
+        //playerCards.allCards.Clear();
+    }
     void Start()
     {
         characterVariablesUI.UpdateUI();
@@ -39,6 +43,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    public void AddCardToDeck(Card newCard)
+    {
+        playerCards.Add(newCard); 
+    }
     public void KillCharacter()
     {
         Debug.Log("You are dead!");

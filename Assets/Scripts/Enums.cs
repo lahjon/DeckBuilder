@@ -1,23 +1,23 @@
 
 public enum CardType
 {
-Attacker, 
-Defender
-};
+    Attacker, 
+    Defender
+    };
 
 public enum CardRarity
 {
-Starting,
-Common, 
-Uncommon, 
-Rare
+    Starting,
+    Common, 
+    Uncommon, 
+    Rare
 };
 
 public enum Rarity
 {
-Common, 
-Uncommon, 
-Rare
+    Common, 
+    Uncommon, 
+    Rare
 };
 
 public enum CardTargetType
@@ -36,26 +36,26 @@ public enum EncounterDifficulty
 
 public enum CharacterType
 {
-Brute, 
-Rogue
+    Brute, 
+    Rogue
 };
 
 public enum CharacterVariables
 {
-Health, 
-Gold
+    Health, 
+    Gold
 };
 
 public enum EncounterOutcomeType
 {
-Stat,
-Health,
-Gold, 
-Artifact,
-CardSpecified,
-CardChoose,
-CompanionSpecified,
-CompanionChoose
+    Stat,
+    Health,
+    Gold, 
+    Artifact,
+    CardSpecified,
+    CardChoose,
+    CompanionSpecified,
+    CompanionChoose
 };
 
 public enum EffectType
@@ -79,6 +79,7 @@ public enum CharacterStat
 public enum WorldState
 {
     MainMenu,
+    Shop,
     Combat,
     Overworld,
     Menu,

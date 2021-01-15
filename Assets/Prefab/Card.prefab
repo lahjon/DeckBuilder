@@ -173,13 +173,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardData: {fileID: 0}
-  nameText: {fileID: 0}
-  descriptionText: {fileID: 0}
-  artworkImage: {fileID: 0}
-  costText: {fileID: 0}
-  damageText: {fileID: 0}
-  blockText: {fileID: 0}
-  cardManager: {fileID: 0}
+  nameText: {fileID: 1577957616059870876}
+  descriptionText: {fileID: 1577957615865623048}
+  artworkImage: {fileID: 1577957614699435812}
+  costText: {fileID: 1577957615183275145}
+  damageText: {fileID: 1577957615296818472}
+  blockText: {fileID: 1577957615692851394}
+  combatController: {fileID: 0}
 --- !u!114 &1568275771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,14 +913,14 @@ Canvas:
   m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
-  m_OverrideSorting: 1
+  m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!1 &5765138652674972667
 GameObject:

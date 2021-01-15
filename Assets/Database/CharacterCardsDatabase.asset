@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41cf3ea4b09265c47903c4a1bde3f6fc, type: 3}
-  m_Name: NewArtifact
+  m_Script: {fileID: 11500000, guid: 19c194009e765aa42ba699305b762f2f, type: 3}
+  m_Name: CharacterCardsDatabase
   m_EditorClassIdentifier: 
-  artifactName: 
-  goldValue: 0
-  artwork: {fileID: 0}
-  rarity: 1
+  allCards: []

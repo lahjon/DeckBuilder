@@ -19,7 +19,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
     public Text blockText;
 
     [HideInInspector]
-    public PlayerController cardManager;
+    public CombatController combatController;
     IEnumerator CardFollower;
 
     public void Awake()
@@ -55,18 +55,28 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     public void OnMouseExit()
     {
-        //Debug.Log("Mouse left card");
         transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
-        cardManager.ResetSiblingIndexes();
+        if(WorldSystem.instance.worldState == WorldState.Combat)
+        {
+            //Debug.Log("Mouse left card");
+            combatController.ResetSiblingIndexes();
+        }
+        else if(WorldSystem.instance.worldState == WorldState.Shop)
+        {
+            return;
+        }
     }
 
-
+    public void ResetScale()
+    {
+        transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+    }
     private IEnumerator FollowMouseIsSelected()
     {
         while (true)
         {
             Vector2 outCoordinates;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(cardManager.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(combatController.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
             GetComponent<RectTransform>().localPosition = outCoordinates;
             yield return new WaitForSeconds(0);
         }
@@ -83,19 +93,34 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     public void OnMouseClick()
     {
-        //Debug.Log("Card Clicked");
-        if (!cardManager.CardisSelectable(this))
-            return;
+        if(WorldSystem.instance.worldState == WorldState.Combat)
+        {
+            //Debug.Log("Card Clicked");
+            if (!combatController.CardisSelectable(this))
+                return;
 
-        cardManager.ActiveCard = this;
-        StartCoroutine(CardFollower);
+            combatController.ActiveCard = this;
+            StartCoroutine(CardFollower);
+        }
+        else if(WorldSystem.instance.worldState == WorldState.Shop)
+        {
+            WorldSystem.instance.shopManager.currentShop.PurchaseCard(this);
+            
+        }
     }
 
     public void OnMouseRightClick()
     {
-        //Debug.Log("Card Right-Clicked");
-        cardManager.CancelCardSelection(this.gameObject);
-        StopCoroutine(CardFollower);
+        if(WorldSystem.instance.worldState == WorldState.Combat)
+        {
+            //Debug.Log("Card Right-Clicked");
+            combatController.CancelCardSelection(this.gameObject);
+            StopCoroutine(CardFollower);
+        }
+        else if(WorldSystem.instance.worldState == WorldState.Shop)
+        {
+            Debug.Log("Shop Right Click");
+        }
     }
 
 }
