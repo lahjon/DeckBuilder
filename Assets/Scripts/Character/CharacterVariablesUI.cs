@@ -23,4 +23,9 @@ public class CharacterVariablesUI : MonoBehaviour
 
     }
 
+    public void DisplayDeck()
+    {
+        WorldSystem.instance.deckDisplayManager.DisplayDeck();
+    }
+
 }

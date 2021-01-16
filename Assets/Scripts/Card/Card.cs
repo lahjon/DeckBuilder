@@ -21,10 +21,13 @@ public class Card : MonoBehaviour, IPointerClickHandler
     [HideInInspector]
     public CombatController combatController;
     IEnumerator CardFollower;
+    private DeckDisplayManager deckDisplayManager;
+
 
     public void Awake()
     {
         CardFollower = FollowMouseIsSelected();
+        deckDisplayManager = WorldSystem.instance.deckDisplayManager;
     }
 
     public void UpdateDisplay()
@@ -109,11 +112,38 @@ public class Card : MonoBehaviour, IPointerClickHandler
             case WorldState.Display:
 
                 Debug.Log("In Display");
+                if(deckDisplayManager.selectedCard == null)
+                {
+                    deckDisplayManager.previousPosition = transform.position;
+                    deckDisplayManager.selectedCard = this;
+                    transform.position = new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0);
+                    transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+                }
+                else if(deckDisplayManager.selectedCard != this)
+                {
+                    deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
+                    deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
+                    deckDisplayManager.previousPosition = transform.position;
+                    deckDisplayManager.selectedCard = this;
+                    transform.position = new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0);
+                    transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+                }
+                else
+                {
+                    ResetCardPosition();
+                }
                 break;
 
             default:
                 break;
         }
+    }
+
+    public void ResetCardPosition()
+    {
+        transform.position = deckDisplayManager.previousPosition;
+        transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
+        deckDisplayManager.selectedCard = null;
     }
 
     public void OnMouseRightClick()

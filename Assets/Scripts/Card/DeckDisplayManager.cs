@@ -17,6 +17,9 @@ public class DeckDisplayManager : MonoBehaviour
     public Vector3 offsetVertical = new Vector3(0,400,0);
     public int rows = 4;
     private WorldState previousState;
+    public Card selectedCard;
+    [HideInInspector]
+    public Vector3 previousPosition;
 
     void UpdateAllCards()
     {
@@ -43,6 +46,14 @@ public class DeckDisplayManager : MonoBehaviour
         UpdateDeckDisplay();
     }
 
+    public void ResetCardDisplay()
+    {
+        if (selectedCard != null)
+        {
+            selectedCard.ResetCardPosition();
+            selectedCard = null;
+        }
+    }
     void UpdateDisplayArea()
     {
         content.sizeDelta = new Vector2(0, height);
@@ -59,7 +70,7 @@ public class DeckDisplayManager : MonoBehaviour
         }
     }
 
-    public void ToggleCanvas()
+    public void DisplayDeck()
     {
         if(!this.gameObject.activeSelf)
         {

@@ -32,6 +32,13 @@ public class Encounter : MonoBehaviour
         isCleared = encounterData.isCleared;
         UpdateIcon();
     }
+
+    void Start()
+    {
+        //DEBUG
+        if(WorldSystem.instance.previousState != WorldState.MainMenu)
+            UpdateEncounters();
+    }
     void OnMouseOver()
     {
         

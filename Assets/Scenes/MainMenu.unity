@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 27936380}
   - component: {fileID: 27936379}
   - component: {fileID: 27936378}
-  - component: {fileID: 27936377}
   m_Layer: 5
   m_Name: ButtonDecrement
   m_TagString: Untagged
@@ -299,18 +298,6 @@ RectTransform:
   m_AnchoredPosition: {x: -106.599976, y: 7.9000015}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &27936377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 27936375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &27936378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +404,6 @@ GameObject:
   - component: {fileID: 52249675}
   - component: {fileID: 52249674}
   - component: {fileID: 52249673}
-  - component: {fileID: 52249672}
   m_Layer: 5
   m_Name: ButtonIncrement
   m_TagString: Untagged
@@ -445,18 +431,6 @@ RectTransform:
   m_AnchoredPosition: {x: 11.599976, y: 8}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &52249672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 52249670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &52249673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +618,6 @@ GameObject:
   - component: {fileID: 146538864}
   - component: {fileID: 146538863}
   - component: {fileID: 146538862}
-  - component: {fileID: 146538861}
   m_Layer: 5
   m_Name: ButtonIncrement
   m_TagString: Untagged
@@ -672,18 +645,6 @@ RectTransform:
   m_AnchoredPosition: {x: 11, y: 7}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &146538861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 146538859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &146538862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1100,7 +1061,6 @@ GameObject:
   - component: {fileID: 286749198}
   - component: {fileID: 286749197}
   - component: {fileID: 286749196}
-  - component: {fileID: 286749195}
   m_Layer: 5
   m_Name: ButtonIncrement
   m_TagString: Untagged
@@ -1128,18 +1088,6 @@ RectTransform:
   m_AnchoredPosition: {x: 11.599976, y: 8}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &286749195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 286749193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &286749196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2909,7 +2857,6 @@ GameObject:
   - component: {fileID: 744443598}
   - component: {fileID: 744443597}
   - component: {fileID: 744443596}
-  - component: {fileID: 744443595}
   m_Layer: 5
   m_Name: ButtonDecrement
   m_TagString: Untagged
@@ -2937,18 +2884,6 @@ RectTransform:
   m_AnchoredPosition: {x: -106.599976, y: 7.9000015}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &744443595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 744443593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &744443596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3692,7 +3627,6 @@ GameObject:
   - component: {fileID: 840094455}
   - component: {fileID: 840094454}
   - component: {fileID: 840094453}
-  - component: {fileID: 840094452}
   m_Layer: 5
   m_Name: ButtonDecrement
   m_TagString: Untagged
@@ -3720,18 +3654,6 @@ RectTransform:
   m_AnchoredPosition: {x: -106.599976, y: 7.9000015}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &840094452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 840094450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &840094453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4807,7 +4729,6 @@ GameObject:
   - component: {fileID: 1143704160}
   - component: {fileID: 1143704159}
   - component: {fileID: 1143704158}
-  - component: {fileID: 1143704157}
   m_Layer: 5
   m_Name: ButtonDecrement
   m_TagString: Untagged
@@ -4835,18 +4756,6 @@ RectTransform:
   m_AnchoredPosition: {x: -106.599976, y: 7.9000015}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1143704157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1143704155}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1143704158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4953,7 +4862,6 @@ GameObject:
   - component: {fileID: 1177016175}
   - component: {fileID: 1177016174}
   - component: {fileID: 1177016173}
-  - component: {fileID: 1177016172}
   m_Layer: 5
   m_Name: ButtonIncrement
   m_TagString: Untagged
@@ -4981,18 +4889,6 @@ RectTransform:
   m_AnchoredPosition: {x: 11.599976, y: 8}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1177016172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1177016170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1177016173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5099,7 +4995,6 @@ GameObject:
   - component: {fileID: 1201816544}
   - component: {fileID: 1201816543}
   - component: {fileID: 1201816542}
-  - component: {fileID: 1201816541}
   m_Layer: 5
   m_Name: ButtonDecrement
   m_TagString: Untagged
@@ -5127,18 +5022,6 @@ RectTransform:
   m_AnchoredPosition: {x: -106.599976, y: 7.9000015}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1201816541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1201816539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1201816542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6242,7 +6125,6 @@ GameObject:
   - component: {fileID: 1409910741}
   - component: {fileID: 1409910740}
   - component: {fileID: 1409910739}
-  - component: {fileID: 1409910738}
   m_Layer: 5
   m_Name: ButtonIncrement
   m_TagString: Untagged
@@ -6270,18 +6152,6 @@ RectTransform:
   m_AnchoredPosition: {x: 11.599976, y: 8}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1409910738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1409910736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 606cc812a28edc44d8a4705c4dc0ad0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1409910739
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -62,13 +62,6 @@ public class Shop : MonoBehaviour
             InsufficientGold();
         }
     }
-    public void DebugPrintAllCardsInDeck()
-    {
-        foreach (Card card in WorldSystem.instance.characterManager.playerCards)
-        {
-            Debug.Log(card);
-        }
-    }
     public void LeaveShop()
     {
         Debug.Log("Leave Shop!");
@@ -85,7 +78,7 @@ public class Shop : MonoBehaviour
 
     public void DebugDisplay()
     {
-        WorldSystem.instance.deckDisplayManager.ToggleCanvas();
+        WorldSystem.instance.deckDisplayManager.DisplayDeck();
     }
     public void DebugRemoveCard()
     {
