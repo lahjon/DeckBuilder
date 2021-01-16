@@ -6,7 +6,6 @@ using System.Linq;
 public class Encounter : MonoBehaviour
 {
     public EncounterData encounterData;
-    public EncounterManager encounterManager;
     public SpriteRenderer spriteRenderer; 
     public Material matHighlight;
     public Material matNormal;
@@ -21,18 +20,14 @@ public class Encounter : MonoBehaviour
     private bool isCleared;
     private bool isClicked;
 
-    void Awake()
+    void Start()
     {
-        if(gameObject.GetComponent<Encounter>() == encounterManager.allEncounters[0])
-            SetIsCleared();
+        if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.allEncounters[0])
+            SetIsCleared(false);
         encounterType = encounterData.type;
         encounterUI = encounterData.encounterUI;
 
         isCleared = encounterData.isCleared;
-    }
-
-    void Start()
-    {
         UpdateIcon();
     }
     void OnMouseOver()
@@ -49,7 +44,7 @@ public class Encounter : MonoBehaviour
 
     bool CheckViablePath(Encounter anEncounter)
     {
-        foreach (Encounter x in encounterManager.currentEncounter.neighbourEncounters)
+        foreach (Encounter x in WorldSystem.instance.encounterManager.currentEncounter.neighbourEncounters)
         {
             if(x == anEncounter)
                 return true;
@@ -69,12 +64,28 @@ public class Encounter : MonoBehaviour
 
     void OnMouseDown()
     {
-        //WorldSystem.instance.character.MoveToLocation(gameObject.transform.position, this);
-        //Debug.Log("Mouse is pressed on GameObject.");
         if(!isCleared && CheckViablePath(this) && !isClicked)
         {
-            isClicked = true;
-            CreateUI();
+            switch (this.encounterType)
+            {
+                case EncounterType.NormalCombat:
+                    Debug.Log("Enter Combat!");
+                    SetIsCleared(false);
+                    break;
+
+                case EncounterType.Shop:
+                    WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
+                    WorldSystem.instance.shopManager.shop.RestockShop();
+                    SetIsCleared(false);
+                    WorldSystem.instance.SwapState(WorldState.Shop);
+                    Debug.Log("Enter Shop!");
+                    break;
+                
+                default:
+                    isClicked = true;
+                    CreateUI();
+                    break;
+            }
         }
     }
 
@@ -87,16 +98,16 @@ public class Encounter : MonoBehaviour
             encounterUI = newEncounterUIPrefab.GetComponent<EncounterUI>();
             encounterUI.encounterData = encounterData;
             encounterUI.encounter = this;
-            WorldSystem.instance.worldState = WorldState.Menu;
+            WorldSystem.instance.SwapState(WorldState.Menu);
             encounterUI.UpdateUI();
-            Debug.Log(newEncounterUIPrefab);
         }
     }
 
+
     public void DestroyUI()
     {
+        WorldSystem.instance.SwapState();
         Destroy(newEncounterUIPrefab, 0.2f);
-        isCleared = true;
         encounterUI = encounterData.encounterUI;
     }
 
@@ -108,11 +119,13 @@ public class Encounter : MonoBehaviour
     {
         GetComponent<Renderer>().material = matNormal;
     }
-    public void SetIsCleared()
+    public void SetIsCleared(bool destroyUI)
     {
-        DestroyUI();
+        isCleared = true;
+        if(destroyUI)
+            DestroyUI();
         GetComponent<Renderer>().material = matCleared;
-        encounterManager.currentEncounter = this;
+        WorldSystem.instance.encounterManager.SetCurrentEncounter(this);
     }
 
     public void UpdateIcon()

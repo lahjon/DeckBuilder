@@ -30,7 +30,6 @@ public class Card : MonoBehaviour, IPointerClickHandler
     public void UpdateDisplay()
     {
         nameText.text = cardData.name;
-        //descriptionText.text = card.description;
 
         artworkImage.sprite = cardData.artwork;
 
@@ -79,7 +78,6 @@ public class Card : MonoBehaviour, IPointerClickHandler
             GetComponent<RectTransform>().localPosition = outCoordinates;
             yield return new WaitForSeconds(0);
         }
-        
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -96,7 +94,6 @@ public class Card : MonoBehaviour, IPointerClickHandler
         {
             case WorldState.Combat:
 
-                //Debug.Log("Card Clicked");
                 if (!combatController.CardisSelectable(this))
                     break;
 
@@ -106,7 +103,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
             case WorldState.Shop:
 
-                WorldSystem.instance.shopManager.currentShop.PurchaseCard(this);
+                WorldSystem.instance.shopManager.shop.PurchaseCard(this);
                 break;
 
             case WorldState.Display:

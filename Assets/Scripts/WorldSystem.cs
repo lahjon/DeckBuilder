@@ -7,7 +7,8 @@ public class WorldSystem : MonoBehaviour
 {
     public static WorldSystem instance; 
     public Character character;
-    public WorldState worldState = WorldState.MainMenu;
+    public WorldState worldState;
+    public WorldState previousState; //= WorldState.MainMenu;
     private int currentScene = 0;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
@@ -53,8 +54,8 @@ public class WorldSystem : MonoBehaviour
         newCharacter.characterType = characterData.characterType;
 
         // update the world system
-        instance.character = newCharacter;
-        instance.worldState = WorldState.Transition;
+        character = newCharacter;
+        worldState = WorldState.Transition;
     }
 
     public void LoadByIndex(int sceneIndex) {
@@ -63,7 +64,14 @@ public class WorldSystem : MonoBehaviour
 
     public void SwapState(WorldState aWorldState)
     {
-        instance.worldState = aWorldState;
+        previousState = instance.worldState;
+        worldState = aWorldState;
+        characterManager.characterVariablesUI.UpdateUI();
+    }
+    public void SwapState()
+    {
+        worldState = previousState;
+        characterManager.characterVariablesUI.UpdateUI();
     }
 
     private void UpdateStartScene()

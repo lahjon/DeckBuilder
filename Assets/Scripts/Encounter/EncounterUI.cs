@@ -24,6 +24,6 @@ public class EncounterUI : MonoBehaviour
     }
     public void DestroyUI()
     {
-        encounter.SetIsCleared();
+        encounter.SetIsCleared(true);
     }
 }

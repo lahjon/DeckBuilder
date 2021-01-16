@@ -13,7 +13,6 @@ public class Shop : MonoBehaviour
     {
         RestockShop();
     }
-
     void UpdateCardPrices()
     {
         for (int i = 0; i < cardsInStock.Count; i++)
@@ -24,7 +23,6 @@ public class Shop : MonoBehaviour
                 cardsPrices[i].text = "Out of Stock!";
         }
     }
-
     void GetNewCards()
     {
         foreach (GameObject card in cardsInStock)
@@ -33,7 +31,6 @@ public class Shop : MonoBehaviour
             card.GetComponent<Card>().UpdateDisplay();
         }
     }
-
     public void RestockShop()
     {
         foreach (GameObject card in cardsInStock)
@@ -43,7 +40,6 @@ public class Shop : MonoBehaviour
         GetNewCards();
         UpdateCardPrices();
     }
-
     void InsufficientGold()
     {
         Debug.Log("Not enough Gold!");
@@ -66,7 +62,6 @@ public class Shop : MonoBehaviour
             InsufficientGold();
         }
     }
-
     public void DebugPrintAllCardsInDeck()
     {
         foreach (Card card in WorldSystem.instance.characterManager.playerCards)
@@ -74,27 +69,31 @@ public class Shop : MonoBehaviour
             Debug.Log(card);
         }
     }
+    public void LeaveShop()
+    {
+        Debug.Log("Leave Shop!");
+        this.gameObject.SetActive(false);
+        WorldSystem.instance.SwapState();
+    }
+
+    public void EnterShop()
+    {
+        Debug.Log("Enter Shop!");
+        this.gameObject.SetActive(true);
+        WorldSystem.instance.SwapState(WorldState.Shop);
+    }
 
     public void DebugDisplay()
     {
         WorldSystem.instance.deckDisplayManager.ToggleCanvas();
     }
-
     public void DebugRemoveCard()
     {
-        // remove last
-        //WorldSystem.instance.characterManager.playerCards.RemoveAt(WorldSystem.instance.characterManager.playerCards.Count - 1);
         WorldSystem.instance.characterManager.playerCardsData.RemoveAt(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
     }
-
     public void DebugAddGold()
     {
         WorldSystem.instance.characterManager.gold += 100;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
-    }
-
-    public void LeaveShop()
-    {
-        Debug.Log("Leave Shop!");
     }
 }

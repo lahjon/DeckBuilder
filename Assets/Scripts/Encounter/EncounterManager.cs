@@ -8,9 +8,14 @@ public class EncounterManager : MonoBehaviour
     public List<Encounter> allEncounters;
     public Encounter currentEncounter;
 
-    void Awake()
+    void Start()
     {
         WorldSystem.instance.encounterManager = this;
+    }
+
+    public void SetCurrentEncounter(Encounter anEncounter)
+    {
+        currentEncounter = anEncounter;
     }
 
     public Vector3 GetStartEncounter()
