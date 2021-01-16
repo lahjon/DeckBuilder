@@ -76,7 +76,7 @@ public class WorldSystem : MonoBehaviour
 
     private void UpdateStartScene()
     {
-        instance.character.MoveToLocation(encounterManager.GetStartEncounter(), encounterManager.allEncounters[0]);
+        instance.character.MoveToLocation(encounterManager.GetStartPositionEncounter(), encounterManager.allEncounters[0]);
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

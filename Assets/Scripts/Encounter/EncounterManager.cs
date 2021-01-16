@@ -7,22 +7,8 @@ public class EncounterManager : MonoBehaviour
 {
     public List<Encounter> allEncounters;
     public Encounter currentEncounter;
-
-    void Start()
-    {
-        WorldSystem.instance.encounterManager = this;
-    }
-
-    public void SetCurrentEncounter(Encounter anEncounter)
-    {
-        currentEncounter = anEncounter;
-    }
-
-    public Vector3 GetStartEncounter()
+    public Vector3 GetStartPositionEncounter()
     {
         return allEncounters[0].transform.position;
     }
-
-
-
 }

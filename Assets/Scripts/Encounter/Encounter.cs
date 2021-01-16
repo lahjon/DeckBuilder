@@ -23,7 +23,9 @@ public class Encounter : MonoBehaviour
     void Start()
     {
         if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.allEncounters[0])
+        {
             SetIsCleared(false);
+        }
         encounterType = encounterData.type;
         encounterUI = encounterData.encounterUI;
 
@@ -125,7 +127,7 @@ public class Encounter : MonoBehaviour
         if(destroyUI)
             DestroyUI();
         GetComponent<Renderer>().material = matCleared;
-        WorldSystem.instance.encounterManager.SetCurrentEncounter(this);
+        WorldSystem.instance.encounterManager.currentEncounter = this;
     }
 
     public void UpdateIcon()
