@@ -111,31 +111,50 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
             case WorldState.Display:
 
-                Debug.Log("In Display");
-                if(deckDisplayManager.selectedCard == null)
-                {
-                    deckDisplayManager.previousPosition = transform.position;
-                    deckDisplayManager.selectedCard = this;
-                    transform.position = new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0);
-                    transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
-                }
-                else if(deckDisplayManager.selectedCard != this)
-                {
-                    deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
-                    deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
-                    deckDisplayManager.previousPosition = transform.position;
-                    deckDisplayManager.selectedCard = this;
-                    transform.position = new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0);
-                    transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
-                }
-                else
-                {
-                    ResetCardPosition();
-                }
+                DisplayCard();
                 break;
 
             default:
                 break;
+        }
+    }
+
+    IEnumerator LerpPosition(Vector3 endValue, float duration)
+    {
+    float time = 0;
+    Vector3 startValue = transform.position;
+
+    while (time < duration)
+    {
+        transform.position = Vector3.Lerp(startValue, endValue, time / duration);
+        time += Time.deltaTime;
+        yield return null;
+    }
+    transform.position = endValue;
+    }
+
+    void DisplayCard()
+    {
+        if(deckDisplayManager.selectedCard == null)
+        {
+            deckDisplayManager.previousPosition = transform.position;
+            deckDisplayManager.selectedCard = this;
+            StartCoroutine(LerpPosition(new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0), 0.1f));
+            transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        else if(deckDisplayManager.selectedCard != this)
+        {
+            deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
+            deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
+            deckDisplayManager.previousPosition = transform.position;
+
+            deckDisplayManager.selectedCard = this;
+            StartCoroutine(LerpPosition(new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0), 0.1f));
+            transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+        }
+        else
+        {
+            ResetCardPosition();
         }
     }
 

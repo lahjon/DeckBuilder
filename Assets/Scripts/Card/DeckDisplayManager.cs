@@ -20,6 +20,9 @@ public class DeckDisplayManager : MonoBehaviour
     public Card selectedCard;
     [HideInInspector]
     public Vector3 previousPosition;
+    public int siblingIndex;
+    public GameObject placeholder;
+    public Canvas tempCanvas;
 
     void UpdateAllCards()
     {
