@@ -20,7 +20,7 @@ public class Encounter : MonoBehaviour
     private bool isCleared;
     private bool isClicked;
 
-    void Start()
+    public void UpdateEncounters()
     {
         if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.allEncounters[0])
         {

@@ -11,4 +11,12 @@ public class EncounterManager : MonoBehaviour
     {
         return allEncounters[0].transform.position;
     }
+
+    public void UpdateAllEncounters()
+    {
+        foreach (Encounter e in allEncounters)
+        {
+            e.UpdateEncounters();
+        }
+    }
 }

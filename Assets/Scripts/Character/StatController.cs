@@ -40,7 +40,6 @@ public class StatController : MonoBehaviour
 
             foreach (var item in allStats)
             {
-                Debug.Log(item.value);
                 if(type == item.type.ToString().ToLower())
                 {
                     if(item.value > 0)
@@ -49,11 +48,8 @@ public class StatController : MonoBehaviour
 
                     }
                     currentValue += item.value;
-                }
-                
+                }  
             }
-            Debug.Log(type);
-
         }
     }
 

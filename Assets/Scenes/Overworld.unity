@@ -708,7 +708,7 @@ PrefabInstance:
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: encounterManager
       value: 
-      objectReference: {fileID: 1040042284}
+      objectReference: {fileID: 0}
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: neighbourEncounters.Array.size
       value: 1
@@ -759,7 +759,7 @@ MonoBehaviour:
   character: {fileID: 0}
   worldState: 4
   previousState: 4
-  encounterManager: {fileID: 1040042284}
+  encounterManager: {fileID: 1866917747}
   characterManager: {fileID: 1402112389}
   shopManager: {fileID: 1477392701}
   cameraManager: {fileID: 1380009777}
@@ -1776,7 +1776,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1040042283}
-  - component: {fileID: 1040042284}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1798,25 +1797,6 @@ Transform:
   m_Father: {fileID: 2089153988}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 58.719, z: 0}
---- !u!114 &1040042284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1040042282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee2499265add6fe4ab9b128f048525a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  allEncounters:
-  - {fileID: 1468154277}
-  - {fileID: 1310023831}
-  - {fileID: 1405641174}
-  - {fileID: 342632548}
-  - {fileID: 2033252019}
-  currentEncounter: {fileID: 1468154277}
 --- !u!1 &1056691710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2100,7 +2080,7 @@ PrefabInstance:
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: encounterManager
       value: 
-      objectReference: {fileID: 1040042284}
+      objectReference: {fileID: 0}
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: neighbourEncounters.Array.size
       value: 1
@@ -2283,7 +2263,7 @@ PrefabInstance:
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: encounterManager
       value: 
-      objectReference: {fileID: 1040042284}
+      objectReference: {fileID: 0}
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: neighbourEncounter.Array.data[0]
       value: 
@@ -2384,7 +2364,7 @@ GameObject:
   - component: {fileID: 1380009777}
   m_Layer: 0
   m_Name: CameraManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2430,7 +2410,7 @@ GameObject:
   - component: {fileID: 1402112389}
   m_Layer: 0
   m_Name: CharacterManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2615,7 +2595,7 @@ GameObject:
   - component: {fileID: 1477392701}
   m_Layer: 0
   m_Name: ShopManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2751,7 +2731,7 @@ PrefabInstance:
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: encounterManager
       value: 
-      objectReference: {fileID: 1040042284}
+      objectReference: {fileID: 0}
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: neighbourEncounter.Array.size
       value: 2
@@ -2829,7 +2809,7 @@ GameObject:
   - component: {fileID: 1724079553}
   m_Layer: 0
   m_Name: DeckDisplayManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3157,7 +3137,7 @@ GameObject:
   - component: {fileID: 1866917747}
   m_Layer: 0
   m_Name: EncounterManager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3973,7 +3953,7 @@ PrefabInstance:
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: encounterManager
       value: 
-      objectReference: {fileID: 1040042284}
+      objectReference: {fileID: 0}
     - target: {fileID: 8443101173497755773, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
       propertyPath: neighbourEncounters.Array.size
       value: 1

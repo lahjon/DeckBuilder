@@ -13,15 +13,6 @@ public class CharacterManager : MonoBehaviour
     public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
 
-    void Awake()
-    {
-        //playerCards.allCards.Clear();
-    }
-    void Start()
-    {
-        characterVariablesUI.UpdateUI();
-    }
-
     public void AddToCharacter(EncounterOutcomeType type, int value)
     {
         if(type.ToString().ToLower() == "gold")
