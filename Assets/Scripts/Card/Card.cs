@@ -22,6 +22,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
     public CombatController combatController;
     IEnumerator CardFollower;
     private DeckDisplayManager deckDisplayManager;
+    private float startDragPos;
 
 
     public void Awake()
@@ -121,16 +122,19 @@ public class Card : MonoBehaviour, IPointerClickHandler
 
     IEnumerator LerpPosition(Vector3 endValue, float duration)
     {
-    float time = 0;
-    Vector3 startValue = transform.position;
+        float time = 0;
+        Vector3 startValue = transform.position;
 
-    while (time < duration)
-    {
-        transform.position = Vector3.Lerp(startValue, endValue, time / duration);
-        time += Time.deltaTime;
-        yield return null;
-    }
-    transform.position = endValue;
+        while (time < duration)
+        {
+            transform.position = Vector3.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = endValue;
+        
+        
+        transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
     }
 
     void DisplayCard()
@@ -139,18 +143,14 @@ public class Card : MonoBehaviour, IPointerClickHandler
         {
             deckDisplayManager.previousPosition = transform.position;
             deckDisplayManager.selectedCard = this;
-            StartCoroutine(LerpPosition(new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0), 0.1f));
-            transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
-        }
-        else if(deckDisplayManager.selectedCard != this)
-        {
-            deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
-            deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
-            deckDisplayManager.previousPosition = transform.position;
-
-            deckDisplayManager.selectedCard = this;
-            StartCoroutine(LerpPosition(new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0), 0.1f));
-            transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
+            deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = deckDisplayManager.selectedCard.cardData;
+            deckDisplayManager.placeholderCard.GetComponent<Card>().UpdateDisplay();
+            deckDisplayManager.backgroundPanel.SetActive(true);
+            deckDisplayManager.clickableArea.SetActive(true);
+            deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
+            transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+            //StartCoroutine(LerpPosition(new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0), 0.1f));
+            //transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
         }
         else
         {
@@ -158,10 +158,49 @@ public class Card : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void OnMouseScroll()
+    {
+        if(WorldSystem.instance.worldState == WorldState.Display)
+        {
+            float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
+            Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * -1);
+            deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+        }
+    }
+
+    public void OnMouseBeginDrag()
+    {
+        if(WorldSystem.instance.worldState == WorldState.Display)
+        {
+            startDragPos = Input.mousePosition.y;
+        }
+    }
+    public void OnMouseDrag()
+    {
+        if(WorldSystem.instance.worldState == WorldState.Display)
+        {
+            float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
+            float currentPos = Input.mousePosition.y;
+            float direction;
+            if(currentPos > startDragPos)
+                direction = -1;
+            else if(currentPos < startDragPos)
+                direction = 1;
+            else
+                direction = 0;
+            Vector2 scrollPos = new Vector2(0, direction * sensitivity * 0.3f * -1);
+            deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+        }
+    }
+
     public void ResetCardPosition()
     {
-        transform.position = deckDisplayManager.previousPosition;
-        transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
+        deckDisplayManager.backgroundPanel.SetActive(false);
+        deckDisplayManager.clickableArea.SetActive(false);
+        deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
+        deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
+        //deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
+        deckDisplayManager.previousPosition = transform.position;
         deckDisplayManager.selectedCard = null;
     }
 
@@ -169,7 +208,6 @@ public class Card : MonoBehaviour, IPointerClickHandler
     {
         if(WorldSystem.instance.worldState == WorldState.Combat)
         {
-            //Debug.Log("Card Right-Clicked");
             combatController.CancelCardSelection(this.gameObject);
             StopCoroutine(CardFollower);
         }

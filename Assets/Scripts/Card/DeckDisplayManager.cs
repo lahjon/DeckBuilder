@@ -5,7 +5,6 @@ using System.Linq;
 
 public class DeckDisplayManager : MonoBehaviour
 {
-    public List<Card> allCards;
     public List<CardData> allCardsData;
     public GameObject cardPrefab;
     public RectTransform content;
@@ -21,8 +20,10 @@ public class DeckDisplayManager : MonoBehaviour
     [HideInInspector]
     public Vector3 previousPosition;
     public int siblingIndex;
-    public GameObject placeholder;
-    public Canvas tempCanvas;
+    public GameObject scroller;
+    public GameObject placeholderCard;
+    public GameObject clickableArea;
+    public GameObject backgroundPanel;
 
     void UpdateAllCards()
     {
