@@ -81,6 +81,16 @@ public class Encounter : MonoBehaviour
                     Debug.Log("Enter Combat!");
                     SetIsCleared(false);
                     break;
+                
+                case EncounterType.EliteCombat:
+                    Debug.Log("Enter Elite Combat!");
+                    SetIsCleared(false);
+                    break;
+                
+                case EncounterType.BossCombat:
+                    Debug.Log("Enter Boss Combat!");
+                    SetIsCleared(false);
+                    break;
 
                 case EncounterType.Shop:
                     WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
@@ -100,7 +110,7 @@ public class Encounter : MonoBehaviour
 
     void CreateUI()
     {
-        if(encounterUI.gameObject != null)
+        if(encounterData.encounterUI != null)
         {
             newEncounterUIPrefab = Instantiate(encounterUI.gameObject, new Vector3(0, 0, 0), Quaternion.identity);
             

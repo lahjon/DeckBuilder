@@ -17,6 +17,9 @@ public class WorldSystem : MonoBehaviour
     public ShopManager shopManager;
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
+    public int act = 1;
+
+
     void Awake()
     {
         if(instance == null)

@@ -25,6 +25,13 @@ public class DeckDisplayManager : MonoBehaviour
     public GameObject clickableArea;
     public GameObject backgroundPanel;
 
+    void Start()
+    {
+        backgroundPanel.SetActive(false);
+        clickableArea.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
     void UpdateAllCards()
     {
         allCardsData = WorldSystem.instance.characterManager.playerCardsData;
@@ -74,6 +81,32 @@ public class DeckDisplayManager : MonoBehaviour
         }
     }
 
+    public void DisplayNextCard(int direction)
+    {
+        
+        int index = createdObjects.IndexOf(selectedCard.gameObject);
+        Debug.Log(index);
+        if(direction == 1) 
+        {
+            if(index != createdObjects.Count - 1)
+            {
+                selectedCard.ResetCardPositionNext();
+                //selectedCard.DisplayCard(createdObjects[index + 1].GetComponent<Card>());
+                placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
+
+            }
+        }
+        else if(direction == -1)
+        {
+            if(index != 0)
+            {
+                selectedCard.ResetCardPositionNext();
+                //selectedCard.DisplayCard(createdObjects[index + 1].GetComponent<Card>());
+                placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
+
+            }
+        }
+    }
     public void DisplayDeck()
     {
         if(!this.gameObject.activeSelf)

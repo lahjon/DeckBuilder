@@ -137,7 +137,7 @@ public class Card : MonoBehaviour, IPointerClickHandler
         transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
     }
 
-    void DisplayCard()
+    public void DisplayCard()
     {
         if(deckDisplayManager.selectedCard == null)
         {
@@ -201,6 +201,12 @@ public class Card : MonoBehaviour, IPointerClickHandler
         deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
         //deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
         deckDisplayManager.previousPosition = transform.position;
+        deckDisplayManager.selectedCard = null;
+    }
+    public void ResetCardPositionNext()
+    {
+        deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
+        deckDisplayManager.previousPosition = Vector3.zero;
         deckDisplayManager.selectedCard = null;
     }
 
