@@ -10,19 +10,15 @@ public class HealthEffects : MonoBehaviour
     public int hitPoints = 15;
 
     public GameObject cAnchorHealthEffects;
-    public CombatController combatController;
 
     private GameObject aAnchorHealthEffects;
-    private Slider sldHealth;
-    private TMP_Text txtHealth;
+    public  Slider sldHealth;
+    public TMP_Text txtHealth;
     public TMP_Text txtEffects;
 
     public Dictionary<EffectType, int> statusEffects = new Dictionary<EffectType, int>();
-    public void Awake()
-    {
-        sldHealth = GetComponentInChildren<Slider>();
-        txtHealth = GetComponentInChildren<TMP_Text>();
-    }
+
+
 
     public void Start()
     {

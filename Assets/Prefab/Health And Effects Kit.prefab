@@ -769,6 +769,8 @@ MonoBehaviour:
   hitPoints: 15
   cAnchorHealthEffects: {fileID: 7926990767812551263}
   combatController: {fileID: 0}
+  sldHealth: {fileID: 7926990766968582755}
+  txtHealth: {fileID: 7926990767946250738}
   txtEffects: {fileID: 7926990767614290994}
 --- !u!1 &7926990767373210142
 GameObject:
