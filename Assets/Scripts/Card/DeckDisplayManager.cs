@@ -9,14 +9,14 @@ public class DeckDisplayManager : MonoBehaviour
     public GameObject cardPrefab;
     public RectTransform content;
     public Canvas canvas;
-    public List<GameObject> createdObjects;
+    public List<GameObject> allDisplayedCards;
     public GameObject startPos;
     public float height = 400.0f;
     public Vector3 offsetHorizontal = new Vector3(400,0,0);
     public Vector3 offsetVertical = new Vector3(0,400,0);
     public int rows = 4;
     private WorldState previousState;
-    public Card selectedCard;
+    public CardDisplay selectedCard;
     [HideInInspector]
     public Vector3 previousPosition;
     public int siblingIndex;
@@ -34,24 +34,27 @@ public class DeckDisplayManager : MonoBehaviour
 
     void UpdateAllCards()
     {
+
+        // break updatedeckdisplay to single card
+
         allCardsData = WorldSystem.instance.characterManager.playerCardsData;
 
-        if(allCardsData.Count > createdObjects.Count)
+        if(allCardsData.Count > allDisplayedCards.Count)
         {
-            while (allCardsData.Count > createdObjects.Count)
+            while (allCardsData.Count > allDisplayedCards.Count)
             {
                 GameObject newCard = Instantiate(cardPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
                 newCard.transform.SetParent(content.gameObject.transform);
                 newCard.transform.localScale = new Vector3(1, 1, 1);
-                createdObjects.Add(newCard);
+                allDisplayedCards.Add(newCard);
             }
         }
-        else if(allCardsData.Count < createdObjects.Count)
+        else if(allCardsData.Count < allDisplayedCards.Count)
         {
-            while (allCardsData.Count < createdObjects.Count)
+            while (allCardsData.Count < allDisplayedCards.Count)
             {   
-                DestroyImmediate(createdObjects[(createdObjects.Count - 1)]);
-                createdObjects.RemoveAt(createdObjects.Count - 1);
+                DestroyImmediate(allDisplayedCards[(allDisplayedCards.Count - 1)]);
+                allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
             }
         }
         UpdateDeckDisplay();
@@ -74,21 +77,21 @@ public class DeckDisplayManager : MonoBehaviour
     {
         allCardsData = WorldSystem.instance.characterManager.playerCardsData;
         
-        for (int i = 0; i < createdObjects.Count; i++)
+        for (int i = 0; i < allDisplayedCards.Count; i++)
         {
-            createdObjects[i].GetComponent<Card>().cardData = allCardsData[i];
-            createdObjects[i].GetComponent<Card>().UpdateDisplay();
+            allDisplayedCards[i].GetComponent<Card>().cardData = allCardsData[i];
+            allDisplayedCards[i].GetComponent<Card>().BindCardData();
         }
     }
 
     public void DisplayNextCard(int direction)
     {
         
-        int index = createdObjects.IndexOf(selectedCard.gameObject);
+        int index = allDisplayedCards.IndexOf(selectedCard.gameObject);
         Debug.Log(index);
         if(direction == 1) 
         {
-            if(index != createdObjects.Count - 1)
+            if(index != allDisplayedCards.Count - 1)
             {
                 selectedCard.ResetCardPositionNext();
                 //selectedCard.DisplayCard(createdObjects[index + 1].GetComponent<Card>());
