@@ -50,6 +50,8 @@ public class CombatController : MonoBehaviour
 
     void Start()
     {
+        // DEBUG
+        if (WorldSystem.instance.worldState == WorldState.Combat) ;
         SetUpEncounter();
     }
 
