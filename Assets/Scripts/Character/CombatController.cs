@@ -25,10 +25,10 @@ public class CombatController : MonoBehaviour
     [HideInInspector]
     public int cEnergy
     {
-        get { return backingEnergy; } 
-        set { backingEnergy = value; lblEnergy.text = backingEnergy.ToString(); } 
+        get { return backingEnergy; }
+        set { backingEnergy = value; lblEnergy.text = backingEnergy.ToString(); }
     }
-    
+
     private List<CardData> DeckData;
     public List<GameObject> Deck = new List<GameObject>();
     public List<GameObject> Hand = new List<GameObject>();
@@ -64,6 +64,10 @@ public class CombatController : MonoBehaviour
     private Vector3 GetCardScale()
     {
         return new Vector3(0.9f, 0.9f, 0.9f);
+    }
+
+    public void StartCombat(EncounterData encounterData){
+        Debug.Log("Entered Start Encounter");
     }
 
 
