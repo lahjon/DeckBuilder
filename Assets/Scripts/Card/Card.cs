@@ -16,7 +16,26 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     public Text damageText;
     public Text blockText;
 
+<<<<<<< HEAD
+    [HideInInspector]
+    public CombatController combatController;
+    IEnumerator CardFollower;
+    private DeckDisplayManager deckDisplayManager;
+    private float startDragPos;
+
+
+    public void Awake()
+    {
+        CardFollower = FollowMouseIsSelected();
+        // DEBUG SKA BORT KANSKE 
+        if(WorldSystem.instance.worldState != WorldState.Combat)
+            deckDisplayManager = WorldSystem.instance.deckDisplayManager;
+    }
+
+    public void UpdateDisplay()
+=======
     public void BindCardData()
+>>>>>>> a571c54ce43a855d3f46ab5e9df38fa896375c0b
     {
         nameText.text = cardData.name;
 
