@@ -9,7 +9,12 @@ using TMPro;
 public class CombatController : MonoBehaviour
 {
     public GameObject TemplateCard;
+    public GameObject TemplateEnemy;
+    public EncounterData encounterData;
     public TMP_Text lblEnergy;
+    public List<Transform> trnsEnemyPositions;
+    public Camera CombatCamera;
+    public Transform cardPanel;
 
     public CombatActorHero Hero; 
 
@@ -45,10 +50,24 @@ public class CombatController : MonoBehaviour
 
     void Start()
     {
-        //AddCard();
+        SetUpEncounter();
+    }
+
+    public void SetUpEncounter()
+    {
         DeckData = DatabaseSystem.instance.GetStartingDeck();
-        Debug.Log(DeckData.Count);
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
+
+        for(int i = 0; i < encounterData.enemyData.Count; i++)
+        {
+            GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0)) as GameObject;
+            CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
+            combatActorEnemy.combatController = this;
+            combatActorEnemy.ReadEnemyData(encounterData.enemyData[i]);
+            EnemiesInScene.Add(combatActorEnemy);
+        }
+        
+
         InitializeCombat();
     }
 
@@ -66,7 +85,7 @@ public class CombatController : MonoBehaviour
     private void DisplayHand()
     {
         int n = Hand.Count;
-        float width = GetComponent<RectTransform>().rect.width;
+        float width = cardPanel.GetComponent<RectTransform>().rect.width;
         float midPoint = width / 2;
         float localoffset = (n % 2 == 0) ? offset : 0;
 
@@ -127,10 +146,11 @@ public class CombatController : MonoBehaviour
     GameObject CreateCardFromData(CardData cardData)
     {
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(transform, false);
+        CardObject.transform.SetParent(cardPanel, false);
         CardObject.transform.localScale = GetCardScale();
         CardCombat Card = CardObject.GetComponent<CardCombat>();
         Card.cardData = cardData;
+        Card.cardPanel = cardPanel.GetComponent<RectTransform>();
         Card.combatController = this;
         Card.BindCardData();
         HideCard(CardObject);
@@ -140,7 +160,7 @@ public class CombatController : MonoBehaviour
     internal void CancelCardSelection(GameObject gameObject)
     {
         int n = Hand.Count;
-        float width = GetComponent<RectTransform>().rect.width;
+        float width = cardPanel.GetComponent<RectTransform>().rect.width;
         float midPoint = width / 2;
         float localoffset = (n % 2 == 0) ? offset : 0;
 

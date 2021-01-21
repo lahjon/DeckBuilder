@@ -10,8 +10,8 @@ public class CombatActorEnemy : MonoBehaviour
 {
     public CombatController combatController;
     public HealthEffects healthEffects;
+    public TMP_Text txtMoveDisplay;
     public EnemyData enemyData;
-    public Transform cameraPosition;
     public GameObject CanvasMoveDisplay;
     public string enemyName;
 
@@ -21,18 +21,12 @@ public class CombatActorEnemy : MonoBehaviour
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
 
-    private TMP_Text txtMoveDisplay;
 
-    public void Start()
+    public void ReadEnemyData(EnemyData inEnemyData = null)
     {
-        healthEffects = GetComponentInChildren<HealthEffects>();
-        txtMoveDisplay = AnchorMoveDisplay.GetComponentInChildren<TMP_Text>();
-        SetUIpositions();
-        ReadEnemyData();
-    }
+        if (!(inEnemyData is null))
+            enemyData = inEnemyData;
 
-    public void ReadEnemyData()
-    {
         deck.AddRange(enemyData.deck);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = enemyData.artwork;
@@ -40,6 +34,7 @@ public class CombatActorEnemy : MonoBehaviour
         healthEffects.maxHitPoints = enemyData.StartingHP;
         healthEffects.hitPoints = enemyData.StartingHP;
         ShuffleDeck();
+        SetUIpositions();
         UpdateMoveDisplay();
     }
 

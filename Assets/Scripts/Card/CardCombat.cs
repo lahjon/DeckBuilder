@@ -7,6 +7,7 @@ public class CardCombat : Card
     IEnumerator CardFollower;
     [HideInInspector]
     public CombatController combatController;
+    public RectTransform cardPanel;
 
     void Awake()
     {
@@ -43,7 +44,7 @@ public class CardCombat : Card
         while (true)
         {
             Vector2 outCoordinates;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(combatController.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(cardPanel, Input.mousePosition, null, out outCoordinates);
             GetComponent<RectTransform>().localPosition = outCoordinates;
             yield return new WaitForSeconds(0);
         }
