@@ -7,7 +7,7 @@ public class CharacterData : ScriptableObject
 {
     public string charName;
     public Sprite artwork;
-    public CharacterType characterType;
+    public CharacterClass characterClass;
 
     public List<StatModifer> stats;
 }

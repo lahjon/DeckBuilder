@@ -9,8 +9,10 @@ public new string name;
 public EncounterType type;
 public EncounterDifficulty encounterDifficulty;
 public List<EncounterOutcome> encounterOutcome;
+public List<EnemyData> enemyData;
 public EncounterUI encounterUI;
 public bool isCleared = false;
+
 [TextArea(15,20)]
 public string description;
 }

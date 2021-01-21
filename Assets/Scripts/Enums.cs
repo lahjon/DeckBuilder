@@ -34,7 +34,7 @@ public enum EncounterDifficulty
     Impossible
 }
 
-public enum CharacterType
+public enum CharacterClass
 {
     Brute, 
     Rogue,
@@ -109,3 +109,8 @@ public enum EncounterValue
     Neutral
 }
 
+public enum EnemyBehavior
+{
+    Random, 
+    Sequential
+}
