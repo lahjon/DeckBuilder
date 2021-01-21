@@ -168,7 +168,8 @@ public class CombatController : MonoBehaviour
         float localoffset = (n % 2 == 0) ? offset : 0;
 
         int i = Hand.IndexOf(gameObject);
-        Hand[i].transform.localPosition = new Vector3(midPoint + (i - n / 2) * 75 + localoffset, -75, 0);
+        //Hand[i].transform.localPosition = new Vector3(midPoint + (i - n / 2) * 75 + localoffset, -75, 0);
+        gameObject.GetComponent<CardCombat>().ResetPosition(Hand[i], new Vector3(midPoint + (i - n / 2) * 75 + localoffset, -75, 0));
         ActiveCard = null;
 
         ResetSiblingIndexes();

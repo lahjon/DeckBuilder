@@ -15,6 +15,8 @@ public class CardCombat : Card
         CardFollower = FollowMouseIsSelected();
     }
 
+    
+
     public override void OnMouseEnter()
     {
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
@@ -50,20 +52,24 @@ public class CardCombat : Card
             yield return new WaitForSeconds(0);
         }
     }
-    IEnumerator LerpPosition(Vector3 endValue, float duration)
+
+    IEnumerator LerpPosition(GameObject card, Vector3 endValue, float duration)
     {
         float time = 0;
-        Vector3 startValue = transform.position;
+        Vector3 startValue = card.transform.localPosition;
 
         while (time < duration)
         {
-            transform.position = Vector3.Lerp(startValue, endValue, time / duration);
+            card.transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
             time += Time.deltaTime;
             yield return null;
         }
-        transform.position = endValue;
-        
-        transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+        card.transform.localPosition = endValue;
+    }
+
+    public void ResetPosition(GameObject card, Vector3 position)
+    {
+        StartCoroutine(LerpPosition(card, position, 0.3f));
     }
 
     public override void OnMouseClick()
@@ -74,7 +80,11 @@ public class CardCombat : Card
         }
 
         if (!combatController.CardisSelectable(this))
+        {
+            combatController.CancelCardSelection(this.gameObject);
+            StopCoroutine(CardFollower);
             return;
+        }
 
         combatController.ActiveCard = this;
         StartCoroutine(CardFollower);
