@@ -15,10 +15,13 @@ public class HealthEffects : MonoBehaviour
     public  Slider sldHealth;
     public TMP_Text txtHealth;
     public TMP_Text txtEffects;
+    public GameObject Shield;
+    public Slider sldShield;
+    public TMP_Text txtShield;
 
     public Dictionary<EffectType, int> statusEffects = new Dictionary<EffectType, int>();
 
-
+    private bool hasBlock = false;
 
     public void Start()
     {
@@ -37,7 +40,7 @@ public class HealthEffects : MonoBehaviour
 
     public void SetUIpositions()
     {
-        Vector3 coordinates = Camera.main.WorldToScreenPoint(aAnchorHealthEffects.transform.position);
+        Vector3 coordinates = Camera.current.WorldToScreenPoint(aAnchorHealthEffects.transform.position);
         cAnchorHealthEffects.transform.position = coordinates;
     }
 
@@ -79,5 +82,14 @@ public class HealthEffects : MonoBehaviour
         txtEffects.text = "";
         foreach (EffectType effect in statusEffects.Keys)
             txtEffects.text += effect.ToString() + ": " + statusEffects[effect].ToString() + "\n";
+    }
+
+    public void RecieveBlock(int x)
+    {
+        if (!hasBlock)
+        {
+            hasBlock = true;
+
+        }
     }
 }
