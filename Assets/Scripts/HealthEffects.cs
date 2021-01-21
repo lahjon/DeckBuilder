@@ -8,6 +8,7 @@ public class HealthEffects : MonoBehaviour
 {
     public int maxHitPoints = 15;
     public int hitPoints = 15;
+    private int shield = 0;
 
     public GameObject cAnchorHealthEffects;
 
@@ -20,8 +21,6 @@ public class HealthEffects : MonoBehaviour
     public TMP_Text txtShield;
 
     public Dictionary<EffectType, int> statusEffects = new Dictionary<EffectType, int>();
-
-    private bool hasBlock = false;
 
     public void Start()
     {
@@ -86,10 +85,15 @@ public class HealthEffects : MonoBehaviour
 
     public void RecieveBlock(int x)
     {
-        if (!hasBlock)
-        {
-            hasBlock = true;
+        if (shield == 0 && x > 0)
+            Shield.SetActive(true);
 
-        }
+        shield += x;
+        txtShield.text = shield.ToString();
+    }
+
+    public void RemoveBlock(int x)
+    {
+
     }
 }
