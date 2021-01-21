@@ -1270,6 +1270,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 265525353429866321}
     m_Modifications:
+    - target: {fileID: 4296724835447368647, guid: 7f2cfdc59163fae468ce0b0995d2e04e, type: 3}
+      propertyPath: hitPoints
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4296724835447368647, guid: 7f2cfdc59163fae468ce0b0995d2e04e, type: 3}
+      propertyPath: maxHitPoints
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 4296724836048231568, guid: 7f2cfdc59163fae468ce0b0995d2e04e, type: 3}
       propertyPath: m_RootOrder
       value: 1
