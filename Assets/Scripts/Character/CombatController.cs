@@ -16,6 +16,8 @@ public class CombatController : MonoBehaviour
     public int HandSize = 10;
     public int DrawCount = 5;
     public float offset = 50;
+    public float handDistance = 150;
+    public float handHeight = -75;
     public int energyTurn = 3;
 
     [HideInInspector]
@@ -32,12 +34,12 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
 
-    public List<ActorDummy> EnemiesInScene = new List<ActorDummy>();
+    public List<HealthEffects> EnemiesInScene = new List<HealthEffects>();
 
     [HideInInspector]
     public CardCombat ActiveCard;
     [HideInInspector]
-    public ActorDummy ActiveEnemy;
+    public CombatActorEnemy ActiveEnemy;
 
     void Start()
     {
@@ -59,6 +61,10 @@ public class CombatController : MonoBehaviour
         */
     }
 
+    private Vector3 GetCardScale()
+    {
+        return new Vector3(0.9f, 0.9f, 0.9f);
+    }
 
 
     private void DisplayHand()
@@ -70,7 +76,7 @@ public class CombatController : MonoBehaviour
 
         for (int i = 0; i < Hand.Count; i++)
         {
-            Hand[i].transform.localPosition = new Vector3(midPoint + (i - n / 2) * 75 + localoffset, -75,0);
+            Hand[i].transform.localPosition = new Vector3(midPoint + (i - n / 2) * handDistance + localoffset, handHeight, 0);
             Hand[i].SetActive(true);
         }
 
@@ -124,7 +130,7 @@ public class CombatController : MonoBehaviour
     {
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(transform, false);
-        CardObject.transform.localScale = new Vector3(.4f, .4f, .4f);
+        CardObject.transform.localScale = GetCardScale();
         CardCombat Card = CardObject.GetComponent<CardCombat>();
         Card.cardData = cardData;
         Card.combatController = this;
@@ -166,7 +172,7 @@ public class CombatController : MonoBehaviour
     {
         HideCard(card);
         Discard.Add(card);
-        card.transform.localScale = new Vector3(.4f, .4f, .4f);
+        card.transform.localScale = GetCardScale();
         Hand.Remove(card);
         txtDiscard.text = Discard.Count.ToString();
     }
@@ -177,7 +183,7 @@ public class CombatController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void EnemyClicked(ActorDummy enemyDummy)
+    public void EnemyClicked(CombatActorEnemy enemy)
     {
         if (ActiveCard is null)
             return;
@@ -190,11 +196,11 @@ public class CombatController : MonoBehaviour
         {
             CardEffect damageComponent = cardData.Effects.Where(x => x.Type == EffectType.Damage).FirstOrDefault();
             for (int i = 0; i < damageComponent.Times; i++)
-                enemyDummy.TakeDamage(damageComponent.Value);
+                enemy.healthEffects.TakeDamage(damageComponent.Value);
         }
 
         cardData.Effects.Where(x => !(x.Type == EffectType.Damage || x.Type == EffectType.Block)).ToList().
-            ForEach(x => enemyDummy.RecieveEffect(x));
+            ForEach(x => enemy.healthEffects.RecieveEffect(x));
 
 
 

@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ActorDummy : MonoBehaviour
+public class HealthEffects : MonoBehaviour
 {
     public int maxHitPoints = 15;
     public int hitPoints = 15;
 
     public GameObject cAnchorHealthEffects;
-    public GameObject aAnchorHealthEffects;
     public CombatController combatController;
-    
+
+    private GameObject aAnchorHealthEffects;
     private Slider sldHealth;
     private TMP_Text txtHealth;
     public TMP_Text txtEffects;
@@ -26,25 +26,12 @@ public class ActorDummy : MonoBehaviour
 
     public void Start()
     {
+        aAnchorHealthEffects = this.gameObject;
         SetUIpositions();
         UpdateHealthBar();
         UpdateEffectsDisplay();
     }
 
-    public void OnMouseOver()
-    {
-        if(combatController.ActiveEnemy is null) combatController.ActiveEnemy = this;
-    }
-
-    public void OnMouseExit()
-    {
-        if (combatController.ActiveEnemy == this) combatController.ActiveEnemy = null;
-    }
-
-    public void OnMouseDown()
-    {
-        combatController.EnemyClicked(this);
-    }
 
     public void UpdateHealthBar()
     {
