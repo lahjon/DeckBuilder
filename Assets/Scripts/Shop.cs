@@ -5,7 +5,7 @@ using TMPro;
 
 public class Shop : MonoBehaviour
 {
-    public Card currentCard;
+    public CardDisplay currentCard;
     public List<GameObject> cardsInStock;
     public List<TMP_Text> cardsPrices;
 
@@ -27,8 +27,8 @@ public class Shop : MonoBehaviour
     {
         foreach (GameObject card in cardsInStock)
         {
-            card.GetComponent<Card>().cardData = DatabaseSystem.instance.GetRandomCard();
-            card.GetComponent<Card>().BindCardData();
+            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard();
+            card.GetComponent<CardDisplay>().BindCardData();
         }
     }
     public void RestockShop()
@@ -67,6 +67,7 @@ public class Shop : MonoBehaviour
         Debug.Log("Leave Shop!");
         this.gameObject.SetActive(false);
         WorldSystem.instance.SwapState();
+        Debug.Log(WorldSystem.instance.worldState);
     }
 
     public void EnterShop()
@@ -82,7 +83,7 @@ public class Shop : MonoBehaviour
     }
     public void DebugRemoveCard()
     {
-        WorldSystem.instance.characterManager.playerCardsData.RemoveAt(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
+        WorldSystem.instance.characterManager.RemoveCardDataFromDeck(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
     }
     public void DebugAddGold()
     {

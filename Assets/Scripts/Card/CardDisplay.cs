@@ -7,9 +7,9 @@ public class CardDisplay : Card
 {
     private float startDragPos;
 
-    private DeckDisplayManager deckDisplayManager;
+    public DeckDisplayManager deckDisplayManager;
 
-    void Awake()
+    void Start()
     {
         deckDisplayManager = WorldSystem.instance.deckDisplayManager;
     }
