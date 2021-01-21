@@ -7,6 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEnemy", menuName = "Enemy")]
 public class EnemyData : ScriptableObject
 {
+    public int StartingHP;
     public string enemyName;
     public Sprite artwork;
     public int tier;

@@ -41,7 +41,6 @@ public class HealthEffects : MonoBehaviour
 
     public void SetUIpositions()
     {
-        Debug.Log(Camera.main.name);
         Vector3 coordinates = Camera.main.WorldToScreenPoint(aAnchorHealthEffects.transform.position);
         cAnchorHealthEffects.transform.position = coordinates;
     }

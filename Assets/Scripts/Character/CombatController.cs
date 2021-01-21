@@ -11,6 +11,8 @@ public class CombatController : MonoBehaviour
     public GameObject TemplateCard;
     public TMP_Text lblEnergy;
 
+    public CombatActorHero Hero; 
+
     public Text txtDeck;
     public Text txtDiscard;
     public int HandSize = 10;
@@ -34,7 +36,7 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
 
-    public List<HealthEffects> EnemiesInScene = new List<HealthEffects>();
+    public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
 
     [HideInInspector]
     public CardCombat ActiveCard;
@@ -47,19 +49,9 @@ public class CombatController : MonoBehaviour
         DeckData = DatabaseSystem.instance.GetStartingDeck();
         Debug.Log(DeckData.Count);
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
-        NextTurn();
+        InitializeCombat();
     }
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-        Vector2 outCoordinates;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
-        Debug.Log("Mouse:" + Input.mousePosition.x + "," + Input.mousePosition.y);
-        Debug.Log(outCoordinates.x + "," + outCoordinates.y);
-        Hand[2].GetComponent<RectTransform>().localPosition = outCoordinates;
-        */
-    }
+
 
     private Vector3 GetCardScale()
     {
@@ -111,6 +103,8 @@ public class CombatController : MonoBehaviour
                 Deck.RemoveAt(0);
             }
         }
+
+        DisplayHand();
     }
 
     private void ShuffleDeck()
@@ -157,19 +151,28 @@ public class CombatController : MonoBehaviour
         ResetSiblingIndexes();
     }
 
+    public void InitializeCombat()
+    {
+        cEnergy = energyTurn;
+        DrawCards(DrawCount);
+    }
+
     public void NextTurn()
     {
         while (Hand.Count > 0)
             SendCardToDiscard(Hand[0]);
 
+        // ENEMY TURN
+        EnemiesInScene.ForEach(x => x.TakeTurn());
+
+
         DrawCards(DrawCount);
-        DisplayHand();
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
         txtDeck.text = "Deck:\n" + Deck.Count;
         txtDiscard.text = "Discard:\n" + Discard.Count;
         
         cEnergy = energyTurn;
-        EnemiesInScene.ForEach(x => x.EffectsStartTurn());
+        EnemiesInScene.ForEach(x => x.GetComponentInChildren<HealthEffects>().EffectsStartTurn());
     }
 
     public void SendCardToDiscard(GameObject card)
