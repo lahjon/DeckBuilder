@@ -5,7 +5,7 @@ using TMPro;
 
 public class Shop : MonoBehaviour
 {
-    public Card currentCard;
+    public CardDisplay currentCard;
     public List<GameObject> cardsInStock;
     public List<TMP_Text> cardsPrices;
 
@@ -27,8 +27,8 @@ public class Shop : MonoBehaviour
     {
         foreach (GameObject card in cardsInStock)
         {
-            card.GetComponent<Card>().cardData = DatabaseSystem.instance.GetRandomCard();
-            card.GetComponent<Card>().BindCardData();
+            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard();
+            card.GetComponent<CardDisplay>().BindCardData();
         }
     }
     public void RestockShop()
