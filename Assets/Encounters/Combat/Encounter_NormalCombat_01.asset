@@ -22,6 +22,8 @@ MonoBehaviour:
   - type: 0
     value: 0
     encounterValue: 0
+  enemyData:
+  - {fileID: 0}
   encounterUI: {fileID: 0}
   isCleared: 0
   description: This is an angry wolf that. You attack!
