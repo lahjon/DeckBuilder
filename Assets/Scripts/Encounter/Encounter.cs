@@ -79,17 +79,20 @@ public class Encounter : MonoBehaviour
             {
                 case EncounterType.CombatNormal:
                     Debug.Log("Enter Combat!");
-                    EnterCombat();
+                    SetIsCleared(false);
+                    WorldSystem.instance.EnterCombat();
                     break;
                 
                 case EncounterType.CombatElite:
                     Debug.Log("Enter Elite Combat!");
-                    EnterCombat();
+                    SetIsCleared(false);
+                    WorldSystem.instance.EnterCombat();
                     break;
                 
                 case EncounterType.CombatBoss:
                     Debug.Log("Enter Boss Combat!");
-                    EnterCombat();
+                    SetIsCleared(false);
+                    WorldSystem.instance.EnterCombat();
                     break;
 
                 case EncounterType.Shop:
@@ -108,12 +111,7 @@ public class Encounter : MonoBehaviour
         }
     }
 
-    void EnterCombat()
-    {
-        WorldSystem.instance.SwapState(WorldState.Combat);
-        //WorldSystem.instance.cameraManager.ToggleCamera(encounterData.combatEnvironment.GetComponent<Camera>());
-        SetIsCleared(false);
-    }
+
 
     void CreateUI()
     {

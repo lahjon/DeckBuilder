@@ -17,7 +17,7 @@ public class WorldSystem : MonoBehaviour
     public ShopManager shopManager;
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
-    public CombatController combatController;
+    public CombatManager combatManager;
     public int act = 1;
 
 
@@ -95,6 +95,14 @@ public class WorldSystem : MonoBehaviour
                 shopManager = item.GetComponent<ShopManager>();
             }
         }
+    }
+
+    public void EnterCombat()
+    {
+        combatManager.combatController.gameObject.SetActive(true);
+        SwapState(WorldState.Combat);
+        cameraManager.ToggleCamera(WorldSystem.instance.combatManager.combatController.CombatCamera);
+        combatManager.combatController.SetUpEncounter();
     }
 
     public void SwapState(WorldState aWorldState)
