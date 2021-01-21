@@ -771,7 +771,7 @@ MonoBehaviour:
   sldHealth: {fileID: 7926990766968582755}
   txtHealth: {fileID: 7926990767946250738}
   txtEffects: {fileID: 7926990767614290994}
-  Shield: {fileID: 4431592953039501985}
+  objShield: {fileID: 4431592953039501985}
   sldShield: {fileID: 2607770245500723756}
   txtShield: {fileID: 3949985026846138981}
 --- !u!1 &7926990767373210142

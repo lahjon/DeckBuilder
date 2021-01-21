@@ -8,7 +8,7 @@ public class HealthEffects : MonoBehaviour
 {
     public int maxHitPoints = 15;
     public int hitPoints = 15;
-    private int shield = 0;
+    private int shield = 10;
 
     public GameObject cAnchorHealthEffects;
 
@@ -16,7 +16,7 @@ public class HealthEffects : MonoBehaviour
     public  Slider sldHealth;
     public TMP_Text txtHealth;
     public TMP_Text txtEffects;
-    public GameObject Shield;
+    public GameObject objShield;
     public Slider sldShield;
     public TMP_Text txtShield;
 
@@ -28,6 +28,7 @@ public class HealthEffects : MonoBehaviour
         SetUIpositions();
         UpdateHealthBar();
         UpdateEffectsDisplay();
+        UpdateShieldUI();
     }
 
 
@@ -39,12 +40,19 @@ public class HealthEffects : MonoBehaviour
 
     public void SetUIpositions()
     {
-        Vector3 coordinates = Camera.current.WorldToScreenPoint(aAnchorHealthEffects.transform.position);
+        Vector3 coordinates = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(aAnchorHealthEffects.transform.position);
         cAnchorHealthEffects.transform.position = coordinates;
     }
 
     public void TakeDamage(int damage)
     {
+        if (shield > 0)
+        {
+            int shieldDamage = Mathf.Min(shield, damage);
+            RemoveBlock(shieldDamage);
+            damage -= shieldDamage;
+        }
+        
         hitPoints -= Mathf.Min(hitPoints, damage);
         UpdateHealthBar();
         if (hitPoints == 0)
@@ -86,14 +94,36 @@ public class HealthEffects : MonoBehaviour
     public void RecieveBlock(int x)
     {
         if (shield == 0 && x > 0)
-            Shield.SetActive(true);
+            objShield.SetActive(true);
 
         shield += x;
+        UpdateShieldUI();
+    }
+
+
+    private void UpdateShieldUI()
+    {
+        sldShield.value = sldHealth.value;
         txtShield.text = shield.ToString();
     }
 
     public void RemoveBlock(int x)
     {
+        shield -= Mathf.Min(shield, x);
+        if (shield == 0)
+            DisableShield();
+        else
+            UpdateShieldUI();
+    }
 
+    public void RemoveAllBlock()
+    {
+        shield = 0;
+        DisableShield();
+    }
+
+    private void DisableShield()
+    {
+        objShield.SetActive(false);
     }
 }

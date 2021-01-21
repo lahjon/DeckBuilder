@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class CombatActorHero : MonoBehaviour
 {
-    private HealthEffects healthEffects;
+    public HealthEffects healthEffects;
 
     public void Start()
     {
         healthEffects = GetComponentInChildren<HealthEffects>();
+        healthEffects.RemoveAllBlock();
     }
 }

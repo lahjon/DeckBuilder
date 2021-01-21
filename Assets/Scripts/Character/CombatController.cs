@@ -68,6 +68,7 @@ public class CombatController : MonoBehaviour
             combatActorEnemy.ReadEnemyData(encounterData.enemyData[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
+
         
 
         InitializeCombat();
@@ -232,9 +233,19 @@ public class CombatController : MonoBehaviour
             ForEach(x => enemy.healthEffects.RecieveEffect(x));
 
 
-
         SendCardToDiscard(ActiveCard.gameObject);
         ActiveCard = null;
 
+    }
+
+    public void CardUsed(CardCombat cardCombat)
+    {
+        cEnergy -= ActiveCard.cardData.cost;
+        CardEffect blockEffect = cardCombat.cardData.Effects.Where(x => x.Type == EffectType.Block).FirstOrDefault();
+        if (!(blockEffect is null))
+            Hero.healthEffects.RecieveBlock(blockEffect.Value * blockEffect.Times);
+
+        SendCardToDiscard(ActiveCard.gameObject);
+        ActiveCard = null;
     }
 }

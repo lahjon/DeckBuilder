@@ -23,7 +23,8 @@ public enum Rarity
 public enum CardTargetType
 {
     Single, 
-    Multiple
+    ALL,
+    Random
 }
 public enum CharacterClass
 {

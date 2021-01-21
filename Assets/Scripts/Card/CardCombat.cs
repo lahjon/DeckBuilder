@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CardCombat : Card
 {
@@ -67,6 +68,11 @@ public class CardCombat : Card
 
     public override void OnMouseClick()
     {
+        if (combatController.ActiveCard == this && cardData.Effects.Count(x => x.Target == CardTargetType.ALL) == cardData.Effects.Count) { 
+            combatController.CardUsed(this);
+            return;
+        }
+
         if (!combatController.CardisSelectable(this))
             return;
 
@@ -75,11 +81,8 @@ public class CardCombat : Card
     }
     public override void OnMouseRightClick()
     {
-        if(WorldSystem.instance.worldState == WorldState.Combat)
-        {
-            combatController.CancelCardSelection(this.gameObject);
-            StopCoroutine(CardFollower);
-        }
+        combatController.CancelCardSelection(this.gameObject);
+        StopCoroutine(CardFollower);
     }
 
 }

@@ -33,6 +33,7 @@ public class CombatActorEnemy : MonoBehaviour
         enemyName = enemyData.enemyName;
         healthEffects.maxHitPoints = enemyData.StartingHP;
         healthEffects.hitPoints = enemyData.StartingHP;
+        healthEffects.RemoveAllBlock();
         ShuffleDeck();
         SetUIpositions();
         UpdateMoveDisplay();
@@ -67,7 +68,7 @@ public class CombatActorEnemy : MonoBehaviour
 
     public void SetUIpositions()
     {
-        Vector3 coordinates = Camera.main.WorldToScreenPoint(AnchorMoveDisplay.transform.position);
+        Vector3 coordinates = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorMoveDisplay.transform.position);
         CanvasMoveDisplay.transform.position = coordinates;
     }
 
