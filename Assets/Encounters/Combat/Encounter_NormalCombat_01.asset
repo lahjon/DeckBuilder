@@ -14,16 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Angry Wolf
   type: 3
-  encounterDifficulty: 0
-  encounterOutcome:
-  - type: 0
-    value: 0
-    encounterValue: 0
-  - type: 0
-    value: 0
-    encounterValue: 0
+  tier: 1
+  encounterOutcome: []
   enemyData:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
+  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
   encounterUI: {fileID: 0}
   isCleared: 0
   description: This is an angry wolf that. You attack!
