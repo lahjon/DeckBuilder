@@ -13,15 +13,4 @@ MonoBehaviour:
   m_Name: StartingCardsBrute
   m_EditorClassIdentifier: 
   allCards:
-  - {fileID: 11400000, guid: e8da44ee707b9464db40975bf71ec837, type: 2}
-  - {fileID: 11400000, guid: e8da44ee707b9464db40975bf71ec837, type: 2}
-  - {fileID: 11400000, guid: e8da44ee707b9464db40975bf71ec837, type: 2}
-  - {fileID: 11400000, guid: e8da44ee707b9464db40975bf71ec837, type: 2}
-  - {fileID: 11400000, guid: e8da44ee707b9464db40975bf71ec837, type: 2}
-  - {fileID: 11400000, guid: 8a2a811f4b01c05489be3be52c1f3f9c, type: 2}
-  - {fileID: 11400000, guid: 8a2a811f4b01c05489be3be52c1f3f9c, type: 2}
-  - {fileID: 11400000, guid: 8a2a811f4b01c05489be3be52c1f3f9c, type: 2}
-  - {fileID: 11400000, guid: 8a2a811f4b01c05489be3be52c1f3f9c, type: 2}
-  - {fileID: 11400000, guid: 8a2a811f4b01c05489be3be52c1f3f9c, type: 2}
-  - {fileID: 11400000, guid: 04d986ba08870844ebe552ed5b51a7aa, type: 2}
-  - {fileID: 11400000, guid: e79df00b8b6058a4fbb14199eed455b8, type: 2}
+  - {fileID: 11400000, guid: af70494e09f021c4bb9fb91c718b2f49, type: 2}

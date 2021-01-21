@@ -16,7 +16,9 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     public Text damageText;
     public Text blockText;
 
+
     public void BindCardData()
+
     {
         nameText.text = cardData.name;
 

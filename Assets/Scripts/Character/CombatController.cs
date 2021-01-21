@@ -95,8 +95,11 @@ public class CombatController : MonoBehaviour
                 ShuffleDeck();
             }
 
-            Hand.Add(Deck[0]);
-            Deck.RemoveAt(0);
+            if (Deck.Count != 0)
+            {
+                Hand.Add(Deck[0]);
+                Deck.RemoveAt(0);
+            }
         }
     }
 
