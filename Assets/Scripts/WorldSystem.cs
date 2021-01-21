@@ -17,6 +17,7 @@ public class WorldSystem : MonoBehaviour
     public ShopManager shopManager;
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
+    public CombatController combatController;
     public int act = 1;
 
 
@@ -51,7 +52,6 @@ public class WorldSystem : MonoBehaviour
         newCharacter.speed = characterStats["speed"];
         newCharacter.endurance = characterStats["endurance"];
         newCharacter.wisdom = characterStats["wisdom"];
-
         newCharacter.characterClass = characterData.characterClass;
 
         // update the world system

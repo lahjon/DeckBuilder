@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class CharacterCreator : MonoBehaviour
 {
     public List<CharacterData> characterData;
-    public CanvasController aCanvasController;
     public StatsController statsController;
     public CharacterTypesUI characterTypesUI;
     public GameObject characterPrefab;

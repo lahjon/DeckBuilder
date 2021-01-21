@@ -12,6 +12,7 @@ public class Character : MonoBehaviour
     public int wisdom;
     public CharacterClass characterClass;
     public Encounter currentEncounter;
+    
 
     void Awake()
     {

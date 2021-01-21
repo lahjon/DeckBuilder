@@ -3,22 +3,26 @@ using System.Collections;
 
 public class CameraManager : MonoBehaviour 
 {
-    public Camera[] cameras;
+    public Camera currentCamera;
+    public Camera previousCamera;
+    public ScreenTransition screenTransition;
 
-    private int currentCameraIndex;
-    void Start () 
+    public void ToggleCamera(Camera aCamera)
     {
-        currentCameraIndex = 0;
-    }
-
-    public void SetActiveCamera(int index)
-    {
-        for (int i = 0; i < cameras.Length; i++) 
+        screenTransition.gameObject.SetActive(true);
+        if(currentCamera != aCamera)
         {
-            if(i == index)
-                cameras[i].gameObject.SetActive(true);
-            else
-                cameras[i].gameObject.SetActive(false);
+            previousCamera = currentCamera;
+            currentCamera = aCamera;
+            previousCamera.gameObject.SetActive(false);
+            currentCamera.gameObject.SetActive(true);
+        }
+        else
+        {
+            currentCamera = previousCamera;
+            previousCamera = aCamera;
+            currentCamera.gameObject.SetActive(true);
+            previousCamera.gameObject.SetActive(false);
         }
     }
 }
