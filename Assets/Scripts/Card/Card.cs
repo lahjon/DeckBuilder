@@ -4,20 +4,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour, IPointerClickHandler
+public abstract class Card : MonoBehaviour, IPointerClickHandler
 {
 
     public CardData cardData;
-
     public Text nameText;
     public Text descriptionText;
-
     public Image artworkImage;
 
     public Text costText;
     public Text damageText;
     public Text blockText;
 
+<<<<<<< HEAD
     [HideInInspector]
     public CombatController combatController;
     IEnumerator CardFollower;
@@ -34,6 +33,9 @@ public class Card : MonoBehaviour, IPointerClickHandler
     }
 
     public void UpdateDisplay()
+=======
+    public void BindCardData()
+>>>>>>> a571c54ce43a855d3f46ab5e9df38fa896375c0b
     {
         nameText.text = cardData.name;
 
@@ -51,41 +53,11 @@ public class Card : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void OnMouseEnter()
-    {
-        transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+    public abstract void OnMouseEnter();
 
-        if(WorldSystem.instance.worldState == WorldState.Combat)
-        {
-            transform.SetAsLastSibling();
-        }
-    }
-
-    public void OnMouseExit()
-    {
-        transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
-
-        if(WorldSystem.instance.worldState == WorldState.Combat)
-        {
-            combatController.ResetSiblingIndexes();
-        }
-    }
-
-    public void ResetScale()
-    {
-        transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
-    }
-    private IEnumerator FollowMouseIsSelected()
-    {
-        while (true)
-        {
-            Vector2 outCoordinates;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(combatController.GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
-            GetComponent<RectTransform>().localPosition = outCoordinates;
-            yield return new WaitForSeconds(0);
-        }
-    }
-
+    public abstract void OnMouseExit();
+    public abstract void ResetScale();
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -94,130 +66,9 @@ public class Card : MonoBehaviour, IPointerClickHandler
             OnMouseRightClick();
     }
 
-    public void OnMouseClick()
-    {
-        switch (WorldSystem.instance.worldState)
-        {
-            case WorldState.Combat:
+    public abstract void OnMouseClick();
 
-                if (!combatController.CardisSelectable(this))
-                    break;
+    public abstract void OnMouseRightClick();
 
-                combatController.ActiveCard = this;
-                StartCoroutine(CardFollower);
-                break;
 
-            case WorldState.Shop:
-
-                WorldSystem.instance.shopManager.shop.PurchaseCard(this);
-                break;
-
-            case WorldState.Display:
-
-                DisplayCard();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    IEnumerator LerpPosition(Vector3 endValue, float duration)
-    {
-        float time = 0;
-        Vector3 startValue = transform.position;
-
-        while (time < duration)
-        {
-            transform.position = Vector3.Lerp(startValue, endValue, time / duration);
-            time += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = endValue;
-        
-        
-        transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-    }
-
-    public void DisplayCard()
-    {
-        if(deckDisplayManager.selectedCard == null)
-        {
-            deckDisplayManager.previousPosition = transform.position;
-            deckDisplayManager.selectedCard = this;
-            deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = deckDisplayManager.selectedCard.cardData;
-            deckDisplayManager.placeholderCard.GetComponent<Card>().UpdateDisplay();
-            deckDisplayManager.backgroundPanel.SetActive(true);
-            deckDisplayManager.clickableArea.SetActive(true);
-            deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-            transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-            //StartCoroutine(LerpPosition(new Vector3 (Screen.width * 0.5f, Screen.height * 0.5f, 0), 0.1f));
-            //transform.localScale += new Vector3(0.5f, 0.5f, 0.5f);
-        }
-        else
-        {
-            ResetCardPosition();
-        }
-    }
-
-    public void OnMouseScroll()
-    {
-        if(WorldSystem.instance.worldState == WorldState.Display)
-        {
-            float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
-            Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * -1);
-            deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
-        }
-    }
-
-    public void OnMouseBeginDrag()
-    {
-        if(WorldSystem.instance.worldState == WorldState.Display)
-        {
-            startDragPos = Input.mousePosition.y;
-        }
-    }
-    public void OnMouseDrag()
-    {
-        if(WorldSystem.instance.worldState == WorldState.Display)
-        {
-            float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
-            float currentPos = Input.mousePosition.y;
-            float direction;
-            if(currentPos > startDragPos)
-                direction = -1;
-            else if(currentPos < startDragPos)
-                direction = 1;
-            else
-                direction = 0;
-            Vector2 scrollPos = new Vector2(0, direction * sensitivity * 0.3f * -1);
-            deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
-        }
-    }
-
-    public void ResetCardPosition()
-    {
-        deckDisplayManager.backgroundPanel.SetActive(false);
-        deckDisplayManager.clickableArea.SetActive(false);
-        deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
-        deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
-        //deckDisplayManager.selectedCard.transform.localScale -= new Vector3(0.5f, 0.5f, 0.5f);
-        deckDisplayManager.previousPosition = transform.position;
-        deckDisplayManager.selectedCard = null;
-    }
-    public void ResetCardPositionNext()
-    {
-        deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
-        deckDisplayManager.previousPosition = Vector3.zero;
-        deckDisplayManager.selectedCard = null;
-    }
-
-    public void OnMouseRightClick()
-    {
-        if(WorldSystem.instance.worldState == WorldState.Combat)
-        {
-            combatController.CancelCardSelection(this.gameObject);
-            StopCoroutine(CardFollower);
-        }
-    }
 }
