@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
   m_Name: SetNielsen1
   m_EditorClassIdentifier: 
-  enemyName: 
-  artwork: {fileID: 0}
-  tier: 0
-  deck: {fileID: 0}
+  enemyName: SetNielsen1
+  artwork: {fileID: 21300000, guid: 90485fe2cb21d034f8f3e4889ca72094, type: 3}
+  tier: 6
+  deck: {fileID: 11400000, guid: dfcf0a3a17781a2418d9f1e02a657aff, type: 2}
