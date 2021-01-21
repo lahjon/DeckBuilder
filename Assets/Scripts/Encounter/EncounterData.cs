@@ -7,7 +7,7 @@ public class EncounterData : ScriptableObject
 {
 public new string name;
 public EncounterType type;
-public EncounterDifficulty encounterDifficulty;
+public int tier;
 public List<EncounterOutcome> encounterOutcome;
 public List<EnemyData> enemyData;
 public EncounterUI encounterUI;

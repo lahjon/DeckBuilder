@@ -25,15 +25,6 @@ public enum CardTargetType
     Single, 
     Multiple
 }
-public enum EncounterDifficulty
-{
-    Easy, 
-    Normal,
-    Hard,
-    Challenging,
-    Impossible
-}
-
 public enum CharacterClass
 {
     Brute, 

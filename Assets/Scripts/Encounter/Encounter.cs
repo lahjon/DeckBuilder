@@ -42,7 +42,7 @@ public class Encounter : MonoBehaviour
     void OnMouseOver()
     {
         
-        if(!isCleared)
+        if(!isCleared && WorldSystem.instance.worldState == WorldState.Overworld)
         {
             if(!highlighted)
                 SetHighlightedMat();
@@ -73,23 +73,23 @@ public class Encounter : MonoBehaviour
 
     void OnMouseDown()
     {
-        if(!isCleared && CheckViablePath(this) && !isClicked)
+        if(!isCleared && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
         {
             switch (this.encounterType)
             {
                 case EncounterType.CombatNormal:
                     Debug.Log("Enter Combat!");
-                    SetIsCleared(false);
+                    EnterCombat();
                     break;
                 
                 case EncounterType.CombatElite:
                     Debug.Log("Enter Elite Combat!");
-                    SetIsCleared(false);
+                    EnterCombat();
                     break;
                 
                 case EncounterType.CombatBoss:
                     Debug.Log("Enter Boss Combat!");
-                    SetIsCleared(false);
+                    EnterCombat();
                     break;
 
                 case EncounterType.Shop:
@@ -110,7 +110,9 @@ public class Encounter : MonoBehaviour
 
     void EnterCombat()
     {
-        
+        WorldSystem.instance.SwapState(WorldState.Combat);
+        //WorldSystem.instance.cameraManager.ToggleCamera(encounterData.combatEnvironment.GetComponent<Camera>());
+        SetIsCleared(false);
     }
 
     void CreateUI()
