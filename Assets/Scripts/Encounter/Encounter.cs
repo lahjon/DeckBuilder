@@ -77,17 +77,17 @@ public class Encounter : MonoBehaviour
         {
             switch (this.encounterType)
             {
-                case EncounterType.NormalCombat:
+                case EncounterType.CombatNormal:
                     Debug.Log("Enter Combat!");
                     SetIsCleared(false);
                     break;
                 
-                case EncounterType.EliteCombat:
+                case EncounterType.CombatElite:
                     Debug.Log("Enter Elite Combat!");
                     SetIsCleared(false);
                     break;
                 
-                case EncounterType.BossCombat:
+                case EncounterType.CombatBoss:
                     Debug.Log("Enter Boss Combat!");
                     SetIsCleared(false);
                     break;

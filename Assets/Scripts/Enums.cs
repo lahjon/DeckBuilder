@@ -37,7 +37,10 @@ public enum EncounterDifficulty
 public enum CharacterType
 {
     Brute, 
-    Rogue
+    Rogue,
+    Enemy,
+    EnemyElite, 
+    EnemyBoss
 };
 
 public enum CharacterVariables
@@ -93,9 +96,9 @@ public enum EncounterType
     Start,
     RandomEvent,
     Shop,
-    NormalCombat,
-    EliteCombat,
-    BossCombat,
+    CombatNormal,
+    CombatElite,
+    CombatBoss,
     Transition
 }
 
