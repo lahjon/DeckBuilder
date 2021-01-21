@@ -32,10 +32,8 @@ public class DeckDisplayManager : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void UpdateAllCards()
+    public void UpdateAllCards()
     {
-
-        // break updatedeckdisplay to single card
 
         allCardsData = WorldSystem.instance.characterManager.playerCardsData;
 
@@ -47,6 +45,8 @@ public class DeckDisplayManager : MonoBehaviour
                 newCard.transform.SetParent(content.gameObject.transform);
                 newCard.transform.localScale = new Vector3(1, 1, 1);
                 allDisplayedCards.Add(newCard);
+                newCard.GetComponent<Card>().cardData = allCardsData[allDisplayedCards.Count - 1];
+                newCard.GetComponent<Card>().BindCardData();
             }
         }
         else if(allCardsData.Count < allDisplayedCards.Count)
@@ -57,7 +57,14 @@ public class DeckDisplayManager : MonoBehaviour
                 allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
             }
         }
-        UpdateDeckDisplay();
+    }
+
+    public void RemoveCardAtIndex(int index)
+    {
+        DestroyImmediate(allDisplayedCards[index]);
+        allDisplayedCards.RemoveAt(index);
+        Debug.Log(allDisplayedCards.Count);
+        Debug.Log(index);
     }
 
     public void ResetCardDisplay()
@@ -122,6 +129,11 @@ public class DeckDisplayManager : MonoBehaviour
         }         
         else
         {
+            if(backgroundPanel.activeSelf)
+            {
+                backgroundPanel.SetActive(false);
+                clickableArea.SetActive(false);
+            }
             WorldSystem.instance.worldState = previousState;
             this.gameObject.SetActive(false);
         }

@@ -67,6 +67,7 @@ public class Shop : MonoBehaviour
         Debug.Log("Leave Shop!");
         this.gameObject.SetActive(false);
         WorldSystem.instance.SwapState();
+        Debug.Log(WorldSystem.instance.worldState);
     }
 
     public void EnterShop()
@@ -82,7 +83,7 @@ public class Shop : MonoBehaviour
     }
     public void DebugRemoveCard()
     {
-        WorldSystem.instance.characterManager.playerCardsData.RemoveAt(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
+        WorldSystem.instance.characterManager.RemoveCardDataFromDeck(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
     }
     public void DebugAddGold()
     {

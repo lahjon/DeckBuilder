@@ -38,7 +38,21 @@ public class CharacterManager : MonoBehaviour
     public void AddCardDataToDeck(CardData newCardData)
     {
         playerCardsData.Add(newCardData); 
+        WorldSystem.instance.deckDisplayManager.UpdateAllCards();
     }
+    public void RemoveCardDataFromDeck(int index)
+    {
+        if(playerCardsData.Count > 1)
+        {
+            playerCardsData.RemoveAt(index);
+            WorldSystem.instance.deckDisplayManager.RemoveCardAtIndex(index);
+        }
+        else
+        {
+            Debug.Log("No more cards to remove!");
+        }
+    }
+
     public void KillCharacter()
     {
         Debug.Log("You are dead!");
