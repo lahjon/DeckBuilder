@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: New Card
+  m_Name: Strike
   m_EditorClassIdentifier: 
-  name: Defend
+  name: Strike
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 85d8cbcaab452f74fa3d8a7b4a74bcaf, type: 3}
   cost: 1
   goldValue: 0
   Effects:
-  - Type: 2
-    Value: 5
+  - Type: 0
+    Value: 6
     Times: 1
     Target: 0
   cardRarity: 0
