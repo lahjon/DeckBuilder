@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Angry Mob
   type: 1
   encounterOutcome:
-  - type: 1
+  - type: 2
     value: 3
     encounterValue: 0
   - type: 1

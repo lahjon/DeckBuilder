@@ -10,18 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
-  m_Name: Encounter_NormalCombat_01
+  m_Name: Encounter_Shop_01
   m_EditorClassIdentifier: 
-  name: Angry Wolf
-  type: 3
+  name: Shop
+  type: 2
   encounterDifficulty: 0
-  encounterOutcome:
-  - type: 0
-    value: 0
-    encounterValue: 0
-  - type: 0
-    value: 0
-    encounterValue: 0
-  encounterUI: {fileID: 690251649078981938, guid: 41c606b4675195e45be11d67ce182217, type: 3}
+  encounterOutcome: []
+  encounterUI: {fileID: 0}
   isCleared: 0
-  description: This is an angry wolf that. You attack!
+  description: This is a shop.

@@ -169,7 +169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1577957614717447411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4fa0617336a2a443bfa68613719b408, type: 3}
+  m_Script: {fileID: 11500000, guid: ce2a5bf285d62c447a1fcb365120462f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardData: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   costText: {fileID: 1577957615183275145}
   damageText: {fileID: 1577957615296818472}
   blockText: {fileID: 1577957615692851394}
-  cardManager: {fileID: 0}
+  combatController: {fileID: 0}
 --- !u!114 &1568275771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +216,54 @@ MonoBehaviour:
         - m_Target: {fileID: 1577957614717447409}
           m_TargetAssemblyTypeName: Card, Assembly-CSharp
           m_MethodName: OnMouseExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 7
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1577957614717447409}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnMouseScroll
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 5
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1577957614717447409}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnMouseDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 13
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1577957614717447409}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnMouseBeginDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -913,14 +961,14 @@ Canvas:
   m_RenderMode: 2
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
-  m_OverrideSorting: 1
+  m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 99
   m_TargetDisplay: 0
 --- !u!1 &5765138652674972667
 GameObject:

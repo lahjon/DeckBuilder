@@ -11,7 +11,7 @@ public class ActorDummy : MonoBehaviour
 
     public GameObject cAnchorHealthEffects;
     public GameObject aAnchorHealthEffects;
-    public PlayerController cardManager;
+    public CombatController combatController;
     
     private Slider sldHealth;
     private TMP_Text txtHealth;
@@ -33,17 +33,17 @@ public class ActorDummy : MonoBehaviour
 
     public void OnMouseOver()
     {
-        if(cardManager.ActiveEnemy is null) cardManager.ActiveEnemy = this;
+        if(combatController.ActiveEnemy is null) combatController.ActiveEnemy = this;
     }
 
     public void OnMouseExit()
     {
-        if (cardManager.ActiveEnemy == this) cardManager.ActiveEnemy = null;
+        if (combatController.ActiveEnemy == this) combatController.ActiveEnemy = null;
     }
 
     public void OnMouseDown()
     {
-        cardManager.EnemyClicked(this);
+        combatController.EnemyClicked(this);
     }
 
     public void UpdateHealthBar()

@@ -2,18 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class WorldSystem : MonoBehaviour
 {
     public static WorldSystem instance; 
     public Character character;
-    public WorldState worldState = WorldState.MainMenu;
+    public WorldState worldState;
+    public WorldState previousState; //= WorldState.MainMenu;
     private int currentScene = 0;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
     private CharacterData characterData;
     public EncounterManager encounterManager;
     public CharacterManager characterManager;
+    public ShopManager shopManager;
+    public CameraManager cameraManager;
+    public DeckDisplayManager deckDisplayManager;
+    public int act = 1;
+
 
     void Awake()
     {
@@ -50,17 +55,64 @@ public class WorldSystem : MonoBehaviour
         newCharacter.characterType = characterData.characterType;
 
         // update the world system
-        instance.character = newCharacter;
-        instance.worldState = WorldState.Transition;
+        character = newCharacter;
+        worldState = WorldState.Transition;
     }
 
     public void LoadByIndex(int sceneIndex) {
         StartCoroutine(LoadNewScene(sceneIndex));
     }
 
+    private void GetAllReferences()
+    {
+        // we can take all the managers and child them to world system to make sure they are
+        // or we find all the references from the scene once
+
+        GameObject[] allManagers = GameObject.FindGameObjectsWithTag("Manager");
+        foreach (GameObject item in allManagers)
+        {
+            string newName = item.name.ToLowerFirstChar();
+            if (item.name == "EncounterManager")
+            {
+                encounterManager = item.GetComponent<EncounterManager>();
+                encounterManager.UpdateAllEncounters();
+            }
+            else if (item.name == "CharacterManager")
+            {
+                characterManager = item.GetComponent<CharacterManager>();
+                characterManager.characterVariablesUI.UpdateUI();
+            }
+            else if (item.name == "CameraManager")
+            {
+                cameraManager = item.GetComponent<CameraManager>();
+            }
+            else if (item.name == "DeckDisplayManager")
+            {
+                deckDisplayManager = item.GetComponent<DeckDisplayManager>();
+            }
+            else if (item.name == "ShopManager")
+            {
+                shopManager = item.GetComponent<ShopManager>();
+            }
+        }
+    }
+
+    public void SwapState(WorldState aWorldState)
+    {
+        previousState = instance.worldState;
+        worldState = aWorldState;
+        characterManager.characterVariablesUI.UpdateUI();
+    }
+    public void SwapState()
+    {
+        worldState = previousState;
+        characterManager.characterVariablesUI.UpdateUI();
+    }
+
     private void UpdateStartScene()
     {
-        instance.character.MoveToLocation(encounterManager.GetStartEncounter(), encounterManager.allEncounters[0]);
+        //character.MoveToLocation(encounterManager.GetStartPositionEncounter(), encounterManager.allEncounters[0]);
+        GetAllReferences();
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {
@@ -70,7 +122,17 @@ public class WorldSystem : MonoBehaviour
             yield return 0;
         }  
         currentScene = sceneNumber;
-        // TODO: break this into switch or find fancier solution
-        UpdateStartScene();
+
+        switch (sceneNumber)
+        {
+            case 1:
+                Debug.Log("Swapping to Scene 1!");
+                UpdateStartScene();
+                break;
+            
+            default:
+                Debug.Log("Dunno");
+                break;
+        }
     }
 }
