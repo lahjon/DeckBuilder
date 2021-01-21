@@ -9,7 +9,14 @@ using TMPro;
 public class CombatController : MonoBehaviour
 {
     public GameObject TemplateCard;
+    public GameObject TemplateEnemy;
+    public EncounterData encounterData;
     public TMP_Text lblEnergy;
+    public List<Transform> trnsEnemyPositions;
+    public Camera CombatCamera;
+    public Transform cardPanel;
+
+    public CombatActorHero Hero; 
 
     public Text txtDeck;
     public Text txtDiscard;
@@ -34,7 +41,7 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
 
-    public List<HealthEffects> EnemiesInScene = new List<HealthEffects>();
+    public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
 
     [HideInInspector]
     public CardCombat ActiveCard;
@@ -43,23 +50,27 @@ public class CombatController : MonoBehaviour
 
     void Start()
     {
-        //AddCard();
-        DeckData = DatabaseSystem.instance.GetStartingDeck();
-        Debug.Log(DeckData.Count);
-        DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
-        NextTurn();
+        SetUpEncounter();
     }
-    // Update is called once per frame
-    void Update()
+
+    public void SetUpEncounter()
     {
-        /*
-        Vector2 outCoordinates;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, null, out outCoordinates);
-        Debug.Log("Mouse:" + Input.mousePosition.x + "," + Input.mousePosition.y);
-        Debug.Log(outCoordinates.x + "," + outCoordinates.y);
-        Hand[2].GetComponent<RectTransform>().localPosition = outCoordinates;
-        */
+        DeckData = DatabaseSystem.instance.GetStartingDeck();
+        DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
+
+        for(int i = 0; i < encounterData.enemyData.Count; i++)
+        {
+            GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0)) as GameObject;
+            CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
+            combatActorEnemy.combatController = this;
+            combatActorEnemy.ReadEnemyData(encounterData.enemyData[i]);
+            EnemiesInScene.Add(combatActorEnemy);
+        }
+        
+
+        InitializeCombat();
     }
+
 
     private Vector3 GetCardScale()
     {
@@ -74,7 +85,7 @@ public class CombatController : MonoBehaviour
     private void DisplayHand()
     {
         int n = Hand.Count;
-        float width = GetComponent<RectTransform>().rect.width;
+        float width = cardPanel.GetComponent<RectTransform>().rect.width;
         float midPoint = width / 2;
         float localoffset = (n % 2 == 0) ? offset : 0;
 
@@ -111,6 +122,8 @@ public class CombatController : MonoBehaviour
                 Deck.RemoveAt(0);
             }
         }
+
+        DisplayHand();
     }
 
     private void ShuffleDeck()
@@ -133,10 +146,11 @@ public class CombatController : MonoBehaviour
     GameObject CreateCardFromData(CardData cardData)
     {
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(transform, false);
+        CardObject.transform.SetParent(cardPanel, false);
         CardObject.transform.localScale = GetCardScale();
         CardCombat Card = CardObject.GetComponent<CardCombat>();
         Card.cardData = cardData;
+        Card.cardPanel = cardPanel.GetComponent<RectTransform>();
         Card.combatController = this;
         Card.BindCardData();
         HideCard(CardObject);
@@ -146,7 +160,7 @@ public class CombatController : MonoBehaviour
     internal void CancelCardSelection(GameObject gameObject)
     {
         int n = Hand.Count;
-        float width = GetComponent<RectTransform>().rect.width;
+        float width = cardPanel.GetComponent<RectTransform>().rect.width;
         float midPoint = width / 2;
         float localoffset = (n % 2 == 0) ? offset : 0;
 
@@ -157,19 +171,28 @@ public class CombatController : MonoBehaviour
         ResetSiblingIndexes();
     }
 
+    public void InitializeCombat()
+    {
+        cEnergy = energyTurn;
+        DrawCards(DrawCount);
+    }
+
     public void NextTurn()
     {
         while (Hand.Count > 0)
             SendCardToDiscard(Hand[0]);
 
+        // ENEMY TURN
+        EnemiesInScene.ForEach(x => x.TakeTurn());
+
+
         DrawCards(DrawCount);
-        DisplayHand();
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
         txtDeck.text = "Deck:\n" + Deck.Count;
         txtDiscard.text = "Discard:\n" + Discard.Count;
         
         cEnergy = energyTurn;
-        EnemiesInScene.ForEach(x => x.EffectsStartTurn());
+        EnemiesInScene.ForEach(x => x.GetComponentInChildren<HealthEffects>().EffectsStartTurn());
     }
 
     public void SendCardToDiscard(GameObject card)
