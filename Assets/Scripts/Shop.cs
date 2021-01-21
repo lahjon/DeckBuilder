@@ -28,7 +28,7 @@ public class Shop : MonoBehaviour
         foreach (GameObject card in cardsInStock)
         {
             card.GetComponent<Card>().cardData = DatabaseSystem.instance.GetRandomCard();
-            card.GetComponent<Card>().UpdateDisplay();
+            card.GetComponent<Card>().BindCardData();
         }
     }
     public void RestockShop()

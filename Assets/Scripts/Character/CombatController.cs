@@ -35,7 +35,7 @@ public class CombatController : MonoBehaviour
     public List<ActorDummy> EnemiesInScene = new List<ActorDummy>();
 
     [HideInInspector]
-    public Card ActiveCard;
+    public CardCombat ActiveCard;
     [HideInInspector]
     public ActorDummy ActiveEnemy;
 
@@ -125,10 +125,10 @@ public class CombatController : MonoBehaviour
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(transform, false);
         CardObject.transform.localScale = new Vector3(.4f, .4f, .4f);
-        Card Card = CardObject.GetComponent<Card>();
+        CardCombat Card = CardObject.GetComponent<CardCombat>();
         Card.cardData = cardData;
         Card.combatController = this;
-        Card.UpdateDisplay();
+        Card.BindCardData();
         HideCard(CardObject);
         return CardObject;
     }
