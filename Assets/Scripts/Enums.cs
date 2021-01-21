@@ -82,3 +82,10 @@ public enum EncounterValue
     Negative, 
     Neutral
 }
+
+public enum CardTargetType
+{
+    Single,
+    Random,
+    ALL
+}
