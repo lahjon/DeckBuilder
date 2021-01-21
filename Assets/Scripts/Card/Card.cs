@@ -28,7 +28,9 @@ public class Card : MonoBehaviour, IPointerClickHandler
     public void Awake()
     {
         CardFollower = FollowMouseIsSelected();
-        deckDisplayManager = WorldSystem.instance.deckDisplayManager;
+        // DEBUG SKA BORT KANSKE 
+        if(WorldSystem.instance.worldState != WorldState.Combat)
+            deckDisplayManager = WorldSystem.instance.deckDisplayManager;
     }
 
     public void UpdateDisplay()
