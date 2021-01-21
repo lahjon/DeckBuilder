@@ -108,6 +108,11 @@ public class Encounter : MonoBehaviour
         }
     }
 
+    void EnterCombat()
+    {
+        
+    }
+
     void CreateUI()
     {
         if(encounterData.encounterUI != null)
@@ -121,8 +126,6 @@ public class Encounter : MonoBehaviour
             encounterUI.UpdateUI();
         }
     }
-
-
     public void DestroyUI()
     {
         WorldSystem.instance.SwapState();

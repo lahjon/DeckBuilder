@@ -21,7 +21,7 @@ public class CharacterCreator : MonoBehaviour
         List<string> myDropdownOptions = new List<string>{};
         myDropdownList = GetComponentsInChildren<Dropdown>();
 
-        foreach(string name in System.Enum.GetNames(typeof(CharacterType)))  
+        foreach(string name in System.Enum.GetNames(typeof(CharacterClass)))  
         {  
             myDropdownOptions.Add(name);
         }  

@@ -9,12 +9,6 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text goldValue;
     public TMP_Text worldState;
 
-    void Start()
-    {
-        WorldSystem.instance.deckDisplayManager.UpdateAllCards();
-    }
-
-
     public void UpdateUI()
     {
         int currentHealth = WorldSystem.instance.characterManager.currentHealth;

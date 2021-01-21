@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     public int speed;
     public int endurance;
     public int wisdom;
-    public CharacterType characterType;
+    public CharacterClass characterClass;
     public Encounter currentEncounter;
 
     void Awake()

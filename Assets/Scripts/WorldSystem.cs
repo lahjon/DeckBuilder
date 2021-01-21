@@ -52,7 +52,7 @@ public class WorldSystem : MonoBehaviour
         newCharacter.endurance = characterStats["endurance"];
         newCharacter.wisdom = characterStats["wisdom"];
 
-        newCharacter.characterType = characterData.characterType;
+        newCharacter.characterClass = characterData.characterClass;
 
         // update the world system
         character = newCharacter;

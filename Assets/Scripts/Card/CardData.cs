@@ -15,5 +15,5 @@ public class CardData : ScriptableObject
     public List<CardEffect> Effects;
     public CardRarity cardRarity;
 
-    public CardType cardType;
+    public CharacterClass characterClass;
 }
