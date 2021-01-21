@@ -14,6 +14,10 @@ public class CombatActorEnemy : MonoBehaviour
     }
 
 
+    public void TakeDamage(int x)
+    {
+        healthEffects.TakeDamage(x);
+    }
 
     public void OnMouseOver()
     {
