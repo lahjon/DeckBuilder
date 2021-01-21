@@ -71,11 +71,16 @@ public class CardCombat : Card
     {
         StartCoroutine(LerpPosition(card, position, 0.3f));
     }
-
     public override void OnMouseClick()
+    {
+        return;
+    }
+
+    public void OnMouseDown()
     {
         if (combatController.ActiveCard == this && cardData.Effects.Count(x => x.Target == CardTargetType.ALL) == cardData.Effects.Count) { 
             combatController.CardUsed(this);
+            Debug.Log("Let Go");
             return;
         }
 

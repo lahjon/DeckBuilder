@@ -105,6 +105,13 @@ public class WorldSystem : MonoBehaviour
         combatManager.combatController.SetUpEncounter();
     }
 
+    public void EndCombat()
+    {
+        combatManager.combatController.gameObject.SetActive(false);
+        SwapState(WorldState.Overworld);
+        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.previousCamera);
+    }
+
     public void SwapState(WorldState aWorldState)
     {
         previousState = instance.worldState;

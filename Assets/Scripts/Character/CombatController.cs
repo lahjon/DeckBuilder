@@ -42,6 +42,11 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Discard = new List<GameObject>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
+    private int amountOfEnemies;
+
+    // we could remove enemies from list but having another list will 
+    // make it easier to reference previous enemies for resurection etc
+    public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
 
     [HideInInspector]
     public CardCombat ActiveCard;
@@ -53,6 +58,8 @@ public class CombatController : MonoBehaviour
         // DEBUG
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
+
+       
     }
 
     public void SetUpEncounter()
@@ -69,7 +76,7 @@ public class CombatController : MonoBehaviour
             EnemiesInScene.Add(combatActorEnemy);
         }
 
-        
+        amountOfEnemies = EnemiesInScene.Count;
 
         InitializeCombat();
     }
@@ -234,9 +241,31 @@ public class CombatController : MonoBehaviour
             ForEach(x => enemy.healthEffects.RecieveEffect(x));
 
 
+        if(enemy.healthEffects.hitPoints < 1)
+        {
+            KillEnemy(enemy);
+            CheckVictory();
+        }
+
         SendCardToDiscard(ActiveCard.gameObject);
         ActiveCard = null;
 
+    }
+
+    private void KillEnemy(CombatActorEnemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+        DeadEnemiesInScene.Add(enemy);
+        EnemiesInScene.Remove(enemy);
+    }
+
+    private void CheckVictory()
+    {
+        if(DeadEnemiesInScene.Count == amountOfEnemies)
+        {
+            Debug.Log("Victory!");
+            WorldSystem.instance.EndCombat();
+        }
     }
 
     public void CardUsed(CardCombat cardCombat)
