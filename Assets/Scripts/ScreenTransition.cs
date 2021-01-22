@@ -41,10 +41,11 @@ public class ScreenTransition : MonoBehaviour
     IEnumerator FadeToCurve(float value, Color color)
     {
         float time = transitionCurve.keys[transitionCurve.length -1].time;
+        Debug.Log(time);
         while(time > 0.0f)
         {
             Debug.Log(transitionCurve.Evaluate(time));
-                Color newColor = new Color(color.r, color.g, color.b, Mathf.Lerp(color.a,value,transitionCurve.Evaluate(time)));
+                Color newColor = new Color(color.r, color.g, color.b, transitionCurve.Evaluate(time));
                 gameObject.GetComponent<Image>().color = newColor;
                 time -= Time.deltaTime;
                 yield return null;

@@ -181,6 +181,30 @@ MonoBehaviour:
   blockText: {fileID: 1577957615692851394}
   combatController: {fileID: 0}
   cardPanel: {fileID: 0}
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1.0074615
+      outSlope: -1.0074615
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.007461548
+      inSlope: -1.0074615
+      outSlope: -1.0074615
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1568275771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,22 +257,6 @@ MonoBehaviour:
         - m_Target: {fileID: 1577957614717447409}
           m_TargetAssemblyTypeName: CardCombat, Assembly-CSharp
           m_MethodName: OnMouseDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1577957614717447409}
-          m_TargetAssemblyTypeName: CardCombat, Assembly-CSharp
-          m_MethodName: OnMouseUp
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
