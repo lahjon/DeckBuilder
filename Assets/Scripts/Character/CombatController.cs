@@ -195,9 +195,9 @@ public class CombatController : MonoBehaviour
         while (Hand.Count > 0)
             SendCardToDiscard(Hand[0]);
 
-        // ENEMY TURN
-        EnemiesInScene.ForEach(x => x.TakeTurn());
+        // ENEMY TURN'
         EnemiesInScene.ForEach(x => x.healthEffects.RemoveAllBlock());
+        EnemiesInScene.ForEach(x => x.TakeTurn());
 
         DrawCards(DrawCount);
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
@@ -229,15 +229,20 @@ public class CombatController : MonoBehaviour
         if (ActiveCard is null)
             return;
 
+        if(ActiveCard.cardData.OverallTargetType == CardTargetType.Single && enemy is null)
+        {
+            ActiveCard.OnMouseRightClick(); //this also sets activeCard = null
+            return;
+        }
+
         cEnergy -= ActiveCard.cardData.cost;
-        CardData cardData = ActiveCard.GetComponent<Card>().cardData;
 
         //Get block or whatever
-        cardData.SelfEffects.ForEach(x => Hero.healthEffects.RecieveEffect(x));
+        ActiveCard.cardData.SelfEffects.ForEach(x => Hero.healthEffects.RecieveEffect(x));
 
         //Check which cind of card it was otherwise
         List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
-        if (cardData.OverallTargetType == CardTargetType.Single)
+        if (ActiveCard.cardData.OverallTargetType == CardTargetType.Single)
         {
             if (enemy != null)
                 targetedEnemies.Add(enemy);
@@ -245,10 +250,10 @@ public class CombatController : MonoBehaviour
         else
             targetedEnemies.AddRange(EnemiesInScene);
 
-        for (int i = 0; i < cardData.Effects.Count; i++)
+        for (int i = 0; i < ActiveCard.cardData.Effects.Count; i++)
         {
             foreach (CombatActorEnemy e in targetedEnemies) { 
-                e.healthEffects.RecieveEffect(cardData.Effects[i]);
+                e.healthEffects.RecieveEffect(ActiveCard.cardData.Effects[i]);
                 if (e.healthEffects.hitPoints <= 0)
                     KillEnemy(e);
             } 
