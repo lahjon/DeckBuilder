@@ -55,10 +55,9 @@ public class CombatActorEnemy : MonoBehaviour
     }
     public void TakeTurn()
     {
-        CardEffect damagePart = deck[0].Effects.Where(x => x.Type == EffectType.Damage).FirstOrDefault();
-        if (!(damagePart is null))
-            combatController.Hero.GetComponentInChildren<HealthEffects>().TakeDamage(damagePart.Value * damagePart.Times);
-
+        deck[0].SelfEffects.ForEach(x => healthEffects.RecieveEffect(x));
+        deck[0].Effects.ForEach(x => combatController.Hero.healthEffects.RecieveEffect(x));
+        
         discard.Add(deck[0]);
         deck.RemoveAt(0);
         UpdateMoveDisplay();
@@ -102,6 +101,6 @@ public class CombatActorEnemy : MonoBehaviour
 
     public void OnMouseDown()
     {
-        combatController.EnemyClicked(this);
+        combatController.CardUsed(this);
     }
 }

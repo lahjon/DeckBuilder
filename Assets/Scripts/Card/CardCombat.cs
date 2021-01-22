@@ -96,18 +96,14 @@ public class CardCombat : Card
 
     public void OnMouseDown()
     {
-        if (combatController.ActiveCard == this && cardData.Effects.Count(x => x.Target == CardTargetType.ALL) == cardData.Effects.Count) { 
-            combatController.CardUsed(this);
+        if (combatController.ActiveCard == this) { 
+            combatController.CardUsed();
             Debug.Log("Let Go");
             return;
         }
 
         if (!combatController.CardisSelectable(this))
-        {
-            combatController.CancelCardSelection(this.gameObject);
-            StopCoroutine(CardFollower);
             return;
-        }
 
         combatController.ActiveCard = this;
         StartCoroutine(CardFollower);

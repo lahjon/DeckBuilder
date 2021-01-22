@@ -224,46 +224,40 @@ public class CombatController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void CardUsed(CardCombat cardCombat)
-    {
-        cEnergy -= ActiveCard.cardData.cost;
-        CardEffect blockEffect = cardCombat.cardData.Effects.Where(x => x.Type == EffectType.Block).FirstOrDefault();
-        if (!(blockEffect is null))
-            Hero.healthEffects.RecieveBlock(blockEffect.Value * blockEffect.Times);
-
-        SendCardToDiscard(ActiveCard.gameObject);
-        ActiveCard = null;
-    }
-
-    public void EnemyClicked(CombatActorEnemy enemy)
+    public void CardUsed(CombatActorEnemy enemy = null)
     {
         if (ActiveCard is null)
             return;
 
         cEnergy -= ActiveCard.cardData.cost;
-
         CardData cardData = ActiveCard.GetComponent<Card>().cardData;
 
-        if(cardData.Effects.Count(x => x.Type == EffectType.Damage) > 0)
+        //Get block or whatever
+        cardData.SelfEffects.ForEach(x => Hero.healthEffects.RecieveEffect(x));
+
+        //Check which cind of card it was otherwise
+        List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
+        if (cardData.OverallTargetType == CardTargetType.Single)
         {
-            CardEffect damageComponent = cardData.Effects.Where(x => x.Type == EffectType.Damage).FirstOrDefault();
-            for (int i = 0; i < damageComponent.Times; i++)
-                enemy.healthEffects.TakeDamage(damageComponent.Value);
+            if (enemy != null)
+                targetedEnemies.Add(enemy);
+        }
+        else
+            targetedEnemies.AddRange(EnemiesInScene);
+
+        for (int i = 0; i < cardData.Effects.Count; i++)
+        {
+            foreach (CombatActorEnemy e in targetedEnemies) { 
+                e.healthEffects.RecieveEffect(cardData.Effects[i]);
+                if (e.healthEffects.hitPoints <= 0)
+                    KillEnemy(e);
+            } 
         }
 
-        cardData.Effects.Where(x => !(x.Type == EffectType.Damage || x.Type == EffectType.Block)).ToList().
-            ForEach(x => enemy.healthEffects.RecieveEffect(x));
-
-
-        if(enemy.healthEffects.hitPoints < 1)
-        {
-            KillEnemy(enemy);
-            CheckVictory();
-        }
+        CheckVictory();
 
         SendCardToDiscard(ActiveCard.gameObject);
         ActiveCard = null;
-
     }
 
     private void KillEnemy(CombatActorEnemy enemy)

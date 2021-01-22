@@ -7,7 +7,7 @@ public class EffectDisplay : MonoBehaviour
 {
     public TMP_Text effectLabel;
 
-    float durationPopin = 1;
+    float durationPopin = 0.2f;
     public Vector3 popinStartSize = new Vector3(0f, 0f, 0f);
 
     IEnumerator popinFunction;

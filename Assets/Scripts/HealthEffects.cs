@@ -61,12 +61,25 @@ public class HealthEffects : MonoBehaviour
 
     public void RecieveEffect(CardEffect effect)
     {
-        if (statusEffects.ContainsKey(effect.Type))
-            statusEffects[effect.Type] += effect.Value;
+        if (effect.Type == EffectType.Damage)
+        {
+            for (int i = 0; i < effect.Times; i++)
+                TakeDamage(effect.Value);
+        }
+        else if (effect.Type == EffectType.Block)
+        {
+            for (int i = 0; i < effect.Times; i++)
+                RecieveBlock(effect.Value);
+        }
         else
-            statusEffects[effect.Type] = effect.Value;
+        {
+            if (statusEffects.ContainsKey(effect.Type))
+                statusEffects[effect.Type] += effect.Value;
+            else
+                statusEffects[effect.Type] = effect.Value;
 
-        effectDisplayManager.SetEffect(effect.Type, statusEffects[effect.Type]);
+            effectDisplayManager.SetEffect(effect.Type, statusEffects[effect.Type]);
+        }
     }
 
     public void EffectsStartTurn()
