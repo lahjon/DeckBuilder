@@ -39,7 +39,7 @@ public class CardCombat : Card
 
     public override void ResetScale()
     {
-        transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+        transform.localScale = combatController.GetCardScale();
     }
 
     private IEnumerator FollowMouseIsSelected()
@@ -53,23 +53,25 @@ public class CardCombat : Card
         }
     }
 
-    IEnumerator LerpPosition(GameObject card, Vector3 endValue, float duration)
+    IEnumerator LerpPosition(Vector3 endValue, float duration)
     {
         float time = 0;
-        Vector3 startValue = card.transform.localPosition;
+        Vector3 startValue = transform.localPosition;
+        Vector3 velocity = Vector3.zero;
 
         while (time < duration)
         {
-            card.transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
-            time += Time.deltaTime;
+            //transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, endValue, ref velocity, duration);
+            time += Time.fixedDeltaTime;
             yield return null;
         }
-        card.transform.localPosition = endValue;
+        transform.localPosition = endValue;
     }
 
-    public void ResetPosition(GameObject card, Vector3 position)
+    public void ResetPosition(Vector3 position)
     {
-        StartCoroutine(LerpPosition(card, position, 0.3f));
+        StartCoroutine(LerpPosition(position, 0.2f));
     }
     public override void OnMouseClick()
     {

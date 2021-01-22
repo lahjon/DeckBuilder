@@ -15,10 +15,11 @@ public class HealthEffects : MonoBehaviour
     private GameObject aAnchorHealthEffects;
     public  Slider sldHealth;
     public TMP_Text txtHealth;
-    public TMP_Text txtEffects;
     public GameObject objShield;
     public Slider sldShield;
     public TMP_Text txtShield;
+
+    public EffectDisplayManager effectDisplayManager;
 
     public Dictionary<EffectType, int> statusEffects = new Dictionary<EffectType, int>();
 
@@ -27,7 +28,6 @@ public class HealthEffects : MonoBehaviour
         aAnchorHealthEffects = this.gameObject;
         SetUIpositions();
         UpdateHealthBar();
-        UpdateEffectsDisplay();
         UpdateShieldUI();
     }
 
@@ -65,30 +65,21 @@ public class HealthEffects : MonoBehaviour
             statusEffects[effect.Type] += effect.Value;
         else
             statusEffects[effect.Type] = effect.Value;
-         
-        UpdateEffectsDisplay(); //CHANGE TO UPDATING JUST THAT ICON WHEN IT IS ICONS!!!
+
+        effectDisplayManager.SetEffect(effect.Type, statusEffects[effect.Type]);
     }
 
     public void EffectsStartTurn()
     {
         Debug.Log("Entered Effects decrement");
-        List<EffectType> effects = new List<EffectType>();
-        effects.AddRange(statusEffects.Keys);
+        List<EffectType> effects = new List<EffectType>(statusEffects.Keys);
         foreach (EffectType effect in effects)
         {
             Debug.Log("Change for effect " + effect);
             statusEffects[effect] += DatabaseSystem.instance.effectEndOfTurnBehavior[effect];
             if (statusEffects[effect] <= 0) statusEffects.Remove(effect);
+            effectDisplayManager.SetEffect(effect, statusEffects[effect]);
         }
-
-        UpdateEffectsDisplay();
-    }
-
-    public void UpdateEffectsDisplay()
-    {
-        txtEffects.text = "";
-        foreach (EffectType effect in statusEffects.Keys)
-            txtEffects.text += effect.ToString() + ": " + statusEffects[effect].ToString() + "\n";
     }
 
     public void RecieveBlock(int x)

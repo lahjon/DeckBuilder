@@ -16,6 +16,8 @@ public class CombatController : MonoBehaviour
     public Camera CombatCamera;
     public Transform cardPanel;
 
+    public EffectDisplayManager effectDisplayManager;
+
     public CombatActorHero Hero; 
 
     public Text txtDeck;
@@ -44,6 +46,8 @@ public class CombatController : MonoBehaviour
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
 
+    float cardPanelwidth;
+
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
@@ -52,6 +56,11 @@ public class CombatController : MonoBehaviour
     public CardCombat ActiveCard;
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy;
+    private void Awake()
+    {
+        cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
+    }
+
 
     void Start()
     {
@@ -59,7 +68,6 @@ public class CombatController : MonoBehaviour
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
 
-       
     }
 
     public void SetUpEncounter()
@@ -82,7 +90,7 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private Vector3 GetCardScale()
+    public Vector3 GetCardScale()
     {
         return new Vector3(0.9f, 0.9f, 0.9f);
     }
@@ -94,18 +102,20 @@ public class CombatController : MonoBehaviour
 
     private void DisplayHand()
     {
-        int n = Hand.Count;
-        float width = cardPanel.GetComponent<RectTransform>().rect.width;
-        float midPoint = width / 2;
-        float localoffset = (n % 2 == 0) ? offset : 0;
-
         for (int i = 0; i < Hand.Count; i++)
         {
-            Hand[i].transform.localPosition = new Vector3(midPoint + (i - n / 2) * handDistance + localoffset, handHeight, 0);
+            Hand[i].transform.localPosition = GetPositionInHand(i);
             Hand[i].SetActive(true);
         }
 
         ResetSiblingIndexes();
+    }
+
+    public Vector3 GetPositionInHand(int CardNr)
+    {
+        float midPoint = cardPanelwidth / 2;
+        float localoffset = (Hand.Count % 2 == 0) ? offset : 0;
+        return new Vector3(midPoint + (CardNr - Hand.Count / 2) * handDistance + localoffset, handHeight, 0);
     }
 
     internal void ResetSiblingIndexes()
@@ -169,14 +179,8 @@ public class CombatController : MonoBehaviour
 
     internal void CancelCardSelection(GameObject gameObject)
     {
-        int n = Hand.Count;
-        float width = cardPanel.GetComponent<RectTransform>().rect.width;
-        float midPoint = width / 2;
-        float localoffset = (n % 2 == 0) ? offset : 0;
-
         int i = Hand.IndexOf(gameObject);
-        //Hand[i].transform.localPosition = new Vector3(midPoint + (i - n / 2) * 75 + localoffset, -75, 0);
-        gameObject.GetComponent<CardCombat>().ResetPosition(Hand[i], new Vector3(midPoint + (i - n / 2) * 75 + localoffset, -75, 0));
+        gameObject.GetComponent<CardCombat>().ResetPosition(GetPositionInHand(i));
         ActiveCard = null;
 
         ResetSiblingIndexes();
@@ -219,6 +223,17 @@ public class CombatController : MonoBehaviour
     {
         gameObject.transform.position = new Vector3(-10000, -10000, -10000);
         gameObject.SetActive(false);
+    }
+
+    public void CardUsed(CardCombat cardCombat)
+    {
+        cEnergy -= ActiveCard.cardData.cost;
+        CardEffect blockEffect = cardCombat.cardData.Effects.Where(x => x.Type == EffectType.Block).FirstOrDefault();
+        if (!(blockEffect is null))
+            Hero.healthEffects.RecieveBlock(blockEffect.Value * blockEffect.Times);
+
+        SendCardToDiscard(ActiveCard.gameObject);
+        ActiveCard = null;
     }
 
     public void EnemyClicked(CombatActorEnemy enemy)
@@ -268,14 +283,5 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void CardUsed(CardCombat cardCombat)
-    {
-        cEnergy -= ActiveCard.cardData.cost;
-        CardEffect blockEffect = cardCombat.cardData.Effects.Where(x => x.Type == EffectType.Block).FirstOrDefault();
-        if (!(blockEffect is null))
-            Hero.healthEffects.RecieveBlock(blockEffect.Value * blockEffect.Times);
 
-        SendCardToDiscard(ActiveCard.gameObject);
-        ActiveCard = null;
-    }
 }
