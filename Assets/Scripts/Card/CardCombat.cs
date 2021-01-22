@@ -9,6 +9,7 @@ public class CardCombat : Card
     [HideInInspector]
     public CombatController combatController;
     public RectTransform cardPanel;
+    public AnimationCurve transitionCurve;
 
     void Awake()
     {
@@ -68,10 +69,25 @@ public class CardCombat : Card
         }
         transform.localPosition = endValue;
     }
+    IEnumerator CurveTransition(Vector3 endValue)
+    {
+        float time = transitionCurve.keys[transitionCurve.length -1].time;
+        while(time > 0.0f)
+        {
+            float dist = Vector3.Distance(transform.localPosition, endValue);
+            Vector3 dir = transform.localPosition - endValue;
+
+            transform.localPosition += Vector3.zero;
+
+            time -= Time.deltaTime;
+            yield return null;
+        }
+    }
 
     public void ResetPosition(Vector3 position)
     {
-        StartCoroutine(LerpPosition(position, 0.2f));
+        //StartCoroutine(LerpPosition(position, 0.2f));
+        StartCoroutine(CurveTransition(position));
     }
     public override void OnMouseClick()
     {
