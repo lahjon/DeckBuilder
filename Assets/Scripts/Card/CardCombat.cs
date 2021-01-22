@@ -11,6 +11,7 @@ public class CardCombat : Card
     public RectTransform cardPanel;
     public AnimationCurve transitionCurve;
 
+
     void Awake()
     {
         CardFollower = FollowMouseIsSelected();
@@ -69,15 +70,14 @@ public class CardCombat : Card
         }
         transform.localPosition = endValue;
     }
+
     IEnumerator CurveTransition(Vector3 endValue)
     {
-        float time = transitionCurve.keys[transitionCurve.length -1].time;
-        while(time > 0.0f)
+        Vector3 startPos = transform.localPosition;
+        float time = transitionCurve.keys[transitionCurve.length - 1].time;
+        while (time > 0.0f)
         {
-            float dist = Vector3.Distance(transform.localPosition, endValue);
-            Vector3 dir = transform.localPosition - endValue;
-
-            transform.localPosition += Vector3.zero;
+            transform.localPosition = startPos * (1 - transitionCurve.Evaluate(time)) + transitionCurve.Evaluate(time) * endValue;
 
             time -= Time.deltaTime;
             yield return null;
