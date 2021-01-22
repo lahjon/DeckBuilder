@@ -77,8 +77,8 @@ public class HealthEffects : MonoBehaviour
         {
             Debug.Log("Change for effect " + effect);
             statusEffects[effect] += DatabaseSystem.instance.effectEndOfTurnBehavior[effect];
-            if (statusEffects[effect] <= 0) statusEffects.Remove(effect);
             effectDisplayManager.SetEffect(effect, statusEffects[effect]);
+            if (statusEffects[effect] <= 0) statusEffects.Remove(effect);
         }
     }
 

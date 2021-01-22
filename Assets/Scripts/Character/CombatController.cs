@@ -16,8 +16,6 @@ public class CombatController : MonoBehaviour
     public Camera CombatCamera;
     public Transform cardPanel;
 
-    public EffectDisplayManager effectDisplayManager;
-
     public CombatActorHero Hero; 
 
     public Text txtDeck;
@@ -199,7 +197,7 @@ public class CombatController : MonoBehaviour
 
         // ENEMY TURN
         EnemiesInScene.ForEach(x => x.TakeTurn());
-
+        EnemiesInScene.ForEach(x => x.healthEffects.RemoveAllBlock());
 
         DrawCards(DrawCount);
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
@@ -207,6 +205,7 @@ public class CombatController : MonoBehaviour
         txtDiscard.text = "Discard:\n" + Discard.Count;
         
         cEnergy = energyTurn;
+        Hero.healthEffects.RemoveAllBlock();
         EnemiesInScene.ForEach(x => x.GetComponentInChildren<HealthEffects>().EffectsStartTurn());
     }
 
