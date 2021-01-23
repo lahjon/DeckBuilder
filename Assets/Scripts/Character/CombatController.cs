@@ -16,8 +16,6 @@ public class CombatController : MonoBehaviour
     public Camera CombatCamera;
     public Transform cardPanel;
 
-    public EffectDisplayManager effectDisplayManager;
-
     public CombatActorHero Hero; 
 
     public Text txtDeck;
@@ -197,9 +195,9 @@ public class CombatController : MonoBehaviour
         while (Hand.Count > 0)
             SendCardToDiscard(Hand[0]);
 
-        // ENEMY TURN
+        // ENEMY TURN'
+        EnemiesInScene.ForEach(x => x.healthEffects.RemoveAllBlock());
         EnemiesInScene.ForEach(x => x.TakeTurn());
-
 
         DrawCards(DrawCount);
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
@@ -207,6 +205,7 @@ public class CombatController : MonoBehaviour
         txtDiscard.text = "Discard:\n" + Discard.Count;
         
         cEnergy = energyTurn;
+        Hero.healthEffects.RemoveAllBlock();
         EnemiesInScene.ForEach(x => x.GetComponentInChildren<HealthEffects>().EffectsStartTurn());
     }
 
@@ -225,46 +224,45 @@ public class CombatController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void CardUsed(CardCombat cardCombat)
-    {
-        cEnergy -= ActiveCard.cardData.cost;
-        CardEffect blockEffect = cardCombat.cardData.Effects.Where(x => x.Type == EffectType.Block).FirstOrDefault();
-        if (!(blockEffect is null))
-            Hero.healthEffects.RecieveBlock(blockEffect.Value * blockEffect.Times);
-
-        SendCardToDiscard(ActiveCard.gameObject);
-        ActiveCard = null;
-    }
-
-    public void EnemyClicked(CombatActorEnemy enemy)
+    public void CardUsed(CombatActorEnemy enemy = null)
     {
         if (ActiveCard is null)
             return;
 
+        if(ActiveCard.cardData.OverallTargetType == CardTargetType.Single && enemy is null)
+        {
+            ActiveCard.OnMouseRightClick(); //this also sets activeCard = null
+            return;
+        }
+
         cEnergy -= ActiveCard.cardData.cost;
 
-        CardData cardData = ActiveCard.GetComponent<Card>().cardData;
+        //Get block or whatever
+        ActiveCard.cardData.SelfEffects.ForEach(x => Hero.healthEffects.RecieveEffect(x));
 
-        if(cardData.Effects.Count(x => x.Type == EffectType.Damage) > 0)
+        //Check which cind of card it was otherwise
+        List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
+        if (ActiveCard.cardData.OverallTargetType == CardTargetType.Single)
         {
-            CardEffect damageComponent = cardData.Effects.Where(x => x.Type == EffectType.Damage).FirstOrDefault();
-            for (int i = 0; i < damageComponent.Times; i++)
-                enemy.healthEffects.TakeDamage(damageComponent.Value);
+            if (enemy != null)
+                targetedEnemies.Add(enemy);
+        }
+        else
+            targetedEnemies.AddRange(EnemiesInScene);
+
+        for (int i = 0; i < ActiveCard.cardData.Effects.Count; i++)
+        {
+            foreach (CombatActorEnemy e in targetedEnemies) { 
+                e.healthEffects.RecieveEffect(ActiveCard.cardData.Effects[i]);
+                if (e.healthEffects.hitPoints <= 0)
+                    KillEnemy(e);
+            } 
         }
 
-        cardData.Effects.Where(x => !(x.Type == EffectType.Damage || x.Type == EffectType.Block)).ToList().
-            ForEach(x => enemy.healthEffects.RecieveEffect(x));
-
-
-        if(enemy.healthEffects.hitPoints < 1)
-        {
-            KillEnemy(enemy);
-            CheckVictory();
-        }
+        CheckVictory();
 
         SendCardToDiscard(ActiveCard.gameObject);
         ActiveCard = null;
-
     }
 
     private void KillEnemy(CombatActorEnemy enemy)
