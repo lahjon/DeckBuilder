@@ -53,10 +53,17 @@ public class DatabaseSystem : MonoBehaviour
         
     }
 
-    public CardData GetRandomCard()
+    public CardData GetRandomCard(CharacterClass characterClass = CharacterClass.None)
     {
-        int idx = Random.Range(0,allCards.Count);
-        return allCards[idx];
+        int idx;
+        if(characterClass == CharacterClass.None)
+        {
+            idx = Random.Range(0,allCards.Count);
+            return allCards[idx];
+        }
+        else
+            idx = Random.Range(0,allCards.Count);
+            return allCards[idx];
     }
 
     public List<CardData> GetStartingDeck(string Character = "Brute")

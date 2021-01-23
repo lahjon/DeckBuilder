@@ -18,8 +18,8 @@ public class WorldSystem : MonoBehaviour
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
     public CombatManager combatManager;
+    public UIManager uiManager;
     public int act = 1;
-
 
     void Awake()
     {
@@ -102,7 +102,13 @@ public class WorldSystem : MonoBehaviour
         combatManager.combatController.gameObject.SetActive(true);
         SwapState(WorldState.Combat);
         cameraManager.ToggleCamera(WorldSystem.instance.combatManager.combatController.CombatCamera);
+        encounterManager.encounterTier = encounterManager.currentEncounter.encounterData.tier;
         combatManager.combatController.SetUpEncounter();
+    }
+
+    public void GetReward()
+    {
+        uiManager.rewardScreen.gameObject.SetActive(true);
     }
 
     public void EndCombat()

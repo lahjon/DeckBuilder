@@ -28,6 +28,7 @@ public enum CardTargetType
 }
 public enum CharacterClass
 {
+    None,
     Brute, 
     Rogue,
     Enemy,

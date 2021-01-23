@@ -16,7 +16,8 @@ public class Encounter : MonoBehaviour
     //[HideInInspector]
     public GameObject newEncounterUIPrefab;
     private bool highlighted;
-    private EncounterType encounterType;
+    [HideInInspector]
+    public EncounterType encounterType;
     private bool isCleared;
     private bool isClicked;
 
