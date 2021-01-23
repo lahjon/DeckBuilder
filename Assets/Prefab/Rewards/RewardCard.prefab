@@ -226,10 +226,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RewardGold, Assembly-CSharp
+      - m_Target: {fileID: 1448277969376111919}
+        m_TargetAssemblyTypeName: Reward, Assembly-CSharp
         m_MethodName: OnClick
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4536fa1151b51924a889a89e3ce78551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardDisplayPrefab: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
 --- !u!1 &8237644298767203292
 GameObject:
   m_ObjectHideFlags: 0

@@ -74,6 +74,7 @@ public class CombatController : MonoBehaviour
         // super ugly, but want it for debug
         if (Input.GetKeyDown("1"))
         {
+            Debug.Log("HOWEE");
             if(Hand.Count > 0)
             {
                 Hand[0].GetComponent<CardCombat>().OnMouseDown();

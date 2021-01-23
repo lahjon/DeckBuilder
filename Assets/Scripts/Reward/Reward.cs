@@ -7,12 +7,15 @@ public abstract class Reward : MonoBehaviour
 {
 
     protected abstract void CollectCombatReward();
-    public virtual void OnClick()
+    public virtual void OnClick(bool destroy = true)
     {
         CollectCombatReward();
-        DestroyImmediate(this.gameObject);
-        if(WorldSystem.instance.uiManager.rewardScreen.content.transform.childCount == 0)
-            WorldSystem.instance.uiManager.rewardScreen.RemoveRewardScreen();
+        if(destroy == true)
+        {
+            DestroyImmediate(this.gameObject);
+            if(WorldSystem.instance.uiManager.rewardScreen.content.transform.childCount == 0)
+                WorldSystem.instance.uiManager.rewardScreen.RemoveRewardScreen();
+        }
     }
     
     // public ArtifactData GetArtifact(bool random = true, ArtifactData artifactData = null)

@@ -5,8 +5,10 @@ using UnityEngine;
 public class RewardScreen : MonoBehaviour
 {
     public GameObject content;
-    public Reward rewards;
     public EncounterData encounterData;
+    public GameObject rewardScreenCard;
+    public GameObject rewardScreenCardContent;
+    public Reward currentReward;
     public List<GameObject> combatRewardNormal;
     public List<GameObject> combatRewardElite;
     public List<GameObject> combatRewardBoss;
@@ -43,6 +45,13 @@ public class RewardScreen : MonoBehaviour
                 break;
         }
     }
+
+    public void ResetCurrentReward()
+    {
+        currentReward.OnClick();
+        rewardScreenCard.SetActive(false);
+    }
+
 
     private void CreateRewards(List<GameObject> rewards)
     {

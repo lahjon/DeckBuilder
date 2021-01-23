@@ -96,7 +96,7 @@ public class CardCombat : Card
 
     public void OnMouseDown()
     {   
-        if(Input.GetMouseButtonDown(0))
+        if(!Input.GetMouseButtonDown(1))
         {
             if (combatController.ActiveCard == this) { 
                 combatController.CardUsed();

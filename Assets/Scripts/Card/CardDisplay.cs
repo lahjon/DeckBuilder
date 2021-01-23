@@ -42,6 +42,18 @@ public class CardDisplay : Card
                 DisplayCard();
                 break;
 
+            case WorldState.Reward:
+                Debug.Log("on displayt");
+                if(Input.GetMouseButton(0))
+                {
+                    Debug.Log("add");
+                    AddCardToDeck(this.cardData);
+                    WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
+                }
+                else if(Input.GetMouseButton(1))
+                    DisplayCard();
+                break;
+
             default:
                 break;
         }
@@ -71,6 +83,16 @@ public class CardDisplay : Card
             float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
             Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * -1);
             deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+        }
+    }
+
+    public void AddCardToDeck(CardData cardData, bool callRewardScreen = false)
+    {
+        WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
+
+        if(callRewardScreen == true)
+        {
+            WorldSystem.instance.uiManager.rewardScreen.currentReward.OnClick();
         }
     }
 

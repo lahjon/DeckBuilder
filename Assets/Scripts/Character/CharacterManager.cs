@@ -8,6 +8,8 @@ public class CharacterManager : MonoBehaviour
     public int gold;
     public int currentHealth;
     public int maxHealth;
+    public int maxCardReward = 3;
+    public CharacterClass characterClass;
     
     public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
