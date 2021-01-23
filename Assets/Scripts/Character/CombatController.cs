@@ -14,6 +14,7 @@ public class CombatController : MonoBehaviour
     public TMP_Text lblEnergy;
     public List<Transform> trnsEnemyPositions;
     public Camera CombatCamera;
+    public GameObject content;
     public Transform cardPanel;
 
     public CombatActorHero Hero; 
@@ -66,6 +67,53 @@ public class CombatController : MonoBehaviour
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
 
+    }
+
+    void Update()
+    {
+        // super ugly, but want it for debug
+        if (Input.GetKeyDown("1"))
+        {
+            if(Hand.Count > 0)
+            {
+                Hand[0].GetComponent<CardCombat>().OnMouseDown();
+            }
+        }
+        if (Input.GetKeyDown("2"))
+        {
+            if(Hand.Count > 1)
+            {
+                Hand[1].GetComponent<CardCombat>().OnMouseDown();
+            }
+        }
+        if (Input.GetKeyDown("3"))
+        {
+            if(Hand.Count > 2)
+            {
+                Hand[2].GetComponent<CardCombat>().OnMouseDown();
+            }
+        }
+        if (Input.GetKeyDown("4"))
+        {
+            if(Hand.Count > 3)
+            {
+                Hand[3].GetComponent<CardCombat>().OnMouseDown();
+            }
+        }
+        if (Input.GetKeyDown("5"))
+        {
+            if(Hand.Count > 4)
+            {
+                Hand[4].GetComponent<CardCombat>().OnMouseDown();
+            }
+        }
+        if (Input.GetKeyDown("6"))
+        {
+            if(Hand.Count > 5)
+            {
+                Hand[5].GetComponent<CardCombat>().OnMouseDown();
+            }
+        }
     }
 
     public void SetUpEncounter()
@@ -254,8 +302,10 @@ public class CombatController : MonoBehaviour
         {
             foreach (CombatActorEnemy e in targetedEnemies) { 
                 e.healthEffects.RecieveEffect(ActiveCard.cardData.Effects[i]);
-                if (e.healthEffects.hitPoints <= 0)
+                if (e.healthEffects.hitPoints <= 0 && ActiveCard.cardData.Effects[i].Type == EffectType.Damage)
+                {
                     KillEnemy(e);
+                }
             } 
         }
 
@@ -277,9 +327,11 @@ public class CombatController : MonoBehaviour
         if(DeadEnemiesInScene.Count == amountOfEnemies)
         {
             Debug.Log("Victory!");
-            WorldSystem.instance.EndCombat();
+
+            WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
         }
     }
+
 
 
 }

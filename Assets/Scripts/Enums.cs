@@ -75,6 +75,7 @@ public enum CharacterStat
 public enum WorldState
 {
     MainMenu,
+    Reward,
     Shop,
     Display,
     Combat,

@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class RewardGold : MonoBehaviour
+public class RewardGold : Reward
 {
     public TMP_Text text;
     private int goldAmount;
@@ -12,7 +12,7 @@ public class RewardGold : MonoBehaviour
     public float startRange = 5;
     public float endRange = 10;
 
-    public float tierMultiplier = 10;
+    public float tierMultiplier = 1;
     public float eliteMultiplier = 1.5f;
     public float bossMultiplier = 2.0f;
 
@@ -25,7 +25,7 @@ public class RewardGold : MonoBehaviour
 
     private int GetGold(int tier, EncounterType encounterType)
     {
-        float multiplier = tierMultiplier;
+        float multiplier = tier * tierMultiplier;
 
         switch (encounterType)
         {
@@ -45,10 +45,10 @@ public class RewardGold : MonoBehaviour
         return (int)amount;
     }
 
-    public void OnClick()
+    protected override void CollectCombatReward()
     {
         WorldSystem.instance.characterManager.gold += goldAmount;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
-        DestroyImmediate(this.gameObject);
     }
 }
+

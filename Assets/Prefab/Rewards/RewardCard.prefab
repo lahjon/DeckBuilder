@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Gold: 234'
+  m_text: Card
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -145,9 +145,9 @@ GameObject:
   - component: {fileID: 8237644298160242556}
   - component: {fileID: 8237644298160242555}
   - component: {fileID: 8237644298160242554}
-  - component: {fileID: 1299441467361013484}
+  - component: {fileID: 1448277969376111919}
   m_Layer: 0
-  m_Name: RewardGold
+  m_Name: RewardCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1299441467361013484}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RewardGold, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -238,7 +238,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1299441467361013484
+--- !u!114 &1448277969376111919
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -247,15 +247,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8237644298160242557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93ea73a4b1c44c438685ed71d51a177, type: 3}
+  m_Script: {fileID: 11500000, guid: 4536fa1151b51924a889a89e3ce78551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 8237644298025503043}
-  startRange: 5
-  endRange: 10
-  tierMultiplier: 1
-  eliteMultiplier: 1.5
-  bossMultiplier: 2
 --- !u!1 &8237644298767203292
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 68b920c5d4fd23540bc7d6da66986ee3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4b586b6a96ff56488b4f80fa5f69c86, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

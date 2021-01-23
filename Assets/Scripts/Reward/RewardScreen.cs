@@ -4,40 +4,65 @@ using UnityEngine;
 
 public class RewardScreen : MonoBehaviour
 {
-    public GameObject rewardPrefab;
     public GameObject content;
     public Reward rewards;
     public EncounterData encounterData;
+    public List<GameObject> combatRewardNormal;
+    public List<GameObject> combatRewardElite;
+    public List<GameObject> combatRewardBoss;
 
-    void Start()
+    void OnEnable()
     {
+        int iter = 0;
+        while (content.transform.childCount > 0)
+        {
+            
+            DestroyImmediate(content.transform.GetChild(0).gameObject);
+            iter++;
+            if(iter > 50)
+            {
+                Debug.Log("safety break in loop if error");
+                break;
+            }
+        }
+
         encounterData = WorldSystem.instance.combatManager.combatController.encounterData;
 
         switch (encounterData.type)
         {
             case EncounterType.CombatElite:
+                CreateRewards(combatRewardElite);
                 break;
 
             case EncounterType.CombatBoss:
+                CreateRewards(combatRewardBoss);
                 break;
 
             default:
+                CreateRewards(combatRewardNormal);
                 break;
         }
-
-        // foreach (Reward reward in rewards)
-        // {
-        //     GameObject newObject = Instantiate(rewardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        //     newObject.transform.parent = content.transform;
-        //     newObject.GetComponent<RewardButton>().reward = reward;
-        // }
     }
-    
-    // public void CreateReward()
-    // {
-    //     GameObject newObject = Instantiate(rewardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-    //     newObject.transform.parent = content.transform;
-    //     RewardButton rewardButton = newObject.GetComponent<RewardButton>();
-    //     rewardButton.image
-    // }
+
+    private void CreateRewards(List<GameObject> rewards)
+    {
+        foreach (GameObject reward in rewards)
+        {
+            GameObject newObject = Instantiate(reward, new Vector3(0, 0, 0), Quaternion.identity);
+            newObject.transform.SetParent(content.transform);
+        }
+    }
+    public void GetCombatReward()
+    {
+        WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
+        
+        WorldSystem.instance.SwapState(WorldState.Reward);
+        gameObject.SetActive(true);
+    }
+
+    public void RemoveRewardScreen()
+    {
+        WorldSystem.instance.EndCombat();
+        gameObject.SetActive(false);
+    }
 }

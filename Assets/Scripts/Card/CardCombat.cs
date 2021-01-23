@@ -95,18 +95,20 @@ public class CardCombat : Card
     }
 
     public void OnMouseDown()
-    {
-        if (combatController.ActiveCard == this) { 
-            combatController.CardUsed();
-            Debug.Log("Let Go");
-            return;
+    {   
+        if(Input.GetMouseButtonDown(0))
+        {
+            if (combatController.ActiveCard == this) { 
+                combatController.CardUsed();
+                return;
+            }
+
+            if (!combatController.CardisSelectable(this))
+                return;
+
+            combatController.ActiveCard = this;
+            StartCoroutine(CardFollower);
         }
-
-        if (!combatController.CardisSelectable(this))
-            return;
-
-        combatController.ActiveCard = this;
-        StartCoroutine(CardFollower);
     }
     public override void OnMouseRightClick()
     {
