@@ -66,8 +66,7 @@ public class Shop : MonoBehaviour
     {
         Debug.Log("Leave Shop!");
         this.gameObject.SetActive(false);
-        WorldSystem.instance.SwapState();
-        Debug.Log(WorldSystem.instance.worldState);
+        WorldSystem.instance.SwapState(WorldState.Overworld);
     }
 
     public void EnterShop()

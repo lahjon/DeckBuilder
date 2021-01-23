@@ -7,6 +7,7 @@ public class WorldSystem : MonoBehaviour
     public static WorldSystem instance; 
     public Character character;
     public WorldState worldState;
+    public WorldState tempWorldState;
     public WorldState previousState; //= WorldState.MainMenu;
     private int currentScene = 0;
     private Dictionary<string, int> characterStats;
@@ -120,12 +121,11 @@ public class WorldSystem : MonoBehaviour
         worldState = aWorldState;
         characterManager.characterVariablesUI.UpdateUI();
     }
-    public void SwapState()
+        public void SwapState()
     {
         worldState = previousState;
         characterManager.characterVariablesUI.UpdateUI();
     }
-
     private void UpdateStartScene()
     {
         //character.MoveToLocation(encounterManager.GetStartPositionEncounter(), encounterManager.allEncounters[0]);

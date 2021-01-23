@@ -119,7 +119,7 @@ public class CombatController : MonoBehaviour
 
     public void SetUpEncounter()
     {
-        DeckData = DatabaseSystem.instance.GetStartingDeck();
+        DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
 
         for(int i = 0; i < encounterData.enemyData.Count; i++)
@@ -310,10 +310,10 @@ public class CombatController : MonoBehaviour
             } 
         }
 
-        CheckVictory();
 
         SendCardToDiscard(ActiveCard.gameObject);
         ActiveCard = null;
+        CheckVictory();
     }
 
     private void KillEnemy(CombatActorEnemy enemy)
@@ -328,11 +328,21 @@ public class CombatController : MonoBehaviour
         if(DeadEnemiesInScene.Count == amountOfEnemies)
         {
             Debug.Log("Victory!");
-
+            ResetCombat();
             WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
         }
     }
 
-
-
+    void ResetCombat()
+    {
+        DeadEnemiesInScene.Clear();
+        Deck.Clear();
+        Hand.Clear();
+        Discard.Clear();
+        EnemiesInScene.Clear();
+        while (cardPanel.childCount > 0)
+        {
+            DestroyImmediate(cardPanel.GetChild(0).gameObject);
+        }
+    }
 }

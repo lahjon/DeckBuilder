@@ -15,7 +15,7 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     public Text costText;
     public Text damageText;
     public Text blockText;
-
+    public WorldState previousState;
 
     public void BindCardData()
 
@@ -47,6 +47,44 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
             OnMouseClick();
         else if (eventData.button == PointerEventData.InputButton.Right)
             OnMouseRightClick();
+    }
+    
+    public void DisplayCard()
+    {
+        if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
+        {
+            WorldSystem.instance.tempWorldState = WorldSystem.instance.worldState;
+            WorldSystem.instance.worldState = WorldState.Display;
+            WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
+            WorldSystem.instance.deckDisplayManager.selectedCard = this;
+            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
+            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().BindCardData();
+            WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
+            WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
+            WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
+            transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+        }
+        else
+        {
+            ResetCardPosition();
+        }
+    }
+    public void ResetCardPosition()
+    {
+
+        WorldSystem.instance.worldState = WorldSystem.instance.tempWorldState;
+        WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
+        WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
+        WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
+        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
+        WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
+        WorldSystem.instance.deckDisplayManager.selectedCard = null;
+    }
+    public void ResetCardPositionNext()
+    {
+        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
+        WorldSystem.instance.deckDisplayManager.previousPosition = Vector3.zero;
+        WorldSystem.instance.deckDisplayManager.selectedCard = null;
     }
 
     public abstract void OnMouseClick();

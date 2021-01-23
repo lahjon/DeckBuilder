@@ -10,6 +10,7 @@ public class CardCombat : Card
     public CombatController combatController;
     public RectTransform cardPanel;
     public AnimationCurve transitionCurve;
+    public bool selected = false;
 
 
     void Awake()
@@ -73,6 +74,7 @@ public class CardCombat : Card
 
     IEnumerator CurveTransition(Vector3 endValue)
     {
+        selected = true;
         Vector3 startPos = transform.localPosition;
         float time = transitionCurve.keys[transitionCurve.length - 1].time;
         while (time > 0.0f)
@@ -82,6 +84,7 @@ public class CardCombat : Card
             time -= Time.deltaTime;
             yield return null;
         }
+        selected = false;
     }
 
     public void ResetPosition(Vector3 position)
@@ -112,8 +115,14 @@ public class CardCombat : Card
     }
     public override void OnMouseRightClick()
     {
-        combatController.CancelCardSelection(this.gameObject);
-        StopCoroutine(CardFollower);
+        if (combatController.ActiveCard == this)
+        {
+            combatController.CancelCardSelection(this.gameObject);
+            StopCoroutine(CardFollower);
+            Debug.Log("Hej");
+        }
+        if(selected == false)
+            DisplayCard();
     }
 
 }

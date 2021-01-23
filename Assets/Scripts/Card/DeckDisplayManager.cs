@@ -9,6 +9,7 @@ public class DeckDisplayManager : MonoBehaviour
     public GameObject cardPrefab;
     public RectTransform content;
     public Canvas canvas;
+    public GameObject deckDisplay;
     public List<GameObject> allDisplayedCards;
     public GameObject startPos;
     public float height = 400.0f;
@@ -16,11 +17,11 @@ public class DeckDisplayManager : MonoBehaviour
     public Vector3 offsetVertical = new Vector3(0,400,0);
     public int rows = 4;
     private WorldState previousState;
-    public CardDisplay selectedCard;
+    public Card selectedCard;
     [HideInInspector]
-    public Vector3 previousPosition;
     public int siblingIndex;
     public GameObject scroller;
+    public Vector3 previousPosition;
     public GameObject placeholderCard;
     public GameObject clickableArea;
     public GameObject backgroundPanel;
@@ -29,7 +30,7 @@ public class DeckDisplayManager : MonoBehaviour
     {
         backgroundPanel.SetActive(false);
         clickableArea.SetActive(false);
-        gameObject.SetActive(false);
+        deckDisplay.SetActive(false);
     }
 
     public void UpdateAllCards()
@@ -119,11 +120,11 @@ public class DeckDisplayManager : MonoBehaviour
     }
     public void DisplayDeck()
     {
-        if(!this.gameObject.activeSelf)
+        if(!deckDisplay.activeSelf)
         {
             previousState = WorldSystem.instance.worldState;
             WorldSystem.instance.worldState = WorldState.Display;
-            this.gameObject.SetActive(true);
+            deckDisplay.SetActive(true);
             UpdateAllCards();
             
         }         
@@ -135,7 +136,7 @@ public class DeckDisplayManager : MonoBehaviour
                 clickableArea.SetActive(false);
             }
             WorldSystem.instance.worldState = previousState;
-            this.gameObject.SetActive(false);
+            deckDisplay.SetActive(false);
         }
     }
 

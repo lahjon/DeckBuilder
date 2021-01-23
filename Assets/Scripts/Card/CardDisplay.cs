@@ -43,39 +43,55 @@ public class CardDisplay : Card
                 break;
 
             case WorldState.Reward:
-                Debug.Log("on displayt");
-                if(Input.GetMouseButton(0))
-                {
-                    Debug.Log("add");
                     AddCardToDeck(this.cardData);
                     WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
-                }
-                else if(Input.GetMouseButton(1))
-                    DisplayCard();
                 break;
 
             default:
                 break;
         }
     }
-    public void DisplayCard()
+
+    public override void OnMouseRightClick()
     {
-        if(deckDisplayManager.selectedCard == null)
+        switch (WorldSystem.instance.worldState)
         {
-            deckDisplayManager.previousPosition = transform.position;
-            deckDisplayManager.selectedCard = this;
-            deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = deckDisplayManager.selectedCard.cardData;
-            deckDisplayManager.placeholderCard.GetComponent<Card>().BindCardData();
-            deckDisplayManager.backgroundPanel.SetActive(true);
-            deckDisplayManager.clickableArea.SetActive(true);
-            deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-            transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-        }
-        else
-        {
-            ResetCardPosition();
+            case WorldState.Shop:
+
+                DisplayCard();
+                break;
+
+            case WorldState.Display:
+
+                DisplayCard();
+                break;
+
+            case WorldState.Reward:
+                DisplayCard();
+                break;
+
+            default:
+                break;
         }
     }
+    // public void DisplayCard()
+    // {
+    //     if(deckDisplayManager.selectedCard == null)
+    //     {
+    //         deckDisplayManager.previousPosition = transform.position;
+    //         deckDisplayManager.selectedCard = this;
+    //         deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = deckDisplayManager.selectedCard.cardData;
+    //         deckDisplayManager.placeholderCard.GetComponent<Card>().BindCardData();
+    //         deckDisplayManager.backgroundPanel.SetActive(true);
+    //         deckDisplayManager.clickableArea.SetActive(true);
+    //         deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
+    //         transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+    //     }
+    //     else
+    //     {
+    //         ResetCardPosition();
+    //     }
+    // }
         public void OnMouseScroll()
     {
         if(WorldSystem.instance.worldState == WorldState.Display)
@@ -120,26 +136,4 @@ public class CardDisplay : Card
             deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
         }
     }
-
-    public void ResetCardPosition()
-    {
-        deckDisplayManager.backgroundPanel.SetActive(false);
-        deckDisplayManager.clickableArea.SetActive(false);
-        deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
-        deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
-        deckDisplayManager.previousPosition = transform.position;
-        deckDisplayManager.selectedCard = null;
-    }
-    public void ResetCardPositionNext()
-    {
-        deckDisplayManager.selectedCard.transform.position = deckDisplayManager.previousPosition;
-        deckDisplayManager.previousPosition = Vector3.zero;
-        deckDisplayManager.selectedCard = null;
-    }
-
-    public override void OnMouseRightClick()
-    {
-        return;
-    }
-
 }
