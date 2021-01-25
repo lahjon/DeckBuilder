@@ -42,7 +42,7 @@ public class CombatActorEnemy : MonoBehaviour
 
     public void UpdateMoveDisplay(CardData cardData)
     {
-        intentDisplay.RecieveIntent(cardData.SelfEffects, cardData.Effects);
+        intentDisplay.RecieveIntent(cardData.SelfEffects, cardData.Effects);   
     }
     public void TakeTurn()
     {
