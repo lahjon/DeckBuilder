@@ -25,5 +25,4 @@ public static class DatabaseUpdateOnStart
 
         EditorApplication.isPlaying = true;
     }
-
 }

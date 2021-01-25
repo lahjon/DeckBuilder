@@ -129,7 +129,7 @@ public class Encounter : MonoBehaviour
     }
     public void DestroyUI()
     {
-        WorldSystem.instance.SwapState();
+        WorldSystem.instance.SwapStatePrevious();
         Destroy(newEncounterUIPrefab, 0.2f);
         encounterUI = encounterData.encounterUI;
     }

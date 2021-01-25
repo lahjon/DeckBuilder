@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Start Act 1
   type: 4
-  encounterDifficulty: 0
+  tier: 0
   encounterOutcome:
   - type: 0
     value: 0
@@ -22,6 +22,8 @@ MonoBehaviour:
   - type: 0
     value: 0
     encounterValue: 0
+  enemyData:
+  - {fileID: 11400000, guid: 8f70ce79052b6514a9b2a93c341fd989, type: 2}
   encounterUI: {fileID: 0}
   isCleared: 0
   description: This is the start of your journey.

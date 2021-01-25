@@ -112,7 +112,6 @@ public class WorldSystem : MonoBehaviour
 
     public void EndCombat(bool endAct = false)
     {
-        SwapState(WorldState.Overworld);
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);
         if (endAct)
@@ -120,13 +119,15 @@ public class WorldSystem : MonoBehaviour
             GoToTown();
             return;
         }
+        SwapState(WorldState.Overworld);
         cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.previousCamera);
     }
 
     private void GoToTown()
     {
-        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.townCamera);
         worldState = WorldState.Town;
+        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.townCamera);
+        Debug.Log(worldState);
         Debug.Log("You won!");
     }
 
@@ -136,7 +137,7 @@ public class WorldSystem : MonoBehaviour
         worldState = aWorldState;
         characterManager.characterVariablesUI.UpdateUI();
     }
-        public void SwapState()
+    public void SwapStatePrevious()
     {
         worldState = previousState;
         characterManager.characterVariablesUI.UpdateUI();

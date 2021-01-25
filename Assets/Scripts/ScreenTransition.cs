@@ -35,7 +35,8 @@ public class ScreenTransition : MonoBehaviour
         }
         DeactiveCanvas();
         gameObject.GetComponent<Image>().color = color;
-        WorldSystem.instance.SwapState();
+        //if(WorldSystem.instance.worldState != WorldState.Town)
+        WorldSystem.instance.SwapStatePrevious();
     }
 
     IEnumerator FadeToCurve(float value, Color color)
@@ -52,6 +53,6 @@ public class ScreenTransition : MonoBehaviour
         }
         DeactiveCanvas();
         gameObject.GetComponent<Image>().color = color;
-        WorldSystem.instance.SwapState();
+        WorldSystem.instance.SwapStatePrevious();
     }
 }
