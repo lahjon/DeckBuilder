@@ -19,6 +19,7 @@ public class WorldSystem : MonoBehaviour
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
     public CombatManager combatManager;
+    public TownManager townManager;
     public UIManager uiManager;
     public int act = 1;
 
@@ -127,8 +128,6 @@ public class WorldSystem : MonoBehaviour
     {
         worldState = WorldState.Town;
         cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.townCamera);
-        Debug.Log(worldState);
-        Debug.Log("You won!");
     }
 
     public void SwapState(WorldState aWorldState)
@@ -146,6 +145,17 @@ public class WorldSystem : MonoBehaviour
     {
         //character.MoveToLocation(encounterManager.GetStartPositionEncounter(), encounterManager.allEncounters[0]);
         GetAllReferences();
+    }
+
+    public void StartNewAct()
+    {
+        act += 1;
+        characterManager.characterVariablesUI.UpdateUI();
+        SwapState(WorldState.Overworld);
+        Debug.Log(act);
+        cameraManager.mainCamera.transform.position = cameraManager.actCameraPos[act - 1].transform.position;
+        cameraManager.mainCamera.transform.rotation = cameraManager.actCameraPos[act - 1].transform.rotation;
+        cameraManager.ToggleCamera(cameraManager.mainCamera);
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

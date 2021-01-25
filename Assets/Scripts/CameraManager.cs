@@ -1,14 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CameraManager : MonoBehaviour 
 {
+    public Camera mainCamera;
     public Camera currentCamera;
     public Camera previousCamera;
 
     public Camera townCamera;
-    public GameObject act1CameraPos;
-    public GameObject act2CameraPos;
+    public List<GameObject> actCameraPos;
     public ScreenTransition screenTransition;
 
     public void ToggleCamera(Camera aCamera)

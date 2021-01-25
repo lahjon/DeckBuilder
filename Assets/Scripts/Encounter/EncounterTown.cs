@@ -26,34 +26,32 @@ public class EncounterTown : Encounter
 
     protected override void OnMouseDown()
     {
-        if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
+        if(WorldSystem.instance.worldState == WorldState.Town)
         {
             switch (this.encounterType)
             {
-                case EncounterType.OverworldCombatNormal:
-                    Debug.Log("Enter Combat!");
+                case EncounterType.TownLeave:
+                    Debug.Log("Leave Town!");
                     SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
+                    WorldSystem.instance.townManager.LeaveTown();
                     break;
                 
-                case EncounterType.OverworldCombatElite:
-                    Debug.Log("Enter Elite Combat!");
+                case EncounterType.TownPray:
+                    Debug.Log("Pray in Town!");
                     SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
+                    WorldSystem.instance.townManager.EnterPray();
                     break;
                 
-                case EncounterType.OverworldCombatBoss:
-                    Debug.Log("Enter Boss Combat!");
+                case EncounterType.TownShop:
+                    Debug.Log("Enter Town Shop!");
                     SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
+                    WorldSystem.instance.townManager.EnterShop();
                     break;
 
-                case EncounterType.OverworldShop:
-                    WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
-                    WorldSystem.instance.shopManager.shop.RestockShop();
+                case EncounterType.TownTavern:
+                    Debug.Log("Enter Town Pray!");
                     SetIsVisited(false);
-                    WorldSystem.instance.SwapState(WorldState.Shop);
-                    Debug.Log("Enter Shop!");
+                    WorldSystem.instance.townManager.EnterPray();
                     break;
                 
                 default:
@@ -63,6 +61,4 @@ public class EncounterTown : Encounter
             }
         }
     }
-
-
 }

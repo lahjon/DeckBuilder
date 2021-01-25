@@ -41,6 +41,7 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Deck = new List<GameObject>();
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
+    public List<GameObject> createdCards = new List<GameObject>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -71,48 +72,50 @@ public class CombatController : MonoBehaviour
 
     void Update()
     {
-        // super ugly, but want it for debug
-        if (Input.GetKeyDown("1"))
+        if(WorldSystem.instance.worldState == WorldState.Combat)
         {
-            Debug.Log("HOWEE");
-            if(Hand.Count > 0)
+            if (Input.GetKeyDown("1"))
             {
-                Hand[0].GetComponent<CardCombat>().OnMouseDown();
+                Debug.Log("HOWEE");
+                if(Hand.Count > 0)
+                {
+                    Hand[0].GetComponent<CardCombat>().OnMouseDown();
+                }
             }
-        }
-        if (Input.GetKeyDown("2"))
-        {
-            if(Hand.Count > 1)
+            if (Input.GetKeyDown("2"))
             {
-                Hand[1].GetComponent<CardCombat>().OnMouseDown();
+                if(Hand.Count > 1)
+                {
+                    Hand[1].GetComponent<CardCombat>().OnMouseDown();
+                }
             }
-        }
-        if (Input.GetKeyDown("3"))
-        {
-            if(Hand.Count > 2)
+            if (Input.GetKeyDown("3"))
             {
-                Hand[2].GetComponent<CardCombat>().OnMouseDown();
+                if(Hand.Count > 2)
+                {
+                    Hand[2].GetComponent<CardCombat>().OnMouseDown();
+                }
             }
-        }
-        if (Input.GetKeyDown("4"))
-        {
-            if(Hand.Count > 3)
+            if (Input.GetKeyDown("4"))
             {
-                Hand[3].GetComponent<CardCombat>().OnMouseDown();
+                if(Hand.Count > 3)
+                {
+                    Hand[3].GetComponent<CardCombat>().OnMouseDown();
+                }
             }
-        }
-        if (Input.GetKeyDown("5"))
-        {
-            if(Hand.Count > 4)
+            if (Input.GetKeyDown("5"))
             {
-                Hand[4].GetComponent<CardCombat>().OnMouseDown();
+                if(Hand.Count > 4)
+                {
+                    Hand[4].GetComponent<CardCombat>().OnMouseDown();
+                }
             }
-        }
-        if (Input.GetKeyDown("6")) 
-        {
-            if(Hand.Count > 5)
+            if (Input.GetKeyDown("6")) 
             {
-                Hand[5].GetComponent<CardCombat>().OnMouseDown();
+                if(Hand.Count > 5)
+                {
+                    Hand[5].GetComponent<CardCombat>().OnMouseDown();
+                }
             }
         }
     }
@@ -121,6 +124,8 @@ public class CombatController : MonoBehaviour
     {
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
+
+        encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
 
         for(int i = 0; i < encounterData.enemyData.Count; i++)
         {
@@ -220,6 +225,7 @@ public class CombatController : MonoBehaviour
         Card.cardPanel = cardPanel.GetComponent<RectTransform>();
         Card.combatController = this;
         Card.BindCardData();
+        createdCards.Add(CardObject);
         HideCard(CardObject);
         return CardObject;
     }
@@ -340,9 +346,9 @@ public class CombatController : MonoBehaviour
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
-        while (cardPanel.childCount > 0)
+        foreach (GameObject card in createdCards)
         {
-            DestroyImmediate(cardPanel.GetChild(0).gameObject);
+            DestroyImmediate(card);
         }
     }
 }
