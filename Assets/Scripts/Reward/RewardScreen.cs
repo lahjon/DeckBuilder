@@ -28,7 +28,8 @@ public class RewardScreen : MonoBehaviour
             }
         }
 
-        encounterData = WorldSystem.instance.combatManager.combatController.encounterData;
+        encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
+        Debug.Log(encounterData.type);
 
         switch (encounterData.type)
         {
@@ -71,7 +72,10 @@ public class RewardScreen : MonoBehaviour
 
     public void RemoveRewardScreen()
     {
-        WorldSystem.instance.EndCombat();
         gameObject.SetActive(false);
+        if(encounterData.type == EncounterType.CombatBoss)
+            WorldSystem.instance.EndCombat(true);
+        else
+            WorldSystem.instance.EndCombat();
     }
 }

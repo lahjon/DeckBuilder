@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Defend
   description: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: a187ad023575b3e43ae6e2d222ef24fd, type: 3}
   cost: 1
   goldValue: 0
   SelfEffects:

@@ -33,6 +33,9 @@ public class WorldSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        deckDisplayManager.gameObject.SetActive(true);
+
     }
 
     public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)
@@ -107,12 +110,24 @@ public class WorldSystem : MonoBehaviour
         combatManager.combatController.SetUpEncounter();
     }
 
-    public void EndCombat()
+    public void EndCombat(bool endAct = false)
     {
         SwapState(WorldState.Overworld);
-        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.previousCamera);
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);
+        if (endAct)
+        {
+            GoToTown();
+            return;
+        }
+        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.previousCamera);
+    }
+
+    private void GoToTown()
+    {
+        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.townCamera);
+        worldState = WorldState.Town;
+        Debug.Log("You won!");
     }
 
     public void SwapState(WorldState aWorldState)

@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Mr.Poison
   description: An attacker.
-  artwork: {fileID: 21300000, guid: 85d8cbcaab452f74fa3d8a7b4a74bcaf, type: 3}
+  artwork: {fileID: 21300000, guid: 53ba25d0759657e4cb8b9f3ed70e50b8, type: 3}
   cost: 3
   goldValue: 25
+  SelfEffects: []
   Effects:
   - Type: 1
     Value: 5
     Times: 1
     Target: 0
   cardRarity: 1
-  cardType: 0
+  characterClass: 0

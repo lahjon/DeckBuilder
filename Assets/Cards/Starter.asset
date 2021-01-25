@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Starter
   description: A starter.
-  artwork: {fileID: 21300000, guid: 83f9aa9b555a7e24cb671db65c22a3ca, type: 3}
+  artwork: {fileID: 21300000, guid: 738425baf4a05d04eb83e999eab9002d, type: 3}
   cost: 1
   goldValue: 12
+  SelfEffects: []
   Effects:
   - Type: 0
     Value: 2
     Times: 1
     Target: 0
   cardRarity: 0
-  cardType: 0
+  characterClass: 0

@@ -38,6 +38,7 @@ public class CombatController : MonoBehaviour
     }
 
     private List<CardData> DeckData;
+    private List<GameObject> createdCards = new List<GameObject>();
     public List<GameObject> Deck = new List<GameObject>();
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
@@ -224,6 +225,7 @@ public class CombatController : MonoBehaviour
         Card.cardPanel = cardPanel.GetComponent<RectTransform>();
         Card.combatController = this;
         Card.BindCardData();
+        createdCards.Add(CardObject);
         HideCard(CardObject);
         return CardObject;
     }
@@ -344,9 +346,11 @@ public class CombatController : MonoBehaviour
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
-        while (cardPanel.childCount > 0)
+        foreach (GameObject card in createdCards)
         {
-            DestroyImmediate(cardPanel.GetChild(0).gameObject);
+            DestroyImmediate(card);
+            
         }
+        createdCards.Clear();
     }
 }

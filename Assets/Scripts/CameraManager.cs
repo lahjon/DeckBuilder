@@ -5,6 +5,10 @@ public class CameraManager : MonoBehaviour
 {
     public Camera currentCamera;
     public Camera previousCamera;
+
+    public Camera townCamera;
+    public GameObject act1CameraPos;
+    public GameObject act2CameraPos;
     public ScreenTransition screenTransition;
 
     public void ToggleCamera(Camera aCamera)
