@@ -10,6 +10,7 @@ public class CombatActorEnemy : MonoBehaviour
 {
     public CombatController combatController;
     public HealthEffects healthEffects;
+    public IntentDisplay intentDisplay;
     public TMP_Text txtMoveDisplay;
     public EnemyData enemyData;
     public GameObject CanvasMoveDisplay;
@@ -36,31 +37,27 @@ public class CombatActorEnemy : MonoBehaviour
         healthEffects.RemoveAllBlock();
         ShuffleDeck();
         SetUIpositions();
-        UpdateMoveDisplay();
+        UpdateMoveDisplay(deck[0]);
     }
 
-    public void UpdateMoveDisplay()
+    public void UpdateMoveDisplay(CardData cardData)
     {
-        if(deck.Count == 0)
-        {
-            deck.AddRange(discard);
-            discard.Clear();
-        }
-
-        CardEffect damagePart = deck[0].Effects.Where(x => x.Type == EffectType.Damage).FirstOrDefault();
-        if (!(damagePart is null))
-            txtMoveDisplay.text = damagePart.Value.ToString() + (damagePart.Times == 1 ? "" : "x" + damagePart.Times.ToString());
-        else
-            txtMoveDisplay.text = "some effect";
+        intentDisplay.RecieveIntent(cardData.SelfEffects, cardData.Effects);
     }
     public void TakeTurn()
     {
         deck[0].SelfEffects.ForEach(x => healthEffects.RecieveEffect(x));
         deck[0].Effects.ForEach(x => combatController.Hero.healthEffects.RecieveEffect(x));
-        
+
         discard.Add(deck[0]);
         deck.RemoveAt(0);
-        UpdateMoveDisplay();
+        if (deck.Count == 0)
+        {
+            deck.AddRange(discard);
+            ShuffleDeck();
+            discard.Clear();
+        }
+        UpdateMoveDisplay(deck[0]);
     }
 
 
