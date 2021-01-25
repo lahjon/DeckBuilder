@@ -33,11 +33,11 @@ public class RewardScreen : MonoBehaviour
 
         switch (encounterData.type)
         {
-            case EncounterType.CombatElite:
+            case EncounterType.OverworldCombatElite:
                 CreateRewards(combatRewardElite);
                 break;
 
-            case EncounterType.CombatBoss:
+            case EncounterType.OverworldCombatBoss:
                 CreateRewards(combatRewardBoss);
                 break;
 
@@ -73,7 +73,7 @@ public class RewardScreen : MonoBehaviour
     public void RemoveRewardScreen()
     {
         gameObject.SetActive(false);
-        if(encounterData.type == EncounterType.CombatBoss)
+        if(encounterData.type == EncounterType.OverworldCombatBoss)
             WorldSystem.instance.EndCombat(true);
         else
             WorldSystem.instance.EndCombat();

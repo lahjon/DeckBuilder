@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8443101174515678473}
   - component: {fileID: 8443101174515678472}
   - component: {fileID: 8443101174515678487}
-  - component: {fileID: 8443101173497755773}
+  - component: {fileID: 6028963992959059886}
   m_Layer: 0
-  m_Name: Encounter
+  m_Name: EncounterTown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 96c8f3b0021ac184bb8339870e47c232, type: 2}
+  - {fileID: 2100000, guid: 67737ecf0cc77e943af6aca9ee90b871, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,7 +98,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &8443101173497755773
+--- !u!114 &6028963992959059886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,18 +107,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8443101174515678486}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54837cd412138db44857ba94166bf085, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e87d7b72d517f94a83ffe88739b68ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterData: {fileID: 11400000, guid: 4c3b482b0fd10b84b95a90af00c7d679, type: 2}
+  encounterData: {fileID: 0}
   spriteRenderer: {fileID: 8443101174728511238}
-  matHighlight: {fileID: 2100000, guid: d620a44321c2bb546b73f20685cc16c8, type: 2}
-  matNormal: {fileID: 2100000, guid: 96c8f3b0021ac184bb8339870e47c232, type: 2}
-  matCleared: {fileID: 2100000, guid: 308e43b7f27bf194dbf2488cd39ca201, type: 2}
-  neighbourEncounter:
-  - {fileID: 0}
+  matHighlight: {fileID: 2100000, guid: 7e3a72ab2903d6442b1c1b4af8cb743f, type: 2}
+  matNormal: {fileID: 2100000, guid: 67737ecf0cc77e943af6aca9ee90b871, type: 2}
+  matVisited: {fileID: 2100000, guid: 308e43b7f27bf194dbf2488cd39ca201, type: 2}
+  neighbourEncounters: []
   encounterUI: {fileID: 0}
   newEncounterUIPrefab: {fileID: 0}
+  encounterType: 0
 --- !u!1 &8443101174728511236
 GameObject:
   m_ObjectHideFlags: 0
