@@ -74,24 +74,7 @@ public class CardDisplay : Card
                 break;
         }
     }
-    // public void DisplayCard()
-    // {
-    //     if(deckDisplayManager.selectedCard == null)
-    //     {
-    //         deckDisplayManager.previousPosition = transform.position;
-    //         deckDisplayManager.selectedCard = this;
-    //         deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = deckDisplayManager.selectedCard.cardData;
-    //         deckDisplayManager.placeholderCard.GetComponent<Card>().BindCardData();
-    //         deckDisplayManager.backgroundPanel.SetActive(true);
-    //         deckDisplayManager.clickableArea.SetActive(true);
-    //         deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-    //         transform.localPosition = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-    //     }
-    //     else
-    //     {
-    //         ResetCardPosition();
-    //     }
-    // }
+
         public void OnMouseScroll()
     {
         if(WorldSystem.instance.worldState == WorldState.Display)

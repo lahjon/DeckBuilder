@@ -74,9 +74,13 @@ public class CombatController : MonoBehaviour
         // super ugly, but want it for debug
         if (Input.GetKeyDown("1"))
         {
-            Debug.Log("HOWEE");
             if(Hand.Count > 0)
             {
+                // if(ActiveCard != Hand[0].GetComponent<CardCombat>())
+                //     {
+                //         CancelCardSelection(ActiveCard.gameObject);
+                //         ActiveCard.StopAllCoroutines();
+                //     }
                 Hand[0].GetComponent<CardCombat>().OnMouseDown();
             }
         }

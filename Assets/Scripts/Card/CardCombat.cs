@@ -74,7 +74,6 @@ public class CardCombat : Card
 
     IEnumerator CurveTransition(Vector3 endValue)
     {
-        selected = true;
         Vector3 startPos = transform.localPosition;
         float time = transitionCurve.keys[transitionCurve.length - 1].time;
         while (time > 0.0f)
@@ -109,6 +108,7 @@ public class CardCombat : Card
             if (!combatController.CardisSelectable(this))
                 return;
 
+            selected = true;
             combatController.ActiveCard = this;
             StartCoroutine(CardFollower);
         }
@@ -119,7 +119,6 @@ public class CardCombat : Card
         {
             combatController.CancelCardSelection(this.gameObject);
             StopCoroutine(CardFollower);
-            Debug.Log("Hej");
         }
         if(selected == false)
             DisplayCard();
