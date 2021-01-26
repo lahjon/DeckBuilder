@@ -54,7 +54,7 @@ public class CombatController : MonoBehaviour
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
 
-    [HideInInspector]
+    //[HideInInspector]
     public CardCombat ActiveCard;
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy;
@@ -69,20 +69,36 @@ public class CombatController : MonoBehaviour
         // DEBUG
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
-
     }
 
    
     void Update()
     {
-        for(int i = 0; i < AlphaNumSelectCards.Length && i < Deck.Count; i++)
+        for(int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
         {
-            if (Input.GetKeyDown(AlphaNumSelectCards[i]))
+            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
             {
-                Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                if(ActiveCard)
+                {
+                    if(ActiveCard != Hand[i].GetComponent<CardCombat>())
+                    {
+                        ActiveCard.OnMouseRightClick();
+                        Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                    }
+                    else
+                    {
+                        ActiveCard.OnMouseRightClick();
+                    }
+                }
+                else
+                {
+                    Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                }
                 break;
             }
         }
+        if(Input.GetKeyDown(KeyCode.Space ) && WorldSystem.instance.worldState == WorldState.Combat)
+            NextTurn();
     }
 
     public void SetUpEncounter()
@@ -176,6 +192,10 @@ public class CombatController : MonoBehaviour
 
     public bool CardisSelectable(Card card)
     {
+        if (card.cardData.cost > cEnergy)
+        {
+            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
+        }
         return ActiveCard is null && card.cardData.cost <= cEnergy;
     }
 
@@ -220,6 +240,7 @@ public class CombatController : MonoBehaviour
         EnemiesInScene.ForEach(x => x.TakeTurn());
 
         DrawCards(DrawCount);
+        Hand.ForEach(x => x.GetComponent<CardCombat>().selected = false);
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
         txtDeck.text = "Deck:\n" + Deck.Count;
         txtDiscard.text = "Discard:\n" + Discard.Count;

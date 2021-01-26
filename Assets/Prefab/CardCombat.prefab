@@ -179,6 +179,7 @@ MonoBehaviour:
   costText: {fileID: 1577957615183275145}
   damageText: {fileID: 1577957615296818472}
   blockText: {fileID: 1577957615692851394}
+  previousState: 0
   combatController: {fileID: 0}
   cardPanel: {fileID: 0}
   transitionCurve:
@@ -187,15 +188,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1.0023761
-      inSlope: -0.12076629
-      outSlope: -0.12076629
+      inSlope: -0.16355853
+      outSlope: -0.16355853
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.83982205
-      value: 0.9009539
+      time: 0.37315336
+      value: 0.94134367
       inSlope: -0.3022516
       outSlope: -0.3022516
       tangentMode: 0
@@ -203,17 +204,18 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 1
     - serializedVersion: 3
-      time: 1
-      value: -0.0050854683
-      inSlope: -5.656455
-      outSlope: -5.656455
+      time: 0.5083313
+      value: 0.011546612
+      inSlope: -6.8783193
+      outSlope: -6.8783193
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  selected: 0
 --- !u!114 &1568275771
 MonoBehaviour:
   m_ObjectHideFlags: 0

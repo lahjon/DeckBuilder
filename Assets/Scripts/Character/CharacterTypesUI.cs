@@ -9,9 +9,7 @@ using System.Linq;
 public class CharacterTypesUI : MonoBehaviour
 {
     public EventSystem eventSystem;
-
     private GameObject lastSelectedObject;     
-
     public List<TMP_Text> allTexts;
 
     public void HightlightButton(TMP_Text aText)

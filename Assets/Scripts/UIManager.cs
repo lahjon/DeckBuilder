@@ -6,4 +6,5 @@ public class UIManager : MonoBehaviour
 {
     public GameObject ui;
     public RewardScreen rewardScreen;
+    public UIWarningController UIWarningController;
 }

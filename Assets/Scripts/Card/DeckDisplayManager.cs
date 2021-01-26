@@ -28,10 +28,18 @@ public class DeckDisplayManager : MonoBehaviour
 
     void Start()
     {
+        canvas.gameObject.SetActive(true);
         backgroundPanel.SetActive(false);
         clickableArea.SetActive(false);
         deckDisplay.SetActive(false);
     }
+
+    void Update()
+    {
+        if(selectedCard != null)
+            Debug.Log("Yes");
+    }
+
 
     public void UpdateAllCards()
     {
