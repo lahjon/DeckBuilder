@@ -8,6 +8,7 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text healthValue;
     public TMP_Text goldValue;
     public TMP_Text worldState;
+    public TMP_Text worldTier;
 
     public void UpdateUI()
     {
@@ -16,6 +17,7 @@ public class CharacterVariablesUI : MonoBehaviour
         int gold = WorldSystem.instance.characterManager.gold;
         healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
         goldValue.text = gold.ToString();
+        worldTier.text = "Act " + WorldSystem.instance.act.ToString();
 
         //DEBUG:
         worldState.text = WorldSystem.instance.worldState.ToString();

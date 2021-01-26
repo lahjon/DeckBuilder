@@ -87,13 +87,17 @@ public enum WorldState
 
 public enum EncounterType
 {
-    Start,
-    RandomEvent,
-    Shop,
-    CombatNormal,
-    CombatElite,
-    CombatBoss,
-    Transition
+    OverworldStart,
+    OverworldRandomEvent,
+    OverworldShop,
+    OverworldCombatNormal,
+    OverworldCombatElite,
+    OverworldCombatBoss,
+    OverworldTransition,
+    TownShop,
+    TownLeave,
+    TownTavern,
+    TownPray
 }
 
 public enum EncounterValue

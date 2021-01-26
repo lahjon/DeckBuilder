@@ -43,6 +43,7 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Deck = new List<GameObject>();
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
+    public List<GameObject> createdCards = new List<GameObject>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -74,7 +75,7 @@ public class CombatController : MonoBehaviour
    
     void Update()
     {
-        for (int i = 0; i < Mathf.Min(AlphaNumSelectCards.Length, Hand.Count); i++)
+        for(int i = 0; i < AlphaNumSelectCards.Length && i < Deck.Count; i++)
         {
             if (Input.GetKeyDown(AlphaNumSelectCards[i]))
             {
@@ -88,6 +89,8 @@ public class CombatController : MonoBehaviour
     {
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
+
+        encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
 
         for(int i = 0; i < encounterData.enemyData.Count; i++)
         {
@@ -187,6 +190,7 @@ public class CombatController : MonoBehaviour
         Card.cardPanel = cardPanel.GetComponent<RectTransform>();
         Card.combatController = this;
         Card.BindCardData();
+        createdCards.Add(CardObject);
         HideCard(CardObject);
         return CardObject;
     }
@@ -307,9 +311,9 @@ public class CombatController : MonoBehaviour
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
-        while (cardPanel.childCount > 0)
+        foreach (GameObject card in createdCards)
         {
-            DestroyImmediate(cardPanel.GetChild(0).gameObject);
+            DestroyImmediate(card);
         }
     }
 }

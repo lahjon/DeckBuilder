@@ -3,34 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Encounter : MonoBehaviour
+public abstract class Encounter : MonoBehaviour
 {
     public EncounterData encounterData;
     public SpriteRenderer spriteRenderer; 
     public Material matHighlight;
     public Material matNormal;
-    public Material matCleared;
+    public Material matVisited;
     public List<Encounter> neighbourEncounters;
+    
     [HideInInspector]
     public EncounterUI encounterUI;
     //[HideInInspector]
     public GameObject newEncounterUIPrefab;
-    private bool highlighted;
+    protected bool highlighted;
     [HideInInspector]
     public EncounterType encounterType;
-    private bool isCleared;
-    private bool isClicked;
+    protected bool isVisited;
+    protected bool isClicked;
 
     public void UpdateEncounters()
     {
         if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.allEncounters[0])
         {
-            SetIsCleared(false);
+            SetIsVisited(false);
         }
         encounterType = encounterData.type;
         encounterUI = encounterData.encounterUI;
 
-        isCleared = encounterData.isCleared;
+        isVisited = encounterData.isVisited;
         UpdateIcon();
     }
 
@@ -40,81 +41,22 @@ public class Encounter : MonoBehaviour
         if(WorldSystem.instance.previousState != WorldState.MainMenu)
             UpdateEncounters();
     }
-    void OnMouseOver()
-    {
-        
-        if(!isCleared && WorldSystem.instance.worldState == WorldState.Overworld)
-        {
-            if(!highlighted)
-                SetHighlightedMat();
-            highlighted = true;
-        }
+    protected abstract void OnMouseOver();
 
-    }
-
-    bool CheckViablePath(Encounter anEncounter)
-    {
-        foreach (Encounter x in WorldSystem.instance.encounterManager.currentEncounter.neighbourEncounters)
-        {
-            if(x == anEncounter)
-                return true;
-        }
-        return false;
-
-    }
+    protected abstract bool CheckViablePath(Encounter anEncounter);
 
     void OnMouseExit()
     {
-        if(!isCleared)
+        if(!isVisited)
         {
             highlighted = false;
             SetNormalMat();
         }
     }
 
-    void OnMouseDown()
-    {
-        if(!isCleared && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
-        {
-            switch (this.encounterType)
-            {
-                case EncounterType.CombatNormal:
-                    Debug.Log("Enter Combat!");
-                    SetIsCleared(false);
-                    WorldSystem.instance.EnterCombat();
-                    break;
-                
-                case EncounterType.CombatElite:
-                    Debug.Log("Enter Elite Combat!");
-                    SetIsCleared(false);
-                    WorldSystem.instance.EnterCombat();
-                    break;
-                
-                case EncounterType.CombatBoss:
-                    Debug.Log("Enter Boss Combat!");
-                    SetIsCleared(false);
-                    WorldSystem.instance.EnterCombat();
-                    break;
+    protected abstract void OnMouseDown();
 
-                case EncounterType.Shop:
-                    WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
-                    WorldSystem.instance.shopManager.shop.RestockShop();
-                    SetIsCleared(false);
-                    WorldSystem.instance.SwapState(WorldState.Shop);
-                    Debug.Log("Enter Shop!");
-                    break;
-                
-                default:
-                    isClicked = true;
-                    CreateUI();
-                    break;
-            }
-        }
-    }
-
-
-
-    void CreateUI()
+    protected void CreateUI()
     {
         if(encounterData.encounterUI != null)
         {
@@ -134,7 +76,7 @@ public class Encounter : MonoBehaviour
         encounterUI = encounterData.encounterUI;
     }
 
-    void SetHighlightedMat()
+    protected void SetHighlightedMat()
     {
         GetComponent<Renderer>().material = matHighlight;
     }
@@ -142,12 +84,12 @@ public class Encounter : MonoBehaviour
     {
         GetComponent<Renderer>().material = matNormal;
     }
-    public void SetIsCleared(bool destroyUI)
+    public void SetIsVisited(bool destroyUI)
     {
-        isCleared = true;
+        isVisited = true;
         if(destroyUI)
             DestroyUI();
-        GetComponent<Renderer>().material = matCleared;
+        GetComponent<Renderer>().material = matVisited;
         WorldSystem.instance.encounterManager.currentEncounter = this;
     }
 

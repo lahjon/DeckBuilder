@@ -10,19 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
-  m_Name: Encounter_Start_01
+  m_Name: Encounter_Town_Pray
   m_EditorClassIdentifier: 
-  name: Start Act 1
-  type: 1
+  name: 
+  type: 10
   tier: 0
-  encounterOutcome:
-  - type: 0
-    value: 0
-    encounterValue: 0
-  - type: 0
-    value: 0
-    encounterValue: 0
+  encounterOutcome: []
   enemyData: []
   encounterUI: {fileID: 0}
-  isVisited: 1
-  description: This is the start of your journey.
+  isVisited: 0
+  description: 

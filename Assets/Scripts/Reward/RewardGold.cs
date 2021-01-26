@@ -29,11 +29,11 @@ public class RewardGold : Reward
 
         switch (encounterType)
         {
-            case EncounterType.CombatElite:
+            case EncounterType.OverworldCombatElite:
                 multiplier += eliteMultiplier;
                 break;
 
-            case EncounterType.CombatBoss:
+            case EncounterType.OverworldCombatBoss:
                 multiplier += bossMultiplier;
                 break;
             

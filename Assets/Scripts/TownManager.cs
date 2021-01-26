@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class TownManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void EnterTavern()
+    {
+
+    }
+
+    public void EnterPray()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void LeaveTown()
+    {
+        WorldSystem.instance.StartNewAct();
+    }
+
+    public void EnterShop()
     {
         
     }
