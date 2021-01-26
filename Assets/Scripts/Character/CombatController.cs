@@ -28,6 +28,8 @@ public class CombatController : MonoBehaviour
     public float handHeight = -75;
     public int energyTurn = 3;
 
+    KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
+
     [HideInInspector]
     public int backingEnergy;
     [HideInInspector]
@@ -70,52 +72,15 @@ public class CombatController : MonoBehaviour
 
     }
 
+   
     void Update()
     {
-        if(WorldSystem.instance.worldState == WorldState.Combat)
+        for(int i = 0; i < AlphaNumSelectCards.Length && i < Deck.Count; i++)
         {
-            if (Input.GetKeyDown("1"))
+            if (Input.GetKeyDown(AlphaNumSelectCards[i]))
             {
-                Debug.Log("HOWEE");
-                if(Hand.Count > 0)
-                {
-                    Hand[0].GetComponent<CardCombat>().OnMouseDown();
-                }
-            }
-            if (Input.GetKeyDown("2"))
-            {
-                if(Hand.Count > 1)
-                {
-                    Hand[1].GetComponent<CardCombat>().OnMouseDown();
-                }
-            }
-            if (Input.GetKeyDown("3"))
-            {
-                if(Hand.Count > 2)
-                {
-                    Hand[2].GetComponent<CardCombat>().OnMouseDown();
-                }
-            }
-            if (Input.GetKeyDown("4"))
-            {
-                if(Hand.Count > 3)
-                {
-                    Hand[3].GetComponent<CardCombat>().OnMouseDown();
-                }
-            }
-            if (Input.GetKeyDown("5"))
-            {
-                if(Hand.Count > 4)
-                {
-                    Hand[4].GetComponent<CardCombat>().OnMouseDown();
-                }
-            }
-            if (Input.GetKeyDown("6")) 
-            {
-                if(Hand.Count > 5)
-                {
-                    Hand[5].GetComponent<CardCombat>().OnMouseDown();
-                }
+                Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                break;
             }
         }
     }
