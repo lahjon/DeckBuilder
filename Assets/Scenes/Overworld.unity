@@ -6332,10 +6332,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1234238958452887044, guid: 6c977a706fa3723488b1ae55fd6a82d5, type: 3}
-      propertyPath: m_Name
-      value: CameraPositionAct2
-      objectReference: {fileID: 0}
     - target: {fileID: 1234238959617506633, guid: 6c977a706fa3723488b1ae55fd6a82d5, type: 3}
       propertyPath: m_Name
       value: Act2
@@ -6384,10 +6380,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1234238959890051010, guid: 6c977a706fa3723488b1ae55fd6a82d5, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 109c0916e5ca02f4082219ec701f5ca9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c977a706fa3723488b1ae55fd6a82d5, type: 3}
 --- !u!1 &2099627879
