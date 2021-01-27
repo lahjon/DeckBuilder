@@ -10,9 +10,24 @@ public class CharacterManager : MonoBehaviour
     public int maxHealth;
     public int maxCardReward = 3;
     public CharacterClass characterClass;
+    public int startEnergy = 3;
+    public int startDrawAmount = 3;
+    public int start = 3;
+
+    public Dictionary<CharacterStat, int> stats = new Dictionary<CharacterStat, int>();
+    public int damageModifier, blockModifier, handSize, cardDrawAmount, energy, magicFind;
     
     public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
+
+    void Awake()
+    {
+        foreach(CharacterStat stat in System.Enum.GetValues(typeof(CharacterStat)) )
+        {
+            stats.Add(stat, 0);
+        }
+    }
+
 
     public void AddToCharacter(EncounterOutcomeType type, int value)
     {
@@ -36,6 +51,22 @@ public class CharacterManager : MonoBehaviour
             characterVariablesUI.UpdateUI();
         }
     }
+
+    public void AddStat(CharacterStat stat, int value)
+    {
+        stats[stat] += value; 
+        UpdateModifiers();
+    }
+
+
+    public void UpdateModifiers()
+    {
+        damageModifier = (int)stats[CharacterStat.Strength] / 3;
+        blockModifier = (int)stats[CharacterStat.Endurance] / 3;
+        energy = startEnergy + (int)stats[CharacterStat.Wisdom] / 5;
+        cardDrawAmount = startDrawAmount + (int)stats[CharacterStat.Speed] / 5;
+        magicFind = (int)stats[CharacterStat.Cunning] * 2;
+    } 
 
     public void AddCardDataToDeck(CardData newCardData)
     {

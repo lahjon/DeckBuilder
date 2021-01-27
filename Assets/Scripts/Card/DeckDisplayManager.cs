@@ -34,13 +34,6 @@ public class DeckDisplayManager : MonoBehaviour
         deckDisplay.SetActive(false);
     }
 
-    void Update()
-    {
-        if(selectedCard != null)
-            Debug.Log("Yes");
-    }
-
-
     public void UpdateAllCards()
     {
 
