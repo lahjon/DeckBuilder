@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class EncounterTown : Encounter
 {
+
+    // void Start()
+    // {
+    //     UpdateEncounter();
+    // }
+
+    public override void UpdateEncounter()
+    {
+        encounterType = encounterData.type;
+        encounterUI = encounterData.encounterUI;
+
+        isVisited = encounterData.isVisited;
+        UpdateIcon();
+    }
+
     protected override bool CheckViablePath(Encounter anEncounter)
     {
         if(anEncounter.encounterData.isVisited)
@@ -28,6 +43,7 @@ public class EncounterTown : Encounter
     {
         if(WorldSystem.instance.worldState == WorldState.Town)
         {
+            Debug.Log(this.encounterType);
             switch (this.encounterType)
             {
                 case EncounterType.TownLeave:

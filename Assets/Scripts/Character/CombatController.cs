@@ -319,10 +319,20 @@ public class CombatController : MonoBehaviour
     {
         if(DeadEnemiesInScene.Count == amountOfEnemies)
         {
-            Debug.Log("Victory!");
-            ResetCombat();
-            WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
+            WinCombat();
         }
+    }
+
+    public void WinCombat()
+    {
+        //called from DEBUG
+        while(EnemiesInScene.Count > 0)
+        {
+            KillEnemy(EnemiesInScene[0]);
+        }
+        Debug.Log("Victory!");
+        ResetCombat();
+        WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
     }
 
     void ResetCombat()

@@ -8,28 +8,43 @@ public class RewardScreen : MonoBehaviour
     public EncounterData encounterData;
     public GameObject rewardScreenCard;
     public GameObject rewardScreenCardContent;
+    public GameObject canvas;
     public Reward currentReward;
     public List<GameObject> combatRewardNormal;
     public List<GameObject> combatRewardElite;
     public List<GameObject> combatRewardBoss;
+    int[] keys = new int[] { 1,2,3,4,5};
 
-    void OnEnable()
+    void Update()
     {
-        int iter = 0;
-        while (content.transform.childCount > 0)
+        for(int i = 0; i < keys.Length && i < content.transform.childCount; i++)
         {
-            
-            DestroyImmediate(content.transform.GetChild(0).gameObject);
-            iter++;
-            if(iter > 50)
+            if (Input.GetKeyDown(keys[i].ToString()) && WorldSystem.instance.worldState == WorldState.Reward)
             {
-                Debug.Log("safety break in loop if error");
+                Reward tempReward = content.transform.GetChild(keys[i] - 1).GetComponent<Reward>();
+                if(tempReward is RewardCard)
+                {
+                    tempReward.OnClick(false);
+                }
+                else if (tempReward is RewardGold)
+                {
+                    tempReward.OnClick();
+                }
                 break;
             }
         }
+        if(Input.GetKeyDown(KeyCode.Space ) && WorldSystem.instance.worldState == WorldState.Reward)
+            RemoveRewardScreen();
+    }
+
+    void OnCanvasEnable()
+    {
+        while (content.transform.childCount > 0)
+        {
+            DestroyImmediate(content.transform.GetChild(0).gameObject);
+        }
 
         encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
-        Debug.Log(encounterData.type);
 
         switch (encounterData.type)
         {
@@ -60,19 +75,21 @@ public class RewardScreen : MonoBehaviour
         {
             GameObject newObject = Instantiate(reward, new Vector3(0, 0, 0), Quaternion.identity);
             newObject.transform.SetParent(content.transform);
+            newObject.transform.localScale =  new Vector3(1, 1, 1);
         }
     }
     public void GetCombatReward()
     {
+        OnCanvasEnable();
         WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
         
         WorldSystem.instance.SwapState(WorldState.Reward);
-        gameObject.SetActive(true);
+        canvas.SetActive(true);
     }
 
     public void RemoveRewardScreen()
     {
-        gameObject.SetActive(false);
+        canvas.SetActive(false);
         if(encounterData.type == EncounterType.OverworldCombatBoss)
             WorldSystem.instance.EndCombat(true);
         else

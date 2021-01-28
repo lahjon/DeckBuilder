@@ -24,6 +24,11 @@ public class DebugUI : MonoBehaviour
         WorldSystem.instance.characterManager.AddStat(CharacterStat.Strength, 1);
         WorldSystem.instance.uiManager.characterSheet.UpdateCharacterSheet();
     }
+    public void DebugWinCombat()
+    {
+        if(WorldSystem.instance.worldState == WorldState.Combat)
+            WorldSystem.instance.combatManager.combatController.WinCombat();
+    }
 
     public void ToggleDebugMenu()
     {
@@ -36,4 +41,5 @@ public class DebugUI : MonoBehaviour
             canvas.SetActive(true);
         }
     }
+
 }

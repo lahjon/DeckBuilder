@@ -22,25 +22,8 @@ public abstract class Encounter : MonoBehaviour
     protected bool isVisited;
     protected bool isClicked;
 
-    public void UpdateEncounters()
-    {
-        if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.allEncounters[0])
-        {
-            SetIsVisited(false);
-        }
-        encounterType = encounterData.type;
-        encounterUI = encounterData.encounterUI;
+    public abstract void UpdateEncounter();
 
-        isVisited = encounterData.isVisited;
-        UpdateIcon();
-    }
-
-    void Start()
-    {
-        //DEBUG
-        if(WorldSystem.instance.previousState != WorldState.MainMenu)
-            UpdateEncounters();
-    }
     protected abstract void OnMouseOver();
 
     protected abstract bool CheckViablePath(Encounter anEncounter);

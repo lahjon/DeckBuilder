@@ -5,6 +5,20 @@ using UnityEngine;
 public class EncounterOverworld : Encounter
 {
 
+    public override void UpdateEncounter()
+    {
+        
+        if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.overworldEncounters[0])
+        {
+            SetIsVisited(false);
+        }
+        encounterType = encounterData.type;
+        encounterUI = encounterData.encounterUI;
+
+        isVisited = encounterData.isVisited;
+        UpdateIcon();
+    }
+
     protected override bool CheckViablePath(Encounter anEncounter)
     {
         foreach (Encounter x in WorldSystem.instance.encounterManager.currentEncounter.neighbourEncounters)
