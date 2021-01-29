@@ -88,7 +88,6 @@ public class CardCombat : Card
 
     public void ResetPosition(Vector3 position)
     {
-        //StartCoroutine(LerpPosition(position, 0.2f));
         StartCoroutine(CurveTransition(position));
     }
     public override void OnMouseClick()
@@ -108,9 +107,12 @@ public class CardCombat : Card
             if (!combatController.CardisSelectable(this))
                 return;
 
-            selected = true;
-            combatController.ActiveCard = this;
-            StartCoroutine(CardFollower);
+            if(selected == false)
+            {
+                selected = true;
+                combatController.ActiveCard = this;
+                StartCoroutine(CardFollower);
+            }
         }
     }
     public override void OnMouseRightClick()

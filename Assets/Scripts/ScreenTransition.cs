@@ -8,18 +8,27 @@ public class ScreenTransition : MonoBehaviour
 
     public AnimationCurve transitionCurve;
     public bool useCurve = false;
-    void OnEnable()
+    public GameObject canvas;
+    public void ToggleActive()
     {
-        FadeToColor();
+        if(canvas.activeSelf == false)
+        {
+            canvas.SetActive(true);
+            FadeToColor();
+        }
+        else
+        {
+            canvas.SetActive(false);
+        }
     }
-    public void DeactiveCanvas()
-    {
-        gameObject.SetActive(false);
-    }
-    public void FadeToColor()
+    // private void DeactiveCanvas()
+    // {
+    //     canvas.SetActive(false);
+    // }
+    private void FadeToColor()
     {
         WorldSystem.instance.SwapState(WorldState.Transition);
-        Color color = gameObject.GetComponent<Image>().color;
+        Color color = canvas.GetComponent<Image>().color;
         if(useCurve == false)
             StartCoroutine(FadeTo(0, 2, color));
         else
@@ -30,29 +39,26 @@ public class ScreenTransition : MonoBehaviour
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / time)
         {
             Color newColor = new Color(color.r, color.g, color.b, Mathf.Lerp(color.a,value,t));
-            gameObject.GetComponent<Image>().color = newColor;
+            canvas.GetComponent<Image>().color = newColor;
             yield return null;
         }
-        DeactiveCanvas();
-        gameObject.GetComponent<Image>().color = color;
-        //if(WorldSystem.instance.worldState != WorldState.Town)
+        ToggleActive();
+        canvas.GetComponent<Image>().color = color;
         WorldSystem.instance.SwapStatePrevious();
     }
 
     IEnumerator FadeToCurve(float value, Color color)
     {
         float time = transitionCurve.keys[transitionCurve.length -1].time;
-        Debug.Log(time);
         while(time > 0.0f)
         {
-            Debug.Log(transitionCurve.Evaluate(time));
                 Color newColor = new Color(color.r, color.g, color.b, transitionCurve.Evaluate(time));
-                gameObject.GetComponent<Image>().color = newColor;
+                canvas.GetComponent<Image>().color = newColor;
                 time -= Time.deltaTime;
                 yield return null;
         }
-        DeactiveCanvas();
-        gameObject.GetComponent<Image>().color = color;
+        ToggleActive();
+        canvas.GetComponent<Image>().color = color;
         WorldSystem.instance.SwapStatePrevious();
     }
 }

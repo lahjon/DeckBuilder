@@ -38,7 +38,7 @@ public enum CharacterClass
 
 public enum CharacterVariables
 {
-    Health, 
+    MaxHealth, 
     Gold
 };
 

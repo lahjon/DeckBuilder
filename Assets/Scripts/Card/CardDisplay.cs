@@ -18,6 +18,7 @@ public class CardDisplay : Card
     {
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
     }
+    
 
     public override void OnMouseExit()
     {

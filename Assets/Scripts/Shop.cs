@@ -13,6 +13,12 @@ public class Shop : MonoBehaviour
     {
         RestockShop();
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && WorldSystem.instance.worldState == WorldState.Shop)
+            LeaveShop();
+    }
     void UpdateCardPrices()
     {
         for (int i = 0; i < cardsInStock.Count; i++)

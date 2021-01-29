@@ -28,6 +28,7 @@ public class DeckDisplayManager : MonoBehaviour
 
     void Start()
     {
+        canvas.gameObject.SetActive(true);
         backgroundPanel.SetActive(false);
         clickableArea.SetActive(false);
         deckDisplay.SetActive(false);
