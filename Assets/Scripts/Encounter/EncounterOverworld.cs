@@ -12,10 +12,14 @@ public class EncounterOverworld : Encounter
         {
             SetIsVisited(false);
         }
+        else
+        {
+            SetNormalMat();
+        }
         encounterType = encounterData.type;
         encounterUI = encounterData.encounterUI;
 
-        isVisited = encounterData.isVisited;
+        isVisited = isClicked = encounterData.isVisited;
         UpdateIcon();
     }
 

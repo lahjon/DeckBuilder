@@ -15,8 +15,9 @@ public class EncounterTown : Encounter
         encounterType = encounterData.type;
         encounterUI = encounterData.encounterUI;
 
-        isVisited = encounterData.isVisited;
+        isVisited = isClicked = encounterData.isVisited;
         UpdateIcon();
+        SetNormalMat();
     }
 
     protected override bool CheckViablePath(Encounter anEncounter)

@@ -63,7 +63,7 @@ public abstract class Encounter : MonoBehaviour
     {
         GetComponent<Renderer>().material = matHighlight;
     }
-    void SetNormalMat()
+    protected void SetNormalMat()
     {
         GetComponent<Renderer>().material = matNormal;
     }

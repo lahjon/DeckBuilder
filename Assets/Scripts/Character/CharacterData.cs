@@ -10,4 +10,9 @@ public class CharacterData : ScriptableObject
     public CharacterClass characterClass;
 
     public List<StatModifer> stats;
+    public int maxHealth;
+    public int energy;
+    public int drawAmount;
+    public int gold;
+    public CardDatabase startingDeck;
 }

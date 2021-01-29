@@ -20,11 +20,6 @@ public class CharacterSheet : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        UpdateCharacterSheet();
-    }
-
     public void UpdateCharacterSheet()
     {
         CharacterManager characterManager = WorldSystem.instance.characterManager;

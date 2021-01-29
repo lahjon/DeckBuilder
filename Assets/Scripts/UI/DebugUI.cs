@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugUI : MonoBehaviour
+public class DebugUI : MonoBehaviour, ISaveable
 {
     public GameObject canvas;
+    public int strength;
 
     void Update()
     {
@@ -19,6 +20,11 @@ public class DebugUI : MonoBehaviour
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
     }
 
+    public void DebugTriggerDeathScreen()
+    {
+        WorldSystem.instance.uiManager.deathScreen.TriggerDeathscreen();
+    }
+
     public void DebugAddStrength()
     {
         WorldSystem.instance.characterManager.AddStat(CharacterStat.Strength, 1);
@@ -29,7 +35,6 @@ public class DebugUI : MonoBehaviour
         if(WorldSystem.instance.worldState == WorldState.Combat)
             WorldSystem.instance.combatManager.combatController.WinCombat();
     }
-
     public void ToggleDebugMenu()
     {
         if(canvas.activeSelf)
@@ -40,6 +45,33 @@ public class DebugUI : MonoBehaviour
         {
             canvas.SetActive(true);
         }
+    }
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+        a_SaveData.strength = strength;
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+        strength = a_SaveData.strength;
+        Debug.Log(strength);
+    }
+
+    public void DebugPermanentMaxHealth()
+    {
+        strength++;
+        Debug.Log(strength);
+    }
+
+    public void DebugLoadGame()
+    {
+        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+        Debug.Log(strength);
+    }
+    public void DebugSaveGmae()
+    {
+        SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+        Debug.Log(strength);
     }
 
 }

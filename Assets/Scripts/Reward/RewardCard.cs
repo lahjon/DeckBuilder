@@ -18,7 +18,7 @@ public class RewardCard : Reward
     {
         WorldSystem.instance.uiManager.rewardScreen.currentReward = this.GetComponent<RewardCard>();
 
-        if(cards.Count <  WorldSystem.instance.characterManager.maxCardReward)
+        if(cards.Count < WorldSystem.instance.characterManager.maxCardReward)
         {
             GameObject newCard = Instantiate(cardDisplayPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
             newCard.transform.SetParent(WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent.transform);
@@ -39,10 +39,6 @@ public class RewardCard : Reward
             card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard();
             card.GetComponent<CardDisplay>().BindCardData();
         }
-
-        // WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent
-        //WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent
-        
     }
     
 

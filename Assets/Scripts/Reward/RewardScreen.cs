@@ -19,16 +19,18 @@ public class RewardScreen : MonoBehaviour
     {
         for(int i = 0; i < keys.Length && i < content.transform.childCount; i++)
         {
-            if (Input.GetKeyDown(keys[i].ToString()) && WorldSystem.instance.worldState == WorldState.Reward)
+            if (Input.GetKeyDown(keys[i].ToString()) && WorldSystem.instance.worldState == WorldState.Reward && currentReward == null)
             {
-                Reward tempReward = content.transform.GetChild(keys[i] - 1).GetComponent<Reward>();
-                if(tempReward is RewardCard)
+                Reward currentReward = content.transform.GetChild(keys[i] - 1).GetComponent<Reward>();
+                if(currentReward is RewardCard)
                 {
-                    tempReward.OnClick(false);
+                    //currentReward = tempReward;
+                    currentReward.OnClick(false);
                 }
-                else if (tempReward is RewardGold)
+                else if (currentReward is RewardGold)
                 {
-                    tempReward.OnClick();
+                    //currentReward = tempReward;
+                    currentReward.OnClick();
                 }
                 break;
             }
@@ -62,9 +64,13 @@ public class RewardScreen : MonoBehaviour
         }
     }
 
-    public void ResetCurrentReward()
+    public void ResetCurrentReward(bool collect = true)
     {
-        currentReward.OnClick();
+        if(collect == true && currentReward != null)
+        {
+            currentReward.OnClick();
+        }
+        currentReward = null;
         rewardScreenCard.SetActive(false);
     }
 

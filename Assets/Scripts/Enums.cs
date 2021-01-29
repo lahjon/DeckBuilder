@@ -82,7 +82,8 @@ public enum WorldState
     Overworld,
     Menu,
     Town,
-    Transition
+    Transition,
+    Dead
 }
 
 public enum EncounterType

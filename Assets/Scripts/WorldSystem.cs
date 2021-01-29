@@ -39,7 +39,7 @@ public class WorldSystem : MonoBehaviour
     void Start()
     {
         if(worldState != WorldState.MainMenu)
-                    UpdateStartScene();
+            UpdateStartScene();
     }
 
     public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)
@@ -147,20 +147,36 @@ public class WorldSystem : MonoBehaviour
     }
     private void UpdateStartScene()
     {
-        //character.MoveToLocation(encounterManager.GetStartPositionEncounter(), encounterManager.allEncounters[0]);
         GetAllReferences();
     }
 
-    public void StartNewAct()
+    public void Reset()
     {
-        act += 1;
+        characterManager.Reset();
+        StartNewAct(true);
+    }
+
+    public void StartNewAct(bool reset = false)
+    {
+        if(reset == true)
+        {
+            act = 1;
+        }
+        else
+        {
+            act += 1;    
+        }
         characterManager.characterVariablesUI.UpdateUI();
         SwapState(WorldState.Overworld);
         Debug.Log(act);
         encounterManager.UpdateAllOverworldEncounters(act);
         cameraManager.mainCamera.transform.position = cameraManager.actCameraPos[act - 1].transform.position;
         cameraManager.mainCamera.transform.rotation = cameraManager.actCameraPos[act - 1].transform.rotation;
-        cameraManager.ToggleCamera(cameraManager.mainCamera);
+        if(reset == false)
+        {
+            cameraManager.ToggleCamera(cameraManager.mainCamera); 
+        }
+        
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

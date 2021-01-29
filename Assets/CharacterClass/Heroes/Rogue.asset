@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charName: KalleKanin
   artwork: {fileID: 21300000, guid: 85d8cbcaab452f74fa3d8a7b4a74bcaf, type: 3}
-  characterType: 1
+  characterClass: 2
   stats:
   - type: 0
     value: -1
@@ -26,4 +26,8 @@ MonoBehaviour:
     value: -1
   - type: 4
     value: 1
-  startingDeck: []
+  maxHealth: 20
+  energy: 4
+  drawAmount: 5
+  gold: 99
+  startingDeck: {fileID: 11400000, guid: 90cc3b3949fee4b4dbb925cd1d98cecc, type: 2}

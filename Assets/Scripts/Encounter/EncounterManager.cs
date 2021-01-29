@@ -24,7 +24,6 @@ public class EncounterManager : MonoBehaviour
         {   
             Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();
             overworldEncounters.Add(e);
-            Debug.Log(e);
             e.UpdateEncounter();
         }
     }
@@ -32,7 +31,6 @@ public class EncounterManager : MonoBehaviour
     {
         encounterTier = act;
         Transform t = townEncounter.transform;
-        Debug.Log( t.childCount);
         for (int i = 0; i < t.childCount; i++)
         {   
             Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();

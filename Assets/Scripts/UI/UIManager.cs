@@ -8,4 +8,5 @@ public class UIManager : MonoBehaviour
     public RewardScreen rewardScreen;
     public UIWarningController UIWarningController;
     public CharacterSheet characterSheet;
+    public DeathScreen deathScreen;
 }

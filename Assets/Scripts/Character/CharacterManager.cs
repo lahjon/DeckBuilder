@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CharacterManager : MonoBehaviour
 {
     // should match all items from CharacterVariables Enum
     public int gold;
+    public int startingGold = 99;
     public int currentHealth;
     public int maxHealth;
     public int maxCardReward = 3;
     public CharacterClass characterClass;
-    public int startEnergy = 3;
-    public int startDrawAmount = 3;
-    public int start = 3;
+    public int startEnergy;
+    public int startDrawAmount;
+    public CharacterData characterData;
 
     public Dictionary<CharacterStat, int> stats = new Dictionary<CharacterStat, int>();
     public int damageModifier, blockModifier, handSize, cardDrawAmount, energy, magicFind;
@@ -20,12 +22,35 @@ public class CharacterManager : MonoBehaviour
     public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
 
-    void Awake()
+    void Start()
     {
+        BindCharacterData();
+        characterVariablesUI.UpdateUI();
+    }
+
+    public void Reset()
+    {
+        BindCharacterData();
+    }
+
+    private void BindCharacterData()
+    {
+        playerCardsData.Clear();
+        stats.Clear();
+
+        gold = characterData.gold;
+        maxHealth = characterData.maxHealth;
+        startDrawAmount = characterData.drawAmount;
+        startEnergy = characterData.energy;
+        characterClass = characterData.characterClass;
+        characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
+
         foreach(CharacterStat stat in System.Enum.GetValues(typeof(CharacterStat)) )
         {
             stats.Add(stat, 0);
         }
+
+        currentHealth = maxHealth;
     }
 
 
