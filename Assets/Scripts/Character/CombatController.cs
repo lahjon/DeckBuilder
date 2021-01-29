@@ -232,6 +232,7 @@ public class CombatController : MonoBehaviour
 
     public void NextTurn()
     {
+        Hero.healthEffects.EffectsStartTurn();
         while (Hand.Count > 0)
             SendCardToDiscard(Hand[0]);
 
@@ -247,7 +248,8 @@ public class CombatController : MonoBehaviour
         
         cEnergy = energyTurn;
         Hero.healthEffects.RemoveAllBlock();
-        EnemiesInScene.ForEach(x => x.GetComponentInChildren<HealthEffects>().EffectsStartTurn());
+        EnemiesInScene.ForEach(x => x.healthEffects.EffectsStartTurn());
+        
     }
 
     public void SendCardToDiscard(GameObject card)
