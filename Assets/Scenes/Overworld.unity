@@ -8860,9 +8860,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1764640840}
         m_TargetAssemblyTypeName: RewardScreen, Assembly-CSharp
-        m_MethodName: ResetCurrentReward
+        m_MethodName: RemoveRewardScreen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9022,7 +9022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 951404445}
   currentCamera: {fileID: 951404445}
-  previousCamera: {fileID: 0}
+  previousCamera: {fileID: 951404445}
   townCamera: {fileID: 2084809945}
   actCameraPos:
   - {fileID: 447131430}
@@ -9072,23 +9072,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gold: 500
+  startingGold: 99
   currentHealth: 4
   maxHealth: 10
   maxCardReward: 3
   characterClass: 0
   startEnergy: 3
   startDrawAmount: 3
-  start: 3
+  characterData: {fileID: 11400000, guid: ca0ae09d586ff414d8cf410e487ba9c1, type: 2}
   damageModifier: 0
   blockModifier: 0
   handSize: 10
   cardDrawAmount: 5
   energy: 0
   magicFind: 0
-  playerCardsData:
-  - {fileID: 11400000, guid: af70494e09f021c4bb9fb91c718b2f49, type: 2}
-  - {fileID: 11400000, guid: dfcf0a3a17781a2418d9f1e02a657aff, type: 2}
-  - {fileID: 11400000, guid: ae45b08577f41a24eb0e1503bb71b5bf, type: 2}
+  playerCardsData: []
   characterVariablesUI: {fileID: 2131869295}
 --- !u!4 &1402112390
 Transform:
@@ -9495,7 +9493,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1422591607}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1430414722}
+        m_TargetAssemblyTypeName: DeathScreen, Assembly-CSharp
+        m_MethodName: BackToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1422591607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9604,7 +9614,25 @@ MonoBehaviour:
     m_RotationOrder: 4
   textCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.008333334
+      value: 0.011792453
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9875
+      value: 1.0070754
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -14139,6 +14167,42 @@ PrefabInstance:
     - target: {fileID: 1234238958452887044, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
       propertyPath: m_Name
       value: CameraPositionAct1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -29.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 15.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.6903456
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.15304591
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.6903456
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.15304591
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1234238958452887045, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1234238959617506633, guid: e6fda5d652ba3dd4cad8dfedf372729c, type: 3}
       propertyPath: m_Name
