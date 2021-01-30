@@ -40,7 +40,11 @@ public class WorldSystem : MonoBehaviour
     {
         if(worldState != WorldState.MainMenu)
             UpdateStartScene();
+
     }
+
+
+
 
     public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)
     {

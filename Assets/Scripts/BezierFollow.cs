@@ -60,7 +60,7 @@ public class BezierFollow : MonoBehaviour
         tParam = 0f;
         this.GetComponent<CardCombat>().selected = false;
         this.GetComponent<CardCombat>().inTransition = false;
-        this.GetComponent<CardCombat>().combatController.CheckInTransition(false);
+        this.GetComponent<CardCombat>().combatController.CardDemarkTransition(gameObject);
 
         transform.localScale = new Vector3(1,1,1);
         this.gameObject.SetActive(false);
