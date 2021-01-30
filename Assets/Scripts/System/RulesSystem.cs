@@ -19,6 +19,9 @@ public class RulesSystem : MonoBehaviour
 
     CombatController combatController;
     
+    Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>> enemyToActionsStartTurn = new Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>>();
+
+
     private void Awake()
     {
         if (instance == null)
@@ -42,6 +45,26 @@ public class RulesSystem : MonoBehaviour
     }
 
 
+    public void SetupEnemyStartingRules()
+    {
+        for (int i = 0; i < combatController.EnemiesInScene.Count; i++)
+        {
+            enemyToActionsStartTurn[combatController.EnemiesInScene[i]] = new List<Func<CombatActorEnemy, IEnumerator>>();
+            enemyToActionsStartTurn[combatController.EnemiesInScene[i]].Add(EnemyRemoveAllBlock);
+        }
+    }
+
+
+    public IEnumerator EnemiesStartTurn()
+    {
+        foreach (CombatActorEnemy enemy in combatController.EnemiesInScene)
+            yield return StartCoroutine(EnemyStartTurn(enemy));
+
+        combatController.EnemiesInScene.ForEach(x => x.TakeTurn());
+    }
+
+
+
     public IEnumerator StartTurn()
     {
         Debug.Log("StartTurnEnum with " + actionsStartTurnEnum.Count + " actions in list");
@@ -51,16 +74,24 @@ public class RulesSystem : MonoBehaviour
     }
 
 
+
+    public IEnumerator EnemyStartTurn(CombatActorEnemy enemy)
+    {
+        for (int i = 0; i < enemyToActionsStartTurn[enemy].Count; i++)
+            yield return StartCoroutine(enemyToActionsStartTurn[enemy][i].Invoke(enemy));
+    }
+
+
     IEnumerator HeroRemoveAllBlock()
     {
         combatController.Hero.healthEffects.RemoveAllBlock();
         yield return new WaitForSeconds(1);
     }
 
-    IEnumerator EnemyRemoveAllBlock()
+    IEnumerator EnemyRemoveAllBlock(CombatActorEnemy enemy)
     {
-        combatController.EnemiesInScene.ForEach(x => x.healthEffects.RemoveAllBlock());
-        yield return new WaitForSeconds(1);
+        enemy.healthEffects.RemoveAllBlock();
+        yield return new WaitForSeconds(0.01f);
     }
 
     IEnumerator ResetRemainingEnergy()
@@ -69,6 +100,12 @@ public class RulesSystem : MonoBehaviour
         combatController.cEnergy = combatController.energyTurn;
         yield return new WaitForSeconds(1);
         Debug.Log("Leaving Energy Reset");
+    }
+
+
+    public int CalculateDamage(int startingValue, HealthEffects source, HealthEffects target){
+
+        return startingValue;
     }
 
 

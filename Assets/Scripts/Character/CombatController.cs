@@ -134,6 +134,8 @@ public class CombatController : MonoBehaviour
 
         amountOfEnemies = EnemiesInScene.Count;
 
+        RulesSystem.instance.SetupEnemyStartingRules();
+
         InitializeCombat();
     }
 
@@ -253,8 +255,7 @@ public class CombatController : MonoBehaviour
     public void NextTurn()
     {
         // ENEMY TURN'
-        EnemiesInScene.ForEach(x => x.healthEffects.RemoveAllBlock());
-        EnemiesInScene.ForEach(x => x.TakeTurn());
+        StartCoroutine(RulesSystem.instance.EnemiesStartTurn());
 
         DrawCards(DrawCount);
         Hand.ForEach(x => x.GetComponent<CardCombat>().selected = false);
