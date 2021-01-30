@@ -89,7 +89,7 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
 
     public abstract void OnMouseClick();
 
-    public abstract void OnMouseRightClick();
+    public abstract void OnMouseRightClick(bool allowDisplay = true);
 
 
 }

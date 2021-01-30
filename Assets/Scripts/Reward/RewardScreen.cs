@@ -87,8 +87,8 @@ public class RewardScreen : MonoBehaviour
     public void GetCombatReward()
     {
         OnCanvasEnable();
-        WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
         
+        WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
         WorldSystem.instance.SwapState(WorldState.Reward);
         canvas.SetActive(true);
     }

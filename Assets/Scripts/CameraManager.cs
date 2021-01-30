@@ -12,9 +12,11 @@ public class CameraManager : MonoBehaviour
     public List<GameObject> actCameraPos;
     public ScreenTransition screenTransition;
 
-    public void ToggleCamera(Camera aCamera)
+    public void ToggleCamera(Camera aCamera, bool doTransition = true)
     {
-        screenTransition.ToggleActive();
+        if(doTransition)
+            screenTransition.ToggleActive();
+            
         if(currentCamera != aCamera)
         {
             previousCamera = currentCamera;

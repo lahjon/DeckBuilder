@@ -53,7 +53,7 @@ public class CardDisplay : Card
         }
     }
 
-    public override void OnMouseRightClick()
+    public override void OnMouseRightClick(bool allowDisplay = true)
     {
         switch (WorldSystem.instance.worldState)
         {

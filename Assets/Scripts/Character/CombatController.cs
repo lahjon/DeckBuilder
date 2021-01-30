@@ -9,6 +9,7 @@ using TMPro;
 public class CombatController : MonoBehaviour
 {
     public GameObject TemplateCard;
+    public BezierPath bezierPath;
     public GameObject TemplateEnemy;
     public EncounterData encounterData;
     public TMP_Text lblEnergy;
@@ -19,8 +20,8 @@ public class CombatController : MonoBehaviour
 
     public CombatActorHero Hero; 
 
-    public Text txtDeck;
-    public Text txtDiscard;
+    public GameObject txtDeck;
+    public GameObject txtDiscard;
     public int HandSize = 10;
     public int DrawCount = 5;
     public float offset = 50;
@@ -44,6 +45,7 @@ public class CombatController : MonoBehaviour
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
     public List<GameObject> createdCards = new List<GameObject>();
+    private List<GameObject> cardsInTransition = new List<GameObject>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -58,6 +60,7 @@ public class CombatController : MonoBehaviour
     public CardCombat ActiveCard;
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy;
+    public AnimationCurve transitionCurve;
     private void Awake()
     {
         cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
@@ -70,7 +73,6 @@ public class CombatController : MonoBehaviour
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
     }
-
    
     void Update()
     {
@@ -78,27 +80,30 @@ public class CombatController : MonoBehaviour
         {
             if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
             {
-                if(ActiveCard)
+                if(ActiveCard && Hand[i].activeSelf && Hand[i].GetComponent<CardCombat>().inTransition == false)
                 {
                     if(ActiveCard != Hand[i].GetComponent<CardCombat>())
                     {
-                        ActiveCard.OnMouseRightClick();
+                        ActiveCard.OnMouseRightClick(false);
                         Hand[i].GetComponent<CardCombat>().OnMouseDown();
                     }
                     else
                     {
-                        ActiveCard.OnMouseRightClick();
+                        ActiveCard.OnMouseRightClick(false);
                     }
                 }
                 else
                 {
-                    Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                    if(Hand[i].GetComponent<CardCombat>().inTransition == false && Hand[i].activeSelf)
+                    {
+                        Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                    }
                 }
                 break;
             }
         }
         if(Input.GetKeyDown(KeyCode.Space ) && WorldSystem.instance.worldState == WorldState.Combat)
-            NextTurn();
+            EndTurn();
     }
 
     public void SetUpEncounter()
@@ -133,16 +138,6 @@ public class CombatController : MonoBehaviour
     }
 
 
-    private void DisplayHand()
-    {
-        for (int i = 0; i < Hand.Count; i++)
-        {
-            Hand[i].transform.localPosition = GetPositionInHand(i);
-            Hand[i].SetActive(true);
-        }
-
-        ResetSiblingIndexes();
-    }
 
     public Vector3 GetPositionInHand(int CardNr)
     {
@@ -192,7 +187,9 @@ public class CombatController : MonoBehaviour
 
     public bool CardisSelectable(Card card)
     {
-        if (card.cardData.cost > cEnergy)
+        Debug.Log(this);
+        Debug.Log(ActiveCard);
+        if (card.cardData.cost > cEnergy && !card.GetComponent<CardCombat>().selected)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
@@ -205,6 +202,7 @@ public class CombatController : MonoBehaviour
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(cardPanel, false);
         CardObject.transform.localScale = GetCardScale();
+        CardObject.GetComponent<BezierFollow>().route = bezierPath.transform;
         CardCombat Card = CardObject.GetComponent<CardCombat>();
         Card.cardData = cardData;
         Card.cardPanel = cardPanel.GetComponent<RectTransform>();
@@ -218,7 +216,7 @@ public class CombatController : MonoBehaviour
     internal void CancelCardSelection(GameObject gameObject)
     {
         int i = Hand.IndexOf(gameObject);
-        gameObject.GetComponent<CardCombat>().ResetPosition(GetPositionInHand(i));
+        gameObject.GetComponent<CardCombat>().AnimateCardByCurve(GetPositionInHand(i));
         ActiveCard = null;
 
         ResetSiblingIndexes();
@@ -230,41 +228,108 @@ public class CombatController : MonoBehaviour
         DrawCards(DrawCount);
     }
 
-    public void NextTurn()
+    public void EndTurn()
     {
         Hero.healthEffects.EffectsStartTurn();
         while (Hand.Count > 0)
-            SendCardToDiscard(Hand[0]);
+        {
+            cardsInTransition.Add(Hand[0]);
+            SendCardToDiscard(Hand[0], true);
+        }
 
+        StartCoroutine(WaitForAnimationsDiscard());
+    }
+
+    public void NextTurn()
+    {
         // ENEMY TURN'
         EnemiesInScene.ForEach(x => x.healthEffects.RemoveAllBlock());
         EnemiesInScene.ForEach(x => x.TakeTurn());
 
         DrawCards(DrawCount);
         Hand.ForEach(x => x.GetComponent<CardCombat>().selected = false);
+        Hand.ForEach(x => x.transform.localScale = new Vector3(1,1,1));
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
-        txtDeck.text = "Deck:\n" + Deck.Count;
-        txtDiscard.text = "Discard:\n" + Discard.Count;
+        txtDeck.GetComponent<Text>().text = "Deck:\n" + Deck.Count;
+        txtDiscard.GetComponent<Text>().text = "Discard:\n" + Discard.Count;
         
         cEnergy = energyTurn;
         Hero.healthEffects.RemoveAllBlock();
         EnemiesInScene.ForEach(x => x.healthEffects.EffectsStartTurn());
-        
     }
 
-    public void SendCardToDiscard(GameObject card)
+    IEnumerator WaitForAnimationsDiscard()
     {
-        HideCard(card);
+        while (cardsInTransition.Count > 0)
+        {
+            yield return new WaitForSeconds(0.01f);
+        }
+        NextTurn();
+        cardsInTransition.Clear();
+    }
+    IEnumerator WaitForAnimationsDraw()
+    {
+        int i = 0;
+        Debug.Log(Hand.Count);
+        while (i < Hand.Count)
+        {
+            DisplayCard(i);
+            i++;
+            yield return new WaitForSeconds(0.1f);
+        }
+        Debug.Log("Done");
+        ResetSiblingIndexes();
+    }
+
+    public void CheckInTransition(bool inTransition)
+    {
+        if(cardsInTransition.Count > 0)
+            cardsInTransition.RemoveAt(0);
+    }
+
+
+    public void SendCardToDiscard(GameObject card, bool animate = false)
+    {
+        if(animate)
+        {
+            AnimateCardDiscard(card.GetComponent<CardCombat>());
+        }
+        else
+            HideCard(card);
+
         Discard.Add(card);
         card.transform.localScale = GetCardScale();
         Hand.Remove(card);
-        txtDiscard.text = Discard.Count.ToString();
+        txtDiscard.GetComponent<Text>().text = Discard.Count.ToString();
     }
 
     private void HideCard(GameObject gameObject)
     {
         gameObject.transform.position = new Vector3(-10000, -10000, -10000);
         gameObject.SetActive(false);
+    }
+
+    private void AnimateCardDiscard(CardCombat card)
+    {
+        //card.AnimateCardByCurve(txtDiscard.transform.position, true, true, false);
+        card.AnimateCardByPathDiscard();
+    }
+
+    private void AnimateCardDraw(CardCombat card, Vector3 endPos)
+    {
+        card.AnimateCardByCurve(endPos, true, false, true, true);
+    }
+    private void DisplayHand()
+    {
+        StartCoroutine(WaitForAnimationsDraw());
+    }
+
+    private void DisplayCard(int i)
+    {
+        Hand[i].SetActive(true);
+        Hand[i].GetComponent<CardCombat>().transform.position = txtDeck.transform.position;
+        Hand[i].GetComponent<CardCombat>().transform.localScale = Vector3.zero;
+        AnimateCardDraw(Hand[i].GetComponent<CardCombat>(), GetPositionInHand(i));
     }
 
     public void CardUsed(CombatActorEnemy enemy = null)
@@ -305,7 +370,7 @@ public class CombatController : MonoBehaviour
         }
 
 
-        SendCardToDiscard(ActiveCard.gameObject);
+        SendCardToDiscard(ActiveCard.gameObject, true);
         ActiveCard = null;
         CheckVictory();
     }

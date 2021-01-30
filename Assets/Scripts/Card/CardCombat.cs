@@ -9,16 +9,17 @@ public class CardCombat : Card
     [HideInInspector]
     public CombatController combatController;
     public RectTransform cardPanel;
-    public AnimationCurve transitionCurve;
+    public AnimationCurve transitionCurveScaleDiscard;
+    public AnimationCurve transitionCurveScaleDraw;
+    public AnimationCurve transitionCurveTransform;
     public bool selected = false;
+    public bool inTransition = false;
 
 
     void Awake()
     {
         CardFollower = FollowMouseIsSelected();
     }
-
-    
 
     public override void OnMouseEnter()
     {
@@ -56,6 +57,7 @@ public class CardCombat : Card
         }
     }
 
+
     IEnumerator LerpPosition(Vector3 endValue, float duration)
     {
         float time = 0;
@@ -64,32 +66,82 @@ public class CardCombat : Card
 
         while (time < duration)
         {
-            //transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, endValue, ref velocity, duration);
+            transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
+            //transform.localPosition = Vector3.SmoothDamp(transform.localPosition, endValue, ref velocity, duration);
             time += Time.fixedDeltaTime;
             yield return null;
         }
         transform.localPosition = endValue;
     }
 
-    IEnumerator CurveTransition(Vector3 endValue)
+    IEnumerator CurveTransition(Vector3 endValue, bool scale, bool disable, bool useLocal = true, bool invertScale = false)
     {
-        Vector3 startPos = transform.localPosition;
-        float time = transitionCurve.keys[transitionCurve.length - 1].time;
+        inTransition = true;
+        Vector3 startPos;
+        if(useLocal)
+        {
+            startPos = transform.localPosition;
+        }
+        else
+        {
+            startPos = transform.position;
+        }
+
+        float time = transitionCurveTransform.keys[transitionCurveTransform.length - 1].time;
+
         while (time > 0.0f)
         {
-            transform.localPosition = startPos * (1 - transitionCurve.Evaluate(time)) + transitionCurve.Evaluate(time) * endValue;
+            if(useLocal)
+            {
+                transform.localPosition = startPos * (1 - transitionCurveTransform.Evaluate(time)) + transitionCurveTransform.Evaluate(time) * endValue;
+            }
+            else
+            {  
+                transform.position = startPos * (1 - transitionCurveTransform.Evaluate(time)) + transitionCurveTransform.Evaluate(time) * endValue;
+            }
+
+            if (scale)
+            {
+                float tempScale;
+
+                if (invertScale == true)
+                {
+                    tempScale = transitionCurveScaleDraw.Evaluate(time);
+                }
+                else
+                {
+                    tempScale = transitionCurveScaleDiscard.Evaluate(time);
+                }
+
+                transform.localScale = new Vector3(tempScale, tempScale, tempScale);
+            }
 
             time -= Time.deltaTime;
             yield return null;
         }
         selected = false;
+        inTransition = false;
+        combatController.CheckInTransition(false);
+
+        transform.localScale = new Vector3(1,1,1);
+        if(disable)
+        {
+           this.gameObject.SetActive(false);
+        }
     }
 
-    public void ResetPosition(Vector3 position)
+    public void AnimateCardByCurve(Vector3 pos, bool scale = false, bool disable = false, bool useLocal = true, bool invertScale = false)
     {
-        StartCoroutine(CurveTransition(position));
+        StopAllCoroutines();
+        StartCoroutine(CurveTransition(pos, scale, disable, useLocal, invertScale));
     }
+
+    public void AnimateCardByPathDiscard()
+    {
+        StopAllCoroutines();
+        this.GetComponent<BezierFollow>().StartAnimation();
+    }
+    
     public override void OnMouseClick()
     {
         return;
@@ -115,14 +167,14 @@ public class CardCombat : Card
             }
         }
     }
-    public override void OnMouseRightClick()
+    public override void OnMouseRightClick(bool allowDisplay = true)
     {
         if (combatController.ActiveCard == this)
         {
             combatController.CancelCardSelection(this.gameObject);
             StopCoroutine(CardFollower);
         }
-        if(selected == false)
+        if(selected == false && allowDisplay == true)
             DisplayCard();
     }
 
