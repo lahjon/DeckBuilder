@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Linq;
 using TMPro;
+using System.Threading.Tasks;
 
 public class CombatController : MonoBehaviour
 {
@@ -67,12 +68,18 @@ public class CombatController : MonoBehaviour
     }
 
 
+
     void Start()
     {
         // DEBUG
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
+
     }
+
+
+
+
    
     void Update()
     {
@@ -104,6 +111,9 @@ public class CombatController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Space ) && WorldSystem.instance.worldState == WorldState.Combat)
             EndTurn();
+
+        if (Input.GetKeyDown(KeyCode.B))
+            RulesSystem.instance.ToggleBarricade();
     }
 
     public void SetUpEncounter()
@@ -152,7 +162,7 @@ public class CombatController : MonoBehaviour
             Hand[i].transform.SetSiblingIndex(i);
     }
 
-    //Denna m�ste �ndras till att blanda in discard om korten �r slut! 
+
     private void DrawCards(int x)
     {
         for(int i = 0; i < x; i++)
@@ -252,9 +262,9 @@ public class CombatController : MonoBehaviour
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
         txtDeck.GetComponent<Text>().text = "Deck:\n" + Deck.Count;
         txtDiscard.GetComponent<Text>().text = "Discard:\n" + Discard.Count;
-        
-        cEnergy = energyTurn;
-        Hero.healthEffects.RemoveAllBlock();
+
+        StartCoroutine(RulesSystem.instance.StartTurn());
+
         EnemiesInScene.ForEach(x => x.healthEffects.EffectsStartTurn());
     }
 
@@ -281,10 +291,9 @@ public class CombatController : MonoBehaviour
         ResetSiblingIndexes();
     }
 
-    public void CheckInTransition(bool inTransition)
+    public void CardDemarkTransition(GameObject gameObject)
     {
-        if(cardsInTransition.Count > 0)
-            cardsInTransition.RemoveAt(0);
+        cardsInTransition.Remove(gameObject);
     }
 
 

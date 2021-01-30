@@ -78,14 +78,7 @@ public class CardCombat : Card
     {
         inTransition = true;
         Vector3 startPos;
-        if(useLocal)
-        {
-            startPos = transform.localPosition;
-        }
-        else
-        {
-            startPos = transform.position;
-        }
+        startPos = useLocal ? transform.localPosition : transform.position;
 
         float time = transitionCurveTransform.keys[transitionCurveTransform.length - 1].time;
 
@@ -121,7 +114,7 @@ public class CardCombat : Card
         }
         selected = false;
         inTransition = false;
-        combatController.CheckInTransition(false);
+        combatController.CardDemarkTransition(gameObject);
 
         transform.localScale = new Vector3(1,1,1);
         if(disable)
