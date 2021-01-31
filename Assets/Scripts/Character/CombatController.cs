@@ -77,9 +77,6 @@ public class CombatController : MonoBehaviour
 
     }
 
-
-
-
    
     void Update()
     {
