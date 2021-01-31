@@ -38,9 +38,12 @@ public class EffectDisplay : MonoBehaviour
         transform.localScale = fullSize;
     }
 
-    public void SetLabel(int x)
+    public void SetLabel(RuleEffect ruleEffect)
     {
-        effectLabel.text = x.ToString();
+        if (ruleEffect.stackable)
+            effectLabel.text = ruleEffect.nrStacked.ToString();
+        else
+            effectLabel.text = "";
     }
 
 

@@ -11,6 +11,7 @@ public class HealthEffects : MonoBehaviour
     private int shield = 10;
 
     public GameObject cAnchorHealthEffects;
+    public CombatActor combatActor;
 
     private GameObject aAnchorHealthEffects;
     public  Slider sldHealth;
@@ -21,7 +22,8 @@ public class HealthEffects : MonoBehaviour
 
     public EffectDisplayManager effectDisplayManager;
 
-    public Dictionary<EffectType, int> statusEffects = new Dictionary<EffectType, int>();
+
+    public Dictionary<EffectType, RuleEffect> effectTypeToRule = new Dictionary<EffectType, RuleEffect>();
 
     public void Start()
     {
@@ -59,39 +61,40 @@ public class HealthEffects : MonoBehaviour
             Destroy(gameObject);
     }
 
-    public void RecieveEffect(CardEffect effect)
+    public void RecieveEffectNonDamageNonBlock(CardEffect effect)
     {
-        if (effect.Type == EffectType.Damage)
-        {
-            for (int i = 0; i < effect.Times; i++)
-                TakeDamage(effect.Value);
+        if (effectTypeToRule.ContainsKey(effect.Type)) {
+            effectTypeToRule[effect.Type].nrStacked += effect.Value * effect.Times;
+            effectDisplayManager.SetEffect(effect.Type, effectTypeToRule[effect.Type]);
+            return;
         }
-        else if (effect.Type == EffectType.Block)
-        {
-            for (int i = 0; i < effect.Times; i++)
-                RecieveBlock(effect.Value);
-        }
-        else
-        {
-            if (statusEffects.ContainsKey(effect.Type))
-                statusEffects[effect.Type] += effect.Value;
-            else
-                statusEffects[effect.Type] = effect.Value;
 
-            effectDisplayManager.SetEffect(effect.Type, statusEffects[effect.Type]);
-        }
+        if (effect.Type == EffectType.Vurnerable)
+            effectTypeToRule[effect.Type] = new RuleEffectVurnerable();
+        else if(effect.Type == EffectType.Weak)
+            effectTypeToRule[effect.Type] = new RuleEffectWeak();
+        else if (effect.Type == EffectType.Barricade)
+            effectTypeToRule[effect.Type] = new RuleEffectBarricade();
+
+        effectTypeToRule[effect.Type].healthEffects = this;
+        effectTypeToRule[effect.Type].nrStacked = effect.Value * effect.Times;
+        Debug.Log("Got or updated effect: " + effect.Type.ToString() + ", " + (effect.Value * effect.Times).ToString());
+        effectTypeToRule[effect.Type].AddFunctionToRules();
+        effectDisplayManager.SetEffect(effect.Type, effectTypeToRule[effect.Type]);
     }
 
     public void EffectsStartTurn()
     {
-        Debug.Log("Entered Effects decrement");
-        List<EffectType> effects = new List<EffectType>(statusEffects.Keys);
+        List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
         {
-            Debug.Log("Change for effect " + effect);
-            statusEffects[effect] += DatabaseSystem.instance.effectEndOfTurnBehavior[effect];
-            effectDisplayManager.SetEffect(effect, statusEffects[effect]);
-            if (statusEffects[effect] <= 0) statusEffects.Remove(effect);
+            effectTypeToRule[effect].OnNewTurnBehaviour();
+            effectDisplayManager.SetEffect(effect, effectTypeToRule[effect]);
+            if (effectTypeToRule[effect].nrStacked <= 0)
+            {
+                effectTypeToRule[effect].RemoveFunctionFromRules();
+                effectTypeToRule.Remove(effect);
+            }
         }
     }
 

@@ -1516,7 +1516,7 @@ GameObject:
   - component: {fileID: 205438563}
   - component: {fileID: 205438562}
   m_Layer: 5
-  m_Name: State
+  m_Name: txtState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

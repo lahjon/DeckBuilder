@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class CombatActorHero : CombatActor
 {
-   
+    private void Start()
+    {
+        healthEffects.combatActor = this;
+    }
 }

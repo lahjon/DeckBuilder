@@ -18,13 +18,12 @@ public class RulesSystem : MonoBehaviour
     List<Func<IEnumerator>> actionsStartTurnEnum = new List<Func<IEnumerator>>();
 
     CombatController combatController;
-    
-    Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>> enemyToActionsStartTurn = new Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>>();
 
-    Dictionary<CombatActor, List<Func<float,float>>> actorToGiveAttackMods = new Dictionary<CombatActor, List<Func<float, float>>>();
-    Dictionary<CombatActor, List<Func<float,float>>> actorToTakeDamageMods = new Dictionary<CombatActor, List<Func<float, float>>>();
+    public Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>> enemyToActionsStartTurn = new Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>>();
 
-    Dictionary<EffectType, Action<CombatActor, CardEffect>> cardEffectToAction = new Dictionary<EffectType, Action<CombatActor, CardEffect>>();
+    public Dictionary<CombatActor, List<Func<float,float>>> actorToGiveAttackMods = new Dictionary<CombatActor, List<Func<float, float>>>();
+    public Dictionary<CombatActor, List<Func<float,float>>> actorToTakeDamageMods = new Dictionary<CombatActor, List<Func<float, float>>>();
+    public Dictionary<CombatActor, List<Func<CombatActor, IEnumerator>>> ActorToStartTurn = new Dictionary<CombatActor, List<Func<CombatActor, IEnumerator>>>();
 
     private void Awake()
     {
@@ -45,24 +44,10 @@ public class RulesSystem : MonoBehaviour
     {
         combatController = WorldSystem.instance.combatManager.combatController;
 
-        actionsStartTurnEnum.Add(HeroRemoveAllBlock);
         actionsStartTurnEnum.Add(ResetRemainingEnergy);
-
-
-        cardEffectToAction[EffectType.Vurnerable] = ApplyVurnerable;
-        cardEffectToAction[EffectType.Poison] = ApplyPoison;
     }
 
-    void ApplyVurnerable(CombatActor combatActor, CardEffect cardEffect)
-    {
-        combatActor.healthEffects.RecieveEffect(cardEffect);
-        Debug.Log("Combatactor recieved Vurnerable");
-        actorToTakeDamageMods[combatActor].Add(VurnerableDamage);
-    }
 
-    void ApplyPoison(CombatActor combatActor, CardEffect cardEffect)
-    {
-    }
 
     public void CarryOutCardSelf(CardData cardData, CombatActor source)
     {
@@ -72,7 +57,7 @@ public class RulesSystem : MonoBehaviour
         }
         for (int i = 0; i < cardData.SelfEffects.Count; i++)
         {
-            cardEffectToAction[cardData.SelfEffects[i].Type](source, cardData.SelfEffects[i]);
+            source.healthEffects.RecieveEffectNonDamageNonBlock(cardData.SelfEffects[i]);
         }
     }
 
@@ -86,7 +71,7 @@ public class RulesSystem : MonoBehaviour
         }
         for (int i = 0; i < cardData.Effects.Count; i++)
         {
-            cardEffectToAction[cardData.Effects[i].Type](target, cardData.Effects[i]);
+            target.healthEffects.RecieveEffectNonDamageNonBlock(cardData.Effects[i]);
         }
     }
 
@@ -96,10 +81,14 @@ public class RulesSystem : MonoBehaviour
     {
         actorToGiveAttackMods[combatController.Hero] = new List<Func<float, float>>();
         actorToTakeDamageMods[combatController.Hero] = new List<Func<float, float>>();
+        ActorToStartTurn[combatController.Hero] = new List<Func<CombatActor, IEnumerator>>();
+        ActorToStartTurn[combatController.Hero].Add(RemoveAllBlock);
+
         foreach(CombatActorEnemy e in combatController.EnemiesInScene)
         {
             enemyToActionsStartTurn[e] = new List<Func<CombatActorEnemy, IEnumerator>>();
-            enemyToActionsStartTurn[e].Add(EnemyRemoveAllBlock);
+            ActorToStartTurn[e] = new List<Func<CombatActor, IEnumerator>>();
+            ActorToStartTurn[e].Add(RemoveAllBlock);
             actorToGiveAttackMods[e] = new List<Func<float, float>>();
             actorToTakeDamageMods[e] = new List<Func<float, float>>();
         }
@@ -120,7 +109,9 @@ public class RulesSystem : MonoBehaviour
 
     public IEnumerator StartTurn()
     {
-        Debug.Log("StartTurnEnum with " + actionsStartTurnEnum.Count + " actions in list");
+        for(int i = 0; i < ActorToStartTurn[combatController.Hero].Count; i++)
+            yield return StartCoroutine(ActorToStartTurn[combatController.Hero][i].Invoke(combatController.Hero));
+
         for (int i = 0; i < actionsStartTurnEnum.Count; i++)
             yield return StartCoroutine(actionsStartTurnEnum[i].Invoke());
         Debug.Log("Leaving StartTurn Enum");
@@ -129,25 +120,24 @@ public class RulesSystem : MonoBehaviour
 
     public IEnumerator EnemyStartTurn(CombatActorEnemy enemy)
     {
+        for (int i = 0; i < ActorToStartTurn[enemy].Count; i++)
+            yield return StartCoroutine(ActorToStartTurn[enemy][i].Invoke(enemy));
+
         for (int i = 0; i < enemyToActionsStartTurn[enemy].Count; i++)
             yield return StartCoroutine(enemyToActionsStartTurn[enemy][i].Invoke(enemy));
+
         enemy.TakeTurn();
         Debug.Log("Took Turn");
         yield return new WaitForSeconds(1.5f);
     }
 
 
-    IEnumerator HeroRemoveAllBlock()
+    public IEnumerator RemoveAllBlock(CombatActor actor)
     {
-        combatController.Hero.healthEffects.RemoveAllBlock();
+        actor.healthEffects.RemoveAllBlock();
         yield return new WaitForSeconds(1);
     }
 
-    IEnumerator EnemyRemoveAllBlock(CombatActorEnemy enemy)
-    {
-        enemy.healthEffects.RemoveAllBlock();
-        yield return new WaitForSeconds(0.01f);
-    }
 
     IEnumerator ResetRemainingEnergy()
     {
@@ -177,42 +167,5 @@ public class RulesSystem : MonoBehaviour
 
 
 
-
-    #region Relic Functions
-
-
-    public void ToggleBarricade()
-    {
-        Func<IEnumerator> HeroBlock = HeroRemoveAllBlock;
-        if (actionsStartTurnEnum.Contains(HeroBlock))
-        {
-            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Toggled Barricade ON");
-            actionsStartTurnEnum.Remove(HeroBlock);
-        }
-        else
-        {
-            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Toggled Barricade OFF");
-            actionsStartTurnEnum.Add(HeroBlock);
-        }
-    }
-
-
-
-
-    #endregion
-
-    #region Card Functions
-
-
-    #endregion
-
-    #region Effect Functions
-
-    public float VurnerableDamage(float x)
-    {
-        return x * 1.5f;
-    }
-
-    #endregion
 
 }
