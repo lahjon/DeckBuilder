@@ -28,11 +28,18 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
 
         descriptionText.text = "";
 
-        for(int i = 0; i < cardData.Effects.Count; i++)
+        List<CardEffect> allEffects = new List<CardEffect>();
+        allEffects.Add(cardData.Damage);
+        allEffects.Add(cardData.Block);
+        allEffects.AddRange(cardData.SelfEffects);
+        allEffects.AddRange(cardData.Effects);
+
+        for (int i = 0; i < allEffects.Count; i++)
         {
-            descriptionText.text += cardData.Effects[i].Type.ToString() + ":" + cardData.Effects[i].Value;
-            if (cardData.Effects[i].Times != 1) descriptionText.text += " " + cardData.Effects[i].Times + " times.";
-            if (i != cardData.Effects.Count - 1) descriptionText.text += "\n";
+            if (allEffects[i].Value == 0) continue;
+            descriptionText.text += allEffects[i].Type.ToString() + ":" + allEffects[i].Value;
+            if (allEffects[i].Times != 1) descriptionText.text += " " + allEffects[i].Times + " times.";
+            if (i != allEffects.Count - 1) descriptionText.text += "\n";
         }
     }
 

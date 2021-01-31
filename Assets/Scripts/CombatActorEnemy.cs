@@ -6,10 +6,9 @@ using TMPro;
 using System.Linq;
 
 
-public class CombatActorEnemy : MonoBehaviour
+public class CombatActorEnemy : CombatActor
 {
     public CombatController combatController;
-    public HealthEffects healthEffects;
     public IntentDisplay intentDisplay;
     public TMP_Text txtMoveDisplay;
     public EnemyData enemyData;
@@ -21,6 +20,7 @@ public class CombatActorEnemy : MonoBehaviour
     public List<CardData> discard;
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
+
 
 
     public void ReadEnemyData(EnemyData inEnemyData = null)
@@ -42,12 +42,12 @@ public class CombatActorEnemy : MonoBehaviour
 
     public void UpdateMoveDisplay(CardData cardData)
     {
-        intentDisplay.RecieveIntent(cardData.SelfEffects, cardData.Effects);   
+        intentDisplay.RecieveIntent(cardData.Damage, cardData.Block, cardData.SelfEffects, cardData.Effects);   
     }
     public void TakeTurn()
     {
-        deck[0].SelfEffects.ForEach(x => healthEffects.RecieveEffect(x));
-        deck[0].Effects.ForEach(x => combatController.Hero.healthEffects.RecieveEffect(x));
+        RulesSystem.instance.CarryOutCardSelf(deck[0], this);
+        RulesSystem.instance.CarryOutCard(deck[0], this, combatController.Hero);
 
         discard.Add(deck[0]);
         deck.RemoveAt(0);

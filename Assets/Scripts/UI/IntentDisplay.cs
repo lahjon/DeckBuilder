@@ -14,7 +14,7 @@ public class IntentDisplay : MonoBehaviour
 
     public TMP_Text lblIntent;
 
-    public void RecieveIntent(List<CardEffect> EffectsSelf, List<CardEffect> Effects)
+    public void RecieveIntent(CardEffect block, CardEffect Damage, List<CardEffect> EffectsSelf, List<CardEffect> Effects)
     {
         for (int i = 0; i < Icons.Length; i++)
             Icons[i].gameObject.SetActive(false);
@@ -22,26 +22,24 @@ public class IntentDisplay : MonoBehaviour
 
         int cursor = 0;
 
-        foreach(CardEffect e in Effects)
+
+        if(Damage.Value != 0)
         {
-            if(e.Type == EffectType.Damage)
-            {
-                Icons[cursor].sprite = AttackSprite;
-                Icons[cursor++].gameObject.SetActive(true);
-                lblIntent.text = e.Value.ToString() + (e.Times != 1 ? "x" + e.Times.ToString() : "");
-            }
+            Icons[cursor].sprite = AttackSprite;
+            Icons[cursor++].gameObject.SetActive(true);
+            lblIntent.text = Damage.Value.ToString() + (Damage.Times != 1 ? "x" + Damage.Times.ToString() : "");
         }
 
-        foreach(CardEffect e in EffectsSelf)
+
+
+        if(block.Value != 0)
         {
-            if(e.Type == EffectType.Block)
-            {
-                Icons[cursor].sprite = DefendSprite;
-                Icons[cursor++].gameObject.SetActive(true);
-            }
+            Icons[cursor].sprite = DefendSprite;
+            Icons[cursor++].gameObject.SetActive(true);
         }
 
-        if(EffectsSelf.Count + Effects.Count > cursor)
+
+        if(EffectsSelf.Count != 0 || Effects.Count != 0)
         {
             Icons[cursor].sprite = OtherSprite;
             Icons[cursor++].gameObject.SetActive(true);

@@ -13,6 +13,9 @@ public class CardData : ScriptableObject
     public int cost;
     public int goldValue;
 
+    public CardEffect Damage;
+    public CardEffect Block;
+
     public List<CardEffect> SelfEffects;
     public List<CardEffect> Effects;
 
@@ -25,7 +28,7 @@ public class CardData : ScriptableObject
     {
         get
         {
-            if (Effects.Count == 0 && Effects.Count(x => x.Target == CardTargetType.Single) == 0)
+            if (Effects.Count == 0 && Effects.Count(x => x.Target == CardTargetType.Single) == 0 && Damage.Target != CardTargetType.Single)
                 return CardTargetType.ALL;
             else
                 return CardTargetType.Single;

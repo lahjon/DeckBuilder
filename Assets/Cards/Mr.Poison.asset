@@ -17,11 +17,17 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 53ba25d0759657e4cb8b9f3ed70e50b8, type: 3}
   cost: 3
   goldValue: 25
-  SelfEffects: []
-  Effects:
-  - Type: 1
+  Damage:
+    Type: 1
     Value: 5
     Times: 1
     Target: 0
+  Block:
+    Type: 0
+    Value: 0
+    Times: 0
+    Target: 0
+  SelfEffects: []
+  Effects: []
   cardRarity: 1
   characterClass: 0
