@@ -73,6 +73,11 @@ public class CombatController : StateMachine
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
     }
+
+
+
+
+   
     void Update()
     {
         for(int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
@@ -330,10 +335,8 @@ public class CombatController : StateMachine
 
         cEnergy -= ActiveCard.cardData.cost;
 
-        //Get block or whatever
-        ActiveCard.cardData.SelfEffects.ForEach(x => Hero.healthEffects.RecieveEffect(x));
+        RulesSystem.instance.CarryOutCardSelf(ActiveCard.cardData, Hero);
 
-        //Check which cind of card it was otherwise
         List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
         if (ActiveCard.cardData.OverallTargetType == CardTargetType.Single)
         {
@@ -343,16 +346,13 @@ public class CombatController : StateMachine
         else
             targetedEnemies.AddRange(EnemiesInScene);
 
-        for (int i = 0; i < ActiveCard.cardData.Effects.Count; i++)
-        {
-            foreach (CombatActorEnemy e in targetedEnemies) { 
-                e.healthEffects.RecieveEffect(ActiveCard.cardData.Effects[i]);
-                if (e.healthEffects.hitPoints <= 0 && ActiveCard.cardData.Effects[i].Type == EffectType.Damage)
-                {
-                    KillEnemy(e);
-                }
-            } 
-        }
+
+        foreach (CombatActorEnemy e in targetedEnemies) {
+            RulesSystem.instance.CarryOutCard(ActiveCard.cardData, Hero, e);
+            if (e.healthEffects.hitPoints <= 0)
+                KillEnemy(e);
+        } 
+
 
 
         SendCardToDiscard(ActiveCard.gameObject, true);
