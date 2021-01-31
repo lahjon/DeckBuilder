@@ -137,6 +137,7 @@ public class CardCombat : Card
     
     public override void OnMouseClick()
     {
+        
         return;
     }
 

@@ -5,19 +5,13 @@ using UnityEngine;
 public abstract class State
 {
     protected CombatController CombatController;
-    // protected RulesSystem RulesSystem;
-
     public State(CombatController combatController)
     {
         CombatController = combatController;
     }
-
-    // public State(RulesSystem rulesSystem)
-    // {
-    //     RulesSystem = rulesSystem;
-    // }
     public virtual IEnumerator Start()
     {
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         yield break;
     }
     public virtual IEnumerator End()

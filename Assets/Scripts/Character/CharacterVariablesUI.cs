@@ -9,6 +9,7 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text goldValue;
     public TMP_Text worldState;
     public TMP_Text worldTier;
+    public TMP_Text combatState;
 
     public void UpdateUI()
     {
@@ -21,6 +22,10 @@ public class CharacterVariablesUI : MonoBehaviour
 
         //DEBUG:
         worldState.text = WorldSystem.instance.worldState.ToString();
+        if(WorldSystem.instance.combatManager.combatController.state != null)
+            combatState.text = WorldSystem.instance.combatManager.combatController.state.ToString();
+        else
+            combatState.text = "None";
 
     }
 

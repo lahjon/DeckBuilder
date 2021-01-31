@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class RulesSystem : StateMachine
+public class RulesSystem : MonoBehaviour
 {
     public static RulesSystem instance;
 
@@ -54,16 +54,19 @@ public class RulesSystem : StateMachine
         }
     }
 
+    public void EnemiesStartTurn()
+    {
+        StartCoroutine(EnumEnemiesStartTurn());
+    }
 
-    public IEnumerator EnemiesStartTurn()
+    public IEnumerator EnumEnemiesStartTurn()
     {
         foreach (CombatActorEnemy enemy in combatController.EnemiesInScene)
             yield return StartCoroutine(EnemyStartTurn(enemy));
 
         combatController.EnemiesInScene.ForEach(x => x.TakeTurn());
+        combatController.EndState();
     }
-
-
 
     public IEnumerator StartTurn()
     {
@@ -74,11 +77,12 @@ public class RulesSystem : StateMachine
     }
 
 
-
     public IEnumerator EnemyStartTurn(CombatActorEnemy enemy)
     {
         for (int i = 0; i < enemyToActionsStartTurn[enemy].Count; i++)
             yield return StartCoroutine(enemyToActionsStartTurn[enemy][i].Invoke(enemy));
+        Debug.Log("Takes Turn");
+        yield return new WaitForSeconds(1.5f);
     }
 
 
