@@ -7,7 +7,7 @@ using System.Linq;
 using TMPro;
 using System.Threading.Tasks;
 
-public class CombatController : MonoBehaviour
+public class CombatController : StateMachine
 {
     public GameObject TemplateCard;
     public BezierPath bezierPath;
@@ -62,22 +62,17 @@ public class CombatController : MonoBehaviour
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy;
     public AnimationCurve transitionCurve;
+    public bool acceptInput = true;
     private void Awake()
     {
         cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
     }
-
-
-
     void Start()
     {
         // DEBUG
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
-
     }
-
-   
     void Update()
     {
         for(int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
@@ -106,8 +101,10 @@ public class CombatController : MonoBehaviour
                 break;
             }
         }
-        if(Input.GetKeyDown(KeyCode.Space ) && WorldSystem.instance.worldState == WorldState.Combat)
-            EndTurn();
+        if(Input.GetKeyDown(KeyCode.Space) && acceptInput == true)
+            {
+                EndState();
+            }
 
         if (Input.GetKeyDown(KeyCode.B))
             RulesSystem.instance.ToggleBarricade();
@@ -115,6 +112,7 @@ public class CombatController : MonoBehaviour
 
     public void SetUpEncounter()
     {
+
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
 
@@ -131,23 +129,13 @@ public class CombatController : MonoBehaviour
 
         amountOfEnemies = EnemiesInScene.Count;
 
-        RulesSystem.instance.SetupEnemyStartingRules();
-
-        InitializeCombat();
+        SetState(new EnterCombat(this));
     }
-
 
     public Vector3 GetCardScale()
     {
         return new Vector3(0.9f, 0.9f, 0.9f);
     }
-
-    public void StartCombat(EncounterData encounterData){
-        Debug.Log("Entered Start Encounter");
-    }
-
-
-
     public Vector3 GetPositionInHand(int CardNr)
     {
         float midPoint = cardPanelwidth / 2;
@@ -204,8 +192,6 @@ public class CombatController : MonoBehaviour
         }
         return ActiveCard is null && card.cardData.cost <= cEnergy;
     }
-
-
     GameObject CreateCardFromData(CardData cardData)
     {
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
@@ -231,12 +217,6 @@ public class CombatController : MonoBehaviour
         ResetSiblingIndexes();
     }
 
-    public void InitializeCombat()
-    {
-        cEnergy = energyTurn;
-        DrawCards(DrawCount);
-    }
-
     public void EndTurn()
     {
         Hero.healthEffects.EffectsStartTurn();
@@ -249,11 +229,10 @@ public class CombatController : MonoBehaviour
         StartCoroutine(WaitForAnimationsDiscard());
     }
 
-    public void NextTurn()
+    public void StartTurn()
     {
         // ENEMY TURN'
-        StartCoroutine(RulesSystem.instance.EnemiesStartTurn());
-
+        
         DrawCards(DrawCount);
         Hand.ForEach(x => x.GetComponent<CardCombat>().selected = false);
         Hand.ForEach(x => x.transform.localScale = new Vector3(1,1,1));
@@ -272,7 +251,6 @@ public class CombatController : MonoBehaviour
         {
             yield return new WaitForSeconds(0.01f);
         }
-        NextTurn();
         cardsInTransition.Clear();
     }
     IEnumerator WaitForAnimationsDraw()
