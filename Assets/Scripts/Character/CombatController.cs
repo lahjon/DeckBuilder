@@ -7,7 +7,7 @@ using System.Linq;
 using TMPro;
 using System.Threading.Tasks;
 
-public class CombatController : MonoBehaviour
+public class CombatController : StateMachine
 {
     public GameObject TemplateCard;
     public BezierPath bezierPath;
@@ -74,7 +74,6 @@ public class CombatController : MonoBehaviour
         // DEBUG
         if (WorldSystem.instance.worldState == WorldState.Combat)
             SetUpEncounter();
-
     }
 
 
@@ -118,6 +117,7 @@ public class CombatController : MonoBehaviour
 
     public void SetUpEncounter()
     {
+
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
 
@@ -134,9 +134,7 @@ public class CombatController : MonoBehaviour
 
         amountOfEnemies = EnemiesInScene.Count;
 
-        RulesSystem.instance.SetupEnemyStartingRules();
-
-        InitializeCombat();
+        SetState(new Begin(this));
     }
 
 
@@ -236,6 +234,7 @@ public class CombatController : MonoBehaviour
 
     public void InitializeCombat()
     {
+        Debug.Log("Initialize");
         cEnergy = energyTurn;
         DrawCards(DrawCount);
     }

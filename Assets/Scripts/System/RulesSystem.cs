@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class RulesSystem : MonoBehaviour
+public class RulesSystem : StateMachine
 {
     public static RulesSystem instance;
 
