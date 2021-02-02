@@ -6,7 +6,7 @@ using System.Linq;
 public class CharacterManager : MonoBehaviour
 {
     // should match all items from CharacterVariables Enum
-    public int gold;
+    private int _gold;
     public int startingGold = 99;
     public int currentHealth;
     public int maxHealth;
@@ -28,6 +28,20 @@ public class CharacterManager : MonoBehaviour
         characterVariablesUI.UpdateUI();
     }
 
+    public int gold 
+    {
+        get
+        {
+            return gold;
+        }
+        set
+        {
+            gold += value;
+            _gold = gold;
+            characterVariablesUI.UpdateUI();
+        }
+    }
+
     public void Reset()
     {
         BindCharacterData();
@@ -38,7 +52,7 @@ public class CharacterManager : MonoBehaviour
         playerCardsData.Clear();
         stats.Clear();
 
-        gold = characterData.gold;
+        _gold = characterData.gold;
         maxHealth = characterData.maxHealth;
         startDrawAmount = characterData.drawAmount;
         startEnergy = characterData.energy;
@@ -49,7 +63,6 @@ public class CharacterManager : MonoBehaviour
         {
             stats.Add(stat, 0);
         }
-
         currentHealth = maxHealth;
     }
 
@@ -58,10 +71,10 @@ public class CharacterManager : MonoBehaviour
     {
         if(type.ToString().ToLower() == "gold")
         {
-            gold += value;
-            if(gold < 0)
+            _gold += value;
+            if(_gold < 0)
             {
-                gold = 0;
+                _gold = 0;
             }
             characterVariablesUI.UpdateUI();
         }

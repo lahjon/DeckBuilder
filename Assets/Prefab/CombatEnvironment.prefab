@@ -371,7 +371,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1423531298}
         m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
-        m_MethodName: EndTurn
+        m_MethodName: PlayerInputEndTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

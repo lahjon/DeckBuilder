@@ -58,7 +58,6 @@ public class Shop : MonoBehaviour
         {
             WorldSystem.instance.characterManager.gold -= goldCost;
             WorldSystem.instance.characterManager.AddCardDataToDeck(clickedCard.cardData);
-            WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
             clickedCard.gameObject.SetActive(false);
             clickedCard.ResetScale();
             UpdateCardPrices();

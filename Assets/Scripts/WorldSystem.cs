@@ -43,8 +43,18 @@ public class WorldSystem : MonoBehaviour
 
     }
 
-
-
+    // public WorldState WorldState
+    // {
+    //     get
+    //     {
+    //         return WorldState;
+    //     }
+    //     set
+    //     {
+    //         WorldState = value;
+    //     }
+    // }
+    // }
 
     public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)
     {

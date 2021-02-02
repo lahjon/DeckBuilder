@@ -51,7 +51,7 @@ public class CardCombat : Card
             StopCoroutine(CardFollower);
 
             Vector3 center = new Vector3(Screen.width*0.5f, Screen.height*0.5f, 0.0f);
-            StartCoroutine(LerpPosition(combatController.cardHoldPos.position, 0.2f));
+            StartCoroutine(LerpPosition(combatController.cardHoldPos.position, 0.4f));
             StartCoroutine(WaitForAnimation());
             
             Debug.Log("Playing Animation");
