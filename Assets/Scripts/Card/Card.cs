@@ -94,9 +94,15 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
         WorldSystem.instance.deckDisplayManager.selectedCard = null;
     }
 
-    public abstract void OnMouseClick();
+    public virtual void OnMouseClick()
+    {
+        return;
+    }
 
-    public abstract void OnMouseRightClick(bool allowDisplay = true);
+    public virtual void OnMouseRightClick(bool allowDisplay = true)
+    {
+        return;
+    }
 
 
 }

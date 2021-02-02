@@ -113,7 +113,7 @@ public class WorldSystem : MonoBehaviour
     {
         combatManager.combatController.gameObject.SetActive(true);
         SwapState(WorldState.Combat);
-        cameraManager.ToggleCamera(WorldSystem.instance.combatManager.combatController.CombatCamera);
+        cameraManager.CameraGoto(WorldState.Combat, true);
         encounterManager.encounterTier = encounterManager.currentEncounter.encounterData.tier;
         combatManager.combatController.SetUpEncounter();
     }
@@ -128,20 +128,20 @@ public class WorldSystem : MonoBehaviour
             return;
         }
         SwapState(WorldState.Overworld);
-        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.previousCamera);
     }
 
     private void GoToTown()
     {
         worldState = WorldState.Town;
         encounterManager.UpdateAllTownEncounters(act);
-        cameraManager.ToggleCamera(WorldSystem.instance.cameraManager.townCamera);
+        cameraManager.CameraGoto(WorldState.Town, true);
     }
 
     public void SwapState(WorldState aWorldState)
     {
         previousState = instance.worldState;
         worldState = aWorldState;
+        cameraManager.CameraGoto(aWorldState, true);
         characterManager.characterVariablesUI.UpdateUI();
     }
     public void SwapStatePrevious()
@@ -172,15 +172,9 @@ public class WorldSystem : MonoBehaviour
         }
         characterManager.characterVariablesUI.UpdateUI();
         SwapState(WorldState.Overworld);
-        Debug.Log(act);
         encounterManager.UpdateAllOverworldEncounters(act);
         cameraManager.mainCamera.transform.position = cameraManager.actCameraPos[act - 1].transform.position;
         cameraManager.mainCamera.transform.rotation = cameraManager.actCameraPos[act - 1].transform.rotation;
-        if(reset == false)
-        {
-            cameraManager.ToggleCamera(cameraManager.mainCamera); 
-        }
-        
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

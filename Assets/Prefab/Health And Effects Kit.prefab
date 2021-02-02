@@ -811,6 +811,7 @@ MonoBehaviour:
   objShield: {fileID: 4431592953039501985}
   sldShield: {fileID: 2607770245500723756}
   txtShield: {fileID: 3949985026846138981}
+  canvas: {fileID: 7926990767373210138}
   effectDisplayManager: {fileID: 5071783096234444347}
 --- !u!1 &7926990767373210142
 GameObject:
@@ -860,7 +861,7 @@ Canvas:
   m_GameObject: {fileID: 7926990767373210142}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public int planeDistance = 10;
     public GameObject ui;
     public RewardScreen rewardScreen;
     public UIWarningController UIWarningController;

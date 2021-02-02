@@ -28,6 +28,11 @@ MonoBehaviour:
     Times: 0
     Target: 0
   SelfEffects: []
-  Effects: []
+  Effects:
+  - Type: 0
+    Value: 0
+    Times: 0
+    Target: 0
   cardRarity: 3
   characterClass: 0
+  animationPrefab: {fileID: 8867539605098610225, guid: 0367e655c73cc504d9e2edb8eeb21f34, type: 3}

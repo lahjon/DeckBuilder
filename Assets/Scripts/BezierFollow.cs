@@ -18,7 +18,7 @@ public class BezierFollow : MonoBehaviour
     void Start()
     {
         tParam = 0f;
-        speedModifier = 8f;
+        speedModifier = 1f;
     }
 
     public void StartAnimation()
@@ -29,10 +29,10 @@ public class BezierFollow : MonoBehaviour
     private IEnumerator GoByTheRoute()
     {
 
-        Vector2 p0 = transform.position;
-        Vector2 p1 = route.GetChild(1).position;
-        Vector2 p2 = route.GetChild(2).position;
-        Vector2 p3 = route.GetChild(3).position;
+        Vector3 p0 = transform.position;
+        Vector3 p1 = route.GetChild(1).position;
+        Vector3 p2 = route.GetChild(2).position;
+        Vector3 p3 = route.GetChild(3).position;
 
         float endScale = 0.7f;
         float scale = 1;

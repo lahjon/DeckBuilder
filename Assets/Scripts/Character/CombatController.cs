@@ -18,6 +18,7 @@ public class CombatController : StateMachine
     public Camera CombatCamera;
     public GameObject content;
     public Transform cardPanel;
+    public Transform cardHoldPos;
 
     public CombatActorHero Hero; 
 
@@ -29,6 +30,7 @@ public class CombatController : StateMachine
     public float handDistance = 150;
     public float handHeight = -75;
     public int energyTurn = 3;
+    public CombatActorEnemy targetedEnemy;
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
@@ -46,7 +48,7 @@ public class CombatController : StateMachine
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
     public List<GameObject> createdCards = new List<GameObject>();
-    private List<GameObject> cardsInTransition = new List<GameObject>();
+    public List<GameObject> cardsInTransition = new List<GameObject>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -67,17 +69,12 @@ public class CombatController : StateMachine
     {
         cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
     }
-    void Start()
-    {
-        // DEBUG
-        if (WorldSystem.instance.worldState == WorldState.Combat)
-            SetUpEncounter();
-    }
-
-
-
-
-   
+    // void Start()
+    // {
+    //     // DEBUG
+    //     if (WorldSystem.instance.worldState == WorldState.Combat)
+    //         SetUpEncounter();
+    // }
     void Update()
     {
         for(int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
@@ -89,7 +86,7 @@ public class CombatController : StateMachine
                     if(ActiveCard != Hand[i].GetComponent<CardCombat>())
                     {
                         ActiveCard.OnMouseRightClick(false);
-                        Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                        Hand[i].GetComponent<CardCombat>().CardAction();
                     }
                     else
                     {
@@ -100,7 +97,7 @@ public class CombatController : StateMachine
                 {
                     if(Hand[i].GetComponent<CardCombat>().inTransition == false && Hand[i].activeSelf)
                     {
-                        Hand[i].GetComponent<CardCombat>().OnMouseDown();
+                        Hand[i].GetComponent<CardCombat>().CardAction();
                     }
                 }
                 break;
@@ -108,11 +105,17 @@ public class CombatController : StateMachine
         }
         if(Input.GetKeyDown(KeyCode.Space) && acceptInput == true)
             {
-                EndState();
+                PlayerInputEndTurn();
             }
 
         if (Input.GetKeyDown(KeyCode.B))
             RulesSystem.instance.ToggleBarricade();
+    }
+
+    public void PlayerInputEndTurn()
+    {
+        // have to ahve a function for the ui button
+        EndState();
     }
 
     public void SetUpEncounter()
@@ -125,7 +128,7 @@ public class CombatController : StateMachine
 
         for(int i = 0; i < encounterData.enemyData.Count; i++)
         {
-            GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0)) as GameObject;
+            GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.combatController = this;
             combatActorEnemy.ReadEnemyData(encounterData.enemyData[i]);
@@ -324,6 +327,7 @@ public class CombatController : StateMachine
 
     public void CardUsed(CombatActorEnemy enemy = null)
     {
+        targetedEnemy = enemy;
         if (ActiveCard is null)
             return;
 
@@ -353,11 +357,8 @@ public class CombatController : StateMachine
                 KillEnemy(e);
         } 
 
-
-
-        SendCardToDiscard(ActiveCard.gameObject, true);
+        ActiveCard.UseCard();
         ActiveCard = null;
-        CheckVictory();
     }
 
     private void KillEnemy(CombatActorEnemy enemy)

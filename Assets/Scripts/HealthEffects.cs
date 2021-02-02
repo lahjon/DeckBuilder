@@ -13,11 +13,13 @@ public class HealthEffects : MonoBehaviour
     public GameObject cAnchorHealthEffects;
 
     private GameObject aAnchorHealthEffects;
+    public GameObject intentDisplayAnchor;
     public  Slider sldHealth;
     public TMP_Text txtHealth;
     public GameObject objShield;
     public Slider sldShield;
     public TMP_Text txtShield;
+    public Canvas canvas;
 
     public EffectDisplayManager effectDisplayManager;
 
@@ -26,11 +28,17 @@ public class HealthEffects : MonoBehaviour
     public void Start()
     {
         aAnchorHealthEffects = this.gameObject;
-        SetUIpositions();
         UpdateHealthBar();
         UpdateShieldUI();
+        SetupCamera();
+        SetUIpositions();
     }
 
+    public void SetupCamera()
+    {
+        canvas.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvas.planeDistance = WorldSystem.instance.uiManager.planeDistance;
+    }
 
     public void UpdateHealthBar()
     {
@@ -40,8 +48,21 @@ public class HealthEffects : MonoBehaviour
 
     public void SetUIpositions()
     {
-        Vector3 coordinates = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(aAnchorHealthEffects.transform.position);
-        cAnchorHealthEffects.transform.position = coordinates;
+        Vector3 coordinates = WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(aAnchorHealthEffects.transform.localPosition);
+        //cAnchorHealthEffects.GetComponent<RectTransform>().transform.position = aAnchorHealthEffects.transform.position;
+
+        //Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint( WorldSystem.instance.cameraManager.currentCamera, this.gameObject.transform.position);
+        cAnchorHealthEffects.transform.position = aAnchorHealthEffects.transform.parent.position;
+        cAnchorHealthEffects.transform.localPosition += new Vector3(0,-(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-20);
+
+        if(intentDisplayAnchor != null)
+        {
+            intentDisplayAnchor.transform.position =  aAnchorHealthEffects.transform.parent.position;
+            intentDisplayAnchor.transform.localPosition += new Vector3(0,(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-20);
+        }
+        
+
+
     }
 
     public void TakeDamage(int damage)

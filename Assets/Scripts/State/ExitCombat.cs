@@ -14,7 +14,7 @@ public class ExitCombat : State
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         Debug.Log("Starting combat");
         RulesSystem.instance.SetupEnemyStartingRules();
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("Combat has Started");
         //CombatController.InitializeCombat();
         CombatController.SetState(new PlayerTurn(CombatController));

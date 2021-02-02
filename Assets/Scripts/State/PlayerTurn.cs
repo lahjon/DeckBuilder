@@ -13,18 +13,18 @@ public class PlayerTurn : State
         CombatController.StartTurn();
         CombatController.acceptInput = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.05f);
     }
 
     public override IEnumerator Action()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.05f);
     }
     public override IEnumerator End()
     {
         CombatController.acceptInput = false;
         CombatController.EndTurn();
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.05f);
         CombatController.SetState(new EnemyTurn(CombatController));
     }
 }

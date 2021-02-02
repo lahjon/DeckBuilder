@@ -22,6 +22,7 @@ public class CardData : ScriptableObject
     public CardRarity cardRarity;
 
     public CharacterClass characterClass;
+    public GameObject animationPrefab;
 
     [HideInInspector]
     public CardTargetType OverallTargetType

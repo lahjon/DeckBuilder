@@ -10,5 +10,4 @@ public class ArtifactData : ScriptableObject
     public int goldValue;
     public Sprite artwork;
     public Rarity rarity;
-
 }

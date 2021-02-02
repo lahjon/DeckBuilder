@@ -21,12 +21,17 @@ public class CombatActorEnemy : CombatActor
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
 
+    public Canvas canvasEffects;
+    public Canvas canvasIntent;
+
 
 
     public void ReadEnemyData(EnemyData inEnemyData = null)
     {
         if (!(inEnemyData is null))
             enemyData = inEnemyData;
+
+        SetupCamera();
 
         deck.AddRange(enemyData.deck);
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -38,6 +43,15 @@ public class CombatActorEnemy : CombatActor
         ShuffleDeck();
         SetUIpositions();
         UpdateMoveDisplay(deck[0]);
+    }
+
+    public void SetupCamera()
+    {
+        canvasIntent.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvasIntent.planeDistance = WorldSystem.instance.uiManager.planeDistance;
+
+        canvasEffects.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvasEffects.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
     public void UpdateMoveDisplay(CardData cardData)
@@ -64,8 +78,8 @@ public class CombatActorEnemy : CombatActor
 
     public void SetUIpositions()
     {
-        Vector3 coordinates = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorMoveDisplay.transform.position);
-        CanvasMoveDisplay.transform.position = coordinates;
+        // Vector3 coordinates = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorMoveDisplay.transform.position);
+        // CanvasMoveDisplay.transform.position = coordinates;
     }
 
     private void ShuffleDeck()
@@ -99,5 +113,6 @@ public class CombatActorEnemy : CombatActor
     public void OnMouseDown()
     {
         combatController.CardUsed(this);
+        Debug.Log("Press Enemy");
     }
 }
