@@ -108,8 +108,7 @@ public class CombatController : StateMachine
                 PlayerInputEndTurn();
             }
 
-        if (Input.GetKeyDown(KeyCode.B))
-            RulesSystem.instance.ToggleBarricade();
+
     }
 
     public void PlayerInputEndTurn()
@@ -192,8 +191,6 @@ public class CombatController : StateMachine
 
     public bool CardisSelectable(Card card)
     {
-        Debug.Log(this);
-        Debug.Log(ActiveCard);
         if (card.cardData.cost > cEnergy && !card.GetComponent<CardCombat>().selected)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
@@ -352,7 +349,7 @@ public class CombatController : StateMachine
 
 
         foreach (CombatActorEnemy e in targetedEnemies) {
-            RulesSystem.instance.CarryOutCard(ActiveCard.cardData, Hero, e);
+            RulesSystem.instance.CarryOutCard(ActiveCard.cardData,Hero, e);
             if (e.healthEffects.hitPoints <= 0)
                 KillEnemy(e);
         } 

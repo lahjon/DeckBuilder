@@ -25,6 +25,10 @@ public class CombatActorEnemy : CombatActor
     public Canvas canvasIntent;
 
 
+    private void Start()
+    {
+        healthEffects.combatActor = this;
+    }
 
     public void ReadEnemyData(EnemyData inEnemyData = null)
     {
@@ -56,7 +60,7 @@ public class CombatActorEnemy : CombatActor
 
     public void UpdateMoveDisplay(CardData cardData)
     {
-        intentDisplay.RecieveIntent(cardData.Damage, cardData.Block, cardData.SelfEffects, cardData.Effects);   
+        intentDisplay.RecieveIntent(cardData.Block, cardData.Damage, cardData.SelfEffects, cardData.Effects);   
     }
     public void TakeTurn()
     {

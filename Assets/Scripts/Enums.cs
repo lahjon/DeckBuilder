@@ -60,7 +60,8 @@ public enum EffectType
     Poison,
     Block,
     Weak,
-    Vurnerable
+    Vurnerable,
+    Barricade
 }
 
 public enum CharacterStat

@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Starter
+  m_Name: Barricade
   m_EditorClassIdentifier: 
-  name: Starter
-  description: A starter.
-  artwork: {fileID: 21300000, guid: 738425baf4a05d04eb83e999eab9002d, type: 3}
+  name: Barricade
+  description: 
+  artwork: {fileID: 21300000, guid: 09c1c92591f02f7489bb2cfc53286b82, type: 3}
   cost: 1
-  goldValue: 12
+  goldValue: 0
   Damage:
     Type: 0
-    Value: 2
-    Times: 1
+    Value: 0
+    Times: 0
     Target: 0
   Block:
     Type: 0
     Value: 0
     Times: 0
     Target: 0
-  SelfEffects: []
-  Effects:
-  - Type: 3
-    Value: 4
+  SelfEffects:
+  - Type: 5
+    Value: 1
     Times: 1
     Target: 0
+  Effects: []
   cardRarity: 0
   characterClass: 0
