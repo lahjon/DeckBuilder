@@ -29,7 +29,7 @@ public class CardData : ScriptableObject
     {
         get
         {
-            if (Effects.Count == 0 && Effects.Count(x => x.Target == CardTargetType.Single) == 0 && Damage.Target != CardTargetType.Single)
+            if (Effects.Count(x => x.Target == CardTargetType.Single) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.Single))
                 return false;
             else
                 return true;

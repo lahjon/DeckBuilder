@@ -13,33 +13,54 @@ public class CardCombat : Card
     public AnimationCurve transitionCurveScaleDiscard;
     public AnimationCurve transitionCurveScaleDraw;
     public AnimationCurve transitionCurveTransform;
-    public bool selected = false;
+    
     public bool inTransition = false;
     public ParticleSystem animationSystem;
     GameObject animationObject;
     private bool inAnimation = false;
 
+    [SerializeField]
+    private bool _selected = false;
+
+    public bool selected 
+    {
+        get
+        {
+            return _selected;
+        }
+        set
+        {
+            _selected = value;
+            if(targetRequired)
+            {
+                if (_selected == true)
+                {
+                    this.transform.localScale += new Vector3(0.3f, 0.3f, 0.3f);
+                    this.transform.localPosition += new Vector3(0.0f, 1f, 0.0f);
+                }
+                else
+                {
+                    this.transform.localPosition = combatController.GetPositionInHand(combatController.GetCardNumberInHand(this));
+                    ResetScale();
+                }
+            }
+        }
+    }
 
     void Awake()
     {
         CardFollower = FollowMouseIsSelected();
     }
     
-    void Start()
-    {
-    }
-
     public void CreateAnimation()
     {
         if (cardData.animationPrefab != null)
         {
             GameObject child = cardData.animationPrefab.transform.GetChild(0).gameObject;
-            Debug.Log("Child:" + child);
             animationObject = Instantiate(cardData.animationPrefab, transform.position, Quaternion.Euler(0, 0, 0)) as GameObject;
             animationSystem = child.GetComponent<ParticleSystem>();
-            animationObject.transform.position = combatController.targetedEnemy.transform.position;
+            animationObject.transform.position = this.transform.position;
             animationSystem.Stop();
-            Debug.Log(animationSystem);
         }
     }
     public void UseCard()
@@ -85,38 +106,60 @@ public class CardCombat : Card
 
     public override void OnMouseEnter()
     {
-        if(transform.localScale == Vector3.one)
-            transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-
-        if(WorldSystem.instance.worldState == WorldState.Combat)
+        if(!inTransition)
         {
-            transform.SetAsLastSibling();
+            if(transform.localScale == Vector3.one)
+                transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+
+            if(WorldSystem.instance.worldState == WorldState.Combat)
+            {
+                transform.SetAsLastSibling();
+            }
         }
     }
 
     public override void OnMouseExit()
     {
-        if(transform.localScale != Vector3.one)
-            transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
-
-        if(WorldSystem.instance.worldState == WorldState.Combat)
+        if(!inTransition)
         {
-            combatController.ResetSiblingIndexes();
+            if(transform.localScale != Vector3.one && !selected)
+                transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+
+            if(WorldSystem.instance.worldState == WorldState.Combat)
+            {
+                combatController.ResetSiblingIndexes();
+            }
         }
     }
 
     public override void ResetScale()
     {
-        transform.localScale = combatController.GetCardScale();
+        if(this.transform.localScale != Vector3.one)
+            this.transform.localScale = Vector3.one;
     }
 
     private IEnumerator FollowMouseIsSelected()
     {
-        while (true)
+        
+        if (!targetRequired)
         {
-            float posY = Input.mousePosition.y;
-            transform.position = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, posY, 10));
-            yield return null;
+            while (true)
+            {
+                float posY = Input.mousePosition.y;
+                transform.position = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, posY, 10));
+                yield return null;
+            }
+        }
+        else
+        {
+            Vector3 pos = transform.localPosition += new Vector3(0.0f,0.2f,0.0f);
+            Vector3 scale = transform.localScale += new Vector3(0.3f,0.3f,0.3f);
+            while (true)
+            {
+                transform.localScale = scale;
+                transform.localPosition = pos;
+                yield return null;
+            }
         }
     }
 
@@ -177,9 +220,20 @@ public class CardCombat : Card
             time -= Time.deltaTime;
             yield return null;
         }
+
+        ResetCard(true, disable);
+
+    }
+
+    private void ResetCard(bool transition = false, bool disable = false)
+    {
         selected = false;
-        inTransition = false;
-        combatController.CardDemarkTransition(gameObject);
+        Debug.Log(this.cardData);
+        if(transition)
+        {
+            inTransition = false;
+            combatController.CardDemarkTransition(gameObject);
+        }
 
         transform.localScale = new Vector3(1,1,1);
         if(disable)
@@ -188,10 +242,16 @@ public class CardCombat : Card
         }
     }
 
-    public void AnimateCardByCurve(Vector3 pos, bool scale = false, bool disable = false, bool useLocal = true, bool invertScale = false)
+    public void AnimateCardByCurve(Vector3 pos, bool scale = false, bool disable = false, bool useLocal = true, bool invertScale = false, bool drawPhase = false)
     {
         StopAllCoroutines();
-        StartCoroutine(CurveTransition(pos, scale, disable, useLocal, invertScale));
+
+        if(!targetRequired || drawPhase)
+            StartCoroutine(CurveTransition(pos, scale, disable, useLocal, invertScale));
+        else
+        {
+            ResetCard();
+        }
     }
 
 
@@ -253,32 +313,67 @@ public class CardCombat : Card
         {
             if (combatController.ActiveCard == this) { 
                 combatController.CardUsed();
+                Debug.Log("1");
                 return;
             }
 
             if (!combatController.CardisSelectable(this))
             {
+                Debug.Log("2");
+                combatController.ActiveCard.ResetCard();
+                //DeselectCard();
+                SelectCard();
                 return;
             }
 
-            if(selected == false)
+            if(!selected && !inTransition)
             {
-                selected = true;
-                combatController.ActiveCard = this;
-                StartCoroutine(CardFollower);
-                Debug.Log("Selected");
+                SelectCard();
             }
+
+        }
+    }
+
+    public void SelectCard()
+    {
+        selected = true;
+        combatController.ActiveCard = this;
+        Debug.Log("Selected New Card Over Another");
+        if (!targetRequired)
+        {
+            StartCoroutine(CardFollower);
         }
     }
     public override void OnMouseRightClick(bool allowDisplay = true)
     {
         if (combatController.ActiveCard == this)
         {
-            combatController.CancelCardSelection(this.gameObject);
-            StopCoroutine(CardFollower);
+            DeselectCard();
+            Debug.Log("Deselect");
         }
-        if(selected == false && allowDisplay == true)
+        if(selected == false && allowDisplay == true && combatController.ActiveCard == null && combatController.previousActiveCard != this)
+        {
             DisplayCard();
+            Debug.Log("Display");
+        }
+        combatController.previousActiveCard = null;
+    }
+
+    public override void OnMouseClick()
+    {
+        if(combatController.ActiveCard == null && combatController.previousActiveCard != this && !this.selected)
+        {
+            combatController.previousActiveCard = null;
+            SelectCard();
+            return;
+        }
+        CardAction();
+    }
+
+    public void DeselectCard()
+    {
+        combatController.CancelCardSelection(this.gameObject);
+        StopCoroutine(CardFollower);
     }
 
 }

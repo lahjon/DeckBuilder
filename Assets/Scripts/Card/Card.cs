@@ -16,11 +16,14 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     public Text damageText;
     public Text blockText;
     public WorldState previousState;
+    public bool targetRequired;
 
     public void BindCardData()
 
     {
         nameText.text = cardData.name;
+
+        targetRequired = cardData.targetRequired;
 
         artworkImage.sprite = cardData.artwork;
 
@@ -43,9 +46,15 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public abstract void OnMouseEnter();
+    public virtual void OnMouseEnter()
+    {
+        return;
+    }
 
-    public abstract void OnMouseExit();
+    public virtual void OnMouseExit()
+    {
+        return;
+    }
     public abstract void ResetScale();
     
     public void OnPointerClick(PointerEventData eventData)
@@ -96,6 +105,7 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
 
     public virtual void OnMouseClick()
     {
+        Debug.Log("Clicky");
         return;
     }
 

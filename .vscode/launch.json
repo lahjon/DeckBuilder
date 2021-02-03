@@ -7,7 +7,7 @@
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/c:/DeckBuilder/Library/EditorInstance.json",
+            "path": "/c:/Users/fredrik.gard/Documents/DeckBuilder/Library/EditorInstance.json",
             "request": "launch"
         },
         {

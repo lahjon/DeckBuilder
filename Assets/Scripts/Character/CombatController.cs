@@ -52,6 +52,7 @@ public class CombatController : StateMachine
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
+    public bool mouseInsidePanel = false;
 
     float cardPanelwidth;
 
@@ -60,11 +61,14 @@ public class CombatController : StateMachine
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
 
     //[HideInInspector]
-    public CardCombat ActiveCard;
+    public CardCombat _activeCard;
+    public CardCombat previousActiveCard;
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy;
     public AnimationCurve transitionCurve;
     public bool acceptInput = true;
+
+    public Canvas canvas;
     private void Awake()
     {
         cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
@@ -75,6 +79,20 @@ public class CombatController : StateMachine
     //     if (WorldSystem.instance.worldState == WorldState.Combat)
     //         SetUpEncounter();
     // }
+
+    public CardCombat ActiveCard 
+    {
+        get
+        {
+            return _activeCard;
+        }
+        set
+        {
+            _activeCard = value;
+            EnemiesInScene.ForEach(x => x.SetTarget(false));
+        }
+    }
+
     void Update()
     {
         for(int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
@@ -104,10 +122,23 @@ public class CombatController : StateMachine
             }
         }
         if(Input.GetKeyDown(KeyCode.Space) && acceptInput == true)
-            {
-                PlayerInputEndTurn();
-            }
+        {
+            PlayerInputEndTurn();
+        }
+        // if(ActiveCard != null)
+        // {
+        //     MouseInsideArea();
+        // }
+    }
 
+    public void DetectCanvasClick()
+    {
+        if(ActiveCard != null && ActiveCard.selected)
+        {
+
+            ActiveCard.selected = false;
+            ActiveCard = null;
+        }
 
     }
 
@@ -148,6 +179,11 @@ public class CombatController : StateMachine
         float midPoint = cardPanelwidth / 2;
         float localoffset = (Hand.Count % 2 == 0) ? offset : 0;
         return new Vector3(midPoint + (CardNr - Hand.Count / 2) * handDistance + localoffset, handHeight, 0);
+    }
+
+    public int GetCardNumberInHand(Card aCard)
+    {
+        return Hand.IndexOf(aCard.gameObject);
     }
 
     internal void ResetSiblingIndexes()
@@ -195,6 +231,7 @@ public class CombatController : StateMachine
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
+        Debug.Log(ActiveCard);
         return ActiveCard is null && card.cardData.cost <= cEnergy;
     }
     GameObject CreateCardFromData(CardData cardData)
@@ -215,6 +252,7 @@ public class CombatController : StateMachine
 
     internal void CancelCardSelection(GameObject gameObject)
     {
+        previousActiveCard = ActiveCard;
         int i = Hand.IndexOf(gameObject);
         gameObject.GetComponent<CardCombat>().AnimateCardByCurve(GetPositionInHand(i));
         ActiveCard = null;
@@ -301,13 +339,13 @@ public class CombatController : StateMachine
 
     private void AnimateCardDiscard(CardCombat card)
     {
-        //card.AnimateCardByCurve(txtDiscard.transform.position, true, true, false);
+        card.inTransition = true;
         card.AnimateCardByPathDiscard();
     }
 
     private void AnimateCardDraw(CardCombat card, Vector3 endPos)
     {
-        card.AnimateCardByCurve(endPos, true, false, true, true);
+        card.AnimateCardByCurve(endPos, true, false, true, true, true);
     }
     private void DisplayHand()
     {
@@ -322,15 +360,45 @@ public class CombatController : StateMachine
         AnimateCardDraw(Hand[i].GetComponent<CardCombat>(), GetPositionInHand(i));
     }
 
+    public void ToggleInsidePanel()
+    {
+        if (mouseInsidePanel)
+        {
+            mouseInsidePanel = false;
+        }
+        else
+        {
+            mouseInsidePanel = true;
+        }
+    }
+
+    private bool MouseInsideArea()
+    {
+        Vector2 result;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(cardPanel.GetComponent<RectTransform>(), Input.mousePosition, WorldSystem.instance.cameraManager.mainCamera, out result);
+        Debug.Log(result);
+        Debug.Log(cardPanel.GetComponent<RectTransform>().rect.Contains(result));
+
+        if (cardPanel.GetComponent<RectTransform>().rect.Contains(result))
+        {
+            Debug.Log("True");
+            return true;
+        }
+
+        Debug.Log("False");
+        return false;
+    }
+
     public void CardUsed(CombatActorEnemy enemy = null)
     {
+        Debug.Log("Card used from Controller");
         targetedEnemy = enemy;
         if (ActiveCard is null)
             return;
 
-        if(ActiveCard.cardData.targetRequired && enemy is null)
+        if((ActiveCard.cardData.targetRequired && enemy is null) || MouseInsideArea())
         {
-            ActiveCard.OnMouseRightClick(); //this also sets activeCard = null
+            ActiveCard.DeselectCard();
             return;
         }
 
@@ -354,6 +422,7 @@ public class CombatController : StateMachine
                 KillEnemy(e);
         } 
 
+        Debug.Log("I AM HERE LAST");
         ActiveCard.UseCard();
         ActiveCard = null;
     }
@@ -363,6 +432,7 @@ public class CombatController : StateMachine
         enemy.gameObject.SetActive(false);
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
+        CheckVictory();
     }
 
     private void CheckVictory()

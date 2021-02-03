@@ -23,11 +23,23 @@ public class CombatActorEnemy : CombatActor
 
     public Canvas canvasEffects;
     public Canvas canvasIntent;
-
+    public GameObject target;
 
     private void Start()
     {
         healthEffects.combatActor = this;
+    }
+
+    public void SetTarget(bool set = false)
+    {
+        if(set && !target.activeSelf)
+        {
+            target.SetActive(true);
+        }
+        else if(!set && target.activeSelf)
+        {
+            target.SetActive(false);
+        }
     }
 
     public void ReadEnemyData(EnemyData inEnemyData = null)
@@ -106,11 +118,18 @@ public class CombatActorEnemy : CombatActor
 
     public void OnMouseOver()
     {
+        if(combatController.ActiveCard != null  && WorldSystem.instance.combatManager.combatController.ActiveCard.targetRequired)
+            SetTarget(true);
+        else
+        {
+            SetTarget(false);
+        }
         if (combatController.ActiveEnemy is null) combatController.ActiveEnemy = this;
     }
 
     public void OnMouseExit()
     {
+        SetTarget(false);
         if (combatController.ActiveEnemy == this) combatController.ActiveEnemy = null;
     }
 
