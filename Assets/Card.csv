@@ -1,0 +1,4 @@
+﻿Class;Name;Cost;DamageValue;DamageTimes;DamageTarget;BlockValue;BlockTimes;
+Brute;Bash;2;8;1;Single;0;0;
+Brute;Strike;1;6;1;Single;0;0;
+Brute;Defend;1;0;0;Single;5;1;

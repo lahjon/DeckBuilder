@@ -41,6 +41,8 @@ public class WorldSystem : MonoBehaviour
         if(worldState != WorldState.MainMenu)
             UpdateStartScene();
 
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadAll();
     }
 
     // public WorldState WorldState

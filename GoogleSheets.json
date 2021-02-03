@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "fluid-root-262012",
+  "private_key_id": "27c2ac572a82d81b3374f8a54518ba8af3a96b46",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCmT0z2BRhMsn8C\nlEkLjzXwZLPsaCsb7xwQiKRUtCTmWGV9unwMNCDXYCDdnDLrSSw57EdrH1nG708o\nQG3l9mcH6Y6OhczPmFAEQYFg+GdzN5PFqAUOXoLNtz72eA8j3Bq3V5UrxmT/rrYb\nZ1+bZfc18uBT+dll13Eo/R5qLpk1n3fnV/wILcsNd/XWK1BHr6i/6as24+R3xl3Y\nfrzwJAM9cFsR6RgFS+cpLgYJSVmMwrJsZ+a1G1Qge6MXrJsFS5rkNtJ9DY1MjqcZ\nzyq7qAbblhmy3o8YVXYw0ZYc7xLgHdabE/3qeU5LnZBbVNQADP2n3Ha1eyXMA8Mq\nO7Nprk4HAgMBAAECggEAGUddedmtZ18MSi6S6cRjXP5ZkNoGj3DpUaQLYmqdXzvZ\ndWJmn44+3a3ZYQXwgW32YHmHI4O46DGQ1Rvx+G3bHEtGZWh2CKnso7D3Qu+O/ebZ\nOcZ/uj7oX+92DQ2Ts44tq2ePH3/A81IxkPnGAP9fM56OtYT5I+863pGW0Wny1MEA\n6WWJfGEF/f08M8+0rMiHstilFiMYNpWDMnKuT4Png2dzIa9sBi+oICz04wPt/0w1\nrnCdR7q9h7rVWZVk7dQxEsopfCDqeyDxyrOoBPXeKDISMF/P94w/1WwrKbTys8F8\nxbIV1FmFKiODaOfva73mUMqHcfEM6q6HBl1IrBiswQKBgQDlmiAZrAQOkbBiuIJ/\nAZZZ8wh3N//NnW+mShYsSBC4KLL4b2lAYhFtAz/37vjwIt2Jl8fj4/+De9sD8mIm\nf6Wt676WdVa6AvD//WIXGJ8pI3D54pvQfjslYolMvNLZjR2TJ9sq3/7lMWj6uWbI\nqxItg7gRn3N5YKkpxPHJSyNyxwKBgQC5bktNg48sXRBCWxHFtacW3qeP5pM7PO1K\n8NNgRfOHVkx54ECn9pqfKLC/qFF9pU5IE55PKNgknXlJkgEB3En9ftfnk3EdOOaM\nxA/FYW2aWRDgYIjXrMR79nZtR7GC67ZNG7HuE/ByB1Z666oCwb4FTrDVYNpBGDgh\nsVmDSb8KwQKBgQCPUDvXKlrB6Ugq5rZ1pjz92kgfejHOWwXUywu6CiV9fdHwZkJR\nMKVl4RBtppl18p1LhBT991OG86lKdmGzXBvDSpIFAirnImzhrHwspG68U+Xx4/OU\nGSa7+BxxbK9DoeSi9M7FnVlSIBxB27X/bWCETmJ3hYqjaaVNcCPnnGH9AwKBgEaM\nZe35zbENPzBfwaU89XNIBuxCx2VUStumQGVyd7LX7IS6Ax9kPXOsYYKpoUdyaxQV\nErf/TCyyFQEeoW95xlTBu5cJi5GYom6P8YghBzggBsG3OJkFzEN1g50UF789usAf\nd1SjFWnszMQ7gRVHbOpMBA9Kp/74HfMDrJC8sAiBAoGAY2KiTAPOFCzoZo/01IhT\n38NpjU9HoP9cSrM8ui36VDH6/GO4KsP7F6bSYRskYBw+faM4MozENgt13DZXWr3+\n4vPpFJRvfIJ7AmuIO47+dmWmW54C+W5pPy+YuM/zSkSEkLZEq1PyMPUqD47lREiS\nzuwI0ZelMR/kK/U829fs0fE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "sheets@fluid-root-262012.iam.gserviceaccount.com",
+  "client_id": "106461066826222939430",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sheets%40fluid-root-262012.iam.gserviceaccount.com"
+}
