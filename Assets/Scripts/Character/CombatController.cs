@@ -328,7 +328,7 @@ public class CombatController : StateMachine
         if (ActiveCard is null)
             return;
 
-        if(ActiveCard.cardData.OverallTargetType == CardTargetType.Single && enemy is null)
+        if(ActiveCard.cardData.targetRequired && enemy is null)
         {
             ActiveCard.OnMouseRightClick(); //this also sets activeCard = null
             return;
@@ -339,7 +339,7 @@ public class CombatController : StateMachine
         RulesSystem.instance.CarryOutCardSelf(ActiveCard.cardData, Hero);
 
         List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
-        if (ActiveCard.cardData.OverallTargetType == CardTargetType.Single)
+        if (ActiveCard.cardData.targetRequired)
         {
             if (enemy != null)
                 targetedEnemies.Add(enemy);

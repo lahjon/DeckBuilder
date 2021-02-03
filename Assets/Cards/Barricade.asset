@@ -18,7 +18,7 @@ MonoBehaviour:
   cost: 1
   goldValue: 0
   Damage:
-    Type: 0
+    Type: 2
     Value: 0
     Times: 0
     Target: 0
@@ -35,3 +35,4 @@ MonoBehaviour:
   Effects: []
   cardRarity: 0
   characterClass: 0
+  animationPrefab: {fileID: 0}

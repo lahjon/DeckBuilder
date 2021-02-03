@@ -32,12 +32,11 @@ public class CharacterManager : MonoBehaviour
     {
         get
         {
-            return gold;
+            return _gold;
         }
         set
         {
-            gold += value;
-            _gold = gold;
+            _gold += value;
             characterVariablesUI.UpdateUI();
         }
     }

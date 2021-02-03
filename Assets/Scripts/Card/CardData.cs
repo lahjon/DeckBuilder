@@ -25,14 +25,14 @@ public class CardData : ScriptableObject
     public GameObject animationPrefab;
 
     [HideInInspector]
-    public CardTargetType OverallTargetType
+    public bool targetRequired
     {
         get
         {
             if (Effects.Count == 0 && Effects.Count(x => x.Target == CardTargetType.Single) == 0 && Damage.Target != CardTargetType.Single)
-                return CardTargetType.ALL;
+                return false;
             else
-                return CardTargetType.Single;
+                return true;
         }
     }
 
