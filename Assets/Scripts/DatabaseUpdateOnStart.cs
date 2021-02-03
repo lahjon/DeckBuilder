@@ -25,4 +25,27 @@ public static class DatabaseUpdateOnStart
 
         EditorApplication.isPlaying = true;
     }
+
+    [MenuItem("Edit/Download GoogleCards %G")]
+    static void UpdateFromGoogle()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadAll(); 
+
+        Debug.Log("Googled the cards bro!");
+
+
+    }
+
+
+    [MenuItem("Edit/Upload GoogleCards %H")]
+    static void UploadToGoogle()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.PrintCardData();
+
+        Debug.Log("Uploaded the cards bro!");
+
+
+    }
 }

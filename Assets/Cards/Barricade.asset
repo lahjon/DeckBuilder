@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Barricade
   description: 
-  artwork: {fileID: 21300000, guid: 09c1c92591f02f7489bb2cfc53286b82, type: 3}
-  cost: 1
+  artwork: {fileID: 21300000, guid: 900bf84765c50874a93203a450428572, type: 3}
+  cost: 2
   goldValue: 0
   Damage:
-    Type: 2
+    Type: 0
     Value: 0
     Times: 0
     Target: 0
   Block:
-    Type: 0
+    Type: 2
     Value: 0
     Times: 0
     Target: 0
