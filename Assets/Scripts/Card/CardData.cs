@@ -16,8 +16,8 @@ public class CardData : ScriptableObject
     public CardEffect Damage;
     public CardEffect Block;
 
-    public List<CardEffect> SelfEffects;
-    public List<CardEffect> Effects;
+    public List<CardEffect> SelfEffects = new List<CardEffect>();
+    public List<CardEffect> Effects = new List<CardEffect>();
 
     public CardRarity cardRarity;
 
