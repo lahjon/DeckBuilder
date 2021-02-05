@@ -9,10 +9,12 @@ public class RewardScreen : MonoBehaviour
     public GameObject rewardScreenCard;
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
+    public GameObject canvasCard;
     public Reward currentReward;
     public List<GameObject> combatRewardNormal;
     public List<GameObject> combatRewardElite;
     public List<GameObject> combatRewardBoss;
+    public GameObject cardDisplayPrefab;
     int[] keys = new int[] { 1,2,3,4,5};
 
     void Update()
@@ -86,6 +88,7 @@ public class RewardScreen : MonoBehaviour
     }
     public void GetCombatReward()
     {
+        
         OnCanvasEnable();
         
         WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
@@ -96,6 +99,7 @@ public class RewardScreen : MonoBehaviour
     public void RemoveRewardScreen()
     {
         canvas.SetActive(false);
+        canvasCard.SetActive(false);
         if(encounterData.type == EncounterType.OverworldCombatBoss)
             WorldSystem.instance.EndCombat(true);
         else

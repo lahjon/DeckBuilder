@@ -47,6 +47,7 @@ public class RewardGold : Reward
 
     protected override void CollectCombatReward()
     {
+        Debug.Log(goldAmount);
         WorldSystem.instance.characterManager.gold += goldAmount;
     }
 }

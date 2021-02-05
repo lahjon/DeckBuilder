@@ -12,7 +12,7 @@ public class CombatController : StateMachine
     public GameObject TemplateCard;
     public BezierPath bezierPath;
     public GameObject TemplateEnemy;
-    public EncounterData encounterData;
+    public List<EnemyData> enemyDatas = new List<EnemyData>();
     public TMP_Text lblEnergy;
     public List<Transform> trnsEnemyPositions;
     public Camera CombatCamera;
@@ -73,12 +73,6 @@ public class CombatController : StateMachine
     {
         cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
     }
-    // void Start()
-    // {
-    //     // DEBUG
-    //     if (WorldSystem.instance.worldState == WorldState.Combat)
-    //         SetUpEncounter();
-    // }
 
     public CardCombat ActiveCard 
     {
@@ -148,20 +142,21 @@ public class CombatController : StateMachine
         EndState();
     }
 
-    public void SetUpEncounter()
+    public void SetUpEncounter(List<EnemyData> enemyDatas = null)
     {
 
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
 
-        encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
+        if(enemyDatas == null)
+            enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
 
-        for(int i = 0; i < encounterData.enemyData.Count; i++)
+        for(int i = 0; i < enemyDatas.Count; i++)
         {
             GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.combatController = this;
-            combatActorEnemy.ReadEnemyData(encounterData.enemyData[i]);
+            combatActorEnemy.ReadEnemyData(enemyDatas[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
 
@@ -422,7 +417,6 @@ public class CombatController : StateMachine
                 KillEnemy(e);
         } 
 
-        Debug.Log("I AM HERE LAST");
         ActiveCard.UseCard();
         ActiveCard = null;
     }
@@ -432,10 +426,9 @@ public class CombatController : StateMachine
         enemy.gameObject.SetActive(false);
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
-        CheckVictory();
     }
 
-    private void CheckVictory()
+    public void CheckVictory()
     {
         if(DeadEnemiesInScene.Count == amountOfEnemies)
         {

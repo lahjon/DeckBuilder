@@ -5,7 +5,6 @@ using UnityEngine;
 
 public abstract class Reward : MonoBehaviour
 {
-
     protected abstract void CollectCombatReward();
     public virtual void OnClick(bool destroy = true)
     {

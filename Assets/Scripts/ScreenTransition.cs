@@ -21,10 +21,7 @@ public class ScreenTransition : MonoBehaviour
             canvas.SetActive(false);
         }
     }
-    // private void DeactiveCanvas()
-    // {
-    //     canvas.SetActive(false);
-    // }
+
     private void FadeToColor()
     {
         WorldSystem.instance.SwapState(WorldState.Transition);

@@ -247,10 +247,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8237644298160242557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0e5be01bf91dc84289e8335a1349e38, type: 3}
+  m_Script: {fileID: 11500000, guid: 4536fa1151b51924a889a89e3ce78551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reward: {fileID: 0}
+  cardDisplayPrefab: {fileID: 0}
 --- !u!1 &8237644298767203292
 GameObject:
   m_ObjectHideFlags: 0

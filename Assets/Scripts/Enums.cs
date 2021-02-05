@@ -76,6 +76,7 @@ public enum CharacterStat
 public enum WorldState
 {
     MainMenu,
+    Event,
     Reward,
     Shop,
     Display,
@@ -101,7 +102,6 @@ public enum EncounterType
     TownTavern,
     TownPray
 }
-
 public enum EncounterValue
 {
     Positive, 

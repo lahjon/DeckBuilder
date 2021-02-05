@@ -121,13 +121,21 @@ public class WorldSystem : MonoBehaviour
         }
     }
 
-    public void EnterCombat()
+    public void EnterCombat(List<EnemyData> enemyDatas = null)
     {
         combatManager.combatController.gameObject.SetActive(true);
         SwapState(WorldState.Combat);
         cameraManager.CameraGoto(WorldState.Combat, true);
         encounterManager.encounterTier = encounterManager.currentEncounter.encounterData.tier;
-        combatManager.combatController.SetUpEncounter();
+        List<EnemyData> eData = enemyDatas;
+        if (enemyDatas == null)
+        {
+            combatManager.combatController.SetUpEncounter();
+        }
+        else
+        {
+            combatManager.combatController.SetUpEncounter(eData);
+        }
     }
 
     public void EndCombat(bool endAct = false)
@@ -149,11 +157,11 @@ public class WorldSystem : MonoBehaviour
         cameraManager.CameraGoto(WorldState.Town, true);
     }
 
-    public void SwapState(WorldState aWorldState)
+    public void SwapState(WorldState aWorldState, bool doTransition = true)
     {
         previousState = instance.worldState;
         worldState = aWorldState;
-        cameraManager.CameraGoto(aWorldState, true);
+        cameraManager.CameraGoto(aWorldState, doTransition);
         characterManager.characterVariablesUI.UpdateUI();
     }
     public void SwapStatePrevious()
