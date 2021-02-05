@@ -8,7 +8,7 @@ public class EventNewEvent : EventMain
     {
         EncounterUITest ui = WorldSystem.instance.uiManager.encounterUITest;
         GameObject oldUI = Instantiate(ui.background, ui.background.transform.position, Quaternion.Euler(0, 0, 0), ui.panel.transform) as GameObject;
-        ui.encounterData = ui.encounterData.newEncounterData;
+        ui.encounterData = ui.newEncounterData;
         ui.BindEncounterData();
         ui.background.GetComponent<CanvasGroup>().alpha = 0.0f;
 

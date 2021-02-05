@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219fdc165e1934b4b96bcaa3c1de3b81, type: 3}
+  m_Name: Encounter_Random_IntoTheWoods_01_a
+  m_EditorClassIdentifier: 
+  name: The dangerous Seth Nielsen
+  type: 1
+  tier: 0
+  isVisited: 0
+  secretCondition: 0
+  events:
+  - {fileID: 8237644298160242557, guid: e4d128f360f16e64183e47e23047b537, type: 3}
+  - {fileID: 8237644298160242557, guid: 13eeb0c4c93d6ee4e9b92334735006d6, type: 3}
+  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
+  description: A wild Seth Nielsen appears! His autism is out of this world and he
+    refuses to listen to reason. Whatever will you do?!
+  choice1: Tell Seth Nielsen his views are OK!
+  choice2: Attack Seth Nielsen!
+  choice3: Leave Seth Nielsen alone.
+  newEncounterData:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 90870ac26474dde4fa3cd693974cc894, type: 2}
+  enemyData:
+  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
+  cardData: []

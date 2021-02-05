@@ -22,8 +22,8 @@ public class EncounterDataTest : ScriptableObject
     public string choice2;
     public string choice3;
 
+    public List<EncounterDataTest> newEncounterData = new List<EncounterDataTest>(3);
     public List<EnemyData> enemyData = new List<EnemyData>();
-    public EncounterDataTest newEncounterData;
     public List<CardData> cardData = new List<CardData>();
 
 }

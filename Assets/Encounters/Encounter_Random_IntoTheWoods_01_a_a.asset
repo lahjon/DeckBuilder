@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219fdc165e1934b4b96bcaa3c1de3b81, type: 3}
+  m_Name: Encounter_Random_IntoTheWoods_01_a_a
+  m_EditorClassIdentifier: 
+  name: Leaving the dangerous Seth Nielsen
+  type: 1
+  tier: 0
+  isVisited: 0
+  secretCondition: 0
+  events:
+  - {fileID: 8237644298160242557, guid: 73f4d099ddc34c5469f58bb10fd4df78, type: 3}
+  description: You leave Seth Nielsen.
+  choice1: Leave.
+  choice2: 
+  choice3: 
+  newEncounterData:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  enemyData:
+  - {fileID: 0}
+  cardData: []

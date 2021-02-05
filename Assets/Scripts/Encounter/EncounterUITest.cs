@@ -18,6 +18,7 @@ public class EncounterUITest : MonoBehaviour
     public GameObject choice2;
     public GameObject choice3;
     public Encounter encounter;
+    public EncounterDataTest newEncounterData;
 
     void Start()
     {
@@ -27,24 +28,39 @@ public class EncounterUITest : MonoBehaviour
 
     public void BindEncounterData()
     {
+        int count = 0;
+        foreach (GameObject e in encounterData.events)
+        {
+            if (e != null)
+            {
+                count++;
+            }
+        }
+        
+        choice1.SetActive(false);
+        choice2.SetActive(false);
+        choice3.SetActive(false);
 
-        if(encounterData.events.Count > 0)
+        if(count > 0)
         {
-            event1 = encounterData.events[0];
-            choice1.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice1;
             choice1.SetActive(true);
+            event1 = encounterData.events[0];
+            
+            choice1.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice1;
         }
-        if(encounterData.events.Count > 1)
+        if(count > 1)
         {
-            event2 = encounterData.events[1];
-            choice2.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice2;
             choice2.SetActive(true);
+            event2 = encounterData.events[1];
+            
+            choice2.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice2;
         }
-        if(encounterData.events.Count > 2)
+        if(count > 2)
         {
-            event3 = encounterData.events[2];
-            choice3.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice3;
             choice3.SetActive(true);
+            event3 = encounterData.events[2];
+            
+            choice3.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice3;
         }
         if(encounterTitle != null)
             encounterTitle.text = encounterData.name;
@@ -64,16 +80,19 @@ public class EncounterUITest : MonoBehaviour
     {
         if (index == 1)
         {
+            newEncounterData = encounterData.newEncounterData[0];
             bool disable = event1.GetComponent<EventMain>().TriggerEvent();
             ConfirmOption(disable);
         }
         else if(index == 2)
         {
+            newEncounterData = encounterData.newEncounterData[1];
             bool disable = event2.GetComponent<EventMain>().TriggerEvent();
             ConfirmOption(disable);
         }
         else if(index == 3)
         {
+            newEncounterData = encounterData.newEncounterData[2];
             bool disable = event3.GetComponent<EventMain>().TriggerEvent();
             ConfirmOption(disable);
         }
@@ -81,6 +100,7 @@ public class EncounterUITest : MonoBehaviour
 
     public void ConfirmOption(bool disable)
     {
+        
         if (disable)
         {
             canvas.SetActive(false);
@@ -96,16 +116,16 @@ public class EncounterUITest : MonoBehaviour
     {
         CanvasGroup firstFade = oldObj.GetComponent<CanvasGroup>();
         CanvasGroup secondFade = newObj.GetComponent<CanvasGroup>();
-        float time = 1.0f;
+        float time = 0.6f;
 
-        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / time)
+        for (float t = time; t >= 0; t -= Time.deltaTime)
         {
-            firstFade.alpha = Mathf.Abs(t - 1);
+            firstFade.alpha = t / time;
             yield return null;
         }
-        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / time)
+        for (float t = time; t >= 0; t -= Time.deltaTime)
         {
-            secondFade.alpha = t;
+            secondFade.alpha = Mathf.Abs(1 - (t / time));
             yield return null;
         }
         DestroyImmediate(oldObj);
