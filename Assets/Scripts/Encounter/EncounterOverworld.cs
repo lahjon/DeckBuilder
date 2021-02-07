@@ -25,12 +25,7 @@ public class EncounterOverworld : Encounter
 
     protected override bool CheckViablePath(Encounter anEncounter)
     {
-        foreach (Encounter x in WorldSystem.instance.encounterManager.currentEncounter.neighbourEncounters)
-        {
-            if(x == anEncounter)
-                return true;
-        }
-        return false;
+        return WorldSystem.instance.encounterManager.currentEncounter.neighbourEncounters.Contains(anEncounter);
     }
 
     protected override void OnMouseOver()

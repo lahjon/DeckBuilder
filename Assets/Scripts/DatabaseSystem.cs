@@ -8,6 +8,7 @@ public class DatabaseSystem : MonoBehaviour
     public CardDatabase cardDatabase;
     public CardDatabase StartingCardsBrute;
     public IconDatabase iconDatabase;
+    public EncounterDatabase EncounterDatabase;
     public static DatabaseSystem instance;
 
     private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
@@ -70,6 +71,18 @@ public class DatabaseSystem : MonoBehaviour
     {
         //Denn ska v�lja bara kort f�r relevant gubbe sen
         return StartingCards[Character].allCards;
+    }
+
+    public EncounterData GetRandomEncounter()
+    {
+        int id = Random.Range(0, EncounterDatabase.allOverworld.Count);
+        return EncounterDatabase.allOverworld[id];
+    }
+
+    public EncounterData GetRandomEncounterBoss()
+    {
+        int id = Random.Range(0, EncounterDatabase.bossEncounters.Count);
+        return EncounterDatabase.bossEncounters[id];
     }
 }
 

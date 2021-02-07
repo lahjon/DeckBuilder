@@ -37,6 +37,7 @@ public class CardCombat : Card
                 {
                     this.transform.localScale += new Vector3(0.3f, 0.3f, 0.3f);
                     this.transform.localPosition += new Vector3(0.0f, 1f, 0.0f);
+                    transform.SetAsLastSibling();
                 }
                 else
                 {
@@ -106,15 +107,10 @@ public class CardCombat : Card
 
     public override void OnMouseEnter()
     {
-        if(!inTransition)
+        if(!inTransition && WorldSystem.instance.worldState == WorldState.Combat && combatController.ActiveCard is null)
         {
-            if(transform.localScale == Vector3.one)
-                transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-
-            if(WorldSystem.instance.worldState == WorldState.Combat)
-            {
+                SetScaleEnlarged();
                 transform.SetAsLastSibling();
-            }
         }
     }
 
@@ -122,10 +118,10 @@ public class CardCombat : Card
     {
         if(!inTransition)
         {
-            if(transform.localScale != Vector3.one && !selected)
-                transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+            if(!selected)
+                ResetScale();
 
-            if(WorldSystem.instance.worldState == WorldState.Combat)
+            if(WorldSystem.instance.worldState == WorldState.Combat && !_selected)
             {
                 combatController.ResetSiblingIndexes();
             }
@@ -134,9 +130,14 @@ public class CardCombat : Card
 
     public override void ResetScale()
     {
-        if(this.transform.localScale != Vector3.one)
-            this.transform.localScale = Vector3.one;
+        transform.localScale = Vector3.one;
     }
+
+    public void SetScaleEnlarged()
+    {
+        transform.localScale = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f);
+    }
+
 
     private IEnumerator FollowMouseIsSelected()
     {
