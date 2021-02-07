@@ -73,7 +73,7 @@ public class RewardScreen : MonoBehaviour
             currentReward.OnClick();
         }
         currentReward = null;
-        rewardScreenCard.SetActive(false);
+        canvasCard.SetActive(false);
     }
 
 

@@ -31,3 +31,4 @@ MonoBehaviour:
   Effects: []
   cardRarity: 1
   characterClass: 0
+  animationPrefab: {fileID: 8867539605098610225, guid: 858239a5745affe49a2dc23a4ef8c689, type: 3}

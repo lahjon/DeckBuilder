@@ -64,7 +64,6 @@ public class BezierFollow : MonoBehaviour
 
         transform.localScale = new Vector3(1,1,1);
         this.gameObject.SetActive(false);
-        WorldSystem.instance.combatManager.combatController.CheckVictory();
 
     }
 }

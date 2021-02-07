@@ -66,25 +66,28 @@ public class CardCombat : Card
     }
     public void UseCard()
     {
-        if (cardData.animationPrefab != null)
+        combatController.DiscardCard(this.gameObject);
+        
+        if (cardData.animationPrefab != null) // has animation
         {
             CreateAnimation();
             
             StopCoroutine(CardFollower);
 
             Vector3 center = new Vector3(Screen.width*0.5f, Screen.height*0.5f, 0.0f);
-            StartCoroutine(LerpPosition(combatController.cardHoldPos.position, 0.4f));
-            StartCoroutine(WaitForAnimation());
+            StartCoroutine(LerpTransition(combatController.cardHoldPos.position, 0.4f));
+            //StartCoroutine(WaitForAnimation());
             
             Debug.Log("Playing Animation");
             StartCoroutine(WaitForAnimation(animationSystem));
         }
-        else
+        else // no animation
         {
             Debug.Log("No Animation");
-            combatController.SendCardToDiscard(this.gameObject, true);
+            combatController.DiscardCardToPile(this.gameObject);
         }
     }
+
     IEnumerator WaitForAnimation(ParticleSystem particleSystem = null)
     {
         if (particleSystem != null)
@@ -93,7 +96,7 @@ public class CardCombat : Card
                 animationSystem.Play();
             yield return new WaitForSeconds(particleSystem.main.duration);
             DestroyImmediate(animationObject);
-            combatController.SendCardToDiscard(this.gameObject, true);
+            combatController.DiscardCardToPile(this.gameObject);
         }
         else
         {
@@ -165,7 +168,7 @@ public class CardCombat : Card
     }
 
 
-    IEnumerator LerpPosition(Vector3 endValue, float duration, float fscale = 0.2f)
+    IEnumerator LerpTransition(Vector3 endValue, float duration, float fscale = 0.2f)
     {
         inAnimation = true;
         float time = 0;
@@ -245,7 +248,7 @@ public class CardCombat : Card
 
     public void AnimateCardByCurve(Vector3 pos, bool scale = false, bool disable = false, bool useLocal = true, bool invertScale = false, bool drawPhase = false)
     {
-        StopAllCoroutines();
+        StopCoroutine(CardFollower);
 
         if(!targetRequired || drawPhase)
             StartCoroutine(CurveTransition(pos, scale, disable, useLocal, invertScale));
@@ -258,7 +261,7 @@ public class CardCombat : Card
 
     public void AnimateCardByPathDiscard()
     {
-        StopAllCoroutines();
+        StopCoroutine(CardFollower);
         this.GetComponent<BezierFollow>().StartAnimation();
     }
 
@@ -321,7 +324,8 @@ public class CardCombat : Card
             if (!combatController.CardisSelectable(this))
             {
                 Debug.Log("2");
-                combatController.ActiveCard.ResetCard();
+                if(combatController.ActiveCard != null)
+                    combatController.ActiveCard.ResetCard();
                 //DeselectCard();
                 SelectCard();
                 return;

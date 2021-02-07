@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System.Linq;
 using TMPro;
 using System.Threading.Tasks;
+using System;
 
 public class CombatController : StateMachine
 {
@@ -48,7 +49,8 @@ public class CombatController : StateMachine
     public List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> Discard = new List<GameObject>();
     public List<GameObject> createdCards = new List<GameObject>();
-    public List<GameObject> cardsInTransition = new List<GameObject>();
+    public List<GameObject> discardCardEndTurn = new List<GameObject>();
+    public List<GameObject> discardCardPlayerTurn = new List<GameObject>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -67,6 +69,7 @@ public class CombatController : StateMachine
     public CombatActorEnemy ActiveEnemy;
     public AnimationCurve transitionCurve;
     public bool acceptInput = true;
+    private bool drawingCards = false;
 
     public Canvas canvas;
     private void Awake()
@@ -115,7 +118,7 @@ public class CombatController : StateMachine
                 break;
             }
         }
-        if(Input.GetKeyDown(KeyCode.Space) && acceptInput == true)
+        if(Input.GetKeyDown(KeyCode.Space) && acceptInput == true && discardCardEndTurn.Count == 0)
         {
             PlayerInputEndTurn();
         }
@@ -214,7 +217,7 @@ public class CombatController : StateMachine
         for(int i = 0; i < Deck.Count; i++)
         {
             GameObject temp = Deck[i];
-            int index = Random.Range(i, Deck.Count);
+            int index = UnityEngine.Random.Range(i, Deck.Count);
             Deck[i] = Deck[index];
             Deck[index] = temp;
         }
@@ -222,7 +225,7 @@ public class CombatController : StateMachine
 
     public bool CardisSelectable(Card card)
     {
-        if (card.cardData.cost > cEnergy && !card.GetComponent<CardCombat>().selected)
+        if (card.cardData.cost > cEnergy && !card.GetComponent<CardCombat>().selected && !drawingCards)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
@@ -260,11 +263,13 @@ public class CombatController : StateMachine
         Hero.healthEffects.EffectsStartTurn();
         while (Hand.Count > 0)
         {
-            cardsInTransition.Add(Hand[0]);
-            SendCardToDiscard(Hand[0], true);
+            GameObject card = Hand[0];
+            discardCardEndTurn.Add(card);
+            DiscardCard(card);
+            DiscardCardToPile(card);
         }
 
-        StartCoroutine(WaitForAnimationsDiscard());
+        StartCoroutine(WaitForAnimationsDiscardEndTurn());
     }
 
     public void StartTurn()
@@ -283,16 +288,33 @@ public class CombatController : StateMachine
         EnemiesInScene.ForEach(x => x.healthEffects.EffectsStartTurn());
     }
 
-    IEnumerator WaitForAnimationsDiscard()
+    IEnumerator WaitForAnimationsDiscardEndTurn(Action endArgument = null)
     {
-        while (cardsInTransition.Count > 0)
+        while (discardCardEndTurn.Count > 0)
         {
             yield return new WaitForSeconds(0.01f);
         }
-        cardsInTransition.Clear();
+        discardCardEndTurn.Clear();
+        if(endArgument != null)
+            endArgument.Invoke();
     }
+
+    IEnumerator WaitForAnimationsDiscardsPlayerTurn(Action endArgument = null)
+    {
+        while (discardCardPlayerTurn.Count > 0)
+        {
+            Debug.Log(discardCardPlayerTurn.Count);
+            yield return new WaitForSeconds(0.01f);
+        }
+        WinCombat();
+        discardCardPlayerTurn.Clear();
+        if(endArgument != null)
+            endArgument.Invoke();
+    }
+
     IEnumerator WaitForAnimationsDraw()
     {
+        drawingCards = true;
         int i = 0;
         Debug.Log(Hand.Count);
         while (i < Hand.Count)
@@ -302,27 +324,30 @@ public class CombatController : StateMachine
             yield return new WaitForSeconds(0.1f);
         }
         Debug.Log("Done");
+        drawingCards = false;
         ResetSiblingIndexes();
     }
 
     public void CardDemarkTransition(GameObject gameObject)
     {
-        cardsInTransition.Remove(gameObject);
+        discardCardEndTurn.Remove(gameObject);
     }
 
-
-    public void SendCardToDiscard(GameObject card, bool animate = false)
+    public void DiscardCard(GameObject card)
     {
-        if(animate)
-        {
-            AnimateCardDiscard(card.GetComponent<CardCombat>());
-        }
-        else
-            HideCard(card);
-
         Discard.Add(card);
-        card.transform.localScale = GetCardScale();
         Hand.Remove(card);
+    }
+
+    public void DiscardCardToPile(GameObject card)
+    {
+
+        AnimateCardDiscard(card.GetComponent<CardCombat>());
+
+        card.transform.localScale = GetCardScale();
+        
+        if(discardCardPlayerTurn.Count > 0)
+            discardCardPlayerTurn.RemoveAt(0);
         txtDiscard.GetComponent<Text>().text = Discard.Count.ToString();
     }
 
@@ -417,7 +442,9 @@ public class CombatController : StateMachine
                 KillEnemy(e);
         } 
 
+        discardCardPlayerTurn.Add(ActiveCard.gameObject);
         ActiveCard.UseCard();
+        CheckVictory();
         ActiveCard = null;
     }
 
@@ -430,9 +457,11 @@ public class CombatController : StateMachine
 
     public void CheckVictory()
     {
+        Debug.Log(DeadEnemiesInScene.Count);
         if(DeadEnemiesInScene.Count == amountOfEnemies)
         {
-            WinCombat();
+
+            StartCoroutine(WaitForAnimationsDiscardsPlayerTurn());
         }
     }
 
@@ -455,6 +484,7 @@ public class CombatController : StateMachine
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
+        discardCardEndTurn.Clear();
         foreach (GameObject card in createdCards)
         {
             DestroyImmediate(card);
