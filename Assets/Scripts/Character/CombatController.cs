@@ -447,6 +447,15 @@ public class CombatController : StateMachine
         ActiveCard.UseCard();
         CheckVictory();
         ActiveCard = null;
+        RefreshHandPositionsAfterCardUsed();
+    }
+
+    public void RefreshHandPositionsAfterCardUsed()
+    {
+        for(int i = 0; i < Hand.Count; i++)
+        {
+            Hand[i].GetComponent<CardCombat>().StartLerpPosition(GetPositionInHand(i));
+        }
     }
 
     private void KillEnemy(CombatActorEnemy enemy)

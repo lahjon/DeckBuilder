@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class CardCombat : Card
 {
     IEnumerator CardFollower;
+    IEnumerator IE_LerpPos;
     [HideInInspector]
     public CombatController combatController;
     public RectTransform cardPanel;
@@ -51,6 +52,7 @@ public class CardCombat : Card
     void Awake()
     {
         CardFollower = FollowMouseIsSelected();
+   
     }
     
     public void CreateAnimation()
@@ -75,7 +77,7 @@ public class CardCombat : Card
             StopCoroutine(CardFollower);
 
             Vector3 center = new Vector3(Screen.width*0.5f, Screen.height*0.5f, 0.0f);
-            StartCoroutine(LerpTransition(combatController.cardHoldPos.position, 0.4f));
+            StartCoroutine(LerpTransition(combatController.cardHoldPos.localPosition, 0.4f));
             //StartCoroutine(WaitForAnimation());
             
             Debug.Log("Playing Animation");
@@ -86,6 +88,13 @@ public class CardCombat : Card
             Debug.Log("No Animation");
             combatController.DiscardCardToPile(this.gameObject);
         }
+    }
+
+    public void StartLerpPosition(Vector3 newPos)
+    {
+        if(!(IE_LerpPos is null)) StopCoroutine(IE_LerpPos);
+        IE_LerpPos = LerpTransition(newPos, 0.4f);
+        StartCoroutine(IE_LerpPos);
     }
 
     IEnumerator WaitForAnimation(ParticleSystem particleSystem = null)
@@ -172,17 +181,17 @@ public class CardCombat : Card
     {
         inAnimation = true;
         float time = 0;
-        Vector3 startValue = transform.position;
+        Vector3 startValue = transform.localPosition;
 
         while (time < duration)
         {
-            transform.position = Vector3.Lerp(startValue, endValue, time / duration);
+            transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
             time += Time.fixedDeltaTime;
 
             yield return null;
         }
 
-        transform.position = endValue;
+        transform.localPosition = endValue;
         inAnimation = false;
     }
 
