@@ -8,7 +8,7 @@ public class EventCard : EventMain
 
     public override bool TriggerEvent()
     {
-        WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCard>().SetupRewards(WorldSystem.instance.uiManager.encounterUITest.encounterData.cardData);
+        WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCard>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.cardData);
         base.TriggerEvent();
         return true;
     }

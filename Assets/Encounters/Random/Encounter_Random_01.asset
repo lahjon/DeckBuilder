@@ -25,6 +25,9 @@ MonoBehaviour:
   choice1: Get Card
   choice2: Attack
   choice3: Leave
-  newEncounterData: []
+  newEncounterData:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   enemyData: []
   cardData: []

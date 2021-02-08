@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class EncounterOverworld : Encounter
 {
+    private EncounterManager encounterManager;
+    void Awake()
+    {
+        encounterManager = WorldSystem.instance.encounterManager;
+    }
 
     public override void UpdateEncounter()
     {
         
-        if(gameObject.GetComponent<Encounter>() == WorldSystem.instance.encounterManager.overworldEncounters[0])
+        if(gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
         {
             SetIsVisited(false);
         }
@@ -24,7 +29,7 @@ public class EncounterOverworld : Encounter
 
     protected override bool CheckViablePath(Encounter anEncounter)
     {
-        return WorldSystem.instance.encounterManager.currentEncounter.neighbourEncounters.Contains(anEncounter);
+        return encounterManager.currentEncounter.neighbourEncounters.Contains(anEncounter);
     }
 
     protected override void OnMouseOver()
@@ -72,7 +77,9 @@ public class EncounterOverworld : Encounter
                     break;
 
                 case EncounterType.OverworldRandomEvent:
-                    
+                    SetIsVisited(false);
+                    WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
+                    WorldSystem.instance.uiManager.encounterUI.gameObject.SetActive(true);
                     break;
                 
                 default:

@@ -10,6 +10,6 @@ public class UIManager : MonoBehaviour
     public UIWarningController UIWarningController;
     public CharacterSheet characterSheet;
     public DeathScreen deathScreen;
-    public EncounterUITest encounterUITest;
+    public EncounterUI encounterUI;
 
 }

@@ -6,7 +6,7 @@ public class EventNewEvent : EventMain
 {
     public override bool TriggerEvent()
     {
-        EncounterUITest ui = WorldSystem.instance.uiManager.encounterUITest;
+        EncounterUI ui = WorldSystem.instance.uiManager.encounterUI;
         GameObject oldUI = Instantiate(ui.background, ui.background.transform.position, Quaternion.Euler(0, 0, 0), ui.panel.transform) as GameObject;
         ui.encounterData = ui.newEncounterData;
         ui.BindEncounterData();

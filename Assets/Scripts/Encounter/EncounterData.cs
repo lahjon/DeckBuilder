@@ -12,7 +12,7 @@ public class EncounterData : ScriptableObject
     public bool isVisited = false;
     public bool secretCondition = false;
     [SerializeField]
-    public List<GameObject> events = new List<GameObject>();
+    public List<GameObject> events = new List<GameObject>(3);
 
 
 
@@ -22,7 +22,7 @@ public class EncounterData : ScriptableObject
     public string choice2;
     public string choice3;
 
-    public List<EncounterDataTest> newEncounterData = new List<EncounterDataTest>(3);
+    public List<EncounterData> newEncounterData = new List<EncounterData>(3);
     public List<EnemyData> enemyData = new List<EnemyData>();
     public List<CardData> cardData = new List<CardData>();
 

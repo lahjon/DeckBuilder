@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5861404932002829059
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 7230405079554484859}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 619, y: -252.3869}
+  m_SizeDelta: {x: 1200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9173131704992241966
 CanvasRenderer:
@@ -121,8 +121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1612510657924394068}
-        m_TargetAssemblyTypeName: EncounterUITest, Assembly-CSharp
+      - m_Target: {fileID: 1541008555}
+        m_TargetAssemblyTypeName: EncounterUI, Assembly-CSharp
         m_MethodName: ChooseOption
         m_Mode: 3
         m_Arguments:
@@ -151,7 +151,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &541858956151566097
 RectTransform:
   m_ObjectHideFlags: 0
@@ -167,10 +167,10 @@ RectTransform:
   m_Father: {fileID: 7230405079554484859}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 619, y: -52.3869}
+  m_SizeDelta: {x: 1200, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4395010827965381868
 CanvasRenderer:
@@ -254,8 +254,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1612510657924394068}
-        m_TargetAssemblyTypeName: EncounterUITest, Assembly-CSharp
+      - m_Target: {fileID: 1541008555}
+        m_TargetAssemblyTypeName: EncounterUI, Assembly-CSharp
         m_MethodName: ChooseOption
         m_Mode: 3
         m_Arguments:
@@ -545,6 +545,7 @@ GameObject:
   - component: {fileID: 5508047094896185056}
   - component: {fileID: 883407394818589657}
   - component: {fileID: 1168779551283643878}
+  - component: {fileID: 166996132}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -612,6 +613,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &166996132
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3285389046409336686}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3834509559808961510
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,14 +1263,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6207417422054994661}
-  - component: {fileID: 1612510657924394068}
+  - component: {fileID: 1541008555}
   m_Layer: 0
-  m_Name: EncounterUITest
+  m_Name: EncounterUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6207417422054994661
 Transform:
   m_ObjectHideFlags: 0
@@ -1273,7 +1286,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1612510657924394068
+--- !u!114 &1541008555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1282,12 +1295,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7428867938525039053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61e5687fa2a0a7e458c96daf686a6a98, type: 3}
+  m_Script: {fileID: 11500000, guid: 329c9bfb78c89134caf47f8b77af5f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterData: {fileID: 11400000, guid: 0fd97746adb63834e8800b7cf4088e48, type: 2}
+  encounterData: {fileID: 0}
   encounterTitle: {fileID: 79452426142693537}
   encounterDescription: {fileID: 8129106089377260619}
+  canvas: {fileID: 7909521072143579197}
+  background: {fileID: 3285389046409336686}
+  panel: {fileID: 7832193849146383988}
   event1: {fileID: 0}
   event2: {fileID: 0}
   event3: {fileID: 0}
@@ -1295,6 +1311,7 @@ MonoBehaviour:
   choice2: {fileID: 7554775759848319283}
   choice3: {fileID: 85245815327062160}
   encounter: {fileID: 0}
+  newEncounterData: {fileID: 0}
 --- !u!1 &7554775759848319283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3287830669913395561
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1416,8 +1433,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1612510657924394068}
-        m_TargetAssemblyTypeName: EncounterUITest, Assembly-CSharp
+      - m_Target: {fileID: 1541008555}
+        m_TargetAssemblyTypeName: EncounterUI, Assembly-CSharp
         m_MethodName: ChooseOption
         m_Mode: 3
         m_Arguments:

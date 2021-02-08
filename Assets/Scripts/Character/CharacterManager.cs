@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class CharacterManager : MonoBehaviour
+public class CharacterManager : MonoBehaviour, ISaveable
 {
     // should match all items from CharacterVariables Enum
     private int _gold;
@@ -127,5 +127,16 @@ public class CharacterManager : MonoBehaviour
     {
         Debug.Log("You are dead!");
     }
+
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+        
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+        
+    }
+
 }
 
