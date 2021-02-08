@@ -191,12 +191,12 @@ public class WorldSystem : MonoBehaviour
         SwapState(WorldState.Overworld);
 
         //DEBUG STUFF
-        GameObject actEncounters = WorldSystem.instance.encounterManager.actEncounters[0];
-        Transform t = actEncounters.transform;
-        Debug.Log(t);
+        // GameObject actEncounters = WorldSystem.instance.encounterManager.actEncounters[0];
+        // Transform t = actEncounters.transform;
+        // Debug.Log(t);
 
-        Encounter e = t.GetChild(6).gameObject.GetComponent<Encounter>();
-        WorldSystem.instance.encounterManager.currentEncounter = e;
+        // Encounter e = t.GetChild(6).gameObject.GetComponent<Encounter>();
+        // WorldSystem.instance.encounterManager.currentEncounter = e;
 
     
         //encounterManager.UpdateAllOverworldEncounters(act);
