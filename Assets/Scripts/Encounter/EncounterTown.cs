@@ -5,15 +5,14 @@ using UnityEngine;
 public class EncounterTown : Encounter
 {
 
-    // void Start()
-    // {
-    //     UpdateEncounter();
-    // }
+    void Start()
+    {
+        UpdateEncounter();
+    }
 
     public override void UpdateEncounter()
     {
         encounterType = encounterData.type;
-        encounterUI = encounterData.encounterUI;
 
         isVisited = isClicked = encounterData.isVisited;
         UpdateIcon();
@@ -40,6 +39,8 @@ public class EncounterTown : Encounter
 
     }
 
+    
+
     protected override void OnMouseDown()
     {
         if(WorldSystem.instance.worldState == WorldState.Town)
@@ -51,6 +52,7 @@ public class EncounterTown : Encounter
                     Debug.Log("Leave Town!");
                     SetIsVisited(false);
                     WorldSystem.instance.townManager.LeaveTown();
+
                     break;
                 
                 case EncounterType.TownPray:
@@ -67,13 +69,13 @@ public class EncounterTown : Encounter
 
                 case EncounterType.TownTavern:
                     Debug.Log("Enter Town Pray!");
+                    
                     SetIsVisited(false);
                     WorldSystem.instance.townManager.EnterPray();
                     break;
                 
                 default:
                     isClicked = true;
-                    CreateUI();
                     break;
             }
         }

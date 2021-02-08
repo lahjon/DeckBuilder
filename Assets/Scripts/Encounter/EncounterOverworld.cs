@@ -17,7 +17,6 @@ public class EncounterOverworld : Encounter
             SetNormalMat();
         }
         encounterType = encounterData.type;
-        encounterUI = encounterData.encounterUI;
 
         isVisited = isClicked = encounterData.isVisited;
         UpdateIcon();
@@ -71,10 +70,14 @@ public class EncounterOverworld : Encounter
                     WorldSystem.instance.SwapState(WorldState.Shop);
                     Debug.Log("Enter Shop!");
                     break;
+
+                case EncounterType.OverworldRandomEvent:
+                    
+                    break;
                 
                 default:
                     isClicked = true;
-                    CreateUI();
+                    //CreateUI();
                     break;
             }
         }
