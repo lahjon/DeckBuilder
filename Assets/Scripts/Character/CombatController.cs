@@ -204,6 +204,7 @@ public class CombatController : StateMachine
 
             if (Deck.Count != 0)
             {
+                Deck[0].GetComponent<CardCombat>().ResetCard();
                 Hand.Add(Deck[0]);
                 Deck.RemoveAt(0);
             }

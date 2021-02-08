@@ -16,7 +16,7 @@ public class TownManager : MonoBehaviour
 
     public void LeaveTown()
     {
-        WorldSystem.instance.StartNewAct();
+        WorldSystem.instance.ExitTown();
     }
 
     public void EnterShop()

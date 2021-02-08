@@ -175,22 +175,32 @@ public class WorldSystem : MonoBehaviour
     public void Reset()
     {
         characterManager.Reset();
-        StartNewAct(true);
+        ExitTown(true);
     }
 
-    public void StartNewAct(bool reset = false)
+    public void ExitTown(bool reset = false)
     {
-        if(reset == true)
-        {
-            act = 1;
-        }
-        else
-        {
-            act += 1;    
-        }
+        // if(reset == true)
+        // {
+        //     act = 1;
+        // }
+        // else
+        // {
+        //     act += 1;    
+        // }
         characterManager.characterVariablesUI.UpdateUI();
         SwapState(WorldState.Overworld);
-        encounterManager.UpdateAllOverworldEncounters(act);
+
+        //DEBUG STUFF
+        GameObject actEncounters = WorldSystem.instance.encounterManager.actEncounters[0];
+        Transform t = actEncounters.transform;
+        Debug.Log(t);
+
+        Encounter e = t.GetChild(6).gameObject.GetComponent<Encounter>();
+        WorldSystem.instance.encounterManager.currentEncounter = e;
+
+    
+        //encounterManager.UpdateAllOverworldEncounters(act);
         cameraManager.mainCamera.transform.position = cameraManager.actCameraPos[act - 1].transform.position;
         cameraManager.mainCamera.transform.rotation = cameraManager.actCameraPos[act - 1].transform.rotation;
     }

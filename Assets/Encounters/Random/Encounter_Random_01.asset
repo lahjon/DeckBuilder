@@ -15,14 +15,16 @@ MonoBehaviour:
   name: Angry Mob
   type: 1
   tier: 0
-  encounterOutcome:
-  - type: 2
-    value: 3
-    encounterValue: 0
-  - type: 0
-    value: -3
-    encounterValue: 1
-  enemyData: []
-  encounterUI: {fileID: 6778569008487363425, guid: f5d833c508b4ea942a7b89b0a980db9e, type: 3}
   isVisited: 0
+  secretCondition: 0
+  events:
+  - {fileID: 8237644298160242557, guid: e4d128f360f16e64183e47e23047b537, type: 3}
+  - {fileID: 8237644298160242557, guid: 13eeb0c4c93d6ee4e9b92334735006d6, type: 3}
+  - {fileID: 8237644298160242557, guid: 73f4d099ddc34c5469f58bb10fd4df78, type: 3}
   description: An angry mob approaches. They ask you if its ok to be angry?
+  choice1: Get Card
+  choice2: Attack
+  choice3: Leave
+  newEncounterData: []
+  enemyData: []
+  cardData: []

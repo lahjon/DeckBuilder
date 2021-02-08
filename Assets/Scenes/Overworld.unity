@@ -5991,7 +5991,7 @@ MonoBehaviour:
   UIWarningController: {fileID: 1109434254}
   characterSheet: {fileID: 705174902}
   deathScreen: {fileID: 1430414722}
-  encounterUITest: {fileID: 0}
+  encounterUITest: {fileID: 1726463712}
 --- !u!1 &822903513
 GameObject:
   m_ObjectHideFlags: 0
@@ -14050,6 +14050,17 @@ MonoBehaviour:
   placeholderCard: {fileID: 1471997166}
   clickableArea: {fileID: 1651295118}
   backgroundPanel: {fileID: 1445149562}
+--- !u!114 &1726463712 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1612510657924394068, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
+  m_PrefabInstance: {fileID: 8258429020208317691}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e5687fa2a0a7e458c96daf686a6a98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1732137955
 GameObject:
   m_ObjectHideFlags: 0
@@ -16952,6 +16963,10 @@ PrefabInstance:
       propertyPath: encounterData
       value: 
       objectReference: {fileID: 11400000, guid: b7283d7cdd36bca41948fb3a38520c1f, type: 2}
+    - target: {fileID: 1612510657924394068, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
+      propertyPath: newEncounterData
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3285389046409336686, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
       propertyPath: m_IsActive
       value: 1

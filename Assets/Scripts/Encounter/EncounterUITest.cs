@@ -26,6 +26,11 @@ public class EncounterUITest : MonoBehaviour
         BindEncounterData();
     }
 
+    public void StartEncounter()
+    {
+        BindEncounterData();
+    }
+
     public void BindEncounterData()
     {
         int count = 0;
@@ -67,10 +72,7 @@ public class EncounterUITest : MonoBehaviour
         if(encounterDescription != null)
             encounterDescription.text = encounterData.description;
     }
-    public virtual void ConfirmOutcome(Reward aReward)
-    {
-        //WorldSystem.instance.characterManager.AddToCharacter(encounter.encounterData.encounterOutcome[index].type, encounter.encounterData.encounterOutcome[index].value);
-    }
+
     public void CloseEncounter()
     {
         encounter.SetIsVisited(true);

@@ -229,7 +229,7 @@ public class CardCombat : Card
 
     }
 
-    private void ResetCard(bool transition = false, bool disable = false)
+    public void ResetCard(bool transition = false, bool disable = false)
     {
         selected = false;
         Debug.Log(this.cardData);

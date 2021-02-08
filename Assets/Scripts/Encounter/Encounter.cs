@@ -39,25 +39,25 @@ public abstract class Encounter : MonoBehaviour
 
     protected abstract void OnMouseDown();
 
-    protected void CreateUI()
-    {
-        if(encounterData.encounterUI != null)
-        {
-            newEncounterUIPrefab = Instantiate(encounterUI.gameObject, new Vector3(0, 0, 0), Quaternion.identity);
+    // protected void CreateUI()
+    // {
+    //     if(encounterData.encounterUI != null)
+    //     {
+    //         newEncounterUIPrefab = Instantiate(encounterUI.gameObject, new Vector3(0, 0, 0), Quaternion.identity);
             
-            encounterUI = newEncounterUIPrefab.GetComponent<EncounterUI>();
-            encounterUI.encounterData = encounterData;
-            encounterUI.encounter = this;
-            WorldSystem.instance.SwapState(WorldState.Menu);
-            encounterUI.UpdateUI();
-        }
-    }
-    public void DestroyUI()
-    {
-        WorldSystem.instance.SwapStatePrevious();
-        Destroy(newEncounterUIPrefab, 0.2f);
-        encounterUI = encounterData.encounterUI;
-    }
+    //         encounterUI = newEncounterUIPrefab.GetComponent<EncounterUI>();
+    //         encounterUI.encounterData = encounterData;
+    //         encounterUI.encounter = this;
+    //         WorldSystem.instance.SwapState(WorldState.Menu);
+    //         encounterUI.UpdateUI();
+    //     }
+    // }
+    // public void DestroyUI()
+    // {
+    //     WorldSystem.instance.SwapStatePrevious();
+    //     Destroy(newEncounterUIPrefab, 0.2f);
+    //     encounterUI = encounterData.encounterUI;
+    // }
 
     protected void SetHighlightedMat()
     {
@@ -70,8 +70,8 @@ public abstract class Encounter : MonoBehaviour
     public void SetIsVisited(bool destroyUI)
     {
         isVisited = true;
-        if(destroyUI)
-            DestroyUI();
+        // if(destroyUI)
+        //     DestroyUI();
         GetComponent<Renderer>().material = matVisited;
         WorldSystem.instance.encounterManager.currentEncounter = this;
     }
