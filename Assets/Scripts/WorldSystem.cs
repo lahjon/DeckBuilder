@@ -97,7 +97,6 @@ public class WorldSystem : MonoBehaviour
             if (item.name == "EncounterManager")
             {
                 encounterManager = item.GetComponent<EncounterManager>();
-                encounterManager.UpdateAllOverworldEncounters(1);
             }
             else if (item.name == "CharacterManager")
             {
