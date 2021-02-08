@@ -5,18 +5,27 @@ using System.Linq;
 
 public class EncounterManager : MonoBehaviour
 {
-    public List<GameObject> actEncounters;
     public List<GameObject> actRoads; 
     public List<Encounter> overworldEncounters;
     public GameObject townEncounter;
     public Encounter currentEncounter;
     public int encounterTier;
+
+    public GameObject ActTemplate;
     public GameObject RoadTemplate;
     public GameObject overWorldEncounterTemplate;
+    
     public int maxWidth = 4;
     public int minWidth = 3;
     public int length = 7;
+    public float placementNoise = 3.0f;
+    public double branshProb = 0.25;
+
+
     EncounterOverworld[][] encounters;
+
+    [HideInInspector]
+    public GameObject EncounterParent; 
 
     public Vector3 GetStartPositionEncounter()
     {
@@ -26,23 +35,12 @@ public class EncounterManager : MonoBehaviour
 
     public void Start()
     {
+        EncounterParent = ActTemplate.transform.GetChild(0).GetChild(0).gameObject;
         GenerateMap();
         AddRoads(encounters[0][0]);
         encounters[0][0].SetIsVisited(false);
     }
 
-    public void UpdateAllOverworldEncounters(int act)
-    {
-        encounterTier = act;
-        overworldEncounters.Clear();
-        Transform t = actEncounters[act - 1].transform;
-        for (int i = 0; i < t.childCount; i++)
-        {   
-            Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();
-            overworldEncounters.Add(e);
-            e.UpdateEncounter();
-        }
-    }
     public void UpdateAllTownEncounters(int act)
     {
         encounterTier = act;
@@ -76,9 +74,10 @@ public class EncounterManager : MonoBehaviour
         {
             for (int j = 0; j < encounters[i].Length; j++)
             {
-                GameObject newEnc = Instantiate(overWorldEncounterTemplate, actEncounters[0].transform, false);
-                newEnc.transform.localPosition = new Vector3(i * 5, 0.04f, j * vSpacing - (encounters[i].Length - 1) * 5.0f / 2.0f) + getPositionNoise(0.1f);
+                GameObject newEnc = Instantiate(overWorldEncounterTemplate, EncounterParent.transform, false);
+                newEnc.transform.localPosition = new Vector3(i * 5, 0.04f, j * vSpacing - (encounters[i].Length - 1) * 5.0f / 2.0f) + getPositionNoise(placementNoise);
                 encounters[i][j] = newEnc.GetComponent<EncounterOverworld>();
+                overworldEncounters.Add(encounters[i][j]);
             }
         }
         
@@ -116,7 +115,6 @@ public class EncounterManager : MonoBehaviour
         int target = 0;
         int bonusLeft = 0;
         int bonusRight = 0;
-        float splitProb = 0.1f;
 
         for(int i = lb; i <= ub; i++)
         {
@@ -132,7 +130,7 @@ public class EncounterManager : MonoBehaviour
         //time to see if we get some bonus connections 
         for(int i = target-1; i >= lb; i--)
         {
-            if (Random.Range(0, 1f) < splitProb)
+            if (Random.Range(0, 1f) < branshProb)
             {
                 encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][i]);
                 Debug.Log("RandomLeft!");
@@ -144,7 +142,7 @@ public class EncounterManager : MonoBehaviour
 
         for (int i = target + 1; i <= ub; i++)
         {
-            if (Random.Range(0, 1f) < splitProb)
+            if (Random.Range(0, 1f) < branshProb)
             {
                 encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][i]);
                 Debug.Log("RandomRight!");

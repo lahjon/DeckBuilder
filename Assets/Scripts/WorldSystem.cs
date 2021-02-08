@@ -97,7 +97,6 @@ public class WorldSystem : MonoBehaviour
             if (item.name == "EncounterManager")
             {
                 encounterManager = item.GetComponent<EncounterManager>();
-                encounterManager.UpdateAllOverworldEncounters(1);
             }
             else if (item.name == "CharacterManager")
             {
@@ -190,7 +189,6 @@ public class WorldSystem : MonoBehaviour
         }
         characterManager.characterVariablesUI.UpdateUI();
         SwapState(WorldState.Overworld);
-        encounterManager.UpdateAllOverworldEncounters(act);
         cameraManager.mainCamera.transform.position = cameraManager.actCameraPos[act - 1].transform.position;
         cameraManager.mainCamera.transform.rotation = cameraManager.actCameraPos[act - 1].transform.rotation;
     }
