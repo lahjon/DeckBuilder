@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public abstract class Encounter : MonoBehaviour
 {
     public EncounterData encounterData;
-    public SpriteRenderer spriteRenderer; 
+    public Sprite sprite; 
     public Material matHighlight;
     public Material matNormal;
     public Material matVisited;
@@ -21,6 +22,8 @@ public abstract class Encounter : MonoBehaviour
     public EncounterType encounterType;
     protected bool isVisited;
     protected bool isClicked;
+
+    public List<GameObject> roads = new List<GameObject>();
 
     public abstract void UpdateEncounter();
 
@@ -38,6 +41,8 @@ public abstract class Encounter : MonoBehaviour
     }
 
     protected abstract void OnMouseDown();
+
+    // Åååååååh Fredrik
 
     // protected void CreateUI()
     // {
@@ -61,25 +66,46 @@ public abstract class Encounter : MonoBehaviour
 
     protected void SetHighlightedMat()
     {
-        GetComponent<Renderer>().material = matHighlight;
+        //GetComponent<Renderer>().material = matHighlight;
     }
     protected void SetNormalMat()
     {
-        GetComponent<Renderer>().material = matNormal;
+        //GetComponent<Renderer>().material = matNormal;
     }
     public void SetIsVisited(bool destroyUI)
     {
         isVisited = true;
         // if(destroyUI)
         //     DestroyUI();
-        GetComponent<Renderer>().material = matVisited;
+        //GetComponent<Renderer>().material = matVisited;
+        Button button = this.GetComponent<Button>();
+        ColorBlock color = button.colors;
+
+        color.normalColor = new Color (1f, 0.5f, 0.5f);
+        color.disabledColor = new Color (1f, 0.5f, 0.5f);
+        color.selectedColor = new Color (1f, 0.5f, 0.5f);
+        button.colors = color;
+
+
+        if(this.roads.Count > 0)
+        {
+            
+            // for (int i = 0; i < this.roads.transform.childCount; i++)
+            // {
+            //     this.roads.transform.GetChild(i).GetComponent<Image>().color = new Color (0.5f, 0.5f, 0.5f);
+            // }
+
+        }
+
         WorldSystem.instance.encounterManager.currentEncounter = this;
+
+
     }
 
     public void UpdateIcon()
     {
         List<Sprite> allIcons = DatabaseSystem.instance.iconDatabase.allIcons;
         Sprite icon = allIcons.Where(x => x.name == encounterType.ToString()).FirstOrDefault();
-        spriteRenderer.sprite = icon;
+        this.GetComponent<Image>().sprite = icon;
     }
 }

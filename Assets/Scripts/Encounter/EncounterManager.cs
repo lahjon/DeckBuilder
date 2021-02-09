@@ -6,6 +6,9 @@ using System.Linq;
 public class EncounterManager : MonoBehaviour
 {
     public List<GameObject> actRoads; 
+    public GameObject startPos;
+    public GameObject UIPrefab;
+    public Canvas canvas;
     public List<Encounter> overworldEncounters;
     public GameObject townEncounter;
     public Encounter currentEncounter;
@@ -25,7 +28,12 @@ public class EncounterManager : MonoBehaviour
     EncounterOverworld[][] encounters;
 
     [HideInInspector]
-    public GameObject EncounterParent; 
+    public GameObject encounterParent; 
+    [HideInInspector]
+    public GameObject roadParent; 
+    public GameObject roadImage;
+
+    public Material roadMaterial;
 
     public Vector3 GetStartPositionEncounter()
     {
@@ -35,7 +43,8 @@ public class EncounterManager : MonoBehaviour
 
     public void Start()
     {
-        EncounterParent = ActTemplate.transform.GetChild(0).GetChild(0).gameObject;
+        encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
+        roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
         GenerateMap();
         AddRoads(encounters[0][0]);
         encounters[0][0].SetIsVisited(false);
@@ -67,15 +76,19 @@ public class EncounterManager : MonoBehaviour
         for (int i = 1; i < length - 1; i++)
             encounters[i] = new EncounterOverworld[Random.Range(minWidth, maxWidth + 1)];
 
-        float vSpacing = 7.0f;
+        float vSpacing = 200.0f;
+        float hSpacing = 200.0f;
 
         //Randomize out encounters
         for (int i = 0; i < encounters.Length; i++)
         {
             for (int j = 0; j < encounters[i].Length; j++)
             {
-                GameObject newEnc = Instantiate(overWorldEncounterTemplate, EncounterParent.transform, false);
-                newEnc.transform.localPosition = new Vector3(i * 5, 0.04f, j * vSpacing - (encounters[i].Length - 1) * 5.0f / 2.0f) + getPositionNoise(placementNoise);
+                GameObject newEnc = Instantiate(UIPrefab, encounterParent.transform, false);
+                Vector3 pos = startPos.transform.position;
+                //newEnc.transform.localScale = new Vector3(30, 30, 30);
+
+                newEnc.transform.position = new Vector3(i * hSpacing, j * vSpacing - (encounters[i].Length - 1) * hSpacing / 2.0f ,0.04f)  + getPositionNoise(placementNoise) + pos;
                 encounters[i][j] = newEnc.GetComponent<EncounterOverworld>();
                 overworldEncounters.Add(encounters[i][j]);
             }
@@ -158,7 +171,7 @@ public class EncounterManager : MonoBehaviour
 
     private Vector3 getPositionNoise(float amplitude)
     {
-        return new Vector3(Random.Range(0, amplitude), 0, Random.Range(0, amplitude));
+        return new Vector3(Random.Range(0, amplitude), Random.Range(0, amplitude), 0);
     }
 
 
@@ -167,7 +180,8 @@ public class EncounterManager : MonoBehaviour
     {
         foreach(Encounter enc in root.neighbourEncounters)
         {
-            AddRoad(root.transform.localPosition, enc.transform.localPosition);
+            AddRoad(root.transform.position, enc.transform.position);
+            DrawRoad(root.transform.position, enc.transform.position, enc);
             AddRoads(enc);
         }
     }
@@ -175,17 +189,43 @@ public class EncounterManager : MonoBehaviour
     public void AddRoad(Vector3 from, Vector3 to)
     {
         GameObject newRoad = Instantiate(RoadTemplate, actRoads[0].transform,false);
-        float height = newRoad.transform.localPosition.y;
+        float height = newRoad.transform.position.y;
 
         Transform roadTrans = newRoad.transform;
 
         Vector3 newPos = from + ((to - from) / 2.0f);
-        roadTrans.localPosition = from + ((to- from)/2.0f);
-        roadTrans.localPosition = new Vector3(roadTrans.localPosition.x, height, roadTrans.localPosition.z );
-        roadTrans.localScale = new Vector3(roadTrans.localScale.x, roadTrans.localScale.y, Vector3.Distance(from, to));
+        roadTrans.position = from + ((to- from)/2.0f);
+        //roadTrans.position = new Vector3(roadTrans.position.x, 0 , roadTrans.position.y);
+        roadTrans.localScale = new Vector3(10, Vector3.Distance(from, to), 10);
 
-        float angle = Vector3.Angle(to-from  , roadTrans.forward);
-        roadTrans.Rotate(new Vector3(0, angle, 0));
+        float angle = Vector3.Angle(to-from  , roadTrans.up);
+        roadTrans.Rotate(new Vector3(0, 0, -angle));
     }
 
+    public void DrawRoad(Vector3 from, Vector3 to, Encounter encounter)
+    {
+        float dist = Vector3.Distance(from, to);
+        float width = roadImage.GetComponent<RectTransform>().rect.width;
+
+        //List<GameObject> roads = new List<GameObject>();
+
+        float gap = 10.0f;
+        float break_gap = 40.0f;
+        float dist_t = break_gap + width;
+        Vector3 dir = Vector3.Normalize(to - from);
+
+        GameObject newRoadParent = new GameObject();
+        newRoadParent.transform.SetParent(roadParent.transform);
+        encounter.roads.Add(newRoadParent);
+
+        while (dist_t < dist - break_gap)
+        {
+            GameObject newRoad = Instantiate(roadImage, newRoadParent.transform);
+            newRoad.transform.position = from + dir * dist_t;
+            float angle = Vector3.Angle(to-from, newRoad.transform.up);
+            newRoad.transform.Rotate(new Vector3(0, 0, -angle + 90));
+            //roads.Add(newRoad);
+            dist_t += gap + width;
+        }
+    }
 }

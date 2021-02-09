@@ -44,6 +44,53 @@ public class EncounterOverworld : Encounter
 
     }
 
+    public void ButtonPress()
+    {
+        if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
+        {
+            encounterManager.canvas.gameObject.SetActive(false);
+            switch (this.encounterType)
+            {
+                case EncounterType.OverworldCombatNormal:
+                    Debug.Log("Enter Combat!");
+                    SetIsVisited(false);
+                    WorldSystem.instance.EnterCombat();
+                    break;
+                
+                case EncounterType.OverworldCombatElite:
+                    Debug.Log("Enter Elite Combat!");
+                    SetIsVisited(false);
+                    WorldSystem.instance.EnterCombat();
+                    break;
+                
+                case EncounterType.OverworldCombatBoss:
+                    Debug.Log("Enter Boss Combat!");
+                    SetIsVisited(false);
+                    WorldSystem.instance.EnterCombat();
+                    break;
+
+                case EncounterType.OverworldShop:
+                    WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
+                    WorldSystem.instance.shopManager.shop.RestockShop();
+                    SetIsVisited(false);
+                    WorldSystem.instance.SwapState(WorldState.Shop);
+                    Debug.Log("Enter Shop!");
+                    break;
+
+                case EncounterType.OverworldRandomEvent:
+                    SetIsVisited(false);
+                    WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
+                    WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+                    break;
+                
+                default:
+                    isClicked = true;
+                    //CreateUI();
+                    break;
+            }
+        }
+    }
+
     protected override void OnMouseDown()
     {
         if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
