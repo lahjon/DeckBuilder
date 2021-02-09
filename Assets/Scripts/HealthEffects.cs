@@ -55,12 +55,12 @@ public class HealthEffects : MonoBehaviour
 
         //Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint( WorldSystem.instance.cameraManager.currentCamera, this.gameObject.transform.position);
         cAnchorHealthEffects.transform.position = aAnchorHealthEffects.transform.parent.position;
-        cAnchorHealthEffects.transform.localPosition += new Vector3(0,-(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-20);
+        cAnchorHealthEffects.transform.localPosition += new Vector3(0,-(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-100);
 
         if(intentDisplayAnchor != null)
         {
             intentDisplayAnchor.transform.position =  aAnchorHealthEffects.transform.parent.position;
-            intentDisplayAnchor.transform.localPosition += new Vector3(0,(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-20);
+            intentDisplayAnchor.transform.localPosition += new Vector3(0,(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-100);
         }
         
 

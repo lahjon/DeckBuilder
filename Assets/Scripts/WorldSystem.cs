@@ -195,6 +195,7 @@ public class WorldSystem : MonoBehaviour
         // }
         characterManager.characterVariablesUI.UpdateUI();
         SwapState(WorldState.Overworld);
+        encounterManager.currentEncounter = encounterManager.overworldEncounters[0];
 
         //DEBUG STUFF
         // GameObject actEncounters = WorldSystem.instance.encounterManager.actEncounters[0];
