@@ -548,11 +548,11 @@ RectTransform:
   m_Father: {fileID: 265525351553872851}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360.00006, y: -830}
-  m_SizeDelta: {x: 1200, y: 250}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 250}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &265525352513297293
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -952,7 +952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &265525353429866321
 Transform:
   m_ObjectHideFlags: 0
@@ -1002,8 +1002,11 @@ MonoBehaviour:
   DrawCount: 5
   offset: 50
   handDistance: 170
-  handHeight: -75
+  handHeight: 75
   energyTurn: 3
+  origoCardRot: 1000
+  origoCardPos: 1000
+  handDegreeBetweenCards: 10
   targetedEnemy: {fileID: 0}
   backingEnergy: 0
   Deck: []
@@ -1844,11 +1847,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8198868156627739414, guid: 11ff254691a5b5d4c9aafc018a9698c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 592
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8198868156627739414, guid: 11ff254691a5b5d4c9aafc018a9698c3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 344
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 8198868156627739414, guid: 11ff254691a5b5d4c9aafc018a9698c3, type: 3}
       propertyPath: m_LocalPosition.z

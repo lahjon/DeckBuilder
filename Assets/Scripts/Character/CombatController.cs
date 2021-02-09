@@ -29,8 +29,11 @@ public class CombatController : StateMachine
     public int DrawCount = 5;
     public float offset = 50;
     public float handDistance = 150;
-    public float handHeight = -75;
+    public float handHeight = 75;
     public int energyTurn = 3;
+    public float origoCardRot = 1000f;
+    public float origoCardPos = 1000f;
+    public float handDegreeBetweenCards = 10f;
     public CombatActorEnemy targetedEnemy;
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
@@ -172,12 +175,28 @@ public class CombatController : StateMachine
     {
         return new Vector3(0.9f, 0.9f, 0.9f);
     }
-    public Vector3 GetPositionInHand(int CardNr)
+    public (Vector3 Position,Vector3 Angles) GetPositionInHand(int CardNr)
     {
-        float midPoint = cardPanelwidth / 2;
-        float localoffset = (Hand.Count % 2 == 0) ? offset : 0;
-        return new Vector3(midPoint + (CardNr - Hand.Count / 2) * handDistance + localoffset, handHeight, 0);
+        float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards/2 : 0;
+        Vector3 newPos = GetPositionInHandCircle((CardNr - (Hand.Count / 2)) *handDegreeBetweenCards + localoffset);
+        Vector3 origo = new Vector3(0, -origoCardRot, 0);
+
+        Vector3 direction = newPos - origo;
+        float angle = Vector3.Angle(newPos - origo, new Vector3(0, 1, 0))*(newPos.x > 0 ? -1 :1);
+        Vector3 angles = new Vector3(0, 0, angle);
+
+        return (newPos, angles);
     }
+
+    // 0 degree will yield top of curve.
+    private Vector3 GetPositionInHandCircle(float degree)
+    {
+        Debug.Log("Degree is: " + degree);
+        degree = degree * Mathf.Deg2Rad;
+        Debug.Log("x val is: " + origoCardRot * Mathf.Cos(degree + 90));
+        return new Vector3(origoCardRot*Mathf.Sin(degree),origoCardRot*Mathf.Cos(degree) - origoCardRot + handHeight,0); 
+    }
+
 
     public int GetCardNumberInHand(Card aCard)
     {
@@ -253,7 +272,8 @@ public class CombatController : StateMachine
     {
         previousActiveCard = ActiveCard;
         int i = Hand.IndexOf(gameObject);
-        gameObject.GetComponent<CardCombat>().AnimateCardByCurve(GetPositionInHand(i));
+        (Vector3,Vector3) origPosition = GetPositionInHand(i);
+        gameObject.GetComponent<CardCombat>().AnimateCardByCurve(origPosition.Item1,origPosition.Item2);
         ActiveCard = null;
 
         ResetSiblingIndexes();
@@ -364,9 +384,9 @@ public class CombatController : StateMachine
         card.AnimateCardByPathDiscard();
     }
 
-    private void AnimateCardDraw(CardCombat card, Vector3 endPos)
+    private void AnimateCardDraw(CardCombat card, Vector3 endPos, Vector3 endAngles)
     {
-        card.AnimateCardByCurve(endPos, true, false, true, true, true);
+        card.AnimateCardByCurve(endPos, endAngles, true, false, true, true, true);
     }
     private void DisplayHand()
     {
@@ -378,7 +398,8 @@ public class CombatController : StateMachine
         Hand[i].SetActive(true);
         Hand[i].GetComponent<CardCombat>().transform.position = txtDeck.transform.position;
         Hand[i].GetComponent<CardCombat>().transform.localScale = Vector3.zero;
-        AnimateCardDraw(Hand[i].GetComponent<CardCombat>(), GetPositionInHand(i));
+        (Vector3, Vector3) TransInfo = GetPositionInHand(i);
+        AnimateCardDraw(Hand[i].GetComponent<CardCombat>(), TransInfo.Item1, TransInfo.Item2);
     }
 
     public void ToggleInsidePanel()
@@ -454,7 +475,8 @@ public class CombatController : StateMachine
     {
         for(int i = 0; i < Hand.Count; i++)
         {
-            Hand[i].GetComponent<CardCombat>().StartLerpPosition(GetPositionInHand(i));
+            (Vector3, Vector3) TransInfo = GetPositionInHand(i);
+            Hand[i].GetComponent<CardCombat>().StartLerpPosition(TransInfo.Item1, TransInfo.Item2);
         }
     }
 
