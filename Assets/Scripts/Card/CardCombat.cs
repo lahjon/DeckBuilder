@@ -42,7 +42,9 @@ public class CardCombat : Card
                 }
                 else
                 {
-                    this.transform.localPosition = combatController.GetPositionInHand(combatController.GetCardNumberInHand(this));
+                    (Vector3, Vector3) TransInfo = combatController.GetPositionInHand(combatController.Hand.IndexOf(this.gameObject));
+                    this.transform.localPosition = TransInfo.Item1;
+                    this.transform.localEulerAngles = TransInfo.Item2;
                     ResetScale();
                 }
             }
@@ -77,7 +79,7 @@ public class CardCombat : Card
             StopCoroutine(CardFollower);
 
             Vector3 center = new Vector3(Screen.width*0.5f, Screen.height*0.5f, 0.0f);
-            StartCoroutine(LerpTransition(combatController.cardHoldPos.localPosition, 0.4f));
+            StartCoroutine(LerpTransition(combatController.cardHoldPos.localPosition, new Vector3(0,0,0), 0.4f));
             //StartCoroutine(WaitForAnimation());
             
             Debug.Log("Playing Animation");
@@ -90,10 +92,10 @@ public class CardCombat : Card
         }
     }
 
-    public void StartLerpPosition(Vector3 newPos)
+    public void StartLerpPosition(Vector3 newPos, Vector3 newRot)
     {
         if(!(IE_LerpPos is null)) StopCoroutine(IE_LerpPos);
-        IE_LerpPos = LerpTransition(newPos, 0.4f);
+        IE_LerpPos = LerpTransition(newPos, newRot, 0.5f);
         StartCoroutine(IE_LerpPos);
     }
 
@@ -121,7 +123,7 @@ public class CardCombat : Card
     {
         if(!inTransition && WorldSystem.instance.worldState == WorldState.Combat && combatController.ActiveCard is null)
         {
-                SetScaleEnlarged();
+                SetTransOnMouseOver();
                 transform.SetAsLastSibling();
         }
     }
@@ -130,8 +132,13 @@ public class CardCombat : Card
     {
         if(!inTransition)
         {
-            if(!selected)
+            if (!selected)
+            {
                 ResetScale();
+                (Vector3, Vector3) TransInfo = combatController.GetPositionInHand(combatController.Hand.IndexOf(this.gameObject));
+                transform.localPosition = TransInfo.Item1;
+                transform.localEulerAngles = TransInfo.Item2;
+            }
 
             if(WorldSystem.instance.worldState == WorldState.Combat && !_selected)
             {
@@ -145,9 +152,11 @@ public class CardCombat : Card
         transform.localScale = Vector3.one;
     }
 
-    public void SetScaleEnlarged()
+    public void SetTransOnMouseOver()
     {
+        transform.localPosition = new Vector3(transform.localPosition.x, 150, 0);
         transform.localScale = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f);
+        transform.localEulerAngles = Vector3.zero;
     }
 
 
@@ -177,29 +186,40 @@ public class CardCombat : Card
     }
 
 
-    IEnumerator LerpTransition(Vector3 endValue, float duration, float fscale = 0.2f)
+    IEnumerator LerpTransition(Vector3 endPosition, Vector3 endAngles, float duration)
     {
         inAnimation = true;
         float time = 0;
         Vector3 startValue = transform.localPosition;
+        Vector3 startAngles = transform.localEulerAngles;
 
         while (time < duration)
         {
-            transform.localPosition = Vector3.Lerp(startValue, endValue, time / duration);
+            transform.localPosition = Vector3.Lerp(startValue, endPosition, time / duration);
+            transform.localEulerAngles = AngleLerp(startAngles, endAngles, time / duration);
             time += Time.fixedDeltaTime;
 
             yield return null;
         }
 
-        transform.localPosition = endValue;
+        transform.localPosition = endPosition;
+        transform.localEulerAngles = endAngles;
         inAnimation = false;
     }
 
-    IEnumerator CurveTransition(Vector3 endValue, bool scale, bool disable, bool useLocal = true, bool invertScale = false)
+    Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
+    {
+        float xLerp = Mathf.LerpAngle(StartAngle.x, FinishAngle.x, t);
+        float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
+        float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
+        return new Vector3(xLerp, yLerp, zLerp);
+    }
+
+    IEnumerator CurveTransition(Vector3 endValue, Vector3 endAngles, bool scale, bool disable, bool useLocal = true, bool invertScale = false)
     {
         inTransition = true;
-        Vector3 startPos;
-        startPos = useLocal ? transform.localPosition : transform.position;
+        Vector3 startPos = useLocal ? transform.localPosition : transform.position;
+        Vector3 startAngles = useLocal ? transform.eulerAngles : transform.localEulerAngles;
 
         float time = transitionCurveTransform.keys[transitionCurveTransform.length - 1].time;
 
@@ -208,25 +228,17 @@ public class CardCombat : Card
             if(useLocal)
             {
                 transform.localPosition = startPos * (1 - transitionCurveTransform.Evaluate(time)) + transitionCurveTransform.Evaluate(time) * endValue;
+                transform.localEulerAngles = startAngles * (1 - transitionCurveTransform.Evaluate(time)) + transitionCurveTransform.Evaluate(time) * endAngles;
             }
             else
             {  
                 transform.position = startPos * (1 - transitionCurveTransform.Evaluate(time)) + transitionCurveTransform.Evaluate(time) * endValue;
+                transform.localEulerAngles = AngleLerp(startAngles,endAngles, transitionCurveTransform.Evaluate(time));
             }
 
             if (scale)
             {
-                float tempScale;
-
-                if (invertScale == true)
-                {
-                    tempScale = transitionCurveScaleDraw.Evaluate(time);
-                }
-                else
-                {
-                    tempScale = transitionCurveScaleDiscard.Evaluate(time);
-                }
-
+                float tempScale = invertScale ? transitionCurveScaleDraw.Evaluate(time) : transitionCurveScaleDiscard.Evaluate(time);
                 transform.localScale = new Vector3(tempScale, tempScale, tempScale);
             }
 
@@ -255,12 +267,12 @@ public class CardCombat : Card
         }
     }
 
-    public void AnimateCardByCurve(Vector3 pos, bool scale = false, bool disable = false, bool useLocal = true, bool invertScale = false, bool drawPhase = false)
+    public void AnimateCardByCurve(Vector3 pos, Vector3 angles, bool scale = false, bool disable = false, bool useLocal = true, bool invertScale = false, bool drawPhase = false)
     {
         StopCoroutine(CardFollower);
 
         if(!targetRequired || drawPhase)
-            StartCoroutine(CurveTransition(pos, scale, disable, useLocal, invertScale));
+            StartCoroutine(CurveTransition(pos, angles,scale, disable, useLocal, invertScale));
         else
         {
             ResetCard();
@@ -273,51 +285,6 @@ public class CardCombat : Card
         StopCoroutine(CardFollower);
         this.GetComponent<BezierFollow>().StartAnimation();
     }
-
-    // public List<RaycastResult> RaycastMouse()
-    // {
-        
-    //     PointerEventData pointerData = new PointerEventData (EventSystem.current)
-    //     {
-    //         pointerId = -1,
-    //     };
-        
-    //     pointerData.position = Input.mousePosition;
-
-    //     List<RaycastResult> results = new List<RaycastResult>();
-    //     EventSystem.current.RaycastAll(pointerData, results);
-        
-    //     return results;
-    // }
-
-    // public void RaycastEnemy()
-    // {
-    //     RaycastHit[] hits;
-    //     hits = Physics.RaycastAll(transform.position, transform.forward, 100.0F);
-
-    //     for (int i = 0; i < hits.Length; i++)
-    //     {
-    //         RaycastHit hit = hits[i];
-    //         Renderer rend = hit.transform.GetComponent<Renderer>();
-
-    //         Debug.Log(hits[i]);
-    //     }
-
-    // }
-
-
-    // public GameObject CheckRaycast()
-    // {
-    //     RaycastEnemy();
-    //     RaycastResult rayHit = RaycastMouse().FirstOrDefault(x => x.gameObject.ToString() == "CombatActorEnemy(Clone)");
-    //     if (rayHit.isValid)
-    //     {
-    //         GameObject enemy = rayHit.gameObject;
-    //         Debug.Log("An enemy");
-    //         return enemy;
-    //     }
-    //     return null;
-    // }
 
     public void CardAction()
     {   
