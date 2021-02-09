@@ -6,6 +6,7 @@ public class SaveData
 {   
     // fill this with all the data we want to store
     public int strength;
+    public int shard;
 
 
     public string ToJson()

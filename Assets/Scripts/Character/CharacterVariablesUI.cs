@@ -7,6 +7,8 @@ public class CharacterVariablesUI : MonoBehaviour
 {
     public TMP_Text healthValue;
     public TMP_Text goldValue;
+    public TMP_Text shardValue;
+
     public TMP_Text worldState;
     public TMP_Text worldTier;
     public TMP_Text combatState;
@@ -16,8 +18,10 @@ public class CharacterVariablesUI : MonoBehaviour
         int currentHealth = WorldSystem.instance.characterManager.currentHealth;
         int maxHealth = WorldSystem.instance.characterManager.maxHealth;
         int gold = WorldSystem.instance.characterManager.gold;
+        int shards = WorldSystem.instance.characterManager.shard;
         healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
         goldValue.text = gold.ToString();
+        shardValue.text = shards.ToString();
         worldTier.text = "Act " + WorldSystem.instance.act.ToString();
 
         //DEBUG:

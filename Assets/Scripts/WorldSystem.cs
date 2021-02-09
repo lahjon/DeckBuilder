@@ -135,12 +135,18 @@ public class WorldSystem : MonoBehaviour
         }
     }
 
+    public void SaveProgression()
+    {
+        SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+    }
+
     public void EndCombat(bool endAct = false)
     {
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);
         if (endAct)
         {
+            SaveProgression();
             GoToTown();
             return;
         }

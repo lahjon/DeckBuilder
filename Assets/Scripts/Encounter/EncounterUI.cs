@@ -22,12 +22,12 @@ public class EncounterUI : MonoBehaviour
 
     void Start()
     {
-        //DEBUG
-        BindEncounterData();
+ 
     }
 
     public void StartEncounter()
     {
+        canvas.SetActive(true);
         BindEncounterData();
     }
 
@@ -71,6 +71,7 @@ public class EncounterUI : MonoBehaviour
             encounterTitle.text = encounterData.name;
         if(encounterDescription != null)
             encounterDescription.text = encounterData.description;
+
     }
 
     public void CloseEncounter()

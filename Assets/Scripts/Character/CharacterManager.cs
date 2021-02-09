@@ -7,6 +7,8 @@ public class CharacterManager : MonoBehaviour, ISaveable
 {
     // should match all items from CharacterVariables Enum
     private int _gold;
+    private int _shard;
+
     public int startingGold = 99;
     public int currentHealth;
     public int maxHealth;
@@ -25,6 +27,7 @@ public class CharacterManager : MonoBehaviour, ISaveable
     void Start()
     {
         BindCharacterData();
+        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
         characterVariablesUI.UpdateUI();
     }
 
@@ -36,7 +39,19 @@ public class CharacterManager : MonoBehaviour, ISaveable
         }
         set
         {
-            _gold += value;
+            _gold = value;
+            characterVariablesUI.UpdateUI();
+        }
+    }
+    public int shard 
+    {
+        get
+        {
+            return _shard;
+        }
+        set
+        {
+            _shard = value;
             characterVariablesUI.UpdateUI();
         }
     }
@@ -130,12 +145,14 @@ public class CharacterManager : MonoBehaviour, ISaveable
 
     public void PopulateSaveData(SaveData a_SaveData)
     {
-        
+        a_SaveData.shard = _shard;
+        Debug.Log("Saving Data");
     }
 
     public void LoadFromSaveData(SaveData a_SaveData)
     {
-        
+        _shard = a_SaveData.shard;
+        Debug.Log("Loading Data");
     }
 
 }

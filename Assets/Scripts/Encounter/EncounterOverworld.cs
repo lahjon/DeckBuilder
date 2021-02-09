@@ -79,7 +79,7 @@ public class EncounterOverworld : Encounter
                 case EncounterType.OverworldRandomEvent:
                     SetIsVisited(false);
                     WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    WorldSystem.instance.uiManager.encounterUI.gameObject.SetActive(true);
+                    WorldSystem.instance.uiManager.encounterUI.StartEncounter();
                     break;
                 
                 default:

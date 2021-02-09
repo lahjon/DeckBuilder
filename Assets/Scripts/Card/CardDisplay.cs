@@ -46,6 +46,7 @@ public class CardDisplay : Card
             case WorldState.Reward:
                     AddCardToDeck(this.cardData);
                     WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
+                    WorldSystem.instance.SwapState(WorldState.Overworld);
                 break;
 
             default:
