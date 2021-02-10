@@ -19,6 +19,7 @@ public class EncounterUI : MonoBehaviour
     public GameObject choice3;
     public Encounter encounter;
     public EncounterData newEncounterData;
+    private bool transition = false;
 
     void Start()
     {
@@ -81,19 +82,19 @@ public class EncounterUI : MonoBehaviour
 
     public void ChooseOption(int index)
     {
-        if (index == 1)
+        if (index == 1 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[0];
             bool disable = event1.GetComponent<EventMain>().TriggerEvent();
             ConfirmOption(disable);
         }
-        else if(index == 2)
+        else if(index == 2 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[1];
             bool disable = event2.GetComponent<EventMain>().TriggerEvent();
             ConfirmOption(disable);
         }
-        else if(index == 3)
+        else if(index == 3 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[2];
             bool disable = event3.GetComponent<EventMain>().TriggerEvent();
@@ -117,6 +118,7 @@ public class EncounterUI : MonoBehaviour
 
     IEnumerator FadeInAndOut(GameObject oldObj, GameObject newObj)
     {
+        transition = true;
         CanvasGroup firstFade = oldObj.GetComponent<CanvasGroup>();
         CanvasGroup secondFade = newObj.GetComponent<CanvasGroup>();
         float time = 0.6f;
@@ -131,6 +133,7 @@ public class EncounterUI : MonoBehaviour
             secondFade.alpha = Mathf.Abs(1 - (t / time));
             yield return null;
         }
+        transition = false;
         DestroyImmediate(oldObj);
     }
 }

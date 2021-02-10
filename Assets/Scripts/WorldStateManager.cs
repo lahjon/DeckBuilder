@@ -15,8 +15,7 @@ public class WorldStateManager : Manager
         {
             stateStack.RemoveAt(stateStack.Count - 1);
             currentState = stateStack[stateStack.Count - 1];
-            world.characterManager.characterVariablesUI.UpdateUI();
-            world.cameraManager.CameraGoto(currentState, transition); 
+            WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         }
         else
         {
@@ -24,29 +23,40 @@ public class WorldStateManager : Manager
             currentState = WorldState.Overworld;
             Debug.Log("This should never happen! Make sure you are using the states correctly!");
         }
-        world.worldState = currentState;
+        WorldSystem.instance.worldState = currentState;
         StateAction(currentState);
+        if (transition && currentState != WorldState.Transition)
+        {
+            WorldSystem.instance.uiManager.screenTransition.ToggleActive();
+        }
     }
 
     public void AddState(WorldState aState, bool transition = true)
     {
         stateStack.Add(aState);
         currentState = aState;
-        world.characterManager.characterVariablesUI.UpdateUI();
-        world.cameraManager.CameraGoto(aState, transition);
-        world.worldState = currentState;
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.worldState = currentState;
         StateAction(currentState);
+        if (transition && currentState != WorldState.Transition)
+        {
+            WorldSystem.instance.uiManager.screenTransition.ToggleActive();
+        }
     }
 
     private void StateAction(WorldState aState)
     {
         if (aState == WorldState.Overworld)
         {
-            world.encounterManager.OpenOverworldMap();
+            WorldSystem.instance.encounterManager.OpenOverworldMap();
+        }
+        else if (aState == WorldState.Transition)
+        {
+            return;
         }
         else
         {
-            world.encounterManager.CloseOverworldMap();
+            WorldSystem.instance.encounterManager.CloseOverworldMap();
         }
     }
 }

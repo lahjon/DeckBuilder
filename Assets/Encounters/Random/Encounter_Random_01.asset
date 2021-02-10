@@ -12,23 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
   m_Name: Encounter_Random_01
   m_EditorClassIdentifier: 
-  name: Angry Mob
+  name: The amazing Seth Nielsen!
   type: 1
   tier: 0
   isVisited: 0
   secretCondition: 0
   events:
-  - {fileID: 8237644298160242557, guid: e4d128f360f16e64183e47e23047b537, type: 3}
-  - {fileID: 8237644298160242557, guid: 13eeb0c4c93d6ee4e9b92334735006d6, type: 3}
-  - {fileID: 8237644298160242557, guid: 73f4d099ddc34c5469f58bb10fd4df78, type: 3}
-  description: An angry mob approaches. They ask you if its ok to be angry?
-  choice1: Get Card
-  choice2: Attack
-  choice3: Leave
+  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
+  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
+  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
+  description: A wild Seth Nielsen appears! What do you do?
+  choice1: Tell Seth Nielsen he is amazing!
+  choice2: Punch Seth Nielsen in the face!
+  choice3: Ignore Mr.Nielsen.
   newEncounterData:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 0d828da02c821a54b96beba6d8dde865, type: 2}
+  - {fileID: 11400000, guid: 5724d647d050d1144bea89b4cbd9b476, type: 2}
+  - {fileID: 11400000, guid: efe19b4d07bc26a418b32f295b7f5913, type: 2}
   enemyData:
-  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
+  - {fileID: 0}
   cardData: []

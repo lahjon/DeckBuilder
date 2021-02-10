@@ -23,14 +23,14 @@ public class TownManager : Manager
 
     public void LeaveTown()
     {
-        canvas.gameObject.SetActive(false);
 
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld);
+        canvas.gameObject.SetActive(false);
+        WorldSystem.instance.encounterManager.canvas.gameObject.SetActive(true);
         WorldSystem.instance.encounterManager.GenerateMap();
+        WorldSystem.instance.encounterManager.canvas.gameObject.SetActive(false);
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         WorldSystem.instance.encounterManager.currentEncounter = WorldSystem.instance.encounterManager.overworldEncounters[0];
-
-        WorldSystem.instance.cameraManager.mainCamera.transform.position = WorldSystem.instance.cameraManager.actCameraPos[WorldSystem.instance.act - 1].transform.position;
+        WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
     }
 
     public void EnterShop()

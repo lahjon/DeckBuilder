@@ -14,11 +14,13 @@ public class ScreenTransition : MonoBehaviour
         if(canvas.activeSelf == false)
         {
             canvas.SetActive(true);
+            Debug.Log("True");
             FadeToColor();
         }
         else
         {
             canvas.SetActive(false);
+            Debug.Log("False");
         }
     }
 
@@ -39,9 +41,9 @@ public class ScreenTransition : MonoBehaviour
             canvas.GetComponent<Image>().color = newColor;
             yield return null;
         }
+        WorldSystem.instance.worldStateManager.RemoveState(false);
         ToggleActive();
         canvas.GetComponent<Image>().color = color;
-        WorldSystem.instance.worldStateManager.RemoveState();
     }
 
     IEnumerator FadeToCurve(float value, Color color)
@@ -54,8 +56,8 @@ public class ScreenTransition : MonoBehaviour
                 time -= Time.deltaTime;
                 yield return null;
         }
+        WorldSystem.instance.worldStateManager.RemoveState(false);
         ToggleActive();
         canvas.GetComponent<Image>().color = color;
-        WorldSystem.instance.worldStateManager.RemoveState();
     }
 }

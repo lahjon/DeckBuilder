@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartingHP: 30
   enemyName: Elite1
-  artwork: {fileID: 21300000, guid: cac60673b5e6749438f88d8fafbefe0a, type: 3}
+  artwork: {fileID: 21300000, guid: 9f5322d6348c2d74e8e9f4b8be7ef878, type: 3}
   tier: 1
   deck:
   - {fileID: 11400000, guid: af70494e09f021c4bb9fb91c718b2f49, type: 2}

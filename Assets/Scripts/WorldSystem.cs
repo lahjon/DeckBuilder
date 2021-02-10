@@ -44,19 +44,6 @@ public class WorldSystem : MonoBehaviour
 
     }
 
-    // public WorldState WorldState
-    // {
-    //     get
-    //     {
-    //         return WorldState;
-    //     }
-    //     set
-    //     {
-    //         WorldState = value;
-    //     }
-    // }
-    // }
-
     public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)
     {
         characterStats = storeStats;
@@ -143,7 +130,7 @@ public class WorldSystem : MonoBehaviour
 
     public void EndCombat(bool endAct = false)
     {
-        WorldSystem.instance.worldStateManager.RemoveState();
+        WorldSystem.instance.worldStateManager.RemoveState(true);
         Debug.Log("EndCombat Removing card!");
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);

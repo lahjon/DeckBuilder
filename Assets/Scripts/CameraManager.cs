@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class CameraManager : MonoBehaviour 
 {
     public Camera mainCamera;
-    public Transform townCameraPos;
     public Transform combatCameraPos;
     public Transform shopCameraPos;
     public List<Transform> actCameraPos;
@@ -27,10 +26,6 @@ public class CameraManager : MonoBehaviour
             case WorldState.Shop:
                 mainCamera.transform.position = shopCameraPos.position;
                 break;   
-
-            case WorldState.Town:
-                mainCamera.transform.position = townCameraPos.position;
-                break;    
              
             default:
                 break;

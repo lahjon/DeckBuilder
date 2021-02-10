@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     public int planeDistance = 10;
     public GameObject ui;
+    public ScreenTransition screenTransition;
     public RewardScreen rewardScreen;
     public UIWarningController UIWarningController;
     public CharacterSheet characterSheet;
