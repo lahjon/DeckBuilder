@@ -76,7 +76,7 @@ public class EncounterUI : MonoBehaviour
 
     public void CloseEncounter()
     {
-        encounter.SetIsVisited(true);
+        encounter.SetIsVisited();
     }
 
     public void ChooseOption(int index)

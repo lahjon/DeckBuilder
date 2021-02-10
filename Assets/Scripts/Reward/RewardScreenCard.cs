@@ -9,7 +9,7 @@ public class RewardScreenCard : MonoBehaviour
     public void SetupRewards(List<CardData> rewardCards = null)
     {
         cards.Clear();
-        WorldSystem.instance.SwapState(WorldState.Reward, false);
+        WorldSystem.instance.worldStateManager.AddState(WorldState.Reward, false);
 
         foreach (Transform card in WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent.transform)
         {

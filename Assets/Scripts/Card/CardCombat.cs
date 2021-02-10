@@ -121,7 +121,7 @@ public class CardCombat : Card
 
     public override void OnMouseEnter()
     {
-        if(!inTransition && WorldSystem.instance.worldState == WorldState.Combat && combatController.ActiveCard is null)
+        if(!inTransition && world.worldState == WorldState.Combat && combatController.ActiveCard is null)
         {
                 SetTransOnMouseOver();
                 transform.SetAsLastSibling();

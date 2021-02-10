@@ -7,8 +7,6 @@ public class WorldSystem : MonoBehaviour
     public static WorldSystem instance; 
     public Character character;
     public WorldState worldState;
-    public WorldState tempWorldState;
-    public WorldState previousState; //= WorldState.MainMenu;
     private int currentScene = 0;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
@@ -21,6 +19,7 @@ public class WorldSystem : MonoBehaviour
     public CombatManager combatManager;
     public TownManager townManager;
     public UIManager uiManager;
+    public WorldStateManager worldStateManager;
     public int act = 1;
 
     void Awake()
@@ -40,6 +39,8 @@ public class WorldSystem : MonoBehaviour
     {
         if(worldState != WorldState.MainMenu)
             UpdateStartScene();
+
+        worldStateManager.AddState(WorldState.Town);
 
     }
 
@@ -121,7 +122,7 @@ public class WorldSystem : MonoBehaviour
     public void EnterCombat(List<EnemyData> enemyDatas = null)
     {
         combatManager.combatController.gameObject.SetActive(true);
-        SwapState(WorldState.Combat);
+        worldStateManager.AddState(WorldState.Combat);
         cameraManager.CameraGoto(WorldState.Combat, true);
         encounterManager.encounterTier = encounterManager.currentEncounter.encounterData.tier;
         List<EnemyData> eData = enemyDatas;
@@ -142,6 +143,8 @@ public class WorldSystem : MonoBehaviour
 
     public void EndCombat(bool endAct = false)
     {
+        WorldSystem.instance.worldStateManager.RemoveState();
+        Debug.Log("EndCombat Removing card!");
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);
         if (endAct)
@@ -150,7 +153,6 @@ public class WorldSystem : MonoBehaviour
             GoToTown();
             return;
         }
-        SwapState(WorldState.Overworld);
     }
 
     private void GoToTown()
@@ -160,18 +162,27 @@ public class WorldSystem : MonoBehaviour
         cameraManager.CameraGoto(WorldState.Town, true);
     }
 
-    public void SwapState(WorldState aWorldState, bool doTransition = true)
-    {
-        previousState = instance.worldState;
-        worldState = aWorldState;
-        cameraManager.CameraGoto(aWorldState, doTransition);
-        characterManager.characterVariablesUI.UpdateUI();
-    }
-    public void SwapStatePrevious()
-    {
-        worldState = previousState;
-        characterManager.characterVariablesUI.UpdateUI();
-    }
+    // public void SwapState(WorldState aWorldState, bool doTransition = true)
+    // {
+
+    //     if(aWorldState == WorldState.Overworld)
+    //     {
+    //         encounterManager.canvas.gameObject.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         encounterManager.canvas.gameObject.SetActive(false);
+    //     }
+    //     previousState = instance.worldState;
+    //     worldState = aWorldState;
+    //     cameraManager.CameraGoto(aWorldState, doTransition);
+    //     characterManager.characterVariablesUI.UpdateUI();
+    // }
+    // public void SwapStatePrevious()
+    // {
+    //     worldState = previousState;
+    //     characterManager.characterVariablesUI.UpdateUI();
+    // }
     private void UpdateStartScene()
     {
         GetAllReferences();
@@ -180,35 +191,7 @@ public class WorldSystem : MonoBehaviour
     public void Reset()
     {
         characterManager.Reset();
-        ExitTown(true);
-    }
-
-    public void ExitTown(bool reset = false)
-    {
-        // if(reset == true)
-        // {
-        //     act = 1;
-        // }
-        // else
-        // {
-        //     act += 1;    
-        // }
-        characterManager.characterVariablesUI.UpdateUI();
-        SwapState(WorldState.Overworld);
-        encounterManager.currentEncounter = encounterManager.overworldEncounters[0];
-
-        //DEBUG STUFF
-        // GameObject actEncounters = WorldSystem.instance.encounterManager.actEncounters[0];
-        // Transform t = actEncounters.transform;
-        // Debug.Log(t);
-
-        // Encounter e = t.GetChild(6).gameObject.GetComponent<Encounter>();
-        // WorldSystem.instance.encounterManager.currentEncounter = e;
-
-    
-        //encounterManager.UpdateAllOverworldEncounters(act);
-        cameraManager.mainCamera.transform.position = cameraManager.actCameraPos[act - 1].transform.position;
-        cameraManager.mainCamera.transform.rotation = cameraManager.actCameraPos[act - 1].transform.rotation;
+        townManager.LeaveTown();
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

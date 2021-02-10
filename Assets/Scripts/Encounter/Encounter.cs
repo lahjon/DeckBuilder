@@ -23,13 +23,17 @@ public abstract class Encounter : MonoBehaviour
     protected bool isVisited;
     protected bool isClicked;
 
-    public List<GameObject> roads = new List<GameObject>();
+    //public Dictionary<Encounter, GameObject> roads = new Dictionary<Encounter, GameObject>();
+    public Dictionary<GameObject, List<Encounter>> roads = new Dictionary<GameObject, List<Encounter>>();
 
     public abstract void UpdateEncounter();
 
     protected abstract void OnMouseOver();
 
     protected abstract bool CheckViablePath(Encounter anEncounter);
+
+
+    protected delegate void VisitAction();
 
     void OnMouseExit()
     {
@@ -39,6 +43,7 @@ public abstract class Encounter : MonoBehaviour
             SetNormalMat();
         }
     }
+    public abstract void ButtonPress();
 
     protected abstract void OnMouseDown();
 
@@ -72,34 +77,73 @@ public abstract class Encounter : MonoBehaviour
     {
         //GetComponent<Renderer>().material = matNormal;
     }
-    public void SetIsVisited(bool destroyUI)
+    public void SetIsVisited(Encounter enc = null)
     {
         isVisited = true;
-        // if(destroyUI)
-        //     DestroyUI();
-        //GetComponent<Renderer>().material = matVisited;
+
         Button button = this.GetComponent<Button>();
         ColorBlock color = button.colors;
 
-        color.normalColor = new Color (1f, 0.5f, 0.5f);
-        color.disabledColor = new Color (1f, 0.5f, 0.5f);
-        color.selectedColor = new Color (1f, 0.5f, 0.5f);
+        color.normalColor = new Color (1.0f, 0.5f, 0.5f);
+        color.disabledColor = new Color (1.0f, 0.5f, 0.5f);
+        color.selectedColor = new Color (1.0f, 0.5f, 0.5f);
         button.colors = color;
+        
 
-
-        if(this.roads.Count > 0)
+        if(enc != null && roads.Count > 0)
         {
-            
-            // for (int i = 0; i < this.roads.transform.childCount; i++)
-            // {
-            //     this.roads.transform.GetChild(i).GetComponent<Image>().color = new Color (0.5f, 0.5f, 0.5f);
-            // }
-
+            foreach(KeyValuePair<GameObject, List<Encounter>> p in roads)
+            {
+                if(p.Value[0] == WorldSystem.instance.encounterManager.currentEncounter && p.Value[1] == this)
+                {
+                    for (int i = 0; i < p.Key.transform.childCount; i++)
+                    {
+                        p.Key.transform.GetChild(i).GetComponent<Image>().color = new Color (1.0f, 0.5f, 0.5f);
+                    }
+                }
+                break;
+            }
         }
 
         WorldSystem.instance.encounterManager.currentEncounter = this;
 
+    }
 
+    protected IEnumerator SetVisited(List<System.Action> visitActions, Encounter enc = null)
+    {
+        isVisited = true;
+
+        if(enc != null && roads.Count > 0)
+        {
+            foreach(KeyValuePair<GameObject, List<Encounter>> p in roads)
+            {
+
+                if(p.Value[0] == WorldSystem.instance.encounterManager.currentEncounter && p.Value[1] == this)
+                {
+                    int counter = 0;
+                    int countMax = p.Key.transform.childCount;
+                    while (counter < countMax)
+                    {
+                        p.Key.transform.GetChild(counter).GetComponent<Image>().color = new Color (1.0f, 0.5f, 0.5f);
+                        counter++;
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                }
+                break;
+            }
+        }
+
+        Button button = this.GetComponent<Button>();
+        ColorBlock color = button.colors;
+
+        color.normalColor = new Color (1.0f, 0.5f, 0.5f);
+        color.disabledColor = new Color (1.0f, 0.5f, 0.5f);
+        color.selectedColor = new Color (1.0f, 0.5f, 0.5f);
+        button.colors = color;
+
+        WorldSystem.instance.encounterManager.currentEncounter = this;
+        Debug.Log("Doing Action");
+        visitActions.ForEach(x => x.Invoke());
     }
 
     public void UpdateIcon()

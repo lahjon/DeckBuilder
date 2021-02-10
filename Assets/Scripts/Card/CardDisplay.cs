@@ -44,9 +44,11 @@ public class CardDisplay : Card
                 break;
 
             case WorldState.Reward:
-                    AddCardToDeck(this.cardData);
-                    WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
-                    WorldSystem.instance.SwapState(WorldState.Overworld);
+            
+                Debug.Log("CardDisplay Removing card!");
+                AddCardToDeck(this.cardData);
+                WorldSystem.instance.worldStateManager.RemoveState(false);
+                WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
                 break;
 
             default:

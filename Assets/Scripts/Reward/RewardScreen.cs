@@ -26,12 +26,10 @@ public class RewardScreen : MonoBehaviour
                 Reward currentReward = content.transform.GetChild(keys[i] - 1).GetComponent<Reward>();
                 if(currentReward is RewardCard)
                 {
-                    //currentReward = tempReward;
                     currentReward.OnClick(false);
                 }
                 else if (currentReward is RewardGold)
                 {
-                    //currentReward = tempReward;
                     currentReward.OnClick();
                 }
                 break;
@@ -66,14 +64,29 @@ public class RewardScreen : MonoBehaviour
         }
     }
 
-    public void ResetCurrentReward(bool collect = true)
+    public void ResetCurrentReward()
     {
-        if(collect == true && currentReward != null)
+        if (currentReward != null)
         {
-            currentReward.OnClick();
+            currentReward.RemoveReward();
+            currentReward = null;
         }
-        currentReward = null;
+        else
+        {
+            WorldSystem.instance.worldStateManager.RemoveState(false);
+        }
         canvasCard.SetActive(false);
+    }
+
+    public void ResetCurrentRewardEvent()
+    {
+        canvasCard.SetActive(false);
+    }
+
+    public void SkipCardReward()
+    {
+        WorldSystem.instance.worldStateManager.RemoveState(false);
+        ResetCurrentReward();
     }
 
 
@@ -92,7 +105,7 @@ public class RewardScreen : MonoBehaviour
         OnCanvasEnable();
         
         WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
-        WorldSystem.instance.SwapState(WorldState.Reward);
+        WorldSystem.instance.worldStateManager.AddState(WorldState.Reward);
         canvas.SetActive(true);
     }
 
@@ -100,6 +113,8 @@ public class RewardScreen : MonoBehaviour
     {
         canvas.SetActive(false);
         canvasCard.SetActive(false);
+        WorldSystem.instance.worldStateManager.RemoveState();
+        Debug.Log("RewardScreen Removing card!");
         if(encounterData.type == EncounterType.OverworldCombatBoss)
             WorldSystem.instance.EndCombat(true);
         else

@@ -25,7 +25,7 @@ public class CharacterVariablesUI : MonoBehaviour
         worldTier.text = "Act " + WorldSystem.instance.act.ToString();
 
         //DEBUG:
-        worldState.text = WorldSystem.instance.worldState.ToString();
+        worldState.text = WorldSystem.instance.worldStateManager.currentState.ToString();
         if(WorldSystem.instance.combatManager.combatController.state != null)
             combatState.text = WorldSystem.instance.combatManager.combatController.state.ToString();
         else

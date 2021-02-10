@@ -7,7 +7,7 @@ public class EncounterTown : Encounter
 
     void Start()
     {
-        UpdateEncounter();
+        //UpdateEncounter();
     }
 
     public override void UpdateEncounter()
@@ -39,38 +39,35 @@ public class EncounterTown : Encounter
 
     }
 
-    
-
-    protected override void OnMouseDown()
+    public override void ButtonPress()
     {
         if(WorldSystem.instance.worldState == WorldState.Town)
         {
-            Debug.Log(this.encounterType);
             switch (this.encounterType)
             {
                 case EncounterType.TownLeave:
                     Debug.Log("Leave Town!");
-                    SetIsVisited(false);
+                    SetIsVisited();
                     WorldSystem.instance.townManager.LeaveTown();
 
                     break;
                 
                 case EncounterType.TownPray:
                     Debug.Log("Pray in Town!");
-                    SetIsVisited(false);
+                    SetIsVisited();
                     WorldSystem.instance.townManager.EnterPray();
                     break;
                 
                 case EncounterType.TownShop:
                     Debug.Log("Enter Town Shop!");
-                    SetIsVisited(false);
+                    SetIsVisited();
                     WorldSystem.instance.townManager.EnterShop();
                     break;
 
                 case EncounterType.TownTavern:
                     Debug.Log("Enter Town Pray!");
                     
-                    SetIsVisited(false);
+                    SetIsVisited();
                     WorldSystem.instance.townManager.EnterPray();
                     break;
                 
@@ -79,5 +76,47 @@ public class EncounterTown : Encounter
                     break;
             }
         }
+    }
+
+    
+
+    protected override void OnMouseDown()
+    {
+        // if(WorldSystem.instance.worldState == WorldState.Town)
+        // {
+        //     Debug.Log(this.encounterType);
+        //     switch (this.encounterType)
+        //     {
+        //         case EncounterType.TownLeave:
+        //             Debug.Log("Leave Town!");
+        //             SetIsVisited(false);
+        //             WorldSystem.instance.townManager.LeaveTown();
+
+        //             break;
+                
+        //         case EncounterType.TownPray:
+        //             Debug.Log("Pray in Town!");
+        //             SetIsVisited(false);
+        //             WorldSystem.instance.townManager.EnterPray();
+        //             break;
+                
+        //         case EncounterType.TownShop:
+        //             Debug.Log("Enter Town Shop!");
+        //             SetIsVisited(false);
+        //             WorldSystem.instance.townManager.EnterShop();
+        //             break;
+
+        //         case EncounterType.TownTavern:
+        //             Debug.Log("Enter Town Pray!");
+                    
+        //             SetIsVisited(false);
+        //             WorldSystem.instance.townManager.EnterPray();
+        //             break;
+                
+        //         default:
+        //             isClicked = true;
+        //             break;
+        //     }
+        // }
     }
 }

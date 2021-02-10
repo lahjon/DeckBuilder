@@ -8,7 +8,7 @@ public class EventLeave : EventMain
 
     public override bool TriggerEvent()
     {
-        WorldSystem.instance.SwapState(WorldState.Overworld, false);
+        WorldSystem.instance.worldStateManager.RemoveState(false);
         base.TriggerEvent();
         return true;
     }

@@ -5,6 +5,8 @@ using UnityEngine;
 public class EncounterOverworld : Encounter
 {
     private EncounterManager encounterManager;
+    [HideInInspector]
+    public int mapIndex;
     void Awake()
     {
         encounterManager = WorldSystem.instance.encounterManager;
@@ -15,7 +17,7 @@ public class EncounterOverworld : Encounter
         
         if(gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
         {
-            SetIsVisited(false);
+            SetIsVisited();
         }
         else
         {
@@ -44,43 +46,73 @@ public class EncounterOverworld : Encounter
 
     }
 
-    public void ButtonPress()
+    public override void ButtonPress()
     {
         if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
         {
-            encounterManager.canvas.gameObject.SetActive(false);
+            List<System.Action> visitActions = new List<System.Action>();
+
             switch (this.encounterType)
             {
                 case EncounterType.OverworldCombatNormal:
-                    Debug.Log("Enter Combat!");
-                    SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
+                    // Debug.Log("Enter Combat!");
+                    // SetIsVisited(this);
+                    // WorldSystem.instance.EnterCombat();
+
+                    visitActions.Clear();
+                    void actionNormal() {WorldSystem.instance.EnterCombat();}
+                    visitActions.Add(actionNormal);
+                    StartCoroutine(SetVisited(visitActions, this));
+
                     break;
                 
                 case EncounterType.OverworldCombatElite:
-                    Debug.Log("Enter Elite Combat!");
-                    SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
+                    // Debug.Log("Enter Elite Combat!");
+                    // SetIsVisited(this);
+                    // WorldSystem.instance.EnterCombat();
+
+                    visitActions.Clear();
+                    void actionElite() {WorldSystem.instance.EnterCombat();}
+                    visitActions.Add(actionElite);
+                    StartCoroutine(SetVisited(visitActions, this));
+
                     break;
                 
                 case EncounterType.OverworldCombatBoss:
-                    Debug.Log("Enter Boss Combat!");
-                    SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
+                    // Debug.Log("Enter Boss Combat!");
+                    // SetIsVisited(this);
+                    // WorldSystem.instance.EnterCombat();
+
+                    visitActions.Clear();
+                    void actionBoss() {WorldSystem.instance.EnterCombat();}
+                    visitActions.Add(actionBoss);
+                    StartCoroutine(SetVisited(visitActions, this));
+
                     break;
 
                 case EncounterType.OverworldShop:
                     WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
                     WorldSystem.instance.shopManager.shop.RestockShop();
-                    SetIsVisited(false);
-                    WorldSystem.instance.SwapState(WorldState.Shop);
+                    SetIsVisited(this);
+                    WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
                     Debug.Log("Enter Shop!");
                     break;
 
                 case EncounterType.OverworldRandomEvent:
-                    SetIsVisited(false);
+                    // SetIsVisited(this);
+                    // WorldSystem.instance.worldStateManager.AddState(WorldState.Event, false);
+                    // WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
+                    // WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+
+
+                    visitActions.Clear();
                     WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+                    void actionE1() {WorldSystem.instance.uiManager.encounterUI.StartEncounter();}
+                    void actionE2() {WorldSystem.instance.worldStateManager.AddState(WorldState.Event, false);}
+                    visitActions.Add(actionE1);
+                    visitActions.Add(actionE2);
+                    StartCoroutine(SetVisited(visitActions, this));
+                    
                     break;
                 
                 default:
@@ -95,45 +127,45 @@ public class EncounterOverworld : Encounter
     {
         if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
         {
-            switch (this.encounterType)
-            {
-                case EncounterType.OverworldCombatNormal:
-                    Debug.Log("Enter Combat!");
-                    SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
-                    break;
+            // switch (this.encounterType)
+            // {
+            //     case EncounterType.OverworldCombatNormal:
+            //         Debug.Log("Enter Combat!");
+            //         SetIsVisited(false, this);
+            //         WorldSystem.instance.EnterCombat();
+            //         break;
                 
-                case EncounterType.OverworldCombatElite:
-                    Debug.Log("Enter Elite Combat!");
-                    SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
-                    break;
+            //     case EncounterType.OverworldCombatElite:
+            //         Debug.Log("Enter Elite Combat!");
+            //         SetIsVisited(false, this);
+            //         WorldSystem.instance.EnterCombat();
+            //         break;
                 
-                case EncounterType.OverworldCombatBoss:
-                    Debug.Log("Enter Boss Combat!");
-                    SetIsVisited(false);
-                    WorldSystem.instance.EnterCombat();
-                    break;
+            //     case EncounterType.OverworldCombatBoss:
+            //         Debug.Log("Enter Boss Combat!");
+            //         SetIsVisited(false, this);
+            //         WorldSystem.instance.EnterCombat();
+            //         break;
 
-                case EncounterType.OverworldShop:
-                    WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
-                    WorldSystem.instance.shopManager.shop.RestockShop();
-                    SetIsVisited(false);
-                    WorldSystem.instance.SwapState(WorldState.Shop);
-                    Debug.Log("Enter Shop!");
-                    break;
+            //     case EncounterType.OverworldShop:
+            //         WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
+            //         WorldSystem.instance.shopManager.shop.RestockShop();
+            //         SetIsVisited(false, this);
+            //         WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
+            //         Debug.Log("Enter Shop!");
+            //         break;
 
-                case EncounterType.OverworldRandomEvent:
-                    SetIsVisited(false);
-                    WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    WorldSystem.instance.uiManager.encounterUI.StartEncounter();
-                    break;
+            //     case EncounterType.OverworldRandomEvent:
+            //         SetIsVisited(false, this);
+            //         WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
+            //         WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+            //         break;
                 
-                default:
-                    isClicked = true;
-                    //CreateUI();
-                    break;
-            }
+            //     default:
+            //         isClicked = true;
+            //         //CreateUI();
+            //         break;
+            // }
         }
     }
 }

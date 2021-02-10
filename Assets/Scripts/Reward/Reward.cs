@@ -11,10 +11,15 @@ public abstract class Reward : MonoBehaviour
         CollectCombatReward();
         if(destroy == true)
         {
-            DestroyImmediate(this.gameObject);
+            RemoveReward();
+        }
+    }
+
+    public virtual void RemoveReward()
+    {
+        DestroyImmediate(this.gameObject);
             if(WorldSystem.instance.uiManager.rewardScreen.content.transform.childCount == 0)
                 WorldSystem.instance.uiManager.rewardScreen.RemoveRewardScreen();
-        }
     }
     
     // public ArtifactData GetArtifact(bool random = true, ArtifactData artifactData = null)

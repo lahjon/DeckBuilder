@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class EncounterManager : MonoBehaviour
+public class EncounterManager : Manager
 {
     public List<GameObject> actRoads; 
     public GameObject startPos;
@@ -40,16 +40,16 @@ public class EncounterManager : MonoBehaviour
         return overworldEncounters[0].transform.position;
     }
 
+    void Awake()
+    {
+        canvas.gameObject.SetActive(true);
+    }
 
-    public void Start()
+    void Start()
     {
         encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
         roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
-        GenerateMap();
-        AddRoads(encounters[0][0]);
-        encounters[0][0].SetIsVisited(false);
     }
-
     public void UpdateAllTownEncounters(int act)
     {
         encounterTier = act;
@@ -59,6 +59,16 @@ public class EncounterManager : MonoBehaviour
             Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();
             e.UpdateEncounter();
         }
+    }
+
+    public void OpenOverworldMap()
+    {
+        canvas.gameObject.SetActive(true);
+    }
+
+    public void CloseOverworldMap()
+    {
+        canvas.gameObject.SetActive(false);
     }
 
 
@@ -85,6 +95,7 @@ public class EncounterManager : MonoBehaviour
             for (int j = 0; j < encounters[i].Length; j++)
             {
                 GameObject newEnc = Instantiate(UIPrefab, encounterParent.transform, false);
+                newEnc.name = string.Format("encounter_{0}_{1}", i, j);
                 Vector3 pos = startPos.transform.position;
                 //newEnc.transform.localScale = new Vector3(30, 30, 30);
 
@@ -109,6 +120,9 @@ public class EncounterManager : MonoBehaviour
         {
             AssignNeighbours(i, 0, encounters[i].Length - 1, 0, encounters[i+1].Length-1);
         }
+
+        AddRoads(encounters[0][0]);
+        encounters[0][0].SetIsVisited();
     }
 
     public void AssignNeighbours(int floor, int unassigned_lb, int unassigned_ub, int lb, int ub)
@@ -180,30 +194,32 @@ public class EncounterManager : MonoBehaviour
     {
         foreach(Encounter enc in root.neighbourEncounters)
         {
-            AddRoad(root.transform.position, enc.transform.position);
-            DrawRoad(root.transform.position, enc.transform.position, enc);
+            //AddRoad(root.transform.position, enc.transform.position);
+            DrawRoad(root, enc);
             AddRoads(enc);
         }
     }
 
-    public void AddRoad(Vector3 from, Vector3 to)
+    // public void AddRoad(Vector3 from, Vector3 to)
+    // {
+    //     GameObject newRoad = Instantiate(RoadTemplate, actRoads[0].transform,false);
+    //     float height = newRoad.transform.position.y;
+
+    //     Transform roadTrans = newRoad.transform;
+
+    //     Vector3 newPos = from + ((to - from) / 2.0f);
+    //     roadTrans.position = from + ((to- from)/2.0f);
+    //     //roadTrans.position = new Vector3(roadTrans.position.x, 0 , roadTrans.position.y);
+    //     roadTrans.localScale = new Vector3(10, Vector3.Distance(from, to), 10);
+
+    //     float angle = Vector3.Angle(to-from  , roadTrans.up);
+    //     roadTrans.Rotate(new Vector3(0, 0, -angle));
+    // }
+
+    public void DrawRoad(Encounter fromEnc, Encounter toEnc)
     {
-        GameObject newRoad = Instantiate(RoadTemplate, actRoads[0].transform,false);
-        float height = newRoad.transform.position.y;
-
-        Transform roadTrans = newRoad.transform;
-
-        Vector3 newPos = from + ((to - from) / 2.0f);
-        roadTrans.position = from + ((to- from)/2.0f);
-        //roadTrans.position = new Vector3(roadTrans.position.x, 0 , roadTrans.position.y);
-        roadTrans.localScale = new Vector3(10, Vector3.Distance(from, to), 10);
-
-        float angle = Vector3.Angle(to-from  , roadTrans.up);
-        roadTrans.Rotate(new Vector3(0, 0, -angle));
-    }
-
-    public void DrawRoad(Vector3 from, Vector3 to, Encounter encounter)
-    {
+        Vector3 from = fromEnc.transform.position;
+        Vector3 to = toEnc.transform.position;
         float dist = Vector3.Distance(from, to);
         float width = roadImage.GetComponent<RectTransform>().rect.width;
 
@@ -215,17 +231,23 @@ public class EncounterManager : MonoBehaviour
         Vector3 dir = Vector3.Normalize(to - from);
 
         GameObject newRoadParent = new GameObject();
+        newRoadParent.name = string.Format("road_{0}_to_{1}", fromEnc.gameObject.name, toEnc.gameObject.name);
         newRoadParent.transform.SetParent(roadParent.transform);
-        encounter.roads.Add(newRoadParent);
+        List<Encounter> roads = new List<Encounter>();
+        roads.Add(fromEnc);
+        roads.Add(toEnc);
+        toEnc.roads.Add(newRoadParent, roads);
+        int count = 0;
 
         while (dist_t < dist - break_gap)
         {
             GameObject newRoad = Instantiate(roadImage, newRoadParent.transform);
+            
             newRoad.transform.position = from + dir * dist_t;
             float angle = Vector3.Angle(to-from, newRoad.transform.up);
             newRoad.transform.Rotate(new Vector3(0, 0, -angle + 90));
-            //roads.Add(newRoad);
             dist_t += gap + width;
+            count++;
         }
     }
 }

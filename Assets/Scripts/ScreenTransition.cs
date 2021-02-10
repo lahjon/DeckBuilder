@@ -24,7 +24,7 @@ public class ScreenTransition : MonoBehaviour
 
     private void FadeToColor()
     {
-        WorldSystem.instance.SwapState(WorldState.Transition);
+        WorldSystem.instance.worldStateManager.AddState(WorldState.Transition);
         Color color = canvas.GetComponent<Image>().color;
         if(useCurve == false)
             StartCoroutine(FadeTo(0, 2, color));
@@ -41,7 +41,7 @@ public class ScreenTransition : MonoBehaviour
         }
         ToggleActive();
         canvas.GetComponent<Image>().color = color;
-        WorldSystem.instance.SwapStatePrevious();
+        WorldSystem.instance.worldStateManager.RemoveState();
     }
 
     IEnumerator FadeToCurve(float value, Color color)
@@ -56,6 +56,6 @@ public class ScreenTransition : MonoBehaviour
         }
         ToggleActive();
         canvas.GetComponent<Image>().color = color;
-        WorldSystem.instance.SwapStatePrevious();
+        WorldSystem.instance.worldStateManager.RemoveState();
     }
 }
