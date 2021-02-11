@@ -23,6 +23,7 @@ public class CardData : ScriptableObject
 
     public CharacterClass characterClass;
     public GameObject animationPrefab;
+    public AudioClip audio;
 
     [HideInInspector]
     public bool targetRequired

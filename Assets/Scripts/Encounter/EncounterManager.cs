@@ -25,7 +25,7 @@ public class EncounterManager : Manager
     public double branshProb = 0.25;
 
 
-    EncounterOverworld[][] encounters;
+    Encounter[][] encounters;
 
     [HideInInspector]
     public GameObject encounterParent; 
@@ -74,17 +74,17 @@ public class EncounterManager : Manager
 
     public void GenerateMap()
     {
-        encounters = new EncounterOverworld[length][];
+        encounters = new Encounter[length][];
 
         //Setup first
-        encounters[0] = new EncounterOverworld[1];
+        encounters[0] = new Encounter[1];
 
         //SetupLast
-        encounters[length - 1] = new EncounterOverworld[1];
+        encounters[length - 1] = new Encounter[1];
 
 
         for (int i = 1; i < length - 1; i++)
-            encounters[i] = new EncounterOverworld[Random.Range(minWidth, maxWidth + 1)];
+            encounters[i] = new Encounter[Random.Range(minWidth, maxWidth + 1)];
 
         float vSpacing = 200.0f;
         float hSpacing = 200.0f;
@@ -97,10 +97,9 @@ public class EncounterManager : Manager
                 GameObject newEnc = Instantiate(UIPrefab, encounterParent.transform, false);
                 newEnc.name = string.Format("encounter_{0}_{1}", i, j);
                 Vector3 pos = startPos.transform.position;
-                //newEnc.transform.localScale = new Vector3(30, 30, 30);
 
                 newEnc.transform.position = new Vector3(i * hSpacing, j * vSpacing - (encounters[i].Length - 1) * hSpacing / 2.0f ,0.04f)  + getPositionNoise(placementNoise) + pos;
-                encounters[i][j] = newEnc.GetComponent<EncounterOverworld>();
+                encounters[i][j] = newEnc.GetComponent<Encounter>();
                 overworldEncounters.Add(encounters[i][j]);
             }
         }
@@ -121,7 +120,7 @@ public class EncounterManager : Manager
             AssignNeighbours(i, 0, encounters[i].Length - 1, 0, encounters[i+1].Length-1);
         }
 
-        AddRoads(encounters[0][0]);
+        StartAddRoads(encounters[0][0]);
         encounters[0][0].SetIsVisited();
     }
 
@@ -190,15 +189,32 @@ public class EncounterManager : Manager
 
 
     // Function to add and place roads between all encounters that are connected. Assumes all encounters can be reached from the first.
-    public void AddRoads(Encounter root)
+
+    private void StartAddRoads(Encounter root)
     {
-        foreach(Encounter enc in root.neighbourEncounters)
+        for (int i = 0; i < encounters.Length; i ++) 
         {
-            //AddRoad(root.transform.position, enc.transform.position);
-            DrawRoad(root, enc);
-            AddRoads(enc);
+            for (int j = 0; j < encounters[i].Length; j++) 
+            {
+                Debug.Log(encounters[i][j]);
+                foreach(Encounter enc in encounters[i][j].neighbourEncounters)
+                {
+                    DrawRoad(encounters[i][j], enc);
+                }
+            }
         }
+
     }
+    // public void AddRoads(Encounter root)
+    // {
+        
+    //     foreach(Encounter enc in root.neighbourEncounters)
+    //     {
+    //         DrawRoad(root, enc);
+    //         isRoadAdded.Add(enc);
+    //         AddRoads(enc);
+    //     }
+    // }
 
     // public void AddRoad(Vector3 from, Vector3 to)
     // {
@@ -222,8 +238,6 @@ public class EncounterManager : Manager
         Vector3 to = toEnc.transform.position;
         float dist = Vector3.Distance(from, to);
         float width = roadImage.GetComponent<RectTransform>().rect.width;
-
-        //List<GameObject> roads = new List<GameObject>();
 
         float gap = 10.0f;
         float break_gap = 40.0f;

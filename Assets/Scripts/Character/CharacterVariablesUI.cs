@@ -8,7 +8,6 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text healthValue;
     public TMP_Text goldValue;
     public TMP_Text shardValue;
-
     public TMP_Text worldState;
     public TMP_Text worldTier;
     public TMP_Text combatState;

@@ -117,7 +117,7 @@ public abstract class Encounter : MonoBehaviour
         {
             foreach(KeyValuePair<GameObject, List<Encounter>> p in roads)
             {
-
+                
                 if(p.Value[0] == WorldSystem.instance.encounterManager.currentEncounter && p.Value[1] == this)
                 {
                     int counter = 0;
@@ -128,10 +128,10 @@ public abstract class Encounter : MonoBehaviour
                         counter++;
                         yield return new WaitForSeconds(0.1f);
                     }
+                    break;
                 }
-                break;
             }
-        }
+        }   
 
         Button button = this.GetComponent<Button>();
         ColorBlock color = button.colors;

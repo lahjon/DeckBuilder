@@ -123,8 +123,7 @@ public class DeckDisplayManager : MonoBehaviour
     {
         if(!deckDisplay.activeSelf)
         {
-            previousState = WorldSystem.instance.worldState;
-            WorldSystem.instance.worldState = WorldState.Display;
+            WorldSystem.instance.worldStateManager.AddState(WorldState.Display, false);
             deckDisplay.SetActive(true);
             UpdateAllCards();
             
@@ -136,7 +135,7 @@ public class DeckDisplayManager : MonoBehaviour
                 backgroundPanel.SetActive(false);
                 clickableArea.SetActive(false);
             }
-            WorldSystem.instance.worldState = previousState;
+             WorldSystem.instance.worldStateManager.RemoveState(false);
             deckDisplay.SetActive(false);
         }
     }

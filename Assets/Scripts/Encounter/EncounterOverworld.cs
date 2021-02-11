@@ -60,7 +60,10 @@ public class EncounterOverworld : Encounter
                     // WorldSystem.instance.EnterCombat();
 
                     visitActions.Clear();
-                    void actionNormal() {WorldSystem.instance.EnterCombat();}
+                    void actionNormal() 
+                    {
+                        WorldSystem.instance.EnterCombat();
+                    }
                     visitActions.Add(actionNormal);
                     StartCoroutine(SetVisited(visitActions, this));
 
@@ -72,7 +75,10 @@ public class EncounterOverworld : Encounter
                     // WorldSystem.instance.EnterCombat();
 
                     visitActions.Clear();
-                    void actionElite() {WorldSystem.instance.EnterCombat();}
+                    void actionElite() 
+                    {
+                        WorldSystem.instance.EnterCombat();
+                    }
                     visitActions.Add(actionElite);
                     StartCoroutine(SetVisited(visitActions, this));
 
@@ -84,18 +90,34 @@ public class EncounterOverworld : Encounter
                     // WorldSystem.instance.EnterCombat();
 
                     visitActions.Clear();
-                    void actionBoss() {WorldSystem.instance.EnterCombat();}
+                    void actionBoss() 
+                    {
+                        WorldSystem.instance.EnterCombat();
+                    }
                     visitActions.Add(actionBoss);
                     StartCoroutine(SetVisited(visitActions, this));
 
                     break;
 
                 case EncounterType.OverworldShop:
-                    WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
-                    WorldSystem.instance.shopManager.shop.RestockShop();
-                    SetIsVisited(this);
-                    WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
-                    Debug.Log("Enter Shop!");
+
+                    visitActions.Clear();
+                    void actionShop() 
+                    {
+                        WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
+                        WorldSystem.instance.shopManager.shop.RestockShop();
+                        SetIsVisited(this);
+                        WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
+                        Debug.Log("Enter Shop!");
+                    }
+                    visitActions.Add(actionShop);
+                    StartCoroutine(SetVisited(visitActions, this));
+                    
+                    // WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
+                    // WorldSystem.instance.shopManager.shop.RestockShop();
+                    // SetIsVisited(this);
+                    // WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
+                    // Debug.Log("Enter Shop!");
                     break;
 
                 case EncounterType.OverworldRandomEvent:
@@ -107,10 +129,12 @@ public class EncounterOverworld : Encounter
 
                     visitActions.Clear();
                     WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    void actionE1() {WorldSystem.instance.uiManager.encounterUI.StartEncounter();}
-                    void actionE2() {WorldSystem.instance.worldStateManager.AddState(WorldState.Event, false);}
-                    visitActions.Add(actionE1);
-                    visitActions.Add(actionE2);
+                    void actionEncounter() {WorldSystem.instance.uiManager.encounterUI.StartEncounter();}
+                    {
+                        WorldSystem.instance.worldStateManager.AddState(WorldState.Event, false);
+                        WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+                    }
+                    visitActions.Add(actionEncounter);
                     StartCoroutine(SetVisited(visitActions, this));
                     
                     break;
