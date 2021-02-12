@@ -13,12 +13,15 @@ public class BezierFollow : MonoBehaviour
 
     private float speedModifier;
 
+    CardCombat attachedCard;
+
 
     // Start is called before the first frame update
     void Start()
     {
         tParam = 0f;
         speedModifier = 1f;
+        attachedCard = GetComponent<CardCombat>();
     }
 
     public void StartAnimation()
@@ -58,12 +61,13 @@ public class BezierFollow : MonoBehaviour
         }
 
         tParam = 0f;
-        this.GetComponent<CardCombat>().selected = false;
-        this.GetComponent<CardCombat>().inTransition = false;
-        this.GetComponent<CardCombat>().combatController.CardDemarkTransition(gameObject);
+        //order below important, otherwise trigger "selected" set to false
+        attachedCard.inTransition = false;
+        attachedCard.selected = false;
+        attachedCard.combatController.CardDemarkTransition(attachedCard);
 
-        transform.localScale = new Vector3(1,1,1);
-        this.gameObject.SetActive(false);
+        transform.localScale = Vector3.one;
+        gameObject.SetActive(false);
 
     }
 }

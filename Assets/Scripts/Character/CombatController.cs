@@ -48,12 +48,12 @@ public class CombatController : StateMachine
     }
 
     private List<CardData> DeckData;
-    public List<GameObject> Deck = new List<GameObject>();
-    public List<GameObject> Hand = new List<GameObject>();
-    public List<GameObject> Discard = new List<GameObject>();
-    public List<GameObject> createdCards = new List<GameObject>();
-    public List<GameObject> discardCardEndTurn = new List<GameObject>();
-    public List<GameObject> discardCardPlayerTurn = new List<GameObject>();
+    public List<CardCombat> Deck = new List<CardCombat>();
+    public List<CardCombat> Hand = new List<CardCombat>();
+    public List<CardCombat> Discard = new List<CardCombat>();
+    public List<CardCombat> createdCards = new List<CardCombat>();
+    public List<CardCombat> discardCardEndTurn = new List<CardCombat>();
+    public List<CardCombat> discardCardPlayerTurn = new List<CardCombat>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -99,25 +99,11 @@ public class CombatController : StateMachine
         {
             if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
             {
-                if(ActiveCard && Hand[i].activeSelf && Hand[i].GetComponent<CardCombat>().inTransition == false)
-                {
-                    if(ActiveCard != Hand[i].GetComponent<CardCombat>())
-                    {
-                        ActiveCard.OnMouseRightClick(false);
-                        Hand[i].GetComponent<CardCombat>().CardAction();
-                    }
-                    else
-                    {
-                        ActiveCard.OnMouseRightClick(false);
-                    }
-                }
-                else
-                {
-                    if(Hand[i].GetComponent<CardCombat>().inTransition == false && Hand[i].activeSelf)
-                    {
-                        Hand[i].GetComponent<CardCombat>().CardAction();
-                    }
-                }
+                if(ActiveCard == Hand[i])
+                    ActiveCard.OnMouseRightClick(false);
+                else if (CardisSelectable(Hand[i]))
+                    Hand[i].OnMouseClick();
+
                 break;
             }
         }
@@ -131,15 +117,16 @@ public class CombatController : StateMachine
         // }
     }
 
+
     public void DetectCanvasClick()
     {
-        if(ActiveCard != null && ActiveCard.selected)
+        if (ActiveCard != null)
         {
-
-            ActiveCard.selected = false;
-            ActiveCard = null;
+            if (Input.GetMouseButton(0))
+                ActiveCard.OnMouseClick();
+            else
+                ActiveCard.OnMouseRightClick(false);
         }
-
     }
 
     public void PlayerInputEndTurn()
@@ -173,7 +160,7 @@ public class CombatController : StateMachine
 
     public Vector3 GetCardScale()
     {
-        return new Vector3(0.9f, 0.9f, 0.9f);
+        return Vector3.one;
     }
     public (Vector3 Position,Vector3 Angles) GetPositionInHand(int CardNr)
     {
@@ -191,16 +178,8 @@ public class CombatController : StateMachine
     // 0 degree will yield top of curve.
     private Vector3 GetPositionInHandCircle(float degree)
     {
-        Debug.Log("Degree is: " + degree);
         degree = degree * Mathf.Deg2Rad;
-        Debug.Log("x val is: " + origoCardRot * Mathf.Cos(degree + 90));
         return new Vector3(origoCardRot*Mathf.Sin(degree),origoCardRot*Mathf.Cos(degree) - origoCardRot + handHeight,0); 
-    }
-
-
-    public int GetCardNumberInHand(Card aCard)
-    {
-        return Hand.IndexOf(aCard.gameObject);
     }
 
     internal void ResetSiblingIndexes()
@@ -223,7 +202,7 @@ public class CombatController : StateMachine
 
             if (Deck.Count != 0)
             {
-                Deck[0].GetComponent<CardCombat>().ResetCard();
+                Deck[0].ResetCard();
                 Hand.Add(Deck[0]);
                 Deck.RemoveAt(0);
             }
@@ -236,23 +215,24 @@ public class CombatController : StateMachine
     {
         for(int i = 0; i < Deck.Count; i++)
         {
-            GameObject temp = Deck[i];
+            CardCombat temp = Deck[i];
             int index = UnityEngine.Random.Range(i, Deck.Count);
             Deck[i] = Deck[index];
             Deck[index] = temp;
         }
     }
 
-    public bool CardisSelectable(Card card)
+    public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        if (card.cardData.cost > cEnergy && !card.GetComponent<CardCombat>().selected && !drawingCards)
+        bool selectable = card.cardData.cost <= cEnergy && card.selectable && !drawingCards;
+        if (!silentCheck && card.cardData.cost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
-        Debug.Log(ActiveCard);
-        return ActiveCard is null && card.cardData.cost <= cEnergy;
+
+        return selectable;
     }
-    GameObject CreateCardFromData(CardData cardData)
+    CardCombat CreateCardFromData(CardData cardData)
     {
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(cardPanel, false);
@@ -263,19 +243,15 @@ public class CombatController : StateMachine
         Card.cardPanel = cardPanel.GetComponent<RectTransform>();
         Card.combatController = this;
         Card.BindCardData();
-        createdCards.Add(CardObject);
+        createdCards.Add(Card);
         HideCard(CardObject);
-        return CardObject;
+        return Card;
     }
 
-    internal void CancelCardSelection(GameObject gameObject)
-    {
-        previousActiveCard = ActiveCard;
-        int i = Hand.IndexOf(gameObject);
-        (Vector3,Vector3) origPosition = GetPositionInHand(i);
-        gameObject.GetComponent<CardCombat>().AnimateCardByCurve(origPosition.Item1,origPosition.Item2);
-        ActiveCard = null;
 
+    internal void CancelCardSelection()
+    {
+        ActiveCard = null;
         ResetSiblingIndexes();
     }
 
@@ -284,7 +260,7 @@ public class CombatController : StateMachine
         Hero.healthEffects.EffectsStartTurn();
         while (Hand.Count > 0)
         {
-            GameObject card = Hand[0];
+            CardCombat card = Hand[0];
             discardCardEndTurn.Add(card);
             DiscardCard(card);
             DiscardCardToPile(card);
@@ -298,7 +274,7 @@ public class CombatController : StateMachine
         // ENEMY TURN'
         
         DrawCards(DrawCount);
-        Hand.ForEach(x => x.GetComponent<CardCombat>().selected = false);
+        Hand.ForEach(x => x.selected = false);
         Hand.ForEach(x => x.transform.localScale = new Vector3(1,1,1));
         Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
         txtDeck.GetComponent<Text>().text = "Deck:\n" + Deck.Count;
@@ -349,21 +325,21 @@ public class CombatController : StateMachine
         ResetSiblingIndexes();
     }
 
-    public void CardDemarkTransition(GameObject gameObject)
+    public void CardDemarkTransition(CardCombat card)
     {
-        discardCardEndTurn.Remove(gameObject);
+        discardCardEndTurn.Remove(card);
     }
 
-    public void DiscardCard(GameObject card)
+    public void DiscardCard(CardCombat card)
     {
         Discard.Add(card);
         Hand.Remove(card);
     }
 
-    public void DiscardCardToPile(GameObject card)
+    public void DiscardCardToPile(CardCombat card)
     {
 
-        AnimateCardDiscard(card.GetComponent<CardCombat>());
+        AnimateCardDiscard(card);
 
         card.transform.localScale = GetCardScale();
         
@@ -386,7 +362,7 @@ public class CombatController : StateMachine
 
     private void AnimateCardDraw(CardCombat card, Vector3 endPos, Vector3 endAngles)
     {
-        card.AnimateCardByCurve(endPos, endAngles, true, false, true, true, true);
+        card.AnimateCardByCurve(endPos, endAngles, Vector3.one, false, true);
     }
     private void DisplayHand()
     {
@@ -395,11 +371,11 @@ public class CombatController : StateMachine
 
     private void DisplayCard(int i)
     {
-        Hand[i].SetActive(true);
-        Hand[i].GetComponent<CardCombat>().transform.position = txtDeck.transform.position;
-        Hand[i].GetComponent<CardCombat>().transform.localScale = Vector3.zero;
+        Hand[i].gameObject.SetActive(true);
+        Hand[i].transform.position = txtDeck.transform.position;
+        Hand[i].transform.localScale = Vector3.zero;
         (Vector3, Vector3) TransInfo = GetPositionInHand(i);
-        AnimateCardDraw(Hand[i].GetComponent<CardCombat>(), TransInfo.Item1, TransInfo.Item2);
+        AnimateCardDraw(Hand[i], TransInfo.Item1, TransInfo.Item2);
     }
 
     public void ToggleInsidePanel()
@@ -464,7 +440,7 @@ public class CombatController : StateMachine
                 KillEnemy(e);
         } 
 
-        discardCardPlayerTurn.Add(ActiveCard.gameObject);
+        discardCardPlayerTurn.Add(ActiveCard);
         ActiveCard.UseCard();
         CheckVictory();
         ActiveCard = null;
@@ -476,7 +452,7 @@ public class CombatController : StateMachine
         for(int i = 0; i < Hand.Count; i++)
         {
             (Vector3, Vector3) TransInfo = GetPositionInHand(i);
-            Hand[i].GetComponent<CardCombat>().StartLerpPosition(TransInfo.Item1, TransInfo.Item2);
+            Hand[i].StartLerpPosition(TransInfo.Item1, TransInfo.Item2);
         }
     }
 
@@ -517,7 +493,7 @@ public class CombatController : StateMachine
         Discard.Clear();
         EnemiesInScene.Clear();
         discardCardEndTurn.Clear();
-        foreach (GameObject card in createdCards)
+        foreach (CardCombat card in createdCards)
         {
             DestroyImmediate(card);
         }
