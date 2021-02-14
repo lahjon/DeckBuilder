@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
-  m_Name: Encounter_Town_Tavern
+  m_Name: Encounter_Town_Barracks
   m_EditorClassIdentifier: 
   name: 
-  type: 9
+  type: 12
   tier: 0
   isVisited: 0
   secretCondition: 0

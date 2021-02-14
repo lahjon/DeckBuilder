@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class WorldSystem : MonoBehaviour
+public class WorldSystem : MonoBehaviour, ISaveable
 {
     public static WorldSystem instance; 
     public Character character;
@@ -20,7 +20,7 @@ public class WorldSystem : MonoBehaviour
     public TownManager townManager;
     public UIManager uiManager;
     public WorldStateManager worldStateManager;
-    public int act = 1;
+    public int act;
 
     void Awake()
     {
@@ -41,6 +41,8 @@ public class WorldSystem : MonoBehaviour
             UpdateStartScene();
 
         worldStateManager.AddState(WorldState.Town);
+        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+        act = 1;
 
     }
 
@@ -200,5 +202,15 @@ public class WorldSystem : MonoBehaviour
                 Debug.Log("Dunno");
                 break;
         }
+    }
+
+    public void PopulateSaveData(SaveData a_SaveData)
+    {
+        a_SaveData.act = act;
+    }
+
+    public void LoadFromSaveData(SaveData a_SaveData)
+    {
+        act = a_SaveData.act;
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EventLeave : EventMain
 {
-    new string name = "Leave"; 
 
     public override bool TriggerEvent()
     {

@@ -46,17 +46,22 @@ public class WorldStateManager : Manager
 
     private void StateAction(WorldState aState)
     {
-        if (aState == WorldState.Overworld)
+        switch (aState)
         {
-            WorldSystem.instance.encounterManager.OpenOverworldMap();
-        }
-        else if (aState == WorldState.Transition)
-        {
-            return;
-        }
-        else
-        {
-            WorldSystem.instance.encounterManager.CloseOverworldMap();
+            case WorldState.Overworld:
+                WorldSystem.instance.encounterManager.OpenOverworldMap();
+                break;
+            
+            case WorldState.Transition:
+                break;
+
+            case WorldState.Town:
+                WorldSystem.instance.townManager.UpdateTown();
+                break;
+
+            default:
+                WorldSystem.instance.encounterManager.CloseOverworldMap();
+                break;
         }
     }
 }

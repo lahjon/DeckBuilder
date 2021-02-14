@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Shop : MonoBehaviour
+public class ShopOverworld : MonoBehaviour
 {
     public CardDisplay currentCard;
     public List<GameObject> cardsInStock;

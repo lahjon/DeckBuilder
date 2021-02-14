@@ -6,77 +6,23 @@ using UnityEngine.UI;
 
 public abstract class Encounter : MonoBehaviour
 {
-    public EncounterData encounterData;
-    public Sprite sprite; 
-    public Material matHighlight;
-    public Material matNormal;
-    public Material matVisited;
+    [HideInInspector]
     public List<Encounter> neighbourEncounters;
-    
-    [HideInInspector]
-    public EncounterUI encounterUI;
-    //[HideInInspector]
-    public GameObject newEncounterUIPrefab;
-    protected bool highlighted;
-    [HideInInspector]
+    public EncounterData encounterData;
     public EncounterType encounterType;
     protected bool isVisited;
     protected bool isClicked;
-
-    //public Dictionary<Encounter, GameObject> roads = new Dictionary<Encounter, GameObject>();
     public Dictionary<GameObject, List<Encounter>> roads = new Dictionary<GameObject, List<Encounter>>();
+    protected delegate void VisitAction();
 
     public abstract void UpdateEncounter();
 
-    protected abstract void OnMouseOver();
-
-    protected abstract bool CheckViablePath(Encounter anEncounter);
-
-
-    protected delegate void VisitAction();
-
-    void OnMouseExit()
+    protected virtual bool CheckViablePath(Encounter anEncounter)
     {
-        if(!isVisited)
-        {
-            highlighted = false;
-            SetNormalMat();
-        }
+        return false;
     }
+
     public abstract void ButtonPress();
-
-    protected abstract void OnMouseDown();
-
-    // Åååååååh Fredrik
-
-    // protected void CreateUI()
-    // {
-    //     if(encounterData.encounterUI != null)
-    //     {
-    //         newEncounterUIPrefab = Instantiate(encounterUI.gameObject, new Vector3(0, 0, 0), Quaternion.identity);
-            
-    //         encounterUI = newEncounterUIPrefab.GetComponent<EncounterUI>();
-    //         encounterUI.encounterData = encounterData;
-    //         encounterUI.encounter = this;
-    //         WorldSystem.instance.SwapState(WorldState.Menu);
-    //         encounterUI.UpdateUI();
-    //     }
-    // }
-    // public void DestroyUI()
-    // {
-    //     WorldSystem.instance.SwapStatePrevious();
-    //     Destroy(newEncounterUIPrefab, 0.2f);
-    //     encounterUI = encounterData.encounterUI;
-    // }
-
-    protected void SetHighlightedMat()
-    {
-        //GetComponent<Renderer>().material = matHighlight;
-    }
-    protected void SetNormalMat()
-    {
-        //GetComponent<Renderer>().material = matNormal;
-    }
     public void SetIsVisited(Encounter enc = null)
     {
         isVisited = true;

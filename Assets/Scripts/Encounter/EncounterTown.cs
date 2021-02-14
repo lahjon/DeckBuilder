@@ -16,7 +16,6 @@ public class EncounterTown : Encounter
 
         isVisited = isClicked = encounterData.isVisited;
         UpdateIcon();
-        SetNormalMat();
     }
 
     protected override bool CheckViablePath(Encounter anEncounter)
@@ -26,97 +25,74 @@ public class EncounterTown : Encounter
         else
             return false;
     }
-
-    protected override void OnMouseOver()
-    {
-        
-        if(!isVisited && WorldSystem.instance.worldState == WorldState.Town)
-        {
-            if(!highlighted)
-                SetHighlightedMat();
-            highlighted = true;
-        }
-
-    }
-
     public override void ButtonPress()
     {
-        if(WorldSystem.instance.worldState == WorldState.Town)
+        switch (WorldSystem.instance.worldState)
         {
-            switch (this.encounterType)
+            case WorldState.Town:
             {
-                case EncounterType.TownLeave:
-                    Debug.Log("Leave Town!");
-                    SetIsVisited();
-                    WorldSystem.instance.townManager.LeaveTown();
-
-                    break;
                 
-                case EncounterType.TownPray:
-                    Debug.Log("Pray in Town!");
-                    SetIsVisited();
-                    WorldSystem.instance.townManager.EnterPray();
-                    break;
-                
-                case EncounterType.TownShop:
-                    Debug.Log("Enter Town Shop!");
-                    SetIsVisited();
-                    WorldSystem.instance.townManager.EnterShop();
-                    break;
-
-                case EncounterType.TownTavern:
-                    Debug.Log("Enter Town Pray!");
+                switch (this.encounterType)
+                {
+                    case EncounterType.TownLeave:
+                        
+                        Debug.Log("Leave Town!");
+                        //SetIsVisited();
+                        WorldSystem.instance.townManager.LeaveTown();
+                        
+                        break;
                     
-                    SetIsVisited();
-                    WorldSystem.instance.townManager.EnterPray();
-                    break;
-                
-                default:
-                    isClicked = true;
-                    break;
+                    case EncounterType.TownPray:
+
+                        Debug.Log("Pray in Town!");
+                        //SetIsVisited();
+                        WorldSystem.instance.townManager.EnterPray();
+
+                        break;
+                    
+                    case EncounterType.TownShop:
+
+                        Debug.Log("Enter Town Shop!");
+                        //SetIsVisited();
+                        WorldSystem.instance.townManager.EnterShop();
+
+                        break;
+
+                    case EncounterType.TownTavern:
+
+                        Debug.Log("Enter Town Pray!");
+                        //SetIsVisited();
+                        WorldSystem.instance.townManager.EnterPray();
+
+                        break;
+                    
+                    case EncounterType.TownTownHall:
+                        
+                        if(!this.isVisited)
+                        {
+                            Debug.Log("Enter TownHall!");
+                            //SetIsVisited();
+                            WorldSystem.instance.townManager.EnterTownHall();
+                        }
+
+                        break;
+                    
+                    case EncounterType.TownBarracks:
+
+                        Debug.Log("Enter Barracks!");
+                        //SetIsVisited();
+                        WorldSystem.instance.townManager.EnterBarracks();
+
+                        break;
+                    
+                    default:
+                        isClicked = true;
+                        break;
+                }
+                break;
             }
+            default:
+                break;
         }
-    }
-
-    
-
-    protected override void OnMouseDown()
-    {
-        // if(WorldSystem.instance.worldState == WorldState.Town)
-        // {
-        //     Debug.Log(this.encounterType);
-        //     switch (this.encounterType)
-        //     {
-        //         case EncounterType.TownLeave:
-        //             Debug.Log("Leave Town!");
-        //             SetIsVisited(false);
-        //             WorldSystem.instance.townManager.LeaveTown();
-
-        //             break;
-                
-        //         case EncounterType.TownPray:
-        //             Debug.Log("Pray in Town!");
-        //             SetIsVisited(false);
-        //             WorldSystem.instance.townManager.EnterPray();
-        //             break;
-                
-        //         case EncounterType.TownShop:
-        //             Debug.Log("Enter Town Shop!");
-        //             SetIsVisited(false);
-        //             WorldSystem.instance.townManager.EnterShop();
-        //             break;
-
-        //         case EncounterType.TownTavern:
-        //             Debug.Log("Enter Town Pray!");
-                    
-        //             SetIsVisited(false);
-        //             WorldSystem.instance.townManager.EnterPray();
-        //             break;
-                
-        //         default:
-        //             isClicked = true;
-        //             break;
-        //     }
-        // }
     }
 }

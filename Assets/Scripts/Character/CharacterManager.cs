@@ -27,8 +27,6 @@ public class CharacterManager : MonoBehaviour, ISaveable
     void Start()
     {
         BindCharacterData();
-        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
-        characterVariablesUI.UpdateUI();
     }
 
     public int gold 

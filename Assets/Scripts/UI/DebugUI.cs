@@ -20,6 +20,16 @@ public class DebugUI : MonoBehaviour, ISaveable
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
     }
 
+    public void DebugGetShards()
+    {
+        WorldSystem.instance.characterManager.shard += 5;
+    }
+
+    public void DebugResetAllData()
+    {
+        FileManager.WriteToFile("saveFile_0", "");
+    }
+
     public void DebugTriggerDeathScreen()
     {
         WorldSystem.instance.uiManager.deathScreen.TriggerDeathscreen();
@@ -66,12 +76,10 @@ public class DebugUI : MonoBehaviour, ISaveable
     public void DebugLoadGame()
     {
         SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
-        Debug.Log(strength);
     }
     public void DebugSaveGmae()
     {
         SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
-        Debug.Log(strength);
     }
 
 }

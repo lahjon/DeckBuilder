@@ -84,8 +84,18 @@ public enum WorldState
     Overworld,
     Menu,
     Town,
+    TownHall,
     Transition,
     Dead
+}
+
+public enum Building
+{
+    Shop, 
+    Tavern, 
+    Pray, 
+    TownHall,
+    Barracks
 }
 
 public enum EncounterType
@@ -100,7 +110,9 @@ public enum EncounterType
     TownShop,
     TownLeave,
     TownTavern,
-    TownPray
+    TownPray,
+    TownTownHall,
+    TownBarracks
 }
 public enum EncounterValue
 {

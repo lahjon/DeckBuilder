@@ -6,7 +6,15 @@ public class SaveData
 {   
     // fill this with all the data we want to store
     public int strength;
+
+    // character
     public int shard;
+
+    // world
+    public int act;
+
+    // town
+    public List<EncounterType> unlockedBuildings = new List<EncounterType>();
 
 
     public string ToJson()

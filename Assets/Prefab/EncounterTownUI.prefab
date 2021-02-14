@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6509705178551945325}
   - component: {fileID: 6509705178551945326}
   - component: {fileID: 6509705178551945327}
-  - component: {fileID: 347549710106818881}
+  - component: {fileID: -3958093554294034267}
   m_Layer: 0
   m_Name: EncounterTownUI
   m_TagString: Untagged
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 347549710106818881}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: EncounterTown, Assembly-CSharp
         m_MethodName: ButtonPress
         m_Mode: 1
@@ -133,7 +133,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &347549710106818881
+--- !u!114 &-3958093554294034267
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,13 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e87d7b72d517f94a83ffe88739b68ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterData: {fileID: 0}
-  sprite: {fileID: 0}
-  matHighlight: {fileID: 0}
-  matNormal: {fileID: 0}
-  matVisited: {fileID: 0}
   neighbourEncounters: []
-  encounterUI: {fileID: 0}
-  newEncounterUIPrefab: {fileID: 0}
+  encounterData: {fileID: 0}
   encounterType: 0
-  roads: []
