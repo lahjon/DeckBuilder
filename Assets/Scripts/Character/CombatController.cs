@@ -101,7 +101,7 @@ public class CombatController : StateMachine
             {
                 if(ActiveCard == Hand[i])
                     ActiveCard.OnMouseRightClick(false);
-                else if (CardisSelectable(Hand[i]))
+                else
                     Hand[i].OnMouseClick();
 
                 break;
@@ -111,10 +111,6 @@ public class CombatController : StateMachine
         {
             PlayerInputEndTurn();
         }
-        // if(ActiveCard != null)
-        // {
-        //     MouseInsideArea();
-        // }
     }
 
 
@@ -162,6 +158,13 @@ public class CombatController : StateMachine
     {
         return Vector3.one;
     }
+
+
+    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombat card)
+    {
+        return GetPositionInHand(Hand.IndexOf(card));
+    }
+
     public (Vector3 Position,Vector3 Angles) GetPositionInHand(int CardNr)
     {
         float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards/2 : 0;
@@ -208,7 +211,7 @@ public class CombatController : StateMachine
             }
         }
 
-        DisplayHand();
+        StartCoroutine(WaitForAnimationsDraw());
     }
 
     private void ShuffleDeck()
@@ -261,6 +264,7 @@ public class CombatController : StateMachine
         while (Hand.Count > 0)
         {
             CardCombat card = Hand[0];
+            card.MouseReact = false;
             discardCardEndTurn.Add(card);
             DiscardCard(card);
             DiscardCardToPile(card);
@@ -364,16 +368,13 @@ public class CombatController : StateMachine
     {
         card.AnimateCardByCurve(endPos, endAngles, Vector3.one, false, true);
     }
-    private void DisplayHand()
-    {
-        StartCoroutine(WaitForAnimationsDraw());
-    }
 
     private void DisplayCard(int i)
     {
         Hand[i].gameObject.SetActive(true);
         Hand[i].transform.position = txtDeck.transform.position;
         Hand[i].transform.localScale = Vector3.zero;
+        Hand[i].MouseReact = false;
         (Vector3, Vector3) TransInfo = GetPositionInHand(i);
         AnimateCardDraw(Hand[i], TransInfo.Item1, TransInfo.Item2);
     }

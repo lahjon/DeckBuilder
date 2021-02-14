@@ -24,6 +24,8 @@ public class CardCombat : Card
     [SerializeField]
     private bool _selected = false;
 
+    Vector3 selectedBaseSize = new Vector3(1.1f, 1.1f, 1.1f);
+
     public bool selected 
     {
         get
@@ -35,12 +37,13 @@ public class CardCombat : Card
             _selected = value;
             if(selected == true)
             {
+                SetTransOnMouseOver();
                 if (targetRequired == true)
                 {
                     selectable = false;
                     MouseReact = false;
-                    transform.localScale += new Vector3(0.3f, 0.3f, 0.3f);
-                    transform.localPosition += new Vector3(0.0f, 1f, 0.0f);
+                    transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+                    //transform.localPosition += new Vector3(0.0f, 1f, 0.0f);
                     transform.SetAsLastSibling();
                 }
                 else
@@ -104,7 +107,7 @@ public class CardCombat : Card
     public void StartLerpPosition(Vector3 newPos, Vector3 newRot)
     {
         if(!(CurrentAnimation is null)) StopCoroutine(CurrentAnimation);
-        CurrentAnimation = LerpTransition(newPos, newRot,  0.5f);
+        CurrentAnimation = LerpTransition(newPos, newRot,  0.2f);
         StartCoroutine(CurrentAnimation);
     }
 
@@ -130,7 +133,7 @@ public class CardCombat : Card
 
     public override void OnMouseEnter()
     {
-        if (MouseReact)
+        if (MouseReact && combatController.ActiveCard == null)
         {
             if (!(CurrentAnimation is null)) StopCoroutine(CurrentAnimation);
             SetTransOnMouseOver();
@@ -141,9 +144,9 @@ public class CardCombat : Card
     public override void OnMouseExit()
     {
         Debug.Log("intrans: " + inTransition + ", mouseReact: " + MouseReact);
-        if(!inTransition && combatController.ActiveCard != this && MouseReact)
+        if(!inTransition && combatController.ActiveCard is null && MouseReact)
         {
-            (Vector3, Vector3) TransInfo = combatController.GetPositionInHand(combatController.Hand.IndexOf(this));
+            (Vector3, Vector3) TransInfo = combatController.GetPositionInHand(this);
             transform.localPosition = TransInfo.Item1;
             transform.localEulerAngles = TransInfo.Item2;
             transform.localScale = Vector3.one;
@@ -153,8 +156,8 @@ public class CardCombat : Card
 
     public void SetTransOnMouseOver()
     {
-        transform.localPosition = combatController.GetPositionInHand(combatController.Hand.IndexOf(this)).Position+new Vector3(0, 150, 0);
-        transform.localScale = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f);
+        transform.localPosition = new Vector3(combatController.GetPositionInHand(this).Position.x, 200, 0);
+        transform.localScale = selectedBaseSize;
         transform.localEulerAngles = Vector3.zero;
     }
 
@@ -301,7 +304,9 @@ public class CardCombat : Card
 
     public void SelectCard()
     {
+        if (!(CurrentAnimation is null)) StopCoroutine(CurrentAnimation);
         if (combatController.ActiveCard != null) combatController.ActiveCard.DeselectCard();
+        transform.SetAsLastSibling();
         selected = true;
         combatController.ActiveCard = this;
     }
@@ -322,7 +327,6 @@ public class CardCombat : Card
 
     public override void OnMouseClick()
     {
-
         if(combatController.ActiveCard == this)
             CardAction();
         else if(combatController.CardisSelectable(this,false))
