@@ -104,7 +104,7 @@ public class HealthEffects : MonoBehaviour
         effectDisplayManager.SetEffect(effect.Type, effectTypeToRule[effect.Type]);
     }
 
-    public void EffectsStartTurn()
+    public void EffectsOnNewTurnBehavior()
     {
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)

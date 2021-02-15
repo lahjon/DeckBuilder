@@ -11,8 +11,10 @@ public class PlayerTurn : State
     public override IEnumerator Start()
     {
         CombatController.StartTurn();
-        CombatController.acceptInput = true;
+        CombatController.acceptSelections = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.combatManager.combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
+
         yield return new WaitForSeconds(0.05f);
     }
 
@@ -22,7 +24,7 @@ public class PlayerTurn : State
     }
     public override IEnumerator End()
     {
-        CombatController.acceptInput = false;
+        CombatController.acceptSelections = false;
         CombatController.EndTurn();
         yield return new WaitForSeconds(0.05f);
         CombatController.SetState(new EnemyTurn(CombatController));

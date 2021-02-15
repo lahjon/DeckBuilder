@@ -17,7 +17,6 @@ public class CardCombat : Card
     public bool selectable = true;
     public ParticleSystem animationSystem;
     GameObject animationObject;
-    private bool inAnimation = false;
 
     public bool MouseReact = false;
 
@@ -79,9 +78,8 @@ public class CardCombat : Card
             animationSystem.Stop();
         }
     }
-    public void UseCard()
+    public void AnimateCardUse()
     {
-        combatController.DiscardCard(this);
         StopCoroutine(CardFollower);
 
         if (cardData.animationPrefab != null) // has animation
@@ -122,18 +120,16 @@ public class CardCombat : Card
         }
         else
         {
-            while (inAnimation)
-            {
-                yield return new WaitForSeconds(0.1f);
-            }
+                yield return new WaitForSeconds(0.4f);
         }
-        combatController.DiscardCardToPile(this);
+
+        StartCoroutine(combatController.DiscardCard(this));
     }
 
 
     public override void OnMouseEnter()
     {
-        if (MouseReact && combatController.ActiveCard == null)
+        if (MouseReact && combatController.acceptSelections && combatController.ActiveCard == null)
         {
             if (!(CurrentAnimation is null)) StopCoroutine(CurrentAnimation);
             SetTransOnMouseOver();
@@ -176,7 +172,6 @@ public class CardCombat : Card
 
     IEnumerator LerpTransition(Vector3 endPosition, Vector3 endAngles, float duration)
     {
-        inAnimation = true;
         float time = 0;
         Vector3 startValue = transform.localPosition;
         Vector3 startAngles = transform.localEulerAngles;
@@ -192,10 +187,9 @@ public class CardCombat : Card
 
         transform.localPosition = endPosition;
         transform.localEulerAngles = endAngles;
-        inAnimation = false;
     }
 
-    Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
+    public Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
     {
         float xLerp = Mathf.LerpAngle(StartAngle.x, FinishAngle.x, t);
         float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
@@ -242,13 +236,13 @@ public class CardCombat : Card
         if(endedTransition)
         {
             inTransition = false;
-            combatController.CardDemarkTransition(this);
         }
+
+
+        if (disable) gameObject.SetActive(false);
 
         selected = false;
         MouseReact = true;
-
-        if (disable) this.gameObject.SetActive(false);
     }
 
     //Används i cardDraw och ångra kort

@@ -31,14 +31,15 @@ public class BezierFollow : MonoBehaviour
 
     private IEnumerator GoByTheRoute()
     {
-
+        Vector3 startingAngles = transform.localEulerAngles;
+        Vector3 endAngle = Vector3.zero;
         Vector3 p0 = transform.position;
         Vector3 p1 = route.GetChild(1).position;
         Vector3 p2 = route.GetChild(2).position;
         Vector3 p3 = route.GetChild(3).position;
 
         float endScale = 0.7f;
-        float scale = 1;
+        float scale;
 
         while(tParam < 1)
         {
@@ -48,26 +49,16 @@ public class BezierFollow : MonoBehaviour
 
             scale = 1 - endScale * tParam;
             transform.localScale = new Vector3(scale, scale, scale);
+            transform.localEulerAngles = attachedCard.AngleLerp(startingAngles, endAngle, tParam);
 
             transform.position = objectPosition;
             yield return new WaitForEndOfFrame();
         }
 
-        bool waiting = true;
-        while(waiting)
-        {
-            waiting = false;
-            yield return new WaitForSeconds(0.1f);
-        }
 
         tParam = 0f;
         //order below important, otherwise trigger "selected" set to false
         attachedCard.inTransition = false;
-        attachedCard.selected = false;
-        attachedCard.combatController.CardDemarkTransition(attachedCard);
-
-        transform.localScale = Vector3.one;
         gameObject.SetActive(false);
-
     }
 }

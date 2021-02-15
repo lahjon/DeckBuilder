@@ -109,7 +109,8 @@ public class RulesSystem : MonoBehaviour
 
     public IEnumerator StartTurn()
     {
-        for(int i = 0; i < ActorToStartTurn[combatController.Hero].Count; i++)
+        
+        for (int i = 0; i < ActorToStartTurn[combatController.Hero].Count; i++)
             yield return StartCoroutine(ActorToStartTurn[combatController.Hero][i].Invoke(combatController.Hero));
 
         for (int i = 0; i < actionsStartTurnEnum.Count; i++)
