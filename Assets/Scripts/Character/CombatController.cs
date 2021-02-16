@@ -435,7 +435,7 @@ public class CombatController : StateMachine
 
         ActiveCard.AnimateCardUse();
         Hand.Remove(ActiveCard);
-        ActiveCard = null;
+
 
         RefreshHandPositionsAfterCardUsed();
 
@@ -459,6 +459,8 @@ public class CombatController : StateMachine
             if (e.healthEffects.hitPoints <= 0)
                 KillEnemy(e);
         }
+
+        ActiveCard = null;
     }
 
 
