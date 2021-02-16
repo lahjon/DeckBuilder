@@ -122,3 +122,9 @@ public enum EnemyBehavior
     Random, 
     Sequential
 }
+
+public enum CardActivityType
+{
+    DrawCard,
+    AddCardToDeck
+}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     public Text blockText;
     public WorldState previousState;
     public bool targetRequired;
+
+
     public void BindCardData()
 
     {
@@ -43,6 +46,7 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
             if (allEffects[i].Times != 1) descriptionText.text += " " + allEffects[i].Times + " times.";
             if (i != allEffects.Count - 1) descriptionText.text += "\n";
         }
+
     }
 
     public virtual void OnMouseEnter()

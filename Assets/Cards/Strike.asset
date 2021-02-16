@@ -29,6 +29,10 @@ MonoBehaviour:
     Target: 0
   SelfEffects: []
   Effects: []
+  activities:
+  - type: 1
+    parameter: Strike
   cardRarity: 0
   characterClass: 0
   animationPrefab: {fileID: 8867539605098610225, guid: 858239a5745affe49a2dc23a4ef8c689, type: 3}
+  audio: {fileID: 0}

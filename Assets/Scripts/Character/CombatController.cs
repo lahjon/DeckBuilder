@@ -114,7 +114,7 @@ public class CombatController : StateMachine
         SetState(new EnterCombat(this));
     }
 
-    CardCombat CreateCardFromData(CardData cardData)
+    public CardCombat CreateCardFromData(CardData cardData)
     {
         GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(cardPanel, false);
@@ -459,6 +459,8 @@ public class CombatController : StateMachine
             if (e.healthEffects.hitPoints <= 0)
                 KillEnemy(e);
         }
+
+        ActiveCard.cardData.activities.ForEach(x => StartCoroutine(CardActivitySystem.instance.StartByCardActivity(x)));
 
         ActiveCard = null;
     }
