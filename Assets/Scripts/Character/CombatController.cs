@@ -52,8 +52,6 @@ public class CombatController : StateMachine
     public List<CardCombat> Hand = new List<CardCombat>();
     public List<CardCombat> Discard = new List<CardCombat>();
     public List<CardCombat> createdCards = new List<CardCombat>();
-    public List<CardCombat> discardCardEndTurn = new List<CardCombat>();
-    public List<CardCombat> discardCardPlayerTurn = new List<CardCombat>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     private int amountOfEnemies;
@@ -71,14 +69,10 @@ public class CombatController : StateMachine
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy;
     public AnimationCurve transitionCurve;
-    public bool acceptInput = true;
+    public bool acceptSelections = true;
     private bool drawingCards = false;
 
     public Canvas canvas;
-    private void Awake()
-    {
-        cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
-    }
 
     public CardCombat ActiveCard 
     {
@@ -93,43 +87,8 @@ public class CombatController : StateMachine
         }
     }
 
-    void Update()
-    {
-        for(int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
-        {
-            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
-            {
-                if(ActiveCard == Hand[i])
-                    ActiveCard.OnMouseRightClick(false);
-                else
-                    Hand[i].OnMouseClick();
 
-                break;
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.Space) && acceptInput == true && discardCardEndTurn.Count == 0)
-        {
-            PlayerInputEndTurn();
-        }
-    }
-
-
-    public void DetectCanvasClick()
-    {
-        if (ActiveCard != null)
-        {
-            if (Input.GetMouseButton(0))
-                ActiveCard.OnMouseClick();
-            else
-                ActiveCard.OnMouseRightClick(false);
-        }
-    }
-
-    public void PlayerInputEndTurn()
-    {
-        // have to ahve a function for the ui button
-        EndState();
-    }
+    #region Plumbing, Setup, Start/End turn
 
     public void SetUpEncounter(List<EnemyData> enemyDatas = null)
     {
@@ -137,10 +96,10 @@ public class CombatController : StateMachine
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
         DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
 
-        if(enemyDatas == null)
+        if (enemyDatas == null)
             enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
 
-        for(int i = 0; i < enemyDatas.Count; i++)
+        for (int i = 0; i < enemyDatas.Count; i++)
         {
             GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
@@ -153,6 +112,89 @@ public class CombatController : StateMachine
 
         SetState(new EnterCombat(this));
     }
+
+    CardCombat CreateCardFromData(CardData cardData)
+    {
+        GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+        CardObject.transform.SetParent(cardPanel, false);
+        CardObject.transform.localScale = GetCardScale();
+        CardObject.GetComponent<BezierFollow>().route = bezierPath.transform;
+        CardCombat Card = CardObject.GetComponent<CardCombat>();
+        Card.cardData = cardData;
+        Card.cardPanel = cardPanel.GetComponent<RectTransform>();
+        Card.combatController = this;
+        Card.BindCardData();
+        createdCards.Add(Card);
+        HideCard(CardObject);
+        return Card;
+    }
+
+
+    public void StartTurn()
+    {
+        StartCoroutine(RulesSystem.instance.StartTurn());
+        StartCoroutine(DrawCards());
+    }
+
+    public void EndTurn()
+    {
+        Hero.healthEffects.EffectsOnNewTurnBehavior();
+
+        foreach (CardCombat card in Hand)
+        {
+            card.MouseReact = false;
+            card.selectable = false;
+        }
+
+        StartCoroutine(DiscardAllCards());
+    }
+
+    private void KillEnemy(CombatActorEnemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+        DeadEnemiesInScene.Add(enemy);
+        EnemiesInScene.Remove(enemy);
+    }
+
+    //called from DEBUG
+    public void WinCombat()
+    {
+        while (EnemiesInScene.Count > 0)
+        {
+            KillEnemy(EnemiesInScene[0]);
+        }
+        Debug.Log("Victory!");
+        ResetCombat();
+        WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
+    }
+
+    void ResetCombat()
+    {
+        DeadEnemiesInScene.Clear();
+        Deck.Clear();
+        Hand.Clear();
+        Discard.Clear();
+        EnemiesInScene.Clear();
+        foreach (CardCombat card in createdCards)
+        {
+            DestroyImmediate(card);
+        }
+    }
+
+
+    #endregion
+
+    #region Positioning and Scale
+    private void Awake()
+    {
+        cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
+    }
+    private void HideCard(GameObject gameObject)
+    {
+        gameObject.transform.position = new Vector3(-10000, -10000, -10000);
+        gameObject.SetActive(false);
+    }
+
 
     public Vector3 GetCardScale()
     {
@@ -192,27 +234,78 @@ public class CombatController : StateMachine
     }
 
 
-    private void DrawCards(int x)
+    public void RefreshHandPositionsAfterCardUsed(CardCombat excludeCard = null)
     {
-        for(int i = 0; i < x; i++)
+        for (int i = 0; i < Hand.Count; i++)
         {
-            if(Deck.Count == 0)
+            if (Hand[i] == excludeCard) continue;
+            Hand[i].inTransition = false;
+            Hand[i].MouseReact = true;
+            (Vector3, Vector3) TransInfo = GetPositionInHand(i);
+            Hand[i].StartLerpPosition(TransInfo.Item1, TransInfo.Item2);
+        }
+    }
+
+
+    #endregion
+
+    #region Draw and Discard Cards, Deck Management
+
+    public IEnumerator DrawCards(int CardsToDraw = 0, bool useCombatControllerDefault = true)
+    {
+        if (useCombatControllerDefault) CardsToDraw = DrawCount;
+
+        drawingCards = true;
+        for(int i = 0; i < CardsToDraw; i++)
+        {
+            if (Hand.Count == HandSize)
+            {
+                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Hand is full yo");
+                break;
+            }
+
+            if (Deck.Count == 0)
             {
                 Deck.AddRange(Discard);
                 Discard.Clear();
                 ShuffleDeck();
             }
 
-            if (Deck.Count != 0)
+            if (Deck.Count == 0)
             {
-                Deck[0].ResetCard();
-                Hand.Add(Deck[0]);
-                Deck.RemoveAt(0);
+                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("no cards to draw broooow");
+                break;
             }
-        }
 
-        StartCoroutine(WaitForAnimationsDraw());
+            yield return StartCoroutine(DrawSingleCard());
+        }
+        drawingCards = false;
     }
+
+    private IEnumerator DrawSingleCard()
+    {
+        CardCombat card = Deck[0];
+        card.ResetCard();
+        card.transform.localScale = Vector3.zero;
+        card.transform.position = txtDeck.transform.position;
+        card.gameObject.SetActive(true);
+        card.MouseReact = false;
+        Deck.RemoveAt(0);
+        Hand.Add(card);
+        UpdateDeckTexts();
+        card.transform.SetAsLastSibling();
+        RefreshHandPositionsAfterCardUsed(card);
+        (Vector3, Vector3) TransInfo = GetPositionInHand(card);
+        card.AnimateCardByCurve(TransInfo.Item1, TransInfo.Item2, Vector3.one, false, true);
+        yield return new WaitForSeconds(0.2f);
+    }
+
+    internal void CancelCardSelection()
+    {
+        ActiveCard = null;
+        ResetSiblingIndexes();
+    }
+
 
     private void ShuffleDeck()
     {
@@ -225,6 +318,74 @@ public class CombatController : StateMachine
         }
     }
 
+
+    public IEnumerator DiscardAllCards()
+    {
+        while (Hand.Count > 0)
+        {
+            yield return StartCoroutine(DiscardCard(Hand[Hand.Count - 1]));
+        }
+    }
+
+    public IEnumerator DiscardCard(CardCombat card)
+    {
+        if (Hand.Contains(card)) Hand.Remove(card);
+        Discard.Add(card);
+
+        card.inTransition = true;
+        card.AnimateCardByPathDiscard();
+        RefreshHandPositionsAfterCardUsed();
+        yield return new WaitForSeconds(0.1f);
+        UpdateDeckTexts();
+    }
+
+    public void UpdateDeckTexts()
+    {
+        txtDeck.GetComponent<Text>().text = "Deck:\n" + Deck.Count;
+        txtDiscard.GetComponent<Text>().text = "Discard:\n" + Discard.Count;
+    }
+
+    #endregion
+
+    #region CardUsage logic, user input
+    void Update()
+    {
+        for (int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
+        {
+            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
+            {
+                if (ActiveCard == Hand[i])
+                    ActiveCard.OnMouseRightClick(false);
+                else
+                    Hand[i].OnMouseClick();
+
+                break;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && acceptSelections == true)
+        {
+            PlayerInputEndTurn();
+        }
+    }
+
+
+    public void DetectCanvasClick()
+    {
+        if (ActiveCard != null)
+        {
+            if (Input.GetMouseButton(0))
+                ActiveCard.OnMouseClick();
+            else
+                ActiveCard.OnMouseRightClick(false);
+        }
+    }
+
+    public void PlayerInputEndTurn()
+    {
+        // have to ahve a function for the ui button
+        EndState();
+    }
+
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
         bool selectable = card.cardData.cost <= cEnergy && card.selectable && !drawingCards;
@@ -235,161 +396,7 @@ public class CombatController : StateMachine
 
         return selectable;
     }
-    CardCombat CreateCardFromData(CardData cardData)
-    {
-        GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(cardPanel, false);
-        CardObject.transform.localScale = GetCardScale();
-        CardObject.GetComponent<BezierFollow>().route = bezierPath.transform;
-        CardCombat Card = CardObject.GetComponent<CardCombat>();
-        Card.cardData = cardData;
-        Card.cardPanel = cardPanel.GetComponent<RectTransform>();
-        Card.combatController = this;
-        Card.BindCardData();
-        createdCards.Add(Card);
-        HideCard(CardObject);
-        return Card;
-    }
 
-
-    internal void CancelCardSelection()
-    {
-        ActiveCard = null;
-        ResetSiblingIndexes();
-    }
-
-    public void EndTurn()
-    {
-        Hero.healthEffects.EffectsStartTurn();
-        while (Hand.Count > 0)
-        {
-            CardCombat card = Hand[0];
-            card.MouseReact = false;
-            discardCardEndTurn.Add(card);
-            DiscardCard(card);
-            DiscardCardToPile(card);
-        }
-
-        StartCoroutine(WaitForAnimationsDiscardEndTurn());
-    }
-
-    public void StartTurn()
-    {
-        // ENEMY TURN'
-        
-        DrawCards(DrawCount);
-        Hand.ForEach(x => x.selected = false);
-        Hand.ForEach(x => x.transform.localScale = new Vector3(1,1,1));
-        Debug.Log("New turn started. Cards in Deck, Hand, Discard: " + Deck.Count + "," + Hand.Count + "," + Discard.Count);
-        txtDeck.GetComponent<Text>().text = "Deck:\n" + Deck.Count;
-        txtDiscard.GetComponent<Text>().text = "Discard:\n" + Discard.Count;
-
-        StartCoroutine(RulesSystem.instance.StartTurn());
-
-        EnemiesInScene.ForEach(x => x.healthEffects.EffectsStartTurn());
-    }
-
-    IEnumerator WaitForAnimationsDiscardEndTurn(Action endArgument = null)
-    {
-        while (discardCardEndTurn.Count > 0)
-        {
-            yield return new WaitForSeconds(0.01f);
-        }
-        discardCardEndTurn.Clear();
-        if(endArgument != null)
-            endArgument.Invoke();
-    }
-
-    IEnumerator WaitForAnimationsDiscardsPlayerTurn(Action endArgument = null)
-    {
-        while (discardCardPlayerTurn.Count > 0)
-        {
-            Debug.Log(discardCardPlayerTurn.Count);
-            yield return new WaitForSeconds(0.01f);
-        }
-        WinCombat();
-        discardCardPlayerTurn.Clear();
-        if(endArgument != null)
-            endArgument.Invoke();
-    }
-
-    IEnumerator WaitForAnimationsDraw()
-    {
-        drawingCards = true;
-        int i = 0;
-        Debug.Log(Hand.Count);
-        while (i < Hand.Count)
-        {
-            DisplayCard(i);
-            i++;
-            yield return new WaitForSeconds(0.1f);
-        }
-        Debug.Log("Done");
-        drawingCards = false;
-        ResetSiblingIndexes();
-    }
-
-    public void CardDemarkTransition(CardCombat card)
-    {
-        discardCardEndTurn.Remove(card);
-    }
-
-    public void DiscardCard(CardCombat card)
-    {
-        Discard.Add(card);
-        Hand.Remove(card);
-    }
-
-    public void DiscardCardToPile(CardCombat card)
-    {
-
-        AnimateCardDiscard(card);
-
-        card.transform.localScale = GetCardScale();
-        
-        if(discardCardPlayerTurn.Count > 0)
-            discardCardPlayerTurn.RemoveAt(0);
-        txtDiscard.GetComponent<Text>().text = Discard.Count.ToString();
-    }
-
-    private void HideCard(GameObject gameObject)
-    {
-        gameObject.transform.position = new Vector3(-10000, -10000, -10000);
-        gameObject.SetActive(false);
-    }
-
-    private void AnimateCardDiscard(CardCombat card)
-    {
-        card.inTransition = true;
-        card.AnimateCardByPathDiscard();
-    }
-
-    private void AnimateCardDraw(CardCombat card, Vector3 endPos, Vector3 endAngles)
-    {
-        card.AnimateCardByCurve(endPos, endAngles, Vector3.one, false, true);
-    }
-
-    private void DisplayCard(int i)
-    {
-        Hand[i].gameObject.SetActive(true);
-        Hand[i].transform.position = txtDeck.transform.position;
-        Hand[i].transform.localScale = Vector3.zero;
-        Hand[i].MouseReact = false;
-        (Vector3, Vector3) TransInfo = GetPositionInHand(i);
-        AnimateCardDraw(Hand[i], TransInfo.Item1, TransInfo.Item2);
-    }
-
-    public void ToggleInsidePanel()
-    {
-        if (mouseInsidePanel)
-        {
-            mouseInsidePanel = false;
-        }
-        else
-        {
-            mouseInsidePanel = true;
-        }
-    }
 
     private bool MouseInsideArea()
     {
@@ -415,7 +422,7 @@ public class CombatController : StateMachine
         if (ActiveCard is null)
             return;
 
-        if((ActiveCard.cardData.targetRequired && enemy is null) || MouseInsideArea())
+        if ((ActiveCard.cardData.targetRequired && enemy is null) || MouseInsideArea())
         {
             ActiveCard.DeselectCard();
             return;
@@ -435,68 +442,22 @@ public class CombatController : StateMachine
             targetedEnemies.AddRange(EnemiesInScene);
 
 
-        foreach (CombatActorEnemy e in targetedEnemies) {
-            RulesSystem.instance.CarryOutCard(ActiveCard.cardData,Hero, e);
+        foreach (CombatActorEnemy e in targetedEnemies)
+        {
+            RulesSystem.instance.CarryOutCard(ActiveCard.cardData, Hero, e);
             if (e.healthEffects.hitPoints <= 0)
                 KillEnemy(e);
-        } 
+        }
 
-        discardCardPlayerTurn.Add(ActiveCard);
-        ActiveCard.UseCard();
-        CheckVictory();
+        ActiveCard.AnimateCardUse();
+        Hand.Remove(ActiveCard);
         ActiveCard = null;
+
         RefreshHandPositionsAfterCardUsed();
     }
 
-    public void RefreshHandPositionsAfterCardUsed()
-    {
-        for(int i = 0; i < Hand.Count; i++)
-        {
-            (Vector3, Vector3) TransInfo = GetPositionInHand(i);
-            Hand[i].StartLerpPosition(TransInfo.Item1, TransInfo.Item2);
-        }
-    }
 
-    private void KillEnemy(CombatActorEnemy enemy)
-    {
-        enemy.gameObject.SetActive(false);
-        DeadEnemiesInScene.Add(enemy);
-        EnemiesInScene.Remove(enemy);
-    }
+    #endregion , user input
 
-    public void CheckVictory()
-    {
-        Debug.Log(DeadEnemiesInScene.Count);
-        if(DeadEnemiesInScene.Count == amountOfEnemies)
-        {
 
-            StartCoroutine(WaitForAnimationsDiscardsPlayerTurn());
-        }
-    }
-
-    public void WinCombat()
-    {
-        //called from DEBUG
-        while(EnemiesInScene.Count > 0)
-        {
-            KillEnemy(EnemiesInScene[0]);
-        }
-        Debug.Log("Victory!");
-        ResetCombat();
-        WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
-    }
-
-    void ResetCombat()
-    {
-        DeadEnemiesInScene.Clear();
-        Deck.Clear();
-        Hand.Clear();
-        Discard.Clear();
-        EnemiesInScene.Clear();
-        discardCardEndTurn.Clear();
-        foreach (CardCombat card in createdCards)
-        {
-            DestroyImmediate(card);
-        }
-    }
 }
