@@ -72,8 +72,16 @@ public class EncounterManager : Manager
     }
 
 
-    public void GenerateMap()
+    public void GenerateMap(int newMinWidth = 0, int newMaxWidth = 0, int newLength = 0)
     {
+        if(newMinWidth > 0 && newMaxWidth > 0 && newLength > 0)
+        {
+            minWidth = newMinWidth;
+            maxWidth = newMaxWidth;
+            length = newLength;
+        }
+
+        canvas.gameObject.SetActive(true);
         encounters = new Encounter[length][];
 
         //Setup first
@@ -86,8 +94,8 @@ public class EncounterManager : Manager
         for (int i = 1; i < length - 1; i++)
             encounters[i] = new Encounter[Random.Range(minWidth, maxWidth + 1)];
 
-        float vSpacing = 200.0f;
-        float hSpacing = 200.0f;
+        float vSpacing = 20.0f;
+        float hSpacing = 20.0f;
 
         //Randomize out encounters
         for (int i = 0; i < encounters.Length; i++)
@@ -96,9 +104,14 @@ public class EncounterManager : Manager
             {
                 GameObject newEnc = Instantiate(UIPrefab, encounterParent.transform, false);
                 newEnc.name = string.Format("encounter_{0}_{1}", i, j);
+
                 Vector3 pos = startPos.transform.position;
 
-                newEnc.transform.position = new Vector3(i * hSpacing, j * vSpacing - (encounters[i].Length - 1) * hSpacing / 2.0f ,0.04f)  + getPositionNoise(placementNoise) + pos;
+                Vector3 noise = getPositionNoise(placementNoise);
+                if(i == 0 && j == 0)
+                    noise = Vector3.zero;
+
+                newEnc.transform.position = new Vector3(i * hSpacing, j * vSpacing - (encounters[i].Length - 1) * hSpacing / 2.0f ,0.04f)  + noise + pos;
                 encounters[i][j] = newEnc.GetComponent<Encounter>();
                 overworldEncounters.Add(encounters[i][j]);
             }
@@ -122,6 +135,7 @@ public class EncounterManager : Manager
 
         StartAddRoads(encounters[0][0]);
         encounters[0][0].SetIsVisited();
+        canvas.gameObject.SetActive(false);
     }
 
     public void AssignNeighbours(int floor, int unassigned_lb, int unassigned_ub, int lb, int ub)
@@ -239,8 +253,8 @@ public class EncounterManager : Manager
         float dist = Vector3.Distance(from, to);
         float width = roadImage.GetComponent<RectTransform>().rect.width;
 
-        float gap = 10.0f;
-        float break_gap = 40.0f;
+        float gap = 2.0f;
+        float break_gap = 4.0f;
         float dist_t = break_gap + width;
         Vector3 dir = Vector3.Normalize(to - from);
 

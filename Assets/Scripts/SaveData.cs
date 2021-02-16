@@ -14,7 +14,7 @@ public class SaveData
     public int act;
 
     // town
-    public List<EncounterType> unlockedBuildings = new List<EncounterType>();
+    public List<BuildingType> unlockedBuildings = new List<BuildingType>();
 
 
     public string ToJson()

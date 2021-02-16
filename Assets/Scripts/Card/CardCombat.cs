@@ -251,7 +251,7 @@ public class CardCombat : Card
         if (disable) this.gameObject.SetActive(false);
     }
 
-    //Används i cardDraw och ångra kort
+    //Anvï¿½nds i cardDraw och ï¿½ngra kort
     public void AnimateCardByCurve(Vector3 pos, Vector3 angles, Vector3 scale, bool disable = false, bool forceStart = false)
     {
         selectable = !disable;

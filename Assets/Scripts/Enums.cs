@@ -89,13 +89,14 @@ public enum WorldState
     Dead
 }
 
-public enum Building
+public enum BuildingType
 {
     Shop, 
     Tavern, 
-    Pray, 
+    Church, 
     TownHall,
-    Barracks
+    Barracks,
+    Leave
 }
 
 public enum EncounterType
@@ -107,12 +108,7 @@ public enum EncounterType
     OverworldCombatElite,
     OverworldCombatBoss,
     OverworldTransition,
-    TownShop,
-    TownLeave,
-    TownTavern,
-    TownPray,
-    TownTownHall,
-    TownBarracks
+    TownEvent
 }
 public enum EncounterValue
 {

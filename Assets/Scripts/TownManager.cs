@@ -2,58 +2,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TownManager : Manager, ISaveable
 {
-    public List<Encounter> townEncounters;
-    public List<EncounterType> unlockedBuildings = new List<EncounterType>();
-    public TownHall townHall;
+    public List<TownInteractable> townEncounters;
+    public List<BuildingType> unlockedBuildings = new List<BuildingType>();
+    public List<BuildingType> startingBuildings = new List<BuildingType>();
+    public BuildingTownHall buildingTownHall;
     public Canvas townMapCanvas;
     void Start()
     {
         townMapCanvas.gameObject.SetActive(true);
-        townEncounters.ForEach(x => x.UpdateEncounter());
-    }
-    public void EnterTavern()
-    {
-
     }
 
-    public void EnterPray()
+    public void EnterTown()
     {
-        
+        townMapCanvas.gameObject.SetActive(true);
+        WorldSystem.instance.worldStateManager.AddState(WorldState.Town, true);
     }
 
-    public void EnterBarracks()
+    public void ExitTown()
     {
-        
-    }
-
-    public void EnterTownHall()
-    {
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
-        townHall.gameObject.SetActive(true);
-        townHall.EnterBuilding();
-    }
-
-    public void LeaveTown()
-    {
-
         townMapCanvas.gameObject.SetActive(false);
-        WorldSystem.instance.encounterManager.canvas.gameObject.SetActive(true);
-        WorldSystem.instance.encounterManager.GenerateMap();
-        WorldSystem.instance.encounterManager.canvas.gameObject.SetActive(false);
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
-        WorldSystem.instance.encounterManager.currentEncounter = WorldSystem.instance.encounterManager.overworldEncounters[0];
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
+        // WorldSystem.instance.encounterManager.GenerateMap();
+        // WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        // WorldSystem.instance.encounterManager.currentEncounter = WorldSystem.instance.encounterManager.overworldEncounters[0];
+        // WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
     }
 
-    public void EnterShop()
-    {
-        
-    }
-
-    public bool UnlockBuilding(EncounterType building)
+    public bool UnlockBuilding(BuildingType building)
     {
         if (!unlockedBuildings.Contains(building))
         {
@@ -68,19 +46,32 @@ public class TownManager : Manager, ISaveable
     }
     public void UpdateTown()
     {
-        foreach (Encounter enc in townEncounters)
+        List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
+        allBuildings.ForEach(x => Debug.Log(x));
+
+        foreach (TownInteractable townInt in townEncounters)
         {
-            if (!enc.gameObject.activeSelf && unlockedBuildings.Contains(enc.encounterType))
+            if (allBuildings.Contains(townInt.buildingType))
             {
-                ActivateBuilding(enc);
+                ActivateBuilding(townInt);
+            }
+            else
+            {
+                DeactivateBuilding(townInt);
             }
         }
     }
 
-    public void ActivateBuilding(Encounter building)
+    public void ActivateBuilding(TownInteractable building)
     {
         building.gameObject.SetActive(true);
         Debug.Log("Activated building!");
+    }
+
+    public void DeactivateBuilding(TownInteractable building)
+    {
+        building.gameObject.SetActive(false);
+        Debug.Log("Deactivated building!");
     }
 
     public void PopulateSaveData(SaveData a_SaveData)

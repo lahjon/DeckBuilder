@@ -180,7 +180,6 @@ public class WorldSystem : MonoBehaviour, ISaveable
     public void Reset()
     {
         characterManager.Reset();
-        townManager.LeaveTown();
     }
 
     IEnumerator LoadNewScene(int sceneNumber) {

@@ -10,18 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
-  m_Name: Encounter_Town_TownHall
+  m_Name: Encounter_Start_Tutorial
   m_EditorClassIdentifier: 
-  name: 
-  type: 11
+  name: Investigate the disturbance
+  type: 7
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events: []
-  description: 
-  choice1: 
+  events:
+  - {fileID: 8237644298160242557, guid: 73f4d099ddc34c5469f58bb10fd4df78, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  description: Lord Farquaad has asked us to investigate the disturbance in the <b>East</b>
+    Church district. We must investigate it before leaving the city walls!
+  choice1: Go back to investigate.
   choice2: 
   choice3: 
-  newEncounterData: []
+  newEncounterData:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   enemyData: []
   cardData: []

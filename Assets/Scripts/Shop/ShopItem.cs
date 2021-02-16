@@ -10,7 +10,7 @@ public class ShopItem : MonoBehaviour
     public string itemName;
     public TMP_Text textName;
     public TMP_Text textCost;
-    public EncounterType building;
+    public BuildingType building;
 
     private TownManager townManager;
     private CharacterManager characterManager;

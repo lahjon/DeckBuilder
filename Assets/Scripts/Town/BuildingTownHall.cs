@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TownHall : MonoBehaviour, IBuilding
+public class BuildingTownHall : Building
 {
     public List<GameObject> inventoryAct1 = new List<GameObject>();
     public List<GameObject> inventory = new List<GameObject>();
     public Transform iventoryPanel;
     private int inventorySpace = 3;
-    public void CloseBuilding()
+    public override void CloseBuilding()
     {
-        gameObject.SetActive(false);
-        WorldSystem.instance.SaveProgression();
-        WorldSystem.instance.worldStateManager.RemoveState(true);
+        base.CloseBuilding();
     }
-    public void EnterBuilding()
+    public override void EnterBuilding()
     {
+        base.EnterBuilding();
         UpdateInventory();
     }
 

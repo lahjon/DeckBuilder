@@ -35,6 +35,11 @@ public class DebugUI : MonoBehaviour, ISaveable
         WorldSystem.instance.uiManager.deathScreen.TriggerDeathscreen();
     }
 
+    public void DebugGenerateWorld()
+    {
+        WorldSystem.instance.encounterManager.GenerateMap();
+    }
+
     public void DebugAddStrength()
     {
         WorldSystem.instance.characterManager.AddStat(CharacterStat.Strength, 1);

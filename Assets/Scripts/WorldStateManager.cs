@@ -49,6 +49,7 @@ public class WorldStateManager : Manager
         switch (aState)
         {
             case WorldState.Overworld:
+                WorldSystem.instance.townManager.ExitTown();
                 WorldSystem.instance.encounterManager.OpenOverworldMap();
                 break;
             
