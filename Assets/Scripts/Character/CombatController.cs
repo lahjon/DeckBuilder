@@ -70,6 +70,7 @@ public class CombatController : StateMachine
     public CombatActorEnemy ActiveEnemy;
     public AnimationCurve transitionCurve;
     public bool acceptSelections = true;
+    public bool acceptActions = true;
     private bool drawingCards = false;
 
     public Canvas canvas;
@@ -133,7 +134,6 @@ public class CombatController : StateMachine
     public void StartTurn()
     {
         StartCoroutine(RulesSystem.instance.StartTurn());
-        StartCoroutine(DrawCards());
     }
 
     public void EndTurn()
@@ -251,10 +251,7 @@ public class CombatController : StateMachine
 
     #region Draw and Discard Cards, Deck Management
 
-    public IEnumerator DrawCards(int CardsToDraw = 0, bool useCombatControllerDefault = true)
-    {
-        if (useCombatControllerDefault) CardsToDraw = DrawCount;
-
+    public IEnumerator DrawCards(int CardsToDraw) { 
         drawingCards = true;
         for(int i = 0; i < CardsToDraw; i++)
         {
@@ -298,6 +295,8 @@ public class CombatController : StateMachine
         (Vector3, Vector3) TransInfo = GetPositionInHand(card);
         card.AnimateCardByCurve(TransInfo.Item1, TransInfo.Item2, Vector3.one, false, true);
         yield return new WaitForSeconds(0.2f);
+
+
     }
 
     internal void CancelCardSelection()
@@ -417,6 +416,12 @@ public class CombatController : StateMachine
 
     public void CardUsed(CombatActorEnemy enemy = null)
     {
+        if (!acceptActions)
+        {
+            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Previous card is being resolved");
+            return;
+        }
+
         Debug.Log("Card used from Controller");
         targetedEnemy = enemy;
         if (ActiveCard is null)
@@ -427,6 +432,12 @@ public class CombatController : StateMachine
             ActiveCard.DeselectCard();
             return;
         }
+
+        ActiveCard.AnimateCardUse();
+        Hand.Remove(ActiveCard);
+        ActiveCard = null;
+
+        RefreshHandPositionsAfterCardUsed();
 
         cEnergy -= ActiveCard.cardData.cost;
 
@@ -448,12 +459,6 @@ public class CombatController : StateMachine
             if (e.healthEffects.hitPoints <= 0)
                 KillEnemy(e);
         }
-
-        ActiveCard.AnimateCardUse();
-        Hand.Remove(ActiveCard);
-        ActiveCard = null;
-
-        RefreshHandPositionsAfterCardUsed();
     }
 
 

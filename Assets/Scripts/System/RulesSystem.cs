@@ -45,7 +45,11 @@ public class RulesSystem : MonoBehaviour
         combatController = WorldSystem.instance.combatManager.combatController;
 
         actionsStartTurnEnum.Add(ResetRemainingEnergy);
+        actionsStartTurnEnum.Add(DrawCardsNewTurn);
+
     }
+
+
 
 
 
@@ -113,8 +117,10 @@ public class RulesSystem : MonoBehaviour
         for (int i = 0; i < ActorToStartTurn[combatController.Hero].Count; i++)
             yield return StartCoroutine(ActorToStartTurn[combatController.Hero][i].Invoke(combatController.Hero));
 
+        Debug.Log("actionsStartTurnEnum: " + actionsStartTurnEnum.Count);
         for (int i = 0; i < actionsStartTurnEnum.Count; i++)
             yield return StartCoroutine(actionsStartTurnEnum[i].Invoke());
+
         Debug.Log("Leaving StartTurn Enum");
     }
 
@@ -140,12 +146,17 @@ public class RulesSystem : MonoBehaviour
     }
 
 
-    IEnumerator ResetRemainingEnergy()
+    public IEnumerator ResetRemainingEnergy()
     {
         Debug.Log("Start Energy Reset");
         combatController.cEnergy = combatController.energyTurn;
         yield return new WaitForSeconds(1);
         Debug.Log("Leaving Energy Reset");
+    }
+
+    public IEnumerator DrawCardsNewTurn()
+    {
+        yield return StartCoroutine(combatController.DrawCards(combatController.DrawCount));
     }
 
 
