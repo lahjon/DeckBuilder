@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public abstract class Card : MonoBehaviour, IPointerClickHandler
 {
 
     public CardData cardData;
     public Text nameText;
-    public Text descriptionText;
+    public TMP_Text descriptionText;
     public Image artworkImage;
 
     public Text costText;
@@ -42,11 +43,26 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
         for (int i = 0; i < allEffects.Count; i++)
         {
             if (allEffects[i].Value == 0) continue;
-            descriptionText.text += allEffects[i].Type.ToString() + ":" + allEffects[i].Value;
+            descriptionText.text += allEffects[i].Type.ToString() + EffectTypeToIconCode(allEffects[i].Type) + ":" + allEffects[i].Value;
             if (allEffects[i].Times != 1) descriptionText.text += " " + allEffects[i].Times + " times.";
             if (i != allEffects.Count - 1) descriptionText.text += "\n";
         }
 
+        for(int i = 0; i < cardData.activities.Count; i++)
+        {
+            descriptionText.text += CardActivitySystem.instance.DescriptionByCardActivity(cardData.activities[i]);
+        }
+
+    }
+
+    private string EffectTypeToIconCode(EffectType type)
+    {
+        if (type == EffectType.Damage)
+            return " <sprite name=\"Attack\">";
+        else if (type == EffectType.Block)
+            return " <sprite name=\"Block\">";
+        else
+            return "";
     }
 
     public virtual void OnMouseEnter()

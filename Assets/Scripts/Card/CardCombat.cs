@@ -68,7 +68,23 @@ public class CardCombat : Card
     {
         CardFollower = FollowMouseIsSelected();
     }
-    
+
+    public static CardCombat CreateCardFromData(CardData cardData, CombatController combatController)
+    {
+        GameObject CardObject = Instantiate(combatController.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+        CardObject.transform.SetParent(combatController.cardPanel, false);
+        CardObject.transform.localScale = Vector3.one;
+        CardCombat Card = CardObject.GetComponent<CardCombat>();
+        Card.cardData = cardData;
+        Card.cardPanel = combatController.cardPanel.GetComponent<RectTransform>();
+        Card.BindCardData();
+        Card.combatController = combatController;
+        Card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
+        combatController.createdCards.Add(Card);
+        return Card;
+    }
+
+
     public void CreateAnimation()
     {
         if (cardData.animationPrefab != null)
@@ -162,11 +178,12 @@ public class CardCombat : Card
 
     private IEnumerator FollowMouseIsSelected()
     {
+        transform.localEulerAngles = Vector3.zero;
         while (true)
         {
             float posY = Input.mousePosition.y;
-            transform.localEulerAngles = Vector3.zero; 
-            transform.position = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, posY, 10));
+            Vector3 targetPos = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, posY, 10));
+            transform.position = Vector3.Lerp(transform.position, targetPos, 0.2f);
             yield return null;
         }
     }

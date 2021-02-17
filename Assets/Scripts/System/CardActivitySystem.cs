@@ -7,8 +7,8 @@ using System.Linq;
 public class CardActivitySystem : MonoBehaviour
 {
     public static CardActivitySystem instance = null;
-    CombatController combatController;
-    public Dictionary<CardActivityType, Func<string, IEnumerator>> ActivityTypeToAction = new Dictionary<CardActivityType, Func<string, IEnumerator>>();
+    public CombatController combatController;
+    public Dictionary<CardActivityType, CardActivity> ActivityTypeToAction = new Dictionary<CardActivityType, CardActivity>();
 
 
     private void Awake()
@@ -20,37 +20,31 @@ public class CardActivitySystem : MonoBehaviour
     public void Start()
     {
         combatController = WorldSystem.instance.combatManager.combatController;
-        ActivityTypeToAction[CardActivityType.DrawCard] = DrawCards;
-        ActivityTypeToAction[CardActivityType.AddCardToDeck] = AddCardToDeck;
+        CardActivity.ActivitySystem = this;
+        CardActivity.combatController = combatController;
+        ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
+        ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
     }
 
-    public IEnumerator StartByCardActivity(CardActivity cardActivity)
+    public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)
     {
-        yield return StartCoroutine(ActivityTypeToAction[cardActivity.type].Invoke(cardActivity.parameter));
-    }
-
-
-    public IEnumerator DrawCards(string strX)
-    {
-        int x = Int32.Parse(strX);
-
-        yield return StartCoroutine(combatController.DrawCards(x));
-    }
-
-    public IEnumerator AddCardToDeck(string cardId)
-    {
-        Debug.Log("Starting AddCard");
-        CardData cd = DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == cardId).FirstOrDefault();
-        if(cd is null)
+        if (!ActivityTypeToAction.ContainsKey(cardActivity.type))
         {
-            Debug.Log($"No such card named {cardId}");
-            yield return null;
+            Debug.LogError("No function exists for Activity of type" + cardActivity.type.ToString());
         }
-
-        CardCombat card = combatController.CreateCardFromData(cd);
-        combatController.Deck.Add(card);
-        WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {cardId} to Deck!");
-        combatController.UpdateDeckTexts();
+        else
+            yield return StartCoroutine(ActivityTypeToAction[cardActivity.type].Execute(cardActivity.parameter));
     }
+
+    public string DescriptionByCardActivity(CardActivitySetting cardActivity)
+    {
+        if (!ActivityTypeToAction.ContainsKey(cardActivity.type))
+        {
+            Debug.LogError("No description exists for Activity of type" + cardActivity.type.ToString());
+            return "_NULL";
+        }
+        return ActivityTypeToAction[cardActivity.type].GetDescription(cardActivity.parameter);
+    }
+
 
 }

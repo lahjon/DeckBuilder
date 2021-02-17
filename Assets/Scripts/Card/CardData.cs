@@ -19,7 +19,7 @@ public class CardData : ScriptableObject
     public List<CardEffect> SelfEffects = new List<CardEffect>();
     public List<CardEffect> Effects = new List<CardEffect>();
 
-    public List<CardActivity> activities = new List<CardActivity>();
+    public List<CardActivitySetting> activities = new List<CardActivitySetting>();
 
     public CardRarity cardRarity;
 

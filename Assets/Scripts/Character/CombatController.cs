@@ -95,7 +95,15 @@ public class CombatController : StateMachine
     {
 
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
-        DeckData.ForEach(x => Discard.Add(CreateCardFromData(x)));
+
+        foreach(CardData cd in DeckData)
+        {
+            CardCombat card = CardCombat.CreateCardFromData(cd, this);
+            HideCard(card);
+            Deck.Add(card);
+        }
+
+        ShuffleDeck();
 
         if (enemyDatas == null)
             enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
@@ -114,21 +122,6 @@ public class CombatController : StateMachine
         SetState(new EnterCombat(this));
     }
 
-    public CardCombat CreateCardFromData(CardData cardData)
-    {
-        GameObject CardObject = Instantiate(TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(cardPanel, false);
-        CardObject.transform.localScale = GetCardScale();
-        CardObject.GetComponent<BezierFollow>().route = bezierPath.transform;
-        CardCombat Card = CardObject.GetComponent<CardCombat>();
-        Card.cardData = cardData;
-        Card.cardPanel = cardPanel.GetComponent<RectTransform>();
-        Card.combatController = this;
-        Card.BindCardData();
-        createdCards.Add(Card);
-        HideCard(CardObject);
-        return Card;
-    }
 
 
     public void StartTurn()
@@ -189,10 +182,10 @@ public class CombatController : StateMachine
     {
         cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
     }
-    private void HideCard(GameObject gameObject)
+    private void HideCard(CardCombat card)
     {
-        gameObject.transform.position = new Vector3(-10000, -10000, -10000);
-        gameObject.SetActive(false);
+        card.transform.position = new Vector3(-10000, -10000, -10000);
+        card.gameObject.SetActive(false);
     }
 
 
