@@ -17,10 +17,7 @@ MonoBehaviour:
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events:
-  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
-  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
-  - {fileID: 8237644298160242557, guid: cbcc3e03d9b77774083fb4b654700aa2, type: 3}
+  events: 060000000600000006000000
   description: A wild Seth Nielsen appears! What do you do?
   choice1: Tell Seth Nielsen he is amazing!
   choice2: Punch Seth Nielsen in the face!

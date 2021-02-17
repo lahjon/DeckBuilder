@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Manager : MonoBehaviour
 {
     protected WorldSystem world;
-    void Start()
+    protected virtual void Start()
     {
         world = WorldSystem.instance;
     }

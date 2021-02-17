@@ -17,10 +17,7 @@ MonoBehaviour:
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events:
-  - {fileID: 8237644298160242557, guid: e4d128f360f16e64183e47e23047b537, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  events: 040000000000000000000000
   description: Seth Nielsen is pleased with you. He lets you choose a card from his
     deck.
   choice1: Take a card from Seth Nielsen!

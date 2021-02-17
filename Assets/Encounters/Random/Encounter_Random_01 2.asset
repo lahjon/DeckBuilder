@@ -17,10 +17,7 @@ MonoBehaviour:
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events:
-  - {fileID: 8237644298160242557, guid: 13eeb0c4c93d6ee4e9b92334735006d6, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  events: 020000000000000000000000
   description: Seth Nielsen is mad! He charges at you!
   choice1: Prepare to fight Seth Nielsen!
   choice2: 

@@ -17,10 +17,7 @@ MonoBehaviour:
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events:
-  - {fileID: 8237644298160242557, guid: 73f4d099ddc34c5469f58bb10fd4df78, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  events: 010000000000000000000000
   description: Lord Farquaad has asked us to investigate the disturbance in the <b>East</b>
     Church district. We must investigate it before leaving the city walls!
   choice1: Go back to investigate.

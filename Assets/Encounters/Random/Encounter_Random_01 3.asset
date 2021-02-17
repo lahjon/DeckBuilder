@@ -17,10 +17,7 @@ MonoBehaviour:
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events:
-  - {fileID: 8237644298160242557, guid: 73f4d099ddc34c5469f58bb10fd4df78, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  events: 010000000000000000000000
   description: Seth Nielsen is confused.
   choice1: Leave Seth Nielsen alone.
   choice2: 
@@ -30,5 +27,5 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   enemyData:
-  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
+  - {fileID: 0}
   cardData: []

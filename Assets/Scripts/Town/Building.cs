@@ -12,7 +12,7 @@ public abstract class Building : MonoBehaviour
     }
     public virtual void EnterBuilding()
     {
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
+        WorldSystem.instance.worldStateManager.AddState(WorldState.Town, true);
         gameObject.SetActive(true);
     }
 }

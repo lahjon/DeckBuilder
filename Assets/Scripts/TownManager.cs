@@ -11,24 +11,26 @@ public class TownManager : Manager, ISaveable
     public List<BuildingType> startingBuildings = new List<BuildingType>();
     public BuildingTownHall buildingTownHall;
     public Canvas townMapCanvas;
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         townMapCanvas.gameObject.SetActive(true);
+        Debug.Log("World is:" + world);
     }
 
     public void EnterTown()
     {
         townMapCanvas.gameObject.SetActive(true);
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Town, true);
+        world.worldStateManager.AddState(WorldState.Town, true);
     }
 
     public void ExitTown()
     {
         townMapCanvas.gameObject.SetActive(false);
-        // WorldSystem.instance.encounterManager.GenerateMap();
-        // WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
-        // WorldSystem.instance.encounterManager.currentEncounter = WorldSystem.instance.encounterManager.overworldEncounters[0];
-        // WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
+        // world.encounterManager.GenerateMap();
+        // world.characterManager.characterVariablesUI.UpdateUI();
+        // world.encounterManager.currentEncounter = world.encounterManager.overworldEncounters[0];
+        // world.worldStateManager.AddState(WorldState.Overworld, true);
     }
 
     public bool UnlockBuilding(BuildingType building)

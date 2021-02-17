@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Encounter", menuName = "EncounterTest")]
+[CreateAssetMenu(fileName = "New Encounter", menuName = "Encounter")]
 public class EncounterData : ScriptableObject
 {
     public new string name;
@@ -12,9 +12,7 @@ public class EncounterData : ScriptableObject
     public bool isVisited = false;
     public bool secretCondition = false;
     [SerializeField]
-    public List<GameObject> events = new List<GameObject>(3);
-
-
+    public List<EventType> events = new List<EventType>(3);
 
     [TextArea(5,5)]
     public string description;

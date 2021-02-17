@@ -45,8 +45,9 @@ public class EncounterManager : Manager
         canvas.gameObject.SetActive(true);
     }
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
         roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
     }
@@ -219,32 +220,6 @@ public class EncounterManager : Manager
         }
 
     }
-    // public void AddRoads(Encounter root)
-    // {
-        
-    //     foreach(Encounter enc in root.neighbourEncounters)
-    //     {
-    //         DrawRoad(root, enc);
-    //         isRoadAdded.Add(enc);
-    //         AddRoads(enc);
-    //     }
-    // }
-
-    // public void AddRoad(Vector3 from, Vector3 to)
-    // {
-    //     GameObject newRoad = Instantiate(RoadTemplate, actRoads[0].transform,false);
-    //     float height = newRoad.transform.position.y;
-
-    //     Transform roadTrans = newRoad.transform;
-
-    //     Vector3 newPos = from + ((to - from) / 2.0f);
-    //     roadTrans.position = from + ((to- from)/2.0f);
-    //     //roadTrans.position = new Vector3(roadTrans.position.x, 0 , roadTrans.position.y);
-    //     roadTrans.localScale = new Vector3(10, Vector3.Distance(from, to), 10);
-
-    //     float angle = Vector3.Angle(to-from  , roadTrans.up);
-    //     roadTrans.Rotate(new Vector3(0, 0, -angle));
-    // }
 
     public void DrawRoad(Encounter fromEnc, Encounter toEnc)
     {

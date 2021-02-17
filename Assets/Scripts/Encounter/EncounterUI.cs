@@ -11,9 +11,9 @@ public class EncounterUI : MonoBehaviour
     public GameObject canvas;
     public GameObject background;
     public GameObject panel;
-    public GameObject event1;
-    public GameObject event2;
-    public GameObject event3;
+    public EventType event1;
+    public EventType event2;
+    public EventType event3;
     public GameObject choice1;
     public GameObject choice2;
     public GameObject choice3;
@@ -32,12 +32,18 @@ public class EncounterUI : MonoBehaviour
         BindEncounterData();
     }
 
+    public GameObject CreateNewUI(GameObject background, GameObject panel)
+    {
+        GameObject oldUI = Instantiate(background, background.transform.position, Quaternion.Euler(0, 0, 0), panel.transform) as GameObject;
+        return oldUI;
+    }
+
     public void BindEncounterData()
     {
         int count = 0;
-        foreach (GameObject e in encounterData.events)
+        foreach (EventType e in encounterData.events)
         {
-            if (e != null)
+            if (e != EventType.None)
             {
                 count++;
             }
@@ -85,19 +91,19 @@ public class EncounterUI : MonoBehaviour
         if (index == 1 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[0];
-            bool disable = event1.GetComponent<EventMain>().TriggerEvent();
+            bool disable = EventDispatcher.TriggerEvent(event1);
             ConfirmOption(disable);
         }
         else if(index == 2 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[1];
-            bool disable = event2.GetComponent<EventMain>().TriggerEvent();
+            bool disable = EventDispatcher.TriggerEvent(event2);
             ConfirmOption(disable);
         }
         else if(index == 3 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[2];
-            bool disable = event3.GetComponent<EventMain>().TriggerEvent();
+            bool disable = EventDispatcher.TriggerEvent(event3);
             ConfirmOption(disable);
         }
     }

@@ -17,10 +17,7 @@ MonoBehaviour:
   tier: 0
   isVisited: 0
   secretCondition: 0
-  events:
-  - {fileID: 8237644298160242557, guid: 7cf643408e0baf34cb1b298f16f8380f, type: 3}
-  - {fileID: 0}
-  - {fileID: 0}
+  events: 050000000000000000000000
   description: The district is under attack! You have to help them!
   choice1: Aid the town!
   choice2: 

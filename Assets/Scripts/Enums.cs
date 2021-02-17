@@ -36,6 +36,23 @@ public enum CharacterClass
     EnemyBoss
 };
 
+public enum EventType
+{
+    None,
+    Leave, 
+    Combat, 
+    CardSpecific,
+    CardRandom,
+    NewMap,
+    NewEvent
+}
+
+public enum QuestType
+{
+    VisitBuilding,
+    KillEnemy
+}
+
 public enum CharacterVariables
 {
     MaxHealth, 
