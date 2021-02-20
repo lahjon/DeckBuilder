@@ -15,7 +15,7 @@ public class CardActivityAddCardToDeck : CardActivity
             yield return null;
         }
 
-        CardCombat card = CardCombat.CreateCardFromData(cd, combatController);
+        CardCombatAnimated card = CardCombatAnimated.CreateCardFromData(cd, combatController);
         combatController.Deck.Add(card);
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {input} to Deck!");
         combatController.UpdateDeckTexts();

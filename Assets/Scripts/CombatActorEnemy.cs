@@ -120,10 +120,8 @@ public class CombatActorEnemy : CombatActor
     {
         if(combatController.ActiveCard != null  && WorldSystem.instance.combatManager.combatController.ActiveCard.targetRequired)
             SetTarget(true);
-        else
-        {
-            SetTarget(false);
-        }
+
+
         if (combatController.ActiveEnemy is null) combatController.ActiveEnemy = this;
     }
 

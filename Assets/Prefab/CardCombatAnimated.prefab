@@ -121,12 +121,13 @@ GameObject:
   - component: {fileID: 1577957614717447408}
   - component: {fileID: 1577957614717447423}
   - component: {fileID: 1577957614717447422}
-  - component: {fileID: 1577957614717447409}
   - component: {fileID: 1568275771}
   - component: {fileID: 1568275767}
   - component: {fileID: 1444776756510993332}
+  - component: {fileID: -7657001135678937236}
+  - component: {fileID: 5689044026005421385}
   m_Layer: 2
-  m_Name: CardCombat
+  m_Name: CardCombatAnimated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,124 +198,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1577957614717447409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577957614717447411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a69360b7b820e4daa5202ab58e6aa6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardData: {fileID: 0}
-  nameText: {fileID: 1577957616059870876}
-  descriptionText: {fileID: 199486994335503526}
-  artworkImage: {fileID: 1577957614699435812}
-  costText: {fileID: 1577957615183275145}
-  damageText: {fileID: 1577957615296818472}
-  blockText: {fileID: 1577957615692851394}
-  previousState: 0
-  targetRequired: 0
-  combatController: {fileID: 0}
-  cardPanel: {fileID: 0}
-  transitionCurveScaleDiscard:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.037822247
-      value: 0.3989483
-      inSlope: 0.07537236
-      outSlope: 0.07537236
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.38737214
-    - serializedVersion: 3
-      time: 0.77266544
-      value: 0.8724754
-      inSlope: 0.021644177
-      outSlope: 0.021644177
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.5976391
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  transitionCurveScaleDraw:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0010681152
-      value: 0.9951973
-      inSlope: -0.01107283
-      outSlope: -0.01107283
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.8345244
-    - serializedVersion: 3
-      time: 0.54260886
-      value: 0.3021726
-      inSlope: -0.58851355
-      outSlope: -0.58851355
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.8407515
-      value: -0.22356844
-      inSlope: -1.3953929
-      outSlope: -1.3953929
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.08202938
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  transitionCurveTransform:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.016666668
-      value: 0.99999917
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.29668868
-      value: 0.8548606
-      inSlope: -1.5847542
-      outSlope: -1.5847542
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.3496704
-      value: 0.000017274171
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  inTransition: 0
-  selectable: 1
-  animationSystem: {fileID: 0}
-  MouseReact: 0
-  _selected: 0
 --- !u!114 &1568275771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,8 +215,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1577957614717447409}
-          m_TargetAssemblyTypeName: CardCombat, Assembly-CSharp
+        - m_Target: {fileID: 5689044026005421385}
+          m_TargetAssemblyTypeName: CardCombatAnimated, Assembly-CSharp
           m_MethodName: OnMouseExit
           m_Mode: 1
           m_Arguments:
@@ -348,8 +231,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1577957614717447409}
-          m_TargetAssemblyTypeName: CardCombat, Assembly-CSharp
+        - m_Target: {fileID: 5689044026005421385}
+          m_TargetAssemblyTypeName: CardCombatAnimated, Assembly-CSharp
           m_MethodName: OnMouseEnter
           m_Mode: 1
           m_Arguments:
@@ -399,6 +282,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   route: {fileID: 0}
+--- !u!95 &-7657001135678937236
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577957614717447411}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 669ecdfe721923b4cb0ab93411ccd06c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5689044026005421385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577957614717447411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfb772a74edf58459da9e5ae69dd883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardData: {fileID: 0}
+  nameText: {fileID: 1577957616059870876}
+  descriptionText: {fileID: 199486994335503526}
+  artworkImage: {fileID: 1577957614699435812}
+  costText: {fileID: 1577957615183275145}
+  damageText: {fileID: 1577957615296818472}
+  blockText: {fileID: 1577957615692851394}
+  previousState: 0
+  targetRequired: 0
+  combatController: {fileID: 0}
+  cardPanel: {fileID: 0}
+  transitionCurveScaleDiscard:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  transitionCurveScaleDraw:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  transitionCurveTransform:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animator: {fileID: 0}
+  inTransition: 0
+  selectable: 0
+  animationSystem: {fileID: 0}
+  MouseReact: 0
+  _selected: 0
 --- !u!1 &1577957615183275146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +953,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1577957614717447409}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CardDisplay, Assembly-CSharp
           m_MethodName: OnMouseText
           m_Mode: 1

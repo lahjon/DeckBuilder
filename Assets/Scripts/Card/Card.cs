@@ -76,7 +76,7 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     }
     public abstract void ResetScale();
     
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
             OnMouseClick();
