@@ -20,6 +20,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        card.transform.SetAsLastSibling();
         card.transform.localPosition = Vector3.Lerp(card.transform.localPosition, targetPos, enlargementSpeed);
         card.transform.localScale = Vector3.Lerp(card.transform.localScale, targetScale, enlargementSpeed);
         card.transform.localEulerAngles = AngleLerp(card.transform.localEulerAngles, targetAngle, enlargementSpeed);

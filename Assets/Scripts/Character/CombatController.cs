@@ -210,9 +210,10 @@ public class CombatController : StateMachine
 
     internal void ResetSiblingIndexes()
     {
-        for (int i = 0; i < Hand.Count; i++)
-            if(!(Hand[i] == ActiveCard))
-                Hand[i].transform.SetSiblingIndex(i);
+        int cursor = 0;
+        foreach(CardCombatAnimated card in Hand)
+            if (card != ActiveCard)
+                card.transform.SetSiblingIndex(cursor++);
     }
 
 

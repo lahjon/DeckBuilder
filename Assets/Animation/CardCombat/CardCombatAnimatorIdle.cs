@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardCombatAnimatorIdle : CardCombatAnimator
 {
-    (Vector3 pos, Vector3 angles) TargetTransInfo;
 
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -12,13 +11,12 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
         animator.SetBool("ReachedIdle", false);
-        TargetTransInfo = combatController.GetPositionInHand(card);
     }
 
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Debug.Log("Idle Update:" + Time.frameCount);
+        (Vector3 pos, Vector3 angles) TargetTransInfo = combatController.GetPositionInHand(card);
         card.transform.localPosition = Vector3.Lerp(card.transform.localPosition,       TargetTransInfo.pos,    20*Time.deltaTime);
         card.transform.localEulerAngles = AngleLerp(card.transform.localEulerAngles,    TargetTransInfo.angles, 20*Time.deltaTime);
 
