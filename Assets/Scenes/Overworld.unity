@@ -1596,7 +1596,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &146000297
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1629,6 +1629,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04bdf6b50906f804e8f325c5817ee4af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingType: 0
+  canvas: {fileID: 1054090293}
   inventoryAct1:
   - {fileID: 3520065967000704088, guid: d59933a71d93f0c46a5c54b8c5763b11, type: 3}
   inventory:
@@ -5027,7 +5029,8 @@ MonoBehaviour:
   townManager: {fileID: 1820150384}
   uiManager: {fileID: 810711184}
   worldStateManager: {fileID: 1002647545}
-  gameEventManager: {fileID: 0}
+  gameEventManager: {fileID: 389819162}
+  missionManager: {fileID: 1139324392}
   act: 1
   uglyBool: 0
 --- !u!4 &507922624
@@ -10088,7 +10091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1054090290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10850,7 +10853,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa7e2c102a488c4aa60766ebc2436d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mission: {fileID: 11400000, guid: 610432c97032dc54dbb538b6d91cea04, type: 2}
+  mission: {fileID: 0}
+  missions: {fileID: 1033040397}
 --- !u!224 &1139743555 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6509705178551945312, guid: 02828bf7c44707342b1581e7414b2e7d, type: 3}

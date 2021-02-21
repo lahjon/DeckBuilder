@@ -14,13 +14,6 @@ public class MissionManager : Manager
         NewMission("Mission01");
 
     }
-
-public float avgFrameRate;
-    public void Update()
-    {
-        avgFrameRate = Time.frameCount / Time.time;
-        Debug.Log(avgFrameRate);
-    }
     public void NewMission(string newMission)
     {
         mission = (Mission)missions.AddComponent(Type.GetType(newMission));
