@@ -12,7 +12,7 @@ public class EncounterData : ScriptableObject
     public bool isVisited = false;
     public bool secretCondition = false;
     [SerializeField]
-    public List<EventType> events = new List<EventType>(3);
+    public List<EncounterEventType> events = new List<EncounterEventType>(3);
 
     [TextArea(5,5)]
     public string description;

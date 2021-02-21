@@ -15,7 +15,6 @@ public class TownManager : Manager, ISaveable
     {
         base.Start();
         townMapCanvas.gameObject.SetActive(true);
-        Debug.Log("World is:" + world);
     }
 
     public void EnterTown()
@@ -49,7 +48,6 @@ public class TownManager : Manager, ISaveable
     public void UpdateTown()
     {
         List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
-        allBuildings.ForEach(x => Debug.Log(x));
 
         foreach (TownInteractable townInt in townEncounters)
         {
@@ -67,13 +65,11 @@ public class TownManager : Manager, ISaveable
     public void ActivateBuilding(TownInteractable building)
     {
         building.gameObject.SetActive(true);
-        Debug.Log("Activated building!");
     }
 
     public void DeactivateBuilding(TownInteractable building)
     {
         building.gameObject.SetActive(false);
-        Debug.Log("Deactivated building!");
     }
 
     public void PopulateSaveData(SaveData a_SaveData)

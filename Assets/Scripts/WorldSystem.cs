@@ -22,6 +22,8 @@ public class WorldSystem : MonoBehaviour, ISaveable
     public TownManager townManager;
     public UIManager uiManager;
     public WorldStateManager worldStateManager;
+    public GameEventManager gameEventManager;
+    public MissionManager missionManager;
     public int act;
 
     public bool uglyBool;

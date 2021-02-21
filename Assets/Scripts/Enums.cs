@@ -36,7 +36,7 @@ public enum CharacterClass
     EnemyBoss
 };
 
-public enum EventType
+public enum EncounterEventType
 {
     None,
     Leave, 
@@ -47,10 +47,11 @@ public enum EventType
     NewEvent
 }
 
-public enum QuestType
+public enum GameEventStatus
 {
-    VisitBuilding,
-    KillEnemy
+    NotStarted,
+    Started, 
+    Done
 }
 
 public enum CharacterVariables
@@ -102,6 +103,7 @@ public enum WorldState
     Menu,
     Town,
     TownHall,
+    Building,
     Transition,
     Dead
 }

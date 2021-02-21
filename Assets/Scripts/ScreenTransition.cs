@@ -14,13 +14,11 @@ public class ScreenTransition : MonoBehaviour
         if(canvas.activeSelf == false)
         {
             canvas.SetActive(true);
-            Debug.Log("True");
             FadeToColor();
         }
         else
         {
             canvas.SetActive(false);
-            Debug.Log("False");
         }
     }
 

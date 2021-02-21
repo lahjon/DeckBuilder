@@ -8,7 +8,7 @@ public class TownLeave : TownInteractable
     {
         if (encounterData != null)
         {
-            StartEvent();
+            StartEncounterEvent();
         }
         else
         {

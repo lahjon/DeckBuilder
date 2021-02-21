@@ -69,7 +69,6 @@ public class DebugUI : MonoBehaviour, ISaveable
     public void LoadFromSaveData(SaveData a_SaveData)
     {
         strength = a_SaveData.strength;
-        Debug.Log(strength);
     }
 
     public void DebugPermanentMaxHealth()

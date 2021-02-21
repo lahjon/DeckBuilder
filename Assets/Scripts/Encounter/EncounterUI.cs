@@ -11,9 +11,9 @@ public class EncounterUI : MonoBehaviour
     public GameObject canvas;
     public GameObject background;
     public GameObject panel;
-    public EventType event1;
-    public EventType event2;
-    public EventType event3;
+    public EncounterEventType event1;
+    public EncounterEventType event2;
+    public EncounterEventType event3;
     public GameObject choice1;
     public GameObject choice2;
     public GameObject choice3;
@@ -41,9 +41,9 @@ public class EncounterUI : MonoBehaviour
     public void BindEncounterData()
     {
         int count = 0;
-        foreach (EventType e in encounterData.events)
+        foreach (EncounterEventType e in encounterData.events)
         {
-            if (e != EventType.None)
+            if (e != EncounterEventType.None)
             {
                 count++;
             }
@@ -91,19 +91,19 @@ public class EncounterUI : MonoBehaviour
         if (index == 1 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[0];
-            bool disable = EventDispatcher.TriggerEvent(event1);
+            bool disable = EncounterEvent.TriggerEvent(event1);
             ConfirmOption(disable);
         }
         else if(index == 2 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[1];
-            bool disable = EventDispatcher.TriggerEvent(event2);
+            bool disable = EncounterEvent.TriggerEvent(event2);
             ConfirmOption(disable);
         }
         else if(index == 3 && !transition)
         {
             newEncounterData = encounterData.newEncounterData[2];
-            bool disable = EventDispatcher.TriggerEvent(event3);
+            bool disable = EncounterEvent.TriggerEvent(event3);
             ConfirmOption(disable);
         }
     }

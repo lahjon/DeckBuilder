@@ -8,7 +8,13 @@ public class BuildingTownHall : Building
     public List<GameObject> inventoryAct1 = new List<GameObject>();
     public List<GameObject> inventory = new List<GameObject>();
     public Transform iventoryPanel;
+
     private int inventorySpace = 3;
+
+    void Awake()
+    {
+        buildingType = BuildingType.TownHall;
+    }
     public override void CloseBuilding()
     {
         base.CloseBuilding();

@@ -8,7 +8,7 @@ public abstract class TownInteractable : MonoBehaviour
     public BuildingType buildingType;
     public Building building;
 
-    public virtual void StartEvent()
+    public virtual void StartEncounterEvent()
     {
         WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
         WorldSystem.instance.worldStateManager.AddState(WorldState.Event, true);
@@ -18,7 +18,7 @@ public abstract class TownInteractable : MonoBehaviour
     {
         if (encounterData != null)
         {
-            StartEvent();
+            StartEncounterEvent();
         }
         if(building != null)
         {

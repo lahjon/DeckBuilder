@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventDispatcher
+public class EncounterEvent
 {
     /// <returns>bool disable: Returns a bool that is used to disable the UI.</returns>
-    public static bool TriggerEvent(EventType eventType)
+    public static bool TriggerEvent(EncounterEventType encounterEventType)
     {
-        switch (eventType)
+        switch (encounterEventType)
         {
-            case EventType.Combat:
+            case EncounterEventType.Combat:
                 return EventCombat();
 
-            case EventType.CardRandom:
+            case EncounterEventType.CardRandom:
                 return EventCardRandom();
 
-            case EventType.CardSpecific:
+            case EncounterEventType.CardSpecific:
                 return EventCardSpecfic();
 
-            case EventType.NewEvent:
+            case EncounterEventType.NewEvent:
                 return EventNewEvent();
 
-            case EventType.NewMap:
+            case EncounterEventType.NewMap:
                 return EventNewMap();
             
             default:
