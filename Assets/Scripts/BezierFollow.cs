@@ -13,7 +13,7 @@ public class BezierFollow : MonoBehaviour
 
     private float speedModifier;
 
-    CardCombat attachedCard;
+    CardCombatAnimated attachedCard;
 
 
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class BezierFollow : MonoBehaviour
     {
         tParam = 0f;
         speedModifier = 1f;
-        attachedCard = GetComponent<CardCombat>();
+        attachedCard = GetComponent<CardCombatAnimated>();
     }
 
     public void StartAnimation()
@@ -55,10 +55,7 @@ public class BezierFollow : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-
+        attachedCard.animator.SetTrigger("DoneDiscarding");
         tParam = 0f;
-        //order below important, otherwise trigger "selected" set to false
-        attachedCard.inTransition = false;
-        gameObject.SetActive(false);
     }
 }

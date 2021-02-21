@@ -36,6 +36,13 @@ public class CombatController : StateMachine
     public float handDegreeBetweenCards = 10f;
     public CombatActorEnemy targetedEnemy;
 
+    public AnimationCurve transitionCurve;
+    public bool acceptSelections = true;
+    public bool acceptActions = true;
+    public Canvas canvas;
+    private CombatActorEnemy _activeEnemy;
+
+
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
     [HideInInspector]
@@ -48,34 +55,37 @@ public class CombatController : StateMachine
     }
 
     private List<CardData> DeckData;
-    public List<CardCombat> Deck = new List<CardCombat>();
-    public List<CardCombat> Hand = new List<CardCombat>();
-    public List<CardCombat> Discard = new List<CardCombat>();
-    public List<CardCombat> createdCards = new List<CardCombat>();
+    public List<CardCombatAnimated> Deck = new List<CardCombatAnimated>();
+    public List<CardCombatAnimated> Hand = new List<CardCombatAnimated>();
+    public List<CardCombatAnimated> Discard = new List<CardCombatAnimated>();
+    public List<CardCombatAnimated> createdCards = new List<CardCombatAnimated>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
-    private int amountOfEnemies;
     public bool mouseInsidePanel = false;
-
-    float cardPanelwidth;
 
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
 
     //[HideInInspector]
-    public CardCombat _activeCard;
-    public CardCombat previousActiveCard;
+    public CardCombatAnimated _activeCard;
     [HideInInspector]
-    public CombatActorEnemy ActiveEnemy;
-    public AnimationCurve transitionCurve;
-    public bool acceptSelections = true;
-    public bool acceptActions = true;
-    private bool drawingCards = false;
+    public CombatActorEnemy ActiveEnemy
+    {
+        get
+        {
+            return _activeEnemy;
+        }
+        set
+        {
+            _activeEnemy = value;
+            if (!(ActiveCard is null)) 
+                ActiveCard.animator.SetBool("HasTarget",!(value is null));
 
-    public Canvas canvas;
+        }
+    }
 
-    public CardCombat ActiveCard 
+    public CardCombatAnimated ActiveCard 
     {
         get
         {
@@ -85,6 +95,8 @@ public class CombatController : StateMachine
         {
             _activeCard = value;
             EnemiesInScene.ForEach(x => x.SetTarget(false));
+            foreach (CardCombatAnimated card in Hand)
+                if (card != value) card.MouseReact = (value is null);
         }
     }
 
@@ -98,8 +110,7 @@ public class CombatController : StateMachine
 
         foreach(CardData cd in DeckData)
         {
-            CardCombat card = CardCombat.CreateCardFromData(cd, this);
-            HideCard(card);
+            CardCombatAnimated card = CardCombatAnimated.CreateCardFromData(cd, this);
             Deck.Add(card);
         }
 
@@ -117,12 +128,8 @@ public class CombatController : StateMachine
             EnemiesInScene.Add(combatActorEnemy);
         }
 
-        amountOfEnemies = EnemiesInScene.Count;
-
         SetState(new EnterCombat(this));
     }
-
-
 
     public void StartTurn()
     {
@@ -133,7 +140,7 @@ public class CombatController : StateMachine
     {
         Hero.healthEffects.EffectsOnNewTurnBehavior();
 
-        foreach (CardCombat card in Hand)
+        foreach (CardCombatAnimated card in Hand)
         {
             card.MouseReact = false;
             card.selectable = false;
@@ -168,84 +175,59 @@ public class CombatController : StateMachine
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
-        foreach (CardCombat card in createdCards)
+        foreach (CardCombatAnimated card in createdCards)
         {
             DestroyImmediate(card);
         }
     }
-
-
     #endregion
 
     #region Positioning and Scale
-    private void Awake()
-    {
-        cardPanelwidth = cardPanel.GetComponent<RectTransform>().rect.width;
-    }
-    private void HideCard(CardCombat card)
-    {
-        card.transform.position = new Vector3(-10000, -10000, -10000);
-        card.gameObject.SetActive(false);
-    }
-
-
     public Vector3 GetCardScale()
     {
         return Vector3.one;
     }
 
-
-    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombat card)
+    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombatAnimated card)
     {
         return GetPositionInHand(Hand.IndexOf(card));
     }
 
     public (Vector3 Position,Vector3 Angles) GetPositionInHand(int CardNr)
     {
+        // Positional Info
         float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards/2 : 0;
-        Vector3 newPos = GetPositionInHandCircle((CardNr - (Hand.Count / 2)) *handDegreeBetweenCards + localoffset);
+        float degreeRad = Mathf.Deg2Rad * ((CardNr - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+        Vector3 newPos = new Vector3(origoCardPos * Mathf.Sin(degreeRad), origoCardPos * Mathf.Cos(degreeRad) - origoCardPos + handHeight, 0);
+        
+        //Angling info
         Vector3 origo = new Vector3(0, -origoCardRot, 0);
-
-        Vector3 direction = newPos - origo;
         float angle = Vector3.Angle(newPos - origo, new Vector3(0, 1, 0))*(newPos.x > 0 ? -1 :1);
         Vector3 angles = new Vector3(0, 0, angle);
 
         return (newPos, angles);
     }
 
-    // 0 degree will yield top of curve.
-    private Vector3 GetPositionInHandCircle(float degree)
-    {
-        degree = degree * Mathf.Deg2Rad;
-        return new Vector3(origoCardRot*Mathf.Sin(degree),origoCardRot*Mathf.Cos(degree) - origoCardRot + handHeight,0); 
-    }
-
     internal void ResetSiblingIndexes()
     {
-        for (int i = 0; i < Hand.Count; i++)
-            Hand[i].transform.SetSiblingIndex(i);
+        int cursor = 0;
+        foreach(CardCombatAnimated card in Hand)
+            if (card != ActiveCard)
+                card.transform.SetSiblingIndex(cursor++);
     }
 
 
-    public void RefreshHandPositionsAfterCardUsed(CardCombat excludeCard = null)
+    public void RefreshHandPositions(CardCombatAnimated excludeCard = null)
     {
-        for (int i = 0; i < Hand.Count; i++)
-        {
-            if (Hand[i] == excludeCard) continue;
-            Hand[i].inTransition = false;
-            Hand[i].MouseReact = true;
-            (Vector3, Vector3) TransInfo = GetPositionInHand(i);
-            Hand[i].StartLerpPosition(TransInfo.Item1, TransInfo.Item2);
-        }
+        foreach (CardCombatAnimated card in Hand)
+            if (card != excludeCard)
+                card.animator.SetBool("ReachedIdle", false);
     }
-
-
     #endregion
 
     #region Draw and Discard Cards, Deck Management
 
     public IEnumerator DrawCards(int CardsToDraw) { 
-        drawingCards = true;
         for(int i = 0; i < CardsToDraw; i++)
         {
             if (Hand.Count == HandSize)
@@ -267,29 +249,19 @@ public class CombatController : StateMachine
                 break;
             }
 
-            yield return StartCoroutine(DrawSingleCard());
+            DrawSingleCard();
+            yield return new WaitForSeconds(0.3f);
         }
-        drawingCards = false;
     }
 
-    private IEnumerator DrawSingleCard()
+    private void DrawSingleCard()
     {
-        CardCombat card = Deck[0];
-        card.ResetCard();
-        card.transform.localScale = Vector3.zero;
-        card.transform.position = txtDeck.transform.position;
-        card.gameObject.SetActive(true);
-        card.MouseReact = false;
+        CardCombatAnimated card = Deck[0];
         Deck.RemoveAt(0);
         Hand.Add(card);
+        card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
-        card.transform.SetAsLastSibling();
-        RefreshHandPositionsAfterCardUsed(card);
-        (Vector3, Vector3) TransInfo = GetPositionInHand(card);
-        card.AnimateCardByCurve(TransInfo.Item1, TransInfo.Item2, Vector3.one, false, true);
-        yield return new WaitForSeconds(0.2f);
-
-
+        RefreshHandPositions(card);
     }
 
     internal void CancelCardSelection()
@@ -303,13 +275,12 @@ public class CombatController : StateMachine
     {
         for(int i = 0; i < Deck.Count; i++)
         {
-            CardCombat temp = Deck[i];
+            CardCombatAnimated temp = Deck[i];
             int index = UnityEngine.Random.Range(i, Deck.Count);
             Deck[i] = Deck[index];
             Deck[index] = temp;
         }
     }
-
 
     public IEnumerator DiscardAllCards()
     {
@@ -319,14 +290,13 @@ public class CombatController : StateMachine
         }
     }
 
-    public IEnumerator DiscardCard(CardCombat card)
+    public IEnumerator DiscardCard(CardCombatAnimated card)
     {
-        if (Hand.Contains(card)) Hand.Remove(card);
+        Hand.Remove(card);
         Discard.Add(card);
 
-        card.inTransition = true;
-        card.AnimateCardByPathDiscard();
-        RefreshHandPositionsAfterCardUsed();
+        card.animator.SetTrigger("Discarded");
+        RefreshHandPositions();
         yield return new WaitForSeconds(0.1f);
         UpdateDeckTexts();
     }
@@ -360,7 +330,6 @@ public class CombatController : StateMachine
         }
     }
 
-
     public void DetectCanvasClick()
     {
         if (ActiveCard != null)
@@ -370,7 +339,7 @@ public class CombatController : StateMachine
             else
                 ActiveCard.OnMouseRightClick(false);
         }
-    }
+    } 
 
     public void PlayerInputEndTurn()
     {
@@ -378,9 +347,9 @@ public class CombatController : StateMachine
         EndState();
     }
 
-    public bool CardisSelectable(CardCombat card, bool silentCheck = true)
+    public bool CardisSelectable(CardCombatAnimated card, bool silentCheck = true)
     {
-        bool selectable = card.cardData.cost <= cEnergy && card.selectable && !drawingCards;
+        bool selectable = card.cardData.cost <= cEnergy && card.selectable;
         if (!silentCheck && card.cardData.cost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
@@ -388,7 +357,6 @@ public class CombatController : StateMachine
 
         return selectable;
     }
-
 
     private bool MouseInsideArea()
     {
@@ -426,11 +394,11 @@ public class CombatController : StateMachine
             return;
         }
 
-        ActiveCard.AnimateCardUse();
+        ActiveCard.animator.SetTrigger("MouseClicked");
         Hand.Remove(ActiveCard);
 
 
-        RefreshHandPositionsAfterCardUsed();
+        RefreshHandPositions();
 
         cEnergy -= ActiveCard.cardData.cost;
 
@@ -458,8 +426,5 @@ public class CombatController : StateMachine
         ActiveCard = null;
     }
 
-
     #endregion , user input
-
-
 }

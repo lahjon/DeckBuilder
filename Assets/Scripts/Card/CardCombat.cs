@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CardCombat : Card
 {
+    /*
     IEnumerator CardFollower;
     IEnumerator CurrentAnimation;
     [HideInInspector]
@@ -183,7 +184,7 @@ public class CardCombat : Card
         {
             float posY = Input.mousePosition.y;
             Vector3 targetPos = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, posY, 10));
-            transform.position = Vector3.Lerp(transform.position, targetPos, 0.2f);
+            transform.position = Vector3.Lerp(transform.position, targetPos, 0.4f);
             yield return null;
         }
     }
@@ -303,13 +304,13 @@ public class CardCombat : Card
 
             if (combatController.ActiveCard != null)
                 combatController.ActiveCard.ResetCard();
-
+            
             if (combatController.CardisSelectable(this,true))
             {
                 Debug.Log("2");
                 return;
             }
-
+            
             SelectCard();
 
         }
@@ -358,5 +359,11 @@ public class CardCombat : Card
     public override void ResetScale()
     {
         throw new System.NotImplementedException();
+    }
+
+    */
+    public override void ResetScale()
+    {
+        throw new NotImplementedException();
     }
 }
