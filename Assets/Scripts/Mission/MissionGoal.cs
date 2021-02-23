@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 public abstract class MissionGoal
 {
+    public string goalName;
     public bool completed = false;
     public int currentAmount;
     public int requiredAmount;
@@ -15,6 +16,7 @@ public abstract class MissionGoal
     public virtual void End()
     {
         WorldSystem.instance.missionManager.CheckProgression();
+        Debug.Log(string.Format("Goal {0} ended.", goalName));
     }
     public void Evaluate()
     {
@@ -26,7 +28,7 @@ public abstract class MissionGoal
 
     public void Complete()
     {
-        Debug.Log("Completed mission goal");
+        Debug.Log(string.Format("Goal {0} completed.", goalName));
         completed = true;
         End();
     }

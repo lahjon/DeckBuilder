@@ -10,11 +10,13 @@ public class Mission : MonoBehaviour
     public string description;
     public string startEvent;
     public string nextMission;
+    public string overrideMissionGoal = "";
     public List<MissionGoal> goals = new List<MissionGoal>();
 
     protected virtual void Start()
     {
         WorldSystem.instance.gameEventManager.StartEvent(startEvent);
+        WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
     }
 
     public void CheckGoals()
@@ -36,10 +38,10 @@ public class Mission : MonoBehaviour
         {
             WorldSystem.instance.missionManager.NewMission(nextMission);
             Debug.Log("Starting new mission");
-            //DestroyImmediate(this);
         }
         else
         {
+            WorldSystem.instance.missionManager.ClearMission();
             Debug.Log("No new mission to start in this chain");
         }
     }

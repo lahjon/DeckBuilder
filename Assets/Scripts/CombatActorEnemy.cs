@@ -29,7 +29,6 @@ public class CombatActorEnemy : CombatActor
     {
         healthEffects.combatActor = this;
     }
-
     public void SetTarget(bool set = false)
     {
         if(set && !target.activeSelf)
@@ -90,7 +89,11 @@ public class CombatActorEnemy : CombatActor
         UpdateMoveDisplay(deck[0]);
     }
 
-
+    public void OnDeath()
+    {
+        Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
+        EventManager.EnemyKilled(this.enemyData);
+    }
 
     public void SetUIpositions()
     {
@@ -124,6 +127,8 @@ public class CombatActorEnemy : CombatActor
 
         if (combatController.ActiveEnemy is null) combatController.ActiveEnemy = this;
     }
+
+
 
     public void OnMouseExit()
     {

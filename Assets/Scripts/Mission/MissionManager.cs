@@ -7,6 +7,7 @@ public class MissionManager : Manager
 {
     public Mission mission;
     public GameObject missions;
+    public MissionUI missionUI;
 
     protected override void Start()
     {
@@ -22,6 +23,13 @@ public class MissionManager : Manager
     {
         Debug.Log("checking progression");
         mission.CheckGoals();
+        missionUI.UpdateUI(false);
+    }
+
+    public void ClearMission()
+    {
+        missionUI.ClearUI();
+        mission = null;
     }
 
 }

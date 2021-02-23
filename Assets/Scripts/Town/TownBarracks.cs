@@ -6,6 +6,7 @@ public class TownBarracks : TownInteractable
 {
     public override void ButtonPress()
         {
-            Debug.Log("HAALLÅÅÅÅ");
+            base.ButtonPress();
         }
 }
+

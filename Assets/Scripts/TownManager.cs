@@ -10,6 +10,7 @@ public class TownManager : Manager, ISaveable
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
     public List<BuildingType> startingBuildings = new List<BuildingType>();
     public BuildingTownHall buildingTownHall;
+    public BuildingBarracks buildingBarracks;
     public Canvas townMapCanvas;
     protected override void Start()
     {

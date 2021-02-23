@@ -11,6 +11,7 @@ public class EnterBuildingGoal : MissionGoal
     {
         Init();
         buildingGoal = aBuildingGoal;
+        goalName = string.Format("Enter {0}", aBuildingGoal);
     }
     public override void Init()
     {
@@ -19,7 +20,6 @@ public class EnterBuildingGoal : MissionGoal
     public override void End()
     {
         EventManager.OnEnterBuildingEvent -= EnterBuilding;
-        Debug.Log("removed event");
         base.End();
     }
 

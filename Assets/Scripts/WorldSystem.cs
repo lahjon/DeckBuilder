@@ -122,6 +122,7 @@ public class WorldSystem : MonoBehaviour, ISaveable
         if(worldState != WorldState.MainMenu)
             UpdateStartScene();
 
+
         worldStateManager.AddState(WorldState.Town);
         SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
         act = 1;

@@ -8,6 +8,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public int StartingHP;
+    public string enemyId;
     public string enemyName;
     public Sprite artwork;
     public int tier;

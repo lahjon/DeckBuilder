@@ -151,6 +151,7 @@ public class CombatController : StateMachine
 
     private void KillEnemy(CombatActorEnemy enemy)
     {
+        enemy.OnDeath();
         enemy.gameObject.SetActive(false);
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
