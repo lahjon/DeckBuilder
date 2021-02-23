@@ -9,9 +9,9 @@ public class Mission02 : Mission
         missionName = "Defend the church district!";
         startEvent = "Event02";
         //nextMission = "Mission02";
-        //overrideMissionGoal = "Kill the boss";
+        overrideMissionGoal = "Kill the boss";
         completed = true;
-        goals.Add(new KillEnemyGoal(2, "BossMan", "2001"));
+        goals.Add(new KillEnemyGoal(1, "BossMan", "2001"));
         base.Start();
     }
 }

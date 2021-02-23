@@ -806,6 +806,8 @@ MonoBehaviour:
   maxHitPoints: 15
   hitPoints: 15
   cAnchorHealthEffects: {fileID: 7926990767812551263}
+  combatActor: {fileID: 0}
+  intentDisplayAnchor: {fileID: 0}
   sldHealth: {fileID: 7926990766968582755}
   txtHealth: {fileID: 7926990767946250738}
   objShield: {fileID: 4431592953039501985}
@@ -871,7 +873,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_TargetDisplay: 0
 --- !u!114 &7926990767373210139
 MonoBehaviour:

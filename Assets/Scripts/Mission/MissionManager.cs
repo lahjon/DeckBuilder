@@ -28,7 +28,7 @@ public class MissionManager : Manager
 
     public void ClearMission()
     {
-        missionUI.ClearUI();
+        missionUI.ClearUI(true);
         mission = null;
     }
 

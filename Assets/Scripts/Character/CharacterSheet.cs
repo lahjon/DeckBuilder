@@ -13,7 +13,7 @@ public class CharacterSheet : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.C))
         {
-            if(WorldSystem.instance.worldState == WorldState.Combat || WorldSystem.instance.worldState == WorldState.Shop || WorldSystem.instance.worldState == WorldState.Overworld)
+            if(WorldSystem.instance.worldState == WorldState.Combat || WorldSystem.instance.worldState == WorldState.Shop || WorldSystem.instance.worldState == WorldState.Overworld || WorldSystem.instance.worldState == WorldState.Town)
             {
                 ToggleCharacterSheet();
             }

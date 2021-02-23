@@ -11,7 +11,6 @@ public class Mission01 : Mission
         nextMission = "Mission02";
         completed = true;
         goals.Add(new EnterBuildingGoal(BuildingType.TownHall));
-        goals.Add(new EnterBuildingGoal(BuildingType.Barracks));
         base.Start();
     }
 }

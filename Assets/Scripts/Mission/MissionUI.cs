@@ -19,13 +19,18 @@ public class MissionUI : MonoBehaviour
         {
             missionName = WorldSystem.instance.missionManager.mission.missionName;
             missionText.text = missionName;
+
             goals.Clear();
+
             WorldSystem.instance.missionManager.mission.goals.ForEach(x => goals.Add(x.goalName, x.completed));
             if (newMission)
             {
                 ClearUI();
                 CreateGoals();
             }
+            
+            Debug.Log(goalObjs.Count);
+            Debug.Log(goals.Count);
             for (int i = 0; i < goals.Count; i++)
             {
                 if (goals.ElementAt(i).Value == true)
@@ -41,11 +46,15 @@ public class MissionUI : MonoBehaviour
         }
       
     }
-    public void ClearUI()
+    public void ClearUI(bool nameChange = false)
     {
         goalObjs?.ForEach(x => DestroyImmediate(x));
         goalObjs.Clear();
-        missionText.text = "No mission";
+        
+        if (nameChange)
+        {
+            missionText.text = "No mission";
+        }
     }
 
     void CreateGoals()

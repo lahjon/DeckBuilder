@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: SetNielsen1
   m_EditorClassIdentifier: 
   StartingHP: 10
+  enemyId: 0001
   enemyName: SetNielsen1
-  artwork: {fileID: 21300000, guid: 607afa50f474bc64b90249c012548bca, type: 3}
+  artwork: {fileID: 0}
+  characterArt: {fileID: 8674257438334899846, guid: 7a2dc14cdcea4b044be7a3ef5cfe5226, type: 3}
   tier: 1
   deck:
   - {fileID: 11400000, guid: af70494e09f021c4bb9fb91c718b2f49, type: 2}

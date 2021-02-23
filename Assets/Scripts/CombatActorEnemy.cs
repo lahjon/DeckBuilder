@@ -61,6 +61,10 @@ public class CombatActorEnemy : CombatActor
         enemyName = enemyData.enemyName;
         tooltipController.AddTipText($"<b>{enemyName}</b>\nThis enemy has {deck.Count} cards in its deck!");
 
+        GameObject enemyArt = Instantiate(enemyData.characterArt);
+        enemyArt.transform.SetParent(this.gameObject.transform);
+        enemyArt.transform.localPosition = Vector3.zero + new Vector3(0,-2, 0);
+
         healthEffects.maxHitPoints = enemyData.StartingHP;
         healthEffects.hitPoints = enemyData.StartingHP;
         healthEffects.RemoveAllBlock();
