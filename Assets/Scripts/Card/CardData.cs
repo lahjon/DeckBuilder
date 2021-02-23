@@ -39,6 +39,18 @@ public class CardData : ScriptableObject
         }
     }
 
+    public List<CardEffect> allEffects
+    {
+        get
+        {
+            List<CardEffect> tempList = new List<CardEffect>();
+            tempList.Add(Damage);
+            tempList.Add(Block);
+            tempList.AddRange(SelfEffects);
+            tempList.AddRange(Effects);
+            return tempList;
+        }
+    }
     
 
 }

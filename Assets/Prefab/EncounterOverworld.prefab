@@ -110,15 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72e591be4a33f746b215be463f74ebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterData: {fileID: 0}
-  spriteRenderer: {fileID: 8443101174728511238}
-  matHighlight: {fileID: 2100000, guid: d620a44321c2bb546b73f20685cc16c8, type: 2}
-  matNormal: {fileID: 2100000, guid: 96c8f3b0021ac184bb8339870e47c232, type: 2}
-  matVisited: {fileID: 2100000, guid: 308e43b7f27bf194dbf2488cd39ca201, type: 2}
   neighbourEncounters: []
-  encounterUI: {fileID: 0}
-  newEncounterUIPrefab: {fileID: 0}
+  encounterData: {fileID: 0}
   encounterType: 0
+  mapIndex: 0
 --- !u!1 &8443101174728511236
 GameObject:
   m_ObjectHideFlags: 0

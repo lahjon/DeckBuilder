@@ -10,4 +10,6 @@ public abstract class CardActivity
     public abstract IEnumerator Execute(string input);
     public abstract string GetDescription(string input);
 
+    public abstract string GetToolTip(string input);
+
 }

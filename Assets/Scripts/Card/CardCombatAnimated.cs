@@ -10,11 +10,12 @@ public class CardCombatAnimated : Card
     [HideInInspector]
     public CombatController combatController;
     public RectTransform cardPanel;
-    public AnimationCurve transitionCurveScaleDiscard;
-    public AnimationCurve transitionCurveScaleDraw;
-    public AnimationCurve transitionCurveTransform;
+    public AnimationCurve transitionCurveDraw;
+    public AnimationCurve transitionCurveReturn;
 
     public Animator animator;
+
+    public TooltipController tooltipController;
 
     [SerializeField]
     private bool _selected = false;
@@ -75,15 +76,21 @@ public class CardCombatAnimated : Card
         GameObject CardObject = Instantiate(combatController.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(combatController.cardPanel, false);
         CardObject.transform.localScale = Vector3.one;
-        CardCombatAnimated Card = CardObject.GetComponent<CardCombatAnimated>();
-        Card.cardData = cardData;
-        Card.cardPanel = combatController.cardPanel.GetComponent<RectTransform>();
-        Card.BindCardData();
-        Card.combatController = combatController;
-        Card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
-        combatController.createdCards.Add(Card);
-        return Card;
+        CardCombatAnimated card = CardObject.GetComponent<CardCombatAnimated>();
+        card.cardData = cardData;
+        card.cardPanel = combatController.cardPanel.GetComponent<RectTransform>();
+        card.BindCardData();
+
+        card.combatController = combatController;
+        card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
+        combatController.createdCards.Add(card);
+
+        cardData.allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) card.tooltipController.AddTipText(x.Type.GetDescription()); });
+        card.cardData.activities.ForEach( x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+
+        return card;
     }
+
 
     public override void OnMouseEnter()
     {

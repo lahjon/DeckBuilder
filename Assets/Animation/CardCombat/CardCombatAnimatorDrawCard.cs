@@ -5,39 +5,43 @@ using UnityEngine;
 
 public class CardCombatAnimatorDrawCard : CardCombatAnimator
 {
-    public float enlargementSpeed = 0.4f;
+    float enlargementSpeed; // 1 divided by speed == time needed
     public float breakTolerance = 3f;
+    AnimationCurve curve;
 
-    Vector3 targetPos;
-    Vector3 targetScale = new Vector3(1.0f, 1.0f, 1.0f);
-    Vector3 targetAngle;
+    (Vector3 pos, Vector3 scale, Vector3 angles) TargetTransInfo;
+    (Vector3 pos, Vector3 scale, Vector3 angles) StartTransInfo;
+
+    private float time;
+
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        card.transform.localScale = Vector3.zero;
-        card.transform.localEulerAngles = Vector3.zero;
+        //Initiate
         card.MouseReact = false;
         card.selectable = true;
-        card.transform.position = combatController.txtDeck.transform.position;
         card.transform.SetAsLastSibling();
+        time = 0;
+        curve = card.transitionCurveDraw;
+        card.transform.position = combatController.txtDeck.transform.position;
+        card.transform.localScale = Vector3.zero;
+        card.transform.localEulerAngles = Vector3.zero;
+        enlargementSpeed = 10;
 
-        (Vector3, Vector3) TransInfo = combatController.GetPositionInHand(card);
-        targetPos = TransInfo.Item1;
-        targetAngle = TransInfo.Item2;
+        (Vector3,Vector3) tempTransInfo = combatController.GetPositionInHand(card);
+        TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);
+        StartTransInfo = TransSnapshot();
         card.selectable = true;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        card.transform.localPosition =    Vector3.Lerp(card.transform.localPosition,    targetPos,   enlargementSpeed);
-        card.transform.localScale =       Vector3.Lerp(card.transform.localScale,       targetScale, enlargementSpeed);
-        card.transform.localEulerAngles =    AngleLerp(card.transform.localEulerAngles, targetAngle, enlargementSpeed);
+        time += enlargementSpeed * Time.deltaTime;
+        CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
-        if(Vector3.Distance(card.transform.localPosition, targetPos) < breakTolerance){
-            card.transform.localPosition    = targetPos;
-            card.transform.localScale       = targetScale;
-            card.transform.localEulerAngles = targetAngle;
+        if(Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < breakTolerance || time > 1){
+            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1f);
             animator.SetTrigger("DoneDrawing");
         }
     }

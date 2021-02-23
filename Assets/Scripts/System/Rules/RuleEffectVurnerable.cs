@@ -21,4 +21,5 @@ public class RuleEffectVurnerable : RuleEffect
         return x * 1.5f;
     }
 
+
 }

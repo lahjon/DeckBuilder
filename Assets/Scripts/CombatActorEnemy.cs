@@ -23,7 +23,14 @@ public class CombatActorEnemy : CombatActor
 
     public Canvas canvasEffects;
     public Canvas canvasIntent;
+    public Canvas canvasToolTip;
     public GameObject target;
+
+    public TooltipController tooltipController;
+
+    float toolTiptimer = 0;
+    float toolTipDelay = 1f;
+    bool toolTipShowing = false;
 
     private void Start()
     {
@@ -52,6 +59,8 @@ public class CombatActorEnemy : CombatActor
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = enemyData.artwork;
         enemyName = enemyData.enemyName;
+        tooltipController.AddTipText($"<b>{enemyName}</b>\nThis enemy has {deck.Count} cards in its deck!");
+
         healthEffects.maxHitPoints = enemyData.StartingHP;
         healthEffects.hitPoints = enemyData.StartingHP;
         healthEffects.RemoveAllBlock();
@@ -67,6 +76,9 @@ public class CombatActorEnemy : CombatActor
 
         canvasEffects.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
         canvasEffects.planeDistance = WorldSystem.instance.uiManager.planeDistance;
+
+        canvasToolTip.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvasToolTip.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
     public void UpdateMoveDisplay(CardData cardData)
@@ -121,7 +133,14 @@ public class CombatActorEnemy : CombatActor
 
     public void OnMouseOver()
     {
-        if(combatController.ActiveCard != null  && WorldSystem.instance.combatManager.combatController.ActiveCard.targetRequired)
+        toolTiptimer += Time.deltaTime;
+        if(!toolTipShowing && toolTiptimer > toolTipDelay)
+        {
+            toolTipShowing = true;
+            tooltipController.ShowHide(true);
+        }
+        
+        if (combatController.ActiveCard != null  && WorldSystem.instance.combatManager.combatController.ActiveCard.targetRequired)
             SetTarget(true);
 
 
@@ -132,6 +151,9 @@ public class CombatActorEnemy : CombatActor
 
     public void OnMouseExit()
     {
+        toolTiptimer = 0;
+        tooltipController.ShowHide(false);
+        toolTipShowing = false;
         SetTarget(false);
         if (combatController.ActiveEnemy == this) combatController.ActiveEnemy = null;
     }

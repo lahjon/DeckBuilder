@@ -25,4 +25,9 @@ public class CardActivityAddCardToDeck : CardActivity
     {
         return $"Add a <b>{input}</b> to your deck.";
     }
+
+    public override string GetToolTip(string input)
+    {
+        return $"When you play this card, a <b>{input}</b> will be added to your deck.";
+    }
 }

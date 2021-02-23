@@ -8,7 +8,7 @@ public abstract class RuleEffect
     public bool stackable = true;
     public int nrStacked;
 
-    
+ 
     public virtual void AddFunctionToRules()
     {
 
