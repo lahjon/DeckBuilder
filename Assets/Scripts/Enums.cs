@@ -1,3 +1,16 @@
+public static class EnumExtenstions
+{
+    public static string GetDescription(this EffectType type)
+    {
+        if (type == EffectType.Barricade)
+            return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
+        else if (type == EffectType.Vurnerable)
+            return $"<b>Vurnerable</b>\nAn actor with Vurnerable recieves 25% more attack damage";
+        else
+            return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
+    }
+}
+
 
 public enum CardType
 {

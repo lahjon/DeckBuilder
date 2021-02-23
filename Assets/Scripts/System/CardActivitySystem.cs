@@ -47,4 +47,14 @@ public class CardActivitySystem : MonoBehaviour
     }
 
 
+    public string ToolTipByCardActivity(CardActivitySetting cardActivity)
+    {
+        if (!ActivityTypeToAction.ContainsKey(cardActivity.type))
+        {
+            Debug.LogError("No description exists for Activity of type" + cardActivity.type.ToString());
+            return "_NULL";
+        }
+        return ActivityTypeToAction[cardActivity.type].GetToolTip(cardActivity.parameter);
+    }
+
 }

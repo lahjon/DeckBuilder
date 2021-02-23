@@ -17,4 +17,9 @@ public class CardActivityDrawCard : CardActivity
     {
         return "Draw" + input + " Cards.";
     }
+
+    public override string GetToolTip(string input)
+    {
+        return $"When you play this card, draw " + (input == "1" ? "a card." : input + " cards.");
+    }
 }

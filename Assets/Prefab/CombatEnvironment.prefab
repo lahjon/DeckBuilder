@@ -912,16 +912,6 @@ MonoBehaviour:
   origoCardPos: 1000
   handDegreeBetweenCards: 10
   targetedEnemy: {fileID: 0}
-  backingEnergy: 0
-  Deck: []
-  Hand: []
-  Discard: []
-  createdCards: []
-  EnemiesInScene: []
-  mouseInsidePanel: 0
-  DeadEnemiesInScene: []
-  _activeCard: {fileID: 0}
-  previousActiveCard: {fileID: 0}
   transitionCurve:
     serializedVersion: 2
     m_Curve: []
@@ -931,6 +921,15 @@ MonoBehaviour:
   acceptSelections: 1
   acceptActions: 1
   canvas: {fileID: 265525352340969162}
+  backingEnergy: 0
+  Deck: []
+  Hand: []
+  Discard: []
+  createdCards: []
+  EnemiesInScene: []
+  mouseInsidePanel: 0
+  DeadEnemiesInScene: []
+  _activeCard: {fileID: 0}
 --- !u!1 &265525353450780777
 GameObject:
   m_ObjectHideFlags: 0

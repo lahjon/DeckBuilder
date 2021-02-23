@@ -24,5 +24,16 @@ public class CardCombatAnimator : StateMachineBehaviour
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
+    public (Vector3 pos, Vector3 scale, Vector3 angles) TransSnapshot()
+    {
+        return (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
+    }
 
+    public void CardLerp((Vector3 pos,Vector3 scale ,Vector3 angles) startTransInfo, (Vector3 pos, Vector3 scale, Vector3 angles) targetTransInfo, float percent)
+    {
+        card.transform.localPosition    = Vector3.Lerp(startTransInfo.pos,      targetTransInfo.pos,    percent);
+        card.transform.localScale       = Vector3.Lerp(startTransInfo.scale,    targetTransInfo.scale,  percent);
+        card.transform.localEulerAngles = AngleLerp(   startTransInfo.angles,   targetTransInfo.angles, percent);
+
+    }
 }
