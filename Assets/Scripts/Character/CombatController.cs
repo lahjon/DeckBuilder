@@ -97,6 +97,8 @@ public class CombatController : StateMachine
             EnemiesInScene.ForEach(x => x.SetTarget(false));
             foreach (CardCombatAnimated card in Hand)
                 if (card != value) card.MouseReact = (value is null);
+            if (_activeCard != null)
+                _activeCard.animator.SetBool("HasTarget", _activeEnemy != null);
         }
     }
 
@@ -251,7 +253,7 @@ public class CombatController : StateMachine
             }
 
             DrawSingleCard();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
@@ -262,7 +264,6 @@ public class CombatController : StateMachine
         Hand.Add(card);
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
-        RefreshHandPositions(card);
     }
 
     internal void CancelCardSelection()
@@ -376,7 +377,7 @@ public class CombatController : StateMachine
         return false;
     }
 
-    public void CardUsed(CombatActorEnemy enemy = null)
+    public void CardUsed()
     {
         if (!acceptActions)
         {
@@ -385,17 +386,17 @@ public class CombatController : StateMachine
         }
 
         Debug.Log("Card used from Controller");
-        targetedEnemy = enemy;
         if (ActiveCard is null)
             return;
 
-        if ((ActiveCard.cardData.targetRequired && enemy is null) || MouseInsideArea())
+        if ((ActiveCard.cardData.targetRequired && ActiveEnemy is null) || MouseInsideArea())
         {
             ActiveCard.DeselectCard();
             return;
         }
 
         ActiveCard.animator.SetTrigger("MouseClicked");
+        ActiveCard.animator.SetBool("Selected", false);
         Hand.Remove(ActiveCard);
 
 
@@ -407,10 +408,7 @@ public class CombatController : StateMachine
 
         List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
         if (ActiveCard.cardData.targetRequired)
-        {
-            if (enemy != null)
-                targetedEnemies.Add(enemy);
-        }
+            targetedEnemies.Add(ActiveEnemy);
         else
             targetedEnemies.AddRange(EnemiesInScene);
 
