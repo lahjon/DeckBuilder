@@ -144,7 +144,7 @@ public class CombatActorEnemy : CombatActor
             tooltipController.ShowHide(true);
         }
         
-        if (combatController.ActiveCard != null  && WorldSystem.instance.combatManager.combatController.ActiveCard.targetRequired)
+        if (combatController.ActiveCard != null  && combatController.ActiveCard.targetRequired)
             SetTarget(true);
 
 
@@ -164,7 +164,7 @@ public class CombatActorEnemy : CombatActor
 
     public void OnMouseDown()
     {
-        combatController.CardUsed(this);
+        //combatController.CardUsed(this);
         Debug.Log("Press Enemy");
     }
 }

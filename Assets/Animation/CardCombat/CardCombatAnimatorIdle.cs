@@ -18,14 +18,16 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
         curve = card.transitionCurveReturn;
         StartTransInfo = TransSnapshot();
         time = 0;
-        (Vector3 pos, Vector3 angles) tempTransInfo = combatController.GetPositionInHand(card);
-        TargetTransInfo = (tempTransInfo.pos, Vector3.one, tempTransInfo.angles);
+
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         time += speed * Time.deltaTime;
 
+        //Moving this here as card drawing makes this vulnerable to lock down;
+        (Vector3 pos, Vector3 angles) tempTransInfo = combatController.GetPositionInHand(card);
+        TargetTransInfo = (tempTransInfo.pos, Vector3.one, tempTransInfo.angles);
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
         if(Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < 2 || time > 1){

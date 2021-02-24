@@ -27,10 +27,12 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         card.transform.position = combatController.txtDeck.transform.position;
         card.transform.localScale = Vector3.zero;
         card.transform.localEulerAngles = Vector3.zero;
-        enlargementSpeed = 10;
+        enlargementSpeed = 4;
 
-        (Vector3,Vector3) tempTransInfo = combatController.GetPositionInHand(card);
+        //Called every frame since we might draw more cards. 
+        (Vector3, Vector3) tempTransInfo = combatController.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);
+
         StartTransInfo = TransSnapshot();
         card.selectable = true;
     }
@@ -38,12 +40,15 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         time += enlargementSpeed * Time.deltaTime;
+
+
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
         if(Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < breakTolerance || time > 1){
-            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1f);
+            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, time);
             animator.SetTrigger("DoneDrawing");
         }
+        combatController.RefreshHandPositions(card);
     }
 
 

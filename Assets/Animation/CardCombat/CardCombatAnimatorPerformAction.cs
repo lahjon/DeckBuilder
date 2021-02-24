@@ -58,6 +58,7 @@ public class CardCombatAnimatorPerformAction : CardCombatAnimator
         }
 
         card.animator.SetTrigger("Discarded");
+        combatController.Discard.Add(card);
     }
 
 
