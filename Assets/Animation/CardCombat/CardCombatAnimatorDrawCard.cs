@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CardCombatAnimatorDrawCard : CardCombatAnimator
 {
-    float enlargementSpeed; // 1 divided by speed == time needed
+    float speed; // 1 divided by speed == time needed
     public float breakTolerance = 3f;
     AnimationCurve curve;
 
@@ -27,7 +27,7 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         card.transform.position = combatController.txtDeck.transform.position;
         card.transform.localScale = Vector3.zero;
         card.transform.localEulerAngles = Vector3.zero;
-        enlargementSpeed = 4;
+        speed = 3.5f;
 
         //Called every frame since we might draw more cards. 
         (Vector3, Vector3) tempTransInfo = combatController.GetPositionInHand(card);
@@ -39,7 +39,7 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        time += enlargementSpeed * Time.deltaTime;
+        time += speed * Time.deltaTime;
 
 
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
