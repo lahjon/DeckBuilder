@@ -52,7 +52,7 @@ public class CharacterCreator : MonoBehaviour
 
     private void SetData(CharacterData character)
     {
-        artwork.sprite = selectedChar.artwork;
+        //artwork = selectedChar.artwork;
     }
 
     private bool ResetData()

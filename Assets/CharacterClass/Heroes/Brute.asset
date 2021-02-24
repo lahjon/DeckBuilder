@@ -12,22 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24f3fbc21d699164baa4dc60c171dda5, type: 3}
   m_Name: Brute
   m_EditorClassIdentifier: 
-  charName: "RagnarR\xF6vson"
+  charName: Strong Strongson
   artwork: {fileID: 21300000, guid: 582617edbf2789642a888cd37b12c7cd, type: 3}
-  characterClass: 0
+  characterGraphics: {fileID: 0}
+  characterClass: 1
   stats:
   - type: 0
     value: 3
   - type: 1
     value: 0
   - type: 2
-    value: -1
+    value: 0
   - type: 3
     value: 2
   - type: 4
-    value: -1
-  maxHealth: 0
-  energy: 0
-  drawAmount: 0
+    value: 0
+  maxHealth: 20
+  energy: 4
+  cardDrawAmount: 6
   gold: 0
-  startingDeck: {fileID: 0}
+  shards: 0
+  startingDeck: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}

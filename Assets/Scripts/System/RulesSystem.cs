@@ -156,7 +156,7 @@ public class RulesSystem : MonoBehaviour
 
     public IEnumerator DrawCardsNewTurn()
     {
-        yield return StartCoroutine(combatController.DrawCards(combatController.DrawCount));
+        yield return StartCoroutine(combatController.DrawCards(combatController.drawCount));
     }
 
 

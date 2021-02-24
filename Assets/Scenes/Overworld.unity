@@ -14486,14 +14486,14 @@ MonoBehaviour:
   maxHealth: 10
   maxCardReward: 3
   characterClass: 0
-  startEnergy: 3
+  energy: 0
   startDrawAmount: 3
-  characterData: {fileID: 11400000, guid: ca0ae09d586ff414d8cf410e487ba9c1, type: 2}
+  characterData: {fileID: 11400000, guid: 20a52c86e4384fe4e852b1f68512b7cc, type: 2}
   damageModifier: 0
   blockModifier: 0
   handSize: 10
   cardDrawAmount: 5
-  energy: 0
+  energyModifier: 0
   magicFind: 0
   playerCardsData: []
   characterVariablesUI: {fileID: 2131869295}

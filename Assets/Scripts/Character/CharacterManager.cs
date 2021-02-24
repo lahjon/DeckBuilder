@@ -14,12 +14,12 @@ public class CharacterManager : MonoBehaviour, ISaveable
     public int maxHealth;
     public int maxCardReward = 3;
     public CharacterClass characterClass;
-    public int startEnergy;
+    public int energy;
     public int startDrawAmount;
     public CharacterData characterData;
 
     public Dictionary<CharacterStat, int> stats = new Dictionary<CharacterStat, int>();
-    public int damageModifier, blockModifier, handSize, cardDrawAmount, energy, magicFind;
+    public int damageModifier, blockModifier, handSize, cardDrawAmount, energyModifier, magicFind;
     
     public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
@@ -64,10 +64,10 @@ public class CharacterManager : MonoBehaviour, ISaveable
         playerCardsData.Clear();
         stats.Clear();
 
-        _gold = characterData.gold;
+        _gold = startingGold;
         maxHealth = characterData.maxHealth;
-        startDrawAmount = characterData.drawAmount;
-        startEnergy = characterData.energy;
+        startDrawAmount = characterData.cardDrawAmount;
+        energy = characterData.energy;
         characterClass = characterData.characterClass;
         characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
 
@@ -76,6 +76,8 @@ public class CharacterManager : MonoBehaviour, ISaveable
             stats.Add(stat, 0);
         }
         currentHealth = maxHealth;
+
+        UpdateModifiers();
     }
 
 
@@ -113,7 +115,7 @@ public class CharacterManager : MonoBehaviour, ISaveable
     {
         damageModifier = (int)stats[CharacterStat.Strength] / 3;
         blockModifier = (int)stats[CharacterStat.Endurance] / 3;
-        energy = startEnergy + (int)stats[CharacterStat.Wisdom] / 5;
+        energyModifier = energy + (int)stats[CharacterStat.Wisdom] / 5;
         cardDrawAmount = startDrawAmount + (int)stats[CharacterStat.Speed] / 5;
         magicFind = (int)stats[CharacterStat.Cunning] * 2;
     } 

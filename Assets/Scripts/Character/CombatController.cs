@@ -26,11 +26,11 @@ public class CombatController : StateMachine
     public GameObject txtDeck;
     public GameObject txtDiscard;
     public int HandSize = 10;
-    public int DrawCount = 5;
+    public int drawCount;
     public float offset = 50;
     public float handDistance = 150;
     public float handHeight = 75;
-    public int energyTurn = 3;
+    public int energyTurn;
     public float origoCardRot = 1000f;
     public float origoCardPos = 1000f;
     public float handDegreeBetweenCards = 10f;
@@ -129,6 +129,12 @@ public class CombatController : StateMachine
         }
 
         SetState(new EnterCombat(this));
+    }
+
+    public void BindCharacterData()
+    {
+        energyTurn = WorldSystem.instance.characterManager.energy;
+        drawCount = WorldSystem.instance.characterManager.cardDrawAmount;
     }
 
     public void StartTurn()

@@ -26,40 +26,6 @@ public class WorldSystem : MonoBehaviour, ISaveable
     public MissionManager missionManager;
     public int act;
 
-    public bool uglyBool;
-
-    List<Func<IEnumerator>> listie = new List<Func<IEnumerator>>();
-
-    public IEnumerator TestEnumerator(int remaining)
-    {
-        Debug.Log($"Frame from TestEnum1: {Time.frameCount}");
-        if (remaining > 0)
-            yield return StartCoroutine(TestEnumerator(remaining - 1));
-
-        Debug.Log($"Frame after start: {Time.frameCount} from TestEnumNumbered {remaining}");
-    }
-
-    public IEnumerator Testenum2()
-    {
-        Debug.Log($"TestEnum2 Frame: {Time.frameCount}");
-        yield return null;
-    }
-
-
-    public IEnumerator StartWithOutParameter()
-    {
-        for(int i = 0; i < listie.Count; i++)
-        {
-            uglyBool = false;
-            StartCoroutine(listie[i].Invoke());
-            while (!uglyBool)
-                yield return null;
-        }
-           
-
-        Debug.Log($"Frame after list is run: {Time.frameCount}");
-    }
-
     void Awake()
     {
         if(instance == null)
@@ -73,71 +39,19 @@ public class WorldSystem : MonoBehaviour, ISaveable
         }
     }
 
-    class BoolUgly
-    {
-        public bool IamDone;
-    }
-
-    IEnumerator Demo1()
-    {
-        yield return StartCoroutine(Demo2());
-        Debug.Log($"Frame count after all resolved: {Time.frameCount}");
-    }
-
-    IEnumerator Demo2()
-    {
-        yield return StartCoroutine(Demo3());
-    }
-
-    IEnumerator Demo3()
-    {
-        yield return StartCoroutine(Demo4());
-    }
-
-    IEnumerator Demo4()
-    {
-        yield return StartCoroutine(Demo5());
-    }
-
-    IEnumerator Demo5()
-    {
-        Debug.Log($"Frame count at deepest: {Time.frameCount}");
-        yield return null;
-    }
-
-    IEnumerator TestWithOut()
-    {
-        while (!uglyBool)
-        {
-            uglyBool = UnityEngine.Random.Range(0f, 1f) < 0.8;
-            yield return null;
-        }
-
-        Debug.Log($"TestEnum2 Frame: {Time.frameCount}");
-        yield return null;
-    }
-
     void Start()
     {
         if(worldState != WorldState.MainMenu)
             UpdateStartScene();
 
 
-        worldStateManager.AddState(WorldState.Town);
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            worldStateManager.AddState(WorldState.Town);
+        } 
         SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
         act = 1;
 
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-        listie.Add(TestWithOut);
-
-
-        StartCoroutine(Demo1());
     }
 
     public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)

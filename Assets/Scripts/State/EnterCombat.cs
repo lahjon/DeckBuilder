@@ -10,7 +10,7 @@ public class EnterCombat : State
 
     public override IEnumerator Start()
     {
-        Debug.Log("HEJ");
+        CombatController.BindCharacterData();
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         Debug.Log("Starting combat");
         RulesSystem.instance.SetupEnemyStartingRules();
