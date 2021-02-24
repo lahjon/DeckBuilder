@@ -8,7 +8,7 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
     (Vector3 pos, Vector3 scale, Vector3 angles) StartTransInfo;
     AnimationCurve curve;
     private float time;
-    private float speed = 5;
+    private float speed;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -18,7 +18,7 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
         curve = card.transitionCurveReturn;
         StartTransInfo = TransSnapshot();
         time = 0;
-
+        speed = 3.5f;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,7 +31,7 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
         if(Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < 2 || time > 1){
-            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1f);
+            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
             animator.SetBool("ReachedIdle",true);
         }
     }
