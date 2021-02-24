@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 64402558}
   - component: {fileID: 64402557}
   m_Layer: 0
-  m_Name: Character
+  m_Name: CharacterArt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2125,7 +2125,7 @@ GameObject:
   - component: {fileID: 415632265}
   - component: {fileID: 415632264}
   m_Layer: 0
-  m_Name: Character
+  m_Name: CharacterPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
