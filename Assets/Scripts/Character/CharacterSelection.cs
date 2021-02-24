@@ -12,39 +12,46 @@ public class CharacterSelection : MonoBehaviour
     int count;
 
     private int index;
-    public GameObject leftArrow;
-    public GameObject rightArrow;
+    public Button leftArrow;
+    public Button rightArrow;
 
     void Start()
     {
+        index = 0;
         artwork.sprite = characterData[0].artwork; 
         selectedChar = characterData[0];
         count = characterData.Count - 1;
+        leftArrow.interactable = false;
     }
 
     public void Next()
     {
-        if(index < count)
+
+        index++;
+        UpdateSelection();
+        if (index == count)
         {
-            index++;
-            UpdateSelection();
-            if (index == count)
-            {
-                Debug.Log("Index Max");
-            }
+            Debug.Log("Index Max");
+            rightArrow.interactable = false;
+        }
+        if(!leftArrow.IsInteractable())
+        {
+            leftArrow.interactable = true;
         }
     }
 
     public void Previous()
     {
-        if(index > count)
+        index--;
+        UpdateSelection();
+        if (index == 0)
         {
-            index--;
-            UpdateSelection();
-            if (index == 0)
-            {
-                Debug.Log("Index Min");
-            }
+            Debug.Log("Index Min");
+            leftArrow.interactable = false;
+        }
+        if(!rightArrow.IsInteractable())
+        {
+            rightArrow.interactable = true;
         }
     }
 

@@ -13,21 +13,22 @@ MonoBehaviour:
   m_Name: Rogue
   m_EditorClassIdentifier: 
   charName: KalleKanin
-  artwork: {fileID: 21300000, guid: 582617edbf2789642a888cd37b12c7cd, type: 3}
+  artwork: {fileID: 21300000, guid: 9f5322d6348c2d74e8e9f4b8be7ef878, type: 3}
+  characterGraphics: {fileID: 0}
   characterClass: 2
+  unlocked: 1
   stats:
   - type: 0
-    value: -1
+    value: 0
   - type: 1
-    value: 2
+    value: 1
   - type: 2
     value: 3
   - type: 3
-    value: -1
+    value: 0
   - type: 4
     value: 1
   maxHealth: 20
   energy: 4
-  drawAmount: 5
-  gold: 99
+  cardDrawAmount: 6
   startingDeck: {fileID: 11400000, guid: 90cc3b3949fee4b4dbb925cd1d98cecc, type: 2}

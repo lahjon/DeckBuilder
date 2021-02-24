@@ -10,6 +10,7 @@ public class CharacterData : ScriptableObject
     public Sprite artwork;
     public GameObject characterGraphics;
     public CharacterClass characterClass;
+    public bool unlocked;
 
     public List<StatModifer> stats;
     public int maxHealth;
