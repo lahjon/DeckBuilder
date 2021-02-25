@@ -9,7 +9,7 @@ public class Mission01 : Mission
         missionName = "Explore the town";
         startEvent = "Event01";
         nextMission = "Mission02";
-        completed = true;
+        completed = false;
         goals.Add(new EnterBuildingGoal(BuildingType.TownHall));
         base.Start();
     }

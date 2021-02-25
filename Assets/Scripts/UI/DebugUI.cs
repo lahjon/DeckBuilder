@@ -15,6 +15,11 @@ public class DebugUI : MonoBehaviour, ISaveable
         }
     }
 
+    public void DebugChangeCardData()
+    {
+        WorldSystem.instance.characterManager.characterData.energy = 10;
+    }
+
     public void DebugCreateWarning()
     {
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
