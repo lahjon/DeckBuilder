@@ -353,31 +353,31 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: -0.0000012783566
       value: 0
-      inSlope: 5.3490567
-      outSlope: 5.3490567
+      inSlope: 8.154203
+      outSlope: 8.154203
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.103290945
+      outWeight: 0.0905282
     - serializedVersion: 3
-      time: 0.29548895
-      value: 0.76321244
-      inSlope: 1.0584785
-      outSlope: 1.0584785
+      time: 0.2496579
+      value: 0.7803171
+      inSlope: 0.5838766
+      outSlope: 0.5838766
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.10879187
+      outWeight: 0.10211328
     - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 1.0023575
+      inSlope: 0.1772081
+      outSlope: 0.1772081
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.15282194
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -385,6 +385,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   tooltipController: {fileID: 4161180195676717624}
   _selected: 0
+  fanDegreeCurrent: 0
+  fanDegreeTarget: 0
 --- !u!1 &1577957615183275146
 GameObject:
   m_ObjectHideFlags: 0
