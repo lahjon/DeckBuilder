@@ -3,34 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Mission : MonoBehaviour
+public class Mission : Progression
 {
-    public string missionName;
-    public bool completed;
     public string description;
     public string startEvent;
     public string nextMission;
     public string overrideMissionGoal = "";
-    public List<MissionGoal> goals = new List<MissionGoal>();
 
     protected virtual void Start()
     {
         WorldSystem.instance.gameEventManager.StartEvent(startEvent);
         WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
     }
-
-    public void CheckGoals()
-    {
-        Debug.Log("checking goals");
-        completed = goals.All(g => g.completed);
-
-        if(completed)
-        {
-            Complete();
-        }
-    }
-
-    void Complete()
+    protected override void Complete()
     {
         Debug.Log("Mission Done");
         Debug.Log(nextMission);

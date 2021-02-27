@@ -17,7 +17,7 @@ public class MissionUI : MonoBehaviour
     {
         if (WorldSystem.instance.missionManager.mission != null)
         {
-            missionName = WorldSystem.instance.missionManager.mission.missionName;
+            missionName = WorldSystem.instance.missionManager.mission.name;
             missionText.text = missionName;
 
             goals.Clear();
@@ -28,16 +28,13 @@ public class MissionUI : MonoBehaviour
                 ClearUI();
                 CreateGoals();
             }
-            
-            Debug.Log(goalObjs.Count);
-            Debug.Log(goals.Count);
             for (int i = 0; i < goals.Count; i++)
             {
                 if (goals.ElementAt(i).Value == true)
                 {
                     goalObjs[i].GetComponent<TMP_Text>().color = Color.green;
                 }
-                if(WorldSystem.instance.missionManager.mission.overrideMissionGoal != null && WorldSystem.instance.missionManager.mission.overrideMissionGoal != "")
+                if(WorldSystem.instance.missionManager.mission.goals != null && WorldSystem.instance.missionManager.mission.overrideMissionGoal != "")
                 {
                     Debug.Log(goalObjs[i]);
                     goalObjs[i].GetComponent<TMP_Text>().text = WorldSystem.instance.missionManager.mission.overrideMissionGoal;

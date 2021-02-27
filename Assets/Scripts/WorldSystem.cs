@@ -23,6 +23,7 @@ public class WorldSystem : MonoBehaviour, ISaveable
     public UIManager uiManager;
     public WorldStateManager worldStateManager;
     public GameEventManager gameEventManager;
+    public ProgressionManager progressionManager;
     public MissionManager missionManager;
     public int act;
 
@@ -85,35 +86,35 @@ public class WorldSystem : MonoBehaviour, ISaveable
 
     private void GetAllReferences()
     {
-        // we can take all the managers and child them to world system to make sure they are
-        // or we find all the references from the scene once
+        // // we can take all the managers and child them to world system to make sure they are
+        // // or we find all the references from the scene once
 
-        GameObject[] allManagers = GameObject.FindGameObjectsWithTag("Manager");
-        foreach (GameObject item in allManagers)
-        {
-            string newName = item.name.ToLowerFirstChar();
-            if (item.name == "EncounterManager")
-            {
-                encounterManager = item.GetComponent<EncounterManager>();
-            }
-            else if (item.name == "CharacterManager")
-            {
-                characterManager = item.GetComponent<CharacterManager>();
-                characterManager.characterVariablesUI.UpdateUI();
-            }
-            else if (item.name == "CameraManager")
-            {
-                cameraManager = item.GetComponent<CameraManager>();
-            }
-            else if (item.name == "DeckDisplayManager")
-            {
-                deckDisplayManager = item.GetComponent<DeckDisplayManager>();
-            }
-            else if (item.name == "ShopManager")
-            {
-                shopManager = item.GetComponent<ShopManager>();
-            }
-        }
+        // GameObject[] allManagers = GameObject.FindGameObjectsWithTag("Manager");
+        // foreach (GameObject item in allManagers)
+        // {
+        //     string newName = item.name.ToLowerFirstChar();
+        //     if (item.name == "EncounterManager")
+        //     {
+        //         encounterManager = item.GetComponent<EncounterManager>();
+        //     }
+        //     else if (item.name == "CharacterManager")
+        //     {
+        //         characterManager = item.GetComponent<CharacterManager>();
+        //         characterManager.characterVariablesUI.UpdateUI();
+        //     }
+        //     else if (item.name == "CameraManager")
+        //     {
+        //         cameraManager = item.GetComponent<CameraManager>();
+        //     }
+        //     else if (item.name == "DeckDisplayManager")
+        //     {
+        //         deckDisplayManager = item.GetComponent<DeckDisplayManager>();
+        //     }
+        //     else if (item.name == "ShopManager")
+        //     {
+        //         shopManager = item.GetComponent<ShopManager>();
+        //     }
+        // }
     }
 
     public void EnterCombat(List<EnemyData> enemyDatas = null)

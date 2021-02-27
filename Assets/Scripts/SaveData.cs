@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 [System.Serializable]
 public class SaveData
@@ -15,6 +16,13 @@ public class SaveData
 
     // town
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
+
+    //progressions
+    public Objective[] allClearedProgression;
+
+    // stats tracker
+    public List<BuildingType> buildingTrackerKey;
+    public List<int> buildingTrackerValues;
 
 
     public string ToJson()

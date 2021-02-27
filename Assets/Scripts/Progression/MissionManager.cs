@@ -12,20 +12,13 @@ public class MissionManager : Manager
     protected override void Start()
     {
         base.Start();       
-        NewMission("Mission01");
+        NewMission("Mission001");
 
     }
     public void NewMission(string newMission)
     {
         mission = (Mission)missions.AddComponent(Type.GetType(newMission));
     }
-    public void CheckProgression()
-    {
-        Debug.Log("checking progression");
-        mission.CheckGoals();
-        missionUI.UpdateUI(false);
-    }
-
     public void ClearMission()
     {
         missionUI.ClearUI(true);

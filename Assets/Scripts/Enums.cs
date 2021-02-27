@@ -67,10 +67,10 @@ public enum GameEventStatus
     Done
 }
 
-public enum CharacterVariables
+public enum ProgressionType
 {
-    MaxHealth, 
-    Gold
+    Objective, 
+    Mission
 };
 
 public enum EncounterOutcomeType
@@ -128,7 +128,8 @@ public enum BuildingType
     Church, 
     TownHall,
     Barracks,
-    Leave
+    Leave,
+    Any
 }
 
 public enum EncounterType

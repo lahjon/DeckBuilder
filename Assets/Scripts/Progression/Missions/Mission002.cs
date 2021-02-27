@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mission02 : Mission
+public class Mission002 : Mission
 {
     protected override void Start()
     {
-        missionName = "Defend the church district!";
-        startEvent = "Event02";
-        //nextMission = "Mission02";
+        name = "Defend the church district!";
+        startEvent = "Event002";
+        //nextMission = "Mission002";
         overrideMissionGoal = "Kill the boss";
         completed = true;
-        goals.Add(new KillEnemyGoal(1, "BossMan", "2001"));
+        AddGoal(new KillEnemyGoal(this, 1, "BossMan", "2001"));
         base.Start();
     }
 }

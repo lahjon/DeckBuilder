@@ -3,28 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class KillEnemyGoal : MissionGoal
+public class KillEnemyGoal : ProgressionGoal, IEvents
 {
     private string enemyId;
     private string enemyName;
 
-    public KillEnemyGoal(int aRequiredAmount, string aName, string anId)
+    public KillEnemyGoal(Progression aProgression, int aRequiredAmount, string aName, string anId)
     {
-        Init();
+        Subscribe();
         currentAmount = 0;
         enemyId = anId;
         enemyName = aName;
         requiredAmount = aRequiredAmount;
         goalName = string.Format("Kill {0} {1}/{2}", enemyName, currentAmount, requiredAmount);
+        progression = aProgression;
     }
-    public override void Init()
+    public void Subscribe()
     {
         EventManager.OnEnemyKilledEvent += EnemyKilled;
     }
-    public override void End()
+    public void Unsubscribe()
     {
         EventManager.OnEnemyKilledEvent -= EnemyKilled;
-        base.End();
+    }
+    public override void End()
+    {
+        Unsubscribe();
+        progression.CheckGoals();
+        Debug.Log(string.Format("Goal {0} ended.", goalName));
     }
 
     void EnemyKilled(EnemyData enemyData)
@@ -37,4 +43,5 @@ public class KillEnemyGoal : MissionGoal
             goalName = string.Format("Kill {0} {1}/{2}", enemyName, currentAmount, requiredAmount);
         }
     }
+
 }
