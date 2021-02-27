@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
 {
-    public static float speed = 10f;
+    public float speed = 15f;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Debug.Log("Selected OnStateEnter:" + Time.frameCount);

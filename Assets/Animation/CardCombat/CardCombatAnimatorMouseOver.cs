@@ -46,7 +46,6 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
     {
         //Debug.Log("MouseOver StateExit: Sending Refresh idle trigger" + Time.frameCount);
         combatController.ResetSiblingIndexes();
-        animator.SetBool("ReachedIdle",false);
         card.tooltipController.ShowHide(false);
     }
 

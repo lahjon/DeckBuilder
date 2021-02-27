@@ -206,16 +206,61 @@ public class CombatController : StateMachine
     {
         // Positional Info
         float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards/2 : 0;
-        float degreeRad = Mathf.Deg2Rad * ((CardNr - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
-        Vector3 newPos = new Vector3(origoCardPos * Mathf.Sin(degreeRad), origoCardPos * Mathf.Cos(degreeRad) - origoCardPos + handHeight, 0);
+        float degree = ((CardNr - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+        return GetTargetPositionFromDegree(degree);
+    }
+
+    public float GetCurrentDegree(CardCombatAnimated card)
+    {
+        if (!Hand.Contains(card))
+        {
+            Debug.LogError("Current degree requested for card not in hand!");
+            return -1f;
+        }
+
+        float degree = Mathf.Rad2Deg*Mathf.Asin(Mathf.Abs(card.transform.localPosition.x) /origoCardPos);
+
+        if (card.transform.localPosition.x < 0)
+            degree *= -1;
         
+        return degree;
+    }
+
+    public float GetTargetDegree(CardCombatAnimated card)
+    {
+        if (!Hand.Contains(card))
+        {
+            Debug.LogError("Current degree requested for card not in hand!");
+            return -1f;
+        }
+
+        float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards / 2 : 0;
+        float degree = ((Hand.IndexOf(card) - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+
+        return degree;
+    }
+
+    public void SetCardTransFromDegree(CardCombatAnimated card, float degree)
+    {
+        (Vector3 pos, Vector3 angles) transInfo = GetTargetPositionFromDegree(degree);
+        card.transform.localPosition = transInfo.pos;
+        card.transform.localEulerAngles = transInfo.angles;
+    }
+
+
+    public (Vector3 Position, Vector3 Angles) GetTargetPositionFromDegree(float degree)
+    {
+        degree *= Mathf.Deg2Rad;
+        Vector3 newPos = new Vector3(origoCardPos * Mathf.Sin(degree), origoCardPos * Mathf.Cos(degree) - origoCardPos + handHeight, 0);
+
         //Angling info
         Vector3 origo = new Vector3(0, -origoCardRot, 0);
-        float angle = Vector3.Angle(newPos - origo, new Vector3(0, 1, 0))*(newPos.x > 0 ? -1 :1);
+        float angle = Vector3.Angle(newPos - origo, new Vector3(0, 1, 0)) * (newPos.x > 0 ? -1 : 1);
         Vector3 angles = new Vector3(0, 0, angle);
 
         return (newPos, angles);
     }
+
 
     internal void ResetSiblingIndexes()
     {
@@ -230,7 +275,7 @@ public class CombatController : StateMachine
     {
         foreach (CardCombatAnimated card in Hand)
             if (card != excludeCard)
-                card.animator.SetBool("ReachedIdle", false);
+                card.animator.SetBool("NeedFan", true);
     }
     #endregion
 
@@ -401,9 +446,9 @@ public class CombatController : StateMachine
             return;
         }
 
+        Hand.Remove(ActiveCard);
         ActiveCard.animator.SetTrigger("MouseClicked");
         ActiveCard.animator.SetBool("Selected", false);
-        Hand.Remove(ActiveCard);
 
 
         RefreshHandPositions();

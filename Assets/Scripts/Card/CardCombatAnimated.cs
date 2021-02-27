@@ -22,6 +22,9 @@ public class CardCombatAnimated : Card
     private bool _selectable = false;
     private bool _mouseReact = false;
 
+    public float fanDegreeCurrent;
+    public float fanDegreeTarget;
+
     public bool MouseReact
     {
         get
