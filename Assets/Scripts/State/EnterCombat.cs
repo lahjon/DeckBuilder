@@ -17,7 +17,7 @@ public class EnterCombat : State
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Combat has Started");
         //CombatController.InitializeCombat();
-        CombatController.SetState(new PlayerTurn(CombatController));
+        //CombatController.SetState(new PlayerTurn(CombatController));
     }
 }
 

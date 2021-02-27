@@ -8,7 +8,7 @@ using TMPro;
 using System.Threading.Tasks;
 using System;
 
-public class CombatController : StateMachine
+public class CombatController : MonoBehaviour
 {
     public GameObject TemplateCard;
     public BezierPath bezierPath;
@@ -42,6 +42,8 @@ public class CombatController : StateMachine
     public Canvas canvas;
     private CombatActorEnemy _activeEnemy;
 
+    public Animator animator;
+
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
@@ -66,6 +68,9 @@ public class CombatController : StateMachine
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
+
+    public Queue<(CardCombatAnimated card, List<CombatActor> targets)> CardQueue = new Queue<(CardCombatAnimated card, List<CombatActor> targets)>();
+
 
     //[HideInInspector]
     public CardCombatAnimated _activeCard;
@@ -129,8 +134,7 @@ public class CombatController : StateMachine
             combatActorEnemy.ReadEnemyData(enemyDatas[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
-
-        SetState(new EnterCombat(this));
+        animator.SetTrigger("StartSetup");
     }
 
     public void BindCharacterData()
@@ -397,7 +401,7 @@ public class CombatController : StateMachine
     public void PlayerInputEndTurn()
     {
         // have to ahve a function for the ui button
-        EndState();
+        animator.SetTrigger("PlayerTurnEnd");
     }
 
     public bool CardisSelectable(CardCombatAnimated card, bool silentCheck = true)
@@ -436,7 +440,6 @@ public class CombatController : StateMachine
             return;
         }
 
-        Debug.Log("Card used from Controller");
         if (ActiveCard is null)
             return;
 

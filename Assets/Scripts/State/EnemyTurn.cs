@@ -21,6 +21,6 @@ public class EnemyTurn : State
     public override IEnumerator End()
     {
         yield return new WaitForSeconds(0.05f);
-        CombatController.SetState(new PlayerTurn(CombatController));
+        //CombatController.SetState(new PlayerTurn(CombatController));
     }
 }

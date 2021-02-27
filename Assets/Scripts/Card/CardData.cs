@@ -16,7 +16,6 @@ public class CardData : ScriptableObject
     public CardEffect Damage;
     public CardEffect Block;
 
-    public List<CardEffect> SelfEffects = new List<CardEffect>();
     public List<CardEffect> Effects = new List<CardEffect>();
 
     public List<CardActivitySetting> activities = new List<CardActivitySetting>();
@@ -32,7 +31,7 @@ public class CardData : ScriptableObject
     {
         get
         {
-            if (Effects.Count(x => x.Target == CardTargetType.Single) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.Single))
+            if (Effects.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
                 return false;
             else
                 return true;
@@ -46,9 +45,20 @@ public class CardData : ScriptableObject
             List<CardEffect> tempList = new List<CardEffect>();
             tempList.Add(Damage);
             tempList.Add(Block);
-            tempList.AddRange(SelfEffects);
             tempList.AddRange(Effects);
             return tempList;
+        }
+    }
+
+    public HashSet<CardTargetType> allTargetTypes
+    {
+        get
+        {
+            HashSet<CardTargetType> tempSet = new HashSet<CardTargetType>();
+            if (Damage.Value != 0) tempSet.Add(Damage.Target);
+            if (Block.Value != 0) tempSet.Add(Block.Target);
+            Effects.ForEach(x => tempSet.Add(x.Target));
+            return tempSet;
         }
     }
     

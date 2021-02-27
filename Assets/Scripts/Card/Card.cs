@@ -37,7 +37,6 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
         List<CardEffect> allEffects = new List<CardEffect>();
         allEffects.Add(cardData.Damage);
         allEffects.Add(cardData.Block);
-        allEffects.AddRange(cardData.SelfEffects);
         allEffects.AddRange(cardData.Effects);
 
         for (int i = 0; i < allEffects.Count; i++)

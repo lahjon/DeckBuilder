@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExitCombat : State
+public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 {
-    public ExitCombat(CombatController combatController) : base(combatController)
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        SetRefs(animator);
+        combatController.StartCoroutine(SetupCombat());
     }
 
-    public override IEnumerator Start()
+
+    public IEnumerator SetupCombat()
     {
-        Debug.Log("HEJ");
+        combatController.BindCharacterData();
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         Debug.Log("Starting combat");
         RulesSystem.instance.SetupEnemyStartingRules();
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Combat has Started");
         //CombatController.InitializeCombat();
-        //CombatController.SetState(new PlayerTurn(CombatController));
+        combatController.animator.SetTrigger("SetupComplete");
     }
-}
 
+
+}

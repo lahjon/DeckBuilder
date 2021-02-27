@@ -35,9 +35,11 @@ public enum Rarity
 
 public enum CardTargetType
 {
-    Single, 
-    ALL,
-    Random
+    Self,
+    EnemySingle,
+    EnemyAll,
+    EnemyRandom,
+    All
 }
 public enum CharacterClass
 {
