@@ -136,7 +136,7 @@ public class CombatController : StateMachine
     public void BindCharacterData()
     {
         energyTurn = WorldSystem.instance.characterManager.energy;
-        drawCount = WorldSystem.instance.characterManager.cardDrawAmount;
+        drawCount = WorldSystem.instance.characterManager.character.drawCardsAmount;
     }
 
     public void StartTurn()

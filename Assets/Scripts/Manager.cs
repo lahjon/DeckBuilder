@@ -8,6 +8,9 @@ public abstract class Manager : MonoBehaviour
     
     protected virtual void Start()
     {
+    }
+    protected virtual void Awake()
+    {
         world = WorldSystem.instance;
     }
 }

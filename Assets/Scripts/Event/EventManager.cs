@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class EventManager : MonoBehaviour 
+public class EventManager : Manager 
 {
     public delegate void EnterBuildingEvent(BuildingType building);
     public static event EnterBuildingEvent OnEnterBuildingEvent;

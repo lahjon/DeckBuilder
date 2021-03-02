@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class DeckDisplayManager : MonoBehaviour
+public class DeckDisplayManager : Manager
 {
     public List<CardData> allCardsData;
     public GameObject cardPrefab;
@@ -26,8 +26,10 @@ public class DeckDisplayManager : MonoBehaviour
     public GameObject clickableArea;
     public GameObject backgroundPanel;
 
-    void Start()
+    protected override void Awake()
     {
+        base.Awake(); 
+        world.deckDisplayManager = this;
         canvas.gameObject.SetActive(true);
         backgroundPanel.SetActive(false);
         clickableArea.SetActive(false);

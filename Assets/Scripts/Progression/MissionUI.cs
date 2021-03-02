@@ -17,7 +17,7 @@ public class MissionUI : MonoBehaviour
     {
         if (WorldSystem.instance.missionManager.mission != null)
         {
-            missionName = WorldSystem.instance.missionManager.mission.name;
+            missionName = WorldSystem.instance.missionManager.mission.progressName;
             missionText.text = missionName;
 
             goals.Clear();

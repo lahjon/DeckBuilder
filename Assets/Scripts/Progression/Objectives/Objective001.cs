@@ -6,10 +6,12 @@ public class Objective001 : Objective
 {
     public override void Init()
     {
-        name = "Complete your first mission";
-        description = "You have completed your first mission! Congratulations!";
-        //completeEvent = "Event003";
-        AddGoal(new EnterBuildingGoal(this, BuildingType.TownHall, 4));
+        objectiveId = "Objective001";
+        progressName = "Obj0001";
+        description = "This is your first objective!";
+        completeEvent = "";
+        AddGoal(new EnterBuildingGoal(this, BuildingType.TownHall, 2));
+        
     }
 
     protected override void TriggerEvent()

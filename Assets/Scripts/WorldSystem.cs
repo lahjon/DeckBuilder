@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
-public class WorldSystem : MonoBehaviour, ISaveable
+public class WorldSystem : MonoBehaviour, ISaveableTemp
 {
     public static WorldSystem instance; 
-    public Character character;
     public WorldState worldState;
-    private int currentScene = 0;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
     private CharacterData characterData;
@@ -26,6 +24,8 @@ public class WorldSystem : MonoBehaviour, ISaveable
     public ProgressionManager progressionManager;
     public MissionManager missionManager;
     public int act;
+    public Character character;
+    public CharacterClassType characterClassType;
 
     void Awake()
     {
@@ -42,79 +42,20 @@ public class WorldSystem : MonoBehaviour, ISaveable
 
     void Start()
     {
+        LoadProgression();
         if(worldState != WorldState.MainMenu)
             UpdateStartScene();
-
-
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            worldStateManager.AddState(WorldState.Town);
-        } 
-        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
         act = 1;
 
     }
 
-    public void StoreCharacter(Dictionary<string, int> storeStats, CharacterData storeCharacterData, GameObject storeCharacterPrefab)
+        IEnumerator WaitForStart()
     {
-        characterStats = storeStats;
-        characterData = storeCharacterData;
-        characterPrefab = storeCharacterPrefab;
-    }
-    public void CreateCharacter()
-    {
-        // create new character
-        GameObject newCharacterPrefab = Instantiate(characterPrefab, new Vector3(0, 1, 0), Quaternion.identity);
-        Character newCharacter = newCharacterPrefab.GetComponent<Character>();
-
-        // set stats to character
-        newCharacter.strength = characterStats["strength"];
-        newCharacter.cunning = characterStats["cunning"];
-        newCharacter.speed = characterStats["speed"];
-        newCharacter.endurance = characterStats["endurance"];
-        newCharacter.wisdom = characterStats["wisdom"];
-        newCharacter.characterClass = characterData.characterClass;
-
-        // update the world system
-        character = newCharacter;
-        worldState = WorldState.Transition;
-    }
-
-    public void LoadByIndex(int sceneIndex) {
-        StartCoroutine(LoadNewScene(sceneIndex));
-    }
-
-    private void GetAllReferences()
-    {
-        // // we can take all the managers and child them to world system to make sure they are
-        // // or we find all the references from the scene once
-
-        // GameObject[] allManagers = GameObject.FindGameObjectsWithTag("Manager");
-        // foreach (GameObject item in allManagers)
-        // {
-        //     string newName = item.name.ToLowerFirstChar();
-        //     if (item.name == "EncounterManager")
-        //     {
-        //         encounterManager = item.GetComponent<EncounterManager>();
-        //     }
-        //     else if (item.name == "CharacterManager")
-        //     {
-        //         characterManager = item.GetComponent<CharacterManager>();
-        //         characterManager.characterVariablesUI.UpdateUI();
-        //     }
-        //     else if (item.name == "CameraManager")
-        //     {
-        //         cameraManager = item.GetComponent<CameraManager>();
-        //     }
-        //     else if (item.name == "DeckDisplayManager")
-        //     {
-        //         deckDisplayManager = item.GetComponent<DeckDisplayManager>();
-        //     }
-        //     else if (item.name == "ShopManager")
-        //     {
-        //         shopManager = item.GetComponent<ShopManager>();
-        //     }
-        // }
+        while (WorldSystem.instance.characterManager == null && WorldSystem.instance.townManager == null)
+        {
+            yield return null;
+        }
+        
     }
 
     public void EnterCombat(List<EnemyData> enemyDatas = null)
@@ -136,7 +77,25 @@ public class WorldSystem : MonoBehaviour, ISaveable
 
     public void SaveProgression()
     {
-        SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
+            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), (int)character.classType);
+        }
+
+    }
+    public void LoadProgression()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SaveDataManager.LoadJsonData(this.GetComponents<ISaveableTemp>());
+        }
+        else
+        {
+            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
+            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+        }
     }
 
     public void EndCombat(bool endAct = false)
@@ -159,31 +118,9 @@ public class WorldSystem : MonoBehaviour, ISaveable
         encounterManager.UpdateAllTownEncounters(act);
         cameraManager.CameraGoto(WorldState.Town, true);
     }
-
-    // public void SwapState(WorldState aWorldState, bool doTransition = true)
-    // {
-
-    //     if(aWorldState == WorldState.Overworld)
-    //     {
-    //         encounterManager.canvas.gameObject.SetActive(true);
-    //     }
-    //     else
-    //     {
-    //         encounterManager.canvas.gameObject.SetActive(false);
-    //     }
-    //     previousState = instance.worldState;
-    //     worldState = aWorldState;
-    //     cameraManager.CameraGoto(aWorldState, doTransition);
-    //     characterManager.characterVariablesUI.UpdateUI();
-    // }
-    // public void SwapStatePrevious()
-    // {
-    //     worldState = previousState;
-    //     characterManager.characterVariablesUI.UpdateUI();
-    // }
     private void UpdateStartScene()
     {
-        GetAllReferences();
+        return;
     }
 
     public void Reset()
@@ -191,34 +128,16 @@ public class WorldSystem : MonoBehaviour, ISaveable
         characterManager.Reset();
     }
 
-    IEnumerator LoadNewScene(int sceneNumber) {
-        AsyncOperation async = SceneManager.LoadSceneAsync(sceneNumber);
+    public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        return;
+    }
 
-        while (!async.isDone) {
-            yield return 0;
-        }  
-        currentScene = sceneNumber;
-
-        switch (sceneNumber)
+    public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            case 1:
-                Debug.Log("Swapping to Scene 1!");
-                UpdateStartScene();
-                break;
-            
-            default:
-                Debug.Log("Dunno");
-                break;
+            characterClassType = a_SaveData.characterClassType;
         }
-    }
-
-    public void PopulateSaveData(SaveData a_SaveData)
-    {
-        a_SaveData.act = act;
-    }
-
-    public void LoadFromSaveData(SaveData a_SaveData)
-    {
-        act = a_SaveData.act;
     }
 }

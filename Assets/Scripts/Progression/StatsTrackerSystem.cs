@@ -3,25 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class StatsTracker : MonoBehaviour, IEvents, ISaveable
+public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
 {
     public static Dictionary<string, int> enemyTracker = new Dictionary<string, int>();
     public static Dictionary<BuildingType, int> buildingTracker = new Dictionary<BuildingType, int>();
+    public static List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    public static StatsTrackerSystem instance;
 
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         Subscribe();
     }
 
-    public void LoadFromSaveData(SaveData a_SaveData)
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         buildingTracker.SetDictionaryFromLists(a_SaveData.buildingTrackerKey, a_SaveData.buildingTrackerValues);
+        unlockedCharacters = a_SaveData.unlockedCharacters;
     }
 
 
-    public void PopulateSaveData(SaveData a_SaveData)
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         buildingTracker.SetListsFromDictionary(ref a_SaveData.buildingTrackerKey, ref a_SaveData.buildingTrackerValues);
+        a_SaveData.unlockedCharacters = unlockedCharacters;
     }
 
     public void Subscribe()

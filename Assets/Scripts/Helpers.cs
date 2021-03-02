@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using UnityEditor;
 using System;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 
 public static class Helpers
@@ -36,9 +38,11 @@ public static class Helpers
         values = new List<T2>(dict.Values);
     }
     
-   // we can have this or choose to store all references we use
     public static IEnumerable<T> FindInterfacesOfType<T>(bool includeInactive = true)
     {
+        
+        var objs = SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));
+
         return SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));
     }
 
@@ -66,8 +70,5 @@ public static class Helpers
         List<string> allFiles = Directory.GetFiles(path, extension).Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
         return allFiles;
     }
-
-    //public static SerializeDictionary()
-
 
 }

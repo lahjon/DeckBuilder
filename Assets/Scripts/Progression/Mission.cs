@@ -5,20 +5,20 @@ using System.Linq;
 
 public class Mission : Progression
 {
+    public string missionId;
     public string description;
-    public string startEvent;
+    public string endEvent;
     public string nextMission;
     public string overrideMissionGoal = "";
 
     protected virtual void Start()
     {
-        WorldSystem.instance.gameEventManager.StartEvent(startEvent);
         WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
     }
     protected override void Complete()
     {
         Debug.Log("Mission Done");
-        Debug.Log(nextMission);
+        WorldSystem.instance.gameEventManager.StartEvent(endEvent);
         if (nextMission != null && nextMission != "")
         {
             WorldSystem.instance.missionManager.NewMission(nextMission);

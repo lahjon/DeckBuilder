@@ -25,7 +25,7 @@ public class RulesSystem : MonoBehaviour
     public Dictionary<CombatActor, List<Func<float,float>>> actorToTakeDamageMods = new Dictionary<CombatActor, List<Func<float, float>>>();
     public Dictionary<CombatActor, List<Func<CombatActor, IEnumerator>>> ActorToStartTurn = new Dictionary<CombatActor, List<Func<CombatActor, IEnumerator>>>();
 
-    private void Awake()
+    void Awake()
     {
         if (instance == null)
         {
@@ -43,7 +43,6 @@ public class RulesSystem : MonoBehaviour
     public void Start()
     {
         combatController = WorldSystem.instance.combatManager.combatController;
-
         actionsStartTurnEnum.Add(ResetRemainingEnergy);
         actionsStartTurnEnum.Add(DrawCardsNewTurn);
 

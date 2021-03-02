@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WorldStateManager : Manager
 {
@@ -8,6 +9,16 @@ public class WorldStateManager : Manager
     private List<WorldState> stateStack = new List<WorldState>();
 
     public WorldState currentState;
+    protected override void Awake()
+    {
+        base.Awake(); 
+        world.worldStateManager= this;
+    }
+
+    protected override void Start()
+    {
+        AddState(WorldState.Town, false);
+    }
 
     public void RemoveState(bool transition = true)
     {

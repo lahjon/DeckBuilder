@@ -12,7 +12,7 @@ public class RewardCard : Reward
     }
     
 
-    public List<CardData> ChooseCard(CharacterClass characterClass, int amount = 3, bool random = true, CardData cardData = null)
+    public List<CardData> ChooseCard(CharacterClassType characterClass, int amount = 3, bool random = true, CardData cardData = null)
     {
         List<CardData> cardReward = new List<CardData>(); 
 

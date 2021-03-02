@@ -6,8 +6,9 @@ public class Mission002 : Mission
 {
     protected override void Start()
     {
-        name = "Defend the church district!";
-        startEvent = "Event002";
+        missionId = "Mission002";
+        progressName = "Defend the church district!";
+        endEvent = "Event002";
         //nextMission = "Mission002";
         overrideMissionGoal = "Kill the boss";
         completed = true;

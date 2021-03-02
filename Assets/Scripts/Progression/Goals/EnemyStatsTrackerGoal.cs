@@ -32,9 +32,9 @@ public class EnemyStatsTrackerGoal : ProgressionGoal, IEvents
 
     void StatsTrackedUpdated()
     {
-        if (StatsTracker.enemyTracker.ContainsKey(enemyId))
+        if (StatsTrackerSystem.enemyTracker.ContainsKey(enemyId))
         {
-            currentAmount = StatsTracker.enemyTracker[enemyId];
+            currentAmount = StatsTrackerSystem.enemyTracker[enemyId];
             Evaluate();
         }
         

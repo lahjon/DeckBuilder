@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class MissionManager : Manager
+public class MissionManager : Manager, ISaveableWorld
 {
     public Mission mission;
     public GameObject missions;
     public MissionUI missionUI;
-
-    protected override void Start()
+    string missionId;
+    protected override void Awake()
     {
-        base.Start();       
-        NewMission("Mission001");
-
+        base.Awake();
+        world.missionManager = this;
     }
-    public void NewMission(string newMission)
+    public void NewMission(string newMission, bool save = true)
     {
         mission = (Mission)missions.AddComponent(Type.GetType(newMission));
+        missionId = newMission;
+        if (save)
+        {
+            world.SaveProgression();
+        }
     }
     public void ClearMission()
     {
@@ -25,4 +29,16 @@ public class MissionManager : Manager
         mission = null;
     }
 
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
+    {
+        a_SaveData.missionId = missionId;
+    }
+
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
+    {
+        if (a_SaveData.missionId != null && a_SaveData.missionId != "")
+        {
+            NewMission(a_SaveData.missionId, false);
+        }
+    }
 }

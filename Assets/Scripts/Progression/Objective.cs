@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class Objective : Progression
+public class Objective : Progression
 {
-    public new string name;
     [TextArea(5,5)]
+    public string objectiveId;
     public string description;
     public string completeEvent;
     public AchivementData achivementData; 
 
-    public abstract void Init();
+    public virtual void Init()
+    {
+        
+    }
 
     protected override void TriggerEvent()
     {

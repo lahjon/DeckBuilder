@@ -8,7 +8,7 @@ public class CombatActorHero : CombatActor
     void Start()
     {
         healthEffects.combatActor = this;
-        this.GetComponent<SpriteRenderer>().sprite = WorldSystem.instance.characterManager.characterData.artwork;
+        this.GetComponent<SpriteRenderer>().sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
     }
 
     void OnEnable()

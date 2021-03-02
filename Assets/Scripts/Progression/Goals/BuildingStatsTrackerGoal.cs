@@ -33,9 +33,9 @@ public class BuildingStatsTrackerGoal : ProgressionGoal, IEvents
 
     void StatsTrackedUpdated()
     {
-        if (StatsTracker.buildingTracker.ContainsKey(buildingGoal))
+        if (StatsTrackerSystem.buildingTracker.ContainsKey(buildingGoal))
         {
-            currentAmount = StatsTracker.buildingTracker[buildingGoal];
+            currentAmount = StatsTrackerSystem.buildingTracker[buildingGoal];
             Evaluate();
         }
         

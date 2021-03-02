@@ -16,14 +16,6 @@ public class EnterBuildingGoal : ProgressionGoal, IEvents
         requiredAmount = aRequiredAmount;
         currentAmount = 0;
     }
-    // public EnterBuildingGoal(Objective aProgression, BuildingType aBuildingGoal, int aRequiredAmount)
-    // {
-    //     Subscribe();
-    //     buildingGoal = aBuildingGoal;
-    //     goalName = string.Format("Enter {0}", aBuildingGoal);
-    //     progression = aProgression;
-    //     requiredAmount = aRequiredAmount;
-    // }
     public void Subscribe()
     {
         EventManager.OnEnterBuildingEvent += EnterBuilding;

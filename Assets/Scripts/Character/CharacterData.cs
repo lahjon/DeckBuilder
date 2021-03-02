@@ -5,17 +5,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 public class CharacterData : ScriptableObject
 {
-    public string charName;
-    //deprecate when we have models for animation
     public Sprite artwork;
-    public GameObject characterGraphics;
-    public CharacterClass characterClass;
+    public GameObject artworkAnimated;
+    public int damageModifier;
+    public int blockModifier;
+    public int drawCardsAmount;
+    public int energy;
+    public int maxHp;
+    public int level;
+    public CharacterClassType classType;
     public bool unlocked;
 
-    public List<StatModifer> stats;
-    public int maxHealth;
-    public int energy;
-    public int cardDrawAmount;
 
     public CardDatabase startingDeck;
+    [TextArea(5,5)]
+    public string description;
 }

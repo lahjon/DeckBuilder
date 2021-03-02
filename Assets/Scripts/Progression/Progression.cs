@@ -5,6 +5,7 @@ using System.Linq;
 
 public abstract class Progression : MonoBehaviour
 {
+    public string progressName;
     public List<ProgressionGoal> goals = new List<ProgressionGoal>();
     public List<int> goalsTrackAmount = new List<int>();
     public bool completed = false;

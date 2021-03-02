@@ -11,13 +11,6 @@ public static class EnumExtenstions
     }
 }
 
-
-public enum CardType
-{
-    Attacker, 
-    Defender
-    };
-
 public enum CardRarity
 {
     Starting,
@@ -39,14 +32,13 @@ public enum CardTargetType
     ALL,
     Random
 }
-public enum CharacterClass
+public enum CharacterClassType
 {
     None,
     Brute, 
     Rogue,
-    Enemy,
-    EnemyElite, 
-    EnemyBoss
+    Splicer,
+    Beastmaster,
 };
 
 public enum EncounterEventType
@@ -67,7 +59,7 @@ public enum GameEventStatus
     Done
 }
 
-public enum ProgressionType
+public enum CharacterAbility
 {
     Objective, 
     Mission
@@ -95,14 +87,14 @@ public enum EffectType
     Barricade
 }
 
-public enum CharacterStat
-{
-    Strength,
-    Cunning,
-    Speed,
-    Endurance,
-    Wisdom
-}
+// public enum CharacterStat
+// {
+//     Strength,
+//     Cunning,
+//     Speed,
+//     Endurance,
+//     Wisdom
+// }
 
 public enum WorldState
 {

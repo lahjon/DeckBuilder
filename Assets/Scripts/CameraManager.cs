@@ -2,13 +2,19 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CameraManager : MonoBehaviour 
+public class CameraManager : Manager 
 {
     public Camera mainCamera;
     public Transform combatCameraPos;
     public Transform shopCameraPos;
     public List<Transform> actCameraPos;
     public ScreenTransition screenTransition;
+
+    protected override void Awake()
+    {
+        base.Awake(); 
+        world.cameraManager = this;
+    }
 
     public void CameraGoto(WorldState worldstate, bool doTransition = true)
     {

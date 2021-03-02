@@ -40,11 +40,12 @@ public class EncounterManager : Manager
         return overworldEncounters[0].transform.position;
     }
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         canvas.gameObject.SetActive(true);
+        world.encounterManager = this;
     }
-
     protected override void Start()
     {
         base.Start();

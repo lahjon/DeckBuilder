@@ -4,15 +4,17 @@ using UnityEngine;
 public static class SaveDataManager
 {
     // use saveSlot_0 for progression save
+    public static string saveFileName = "progression_data";
+    public static string saveFileNameTemp = "temp_data";
 
-    public static void SaveJsonData(IEnumerable<ISaveable> a_Saveables, int saveSlot = 0)
+    public static void SaveJsonData(IEnumerable<ISaveableWorld> a_Saveables)
     {
-        string fileName = string.Format("saveFile_{0}", saveSlot);
+        string fileName = saveFileName;
 
-        SaveData sd = new SaveData();
+        SaveDataWorld sd = new SaveDataWorld();
         foreach (var saveable in a_Saveables)
         {
-            saveable.PopulateSaveData(sd);
+            saveable.PopulateSaveDataWorld(sd);
         }
 
         if (FileManager.WriteToFile(fileName, sd.ToJson()))
@@ -21,18 +23,88 @@ public static class SaveDataManager
         }
     }
     
-    public static void LoadJsonData(IEnumerable<ISaveable> a_Saveables, int saveSlot = 0)
+    public static void LoadJsonData(IEnumerable<ISaveableWorld> a_Saveables)
     {
-        string fileName = string.Format("saveFile_{0}", saveSlot);
+        string fileName = saveFileName;
 
         if (FileManager.LoadFromFile(fileName, out var json))
         {
-            SaveData sd = new SaveData();
+            SaveDataWorld sd = new SaveDataWorld();
             sd.LoadFromJson(json);
 
             foreach (var saveable in a_Saveables)
             {
-                saveable.LoadFromSaveData(sd);
+                saveable.LoadFromSaveDataWorld(sd);
+            }
+            
+            Debug.Log("Load complete");
+        }
+    }
+
+    // character_01 character_02 character_03 character_04
+
+    public static void SaveJsonData(IEnumerable<ISaveableCharacter> a_Saveables, int saveSlot = 0)
+    {
+        string fileName = string.Format("character_{0}", saveSlot);
+
+        SaveDataCharacter sd = new SaveDataCharacter();
+        foreach (var saveable in a_Saveables)
+        {
+            saveable.PopulateSaveDataCharacter(sd);
+        }
+
+        if (FileManager.WriteToFile(fileName, sd.ToJson()))
+        {
+            Debug.Log("Save successful");
+        }
+    }
+    public static void LoadJsonData(IEnumerable<ISaveableCharacter> a_Saveables, int saveSlot = 0)
+    {
+        string fileName = string.Format("character_{0}", saveSlot);
+
+        if (FileManager.LoadFromFile(fileName, out var json))
+        {
+            SaveDataCharacter sd = new SaveDataCharacter();
+            sd.LoadFromJson(json);
+
+            foreach (var saveable in a_Saveables)
+            {
+                saveable.LoadFromSaveDataCharacter(sd);
+            }
+            
+            Debug.Log("Load complete");
+        }
+    }
+
+        // character_01 character_02 character_03 character_04
+
+    public static void SaveJsonData(IEnumerable<ISaveableTemp> a_Saveables)
+    {
+        string fileName = saveFileNameTemp;
+
+        SaveDataTemp sd = new SaveDataTemp();
+        foreach (var saveable in a_Saveables)
+        {
+            saveable.PopulateSaveDataTemp(sd);
+        }
+
+        if (FileManager.WriteToFile(fileName, sd.ToJson()))
+        {
+            Debug.Log("Save successful");
+        }
+    }
+    public static void LoadJsonData(IEnumerable<ISaveableTemp> a_Saveables)
+    {
+        string fileName = saveFileNameTemp;
+
+        if (FileManager.LoadFromFile(fileName, out var json))
+        {
+            SaveDataTemp sd = new SaveDataTemp();
+            sd.LoadFromJson(json);
+
+            foreach (var saveable in a_Saveables)
+            {
+                saveable.LoadFromSaveDataTemp(sd);
             }
             
             Debug.Log("Load complete");

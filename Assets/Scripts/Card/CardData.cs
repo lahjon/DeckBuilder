@@ -6,7 +6,7 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardData : ScriptableObject
 {
-    public new string name;
+    public string cardName;
     public string description;
 
     public Sprite artwork;
@@ -23,7 +23,7 @@ public class CardData : ScriptableObject
 
     public CardRarity cardRarity;
 
-    public CharacterClass characterClass;
+    public CharacterClassType characterClass;
     public GameObject animationPrefab;
     public AudioClip audio;
 

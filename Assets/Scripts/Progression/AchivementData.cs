@@ -7,6 +7,5 @@ public class AchivementData : ScriptableObject
 {
     public new string name;
     public string description;
-    public bool unlocked;
 
 }
