@@ -58,10 +58,6 @@ public class RulesSystem : MonoBehaviour
         {
             source.healthEffects.RecieveBlock(cardData.Block.Value * cardData.Block.Times);
         }
-        for (int i = 0; i < cardData.SelfEffects.Count; i++)
-        {
-            source.healthEffects.RecieveEffectNonDamageNonBlock(cardData.SelfEffects[i]);
-        }
     }
 
     public void CarryOutCard(CardData cardData, CombatActor source, CombatActor target)
@@ -107,7 +103,8 @@ public class RulesSystem : MonoBehaviour
         foreach (CombatActorEnemy enemy in combatController.EnemiesInScene)
             yield return StartCoroutine(EnemyStartTurn(enemy));
 
-        combatController.EndState();
+        combatController.animator.SetBool("EnemiesWaiting", false);
+        combatController.animator.SetTrigger("EnemyTookTurn");
     }
 
     public IEnumerator StartTurn()

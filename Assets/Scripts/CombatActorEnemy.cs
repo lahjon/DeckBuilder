@@ -87,7 +87,7 @@ public class CombatActorEnemy : CombatActor
 
     public void UpdateMoveDisplay(CardData cardData)
     {
-        intentDisplay.RecieveIntent(cardData.Block, cardData.Damage, cardData.SelfEffects, cardData.Effects);   
+        intentDisplay.RecieveIntent(cardData.Block, cardData.Damage, cardData.Effects);   
     }
     public void TakeTurn()
     {

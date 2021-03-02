@@ -14,7 +14,7 @@ public class IntentDisplay : MonoBehaviour
 
     public TMP_Text lblIntent;
 
-    public void RecieveIntent(CardEffect block, CardEffect Damage, List<CardEffect> EffectsSelf, List<CardEffect> Effects)
+    public void RecieveIntent(CardEffect block, CardEffect Damage, List<CardEffect> Effects)
     {
         for (int i = 0; i < Icons.Length; i++)
             Icons[i].gameObject.SetActive(false);
@@ -38,12 +38,6 @@ public class IntentDisplay : MonoBehaviour
             Icons[cursor++].gameObject.SetActive(true);
         }
 
-
-        if(EffectsSelf.Count != 0 || Effects.Count != 0)
-        {
-            Icons[cursor].sprite = OtherSprite;
-            Icons[cursor++].gameObject.SetActive(true);
-        }
     }
 
 

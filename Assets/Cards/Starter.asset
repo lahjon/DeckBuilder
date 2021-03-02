@@ -21,7 +21,7 @@ MonoBehaviour:
     Type: 0
     Value: 2
     Times: 1
-    Target: 0
+    Target: 1
   Block:
     Type: 0
     Value: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
   - Type: 3
     Value: 4
     Times: 1
-    Target: 0
+    Target: 1
   activities:
   - type: 0
     parameter: 2

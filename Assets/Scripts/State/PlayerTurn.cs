@@ -27,7 +27,7 @@ public class PlayerTurn : State
         CombatController.acceptSelections = false;
         CombatController.EndTurn();
         yield return new WaitForSeconds(0.05f);
-        CombatController.SetState(new EnemyTurn(CombatController));
+        //CombatController.SetState(new EnemyTurn(CombatController));
     }
 }
 

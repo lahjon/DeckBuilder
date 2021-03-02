@@ -25,11 +25,12 @@ public class CharacterVariablesUI : MonoBehaviour
 
         //DEBUG:
         worldState.text = WorldSystem.instance.worldStateManager.currentState.ToString();
+        /*
         if(WorldSystem.instance.combatManager.combatController.state != null)
             combatState.text = WorldSystem.instance.combatManager.combatController.state.ToString();
         else
             combatState.text = "None";
-
+        */
     }
 
     public void DisplayDeck()
