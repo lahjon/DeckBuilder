@@ -8,6 +8,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     {
         SetRefs(animator);
         combatController.StartCoroutine(StartPlayerTurn());
+        combatController.ActiveActor = combatController.Hero;
     }
 
 

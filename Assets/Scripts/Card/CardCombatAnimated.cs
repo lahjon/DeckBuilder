@@ -129,8 +129,9 @@ public class CardCombatAnimated : Card
 
     public override void OnMouseClick()
     {
+        Debug.Log("Cardclicked: " + cardData.name);
         if(combatController.ActiveCard == this)
-            combatController.CardUsed();
+            combatController.SelectedCardTriggered();
         else if(combatController.CardisSelectable(this,false))
             SelectCard();  
     }

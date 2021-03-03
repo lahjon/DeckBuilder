@@ -14,6 +14,7 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
     {
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
+        combatController.ResetSiblingIndexes();
         curve = card.transitionCurveReturn;
         StartTransInfo = TransSnapshot();
         time = 0;
@@ -29,7 +30,7 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
         TargetTransInfo = (tempTransInfo.pos, Vector3.one, tempTransInfo.angles);
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
-        if (Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < 1 || time > 1)
+        if (Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < 0.5f || time > 1)
         {
             if (time < 1) CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
             animator.SetTrigger("ReturnedToIdle");

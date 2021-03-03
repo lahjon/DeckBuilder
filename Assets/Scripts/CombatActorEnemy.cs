@@ -91,7 +91,6 @@ public class CombatActorEnemy : CombatActor
     }
     public void TakeTurn()
     {
-        RulesSystem.instance.CarryOutCardSelf(deck[0], this);
         RulesSystem.instance.CarryOutCard(deck[0], this, combatController.Hero);
 
         discard.Add(deck[0]);

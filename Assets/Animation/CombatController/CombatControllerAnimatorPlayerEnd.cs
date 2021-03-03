@@ -17,6 +17,9 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
         combatController.EndTurn();
         yield return new WaitForSeconds(0.05f);
 
+
+        combatController.enemiesWaiting.Clear();
+        combatController.EnemiesInScene.ForEach(x => combatController.enemiesWaiting.Enqueue(x));
         combatController.animator.SetTrigger("PlayerTurnEnded");
         yield return null;
     }

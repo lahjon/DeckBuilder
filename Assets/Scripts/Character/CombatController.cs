@@ -68,9 +68,20 @@ public class CombatController : MonoBehaviour
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
+    public List<CombatActor> ActorsInScene = new List<CombatActor>();
 
-    public Queue<(CardCombatAnimated card, List<CombatActor> targets)> CardQueue = new Queue<(CardCombatAnimated card, List<CombatActor> targets)>();
+    public Queue<(CardData card, CombatActor target)> CardQueue =
+        new Queue<(CardData card, CombatActor target)>();
 
+    [SerializeField]
+    public (CardData card, CombatActor target) CardInProcess;
+    public CardCombatAnimated HeroCardInProcess;
+
+    public Queue<CardCombatAnimated> HeroCardsWaiting = new Queue<CardCombatAnimated>();
+    public Queue<CombatActorEnemy> enemiesWaiting = new Queue<CombatActorEnemy>();
+
+
+    public CombatActor ActiveActor;
 
     //[HideInInspector]
     public CardCombatAnimated _activeCard;
@@ -98,6 +109,11 @@ public class CombatController : MonoBehaviour
         }
         set
         {
+            // pre stuff
+            if (_activeCard != null && value != _activeCard)
+                _activeCard.selected = false;
+
+            //overwrite
             _activeCard = value;
             EnemiesInScene.ForEach(x => x.SetTarget(false));
             foreach (CardCombatAnimated card in Hand)
@@ -193,6 +209,34 @@ public class CombatController : MonoBehaviour
             DestroyImmediate(card);
         }
     }
+
+    public CombatActorEnemy GetRandomEnemy()
+    {
+        int id = UnityEngine.Random.Range(0, EnemiesInScene.Count);
+        return EnemiesInScene[id];
+    }
+
+    public List<CombatActor> GetTargets(CombatActor source, CardTargetType type, CombatActor suppliedTarget = null)
+    {
+        List<CombatActor> targets = new List<CombatActor>();
+
+        if (type == CardTargetType.Self)
+            targets.Add(source);
+        else if (type == CardTargetType.EnemyAll)
+            targets.AddRange(EnemiesInScene);
+        else if (type == CardTargetType.EnemySingle)
+            targets.Add(suppliedTarget);
+        else if (type == CardTargetType.EnemyRandom)
+            targets.Add(GetRandomEnemy());
+        else if(type == CardTargetType.All)
+        {
+            targets.Add(Hero);
+            targets.AddRange(EnemiesInScene);
+        }
+
+        return targets;
+    }
+
     #endregion
 
     #region Positioning and Scale
@@ -323,6 +367,7 @@ public class CombatController : MonoBehaviour
 
     internal void CancelCardSelection()
     {
+        ActiveCard.selected = false;
         ActiveCard = null;
         ResetSiblingIndexes();
     }
@@ -389,6 +434,7 @@ public class CombatController : MonoBehaviour
 
     public void DetectCanvasClick()
     {
+        Debug.Log("Canvas detected click");
         if (ActiveCard != null)
         {
             if (Input.GetMouseButton(0))
@@ -432,50 +478,19 @@ public class CombatController : MonoBehaviour
         return false;
     }
 
-    public void CardUsed()
+    public void SelectedCardTriggered()
     {
-        if (!acceptActions)
-        {
-            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Previous card is being resolved");
-            return;
-        }
-
+        Debug.Log("mouseclicked");
         if (ActiveCard is null)
             return;
 
-        if ((ActiveCard.cardData.targetRequired && ActiveEnemy is null) || MouseInsideArea())
+        if (MouseInsideArea())
         {
-            ActiveCard.DeselectCard();
+            CancelCardSelection();
             return;
         }
 
-        Hand.Remove(ActiveCard);
         ActiveCard.animator.SetTrigger("MouseClicked");
-        ActiveCard.animator.SetBool("Selected", false);
-
-
-        RefreshHandPositions();
-
-        cEnergy -= ActiveCard.cardData.cost;
-
-        RulesSystem.instance.CarryOutCardSelf(ActiveCard.cardData, Hero);
-
-        List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
-        if (ActiveCard.cardData.targetRequired)
-            targetedEnemies.Add(ActiveEnemy);
-        else
-            targetedEnemies.AddRange(EnemiesInScene);
-
-
-        foreach (CombatActorEnemy e in targetedEnemies)
-        {
-            RulesSystem.instance.CarryOutCard(ActiveCard.cardData, Hero, e);
-            if (e.healthEffects.hitPoints <= 0)
-                KillEnemy(e);
-        }
-
-        ActiveCard.cardData.activities.ForEach(x => StartCoroutine(CardActivitySystem.instance.StartByCardActivity(x)));
-
         ActiveCard = null;
     }
 

@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class CardCombatAnimator : StateMachineBehaviour
 {
+    public static CombatController combatController;
     public CardCombatAnimated card;
-    public CombatController combatController;
 
     public void SetRefs(Animator animator)
     {
+        if (combatController is null) 
+            combatController = WorldSystem.instance.combatManager.combatController;
         if(card is null)
-        {
             card = animator.GetComponent<CardCombatAnimated>();
-            combatController = card.combatController;
-        }
     }
 
     public Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
