@@ -887,7 +887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7db156525ac2b4eb07dc35d3daf718, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionInProgress: 0
   TemplateCard: {fileID: 1577957614717447411, guid: 05e33f674d1e4f647989b2eeced711fa, type: 3}
   bezierPath: {fileID: 1062460996769155112}
   TemplateEnemy: {fileID: 4296724836048231570, guid: cf7991e7e8a24f147b194b89f71f7179, type: 3}
@@ -922,7 +921,7 @@ MonoBehaviour:
   acceptSelections: 1
   acceptActions: 1
   canvas: {fileID: 265525352340969162}
-  animator: {fileID: 0}
+  animator: {fileID: 4721787840653028834}
   backingEnergy: 0
   Deck: []
   Hand: []
@@ -931,6 +930,9 @@ MonoBehaviour:
   EnemiesInScene: []
   mouseInsidePanel: 0
   DeadEnemiesInScene: []
+  ActorsInScene: []
+  HeroCardInProcess: {fileID: 0}
+  ActiveActor: {fileID: 0}
   _activeCard: {fileID: 0}
 --- !u!95 &4721787840653028834
 Animator:

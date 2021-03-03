@@ -11,8 +11,10 @@ public class CombatActorHero : CombatActor
         this.GetComponent<SpriteRenderer>().sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
     }
 
+
     void OnEnable()
     {
 
     }
+
 }

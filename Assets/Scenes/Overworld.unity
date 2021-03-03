@@ -6554,10 +6554,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1423531298, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: origoCardRot
-      value: 2000
-      objectReference: {fileID: 0}
     - target: {fileID: 265525352340969162, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
       propertyPath: m_Camera
       value: 
@@ -6609,50 +6605,6 @@ PrefabInstance:
     - target: {fileID: 265525353429866322, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
       propertyPath: m_Name
       value: CombatEnvironment
-      objectReference: {fileID: 0}
-    - target: {fileID: 265525353429866322, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070277548413983880, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070277548413983880, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070277548413983880, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070277549851091858, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2070277549851091858, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8555409125056824801, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8555409125056824801, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8555409125056824801, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775886025751465750, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8775886025751465750, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
@@ -12786,7 +12738,7 @@ MonoBehaviour:
   startDrawAmount: 3
   characterVariablesUI: {fileID: 2131869295}
   character: {fileID: 0}
-  characterPrefab: {fileID: 143385996355014696, guid: 38ba36d1ec37eb4479cf8c1051ec2713, type: 3}
+  characterPrefab: {fileID: 0}
   playerCardsData: []
   playerCardsDataNames: []
   characterClassType: 0
