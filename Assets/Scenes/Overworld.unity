@@ -12738,7 +12738,7 @@ MonoBehaviour:
   startDrawAmount: 3
   characterVariablesUI: {fileID: 2131869295}
   character: {fileID: 0}
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 143385996355014696, guid: 38ba36d1ec37eb4479cf8c1051ec2713, type: 3}
   playerCardsData: []
   playerCardsDataNames: []
   characterClassType: 0
