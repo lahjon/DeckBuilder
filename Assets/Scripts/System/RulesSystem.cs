@@ -49,17 +49,6 @@ public class RulesSystem : MonoBehaviour
     }
 
 
-
-
-
-    public void CarryOutCardSelf(CardData cardData, CombatActor source)
-    {
-        if (cardData.Block.Value != 0)
-        {
-            source.healthEffects.RecieveBlock(cardData.Block.Value * cardData.Block.Times);
-        }
-    }
-
     public void CarryOutCard(CardData cardData, CombatActor source, CombatActor target)
     {
 
@@ -93,19 +82,7 @@ public class RulesSystem : MonoBehaviour
         }
     }
 
-    public void EnemiesStartTurn()
-    {
-        StartCoroutine(EnumEnemiesStartTurn());
-    }
 
-    public IEnumerator EnumEnemiesStartTurn()
-    {
-        foreach (CombatActorEnemy enemy in combatController.EnemiesInScene)
-            yield return StartCoroutine(EnemyStartTurn(enemy));
-
-        combatController.animator.SetBool("EnemiesWaiting", false);
-        combatController.animator.SetTrigger("EnemyTookTurn");
-    }
 
     public IEnumerator StartTurn()
     {

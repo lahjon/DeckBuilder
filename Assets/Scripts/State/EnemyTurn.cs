@@ -11,7 +11,6 @@ public class EnemyTurn : State
     public override IEnumerator Start()
     {
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
-        RulesSystem.instance.EnemiesStartTurn();
         yield return null;
     }
     public override IEnumerator Action()

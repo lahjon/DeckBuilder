@@ -22,8 +22,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Debug.Log("Select OnStateExit:" + Time.frameCount);
-        combatController.ResetSiblingIndexes();
+        card.selected = false;
         animator.SetBool("AllowMouseOver",false);
     }
 

@@ -29,7 +29,6 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
             combatController.SetCardTransFromDegree(card, card.fanDegreeCurrent);
         }
         else {
-            Debug.Log("Close enough for idle to end: " + card.fanDegreeCurrent + " , " + card.fanDegreeTarget);
             card.fanDegreeCurrent = card.fanDegreeTarget;
             combatController.SetCardTransFromDegree(card, card.fanDegreeTarget);
             animator.SetBool("NeedFan", false);
