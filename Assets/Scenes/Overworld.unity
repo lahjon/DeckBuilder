@@ -4671,7 +4671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532757f1b6953d34fa11bd5ff45f2a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
   worldState: 8
   encounterManager: {fileID: 0}
   characterManager: {fileID: 0}
@@ -4686,6 +4685,8 @@ MonoBehaviour:
   progressionManager: {fileID: 0}
   missionManager: {fileID: 0}
   act: 1
+  character: {fileID: 0}
+  characterClassType: 0
 --- !u!4 &507922624
 Transform:
   m_ObjectHideFlags: 0
@@ -12256,9 +12257,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2103181357be0844c84c9a819bb01232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Your first objective
+  progressName: 
   goalsTrackAmount: 
   completed: 0
+  objectiveId: 
   description: Hussah nr 1!
   completeEvent: Event003
   achivementData: {fileID: 0}
@@ -12782,15 +12784,12 @@ MonoBehaviour:
   characterClass: 0
   energy: 0
   startDrawAmount: 3
-  characterData: {fileID: 11400000, guid: 20a52c86e4384fe4e852b1f68512b7cc, type: 2}
-  damageModifier: 0
-  blockModifier: 0
-  handSize: 10
-  cardDrawAmount: 5
-  energyModifier: 0
-  magicFind: 0
-  playerCardsData: []
   characterVariablesUI: {fileID: 2131869295}
+  character: {fileID: 0}
+  characterPrefab: {fileID: 143385996355014696, guid: 38ba36d1ec37eb4479cf8c1051ec2713, type: 3}
+  playerCardsData: []
+  playerCardsDataNames: []
+  characterClassType: 0
 --- !u!4 &1402112390
 Transform:
   m_ObjectHideFlags: 0
@@ -12859,9 +12858,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0042803b1dda2ed44a5dbeedf706aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Second
+  progressName: 
   goalsTrackAmount: 
   completed: 0
+  objectiveId: 
   description: Yes. 2
   completeEvent: 
   achivementData: {fileID: 0}

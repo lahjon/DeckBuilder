@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class SaveDataManager
 {
-    // use saveSlot_0 for progression save
     public static string saveFileName = "progression_data";
     public static string saveFileNameTemp = "temp_data";
 

@@ -44,11 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1a06fbd2bdde04c9f5812e208d756d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strength: 0
-  cunning: 0
-  speed: 0
-  endurance: 0
-  wisdom: 0
+  damageModifier: 0
+  blockModifier: 0
+  drawCardsAmount: 0
+  energy: 0
+  maxHp: 0
+  level: 0
+  classType: 1
+  characterData: {fileID: 11400000, guid: 20a52c86e4384fe4e852b1f68512b7cc, type: 2}
+  unlocked: 0
 --- !u!1 &5016316874813098304
 GameObject:
   m_ObjectHideFlags: 0

@@ -68,6 +68,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     private void SetupCharacterData()
     {
+        if (character == null)
+        {
+            character = Instantiate(characterPrefab).GetComponent<Character>();
+        }
         characterClassType = character.classType;
         gold = startingGold;
         maxHealth = character.maxHp;
