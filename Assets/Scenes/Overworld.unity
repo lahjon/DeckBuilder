@@ -1928,16 +1928,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522227c7fc4f2104c89ffbc5150b405f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
---- !u!1 &205438560
-=======
---- !u!95 &191948949 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4721787840653028834, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
-  m_PrefabInstance: {fileID: 739303091}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &199106528
->>>>>>> 2c3e06c1c092714ff2a53e54f9534c1eb1fa4226
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
