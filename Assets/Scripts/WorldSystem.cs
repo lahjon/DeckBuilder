@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
-public class WorldSystem : MonoBehaviour, ISaveableTemp
+public class WorldSystem : MonoBehaviour
 {
     public static WorldSystem instance; 
     public WorldState worldState;
@@ -23,9 +23,8 @@ public class WorldSystem : MonoBehaviour, ISaveableTemp
     public GameEventManager gameEventManager;
     public ProgressionManager progressionManager;
     public MissionManager missionManager;
+    public TokenManager tokenManager;
     public int act;
-    public Character character;
-    public CharacterClassType characterClassType;
 
     void Awake()
     {
@@ -42,20 +41,19 @@ public class WorldSystem : MonoBehaviour, ISaveableTemp
 
     void Start()
     {
-        LoadProgression();
-        if(worldState != WorldState.MainMenu)
-            UpdateStartScene();
         act = 1;
-
     }
 
-        IEnumerator WaitForStart()
+    void Update()
     {
-        while (WorldSystem.instance.characterManager == null && WorldSystem.instance.townManager == null)
+        if (Input.GetKey(KeyCode.S))
         {
-            yield return null;
+            SaveProgression();
         }
-        
+        if (Input.GetKey(KeyCode.L))
+        {
+            LoadProgression();
+        }
     }
 
     public void EnterCombat(List<EnemyData> enemyDatas = null)
@@ -77,11 +75,15 @@ public class WorldSystem : MonoBehaviour, ISaveableTemp
 
     public void SaveProgression()
     {
-        if (SceneManager.GetActiveScene().buildIndex != 0)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
+        }
+        else
         {
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
-            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), (int)character.classType);
+            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), (int)characterManager.characterClassType);
         }
 
     }
@@ -89,12 +91,14 @@ public class WorldSystem : MonoBehaviour, ISaveableTemp
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            SaveDataManager.LoadJsonData(this.GetComponents<ISaveableTemp>());
+            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
         }
         else
         {
             SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
             SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
         }
     }
 
@@ -128,16 +132,4 @@ public class WorldSystem : MonoBehaviour, ISaveableTemp
         characterManager.Reset();
     }
 
-    public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
-    {
-        return;
-    }
-
-    public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
-    {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            characterClassType = a_SaveData.characterClassType;
-        }
-    }
 }

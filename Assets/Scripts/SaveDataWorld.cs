@@ -12,6 +12,9 @@ public class SaveDataWorld
     public int shard;
     public CharacterClassType classType;
 
+    // token
+    public List<string> unlockedTokens = new List<string>();
+
     // world
     public int act;
 
@@ -26,6 +29,7 @@ public class SaveDataWorld
     public List<BuildingType> buildingTrackerKey;
     public List<int> buildingTrackerValues;
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    public int tokenPoints;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

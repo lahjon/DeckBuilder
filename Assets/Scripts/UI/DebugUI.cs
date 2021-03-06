@@ -6,6 +6,7 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
 {
     public GameObject canvas;
     public int strength;
+    public GameObject tokenReward;
 
     void Update()
     {
@@ -18,6 +19,14 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     public void DebugCreateWarning()
     {
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
+    }
+    public void DebugAddTokenPoints()
+    {
+        WorldSystem.instance.tokenManager.AddTokenPoint();
+    }
+    public void DebugAddTokenReward()
+    {
+        WorldSystem.instance.tokenManager.UnlockNewToken(tokenReward);
     }
 
     public void DebugGetShards()

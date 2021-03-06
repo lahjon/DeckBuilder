@@ -24,19 +24,6 @@ public class CharacterCreator : MonoBehaviour
     public GameObject warningPanel;
     WorldSystem world;
 
-    void Update()
-    {
-        //DEBUG
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveCharacter();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadCharacters();
-        }
-    }
-
     void Start()
     {
         world = WorldSystem.instance;
@@ -76,12 +63,6 @@ public class CharacterCreator : MonoBehaviour
         }
     }
 
-    public void SaveCharacter()
-    {
-        SaveDataManager.SaveJsonData(selectedCharacter.GetComponents<ISaveableCharacter>(), (int)selectedCharacter.classType);
-        world.SaveProgression();
-    }
-
     public void SelectCharacter(int index)
     {
         currentButton = characterButtons[index];
@@ -90,7 +71,6 @@ public class CharacterCreator : MonoBehaviour
         selectedCharacter = allCharacters[index];
         statsController.UpdateStats();
         UpdateButtons();
-        
     }
 
     void UpdateButtons()
@@ -104,39 +84,26 @@ public class CharacterCreator : MonoBehaviour
         }
         currentButton.GetComponent<Image>().color = selectedColor;
     }
-
-    // void SetCharacter()
-    // {
-    //     foreach (Character item in allCharacters)
-    //     {
-    //         if (item != selectedCharacter)
-    //         {
-    //             DestroyImmediate(item.gameObject);
-    //         }
-    //     }
-    // }
-
     public void StartGame(bool resetData)
     {
         if (resetData)
         {
             FileManager.ResetTempData();
         }
-        world.character = selectedCharacter;
-        world.characterClassType = selectedCharacter.classType;
+        world.characterManager.characterClassType = selectedCharacter.classType;
+        world.characterManager.character = selectedCharacter;
+        world.SaveProgression();
         levelLoader.LoadNewLevel();
     }
 
     public void Confirm()
     {
-        if (world.characterClassType == selectedCharacter.classType || world.characterClassType == CharacterClassType.None)
+        if (world.characterManager.characterClassType == selectedCharacter.classType || world.characterManager.characterClassType == CharacterClassType.None)
         {
-            Debug.Log("Same");
             StartGame(false);
         }
         else
         {
-            Debug.Log("NotSame");
             warningPanel.SetActive(true);
         }
     }

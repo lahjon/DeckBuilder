@@ -6,20 +6,39 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
+    public static LevelLoader instance; 
     public Canvas canvas;
     WorldSystem world;
     public int currentScene = 0;
-
+    
     void Awake()
     {
         world = WorldSystem.instance;
+
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    void Start()
-    { 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnDisabled()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         StartNewLevel();
     }
-    
+
     public void LoadNewLevel()
     {
         StartCoroutine(LoadLevel(1));
@@ -28,6 +47,7 @@ public class LevelLoader : MonoBehaviour
     public void StartNewLevel()
     {
         StartCoroutine(StartLevel(1));
+        
     }
 
     IEnumerator LoadLevel(float time)
@@ -47,7 +67,8 @@ public class LevelLoader : MonoBehaviour
 
     IEnumerator StartLevel(float time)
     {
-
+        world.LoadProgression();
+        world.SaveProgression();
         if (world.missionManager != null && world.missionManager.mission == null)
         {
             world.missionManager.NewMission("Mission001");
@@ -74,5 +95,10 @@ public class LevelLoader : MonoBehaviour
             yield return 0;
         }  
         currentScene = sceneNumber;
+    }
+
+    public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        return;
     }
 }

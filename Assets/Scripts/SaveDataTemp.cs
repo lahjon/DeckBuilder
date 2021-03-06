@@ -5,8 +5,10 @@ using System.Linq;
 [System.Serializable]
 public class SaveDataTemp
 {
-    public CharacterClassType characterClassType;
     public List<string> playerCardsDataNames = new List<string>();
+    public CharacterClassType characterClassType;
+    public List<string> selectedTokens = new List<string>(); 
+    public int availableTokenPoints;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

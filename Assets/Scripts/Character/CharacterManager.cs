@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
-public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
+public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
 {
     // should match all items from CharacterVariables Enum
     private int _gold;
@@ -13,7 +14,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public int currentHealth;
     public int maxHealth;
     public int maxCardReward = 3;
-    public CharacterClassType characterClass;
     public int energy;
     public int startDrawAmount;
     public CharacterVariablesUI characterVariablesUI;
@@ -22,18 +22,21 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public List<CardData> playerCardsData;
     public List<string> playerCardsDataNames;
     public CharacterClassType characterClassType;
+    public List<string> selectedTokens = new List<string>();
 
     protected override void Awake()
     {
         base.Awake();
         world.characterManager = this;
-        character = world.character;
     }
 
     protected override void Start()
     {
         base.Start(); 
-        SetupCharacterData();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            SetupCharacterData();
+        }
     }
 
     public int gold 
@@ -77,7 +80,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         maxHealth = character.maxHp;
         startDrawAmount = character.characterData.drawCardsAmount;
         energy = character.characterData.energy;
-        characterClass = character.characterData.classType;
+        characterClassType = character.characterData.classType;
 
         if (playerCardsDataNames == null || playerCardsDataNames.Count == 0)
         {
@@ -157,6 +160,16 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
         playerCardsDataNames = a_SaveData.playerCardsDataNames;
+        characterClassType = a_SaveData.characterClassType;
+    }
+
+    public void PopulateSaveDataStart(SaveDataStart a_SaveData)
+    {
+        a_SaveData.characterClassType = characterClassType;
+    }
+
+    public void LoadFromSaveDataStart(SaveDataStart a_SaveData)
+    {
         characterClassType = a_SaveData.characterClassType;
     }
 }

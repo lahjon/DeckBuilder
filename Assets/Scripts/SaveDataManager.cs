@@ -4,7 +4,9 @@ using UnityEngine;
 public static class SaveDataManager
 {
     public static string saveFileName = "progression_data";
-    public static string saveFileNameTemp = "temp_data";
+    public static string saveFileNameTemp = "run_data";
+    public static string saveFileNameStart = "start_data";
+
 
     public static void SaveJsonData(IEnumerable<ISaveableWorld> a_Saveables)
     {
@@ -104,6 +106,39 @@ public static class SaveDataManager
             foreach (var saveable in a_Saveables)
             {
                 saveable.LoadFromSaveDataTemp(sd);
+            }
+            
+            Debug.Log("Load complete");
+        }
+    }
+
+    public static void SaveJsonData(IEnumerable<ISaveableStart> a_Saveables)
+    {
+        string fileName = saveFileNameStart;
+
+        SaveDataStart sd = new SaveDataStart();
+        foreach (var saveable in a_Saveables)
+        {
+            saveable.PopulateSaveDataStart(sd);
+        }
+
+        if (FileManager.WriteToFile(fileName, sd.ToJson()))
+        {
+            Debug.Log("Save successful");
+        }
+    }
+    public static void LoadJsonData(IEnumerable<ISaveableStart> a_Saveables)
+    {
+        string fileName = saveFileNameStart;
+
+        if (FileManager.LoadFromFile(fileName, out var json))
+        {
+            SaveDataStart sd = new SaveDataStart();
+            sd.LoadFromJson(json);
+
+            foreach (var saveable in a_Saveables)
+            {
+                saveable.LoadFromSaveDataStart(sd);
             }
             
             Debug.Log("Load complete");

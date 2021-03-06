@@ -35,7 +35,7 @@ public class CharacterSheet : MonoBehaviour
         // handsize.text = characterManager.handSize.ToString();
         // damage.text = characterManager.damageModifier.ToString();
         // block.text = characterManager.blockModifier.ToString();
-        charClass.text = characterManager.characterClass.ToString();
+        charClass.text = characterManager.characterClassType.ToString();
         energy.text = characterManager.energy.ToString();
     }
 
