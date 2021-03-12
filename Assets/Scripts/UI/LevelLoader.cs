@@ -39,18 +39,18 @@ public class LevelLoader : MonoBehaviour
         StartNewLevel();
     }
 
-    public void LoadNewLevel()
+    public void LoadNewLevel(int index = 1)
     {
-        StartCoroutine(LoadLevel(1));
+        StartCoroutine(LoadLevel(1.0f, index));
     }
 
-    public void StartNewLevel()
+    public void StartNewLevel(int index = 1)
     {
-        StartCoroutine(StartLevel(1));
+        StartCoroutine(StartLevel(1.0f));
         
     }
 
-    IEnumerator LoadLevel(float time)
+    IEnumerator LoadLevel(float time, int index)
     {
 
         canvas.gameObject.SetActive(true);
@@ -61,8 +61,7 @@ public class LevelLoader : MonoBehaviour
             canvas.GetComponent<CanvasGroup>().alpha = t;
             yield return null;
         }
-        LoadByIndex(1);
-        
+        StartCoroutine(LoadNewScene(index));
     }
 
     IEnumerator StartLevel(float time)
@@ -83,10 +82,6 @@ public class LevelLoader : MonoBehaviour
         canvas.gameObject.SetActive(false);
     }
 
-    void LoadByIndex(int sceneIndex) 
-    {
-        StartCoroutine(LoadNewScene(sceneIndex));
-    }
     IEnumerator LoadNewScene(int sceneNumber) 
     {
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneNumber);

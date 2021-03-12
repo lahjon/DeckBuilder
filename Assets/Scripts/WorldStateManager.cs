@@ -30,8 +30,8 @@ public class WorldStateManager : Manager
         }
         else
         {
-            stateStack.Add(WorldState.Overworld);
-            currentState = WorldState.Overworld;
+            stateStack.Add(WorldState.ActMap);
+            currentState = WorldState.ActMap;
             Debug.Log("This should never happen! Make sure you are using the states correctly!");
         }
         WorldSystem.instance.worldState = currentState;
@@ -59,9 +59,9 @@ public class WorldStateManager : Manager
     {
         switch (aState)
         {
-            case WorldState.Overworld:
-                WorldSystem.instance.townManager.ExitTown();
+            case WorldState.ActMap:
                 WorldSystem.instance.encounterManager.OpenOverworldMap();
+                WorldSystem.instance.townManager.ExitTown();
                 break;
             
             case WorldState.Transition:
@@ -69,6 +69,10 @@ public class WorldStateManager : Manager
 
             case WorldState.Town:
                 WorldSystem.instance.townManager.UpdateTown();
+                break;
+
+            case WorldState.WorldMap:
+                world.worldMapManager.OpenMap();
                 break;
 
             default:

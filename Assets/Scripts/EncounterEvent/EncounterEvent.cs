@@ -66,7 +66,7 @@ public class EncounterEvent
     private static bool EventNewMap()
     {
         WorldSystem.instance.encounterManager.GenerateMap(2,2,4);
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Overworld, true);
+        WorldSystem.instance.worldStateManager.AddState(WorldState.ActMap, true);
         return true;
     }
 

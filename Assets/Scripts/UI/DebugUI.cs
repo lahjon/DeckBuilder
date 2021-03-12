@@ -7,6 +7,7 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     public GameObject canvas;
     public int strength;
     public GameObject tokenReward;
+    public GameObject artifactReward;
 
     void Update()
     {
@@ -19,6 +20,24 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     public void DebugCreateWarning()
     {
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
+    }
+
+    public void DebugAddSpecficArtifact()
+    {
+        WorldSystem.instance.artifactManager.AddArifact(artifactReward);
+    }
+    public void DebugRemoveSpecificArtifact()
+    {
+        WorldSystem.instance.artifactManager.RemoveArtifact(artifactReward);
+    }
+    public void DebugAddRandomArtifact()
+    {
+        WorldSystem.instance.artifactManager.AddArifact(WorldSystem.instance.artifactManager.GetRandomAvailableArtifact());
+    }
+
+    public void DebugRemoveRandomArtifact()
+    {
+        WorldSystem.instance.artifactManager.RemoveArtifact(WorldSystem.instance.artifactManager.GetRandomActiveArtifact());
     }
     public void DebugAddTokenPoints()
     {

@@ -29,6 +29,7 @@ public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
+        buildingTracker.Clear();
         buildingTracker.SetDictionaryFromLists(a_SaveData.buildingTrackerKey, a_SaveData.buildingTrackerValues);
         unlockedCharacters = a_SaveData.unlockedCharacters;
     }

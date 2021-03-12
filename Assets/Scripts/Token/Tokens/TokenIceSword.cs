@@ -10,8 +10,13 @@ public class TokenIceSword : Token
         base.Init();
     }
 
-    public override void ActivateToken()
+    public override void AddActivity()
     {
-        return;
+        Debug.Log("Add Activity");
+    }
+
+    public override void RemoveActivity()
+    {
+        Debug.Log("Remove Activity");
     }
 }

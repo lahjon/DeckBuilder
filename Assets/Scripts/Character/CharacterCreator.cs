@@ -11,7 +11,7 @@ public class CharacterCreator : MonoBehaviour
     public Image artwork;
     public List<GameObject> characterButtons;
     public TMP_Text decriptionText;
-    private int index = 0;
+    private int selectionIndex = 0;
     CharacterData selectedCharacterData;
     GameObject currentButton;
     Color selectedColor = new Color(1.0f, 1.0f, 1.0f);
@@ -20,9 +20,10 @@ public class CharacterCreator : MonoBehaviour
     public Character selectedCharacter;
     public List<Character> allCharacters;
     public StatsController statsController;  
-    public LevelLoader levelLoader;  
     public GameObject warningPanel;
     WorldSystem world;
+    public CameraShake cameraShake;
+    bool shake;
 
     void Start()
     {
@@ -35,7 +36,8 @@ public class CharacterCreator : MonoBehaviour
         }
 
         LoadCharacters();
-        SelectCharacter(index);
+        SelectCharacter(selectionIndex);
+        shake = true;
     }
 
 
@@ -65,10 +67,15 @@ public class CharacterCreator : MonoBehaviour
 
     public void SelectCharacter(int index)
     {
+        if (shake && index != this.selectionIndex)
+        {
+            cameraShake.ShakeCamera();
+        }
         currentButton = characterButtons[index];
         selectedCharacterData = allCharacterData[index];
         decriptionText.text = selectedCharacterData.description;
         selectedCharacter = allCharacters[index];
+        selectionIndex = index;
         statsController.UpdateStats();
         UpdateButtons();
     }
@@ -93,7 +100,7 @@ public class CharacterCreator : MonoBehaviour
         world.characterManager.characterClassType = selectedCharacter.classType;
         world.characterManager.character = selectedCharacter;
         world.SaveProgression();
-        levelLoader.LoadNewLevel();
+        LevelLoader.instance.LoadNewLevel();
     }
 
     public void Confirm()

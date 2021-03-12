@@ -24,7 +24,7 @@ public class CameraManager : Manager
                 mainCamera.transform.position = combatCameraPos.position;
                 break;
 
-            case WorldState.Overworld:
+            case WorldState.ActMap:
                 int act = WorldSystem.instance.act;
                 mainCamera.transform.position = actCameraPos[act - 1].position;
                 break;

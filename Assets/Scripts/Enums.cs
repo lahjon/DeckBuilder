@@ -21,6 +21,7 @@ public enum CardRarity
 
 public enum Rarity
 {
+    None,
     Common, 
     Uncommon, 
     Rare
@@ -89,15 +90,6 @@ public enum EffectType
     Barricade
 }
 
-// public enum CharacterStat
-// {
-//     Strength,
-//     Cunning,
-//     Speed,
-//     Endurance,
-//     Wisdom
-// }
-
 public enum WorldState
 {
     MainMenu,
@@ -106,7 +98,8 @@ public enum WorldState
     Shop,
     Display,
     Combat,
-    Overworld,
+    ActMap,
+    WorldMap,
     Menu,
     Town,
     TownHall,

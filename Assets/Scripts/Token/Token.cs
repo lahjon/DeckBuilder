@@ -7,22 +7,24 @@ using UnityEngine.EventSystems;
 public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool unlocked = false;
+    [HideInInspector]
     public bool selected = false;
+    [HideInInspector]
     public bool active = false;
+    public int cost;
     Color colorUnselected = new Color(0.5f, 0.5f, 0.5f);
     Color colorSelected = new Color(1.0f, 1.0f, 1.0f);
     Color colorDisabled = new Color(0.0f, 0.0f, 0.0f);
-    public Button button;
+    Button button;
     ColorBlock color;
 
     [TextArea(5,5)]
     public string description;
-    public GameObject aTestToken;
-    public int cost;
+    [HideInInspector]
     public TokenManager tokenManager;
-    public bool initialized = false;
-    public Vector3 position = new Vector3();
-    public bool inAnimation = false;
+    bool initialized = false;
+    Vector3 position = new Vector3();
+    bool inAnimation = false;
 
 
     void Start()
@@ -118,38 +120,6 @@ public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         tokenManager.tokenMenu.UpdatePoints();
     }
 
-    //     public virtual void ToggleSelect()
-    // {
-    //     if (!active)
-    //     {
-    //         if (selected)
-    //         {
-    //             SetUnselected();
-    //         }
-    //         else if (cost <= tokenManager.availableTokenPoints)
-    //         {
-    //             SetSelected();
-    //         } 
-    //         else
-    //         {
-    //             Debug.Log("Cant AFFORD");
-    //         }
-    //     }
-    //     else
-    //     {
-    //         foreach (GameObject token in tokenManager.tokenMenu.allTokens)
-    //         {
-    //             if (token.name == name)
-    //             {
-    //                 Token aToken = token.GetComponent<Token>();
-    //                 aToken.SetUnselected();
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     tokenManager.tokenMenu.UpdatePoints();
-    // }
-
     public void UnlockToken()
     {
         this.GetComponent<Button>().interactable = true;
@@ -162,6 +132,7 @@ public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         unlocked = false;
     }
 
-    public abstract void ActivateToken();
+    public abstract void AddActivity();
+    public abstract void RemoveActivity();
 
 }

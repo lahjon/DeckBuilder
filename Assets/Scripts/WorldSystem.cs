@@ -24,7 +24,11 @@ public class WorldSystem : MonoBehaviour
     public ProgressionManager progressionManager;
     public MissionManager missionManager;
     public TokenManager tokenManager;
+    public ArtifactManager artifactManager;
+    public WorldMapManager worldMapManager;
     public int act;
+    public int saveAmount;
+    public int loadAmount;
 
     void Awake()
     {
@@ -86,6 +90,9 @@ public class WorldSystem : MonoBehaviour
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), (int)characterManager.characterClassType);
         }
 
+        saveAmount++;
+        Debug.Log("Amount saved: " + saveAmount);
+
     }
     public void LoadProgression()
     {
@@ -100,6 +107,9 @@ public class WorldSystem : MonoBehaviour
             SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
             SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
         }
+
+        loadAmount++;
+        Debug.Log("Amount loaded: " + loadAmount);
     }
 
     public void EndCombat(bool endAct = false)

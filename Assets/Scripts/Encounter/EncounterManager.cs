@@ -43,7 +43,6 @@ public class EncounterManager : Manager
     protected override void Awake()
     {
         base.Awake();
-        canvas.gameObject.SetActive(true);
         world.encounterManager = this;
     }
     protected override void Start()

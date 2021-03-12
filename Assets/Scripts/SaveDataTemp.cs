@@ -8,6 +8,7 @@ public class SaveDataTemp
     public List<string> playerCardsDataNames = new List<string>();
     public CharacterClassType characterClassType;
     public List<string> selectedTokens = new List<string>(); 
+    public List<string> allActiveArtifactsNames = new List<string>();
     public int availableTokenPoints;
     public string ToJson()
     {

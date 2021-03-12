@@ -75,11 +75,14 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
     {
         GameObject aToken = allTokens[allTokensName.IndexOf(token)];
         selectedTokens.Add(aToken);
+        aToken.GetComponent<Token>().AddActivity();
+        
         if (addNames)
         {
             selectedTokensName.Add(aToken.name);
         }
         tokenMenu.SelectToken(token);
+        
     }
 
     public void RemoveSelectedToken(string token)
@@ -89,6 +92,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
         if (selectedTokens.Contains(aToken))
         {
             selectedTokens.Remove(aToken);
+            aToken.GetComponent<Token>().RemoveActivity();
             selectedTokensName.Remove(aToken.name);
             tokenMenu.UnselectToken(token);
         }

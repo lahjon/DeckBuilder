@@ -32,7 +32,7 @@ public class EncounterOverworld : Encounter
 
     public override void ButtonPress()
     {
-        if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.Overworld)
+        if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.ActMap)
         {
             List<System.Action> visitActions = new List<System.Action>();
 

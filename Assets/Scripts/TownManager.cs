@@ -34,6 +34,12 @@ public class TownManager : Manager, ISaveableWorld
         // world.worldStateManager.AddState(WorldState.Overworld, true);
     }
 
+    public void OpenWorldMap()
+    {
+        townMapCanvas.gameObject.SetActive(false);
+        world.worldStateManager.AddState(WorldState.WorldMap);
+    }
+
     public bool UnlockBuilding(BuildingType building)
     {
         if (!unlockedBuildings.Contains(building))
@@ -62,6 +68,8 @@ public class TownManager : Manager, ISaveableWorld
                 DeactivateBuilding(townInt);
             }
         }
+
+        townMapCanvas.gameObject.SetActive(true);
     }
 
     public void ActivateBuilding(TownInteractable building)
