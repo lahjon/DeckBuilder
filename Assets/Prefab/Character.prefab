@@ -46,9 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageModifier: 0
   blockModifier: 0
-  drawCardsAmount: 0
-  energy: 0
-  maxHp: 0
+  drawCardsAmount: 5
+  energy: 3
+  maxHp: 70
   level: 0
   classType: 1
   characterData: {fileID: 11400000, guid: 20a52c86e4384fe4e852b1f68512b7cc, type: 2}

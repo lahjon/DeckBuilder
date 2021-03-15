@@ -28,6 +28,8 @@ public class CombatActorEnemy : CombatActor
 
     public TooltipController tooltipController;
 
+    public CardData hand;
+
     float toolTiptimer = 0;
     float toolTipDelay = 1f;
     bool toolTipShowing = false;
@@ -89,19 +91,25 @@ public class CombatActorEnemy : CombatActor
     {
         intentDisplay.RecieveIntent(cardData.Block, cardData.Damage, cardData.Effects);   
     }
-    public void TakeTurn()
-    {
-        RulesSystem.instance.CarryOutCard(deck[0], this, combatController.Hero);
 
-        discard.Add(deck[0]);
-        deck.RemoveAt(0);
+    public void ShowMoveDisplay(bool enabled)
+    {
+        intentDisplay.ShowDisplay(enabled);
+    }
+
+    public void DrawCard()
+    {
         if (deck.Count == 0)
         {
             deck.AddRange(discard);
             ShuffleDeck();
             discard.Clear();
         }
-        UpdateMoveDisplay(deck[0]);
+
+        hand = deck[0];
+        deck.RemoveAt(0);
+
+        UpdateMoveDisplay(hand);
     }
 
     public void OnDeath()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Starter
   m_EditorClassIdentifier: 
-  name: Starter
+  cardName: 
   description: A starter.
   artwork: {fileID: 21300000, guid: 738425baf4a05d04eb83e999eab9002d, type: 3}
   cost: 1
@@ -27,15 +27,12 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  SelfEffects: []
   Effects:
   - Type: 3
     Value: 4
     Times: 1
     Target: 1
-  activities:
-  - type: 0
-    parameter: 2
+  activities: []
   cardRarity: 0
   characterClass: 0
   animationPrefab: {fileID: 8867539605098610225, guid: 858239a5745affe49a2dc23a4ef8c689, type: 3}

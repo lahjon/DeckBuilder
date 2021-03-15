@@ -28,6 +28,7 @@ public class CardActivitySystem : MonoBehaviour
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)
     {
+        Debug.Log("Starting card Activity:" + cardActivity.type);
         if (!ActivityTypeToAction.ContainsKey(cardActivity.type))
         {
             Debug.LogError("No function exists for Activity of type" + cardActivity.type.ToString());

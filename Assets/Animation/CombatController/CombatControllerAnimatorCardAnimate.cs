@@ -21,6 +21,8 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             animationSystem = null;
         }
 
+        layerName = combatController.ActiveActor == combatController.Hero ? "Resolve Card" : "EnemyCard";
+
         if (card.Block.Value != 0)
             nextState = "Block";
         else if (card.Damage.Value != 0)

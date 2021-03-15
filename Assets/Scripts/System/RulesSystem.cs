@@ -105,10 +105,6 @@ public class RulesSystem : MonoBehaviour
 
         for (int i = 0; i < enemyToActionsStartTurn[enemy].Count; i++)
             yield return StartCoroutine(enemyToActionsStartTurn[enemy][i].Invoke(enemy));
-
-        enemy.TakeTurn();
-        Debug.Log("Took Turn");
-        yield return new WaitForSeconds(1.5f);
     }
 
 
