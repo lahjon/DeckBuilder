@@ -25,7 +25,8 @@ public class CombatControllerAnimatorEnemyTurn : CombatControllerAnimator
     {
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
         enemy.ShowMoveDisplay(false);
-        yield return combatController.StartCoroutine(RulesSystem.instance.EnemyStartTurn(enemy));
+        for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
+            yield return combatController.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 
         combatController.animator.SetTrigger("EnemyPlayCard");
     }

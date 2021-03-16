@@ -7,6 +7,8 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
     CardEffect attack;
     List<CombatActor> targetActors = new List<CombatActor>();
 
+    CombatActor activeActor { get { return combatController.ActiveActor; } }
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
@@ -23,7 +25,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
         else
         {
             targetActors.Clear();
-            targetActors = combatController.GetTargets(combatController.ActiveActor, attack.Target, suppliedTarget);
+            targetActors = combatController.GetTargets(activeActor, attack.Target, suppliedTarget);
 
             combatController.StartCoroutine(PerformAttack());
         }
@@ -37,8 +39,12 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
         {
             for (int i = 0; i < attack.Times; i++)
             {
-                int damage = RulesSystem.instance.CalculateDamage(attack.Value, combatController.ActiveActor, actor);
+                int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
                 actor.healthEffects.TakeDamage(damage);
+
+                for (int a = 0; a < actor.onAttackRecieved.Count; a++)
+                    yield return actor.onAttackRecieved[a].Invoke(activeActor);
+
                 yield return new WaitForSeconds(0.1f);
             }
         }

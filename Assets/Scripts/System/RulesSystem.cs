@@ -9,21 +9,9 @@ public class RulesSystem : MonoBehaviour
 {
     public static RulesSystem instance;
 
-    List<Action> actionsEndTurn = new List<Action>();
-    List<Action> actionsStartTurn = new List<Action>();
-    Dictionary<Func<IEnumerator>, int> ActionPriorities = new Dictionary<Func<IEnumerator>, int>();
-
-    bool isRunningCoroutine = false;
-    List<IEnumerator> actionsEndTurnEnumerator = new List<IEnumerator>();
     List<Func<IEnumerator>> actionsStartTurnEnum = new List<Func<IEnumerator>>();
 
     CombatController combatController;
-
-    public Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>> enemyToActionsStartTurn = new Dictionary<CombatActorEnemy, List<Func<CombatActorEnemy, IEnumerator>>>();
-
-    public Dictionary<CombatActor, List<Func<float,float>>> actorToGiveAttackMods = new Dictionary<CombatActor, List<Func<float, float>>>();
-    public Dictionary<CombatActor, List<Func<float,float>>> actorToTakeDamageMods = new Dictionary<CombatActor, List<Func<float, float>>>();
-    public Dictionary<CombatActor, List<Func<CombatActor, IEnumerator>>> ActorToStartTurn = new Dictionary<CombatActor, List<Func<CombatActor, IEnumerator>>>();
 
     void Awake()
     {
@@ -53,7 +41,7 @@ public class RulesSystem : MonoBehaviour
     {
 
         if (cardData.Damage.Value != 0)
-        {
+        {  
             int damage = cardData.Damage.Times * CalculateDamage(cardData.Damage.Value, source, target);
             target.healthEffects.TakeDamage(damage);
         }
@@ -64,54 +52,13 @@ public class RulesSystem : MonoBehaviour
     }
 
 
-
-    public void SetupEnemyStartingRules()
-    {
-        actorToGiveAttackMods[combatController.Hero] = new List<Func<float, float>>();
-        actorToTakeDamageMods[combatController.Hero] = new List<Func<float, float>>();
-        ActorToStartTurn[combatController.Hero] = new List<Func<CombatActor, IEnumerator>>();
-        ActorToStartTurn[combatController.Hero].Add(RemoveAllBlock);
-
-        foreach(CombatActorEnemy e in combatController.EnemiesInScene)
-        {
-            enemyToActionsStartTurn[e] = new List<Func<CombatActorEnemy, IEnumerator>>();
-            ActorToStartTurn[e] = new List<Func<CombatActor, IEnumerator>>();
-            ActorToStartTurn[e].Add(RemoveAllBlock);
-            actorToGiveAttackMods[e] = new List<Func<float, float>>();
-            actorToTakeDamageMods[e] = new List<Func<float, float>>();
-        }
-    }
-
-
-
     public IEnumerator StartTurn()
     {
-        
-        for (int i = 0; i < ActorToStartTurn[combatController.Hero].Count; i++)
-            yield return StartCoroutine(ActorToStartTurn[combatController.Hero][i].Invoke(combatController.Hero));
-
         Debug.Log("actionsStartTurnEnum: " + actionsStartTurnEnum.Count);
         for (int i = 0; i < actionsStartTurnEnum.Count; i++)
             yield return StartCoroutine(actionsStartTurnEnum[i].Invoke());
 
         Debug.Log("Leaving StartTurn Enum");
-    }
-
-
-    public IEnumerator EnemyStartTurn(CombatActorEnemy enemy)
-    {
-        for (int i = 0; i < ActorToStartTurn[enemy].Count; i++)
-            yield return StartCoroutine(ActorToStartTurn[enemy][i].Invoke(enemy));
-
-        for (int i = 0; i < enemyToActionsStartTurn[enemy].Count; i++)
-            yield return StartCoroutine(enemyToActionsStartTurn[enemy][i].Invoke(enemy));
-    }
-
-
-    public IEnumerator RemoveAllBlock(CombatActor actor)
-    {
-        actor.healthEffects.RemoveAllBlock();
-        yield return new WaitForSeconds(1);
     }
 
 
@@ -132,12 +79,12 @@ public class RulesSystem : MonoBehaviour
     public int CalculateDamage(int startingValue, CombatActor source, CombatActor target){
 
         float x = startingValue;
-        foreach (Func<float, float> func in actorToGiveAttackMods[source])
+        foreach (Func<float, float> func in source.dealAttackMods)
         {
             Debug.Log("Modified damage for attacker");
             x = func(x);
         }
-        foreach (Func<float, float> func in actorToTakeDamageMods[target])
+        foreach (Func<float, float> func in target.takeAttackMods)
         {
             Debug.Log("Modified damage for reciever");
             x = func(x);

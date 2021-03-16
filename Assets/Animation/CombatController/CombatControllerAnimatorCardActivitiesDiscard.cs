@@ -23,6 +23,7 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
         if (combatController.ActiveActor == combatController.Hero)
         {
             Debug.Log("Combatcontroller Sending card to discard");
+            combatController.Discard.Add(combatController.HeroCardInProcess);
             combatController.HeroCardInProcess.animator.SetTrigger("Discarded");
         }
         else
@@ -30,8 +31,7 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
             combatController.animator.SetBool("EnemyQueued", combatController.enemiesWaiting.Count != 0);
             ((CombatActorEnemy)combatController.ActiveActor).discard.Add(card);
         }
-            
-
+           
         combatController.animator.SetTrigger("CardFinished");
     }
         

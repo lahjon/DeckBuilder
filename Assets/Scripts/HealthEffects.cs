@@ -96,6 +96,8 @@ public class HealthEffects : MonoBehaviour
             effectTypeToRule[effect.Type] = new RuleEffectWeak();
         else if (effect.Type == EffectType.Barricade)
             effectTypeToRule[effect.Type] = new RuleEffectBarricade();
+        else if(effect.Type == EffectType.Thorns)
+            effectTypeToRule[effect.Type] = new RuleEffectThorns();
 
         effectTypeToRule[effect.Type].healthEffects = this;
         effectTypeToRule[effect.Type].nrStacked = effect.Value * effect.Times;

@@ -6,17 +6,15 @@ public class RuleEffectVurnerable : RuleEffect
 {
     public override void AddFunctionToRules()
     {
-        RulesSystem.instance.actorToTakeDamageMods[healthEffects.combatActor].Add(VurnerableDamage);
+        actor.takeAttackMods.Add(VurnerableDamage);
     }
 
     public override void RemoveFunctionFromRules()
     {
-        RulesSystem.instance.actorToTakeDamageMods[healthEffects.combatActor].Remove(VurnerableDamage);
+        actor.takeAttackMods.Remove(VurnerableDamage);
     }
 
-
-
-    public float VurnerableDamage(float x)
+    public static float VurnerableDamage(float x)
     {
         return x * 1.5f;
     }
