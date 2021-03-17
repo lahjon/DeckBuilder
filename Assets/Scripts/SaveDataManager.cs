@@ -43,7 +43,6 @@ public static class SaveDataManager
     }
 
     // character_01 character_02 character_03 character_04
-
     public static void SaveJsonData(IEnumerable<ISaveableCharacter> a_Saveables, int saveSlot = 0)
     {
         string fileName = string.Format("character_{0}", saveSlot);
@@ -76,8 +75,6 @@ public static class SaveDataManager
             Debug.Log("Load complete");
         }
     }
-
-        // character_01 character_02 character_03 character_04
 
     public static void SaveJsonData(IEnumerable<ISaveableTemp> a_Saveables)
     {

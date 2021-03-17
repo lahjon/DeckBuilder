@@ -6,14 +6,6 @@ using UnityEngine.UI;
 public class CardDisplay : Card
 {
     private float startDragPos;
-
-    public DeckDisplayManager deckDisplayManager;
-
-    void Start()
-    {
-        deckDisplayManager = WorldSystem.instance.deckDisplayManager;
-    }
-
     public override void OnMouseEnter()
     {
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
@@ -31,61 +23,37 @@ public class CardDisplay : Card
     }
     public override void OnMouseClick()
     {
-        switch (WorldSystem.instance.worldState)
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
         {
-            case WorldState.Shop:
-
-                WorldSystem.instance.shopManager.shop.PurchaseCard(this);
-                break;
-
-            case WorldState.Display:
-
-                DisplayCard();
-                break;
-
-            case WorldState.Reward:
-            
-                Debug.Log("CardDisplay Removing card!");
-                AddCardToDeck(this.cardData);
-                WorldSystem.instance.worldStateManager.RemoveState(false);
-                WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
-                break;
-
-            default:
-                break;
+            DisplayCard();
+        }
+        else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
+        {
+            WorldSystem.instance.shopManager.shop.PurchaseCard(this);
+        }
+        else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+        {
+            AddCardToDeck(this.cardData);
+            WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.SetActive(false);
+            WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
         }
     }
 
     public override void OnMouseRightClick(bool allowDisplay = true)
     {
-        switch (WorldSystem.instance.worldState)
+        if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState != WorldState.Combat)
         {
-            case WorldState.Shop:
-
-                DisplayCard();
-                break;
-
-            case WorldState.Display:
-
-                DisplayCard();
-                break;
-
-            case WorldState.Reward:
-                DisplayCard();
-                break;
-
-            default:
-                break;
+            DisplayCard();
         }
     }
 
-        public void OnMouseScroll()
+    public void OnMouseScroll()
     {
-        if(WorldSystem.instance.worldState == WorldState.Display)
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
-            float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
+            float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
             Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * -1);
-            deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+            WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
         }
     }
 
@@ -101,16 +69,16 @@ public class CardDisplay : Card
 
     public void OnMouseBeginDrag()
     {
-        if(WorldSystem.instance.worldState == WorldState.Display)
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
         {
             startDragPos = Input.mousePosition.y;
         }
     }
     public void OnMouseDrag()
     {
-        if(WorldSystem.instance.worldState == WorldState.Display)
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
-            float sensitivity = deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
+            float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
             float currentPos = Input.mousePosition.y;
             float direction;
             if(currentPos > startDragPos)
@@ -120,7 +88,7 @@ public class CardDisplay : Card
             else
                 direction = 0;
             Vector2 scrollPos = new Vector2(0, direction * sensitivity * 0.3f * -1);
-            deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+            WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
         }
     }
 }

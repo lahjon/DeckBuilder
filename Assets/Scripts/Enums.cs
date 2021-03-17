@@ -44,6 +44,17 @@ public enum CharacterClassType
     Beastmaster,
 };
 
+public enum DialogueParticipant
+{
+    None,
+    Brute, 
+    Rogue,
+    Splicer,
+    Beastmaster,
+    Shopkeeper,
+    Major
+}
+
 public enum EncounterEventType
 {
     None,
@@ -90,22 +101,38 @@ public enum EffectType
     Barricade
 }
 
+public enum OverlayState
+{
+    None,
+    Transition,
+    EscapeMenu,
+    Display
+}
+
 public enum WorldState
 {
     MainMenu,
     Event,
     Reward,
     Shop,
-    Display,
     Combat,
-    ActMap,
     WorldMap,
-    Menu,
     Town,
-    TownHall,
     Building,
+    Dialogue,
+    Overworld,
     Transition,
-    Dead
+    Deathscreen,
+    Cutscene,
+}
+
+public enum TransitionType
+{
+    None,
+    Normal,
+    DeathScreen, 
+    EnterAct
+
 }
 
 public enum BuildingType

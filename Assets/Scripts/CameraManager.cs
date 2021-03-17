@@ -8,7 +8,6 @@ public class CameraManager : Manager
     public Transform combatCameraPos;
     public Transform shopCameraPos;
     public List<Transform> actCameraPos;
-    public ScreenTransition screenTransition;
 
     protected override void Awake()
     {
@@ -24,7 +23,7 @@ public class CameraManager : Manager
                 mainCamera.transform.position = combatCameraPos.position;
                 break;
 
-            case WorldState.ActMap:
+            case WorldState.Overworld:
                 int act = WorldSystem.instance.act;
                 mainCamera.transform.position = actCameraPos[act - 1].position;
                 break;

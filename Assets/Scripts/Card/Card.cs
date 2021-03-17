@@ -87,7 +87,6 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     {
         if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
-            WorldSystem.instance.worldStateManager.AddState(WorldState.Display, false);
             WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
             WorldSystem.instance.deckDisplayManager.selectedCard = this;
             WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
@@ -104,8 +103,6 @@ public abstract class Card : MonoBehaviour, IPointerClickHandler
     }
     public void ResetCardPosition()
     {
-
-        WorldSystem.instance.worldStateManager.RemoveState(false);
         WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
         WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
         WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;

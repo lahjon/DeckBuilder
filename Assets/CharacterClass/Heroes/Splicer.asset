@@ -9,23 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f3fbc21d699164baa4dc60c171dda5, type: 3}
+  m_Script: {fileID: 11500000, guid: d1ab495cd5328214d9dc1bfe3647eb76, type: 3}
   m_Name: Splicer
   m_EditorClassIdentifier: 
+  characterName: 
   artwork: {fileID: 21300000, guid: 607afa50f474bc64b90249c012548bca, type: 3}
+  dialogueParticipant: 3
+  description: 
   artworkAnimated: {fileID: 0}
-  damageModifier: 0
-  blockModifier: 1
-  drawCardsAmount: 6
-  energy: 4
-  maxHp: 45
+  damageModifier: 1
+  blockModifier: 0
+  drawCardsAmount: 5
+  energy: 3
+  maxHp: 15
   level: 1
   classType: 3
-  startingDeck: {fileID: 11400000, guid: 90cc3b3949fee4b4dbb925cd1d98cecc, type: 2}
-  description: 'This is the splicer character. He splices that card like a mad man
-    and is fairly advanced.
-
-
-    I think you will enjoy him!
-
-    Crazy man.'
+  unlocked: 0
+  startingDeck: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}

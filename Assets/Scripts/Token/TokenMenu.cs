@@ -52,12 +52,10 @@ public class TokenMenu : MonoBehaviour
 
     void OnEnable()
     {
-        if (!initialized)
-        {
-            Init();
-            LoadTokens();
-            initialized = true;
-        }
+        // if (!initialized)
+        // {
+        //     Init();
+        // }
         if (world != null)
         {
             UpdateTokens(world.tokenManager.tokensRequiresUpdate);
@@ -68,6 +66,10 @@ public class TokenMenu : MonoBehaviour
     public void UpdateTokens(List<GameObject> tokens)
     {
         tokens?.ForEach(x => x.GetComponent<Token>().UnlockToken());
+        foreach (GameObject token in allTokens)
+        {
+            token.transform.localScale = Vector3.one;
+        }
     }
 
     public void SelectToken(string tokenName)
@@ -123,6 +125,7 @@ public class TokenMenu : MonoBehaviour
 
     public void Init()
     {
+        gameObject.SetActive(true);
         tokenManager = WorldSystem.instance.tokenManager;
         world = WorldSystem.instance;
         foreach (GameObject token in tokenManager.allTokens)
@@ -135,6 +138,10 @@ public class TokenMenu : MonoBehaviour
             tokenPoints.Add(token);
             token.SetActive(false);
         }
+
+        LoadTokens();
+        initialized = true;
+        gameObject.SetActive(false);
     }
 
 

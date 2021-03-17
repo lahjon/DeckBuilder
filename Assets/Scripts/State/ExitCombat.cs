@@ -11,7 +11,7 @@ public class ExitCombat : State
     public override IEnumerator Start()
     {
         Debug.Log("HEJ");
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         Debug.Log("Starting combat");
         RulesSystem.instance.SetupEnemyStartingRules();
         yield return new WaitForSeconds(0.5f);

@@ -7,7 +7,6 @@ public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
 {
     public static Dictionary<string, int> enemyTracker = new Dictionary<string, int>();
     public static Dictionary<BuildingType, int> buildingTracker = new Dictionary<BuildingType, int>();
-    public static List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public static StatsTrackerSystem instance;
 
     void Awake()
@@ -31,14 +30,13 @@ public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
     {
         buildingTracker.Clear();
         buildingTracker.SetDictionaryFromLists(a_SaveData.buildingTrackerKey, a_SaveData.buildingTrackerValues);
-        unlockedCharacters = a_SaveData.unlockedCharacters;
     }
 
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
+        Debug.Log("Saving unlocked");
         buildingTracker.SetListsFromDictionary(ref a_SaveData.buildingTrackerKey, ref a_SaveData.buildingTrackerValues);
-        a_SaveData.unlockedCharacters = unlockedCharacters;
     }
 
     public void Subscribe()

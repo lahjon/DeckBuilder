@@ -114,6 +114,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
             token = allTokens[allTokensName.IndexOf(tokenName)];
             AddSelectedToken(token.name, false);
         }
+        tokenMenu.Init();
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)

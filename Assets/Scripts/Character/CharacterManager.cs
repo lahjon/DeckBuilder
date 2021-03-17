@@ -6,23 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
 {
-    // should match all items from CharacterVariables Enum
-    private int _gold;
     private int _shard;
+    private int _gold;
 
-    public int startingGold = 99;
-    public int currentHealth;
-    public int maxHealth;
-    public int maxCardReward = 3;
-    public int energy;
-    public int startDrawAmount;
     public CharacterVariablesUI characterVariablesUI;
     public Character character;
     public GameObject characterPrefab;
     public List<CardData> playerCardsData;
     public List<string> playerCardsDataNames;
-    public CharacterClassType characterClassType;
-    public List<string> selectedTokens = new List<string>();
+    public CharacterClassType selectedCharacterClassType;
+    public List<PlayableCharacterData> allCharacterData;
+    public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    int _currentHealth;
 
     protected override void Awake()
     {
@@ -36,19 +31,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             SetupCharacterData();
-        }
-    }
-
-    public int gold 
-    {
-        get
-        {
-            return _gold;
-        }
-        set
-        {
-            _gold = value;
-            characterVariablesUI.UpdateUI();
+            if (!unlockedCharacters.Contains(selectedCharacterClassType))
+            {
+                unlockedCharacters.Add(selectedCharacterClassType);
+            }
+            world.SaveProgression();
         }
     }
     public int shard 
@@ -60,7 +47,19 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         set
         {
             _shard = value;
-            characterVariablesUI.UpdateUI();
+            characterVariablesUI.UpdateCharacterHUD();
+        }
+    }
+    public int gold 
+    {
+        get
+        {
+            return _gold;
+        }
+        set
+        {
+            _gold = value;
+            characterVariablesUI?.UpdateCharacterHUD();
         }
     }
 
@@ -69,18 +68,22 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         SetupCharacterData();
     }
 
-    private void SetupCharacterData()
+    void SetupCharacterData()
     {
         if (character == null)
         {
             character = Instantiate(characterPrefab).GetComponent<Character>();
+            character.SetCharacterData();
+
+            if (character.level == 0)
+            {
+                character.CreateStartingCharacter(character.characterData);
+            }
+
+            character.name = character.characterData.classType.ToString();
         }
-        characterClassType = character.classType;
-        gold = startingGold;
-        maxHealth = character.maxHp;
-        startDrawAmount = character.characterData.drawCardsAmount;
-        energy = character.characterData.energy;
-        characterClassType = character.characterData.classType;
+        selectedCharacterClassType = character.classType;
+        selectedCharacterClassType = character.characterData.classType;
 
         if (playerCardsDataNames == null || playerCardsDataNames.Count == 0)
         {
@@ -91,29 +94,17 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         {
             playerCardsData = DatabaseSystem.instance.GetCardsByName(playerCardsDataNames);
         }
-    }
-    
-    public void AddToCharacter(EncounterOutcomeType type, int value)
-    {
-        if(type.ToString().ToLower() == "gold")
+
+        if (_currentHealth <= 0)
         {
-            _gold += value;
-            if(_gold < 0)
-            {
-                _gold = 0;
-            }
-            characterVariablesUI.UpdateUI();
+            character.currentHealth = character.maxHealth;
         }
-        else if(type.ToString().ToLower() == "health")
+        else
         {
-            currentHealth += value;
-            if(currentHealth < 1)
-            {
-                currentHealth = 0;
-                KillCharacter();
-            }
-            characterVariablesUI.UpdateUI();
+            character.currentHealth = _currentHealth;
         }
+
+        characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void AddCardDataToDeck(CardData newCardData)
@@ -142,35 +133,41 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.shard = _shard;
+        a_SaveData.unlockedCharacters = unlockedCharacters;
         Debug.Log("Saving Data");
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         _shard = a_SaveData.shard;
+        unlockedCharacters = a_SaveData.unlockedCharacters;
         Debug.Log("Loading Data");
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
         a_SaveData.playerCardsDataNames = playerCardsDataNames;
-        a_SaveData.characterClassType = characterClassType;
+        a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
+        a_SaveData.gold = gold;
+        a_SaveData.currentHealth = _currentHealth;
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
         playerCardsDataNames = a_SaveData.playerCardsDataNames;
-        characterClassType = a_SaveData.characterClassType;
+        selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
+        gold = a_SaveData.gold;
+        _currentHealth = a_SaveData.currentHealth;
     }
 
     public void PopulateSaveDataStart(SaveDataStart a_SaveData)
     {
-        a_SaveData.characterClassType = characterClassType;
+        a_SaveData.characterClassType = selectedCharacterClassType;
     }
 
     public void LoadFromSaveDataStart(SaveDataStart a_SaveData)
     {
-        characterClassType = a_SaveData.characterClassType;
+        selectedCharacterClassType = a_SaveData.characterClassType;
     }
 }
 

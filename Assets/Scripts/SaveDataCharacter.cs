@@ -12,7 +12,7 @@ public class SaveDataCharacter
     public int maxHp;
     public int level;
     public CharacterClassType classType;
-    public CharacterData characterData;
+    public PlayableCharacterData characterData;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

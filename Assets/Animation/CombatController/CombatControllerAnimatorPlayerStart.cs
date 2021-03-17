@@ -16,7 +16,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     {
         combatController.StartTurn();
         combatController.acceptSelections = true;
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         WorldSystem.instance.combatManager.combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
 
         combatController.animator.SetTrigger("PlayerTurnStarted");

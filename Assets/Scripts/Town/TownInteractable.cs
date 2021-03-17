@@ -11,7 +11,7 @@ public abstract class TownInteractable : MonoBehaviour
     public virtual void StartEncounterEvent()
     {
         WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Event, true);
+        WorldStateSystem.SetInEvent(true);
         WorldSystem.instance.uiManager.encounterUI.StartEncounter();
     }
     public virtual void ButtonPress()

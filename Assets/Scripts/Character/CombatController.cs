@@ -128,7 +128,6 @@ public class CombatController : MonoBehaviour
 
     public void SetUpEncounter(List<EnemyData> enemyDatas = null)
     {
-
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
 
         foreach(CardData cd in DeckData)
@@ -142,6 +141,8 @@ public class CombatController : MonoBehaviour
         if (enemyDatas == null)
             enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
 
+        enemyDatas.ForEach(x => Debug.Log(x));
+
         for (int i = 0; i < enemyDatas.Count; i++)
         {
             GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
@@ -153,9 +154,27 @@ public class CombatController : MonoBehaviour
         animator.SetTrigger("StartSetup");
     }
 
+    public void StartCombat()
+    {
+        gameObject.SetActive(true);
+        List<EnemyData> enemyDatas = WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData;
+        if (enemyDatas.Count < 1)
+        {
+            Debug.Log("From null");
+            SetUpEncounter();
+        }
+        else
+        {
+            Debug.Log("From something");
+            SetUpEncounter(enemyDatas);
+            WorldSystem.instance.uiManager.encounterUI.ResetEncounter();
+        }
+    }
+
+
     public void BindCharacterData()
     {
-        energyTurn = WorldSystem.instance.characterManager.energy;
+        energyTurn = WorldSystem.instance.characterManager.character.energy;
         drawCount = WorldSystem.instance.characterManager.character.drawCardsAmount;
     }
 
@@ -194,7 +213,7 @@ public class CombatController : MonoBehaviour
         }
         Debug.Log("Victory!");
         ResetCombat();
-        WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
+        WorldStateSystem.SetInReward(true);
     }
 
     void ResetCombat()
@@ -416,7 +435,7 @@ public class CombatController : MonoBehaviour
     {
         for (int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
         {
-            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
+            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldStateSystem.instance.currentWorldState == WorldState.Combat)
             {
                 if (ActiveCard == Hand[i])
                     ActiveCard.OnMouseRightClick(false);

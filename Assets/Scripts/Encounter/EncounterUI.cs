@@ -38,6 +38,12 @@ public class EncounterUI : MonoBehaviour
         return oldUI;
     }
 
+    public void ResetEncounter()
+    {
+        encounterData = null;
+        newEncounterData = null;
+    }
+
     public void BindEncounterData()
     {
         int count = 0;
@@ -83,7 +89,8 @@ public class EncounterUI : MonoBehaviour
 
     public void CloseEncounter()
     {
-        encounter.SetIsVisited();
+        encounter?.SetIsVisited();
+        canvas.SetActive(false);
     }
 
     public void ChooseOption(int index)
@@ -127,7 +134,7 @@ public class EncounterUI : MonoBehaviour
         transition = true;
         CanvasGroup firstFade = oldObj.GetComponent<CanvasGroup>();
         CanvasGroup secondFade = newObj.GetComponent<CanvasGroup>();
-        float time = 0.6f;
+        float time = 0.3f;
 
         for (float t = time; t >= 0; t -= Time.deltaTime)
         {

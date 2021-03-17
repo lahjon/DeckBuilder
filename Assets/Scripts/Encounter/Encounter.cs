@@ -55,7 +55,7 @@ public abstract class Encounter : MonoBehaviour
 
     }
 
-    protected IEnumerator SetVisited(List<System.Action> visitActions, Encounter enc = null)
+    protected IEnumerator SetVisited(System.Action VisitAction, Encounter enc = null)
     {
         isVisited = true;
 
@@ -89,7 +89,7 @@ public abstract class Encounter : MonoBehaviour
 
         WorldSystem.instance.encounterManager.currentEncounter = this;
         Debug.Log("Doing Action");
-        visitActions.ForEach(x => x.Invoke());
+        VisitAction();
     }
 
     public void UpdateIcon()

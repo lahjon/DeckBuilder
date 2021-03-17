@@ -11,7 +11,7 @@ public abstract class State
     }
     public virtual IEnumerator Start()
     {
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         yield break;
     }
     public virtual IEnumerator End()

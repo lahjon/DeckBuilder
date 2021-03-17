@@ -9,29 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24f3fbc21d699164baa4dc60c171dda5, type: 3}
+  m_Script: {fileID: 11500000, guid: d1ab495cd5328214d9dc1bfe3647eb76, type: 3}
   m_Name: Brute
   m_EditorClassIdentifier: 
   artwork: {fileID: 21300000, guid: 582617edbf2789642a888cd37b12c7cd, type: 3}
+  dialogueParticipant: 1
+  description: 
   artworkAnimated: {fileID: 0}
   damageModifier: 1
   blockModifier: 0
   drawCardsAmount: 5
   energy: 3
-  maxHp: 50
+  maxHp: 30
   level: 1
   classType: 1
   unlocked: 1
   startingDeck: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}
-  description: 'Brute.
-
-
-    Boring
-
-    ..
-
-
-    Yes.
-
-
-    Very... Ok?'

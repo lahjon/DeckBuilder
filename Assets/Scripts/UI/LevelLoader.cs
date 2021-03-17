@@ -67,7 +67,6 @@ public class LevelLoader : MonoBehaviour
     IEnumerator StartLevel(float time)
     {
         world.LoadProgression();
-        world.SaveProgression();
         if (world.missionManager != null && world.missionManager.mission == null)
         {
             world.missionManager.NewMission("Mission001");

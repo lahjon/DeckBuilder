@@ -8,35 +8,14 @@ public class EscapeMenu : MonoBehaviour
     public GameObject abandonWindow;
     public GameObject mainMenuWindow;
 
-    void Update()
+    public void Activate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && WorldSystem.instance.worldStateManager.currentState != WorldState.Transition)
-        {
-            if (abandonWindow.activeSelf)
-            {
-                abandonWindow.SetActive(false);
-            }
-            else if(mainMenuWindow.activeSelf)
-            {
-                mainMenuWindow.SetActive(false);
-            }
-            else
-            {
-                ToggleActive();
-            }
-        }
+        canvas.gameObject.SetActive(true);
     }
 
-    void ToggleActive()
+    public void Deactivate()
     {
-        if (canvas.gameObject.activeSelf)
-        {
-            canvas.gameObject.SetActive(false);
-        }
-        else
-        {
-            canvas.gameObject.SetActive(true);
-        }
+        canvas.gameObject.SetActive(false);
     }
 
     public void ButtonAbandonRun()

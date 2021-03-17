@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-[CreateAssetMenu(fileName = "NewCompanion", menuName = "Companion")]
+[CreateAssetMenu(fileName = "NewCompanion", menuName = "CardGame/Companion")]
 public class CompanionData : ScriptableObject
 {
     public string companionName;

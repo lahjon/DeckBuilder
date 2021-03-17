@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DebugUI : MonoBehaviour, ISaveableWorld
 {
@@ -8,6 +9,9 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     public int strength;
     public GameObject tokenReward;
     public GameObject artifactReward;
+    public TMP_Text worldState;
+    public TMP_Text overlayState;
+    public TMP_Text worldTier;
 
     void Update()
     {
@@ -15,6 +19,13 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
         {
             ToggleDebugMenu();
         }
+    }
+
+    public void UpdateCharacterDebugHUD()
+    {
+        worldState.text = WorldStateSystem.instance.currentWorldState.ToString();
+        overlayState.text = WorldStateSystem.instance.currentOverlayState.ToString();
+        worldTier.text = "Act " + WorldSystem.instance.act.ToString();
     }
 
     public void DebugCreateWarning()
@@ -70,12 +81,11 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
 
     public void DebugAddStrength()
     {
-        //WorldSystem.instance.characterManager.AddStat(CharacterStat.Strength, 1);
         WorldSystem.instance.uiManager.characterSheet.UpdateCharacterSheet();
     }
     public void DebugWinCombat()
     {
-        if(WorldSystem.instance.worldState == WorldState.Combat)
+        if(WorldStateSystem.instance.currentWorldState == WorldState.Combat)
             WorldSystem.instance.combatManager.combatController.WinCombat();
     }
     public void ToggleDebugMenu()

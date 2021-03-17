@@ -9,16 +9,6 @@ public class ShopOverworld : MonoBehaviour
     public List<GameObject> cardsInStock;
     public List<TMP_Text> cardsPrices;
 
-    void Start()
-    {
-        RestockShop();
-    }
-
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space) && WorldSystem.instance.worldState == WorldState.Shop)
-            LeaveShop();
-    }
     void UpdateCardPrices()
     {
         for (int i = 0; i < cardsInStock.Count; i++)
@@ -67,24 +57,6 @@ public class ShopOverworld : MonoBehaviour
             InsufficientGold();
         }
     }
-    public void LeaveShop()
-    {
-        Debug.Log("Leave Shop!");
-        this.gameObject.SetActive(false);
-        WorldSystem.instance.worldStateManager.RemoveState();
-    }
-
-    public void EnterShop()
-    {
-        Debug.Log("Enter Shop!");
-        this.gameObject.SetActive(true);
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
-    }
-
-    public void DebugDisplay()
-    {
-        WorldSystem.instance.deckDisplayManager.DisplayDeck();
-    }
     public void DebugRemoveCard()
     {
         WorldSystem.instance.characterManager.RemoveCardDataFromDeck(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
@@ -92,6 +64,12 @@ public class ShopOverworld : MonoBehaviour
     public void DebugAddGold()
     {
         WorldSystem.instance.characterManager.gold += 100;
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
     }
+
+    public void ButtonLeave()
+    {
+        WorldStateSystem.SetInShop(false);
+    }
+
 }

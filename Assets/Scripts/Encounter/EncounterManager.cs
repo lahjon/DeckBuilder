@@ -71,8 +71,6 @@ public class EncounterManager : Manager
     {
         canvas.gameObject.SetActive(false);
     }
-
-
     public void GenerateMap(int newMinWidth = 0, int newMaxWidth = 0, int newLength = 0)
     {
         if(newMinWidth > 0 && newMaxWidth > 0 && newLength > 0)
@@ -136,7 +134,6 @@ public class EncounterManager : Manager
 
         StartAddRoads(encounters[0][0]);
         encounters[0][0].SetIsVisited();
-        canvas.gameObject.SetActive(false);
     }
 
     public void AssignNeighbours(int floor, int unassigned_lb, int unassigned_ub, int lb, int ub)

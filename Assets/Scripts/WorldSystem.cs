@@ -10,7 +10,7 @@ public class WorldSystem : MonoBehaviour
     public WorldState worldState;
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
-    private CharacterData characterData;
+    private PlayableCharacterData characterData;
     public EncounterManager encounterManager;
     public CharacterManager characterManager;
     public ShopManager shopManager;
@@ -19,13 +19,13 @@ public class WorldSystem : MonoBehaviour
     public CombatManager combatManager;
     public TownManager townManager;
     public UIManager uiManager;
-    public WorldStateManager worldStateManager;
     public GameEventManager gameEventManager;
     public ProgressionManager progressionManager;
     public MissionManager missionManager;
     public TokenManager tokenManager;
     public ArtifactManager artifactManager;
     public WorldMapManager worldMapManager;
+    public DialogueManager dialogueManager;
     public int act;
     public int saveAmount;
     public int loadAmount;
@@ -60,23 +60,6 @@ public class WorldSystem : MonoBehaviour
         }
     }
 
-    public void EnterCombat(List<EnemyData> enemyDatas = null)
-    {
-        combatManager.combatController.gameObject.SetActive(true);
-        worldStateManager.AddState(WorldState.Combat);
-        cameraManager.CameraGoto(WorldState.Combat, true);
-        encounterManager.encounterTier = encounterManager.currentEncounter.encounterData.tier;
-        List<EnemyData> eData = enemyDatas;
-        if (enemyDatas == null)
-        {
-            combatManager.combatController.SetUpEncounter();
-        }
-        else
-        {
-            combatManager.combatController.SetUpEncounter(eData);
-        }
-    }
-
     public void SaveProgression()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -87,25 +70,32 @@ public class WorldSystem : MonoBehaviour
         {
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
-            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), (int)characterManager.characterClassType);
+
+            int index = (int)characterManager.selectedCharacterClassType;
+            if (index > 0)
+            {
+                SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);  
+            }
         }
 
         saveAmount++;
         Debug.Log("Amount saved: " + saveAmount);
-
     }
     public void LoadProgression()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
+
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
-            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
-        }
-        else
-        {
-            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
-            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
             SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
+
+            int index = (int)characterManager.selectedCharacterClassType;
+            Debug.Log("INDEX: " + index);
+            if (index > 0)
+            {
+                SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);
+            }
         }
 
         loadAmount++;
@@ -114,7 +104,6 @@ public class WorldSystem : MonoBehaviour
 
     public void EndCombat(bool endAct = false)
     {
-        WorldSystem.instance.worldStateManager.RemoveState(true);
         Debug.Log("EndCombat Removing card!");
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);

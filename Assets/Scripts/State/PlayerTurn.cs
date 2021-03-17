@@ -12,7 +12,7 @@ public class PlayerTurn : State
     {
         CombatController.StartTurn();
         CombatController.acceptSelections = true;
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         WorldSystem.instance.combatManager.combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
 
         yield return new WaitForSeconds(0.05f);

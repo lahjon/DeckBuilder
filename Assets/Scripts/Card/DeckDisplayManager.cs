@@ -73,74 +73,63 @@ public class DeckDisplayManager : Manager
 
     public void ResetCardDisplay()
     {
+        // called from click in inspector
         if (selectedCard != null)
         {
             selectedCard.ResetCardPosition();
             selectedCard = null;
         }
     }
-    void UpdateDisplayArea()
-    {
-        content.sizeDelta = new Vector2(0, height);
-    }
+    // void UpdateDisplayArea()
+    // {
+    //     content.sizeDelta = new Vector2(0, height);
+    // }
 
-    void UpdateDeckDisplay()
-    {
-        allCardsData = WorldSystem.instance.characterManager.playerCardsData;
+    // void UpdateDeckDisplay()
+    // {
+    //     allCardsData = WorldSystem.instance.characterManager.playerCardsData;
         
-        for (int i = 0; i < allDisplayedCards.Count; i++)
-        {
-            allDisplayedCards[i].GetComponent<Card>().cardData = allCardsData[i];
-            allDisplayedCards[i].GetComponent<Card>().BindCardData();
-        }
+    //     for (int i = 0; i < allDisplayedCards.Count; i++)
+    //     {
+    //         allDisplayedCards[i].GetComponent<Card>().cardData = allCardsData[i];
+    //         allDisplayedCards[i].GetComponent<Card>().BindCardData();
+    //     }
+    // }
+
+    public void CloseDeckDisplay()
+    {
+        backgroundPanel.SetActive(false);
+        clickableArea.SetActive(false);
+        deckDisplay.SetActive(false);
+        selectedCard = null;
     }
 
-    public void DisplayNextCard(int direction)
+    public void ButtonClose()
     {
+        WorldStateSystem.TriggerClear();
+    }
+    // public void DisplayNextCard(int direction)
+    // {
         
-        int index = allDisplayedCards.IndexOf(selectedCard.gameObject);
-        Debug.Log(index);
-        if(direction == 1) 
-        {
-            if(index != allDisplayedCards.Count - 1)
-            {
-                selectedCard.ResetCardPositionNext();
-                //selectedCard.DisplayCard(createdObjects[index + 1].GetComponent<Card>());
-                placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
+    //     int index = allDisplayedCards.IndexOf(selectedCard.gameObject);
+    //     Debug.Log(index);
+    //     if(direction == 1) 
+    //     {
+    //         if(index != allDisplayedCards.Count - 1)
+    //         {
+    //             selectedCard.ResetCardPositionNext();
+    //             placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
 
-            }
-        }
-        else if(direction == -1)
-        {
-            if(index != 0)
-            {
-                selectedCard.ResetCardPositionNext();
-                //selectedCard.DisplayCard(createdObjects[index + 1].GetComponent<Card>());
-                placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
+    //         }
+    //     }
+    //     else if(direction == -1)
+    //     {
+    //         if(index != 0)
+    //         {
+    //             selectedCard.ResetCardPositionNext();
+    //             placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
 
-            }
-        }
-    }
-    public void DisplayDeck()
-    {
-        if(!deckDisplay.activeSelf)
-        {
-            WorldSystem.instance.worldStateManager.AddState(WorldState.Display, false);
-            deckDisplay.SetActive(true);
-            UpdateAllCards();
-            
-        }         
-        else
-        {
-            if(backgroundPanel.activeSelf)
-            {
-                backgroundPanel.SetActive(false);
-                clickableArea.SetActive(false);
-            }
-             WorldSystem.instance.worldStateManager.RemoveState(false);
-            deckDisplay.SetActive(false);
-        }
-    }
-
-
+    //         }
+    //     }
+    // }
 }

@@ -31,18 +31,18 @@ public class EncounterEvent
 
     private static bool EventLeave()
     {
-        WorldSystem.instance.worldStateManager.RemoveState(false);
+        WorldStateSystem.SetInEvent(false);
         return true;
     }
 
     private static bool EventCombat()
     {
-        WorldSystem.instance.worldStateManager.RemoveState(false);
-        WorldSystem.instance.EnterCombat(WorldSystem.instance.uiManager.encounterUI.encounterData.enemyData);
+        WorldStateSystem.SetInCombat(true);
         return true;
     }
     private static bool EventCardRandom()
     {
+        Debug.Log("Here");
         WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCard>().SetupRewards();
         return true;
     }
@@ -59,6 +59,13 @@ public class EncounterEvent
         ui.BindEncounterData();
         ui.background.GetComponent<CanvasGroup>().alpha = 0.0f;
 
+        // Debug.Log(ui.encounterData.events.Count);
+        // Debug.Log(ui.encounterData.events[0]);
+        // if (ui.encounterData.events.Count == 1 && ui.encounterData.events[0] == EncounterEventType.Combat)
+        // {
+        //     return false;
+        // }
+
         ui.StartFade(oldUI, ui.background);
         return false;
     }
@@ -66,7 +73,9 @@ public class EncounterEvent
     private static bool EventNewMap()
     {
         WorldSystem.instance.encounterManager.GenerateMap(2,2,4);
-        WorldSystem.instance.worldStateManager.AddState(WorldState.ActMap, true);
+        WorldStateSystem.SetInOverworld(true);
+        WorldStateSystem.SetInEvent(false);
+        WorldStateSystem.SetInTown(false);
         return true;
     }
 

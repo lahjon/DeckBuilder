@@ -7,12 +7,12 @@ using TMPro;
 
 public class CharacterCreator : MonoBehaviour
 {
-    public List<CharacterData> allCharacterData;
+    public List<PlayableCharacterData> allCharacterData;
     public Image artwork;
     public List<GameObject> characterButtons;
     public TMP_Text decriptionText;
     private int selectionIndex = 0;
-    CharacterData selectedCharacterData;
+    PlayableCharacterData selectedCharacterData;
     GameObject currentButton;
     Color selectedColor = new Color(1.0f, 1.0f, 1.0f);
     Color unselectedColor = new Color(0.3f, 0.3f, 0.3f);
@@ -45,13 +45,13 @@ public class CharacterCreator : MonoBehaviour
     {
         for (int i = 0; i < allCharacters.Count; i++)
         {
-            if (allCharacterData[i].unlocked && !StatsTrackerSystem.unlockedCharacters.Contains(allCharacterData[i].classType))
+            if (allCharacterData[i].unlocked && !world.characterManager.unlockedCharacters.Contains(allCharacterData[i].classType))
             {
+                Debug.Log("Create New");
                 allCharacters[i].CreateStartingCharacter(allCharacterData[i]);
-                StatsTrackerSystem.unlockedCharacters.Add(allCharacters[i].classType);
                 allCharacters[i].unlocked = true;
             }
-            else if (StatsTrackerSystem.unlockedCharacters.Contains(allCharacterData[i].classType))
+            else if (world.characterManager.unlockedCharacters.Contains(allCharacterData[i].classType))
             {
                 SaveDataManager.LoadJsonData(allCharacters[i].GetComponents<ISaveableCharacter>(), i + 1);
                 allCharacters[i].unlocked = true;
@@ -97,7 +97,7 @@ public class CharacterCreator : MonoBehaviour
         {
             FileManager.ResetTempData();
         }
-        world.characterManager.characterClassType = selectedCharacter.classType;
+        world.characterManager.selectedCharacterClassType = selectedCharacter.classType;
         world.characterManager.character = selectedCharacter;
         world.SaveProgression();
         LevelLoader.instance.LoadNewLevel();
@@ -105,7 +105,7 @@ public class CharacterCreator : MonoBehaviour
 
     public void Confirm()
     {
-        if (world.characterManager.characterClassType == selectedCharacter.classType || world.characterManager.characterClassType == CharacterClassType.None)
+        if (world.characterManager.selectedCharacterClassType == selectedCharacter.classType || world.characterManager.selectedCharacterClassType == CharacterClassType.None)
         {
             StartGame(false);
         }

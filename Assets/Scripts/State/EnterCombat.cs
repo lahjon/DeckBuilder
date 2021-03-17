@@ -11,7 +11,7 @@ public class EnterCombat : State
     public override IEnumerator Start()
     {
         CombatController.BindCharacterData();
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         Debug.Log("Starting combat");
         RulesSystem.instance.SetupEnemyStartingRules();
         yield return new WaitForSeconds(0.5f);

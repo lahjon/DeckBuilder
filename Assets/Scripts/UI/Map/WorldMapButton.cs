@@ -17,7 +17,6 @@ public class WorldMapButton : MonoBehaviour
     bool pressed;
     bool overButton;
     public string actName;
-    NewActTransition newActTransition;
     
     void Start()
     {
@@ -27,7 +26,6 @@ public class WorldMapButton : MonoBehaviour
         pressColor = new Color(1.0f, 1.0f, 1.0f);
         disabledColor = new Color(0.4f, 0.4f, 0.4f);
         scaled = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f);
-        newActTransition = WorldSystem.instance.worldMapManager.newActTransition;
 
         sortingLayer = 5;
         ColorOnUnlock();
@@ -39,7 +37,7 @@ public class WorldMapButton : MonoBehaviour
     }
     void OnMouseDown()
     {
-        if (unlocked && !newActTransition.disable)
+        if (unlocked && WorldStateSystem.instance.currentOverlayState == OverlayState.None)
         {
             transform.localScale = scaled;
         }
@@ -47,7 +45,7 @@ public class WorldMapButton : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (unlocked && overButton && !newActTransition.disable)
+        if (unlocked && overButton && WorldStateSystem.instance.currentOverlayState == OverlayState.None)
         {
             transform.localScale = Vector3.one;
             Confirm();
@@ -57,11 +55,21 @@ public class WorldMapButton : MonoBehaviour
     void Confirm()
     {
         Debug.Log("Clicked: " + index);
-        newActTransition.TransitionStart(index, actName);
+        WorldSystem.instance.worldMapManager.actIndex = index;
+        if (index == 0)
+        {
+            WorldStateSystem.SetInWorldMap(false);
+            WorldStateSystem.SetInTown(true);
+        }
+        else
+        {
+            WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterAct;
+            WorldStateSystem.SetInOverworld(true);
+        }
     }
     void OnMouseOver()
     {
-        if (unlocked && !newActTransition.disable)
+        if (unlocked && WorldStateSystem.instance.currentOverlayState == OverlayState.None)
         {
             sprite.color = highlightColor;
             sprite.sortingOrder = 6;

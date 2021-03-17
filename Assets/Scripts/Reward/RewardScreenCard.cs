@@ -9,7 +9,7 @@ public class RewardScreenCard : MonoBehaviour
     public void SetupRewards(List<CardData> rewardCards = null)
     {
         cards.Clear();
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Reward, false);
+        WorldStateSystem.SetInReward(true);
 
         foreach (Transform card in WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent.transform)
         {
@@ -20,7 +20,7 @@ public class RewardScreenCard : MonoBehaviour
         if(rewardCards != null && rewardCards.Count > 0)
             maxCardReward = rewardCards.Count;
         else
-            maxCardReward = WorldSystem.instance.characterManager.maxCardReward;
+            maxCardReward = WorldSystem.instance.characterManager.character.maxCardReward;
 
         if(cards.Count < maxCardReward)
         {

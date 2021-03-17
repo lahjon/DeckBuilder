@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "NewAchivement", menuName = "CardGame/Achivement")]
 public class AchivementData : ScriptableObject
 {
     public new string name;

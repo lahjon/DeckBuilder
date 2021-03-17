@@ -22,7 +22,7 @@ public class CombatControllerAnimatorEnemyTurn : CombatControllerAnimator
 
     public IEnumerator EnemyTurn()
     {
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         yield return combatController.StartCoroutine(RulesSystem.instance.EnemyStartTurn(enemy));
 
         if (combatController.enemiesWaiting.Count == 0)

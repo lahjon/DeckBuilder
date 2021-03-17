@@ -13,7 +13,7 @@ public class CharacterSheet : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.C))
         {
-            if(WorldSystem.instance.worldState == WorldState.Combat || WorldSystem.instance.worldState == WorldState.Shop || WorldSystem.instance.worldState == WorldState.ActMap || WorldSystem.instance.worldState == WorldState.Town)
+            if(WorldStateSystem.instance.currentWorldState == WorldState.Combat || WorldStateSystem.instance.currentWorldState == WorldState.Shop || WorldStateSystem.instance.currentWorldState == WorldState.Overworld || WorldStateSystem.instance.currentWorldState == WorldState.Town)
             {
                 ToggleCharacterSheet();
             }
@@ -35,8 +35,8 @@ public class CharacterSheet : MonoBehaviour
         // handsize.text = characterManager.handSize.ToString();
         // damage.text = characterManager.damageModifier.ToString();
         // block.text = characterManager.blockModifier.ToString();
-        charClass.text = characterManager.characterClassType.ToString();
-        energy.text = characterManager.energy.ToString();
+        charClass.text = characterManager.selectedCharacterClassType.ToString();
+        energy.text = characterManager.character.energy.ToString();
     }
 
     public void ToggleCharacterSheet()

@@ -10,7 +10,7 @@ public class EnemyTurn : State
 
     public override IEnumerator Start()
     {
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateUI();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         yield return null;
     }
     public override IEnumerator Action()

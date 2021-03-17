@@ -18,26 +18,10 @@ public class TownManager : Manager, ISaveableWorld
         world.townManager = this;
         townMapCanvas.gameObject.SetActive(true);
     }
-
-    public void EnterTown()
-    {
-        townMapCanvas.gameObject.SetActive(true);
-        world.worldStateManager.AddState(WorldState.Town, true);
-    }
-
-    public void ExitTown()
-    {
-        townMapCanvas.gameObject.SetActive(false);
-        // world.encounterManager.GenerateMap();
-        // world.characterManager.characterVariablesUI.UpdateUI();
-        // world.encounterManager.currentEncounter = world.encounterManager.overworldEncounters[0];
-        // world.worldStateManager.AddState(WorldState.Overworld, true);
-    }
-
     public void OpenWorldMap()
     {
-        townMapCanvas.gameObject.SetActive(false);
-        world.worldStateManager.AddState(WorldState.WorldMap);
+        WorldStateSystem.SetInTown(false);
+        WorldStateSystem.SetInWorldMap(true);
     }
 
     public bool UnlockBuilding(BuildingType building)
@@ -53,7 +37,7 @@ public class TownManager : Manager, ISaveableWorld
             return false;
         }
     }
-    public void UpdateTown()
+    public void EnterTown()
     {
         List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
 
@@ -72,6 +56,11 @@ public class TownManager : Manager, ISaveableWorld
         townMapCanvas.gameObject.SetActive(true);
     }
 
+    public void ExitTown()
+    {
+        townMapCanvas.gameObject.SetActive(false);
+    }
+
     public void ActivateBuilding(TownInteractable building)
     {
         building.gameObject.SetActive(true);
@@ -87,8 +76,6 @@ public class TownManager : Manager, ISaveableWorld
         a_SaveData.unlockedBuildings = unlockedBuildings;
         
     }
-
-
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         unlockedBuildings = a_SaveData.unlockedBuildings;

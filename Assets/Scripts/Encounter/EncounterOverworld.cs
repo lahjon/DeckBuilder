@@ -32,100 +32,38 @@ public class EncounterOverworld : Encounter
 
     public override void ButtonPress()
     {
-        if(!isVisited && CheckViablePath(this) && !isClicked && WorldSystem.instance.worldState == WorldState.ActMap)
+        if(!isVisited && CheckViablePath(this) && !isClicked && WorldStateSystem.instance.currentWorldState == WorldState.Overworld)
         {
-            List<System.Action> visitActions = new List<System.Action>();
-
             switch (this.encounterType)
             {
                 case EncounterType.OverworldCombatNormal:
-                    // Debug.Log("Enter Combat!");
-                    // SetIsVisited(this);
-                    // WorldSystem.instance.EnterCombat();
-
-                    visitActions.Clear();
-                    void actionNormal() 
-                    {
-                        WorldSystem.instance.EnterCombat();
-                    }
-                    visitActions.Add(actionNormal);
-                    StartCoroutine(SetVisited(visitActions, this));
+                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
 
                     break;
                 
                 case EncounterType.OverworldCombatElite:
-                    // Debug.Log("Enter Elite Combat!");
-                    // SetIsVisited(this);
-                    // WorldSystem.instance.EnterCombat();
-
-                    visitActions.Clear();
-                    void actionElite() 
-                    {
-                        WorldSystem.instance.EnterCombat();
-                    }
-                    visitActions.Add(actionElite);
-                    StartCoroutine(SetVisited(visitActions, this));
+                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
 
                     break;
                 
                 case EncounterType.OverworldCombatBoss:
-                    // Debug.Log("Enter Boss Combat!");
-                    // SetIsVisited(this);
-                    // WorldSystem.instance.EnterCombat();
-
-                    visitActions.Clear();
-                    void actionBoss() 
-                    {
-                        WorldSystem.instance.EnterCombat();
-                    }
-                    visitActions.Add(actionBoss);
-                    StartCoroutine(SetVisited(visitActions, this));
+                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
 
                     break;
 
                 case EncounterType.OverworldShop:
+                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInShop(true), this));
 
-                    visitActions.Clear();
-                    void actionShop() 
-                    {
-                        WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
-                        WorldSystem.instance.shopManager.shop.RestockShop();
-                        SetIsVisited(this);
-                        WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
-                        Debug.Log("Enter Shop!");
-                    }
-                    visitActions.Add(actionShop);
-                    StartCoroutine(SetVisited(visitActions, this));
-                    
-                    // WorldSystem.instance.shopManager.shop.gameObject.SetActive(true);
-                    // WorldSystem.instance.shopManager.shop.RestockShop();
-                    // SetIsVisited(this);
-                    // WorldSystem.instance.worldStateManager.AddState(WorldState.Shop);
-                    // Debug.Log("Enter Shop!");
                     break;
 
                 case EncounterType.OverworldRandomEvent:
-                    // SetIsVisited(this);
-                    // WorldSystem.instance.worldStateManager.AddState(WorldState.Event, false);
-                    // WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    // WorldSystem.instance.uiManager.encounterUI.StartEncounter();
-
-
-                    visitActions.Clear();
                     WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    void actionEncounter()
-                    {
-                        WorldSystem.instance.worldStateManager.AddState(WorldState.Event, false);
-                        WorldSystem.instance.uiManager.encounterUI.StartEncounter();
-                    }
-                    visitActions.Add(actionEncounter);
-                    StartCoroutine(SetVisited(visitActions, this));
+                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInEvent(true), this));
                     
                     break;
                 
                 default:
                     isClicked = true;
-                    //CreateUI();
                     break;
             }
         }

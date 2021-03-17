@@ -7,6 +7,8 @@ public class SaveDataStart
 {
     public CharacterClassType characterClassType;
     public List<string> selectedTokens = new List<string>(); 
+    public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>(); 
+    
     public int availableTokenPoints;
     public string ToJson()
     {
