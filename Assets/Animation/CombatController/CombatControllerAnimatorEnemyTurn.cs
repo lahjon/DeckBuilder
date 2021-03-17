@@ -12,6 +12,7 @@ public class CombatControllerAnimatorEnemyTurn : CombatControllerAnimator
 
         enemy = combatController.enemiesWaiting.Dequeue();
         combatController.ActiveActor = enemy;
+        combatController.CardInProcess = (enemy.hand, combatController.Hero);
         combatController.StartCoroutine(EnemyTurn());
     }
 
@@ -23,12 +24,11 @@ public class CombatControllerAnimatorEnemyTurn : CombatControllerAnimator
     public IEnumerator EnemyTurn()
     {
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
-        yield return combatController.StartCoroutine(RulesSystem.instance.EnemyStartTurn(enemy));
+        enemy.ShowMoveDisplay(false);
+        for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
+            yield return combatController.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 
-        if (combatController.enemiesWaiting.Count == 0)
-            combatController.animator.SetTrigger("EnemyTookTurn");
-        else
-            combatController.animator.SetTrigger("NextEnemy");
+        combatController.animator.SetTrigger("EnemyPlayCard");
     }
  
 

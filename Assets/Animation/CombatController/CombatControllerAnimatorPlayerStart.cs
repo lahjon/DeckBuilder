@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
 {
+    CombatActor hero;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        combatController.StartCoroutine(StartPlayerTurn());
+        Debug.Log("Entered Player Start");
         combatController.ActiveActor = combatController.Hero;
+        hero = combatController.Hero;
+        combatController.StartCoroutine(StartPlayerTurn());
     }
 
 
     public IEnumerator StartPlayerTurn()
     {
-        combatController.StartTurn();
+        yield return combatController.StartCoroutine(RulesSystem.instance.StartTurn());
+        for(int i = 0; i < hero.actionsNewTurn.Count; i++)
+            yield return combatController.StartCoroutine(hero.actionsNewTurn[i].Invoke());
+
         combatController.acceptSelections = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
-        WorldSystem.instance.combatManager.combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
+        combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
+        combatController.EnemiesInScene.ForEach(x => x.DrawCard());
+        combatController.EnemiesInScene.ForEach(x => x.ShowMoveDisplay(true));
 
         combatController.animator.SetTrigger("PlayerTurnStarted");
         yield return null;

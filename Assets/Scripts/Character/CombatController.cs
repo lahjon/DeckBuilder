@@ -178,11 +178,6 @@ public class CombatController : MonoBehaviour
         drawCount = WorldSystem.instance.characterManager.character.drawCardsAmount;
     }
 
-    public void StartTurn()
-    {
-        StartCoroutine(RulesSystem.instance.StartTurn());
-    }
-
     public void EndTurn()
     {
         Hero.healthEffects.EffectsOnNewTurnBehavior();

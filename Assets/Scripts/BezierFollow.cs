@@ -55,6 +55,7 @@ public class BezierFollow : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        WorldSystem.instance.combatManager.combatController.UpdateDeckTexts();
         attachedCard.animator.SetTrigger("DoneDiscarding");
         tParam = 0f;
     }

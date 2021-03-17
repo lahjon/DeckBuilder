@@ -16,7 +16,6 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         combatController.BindCharacterData();
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         Debug.Log("Starting combat");
-        RulesSystem.instance.SetupEnemyStartingRules();
         yield return new WaitForSeconds(0.5f);
         Debug.Log("Combat has Started");
         //CombatController.InitializeCombat();

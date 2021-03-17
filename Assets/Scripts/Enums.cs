@@ -98,7 +98,8 @@ public enum EffectType
     Block,
     Weak,
     Vurnerable,
-    Barricade
+    Barricade,
+    Thorns
 }
 
 public enum OverlayState

@@ -12,13 +12,15 @@ public class CardActivityAddCardToDeck : CardActivity
         if (cd is null)
         {
             Debug.LogError($"No such card named {input}");
-            yield return null;
         }
-
-        CardCombatAnimated card = CardCombatAnimated.CreateCardFromData(cd, combatController);
-        combatController.Deck.Add(card);
-        WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {input} to Deck!");
-        combatController.UpdateDeckTexts();
+        else
+        {
+            CardCombatAnimated card = CardCombatAnimated.CreateCardFromData(cd, combatController);
+            combatController.Deck.Add(card);
+            WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {input} to Deck!");
+            combatController.UpdateDeckTexts();
+        }
+        yield return null;
     }
 
     public override string GetDescription(string input)

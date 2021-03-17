@@ -40,5 +40,10 @@ public class IntentDisplay : MonoBehaviour
 
     }
 
+    public void ShowDisplay(bool enabled)
+    {
+        gameObject.SetActive(enabled);
+    }
+
 
 }

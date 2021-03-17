@@ -6,6 +6,7 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("Entered Turn End");
         SetRefs(animator);
         combatController.StartCoroutine(EndPlayerturn());
     }

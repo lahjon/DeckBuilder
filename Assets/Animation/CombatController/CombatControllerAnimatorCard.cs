@@ -6,7 +6,7 @@ public class CombatControllerAnimatorCard : CombatControllerAnimator
 {
     public static CardData card;
     public static CombatActor suppliedTarget;
-    public readonly string layerName = "Resolve Card";
+    public static string layerName;
     public string nextState;
 
     public string nextLayerState { get { return layerName + "." + nextState; } }
@@ -16,7 +16,6 @@ public class CombatControllerAnimatorCard : CombatControllerAnimator
         base.SetRefs(animator);
         card = combatController.CardInProcess.card;
         suppliedTarget = combatController.CardInProcess.target;
-
     }
 
 }

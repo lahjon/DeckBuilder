@@ -903,7 +903,7 @@ MonoBehaviour:
   txtDeck: {fileID: 265525353450780777}
   txtDiscard: {fileID: 265525353501466189}
   HandSize: 10
-  drawCount: 0
+  drawCount: 5
   offset: 50
   handDistance: 170
   handHeight: 75
