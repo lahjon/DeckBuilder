@@ -5,12 +5,7 @@ using UnityEngine;
 public class UIManager : Manager
 {
     public int planeDistance = 10;
-    public GameObject ui;
-    public TransitionScreen transitionScreen;
-    public RewardScreen rewardScreen;
     public UIWarningController UIWarningController;
-    public CharacterVariablesUI characterVariablesUI;
-    public CharacterSheet characterSheet;
     public DeathScreen deathScreen;
     public EncounterUI encounterUI;
     public DebugUI debugUI;

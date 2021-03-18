@@ -107,7 +107,8 @@ public enum OverlayState
     None,
     Transition,
     EscapeMenu,
-    Display
+    Display,
+    CharacterSheet
 }
 
 public enum WorldState

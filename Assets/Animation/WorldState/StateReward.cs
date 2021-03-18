@@ -7,14 +7,20 @@ public class StateReward : WorldStateAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(TransitionType.None, WorldState.Reward);
-        world.uiManager.rewardScreen.canvas.SetActive(true);
-        world.uiManager.rewardScreen.OnCanvasEnable();
+        if (world.rewardManager.draftAmount <= 0)
+        {
+            world.rewardManager.OpenRewardScreen();
+        }
+        else
+        {
+            world.rewardManager.OpenDraftMode();
+        }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        world.uiManager.rewardScreen.rewardScreenCard.SetActive(false);
-        world.uiManager.rewardScreen.canvas.SetActive(false);
+        world.rewardManager.draftAmount = 0;
+        world.rewardManager.CloseRewardScreen();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

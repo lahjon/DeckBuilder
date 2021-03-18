@@ -7,8 +7,8 @@ public class RewardCard : Reward
     protected override void CollectCombatReward()
     {
         
-        WorldSystem.instance.uiManager.rewardScreen.currentReward = this.GetComponent<RewardCard>();
-        WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCard>().SetupRewards();
+        WorldSystem.instance.rewardManager.rewardScreen.currentReward = this.GetComponent<RewardCard>();
+        WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
     }
     
 

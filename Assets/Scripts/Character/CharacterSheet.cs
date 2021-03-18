@@ -9,17 +9,6 @@ public class CharacterSheet : MonoBehaviour
     public TMP_Text strength, wisdom, endurance, cunning, speed, drawsize, health, handsize, damage, block, charClass, energy;
     public GameObject canvas;
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            if(WorldStateSystem.instance.currentWorldState == WorldState.Combat || WorldStateSystem.instance.currentWorldState == WorldState.Shop || WorldStateSystem.instance.currentWorldState == WorldState.Overworld || WorldStateSystem.instance.currentWorldState == WorldState.Town)
-            {
-                ToggleCharacterSheet();
-            }
-        }
-    }
-
     public void UpdateCharacterSheet()
     {
         CharacterManager characterManager = WorldSystem.instance.characterManager;
@@ -38,17 +27,14 @@ public class CharacterSheet : MonoBehaviour
         charClass.text = characterManager.selectedCharacterClassType.ToString();
         energy.text = characterManager.character.energy.ToString();
     }
+    public void OpenCharacterSheet()
+    {   
+        canvas.SetActive(true);
+        UpdateCharacterSheet();
+    }
 
-    public void ToggleCharacterSheet()
+    public void CloseCharacterSheet()
     {
-        if(canvas.activeSelf)
-        {
-            canvas.SetActive(false);
-        }
-        else
-        {
-            canvas.SetActive(true);
-            UpdateCharacterSheet();
-        }
+        canvas.SetActive(false);
     }
 }

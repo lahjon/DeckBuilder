@@ -2182,7 +2182,6 @@ MonoBehaviour:
   combatManager: {fileID: 0}
   townManager: {fileID: 0}
   uiManager: {fileID: 0}
-  worldStateManager: {fileID: 0}
   gameEventManager: {fileID: 0}
   progressionManager: {fileID: 0}
   missionManager: {fileID: 0}

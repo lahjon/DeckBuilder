@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class WorldStateSystem : MonoBehaviour
         set
         {
             _currentWorldState = value;
-            WorldSystem.instance.uiManager.debugUI.UpdateCharacterDebugHUD();
+            WorldSystem.instance.uiManager?.debugUI.UpdateCharacterDebugHUD();
         }
     }
     public OverlayState currentOverlayState
@@ -36,9 +37,10 @@ public class WorldStateSystem : MonoBehaviour
         set
         {
             _currentOverlayState = value;
-            WorldSystem.instance.uiManager.debugUI.UpdateCharacterDebugHUD();
+            WorldSystem.instance.uiManager?.debugUI.UpdateCharacterDebugHUD();
         }
     }
+
     void Awake()
     {
         if(instance == null)
@@ -54,16 +56,25 @@ public class WorldStateSystem : MonoBehaviour
         worldAnimator = this.GetComponent<Animator>();
         overlayAnimator = this.transform.GetChild(0).GetComponent<Animator>();
 
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            SetInMainMenu(true);
-        }
-        else
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             SetInTown(true);
         }
     }
 
+    public static void TriggerToMainMenu()
+    {
+        worldAnimator.SetTrigger("ToMainMenu");
+        worldAnimator.SetBool("InTown", false);
+        worldAnimator.SetBool("InCombat", false);
+        worldAnimator.SetBool("InBuilding", false);
+        worldAnimator.SetBool("InShop", false);
+        worldAnimator.SetBool("InCutscene", false);
+        worldAnimator.SetBool("InWorldMap", false);
+        worldAnimator.SetBool("InOverworld", false);
+        worldAnimator.SetBool("InReward", false);
+        worldAnimator.SetBool("InEvent", false);
+    }
     public static void SetInTown(bool aBool)
     {
         worldAnimator.SetBool("InTown", aBool);
@@ -75,10 +86,6 @@ public class WorldStateSystem : MonoBehaviour
     public static void SetInBuilding(bool aBool)
     {
         worldAnimator.SetBool("InBuilding", aBool);
-    }
-    public static void SetInMainMenu(bool aBool)
-    {
-        worldAnimator.SetBool("InMainMenu", aBool);
     }
     public static void SetInShop(bool aBool)
     {
@@ -131,6 +138,21 @@ public class WorldStateSystem : MonoBehaviour
             if (!overlayAnimator.GetBool("InEscapeMenu"))
             {
                 overlayAnimator.SetBool("InEscapeMenu", true);
+            }
+            else
+            {
+                overlayAnimator.SetTrigger("Clear");
+            }
+        }
+    }
+
+    public static void SetInCharacterSheet(bool aBool)
+    {
+        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
+        {
+            if (!overlayAnimator.GetBool("InCharacterSheet"))
+            {
+                overlayAnimator.SetBool("InCharacterSheet", true);
             }
             else
             {

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CardDisplay : Card
 {
     private float startDragPos;
+    public bool disable;
     public override void OnMouseEnter()
     {
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
@@ -23,20 +24,65 @@ public class CardDisplay : Card
     }
     public override void OnMouseClick()
     {
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && !disable)
         {
             DisplayCard();
         }
-        else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
+        else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop && !disable)
         {
+            WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
             WorldSystem.instance.shopManager.shop.PurchaseCard(this);
         }
-        else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+        else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward && !disable)
         {
-            AddCardToDeck(this.cardData);
-            WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.SetActive(false);
-            WorldSystem.instance.uiManager.rewardScreen.ResetCurrentReward();
+            WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
+            RewardCallback();
         }
+    }
+
+    void RewardCallback()
+    {
+        AddCardToDeck(this.cardData);
+        if (WorldSystem.instance.rewardManager.draftAmount > 0)
+        {
+            WorldSystem.instance.rewardManager.draftAmount--;
+            WorldSystem.instance.rewardManager.OpenDraftMode();
+        }
+        else
+        {
+            WorldSystem.instance.rewardManager.rewardScreen.ResetCurrentReward();
+        }
+    }
+
+    IEnumerator AnimateCardToDeck()
+    {
+        Vector3 posEnd = WorldSystem.instance.deckDisplayManager.deckDisplayPos.position;
+        Vector3 posStart = transform.position;
+
+        GameObject animateCard = WorldSystem.instance.deckDisplayManager.animatedCard.gameObject;
+        animateCard.SetActive(true);
+
+        animateCard.GetComponent<CardDisplay>().cardData = cardData;
+        animateCard.GetComponent<CardDisplay>().BindCardData();
+
+        Vector3 newScale = new Vector3(1.1f, 1.1f, 1.1f);
+
+        float elapsedTime = 0.0f;
+        float waitTime = 0.3f;
+
+        while (elapsedTime < waitTime)
+        {
+            animateCard.transform.position = Vector3.Lerp(posStart, posEnd, (elapsedTime / waitTime));
+            animateCard.transform.localScale = Vector3.Lerp(newScale, new Vector3(0.1f, 0.1f, 0.1f), (elapsedTime / waitTime));
+            elapsedTime += Time.deltaTime;
+            if (Vector3.Distance(animateCard.transform.position, posEnd) < 1.0f)
+            {
+                break;
+            }
+            yield return null;
+        }  
+        animateCard.SetActive(false);
+        //Callback();
     }
 
     public override void OnMouseRightClick(bool allowDisplay = true)
@@ -63,7 +109,7 @@ public class CardDisplay : Card
 
         if(callRewardScreen == true)
         {
-            WorldSystem.instance.uiManager.rewardScreen.currentReward.OnClick();
+            WorldSystem.instance.rewardManager.rewardScreen.currentReward.OnClick();
         }
     }
 

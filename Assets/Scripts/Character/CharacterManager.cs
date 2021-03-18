@@ -17,6 +17,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData;
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    public CharacterSheet characterSheet;
     int _currentHealth;
 
     protected override void Awake()

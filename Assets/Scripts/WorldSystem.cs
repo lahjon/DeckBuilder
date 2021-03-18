@@ -26,6 +26,7 @@ public class WorldSystem : MonoBehaviour
     public ArtifactManager artifactManager;
     public WorldMapManager worldMapManager;
     public DialogueManager dialogueManager;
+    public RewardManager rewardManager;
     public int act;
     public int saveAmount;
     public int loadAmount;

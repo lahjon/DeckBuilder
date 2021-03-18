@@ -12,6 +12,7 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     public TMP_Text worldState;
     public TMP_Text overlayState;
     public TMP_Text worldTier;
+    public List<EnemyData> enemyData = new List<EnemyData>();
 
     void Update()
     {
@@ -33,9 +34,22 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
     }
 
+    public void DebugDraftCards(int amount)
+    {
+        WorldSystem.instance.rewardManager.draftAmount = amount;
+        WorldStateSystem.SetInReward(true);
+    }
+
     public void DebugAddSpecficArtifact()
     {
         WorldSystem.instance.artifactManager.AddArifact(artifactReward);
+    }
+    public void DebugStartCombat()
+    {
+        WorldSystem.instance.combatManager.combatController.enemyDatas = enemyData;
+        WorldStateSystem.SetInOverworld(true);
+        WorldStateSystem.SetInTown(false);
+        WorldStateSystem.SetInCombat(true);
     }
     public void DebugRemoveSpecificArtifact()
     {
@@ -79,10 +93,6 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
         WorldSystem.instance.encounterManager.GenerateMap();
     }
 
-    public void DebugAddStrength()
-    {
-        WorldSystem.instance.uiManager.characterSheet.UpdateCharacterSheet();
-    }
     public void DebugWinCombat()
     {
         if(WorldStateSystem.instance.currentWorldState == WorldState.Combat)

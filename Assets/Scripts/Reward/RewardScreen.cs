@@ -39,14 +39,16 @@ public class RewardScreen : MonoBehaviour
             RemoveRewardScreen();
     }
 
-    public void OnCanvasEnable()
+    public void SetupRewards()
     {
+        canvas.SetActive(true);
         int i = 0;
         while (content.transform.childCount > 0)
         {
             i++;
             if (i > 50)
             {
+                Debug.Log("Shuoldnt happen");
                 break;
             }
             DestroyImmediate(content.transform.GetChild(0).gameObject);

@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RewardScreenCard : MonoBehaviour
+public class RewardScreenCardSelection : MonoBehaviour
 {
     private List<GameObject> cards = new List<GameObject>();
+    public GameObject canvas;
+    public Transform background;
 
     public void SetupRewards(List<CardData> rewardCards = null)
     {
         cards.Clear();
         WorldStateSystem.SetInReward(true);
 
-        foreach (Transform card in WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent.transform)
+        foreach (Transform card in WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCardContent.transform)
         {
             cards.Add(card.gameObject);
         }
@@ -24,20 +26,20 @@ public class RewardScreenCard : MonoBehaviour
 
         if(cards.Count < maxCardReward)
         {
-            GameObject newCard = Instantiate(WorldSystem.instance.uiManager.rewardScreen.cardDisplayPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
-            newCard.transform.SetParent(WorldSystem.instance.uiManager.rewardScreen.rewardScreenCardContent.transform);
+            GameObject newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreen.cardDisplayPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
+            newCard.transform.SetParent(WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCardContent.transform);
             cards.Add(newCard);
         }
         else if (cards.Count > maxCardReward)
         {
             while (cards.Count > maxCardReward)
             {
-                DestroyImmediate(cards[cards.Count - 1]);
+                Destroy(cards[cards.Count - 1]);
                 cards.RemoveAt(cards.Count - 1);
             }
         }
 
-        WorldSystem.instance.uiManager.rewardScreen.canvasCard.SetActive(true);
+        WorldSystem.instance.rewardManager.rewardScreen.canvasCard.SetActive(true);
         if(rewardCards != null && rewardCards.Count > 0)
         {
             SetSpecificCard(rewardCards);
@@ -46,7 +48,6 @@ public class RewardScreenCard : MonoBehaviour
         {
             SetRandomCards();   
         }
-
     }
     private void SetRandomCards()
     {

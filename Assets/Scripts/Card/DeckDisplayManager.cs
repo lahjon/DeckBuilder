@@ -11,20 +11,14 @@ public class DeckDisplayManager : Manager
     public Canvas canvas;
     public GameObject deckDisplay;
     public List<GameObject> allDisplayedCards;
-    public GameObject startPos;
-    public float height = 400.0f;
-    public Vector3 offsetHorizontal = new Vector3(400,0,0);
-    public Vector3 offsetVertical = new Vector3(0,400,0);
-    public int rows = 4;
-    private WorldState previousState;
     public Card selectedCard;
-    [HideInInspector]
-    public int siblingIndex;
     public GameObject scroller;
     public Vector3 previousPosition;
     public GameObject placeholderCard;
     public GameObject clickableArea;
     public GameObject backgroundPanel;
+    public Transform deckDisplayPos;
+    public CardDisplay animatedCard;
 
     protected override void Awake()
     {

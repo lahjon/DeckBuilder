@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyId: 2001
   enemyName: Boss1
   artwork: {fileID: 0}
-  characterArt: {fileID: 8674257438334899846, guid: 7a2dc14cdcea4b044be7a3ef5cfe5226, type: 3}
+  characterArt: {fileID: 4399961221871102342, guid: 2a133b27818b15542ac30a81e856d43e, type: 3}
   tier: 1
   deck:
   - {fileID: 11400000, guid: af70494e09f021c4bb9fb91c718b2f49, type: 2}

@@ -138,8 +138,11 @@ public class CombatController : MonoBehaviour
 
         ShuffleDeck();
 
-        if (enemyDatas == null)
+        if (enemyDatas == null || enemyDatas?.Count < 1)
+        {
             enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
+            Debug.Log("EnemyData is null");
+        }
 
         enemyDatas.ForEach(x => Debug.Log(x));
 
@@ -157,8 +160,12 @@ public class CombatController : MonoBehaviour
     public void StartCombat()
     {
         gameObject.SetActive(true);
-        List<EnemyData> enemyDatas = WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData;
-        if (enemyDatas.Count < 1)
+
+        if (WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData != null)
+        {
+            enemyDatas = WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData;
+        }
+        if (enemyDatas?.Count < 1)
         {
             Debug.Log("From null");
             SetUpEncounter();
@@ -308,7 +315,6 @@ public class CombatController : MonoBehaviour
         card.transform.localPosition = transInfo.pos;
         card.transform.localEulerAngles = transInfo.angles;
     }
-
 
     public (Vector3 Position, Vector3 Angles) GetTargetPositionFromDegree(float degree)
     {

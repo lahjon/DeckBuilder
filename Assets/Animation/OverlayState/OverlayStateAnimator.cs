@@ -9,7 +9,7 @@ public class OverlayStateAnimator : StateMachineBehaviour
 
     protected virtual void Init(OverlayState overlayState)
     {
-        Debug.Log("Enter overlay state: " + this.GetType().ToString().Remove(0,5));
+        Debug.Log("Enter overlay state: " + this.GetType().ToString().Remove(0,12));
 
         if (world == null)
         {
@@ -29,6 +29,13 @@ public class OverlayStateAnimator : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            WorldStateSystem.SetInCharacterSheet(true);
+        }
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            WorldStateSystem.SetInEscapeMenu(true);
+        }
     }
 }

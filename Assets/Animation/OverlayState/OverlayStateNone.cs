@@ -16,9 +16,6 @@ public class OverlayStateNone : OverlayStateAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            WorldStateSystem.SetInEscapeMenu(true);
-        }
+        base.OnStateUpdate(animator, stateInfo, layerIndex);
     }
 }

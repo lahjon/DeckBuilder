@@ -18,24 +18,7 @@ public abstract class Reward : MonoBehaviour
     public virtual void RemoveReward()
     {
         DestroyImmediate(this.gameObject);
-        if(WorldSystem.instance.uiManager.rewardScreen.content.transform.childCount == 0)
-            WorldSystem.instance.uiManager.rewardScreen.RemoveRewardScreen();
+        if(WorldSystem.instance.rewardManager.rewardScreen.content.transform.childCount == 0)
+            WorldSystem.instance.rewardManager.rewardScreen.RemoveRewardScreen();
     }
-    
-    // public ArtifactData GetArtifact(bool random = true, ArtifactData artifactData = null)
-    // {
-    //     return null;
-    // }
-
-    // public List<CardData> ChooseCard(CharacterClass characterClass, int amount = 3, bool random = true, CardData cardData = null)
-    // {
-    //     List<CardData> cardReward = new List<CardData>(); 
-
-    //     for (int i = 0; i < amount; i++)
-    //     {
-    //         cardReward.Add(DatabaseSystem.instance.GetRandomCard(characterClass));
-    //     }
-
-    //     return cardReward;
-    // }
 }

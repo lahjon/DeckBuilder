@@ -41,13 +41,16 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNewLevel(int index = 1)
     {
-        StartCoroutine(LoadLevel(1.0f, index));
+        StartCoroutine(LoadLevel(0.2f, index));
     }
 
     public void StartNewLevel(int index = 1)
     {
-        StartCoroutine(StartLevel(1.0f));
-        
+        world.LoadProgression();
+        if (world.missionManager != null && world.missionManager.mission == null)
+        {
+            world.missionManager.NewMission("Mission001");
+        }
     }
 
     IEnumerator LoadLevel(float time, int index)
@@ -64,23 +67,6 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(LoadNewScene(index));
     }
 
-    IEnumerator StartLevel(float time)
-    {
-        world.LoadProgression();
-        if (world.missionManager != null && world.missionManager.mission == null)
-        {
-            world.missionManager.NewMission("Mission001");
-        }
-        canvas.gameObject.SetActive(true);
-        canvas.GetComponent<CanvasGroup>().alpha = 1;
-        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / time)
-        {
-            canvas.GetComponent<CanvasGroup>().alpha = Mathf.Abs(t - 1);
-            yield return null;
-        }
-        canvas.gameObject.SetActive(false);
-    }
-
     IEnumerator LoadNewScene(int sceneNumber) 
     {
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneNumber);
@@ -88,7 +74,11 @@ public class LevelLoader : MonoBehaviour
         while (!async.isDone) {
             yield return 0;
         }  
-        currentScene = sceneNumber;
+        if (sceneNumber == 1)
+        {
+            WorldStateSystem.SetInTown(true);
+        }
+        canvas.gameObject.SetActive(false);
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
