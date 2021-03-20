@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class CharacterVariablesUI : MonoBehaviour
@@ -9,6 +10,7 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text goldValue;
     public TMP_Text shardValue;
     public TMP_Text worldTier;
+    public Image levelUpImage;
 
     public void UpdateCharacterHUD()
     {
@@ -24,9 +26,25 @@ public class CharacterVariablesUI : MonoBehaviour
         }
     }
 
-    public void DisplayDeck()
+    public void ActivateLevelUp()
+    {
+        levelUpImage.gameObject.SetActive(true);
+        LeanTween.scale(levelUpImage.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.5f).setEaseInBounce().setLoopPingPong();
+    }
+
+    public void DisableLevelUp()
+    {
+        levelUpImage.gameObject.SetActive(true);
+        LeanTween.scale(levelUpImage.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.5f).setEaseInBounce().setLoopPingPong();
+    }
+
+    public void ButtonDisplayDeck()
     {
         WorldStateSystem.SetInDisplay();
     }
 
+    public void ButtonOpenCharacterSheet()
+    {
+        WorldStateSystem.SetInCharacterSheet();
+    }
 }

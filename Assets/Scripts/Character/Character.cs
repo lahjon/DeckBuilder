@@ -17,6 +17,7 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public bool                 unlocked;
     public List<string>         selectedTokens = new List<string>();
     public int                  maxCardReward = 3;
+
     public void SetCharacterData()
     {
         SaveDataManager.LoadJsonData(this.GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);

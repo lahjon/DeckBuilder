@@ -16,6 +16,8 @@ public class WorldStateSystem : MonoBehaviour
     public static WorldStateSystem instance;
     static WorldState _currentWorldState;
     static OverlayState _currentOverlayState;
+    static bool disableAllInput;
+
     public WorldState currentWorldState
     {
         get
@@ -146,7 +148,7 @@ public class WorldStateSystem : MonoBehaviour
         }
     }
 
-    public static void SetInCharacterSheet(bool aBool)
+    public static void SetInCharacterSheet()
     {
         if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
         {

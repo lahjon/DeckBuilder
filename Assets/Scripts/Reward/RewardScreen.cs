@@ -48,7 +48,7 @@ public class RewardScreen : MonoBehaviour
             i++;
             if (i > 50)
             {
-                Debug.Log("Shuoldnt happen");
+                Debug.Log("Should not happen");
                 break;
             }
             DestroyImmediate(content.transform.GetChild(0).gameObject);

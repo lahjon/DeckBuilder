@@ -13,6 +13,7 @@ public class EnemyData : ScriptableObject
     public Sprite artwork;
     public GameObject characterArt;
     public int tier;
+    public int experience;
     public List<CardData> deck;
     
 }

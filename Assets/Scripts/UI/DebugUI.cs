@@ -44,6 +44,15 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     {
         WorldSystem.instance.artifactManager.AddArifact(artifactReward);
     }
+    public void DebugAddExperience(int amount)
+    {
+        WorldSystem.instance.levelManager.AddExperience(amount);
+    }
+    public void DebugAddLevel()
+    {
+        WorldSystem.instance.levelManager.AddLevel();
+    }
+
     public void DebugStartCombat()
     {
         WorldSystem.instance.combatManager.combatController.enemyDatas = enemyData;

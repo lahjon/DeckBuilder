@@ -42,7 +42,6 @@ public class ArtifactManager : Manager, ISaveableTemp
         if (allAvailableArtifacts.Count > 0)
         {
             int range = Random.Range(0, allAvailableArtifacts.Count);
-            Debug.Log(range);
             GameObject randomArtifact = allAvailableArtifacts[range];
             return randomArtifact;
         }
@@ -54,7 +53,6 @@ public class ArtifactManager : Manager, ISaveableTemp
         if (allActiveArtifacts.Count > 0)
         {
             int range = Random.Range(0, allActiveArtifacts.Count);
-            Debug.Log(range);
             GameObject randomArtifact = allActiveArtifacts[range];
             return randomArtifact;
         }
@@ -64,7 +62,6 @@ public class ArtifactManager : Manager, ISaveableTemp
     {
         if (anArtifact != null)
         {
-            Debug.Log("ADD");
             Artifact artifact = anArtifact.GetComponent<Artifact>();
             artifact.AddActivity();
             artifactMenu.AddUIArtifact(anArtifact);
@@ -75,7 +72,6 @@ public class ArtifactManager : Manager, ISaveableTemp
     {
         if (anArtifact != null && !allActiveArtifactsNames.Contains(anArtifact.name))
         {
-            Debug.Log("ADD");
             Artifact artifact = anArtifact.GetComponent<Artifact>();
             artifact.AddActivity();
             artifactMenu.AddUIArtifact(anArtifact);
@@ -89,11 +85,9 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public void RemoveArtifact(GameObject anArtifact)
     {
-        Debug.Log("CALLED");
         Debug.Log(anArtifact);
         if (anArtifact != null && allActiveArtifactsNames.Contains(anArtifact.name))
         {
-            Debug.Log("REMOVE");
             Artifact artifact = anArtifact.GetComponent<Artifact>();
             artifact.RemoveActivity();
             artifactMenu.RemoveUIArtifact(anArtifact);

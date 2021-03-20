@@ -12,6 +12,9 @@ public class EventManager : Manager
     public delegate void StatsTrackerUpdatedEvent();
     public static event StatsTrackerUpdatedEvent OnStatsTrackerUpdatedEvent;
 
+    public delegate void LevelUpEvent();
+    public static event LevelUpEvent OnLevelUpEvent;
+
     public static void EnterBuilding(BuildingType building)
     {
         if(OnEnterBuildingEvent != null)
@@ -28,6 +31,11 @@ public class EventManager : Manager
     {
         if(OnStatsTrackerUpdatedEvent != null)
             EventManager.OnStatsTrackerUpdatedEvent();
+    }
+    public static void LevelUp()
+    {
+        if(OnLevelUpEvent != null)
+            EventManager.OnLevelUpEvent();
     }
 }
 

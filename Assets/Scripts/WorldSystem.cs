@@ -27,6 +27,7 @@ public class WorldSystem : MonoBehaviour
     public WorldMapManager worldMapManager;
     public DialogueManager dialogueManager;
     public RewardManager rewardManager;
+    public LevelManager levelManager;
     public int act;
     public int saveAmount;
     public int loadAmount;
@@ -92,7 +93,6 @@ public class WorldSystem : MonoBehaviour
             SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
 
             int index = (int)characterManager.selectedCharacterClassType;
-            Debug.Log("INDEX: " + index);
             if (index > 0)
             {
                 SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);
@@ -105,7 +105,6 @@ public class WorldSystem : MonoBehaviour
 
     public void EndCombat(bool endAct = false)
     {
-        Debug.Log("EndCombat Removing card!");
         combatManager.combatController.content.gameObject.SetActive(true);
         combatManager.combatController.gameObject.SetActive(false);
         if (endAct)

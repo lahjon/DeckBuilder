@@ -43,11 +43,13 @@ public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
     {
         EventManager.OnEnemyKilledEvent += EnemyKilled;
         EventManager.OnEnterBuildingEvent += EnterBuilding;
+        EventManager.OnLevelUpEvent += LevelUp;
     }
     public void Unsubscribe()
     {
         EventManager.OnEnemyKilledEvent -= EnemyKilled;
         EventManager.OnEnterBuildingEvent -= EnterBuilding;
+        EventManager.OnLevelUpEvent -= LevelUp;
     }
     void EnemyKilled(EnemyData enemyData)
     {
@@ -72,11 +74,10 @@ public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
             buildingTracker.Add(buildingType, 1);
         }
         EventManager.StatsTrackerUpdated();
+    }
 
-        foreach (var item in buildingTracker)
-        {
-            Debug.Log(item.Value);
-            Debug.Log(item.Key);
-        }
+    void LevelUp()
+    {
+
     }
 }

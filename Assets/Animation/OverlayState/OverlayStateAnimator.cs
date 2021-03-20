@@ -31,7 +31,7 @@ public class OverlayStateAnimator : StateMachineBehaviour
     {
         if(Input.GetKeyDown(KeyCode.C))
         {
-            WorldStateSystem.SetInCharacterSheet(true);
+            WorldStateSystem.SetInCharacterSheet();
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
