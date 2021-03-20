@@ -13,7 +13,7 @@ public class BezierFollow : MonoBehaviour
 
     private float speedModifier;
 
-    CardCombatAnimated attachedCard;
+    CardCombat attachedCard;
 
 
     // Start is called before the first frame update
@@ -21,7 +21,7 @@ public class BezierFollow : MonoBehaviour
     {
         tParam = 0f;
         speedModifier = 1f;
-        attachedCard = GetComponent<CardCombatAnimated>();
+        attachedCard = GetComponent<CardCombat>();
     }
 
     public void StartAnimation()

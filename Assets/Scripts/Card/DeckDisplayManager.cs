@@ -11,7 +11,7 @@ public class DeckDisplayManager : Manager
     public Canvas canvas;
     public GameObject deckDisplay;
     public List<GameObject> allDisplayedCards;
-    public Card selectedCard;
+    public CardVisual selectedCard;
     public GameObject scroller;
     public Vector3 previousPosition;
     public GameObject placeholderCard;
@@ -43,8 +43,8 @@ public class DeckDisplayManager : Manager
                 newCard.transform.SetParent(content.gameObject.transform);
                 newCard.transform.localScale = new Vector3(1, 1, 1);
                 allDisplayedCards.Add(newCard);
-                newCard.GetComponent<Card>().cardData = allCardsData[allDisplayedCards.Count - 1];
-                newCard.GetComponent<Card>().BindCardData();
+                newCard.GetComponent<CardVisual>().cardData = allCardsData[allDisplayedCards.Count - 1];
+                newCard.GetComponent<CardVisual>().BindCardData();
             }
         }
         else if(allCardsData.Count < allDisplayedCards.Count)

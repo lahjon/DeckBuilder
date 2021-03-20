@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   block: 0
-  drawCardsAmount: 0
-  energy: 0
+  drawCardsAmount: 5
+  energy: 3
   maxHealth: 0
   currentHealth: 0
   level: 0

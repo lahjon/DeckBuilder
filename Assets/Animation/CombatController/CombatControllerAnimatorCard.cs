@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCard : CombatControllerAnimator 
 {
-    public static CardData card;
+    public static Card card;
     public static CombatActor suppliedTarget;
     public static string layerName;
     public string nextState;

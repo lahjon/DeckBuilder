@@ -20,7 +20,7 @@ public class Character : MonoBehaviour, ISaveableCharacter
 
     public void SetCharacterData()
     {
-        SaveDataManager.LoadJsonData(this.GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
+        SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)WorldSystem.instance.characterManager.selectedCharacterClassType - 1];
     }
 

@@ -57,10 +57,10 @@ public class CombatController : MonoBehaviour
     }
 
     private List<CardData> DeckData;
-    public List<CardCombatAnimated> Deck = new List<CardCombatAnimated>();
-    public List<CardCombatAnimated> Hand = new List<CardCombatAnimated>();
-    public List<CardCombatAnimated> Discard = new List<CardCombatAnimated>();
-    public List<CardCombatAnimated> createdCards = new List<CardCombatAnimated>();
+    public List<CardCombat> Deck = new List<CardCombat>();
+    public List<CardCombat> Hand = new List<CardCombat>();
+    public List<CardCombat> Discard = new List<CardCombat>();
+    public List<CardCombat> createdCards = new List<CardCombat>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     public bool mouseInsidePanel = false;
@@ -70,21 +70,21 @@ public class CombatController : MonoBehaviour
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
     public List<CombatActor> ActorsInScene = new List<CombatActor>();
 
-    public Queue<(CardData card, CombatActor target)> CardQueue =
-        new Queue<(CardData card, CombatActor target)>();
+    public Queue<(CardCombat card, CombatActor target)> CardQueue =
+        new Queue<(CardCombat card, CombatActor target)>();
 
     [SerializeField]
-    public (CardData card, CombatActor target) CardInProcess;
-    public CardCombatAnimated HeroCardInProcess;
+    public (Card card, CombatActor target) CardInProcess;
+    public CardCombat HeroCardInProcess;
 
-    public Queue<CardCombatAnimated> HeroCardsWaiting = new Queue<CardCombatAnimated>();
+    public Queue<CardCombat> HeroCardsWaiting = new Queue<CardCombat>();
     public Queue<CombatActorEnemy> enemiesWaiting = new Queue<CombatActorEnemy>();
 
 
     public CombatActor ActiveActor;
 
     //[HideInInspector]
-    public CardCombatAnimated _activeCard;
+    public CardCombat _activeCard;
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy
     {
@@ -101,7 +101,7 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public CardCombatAnimated ActiveCard 
+    public CardCombat ActiveCard 
     {
         get
         {
@@ -116,7 +116,7 @@ public class CombatController : MonoBehaviour
             //overwrite
             _activeCard = value;
             EnemiesInScene.ForEach(x => x.SetTarget(false));
-            foreach (CardCombatAnimated card in Hand)
+            foreach (CardCombat card in Hand)
                 if (card != value) card.MouseReact = (value is null);
             if (_activeCard != null)
                 _activeCard.animator.SetBool("HasTarget", _activeEnemy != null);
@@ -132,7 +132,7 @@ public class CombatController : MonoBehaviour
 
         foreach(CardData cd in DeckData)
         {
-            CardCombatAnimated card = CardCombatAnimated.CreateCardFromData(cd, this);
+            CardCombat card = CardCombat.CreateCardCombatFromData(cd, this);
             Deck.Add(card);
         }
 
@@ -189,7 +189,7 @@ public class CombatController : MonoBehaviour
     {
         Hero.healthEffects.EffectsOnNewTurnBehavior();
 
-        foreach (CardCombatAnimated card in Hand)
+        foreach (CardCombat card in Hand)
         {
             card.MouseReact = false;
             card.selectable = false;
@@ -225,7 +225,7 @@ public class CombatController : MonoBehaviour
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
-        foreach (CardCombatAnimated card in createdCards)
+        foreach (CardCombat card in createdCards)
         {
             DestroyImmediate(card);
         }
@@ -266,7 +266,7 @@ public class CombatController : MonoBehaviour
         return Vector3.one;
     }
 
-    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombatAnimated card)
+    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombat card)
     {
         return GetPositionInHand(Hand.IndexOf(card));
     }
@@ -279,7 +279,7 @@ public class CombatController : MonoBehaviour
         return GetTargetPositionFromDegree(degree);
     }
 
-    public float GetCurrentDegree(CardCombatAnimated card)
+    public float GetCurrentDegree(CardCombat card)
     {
         if (!Hand.Contains(card))
         {
@@ -295,7 +295,7 @@ public class CombatController : MonoBehaviour
         return degree;
     }
 
-    public float GetTargetDegree(CardCombatAnimated card)
+    public float GetTargetDegree(CardCombat card)
     {
         if (!Hand.Contains(card))
         {
@@ -309,7 +309,7 @@ public class CombatController : MonoBehaviour
         return degree;
     }
 
-    public void SetCardTransFromDegree(CardCombatAnimated card, float degree)
+    public void SetCardTransFromDegree(CardCombat card, float degree)
     {
         (Vector3 pos, Vector3 angles) transInfo = GetTargetPositionFromDegree(degree);
         card.transform.localPosition = transInfo.pos;
@@ -333,15 +333,15 @@ public class CombatController : MonoBehaviour
     internal void ResetSiblingIndexes()
     {
         int cursor = 0;
-        foreach(CardCombatAnimated card in Hand)
+        foreach(CardCombat card in Hand)
             if (card != ActiveCard)
                 card.transform.SetSiblingIndex(cursor++);
     }
 
 
-    public void RefreshHandPositions(CardCombatAnimated excludeCard = null)
+    public void RefreshHandPositions(CardCombat excludeCard = null)
     {
-        foreach (CardCombatAnimated card in Hand)
+        foreach (CardCombat card in Hand)
             if (card != excludeCard)
                 card.animator.SetBool("NeedFan", true);
     }
@@ -378,7 +378,7 @@ public class CombatController : MonoBehaviour
 
     private void DrawSingleCard()
     {
-        CardCombatAnimated card = Deck[0];
+        CardCombat card = Deck[0];
         Deck.RemoveAt(0);
         Hand.Add(card);
         card.animator.SetTrigger("StartDraw");
@@ -397,7 +397,7 @@ public class CombatController : MonoBehaviour
     {
         for(int i = 0; i < Deck.Count; i++)
         {
-            CardCombatAnimated temp = Deck[i];
+            CardCombat temp = Deck[i];
             int index = UnityEngine.Random.Range(i, Deck.Count);
             Deck[i] = Deck[index];
             Deck[index] = temp;
@@ -412,7 +412,7 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public IEnumerator DiscardCard(CardCombatAnimated card)
+    public IEnumerator DiscardCard(CardCombat card)
     {
         Hand.Remove(card);
         Discard.Add(card);
@@ -470,7 +470,7 @@ public class CombatController : MonoBehaviour
         animator.SetTrigger("PlayerTurnEnd");
     }
 
-    public bool CardisSelectable(CardCombatAnimated card, bool silentCheck = true)
+    public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
         bool selectable = card.cardData.cost <= cEnergy && card.selectable;
         if (!silentCheck && card.cardData.cost > cEnergy)
