@@ -74,7 +74,7 @@ public class HealthEffects : MonoBehaviour
         hitPoints -= Mathf.Min(hitPoints, damage);
         UpdateHealthBar();
         if (hitPoints == 0)
-            Destroy(gameObject);
+            WorldSystem.instance.combatManager.combatController.ReportDeath(combatActor);
     }
 
     public void RecieveEffectNonDamageNonBlock(CardEffect effect)
@@ -86,6 +86,7 @@ public class HealthEffects : MonoBehaviour
         }
 
         effectTypeToRule[effect.Type] = effect.Type.GetRuleEffect();
+        effectTypeToRule[effect.Type].healthEffects = this;
         effectTypeToRule[effect.Type].AddFunctionToRules();
 
         effectTypeToRule[effect.Type].healthEffects = this;

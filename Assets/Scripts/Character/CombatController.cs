@@ -75,7 +75,6 @@ public class CombatController : MonoBehaviour
 
     [SerializeField]
     public (Card card, CombatActor target) CardInProcess;
-    public CardCombat HeroCardInProcess;
 
     public Queue<CardCombat> HeroCardsWaiting = new Queue<CardCombat>();
     public Queue<CombatActorEnemy> enemiesWaiting = new Queue<CombatActorEnemy>();
@@ -344,6 +343,14 @@ public class CombatController : MonoBehaviour
         foreach (CardCombat card in Hand)
             if (card != excludeCard)
                 card.animator.SetBool("NeedFan", true);
+    }
+
+
+    internal void ReportDeath(CombatActor combatActor)
+    {
+        EnemiesInScene.Remove((CombatActorEnemy)combatActor);
+        Destroy(combatActor.gameObject);
+
     }
     #endregion
 

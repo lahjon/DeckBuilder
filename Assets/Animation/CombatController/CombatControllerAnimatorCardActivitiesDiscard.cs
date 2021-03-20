@@ -23,8 +23,8 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
         if (combatController.ActiveActor == combatController.Hero)
         {
             Debug.Log("Combatcontroller Sending card to discard");
-            combatController.Discard.Add(combatController.HeroCardInProcess);
-            combatController.HeroCardInProcess.animator.SetTrigger("Discarded");
+            combatController.Discard.Add((CardCombat)card);
+            ((CardCombat)card).animator.SetTrigger("Discarded");
         }
         else
         {
