@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class HealthEffects : MonoBehaviour
 {
@@ -23,7 +24,6 @@ public class HealthEffects : MonoBehaviour
     public Canvas canvas;
 
     public EffectDisplayManager effectDisplayManager;
-
 
     public Dictionary<EffectType, RuleEffect> effectTypeToRule = new Dictionary<EffectType, RuleEffect>();
 
@@ -51,9 +51,7 @@ public class HealthEffects : MonoBehaviour
     public void SetUIpositions()
     {
         Vector3 coordinates = WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(aAnchorHealthEffects.transform.localPosition);
-        //cAnchorHealthEffects.GetComponent<RectTransform>().transform.position = aAnchorHealthEffects.transform.position;
 
-        //Vector3 screenPoint = RectTransformUtility.WorldToScreenPoint( WorldSystem.instance.cameraManager.currentCamera, this.gameObject.transform.position);
         cAnchorHealthEffects.transform.position = aAnchorHealthEffects.transform.parent.position;
         cAnchorHealthEffects.transform.localPosition += new Vector3(0,-(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-100);
 
@@ -62,9 +60,6 @@ public class HealthEffects : MonoBehaviour
             intentDisplayAnchor.transform.position =  aAnchorHealthEffects.transform.parent.position;
             intentDisplayAnchor.transform.localPosition += new Vector3(0,(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height*50 / 2),-100);
         }
-        
-
-
     }
 
     public void TakeDamage(int damage)
@@ -90,19 +85,12 @@ public class HealthEffects : MonoBehaviour
             return;
         }
 
-        if (effect.Type == EffectType.Vurnerable)
-            effectTypeToRule[effect.Type] = new RuleEffectVurnerable();
-        else if(effect.Type == EffectType.Weak)
-            effectTypeToRule[effect.Type] = new RuleEffectWeak();
-        else if (effect.Type == EffectType.Barricade)
-            effectTypeToRule[effect.Type] = new RuleEffectBarricade();
-        else if(effect.Type == EffectType.Thorns)
-            effectTypeToRule[effect.Type] = new RuleEffectThorns();
+        effectTypeToRule[effect.Type] = effect.Type.GetRuleEffect();
+        effectTypeToRule[effect.Type].AddFunctionToRules();
 
         effectTypeToRule[effect.Type].healthEffects = this;
         effectTypeToRule[effect.Type].nrStacked = effect.Value * effect.Times;
-        Debug.Log("Got or updated effect: " + effect.Type.ToString() + ", " + (effect.Value * effect.Times).ToString());
-        effectTypeToRule[effect.Type].AddFunctionToRules();
+        Debug.Log("Got effect: " + effect.Type.ToString() + ", " + (effect.Value * effect.Times).ToString());
         effectDisplayManager.SetEffect(effect.Type, effectTypeToRule[effect.Type]);
     }
 
