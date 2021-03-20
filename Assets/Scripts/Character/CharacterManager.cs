@@ -31,6 +31,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         base.Start(); 
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
+            if (selectedCharacterClassType == CharacterClassType.None)
+            {
+                selectedCharacterClassType = CharacterClassType.Brute;
+            }
             SetupCharacterData();
             if (!unlockedCharacters.Contains(selectedCharacterClassType))
             {
