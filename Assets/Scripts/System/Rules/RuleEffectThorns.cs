@@ -25,5 +25,4 @@ public class RuleEffectThorns : RuleEffect
         source.healthEffects.TakeDamage(nrStacked);
         yield return new WaitForSeconds(0.2f);
     }
-
 }

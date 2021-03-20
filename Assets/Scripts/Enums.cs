@@ -2,12 +2,34 @@ public static class EnumExtenstions
 {
     public static string GetDescription(this EffectType type)
     {
-        if (type == EffectType.Barricade)
-            return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
-        else if (type == EffectType.Vurnerable)
-            return $"<b>Vurnerable</b>\nAn actor with Vurnerable recieves 25% more attack damage";
-        else
-            return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
+        switch (type)
+        {
+            case EffectType.Barricade:
+                return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
+            case EffectType.Vurnerable:
+                return $"<b>Vurnerable</b>\nRecieve 25% more attack damage";
+            case EffectType.Thorns:
+                return $"<b>Thorns</b>\nDeal damage back when attacked";
+            default:
+                return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
+        }
+    }
+
+    public static RuleEffect GetRuleEffect(this EffectType type)
+    {
+        switch (type)
+        {
+            case EffectType.Barricade:
+                return new RuleEffectBarricade();
+            case EffectType.Weak:
+                return new RuleEffectWeak();
+            case EffectType.Vurnerable:
+                return new RuleEffectVurnerable();
+            case EffectType.Thorns:
+                return new RuleEffectThorns();
+            default:
+                return null;
+        }
     }
 }
 
