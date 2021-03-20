@@ -45,9 +45,9 @@ public class RulesSystem : MonoBehaviour
             int damage = cardData.Damage.Times * CalculateDamage(cardData.Damage.Value, source, target);
             target.healthEffects.TakeDamage(damage);
         }
-        for (int i = 0; i < cardData.Effects.Count; i++)
+        for (int i = 0; i < cardData.inEffects.Count; i++)
         {
-            target.healthEffects.RecieveEffectNonDamageNonBlock(cardData.Effects[i]);
+            target.healthEffects.RecieveEffectNonDamageNonBlock(cardData.inEffects[i]);
         }
     }
 

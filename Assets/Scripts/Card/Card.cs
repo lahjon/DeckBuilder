@@ -1,132 +1,66 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using TMPro;
+using System.Linq;
 
-public abstract class Card : MonoBehaviour, IPointerClickHandler
+public class Card : MonoBehaviour
 {
-
+    public int cost;
     public CardData cardData;
-    public Text nameText;
-    public TMP_Text descriptionText;
-    public Image artworkImage;
 
-    public Text costText;
-    public Text damageText;
-    public Text blockText;
-    public WorldState previousState;
-    public bool targetRequired;
+    public CardEffect Damage;
+    public CardEffect Block;
+
+    public List<CardEffect> Effects = new List<CardEffect>();
+    public List<CardActivitySetting> activities = new List<CardActivitySetting>();
 
 
-    public void BindCardData()
-
+    public virtual void BindCardData()
     {
-        nameText.text = cardData.name;
+        cost        = cardData.cost;
+        Damage      = cardData.Damage;
+        Block       = cardData.Block;
+        Effects     = cardData.inEffects;
+        activities  = cardData.inActivities;
+    }
 
-        targetRequired = cardData.targetRequired;
 
-        artworkImage.sprite = cardData.artwork;
-
-        costText.text = cardData.cost.ToString();
-
-        descriptionText.text = "";
-
-        List<CardEffect> allEffects = new List<CardEffect>();
-        allEffects.Add(cardData.Damage);
-        allEffects.Add(cardData.Block);
-        allEffects.AddRange(cardData.Effects);
-
-        for (int i = 0; i < allEffects.Count; i++)
+    [HideInInspector]
+    public bool targetRequired
+    {
+            get
         {
-            if (allEffects[i].Value == 0) continue;
-            descriptionText.text += allEffects[i].Type.ToString() + EffectTypeToIconCode(allEffects[i].Type) + ":" + allEffects[i].Value;
-            if (allEffects[i].Times != 1) descriptionText.text += " " + allEffects[i].Times + " times.";
-            if (i != allEffects.Count - 1) descriptionText.text += "\n";
+                if (Effects.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
+                    return false;
+                else
+                    return true;
+            }
         }
 
-        for(int i = 0; i < cardData.activities.Count; i++)
+    public List<CardEffect> allEffects
+    {
+        get
         {
-            descriptionText.text += CardActivitySystem.instance.DescriptionByCardActivity(cardData.activities[i]);
-        }
-
-    }
-
-    private string EffectTypeToIconCode(EffectType type)
-    {
-        if (type == EffectType.Damage)
-            return " <sprite name=\"Attack\">";
-        else if (type == EffectType.Block)
-            return " <sprite name=\"Block\">";
-        else
-            return "";
-    }
-
-    public virtual void OnMouseEnter()
-    {
-        return;
-    }
-
-    public virtual void OnMouseExit()
-    {
-        return;
-    }
-    public abstract void ResetScale();
-    
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-            OnMouseClick();
-        else if (eventData.button == PointerEventData.InputButton.Right)
-            OnMouseRightClick();
-    }
-    
-    public void DisplayCard()
-    {
-        if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
-        {
-            WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-            WorldSystem.instance.deckDisplayManager.selectedCard = this;
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().BindCardData();
-            WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
-            WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
-            WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-            transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-        }
-        else
-        {
-            ResetCardPosition();
+            List<CardEffect> tempList = new List<CardEffect>();
+            tempList.Add(Damage);
+            tempList.Add(Block);
+            tempList.AddRange(Effects);
+            return tempList;
         }
     }
-    public void ResetCardPosition()
-    {
-        WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
-        WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
-        WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
-        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-        WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-        WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    }
-    public void ResetCardPositionNext()
-    {
-        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-        WorldSystem.instance.deckDisplayManager.previousPosition = Vector3.zero;
-        WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    }
 
-    public virtual void OnMouseClick()
+    public HashSet<CardTargetType> allTargetTypes
     {
-        Debug.Log("Clicky");
-        return;
-    }
-
-    public virtual void OnMouseRightClick(bool allowDisplay = true)
-    {
-        return;
+        get
+        {
+            HashSet<CardTargetType> tempSet = new HashSet<CardTargetType>();
+            if (Damage.Value != 0) tempSet.Add(Damage.Target);
+            if (Block.Value != 0) tempSet.Add(Block.Target);
+            Effects.ForEach(x => tempSet.Add(x.Target));
+            return tempSet;
+        }
     }
 
 
 }
+

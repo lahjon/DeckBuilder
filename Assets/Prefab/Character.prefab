@@ -46,14 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   block: 0
-  drawCardsAmount: 0
-  energy: 0
+  drawCardsAmount: 5
+  energy: 3
   maxHealth: 0
   currentHealth: 0
   level: 0
   experience: 0
   classType: 1
-  characterData: {fileID: 11400000, guid: ca0ae09d586ff414d8cf410e487ba9c1, type: 2}
+  characterData: {fileID: 11400000, guid: 380d21352f1d09d46ba0cdac2e056954, type: 2}
   unlocked: 0
   selectedTokens: []
   maxCardReward: 3

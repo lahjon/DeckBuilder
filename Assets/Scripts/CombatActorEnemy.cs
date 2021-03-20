@@ -15,9 +15,11 @@ public class CombatActorEnemy : CombatActor
     public GameObject CanvasMoveDisplay;
     public string enemyName;
 
+    public GameObject cardTemplate;
+
     [HideInInspector]
-    public List<CardData> deck;
-    public List<CardData> discard;
+    public List<Card> deck;
+    public List<Card> discard;
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
 
@@ -28,7 +30,7 @@ public class CombatActorEnemy : CombatActor
 
     public TooltipController tooltipController;
 
-    public CardData hand;
+    public Card hand;
 
     float toolTiptimer = 0;
     float toolTipDelay = 1f;
@@ -57,7 +59,16 @@ public class CombatActorEnemy : CombatActor
 
         SetupCamera();
 
-        deck.AddRange(enemyData.deck);
+        foreach(CardData cardData in enemyData.deck)
+        {
+            GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+            cardObject.transform.SetParent(this.gameObject.transform);
+            Card card = cardObject.GetComponent<Card>();
+            card.BindCardData();
+            deck.Add(card);
+        }
+
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = enemyData.artwork;
         enemyName = enemyData.enemyName;
@@ -87,9 +98,9 @@ public class CombatActorEnemy : CombatActor
         canvasToolTip.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
-    public void UpdateMoveDisplay(CardData cardData)
+    public void UpdateMoveDisplay(Card card)
     {
-        intentDisplay.RecieveIntent(cardData.Block, cardData.Damage, cardData.Effects);   
+        intentDisplay.RecieveIntent(card.Block, card.Damage, card.Effects);   
     }
 
     public void ShowMoveDisplay(bool enabled)
@@ -128,7 +139,7 @@ public class CombatActorEnemy : CombatActor
     {
         for (int i = 0; i < deck.Count; i++)
         {
-            CardData temp = deck[i];
+            Card temp = deck[i];
             int index = Random.Range(i, deck.Count);
             deck[i] = deck[index];
             deck[index] = temp;

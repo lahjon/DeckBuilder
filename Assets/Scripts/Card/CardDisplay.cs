@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardDisplay : Card
+public class CardDisplay : CardVisual
 {
     private float startDragPos;
     public bool disable;

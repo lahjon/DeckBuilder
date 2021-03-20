@@ -14,7 +14,7 @@ public class ShopOverworld : MonoBehaviour
         for (int i = 0; i < cardsInStock.Count; i++)
         {
             if(cardsInStock[i].gameObject.activeSelf)
-                cardsPrices[i].text = cardsInStock[i].GetComponent<Card>().cardData.goldValue.ToString() + " g";
+                cardsPrices[i].text = cardsInStock[i].GetComponent<CardVisual>().cardData.goldValue.ToString() + " g";
             else
                 cardsPrices[i].text = "Out of Stock!";
         }
@@ -40,7 +40,7 @@ public class ShopOverworld : MonoBehaviour
     {
         Debug.Log("Not enough Gold!");
     }
-    public void PurchaseCard(Card clickedCard)
+    public void PurchaseCard(CardVisual clickedCard)
     {
         int characterGold = WorldSystem.instance.characterManager.gold;
         int goldCost = clickedCard.cardData.goldValue;

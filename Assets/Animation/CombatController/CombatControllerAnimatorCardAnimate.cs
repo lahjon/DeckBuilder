@@ -10,7 +10,7 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        if (card.animationPrefab != null) // has animation
+        if (card.cardData.animationPrefab != null) // has animation
         {
             CreateAnimation();
             Debug.Log("Created Animation");
@@ -37,10 +37,10 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
 
     public void CreateAnimation()
     {
-        if (card.animationPrefab != null)
+        if (card.cardData.animationPrefab != null)
         {
-            GameObject child = card.animationPrefab.transform.GetChild(0).gameObject;
-            animationObject = Instantiate(card.animationPrefab,combatController.cardHoldPos) as GameObject;
+            GameObject child = card.cardData.animationPrefab.transform.GetChild(0).gameObject;
+            animationObject = Instantiate(card.cardData.animationPrefab,combatController.cardHoldPos) as GameObject;
             animationSystem = child.GetComponent<ParticleSystem>();
             animationObject.transform.position = combatController.cardHoldPos.position;
             animationSystem.Stop();

@@ -82,7 +82,7 @@ public class DatabaseGoogle
             cardData.Block.Value = Int32.Parse((string)gt[i, "BlockValue"]);
             cardData.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
 
-            cardData.Effects.Clear();
+            cardData.inEffects.Clear();
 
 
             BindArt(cardData, databaseName);
@@ -109,7 +109,7 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
 
             cardEffect.Type = effectType;
-            cardData.Effects.Add(cardEffect);
+            cardData.inEffects.Add(cardEffect);
 
             cardEffect.Value = Int32.Parse((string)gt[i, "Value"]);
             cardEffect.Times = Int32.Parse((string)gt[i, "Times"]);
@@ -217,14 +217,14 @@ public class DatabaseGoogle
 
             InputDataCard.Add(cDataCard);
 
-            if (cardData.Effects.Count != 0)
+            if (cardData.inEffects.Count != 0)
             {
-                foreach (CardEffect effect in cardData.Effects)
+                foreach (CardEffect effect in cardData.inEffects)
                 {
                     List<object> cDataCardEffect = new List<object>();
                     cDataCardEffect.Add(cardData.name);
                     cDataCardEffect.Add(cardData.name);
-                    cDataCardEffect.Add(cardData.Effects.Contains(effect) ? "Enemy" : "Self");
+                    cDataCardEffect.Add(cardData.inEffects.Contains(effect) ? "Enemy" : "Self");
                     cDataCardEffect.Add(effect.Type.ToString());
                     cDataCardEffect.Add(effect.Times);
                     cDataCardEffect.Add(effect.Value);

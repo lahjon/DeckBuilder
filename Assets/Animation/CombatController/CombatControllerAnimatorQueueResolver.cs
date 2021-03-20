@@ -8,8 +8,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
     {
         SetRefs(animator);
 
-        (CardData card, CombatActor suppliedTarget) cardWaiting = combatController.CardQueue.Dequeue();
-        CardCombatAnimated cardCombat = combatController.HeroCardsWaiting.Dequeue();
+        (CardCombat card, CombatActor suppliedTarget) cardWaiting = combatController.CardQueue.Dequeue();
 
         animator.SetBool("CardsQueued", combatController.CardQueue.Count != 0);
 
@@ -18,12 +17,11 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
             ||
             (combatController.cEnergy < cardWaiting.card.cost))
         {
-            cardCombat.animator.SetTrigger("Unplayable");
+            cardWaiting.card.animator.SetTrigger("Unplayable");
         }
         else
         {
             combatController.CardInProcess = cardWaiting;
-            combatController.HeroCardInProcess = cardCombat;
             animator.SetTrigger("CardCanProcess");
         }
     }

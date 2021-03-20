@@ -14,7 +14,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
     public GameObject characterPrefab;
     public List<CardData> playerCardsData;
     public List<string> playerCardsDataNames;
-    public CharacterClassType selectedCharacterClassType;
+    public CharacterClassType selectedCharacterClassType = CharacterClassType.Brute;
     public List<PlayableCharacterData> allCharacterData;
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public CharacterSheet characterSheet;
