@@ -24,6 +24,7 @@ public class CardActivitySystem : MonoBehaviour
         CardActivity.combatController = combatController;
         ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
         ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
+        ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)

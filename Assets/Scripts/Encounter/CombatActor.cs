@@ -11,7 +11,8 @@ public class CombatActor : MonoBehaviour
     public List<Func<float, float>> takeAttackMods = new List<Func<float, float>>();
 
     public List<Func<IEnumerator>> actionsNewTurn = new List<Func<IEnumerator>>();
-    
+    public List<Func<IEnumerator>> actionsEndTurn = new List<Func<IEnumerator>>();
+
     public List<Func<CombatActor, IEnumerator>> onAttackRecieved = new List<Func<CombatActor,IEnumerator>>();
 
     

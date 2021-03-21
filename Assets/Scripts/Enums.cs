@@ -27,6 +27,8 @@ public static class EnumExtenstions
                 return new RuleEffectVurnerable();
             case EffectType.Thorns:
                 return new RuleEffectThorns();
+            case EffectType.Splice:
+                return new RuleEffectSplice();
             default:
                 return null;
         }
@@ -121,7 +123,8 @@ public enum EffectType
     Weak,
     Vurnerable,
     Barricade,
-    Thorns
+    Thorns,
+    Splice
 }
 
 public enum OverlayState
@@ -197,5 +200,6 @@ public enum EnemyBehavior
 public enum CardActivityType
 {
     DrawCard,
-    AddCardToDeck
+    AddCardToDeck,
+    Splice
 }

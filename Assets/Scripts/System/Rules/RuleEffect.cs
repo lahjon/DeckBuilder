@@ -25,6 +25,10 @@ public abstract class RuleEffect
         nrStacked--;
     }
 
+    public virtual void OnEndTurnBehaviour()
+    {
+    }
+
     public virtual string strStacked()
     {
         return stackable ? nrStacked.ToString() : "";

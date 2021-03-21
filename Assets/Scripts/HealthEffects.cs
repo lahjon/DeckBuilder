@@ -82,6 +82,11 @@ public class HealthEffects : MonoBehaviour
         if (effectTypeToRule.ContainsKey(effect.Type)) {
             effectTypeToRule[effect.Type].nrStacked += effect.Value * effect.Times;
             effectDisplayManager.SetEffect(effect.Type, effectTypeToRule[effect.Type]);
+            if (effectTypeToRule[effect.Type].nrStacked <= 0)
+            {
+                effectTypeToRule[effect.Type].RemoveFunctionFromRules();
+                effectTypeToRule.Remove(effect.Type);
+            }
             return;
         }
 
@@ -101,6 +106,21 @@ public class HealthEffects : MonoBehaviour
         foreach (EffectType effect in effects)
         {
             effectTypeToRule[effect].OnNewTurnBehaviour();
+            effectDisplayManager.SetEffect(effect, effectTypeToRule[effect]);
+            if (effectTypeToRule[effect].nrStacked <= 0)
+            {
+                effectTypeToRule[effect].RemoveFunctionFromRules();
+                effectTypeToRule.Remove(effect);
+            }
+        }
+    }
+
+    public void EffectsOnEndTurnBehavior()
+    {
+        List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
+        foreach (EffectType effect in effects)
+        {
+            effectTypeToRule[effect].OnEndTurnBehaviour();
             effectDisplayManager.SetEffect(effect, effectTypeToRule[effect]);
             if (effectTypeToRule[effect].nrStacked <= 0)
             {

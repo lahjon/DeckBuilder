@@ -131,7 +131,7 @@ public class CombatController : MonoBehaviour
 
         foreach(CardData cd in DeckData)
         {
-            CardCombat card = CardCombat.CreateCardCombatFromData(cd, this);
+            CardCombat card = CardCombat.CreateCardCombatFromData(cd);
             Deck.Add(card);
         }
 
@@ -186,8 +186,6 @@ public class CombatController : MonoBehaviour
 
     public void EndTurn()
     {
-        Hero.healthEffects.EffectsOnNewTurnBehavior();
-
         foreach (CardCombat card in Hand)
         {
             card.MouseReact = false;
@@ -479,8 +477,8 @@ public class CombatController : MonoBehaviour
 
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.cardData.cost <= cEnergy && card.selectable;
-        if (!silentCheck && card.cardData.cost > cEnergy)
+        bool selectable = card.cost <= cEnergy && card.selectable;
+        if (!silentCheck && card.cost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
@@ -493,7 +491,6 @@ public class CombatController : MonoBehaviour
         Vector2 result;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(cardPanel.GetComponent<RectTransform>(), Input.mousePosition, WorldSystem.instance.cameraManager.mainCamera, out result);
         Debug.Log(result);
-        Debug.Log(cardPanel.GetComponent<RectTransform>().rect.Contains(result));
 
         if (cardPanel.GetComponent<RectTransform>().rect.Contains(result))
         {

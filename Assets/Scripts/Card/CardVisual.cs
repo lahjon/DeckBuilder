@@ -18,14 +18,13 @@ public abstract class CardVisual : Card, IPointerClickHandler
     public WorldState previousState;
 
 
-    public override void BindCardData()
+    public void BindCardVisualData()
     {
-        base.BindCardData();
-        nameText.text = cardData.name;
+        nameText.text = cardName;
 
-        artworkImage.sprite = cardData.artwork;
+        artworkImage.sprite = artwork;
 
-        costText.text = cardData.cost.ToString();
+        costText.text = cost.ToString();
 
         descriptionText.text = "";
 

@@ -13,6 +13,8 @@ public class CardData : ScriptableObject
     public int cost;
     public int goldValue;
 
+    public bool exhaust = false;
+
     public CardEffect Damage;
     public CardEffect Block;
 

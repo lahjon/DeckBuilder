@@ -17,6 +17,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
             ||
             (combatController.cEnergy < cardWaiting.card.cost))
         {
+            combatController.cEnergy -= cardWaiting.card.cost;
             cardWaiting.card.animator.SetTrigger("Unplayable");
         }
         else

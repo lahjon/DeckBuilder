@@ -73,8 +73,9 @@ public class CardCombat : CardVisual
         animator.SetBool("NeedTarget",targetRequired);
     }
 
-    public static CardCombat CreateCardCombatFromData(CardData cardData, CombatController combatController)
+    public static CardCombat CreateCardCombatFromData(CardData cardData)
     {
+        CombatController combatController = WorldSystem.instance.combatManager.combatController;
         GameObject CardObject = Instantiate(combatController.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(combatController.cardPanel, false);
         CardObject.transform.localScale = Vector3.one;
@@ -82,13 +83,31 @@ public class CardCombat : CardVisual
         card.cardData = cardData;
         card.cardPanel = combatController.cardPanel.GetComponent<RectTransform>();
         card.BindCardData();
+        card.BindCardVisualData();
 
         card.combatController = combatController;
         card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
         combatController.createdCards.Add(card);
 
         card.allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) card.tooltipController.AddTipText(x.Type.GetDescription()); });
-        card.cardData.inActivities.ForEach( x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+        card.activities.ForEach( x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+
+        return card;
+    }
+
+    public static CardCombat CreateCardCombined(CardCombat a, CardCombat b)
+    {
+        CombatController combatController = WorldSystem.instance.combatManager.combatController;
+        GameObject CardObject = Instantiate(combatController.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+        CardObject.transform.SetParent(combatController.cardPanel, false);
+        CardObject.transform.localScale = Vector3.one;
+        CardCombat card = CardObject.GetComponent<CardCombat>();
+        card.combatController = combatController;
+        card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
+        SpliceCards(card, a, b);
+        card.BindCardVisualData();
+        card.allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) card.tooltipController.AddTipText(x.Type.GetDescription()); });
+        card.activities.ForEach(x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
 
         return card;
     }
@@ -128,7 +147,7 @@ public class CardCombat : CardVisual
 
     public override void OnMouseClick()
     {
-        Debug.Log("Cardclicked: " + cardData.name);
+        Debug.Log("Cardclicked: " + cardName);
         if(combatController.ActiveCard == this)
             combatController.SelectedCardTriggered();
         else if(combatController.CardisSelectable(this,false))
