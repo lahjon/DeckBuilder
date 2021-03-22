@@ -64,6 +64,7 @@ public class CardDisplay : CardVisual
 
         animateCard.GetComponent<CardDisplay>().cardData = cardData;
         animateCard.GetComponent<CardDisplay>().BindCardData();
+        animateCard.GetComponent<CardDisplay>().BindCardVisualData();
 
         Vector3 newScale = new Vector3(1.1f, 1.1f, 1.1f);
 

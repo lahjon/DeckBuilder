@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Barricade
   m_EditorClassIdentifier: 
-  cardName: 
+  cardName: Barricade
   description: 
   artwork: {fileID: 21300000, guid: 900bf84765c50874a93203a450428572, type: 3}
   cost: 2
   goldValue: 0
+  exhaust: 0
   Damage:
     Type: 0
     Value: 0
@@ -31,7 +32,7 @@ MonoBehaviour:
   - Type: 5
     Value: 1
     Times: 1
-    Target: 0
+    Target: 1
   inActivities: []
   cardRarity: 0
   characterClass: 0

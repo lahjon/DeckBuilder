@@ -79,6 +79,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
             WorldSystem.instance.deckDisplayManager.selectedCard = this;
             WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
             WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardData();
+            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardVisualData();
             WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
             WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
             WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
