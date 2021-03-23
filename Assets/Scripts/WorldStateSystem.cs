@@ -150,7 +150,7 @@ public class WorldStateSystem : MonoBehaviour
 
     public static void SetInCharacterSheet()
     {
-        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
+        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.CharacterSheet)
         {
             if (!overlayAnimator.GetBool("InCharacterSheet"))
             {

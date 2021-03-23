@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Character : MonoBehaviour, ISaveableCharacter
 {
-    public int                  damage;
-    public int                  block;
-    public int                  drawCardsAmount;
-    public int                  energy;
-    public int                  maxHealth;
-    public int                  currentHealth;
-    public int                  level = 1;
-    public int                  experience;
-    public CharacterClassType   classType;
-    public PlayableCharacterData        characterData;
-    public bool                 unlocked;
-    public List<string>         selectedTokens = new List<string>();
-    public int                  maxCardReward = 3;
+    public int                      damage;
+    public int                      block;
+    public int                      drawCardsAmount;
+    public int                      energy;
+    public int                      maxHealth;
+    public int                      currentHealth;
+    public int                      level = 1;
+    public int                      experience;
+    public CharacterClassType       classType;
+    public PlayableCharacterData    characterData;
+    public bool                     unlocked;
+    public List<string>             selectedTokens = new List<string>();
+    public int                      maxCardReward = 3;
 
     public void SetCharacterData()
     {

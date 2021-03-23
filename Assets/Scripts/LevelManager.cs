@@ -5,13 +5,15 @@ public class LevelManager : Manager
 {
     int _currentLevel;
     int _currentExperience;
-    public int _unusedLevelPoints;
+    int _unusedLevelPoints;
+    int _maxLevel = 20;
     public int currentExperience => _currentExperience;
     public int currentLevel => _currentLevel;
     public int unusedLevelPoints => _unusedLevelPoints;
     public List<int> requiredExperience = new List<int>();
     
     public List<GameObject> bruteLevelReward = new List<GameObject>();
+    public List<LevelReward> bruteLevelRewardData = new List<LevelReward>();
     public List<GameObject> rogueLevelReward = new List<GameObject>();
     public List<GameObject> splicerLevelReward = new List<GameObject>();
     public List<GameObject> beastmasterLevelReward = new List<GameObject>();
@@ -29,8 +31,17 @@ public class LevelManager : Manager
         world.characterManager.characterSheet.Init();
     }
 
+    void SetMaxLevel()
+    {
+
+    }
+
     public void AddExperience(int exp)
     {
+        if (_currentLevel >= _maxLevel)
+        {
+            return;
+        }
         _currentExperience += exp;
         if (_currentExperience >= requiredExperience[_currentLevel])
         {
@@ -86,5 +97,9 @@ public class LevelManager : Manager
         world.characterManager.characterSheet.OnLevelUp();
         world.characterManager.characterVariablesUI.ActivateLevelUp();
         EventManager.LevelUp();
+        if (_currentLevel >= _maxLevel)
+        {
+            SetMaxLevel();
+        }
     }
 }

@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-[CreateAssetMenu(fileName = "NewLevelReward", menuName = "CardGame/LevelReward")]
-public class LevelReward : ScriptableObject
+[CreateAssetMenu(fileName = "NewTokenData", menuName = "CardGame/TokenData")]
+public class TokenData : ScriptableObject
 {
-    public string rewardName;
+    public int cost;
+
     [TextArea(5,5)]
     public string description;
     public Sprite artwork;

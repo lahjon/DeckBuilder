@@ -34,8 +34,7 @@ public class CharacterVariablesUI : MonoBehaviour
 
     public void DisableLevelUp()
     {
-        levelUpImage.gameObject.SetActive(true);
-        LeanTween.scale(levelUpImage.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.5f).setEaseInBounce().setLoopPingPong();
+        levelUpImage.gameObject.SetActive(false);
     }
 
     public void ButtonDisplayDeck()

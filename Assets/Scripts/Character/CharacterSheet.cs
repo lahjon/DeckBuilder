@@ -54,7 +54,7 @@ public class CharacterSheet : MonoBehaviour
             GameObject reward = levelUpPanel.GetChild(i).gameObject;
             GameObject data = levelManager.GetLevelReward(i + 1);
             reward.GetComponent<Image>().sprite = data.GetComponent<Image>().sprite;
-            reward.SetActive(true);
+            EnableReward(reward);
         }
     }
 
@@ -65,17 +65,31 @@ public class CharacterSheet : MonoBehaviour
 
     public void ButtonLevelUp()
     {
-
         GameObject reward = Instantiate(levelManager.SpendLevelPoint());
-        GameObject newReward = levelUpPanel.GetChild(levelManager.currentLevel - 2).gameObject;
+        int index = levelManager.currentLevel - levelManager.unusedLevelPoints - 2;
+        if (index < 0)
+        {
+            return;
+        }
+        Debug.Log(index);
+        GameObject newReward = levelUpPanel.GetChild(index).gameObject;
         newReward.GetComponent<Image>().sprite = reward.GetComponent<Image>().sprite;
         reward.transform.SetParent(levelUpPanel);
         reward.transform.localPosition = Vector3.zero;
         reward.transform.localScale = Vector3.zero;
-        levelUpButton.interactable = false;
-        Vector3 newPos = levelUpPanel.GetChild(levelManager.currentLevel - 2).position;
+        
+        Vector3 newPos = levelUpPanel.GetChild(index).position;
         LeanTween.move(reward, newPos, 0.5f).setEaseInCubic();
-        LeanTween.scale(reward, Vector3.one, 0.51f).setEaseInCubic().setOnComplete(() => newReward.SetActive(true)).setDestroyOnComplete(true);
+        LeanTween.scale(reward, Vector3.one, 0.51f).setEaseInCubic().setOnComplete(() => EnableReward(newReward)).setDestroyOnComplete(true);
+        if (levelManager.unusedLevelPoints < 1)
+        {
+            levelUpButton.interactable = false;
+        }
+    }
+
+    void EnableReward(GameObject reward)
+    {
+        reward.GetComponent<Image>().enabled = true;
     }
 
     IEnumerator LevelUpAnimation()
