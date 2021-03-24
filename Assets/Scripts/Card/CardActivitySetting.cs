@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class CardActivitySetting
+public struct CardActivitySetting
 {
     public CardActivityType type;
     public string parameter;

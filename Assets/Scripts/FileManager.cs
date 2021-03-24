@@ -7,7 +7,8 @@ public static class FileManager
 {
     public static bool WriteToFile(string a_FileName, string a_FileContents)
     {
-        var fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
+        string fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
+        Debug.Log(fullPath);
 
         try
         {
@@ -22,7 +23,7 @@ public static class FileManager
     }
     public static bool LoadFromFile(string a_FileName, out string result)
     {
-        var fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
+        string fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
 
         try
         {
@@ -31,26 +32,25 @@ public static class FileManager
         }
         catch (Exception e)
         {
-            Debug.LogError($"Failed to read from {fullPath} with exception {e}");
+            Debug.Log($"Failed to read from {fullPath} with exception {e}. Writing new file");
             result = "";
+            WriteToFile(a_FileName, result);
             return false;
         }
     }
 
-    public static bool RemoveFile(string a_FileName)
+    public static bool ResetTempData()
     {
-        var fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
+        string fullPath = Path.Combine(Application.persistentDataPath, SaveDataManager.saveFileNameTemp);
 
         try
         {
-            File.Delete(fullPath);
-            Debug.Log("Delete path!");
-            Debug.Log(fullPath);
+            File.WriteAllText(fullPath, "");
             return true;
         }
         catch (Exception e)
         {
-            Debug.LogError($"Failed to delete {a_FileName} from {fullPath} with exception {e}");
+            Debug.Log($"Failed to read from {fullPath} with exception {e}. Writing new file");
             return false;
         }
     }

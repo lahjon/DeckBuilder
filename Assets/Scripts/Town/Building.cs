@@ -10,11 +10,11 @@ public abstract class Building : MonoBehaviour
     {
         canvas.gameObject.SetActive(false);
         WorldSystem.instance.SaveProgression();
-        WorldSystem.instance.worldStateManager.RemoveState(true);
+        WorldStateSystem.SetInBuilding(false);
     }
     public virtual void EnterBuilding()
     {
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Building, true);
+        WorldStateSystem.SetInBuilding(true);
         canvas.gameObject.SetActive(true);
         EventManager.EnterBuilding(this.buildingType);
     }

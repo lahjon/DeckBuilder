@@ -29,13 +29,11 @@ public class DeathScreen : MonoBehaviour
 
     private void FadeBackgroundColor()
     {
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Dead);
         Color color = canvas.GetComponent<Image>().color;
             StartCoroutine(FadeToCurveImage(color));
     }
     private void FadeTextColor()
     {
-       WorldSystem.instance.worldStateManager.AddState(WorldState.Dead);
         Color color = text.color;
             StartCoroutine(FadeToCurveText(color));
     }

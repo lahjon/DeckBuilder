@@ -24,10 +24,12 @@ public class CardActivitySystem : MonoBehaviour
         CardActivity.combatController = combatController;
         ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
         ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
+        ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)
     {
+        Debug.Log("Starting card Activity:" + cardActivity.type);
         if (!ActivityTypeToAction.ContainsKey(cardActivity.type))
         {
             Debug.LogError("No function exists for Activity of type" + cardActivity.type.ToString());

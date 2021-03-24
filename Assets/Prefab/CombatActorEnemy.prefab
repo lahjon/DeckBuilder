@@ -648,6 +648,7 @@ MonoBehaviour:
   enemyData: {fileID: 0}
   CanvasMoveDisplay: {fileID: 3337036418940820247}
   enemyName: 
+  cardTemplate: {fileID: 6026151248113403073, guid: ee3c21cb80d250144807eab97f276bf2, type: 3}
   deck: []
   discard: []
   nextCard: {fileID: 0}
@@ -657,6 +658,7 @@ MonoBehaviour:
   canvasToolTip: {fileID: 9056976338685054152}
   target: {fileID: 4906731746218057388}
   tooltipController: {fileID: 1661008670413440279}
+  hand: {fileID: 0}
 --- !u!136 &1921560811142289504
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -15,9 +15,11 @@ public class CombatActorEnemy : CombatActor
     public GameObject CanvasMoveDisplay;
     public string enemyName;
 
+    public GameObject cardTemplate;
+
     [HideInInspector]
-    public List<CardData> deck;
-    public List<CardData> discard;
+    public List<Card> deck;
+    public List<Card> discard;
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
 
@@ -27,6 +29,8 @@ public class CombatActorEnemy : CombatActor
     public GameObject target;
 
     public TooltipController tooltipController;
+
+    public Card hand;
 
     float toolTiptimer = 0;
     float toolTipDelay = 1f;
@@ -55,7 +59,17 @@ public class CombatActorEnemy : CombatActor
 
         SetupCamera();
 
-        deck.AddRange(enemyData.deck);
+        foreach(CardData cardData in enemyData.deck)
+        {
+            GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+            cardObject.transform.SetParent(this.gameObject.transform);
+            Card card = cardObject.GetComponent<Card>();
+            card.cardData = cardData;
+            card.BindCardData();
+            deck.Add(card);
+        }
+
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = enemyData.artwork;
         enemyName = enemyData.enemyName;
@@ -85,24 +99,29 @@ public class CombatActorEnemy : CombatActor
         canvasToolTip.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
-    public void UpdateMoveDisplay(CardData cardData)
+    public void UpdateMoveDisplay(Card card)
     {
-        intentDisplay.RecieveIntent(cardData.Block, cardData.Damage, cardData.SelfEffects, cardData.Effects);   
+        intentDisplay.RecieveIntent(card.Block, card.Damage, card.Effects);   
     }
-    public void TakeTurn()
-    {
-        RulesSystem.instance.CarryOutCardSelf(deck[0], this);
-        RulesSystem.instance.CarryOutCard(deck[0], this, combatController.Hero);
 
-        discard.Add(deck[0]);
-        deck.RemoveAt(0);
+    public void ShowMoveDisplay(bool enabled)
+    {
+        intentDisplay.ShowDisplay(enabled);
+    }
+
+    public void DrawCard()
+    {
         if (deck.Count == 0)
         {
             deck.AddRange(discard);
             ShuffleDeck();
             discard.Clear();
         }
-        UpdateMoveDisplay(deck[0]);
+
+        hand = deck[0];
+        deck.RemoveAt(0);
+
+        UpdateMoveDisplay(hand);
     }
 
     public void OnDeath()
@@ -121,7 +140,7 @@ public class CombatActorEnemy : CombatActor
     {
         for (int i = 0; i < deck.Count; i++)
         {
-            CardData temp = deck[i];
+            Card temp = deck[i];
             int index = Random.Range(i, deck.Count);
             deck[i] = deck[index];
             deck[index] = temp;

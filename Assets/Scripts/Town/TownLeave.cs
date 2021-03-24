@@ -10,9 +10,5 @@ public class TownLeave : TownInteractable
         {
             StartEncounterEvent();
         }
-        else
-        {
-            WorldSystem.instance.townManager.ExitTown();
-        }
     }
 }

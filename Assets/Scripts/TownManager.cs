@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class TownManager : Manager, ISaveable
+public class TownManager : Manager, ISaveableWorld
 {
     public List<TownInteractable> townEncounters;
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
@@ -12,25 +12,16 @@ public class TownManager : Manager, ISaveable
     public BuildingTownHall buildingTownHall;
     public BuildingBarracks buildingBarracks;
     public Canvas townMapCanvas;
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
+        world.townManager = this;
         townMapCanvas.gameObject.SetActive(true);
     }
-
-    public void EnterTown()
+    public void OpenWorldMap()
     {
-        townMapCanvas.gameObject.SetActive(true);
-        world.worldStateManager.AddState(WorldState.Town, true);
-    }
-
-    public void ExitTown()
-    {
-        townMapCanvas.gameObject.SetActive(false);
-        // world.encounterManager.GenerateMap();
-        // world.characterManager.characterVariablesUI.UpdateUI();
-        // world.encounterManager.currentEncounter = world.encounterManager.overworldEncounters[0];
-        // world.worldStateManager.AddState(WorldState.Overworld, true);
+        WorldStateSystem.SetInTown(false);
+        WorldStateSystem.SetInWorldMap(true);
     }
 
     public bool UnlockBuilding(BuildingType building)
@@ -46,7 +37,7 @@ public class TownManager : Manager, ISaveable
             return false;
         }
     }
-    public void UpdateTown()
+    public void EnterTown()
     {
         List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
 
@@ -61,6 +52,13 @@ public class TownManager : Manager, ISaveable
                 DeactivateBuilding(townInt);
             }
         }
+
+        townMapCanvas.gameObject.SetActive(true);
+    }
+
+    public void ExitTown()
+    {
+        townMapCanvas.gameObject.SetActive(false);
     }
 
     public void ActivateBuilding(TownInteractable building)
@@ -73,14 +71,12 @@ public class TownManager : Manager, ISaveable
         building.gameObject.SetActive(false);
     }
 
-    public void PopulateSaveData(SaveData a_SaveData)
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.unlockedBuildings = unlockedBuildings;
         
     }
-
-
-    public void LoadFromSaveData(SaveData a_SaveData)
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         unlockedBuildings = a_SaveData.unlockedBuildings;
 

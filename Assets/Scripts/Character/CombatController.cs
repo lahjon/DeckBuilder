@@ -8,7 +8,7 @@ using TMPro;
 using System.Threading.Tasks;
 using System;
 
-public class CombatController : StateMachine
+public class CombatController : MonoBehaviour
 {
     public GameObject TemplateCard;
     public BezierPath bezierPath;
@@ -42,6 +42,8 @@ public class CombatController : StateMachine
     public Canvas canvas;
     private CombatActorEnemy _activeEnemy;
 
+    public Animator animator;
+
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
@@ -55,10 +57,10 @@ public class CombatController : StateMachine
     }
 
     private List<CardData> DeckData;
-    public List<CardCombatAnimated> Deck = new List<CardCombatAnimated>();
-    public List<CardCombatAnimated> Hand = new List<CardCombatAnimated>();
-    public List<CardCombatAnimated> Discard = new List<CardCombatAnimated>();
-    public List<CardCombatAnimated> createdCards = new List<CardCombatAnimated>();
+    public List<CardCombat> Deck = new List<CardCombat>();
+    public List<CardCombat> Hand = new List<CardCombat>();
+    public List<CardCombat> Discard = new List<CardCombat>();
+    public List<CardCombat> createdCards = new List<CardCombat>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     public bool mouseInsidePanel = false;
@@ -66,9 +68,22 @@ public class CombatController : StateMachine
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
+    public List<CombatActor> ActorsInScene = new List<CombatActor>();
+
+    public Queue<(CardCombat card, CombatActor target)> CardQueue =
+        new Queue<(CardCombat card, CombatActor target)>();
+
+    [SerializeField]
+    public (Card card, CombatActor target) CardInProcess;
+
+    public Queue<CardCombat> HeroCardsWaiting = new Queue<CardCombat>();
+    public Queue<CombatActorEnemy> enemiesWaiting = new Queue<CombatActorEnemy>();
+
+
+    public CombatActor ActiveActor;
 
     //[HideInInspector]
-    public CardCombatAnimated _activeCard;
+    public CardCombat _activeCard;
     [HideInInspector]
     public CombatActorEnemy ActiveEnemy
     {
@@ -85,7 +100,7 @@ public class CombatController : StateMachine
         }
     }
 
-    public CardCombatAnimated ActiveCard 
+    public CardCombat ActiveCard 
     {
         get
         {
@@ -93,9 +108,14 @@ public class CombatController : StateMachine
         }
         set
         {
+            // pre stuff
+            if (_activeCard != null && value != _activeCard)
+                _activeCard.selected = false;
+
+            //overwrite
             _activeCard = value;
             EnemiesInScene.ForEach(x => x.SetTarget(false));
-            foreach (CardCombatAnimated card in Hand)
+            foreach (CardCombat card in Hand)
                 if (card != value) card.MouseReact = (value is null);
             if (_activeCard != null)
                 _activeCard.animator.SetBool("HasTarget", _activeEnemy != null);
@@ -107,19 +127,23 @@ public class CombatController : StateMachine
 
     public void SetUpEncounter(List<EnemyData> enemyDatas = null)
     {
-
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
 
         foreach(CardData cd in DeckData)
         {
-            CardCombatAnimated card = CardCombatAnimated.CreateCardFromData(cd, this);
+            CardCombat card = CardCombat.CreateCardCombatFromData(cd);
             Deck.Add(card);
         }
 
         ShuffleDeck();
 
-        if (enemyDatas == null)
+        if (enemyDatas == null || enemyDatas?.Count < 1)
+        {
             enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
+            Debug.Log("EnemyData is null");
+        }
+
+        enemyDatas.ForEach(x => Debug.Log(x));
 
         for (int i = 0; i < enemyDatas.Count; i++)
         {
@@ -129,26 +153,40 @@ public class CombatController : StateMachine
             combatActorEnemy.ReadEnemyData(enemyDatas[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
-
-        SetState(new EnterCombat(this));
+        animator.SetTrigger("StartSetup");
     }
+
+    public void StartCombat()
+    {
+        gameObject.SetActive(true);
+
+        if (WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData != null)
+        {
+            enemyDatas = WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData;
+        }
+        if (enemyDatas?.Count < 1)
+        {
+            Debug.Log("From null");
+            SetUpEncounter();
+        }
+        else
+        {
+            Debug.Log("From something");
+            SetUpEncounter(enemyDatas);
+            WorldSystem.instance.uiManager.encounterUI.ResetEncounter();
+        }
+    }
+
 
     public void BindCharacterData()
     {
-        energyTurn = WorldSystem.instance.characterManager.energy;
-        drawCount = WorldSystem.instance.characterManager.cardDrawAmount;
-    }
-
-    public void StartTurn()
-    {
-        StartCoroutine(RulesSystem.instance.StartTurn());
+        energyTurn = WorldSystem.instance.characterManager.character.energy;
+        drawCount = WorldSystem.instance.characterManager.character.drawCardsAmount;
     }
 
     public void EndTurn()
     {
-        Hero.healthEffects.EffectsOnNewTurnBehavior();
-
-        foreach (CardCombatAnimated card in Hand)
+        foreach (CardCombat card in Hand)
         {
             card.MouseReact = false;
             card.selectable = false;
@@ -174,7 +212,7 @@ public class CombatController : StateMachine
         }
         Debug.Log("Victory!");
         ResetCombat();
-        WorldSystem.instance.uiManager.rewardScreen.GetCombatReward();
+        WorldStateSystem.SetInReward(true);
     }
 
     void ResetCombat()
@@ -184,11 +222,39 @@ public class CombatController : StateMachine
         Hand.Clear();
         Discard.Clear();
         EnemiesInScene.Clear();
-        foreach (CardCombatAnimated card in createdCards)
+        foreach (CardCombat card in createdCards)
         {
             DestroyImmediate(card);
         }
     }
+
+    public CombatActorEnemy GetRandomEnemy()
+    {
+        int id = UnityEngine.Random.Range(0, EnemiesInScene.Count);
+        return EnemiesInScene[id];
+    }
+
+    public List<CombatActor> GetTargets(CombatActor source, CardTargetType type, CombatActor suppliedTarget = null)
+    {
+        List<CombatActor> targets = new List<CombatActor>();
+
+        if (type == CardTargetType.Self)
+            targets.Add(source);
+        else if (type == CardTargetType.EnemyAll)
+            targets.AddRange(EnemiesInScene);
+        else if (type == CardTargetType.EnemySingle)
+            targets.Add(suppliedTarget);
+        else if (type == CardTargetType.EnemyRandom)
+            targets.Add(GetRandomEnemy());
+        else if(type == CardTargetType.All)
+        {
+            targets.Add(Hero);
+            targets.AddRange(EnemiesInScene);
+        }
+
+        return targets;
+    }
+
     #endregion
 
     #region Positioning and Scale
@@ -197,7 +263,7 @@ public class CombatController : StateMachine
         return Vector3.one;
     }
 
-    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombatAnimated card)
+    public (Vector3 Position, Vector3 Angles) GetPositionInHand(CardCombat card)
     {
         return GetPositionInHand(Hand.IndexOf(card));
     }
@@ -206,31 +272,83 @@ public class CombatController : StateMachine
     {
         // Positional Info
         float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards/2 : 0;
-        float degreeRad = Mathf.Deg2Rad * ((CardNr - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
-        Vector3 newPos = new Vector3(origoCardPos * Mathf.Sin(degreeRad), origoCardPos * Mathf.Cos(degreeRad) - origoCardPos + handHeight, 0);
+        float degree = ((CardNr - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+        return GetTargetPositionFromDegree(degree);
+    }
+
+    public float GetCurrentDegree(CardCombat card)
+    {
+        if (!Hand.Contains(card))
+        {
+            Debug.LogError("Current degree requested for card not in hand!");
+            return -1f;
+        }
+
+        float degree = Mathf.Rad2Deg*Mathf.Asin(Mathf.Abs(card.transform.localPosition.x) /origoCardPos);
+
+        if (card.transform.localPosition.x < 0)
+            degree *= -1;
         
+        return degree;
+    }
+
+    public float GetTargetDegree(CardCombat card)
+    {
+        if (!Hand.Contains(card))
+        {
+            Debug.LogError("Current degree requested for card not in hand!");
+            return -1f;
+        }
+
+        float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards / 2 : 0;
+        float degree = ((Hand.IndexOf(card) - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+
+        return degree;
+    }
+
+    public void SetCardTransFromDegree(CardCombat card, float degree)
+    {
+        (Vector3 pos, Vector3 angles) transInfo = GetTargetPositionFromDegree(degree);
+        card.transform.localPosition = transInfo.pos;
+        card.transform.localEulerAngles = transInfo.angles;
+    }
+
+    public (Vector3 Position, Vector3 Angles) GetTargetPositionFromDegree(float degree)
+    {
+        degree *= Mathf.Deg2Rad;
+        Vector3 newPos = new Vector3(origoCardPos * Mathf.Sin(degree), origoCardPos * Mathf.Cos(degree) - origoCardPos + handHeight, 0);
+
         //Angling info
         Vector3 origo = new Vector3(0, -origoCardRot, 0);
-        float angle = Vector3.Angle(newPos - origo, new Vector3(0, 1, 0))*(newPos.x > 0 ? -1 :1);
+        float angle = Vector3.Angle(newPos - origo, new Vector3(0, 1, 0)) * (newPos.x > 0 ? -1 : 1);
         Vector3 angles = new Vector3(0, 0, angle);
 
         return (newPos, angles);
     }
 
+
     internal void ResetSiblingIndexes()
     {
         int cursor = 0;
-        foreach(CardCombatAnimated card in Hand)
+        foreach(CardCombat card in Hand)
             if (card != ActiveCard)
                 card.transform.SetSiblingIndex(cursor++);
     }
 
 
-    public void RefreshHandPositions(CardCombatAnimated excludeCard = null)
+    public void RefreshHandPositions(CardCombat excludeCard = null)
     {
-        foreach (CardCombatAnimated card in Hand)
+        foreach (CardCombat card in Hand)
             if (card != excludeCard)
-                card.animator.SetBool("ReachedIdle", false);
+                card.animator.SetBool("NeedFan", true);
+    }
+
+
+    internal void ReportDeath(CombatActor combatActor)
+    {
+        EnemiesInScene.Remove((CombatActorEnemy)combatActor);
+        Destroy(combatActor.gameObject);
+
     }
     #endregion
 
@@ -265,7 +383,7 @@ public class CombatController : StateMachine
 
     private void DrawSingleCard()
     {
-        CardCombatAnimated card = Deck[0];
+        CardCombat card = Deck[0];
         Deck.RemoveAt(0);
         Hand.Add(card);
         card.animator.SetTrigger("StartDraw");
@@ -274,6 +392,7 @@ public class CombatController : StateMachine
 
     internal void CancelCardSelection()
     {
+        ActiveCard.selected = false;
         ActiveCard = null;
         ResetSiblingIndexes();
     }
@@ -283,7 +402,7 @@ public class CombatController : StateMachine
     {
         for(int i = 0; i < Deck.Count; i++)
         {
-            CardCombatAnimated temp = Deck[i];
+            CardCombat temp = Deck[i];
             int index = UnityEngine.Random.Range(i, Deck.Count);
             Deck[i] = Deck[index];
             Deck[index] = temp;
@@ -298,7 +417,7 @@ public class CombatController : StateMachine
         }
     }
 
-    public IEnumerator DiscardCard(CardCombatAnimated card)
+    public IEnumerator DiscardCard(CardCombat card)
     {
         Hand.Remove(card);
         Discard.Add(card);
@@ -322,7 +441,7 @@ public class CombatController : StateMachine
     {
         for (int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
         {
-            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldSystem.instance.worldState == WorldState.Combat)
+            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldStateSystem.instance.currentWorldState == WorldState.Combat)
             {
                 if (ActiveCard == Hand[i])
                     ActiveCard.OnMouseRightClick(false);
@@ -340,6 +459,7 @@ public class CombatController : StateMachine
 
     public void DetectCanvasClick()
     {
+        Debug.Log("Canvas detected click");
         if (ActiveCard != null)
         {
             if (Input.GetMouseButton(0))
@@ -352,13 +472,13 @@ public class CombatController : StateMachine
     public void PlayerInputEndTurn()
     {
         // have to ahve a function for the ui button
-        EndState();
+        animator.SetTrigger("PlayerTurnEnd");
     }
 
-    public bool CardisSelectable(CardCombatAnimated card, bool silentCheck = true)
+    public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.cardData.cost <= cEnergy && card.selectable;
-        if (!silentCheck && card.cardData.cost > cEnergy)
+        bool selectable = card.cost <= cEnergy && card.selectable;
+        if (!silentCheck && card.cost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
@@ -371,7 +491,6 @@ public class CombatController : StateMachine
         Vector2 result;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(cardPanel.GetComponent<RectTransform>(), Input.mousePosition, WorldSystem.instance.cameraManager.mainCamera, out result);
         Debug.Log(result);
-        Debug.Log(cardPanel.GetComponent<RectTransform>().rect.Contains(result));
 
         if (cardPanel.GetComponent<RectTransform>().rect.Contains(result))
         {
@@ -383,51 +502,19 @@ public class CombatController : StateMachine
         return false;
     }
 
-    public void CardUsed()
+    public void SelectedCardTriggered()
     {
-        if (!acceptActions)
-        {
-            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Previous card is being resolved");
-            return;
-        }
-
-        Debug.Log("Card used from Controller");
+        Debug.Log("mouseclicked");
         if (ActiveCard is null)
             return;
 
-        if ((ActiveCard.cardData.targetRequired && ActiveEnemy is null) || MouseInsideArea())
+        if (MouseInsideArea())
         {
-            ActiveCard.DeselectCard();
+            CancelCardSelection();
             return;
         }
 
         ActiveCard.animator.SetTrigger("MouseClicked");
-        ActiveCard.animator.SetBool("Selected", false);
-        Hand.Remove(ActiveCard);
-
-
-        RefreshHandPositions();
-
-        cEnergy -= ActiveCard.cardData.cost;
-
-        RulesSystem.instance.CarryOutCardSelf(ActiveCard.cardData, Hero);
-
-        List<CombatActorEnemy> targetedEnemies = new List<CombatActorEnemy>();
-        if (ActiveCard.cardData.targetRequired)
-            targetedEnemies.Add(ActiveEnemy);
-        else
-            targetedEnemies.AddRange(EnemiesInScene);
-
-
-        foreach (CombatActorEnemy e in targetedEnemies)
-        {
-            RulesSystem.instance.CarryOutCard(ActiveCard.cardData, Hero, e);
-            if (e.healthEffects.hitPoints <= 0)
-                KillEnemy(e);
-        }
-
-        ActiveCard.cardData.activities.ForEach(x => StartCoroutine(CardActivitySystem.instance.StartByCardActivity(x)));
-
         ActiveCard = null;
     }
 

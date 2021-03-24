@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Strike
   m_EditorClassIdentifier: 
-  name: Strike
+  cardName: Strike
   description: 
   artwork: {fileID: 21300000, guid: b1a5cfd7574f2e64a80e39cc7c185198, type: 3}
   cost: 1
   goldValue: 0
+  exhaust: 0
   Damage:
     Type: 0
     Value: 6
     Times: 1
-    Target: 0
+    Target: 1
   Block:
     Type: 2
     Value: 0
     Times: 0
     Target: 0
-  SelfEffects: []
-  Effects: []
-  activities:
+  inEffects: []
+  inActivities:
   - type: 1
     parameter: Strike
   cardRarity: 0

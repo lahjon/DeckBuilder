@@ -2,21 +2,38 @@ public static class EnumExtenstions
 {
     public static string GetDescription(this EffectType type)
     {
-        if (type == EffectType.Barricade)
-            return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
-        else if (type == EffectType.Vurnerable)
-            return $"<b>Vurnerable</b>\nAn actor with Vurnerable recieves 25% more attack damage";
-        else
-            return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
+        switch (type)
+        {
+            case EffectType.Barricade:
+                return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
+            case EffectType.Vurnerable:
+                return $"<b>Vurnerable</b>\nRecieve 25% more attack damage";
+            case EffectType.Thorns:
+                return $"<b>Thorns</b>\nDeal damage back when attacked";
+            default:
+                return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
+        }
+    }
+
+    public static RuleEffect GetRuleEffect(this EffectType type)
+    {
+        switch (type)
+        {
+            case EffectType.Barricade:
+                return new RuleEffectBarricade();
+            case EffectType.Weak:
+                return new RuleEffectWeak();
+            case EffectType.Vurnerable:
+                return new RuleEffectVurnerable();
+            case EffectType.Thorns:
+                return new RuleEffectThorns();
+            case EffectType.Splice:
+                return new RuleEffectSplice();
+            default:
+                return null;
+        }
     }
 }
-
-
-public enum CardType
-{
-    Attacker, 
-    Defender
-    };
 
 public enum CardRarity
 {
@@ -28,6 +45,7 @@ public enum CardRarity
 
 public enum Rarity
 {
+    None,
     Common, 
     Uncommon, 
     Rare
@@ -35,19 +53,31 @@ public enum Rarity
 
 public enum CardTargetType
 {
-    Single, 
-    ALL,
-    Random
+    Self,
+    EnemySingle,
+    EnemyAll,
+    EnemyRandom,
+    All
 }
-public enum CharacterClass
+public enum CharacterClassType
 {
     None,
     Brute, 
     Rogue,
-    Enemy,
-    EnemyElite, 
-    EnemyBoss
+    Splicer,
+    Beastmaster,
 };
+
+public enum DialogueParticipant
+{
+    None,
+    Brute, 
+    Rogue,
+    Splicer,
+    Beastmaster,
+    Shopkeeper,
+    Major
+}
 
 public enum EncounterEventType
 {
@@ -67,10 +97,10 @@ public enum GameEventStatus
     Done
 }
 
-public enum CharacterVariables
+public enum CharacterAbility
 {
-    MaxHealth, 
-    Gold
+    Objective, 
+    Mission
 };
 
 public enum EncounterOutcomeType
@@ -92,16 +122,18 @@ public enum EffectType
     Block,
     Weak,
     Vurnerable,
-    Barricade
+    Barricade,
+    Thorns,
+    Splice
 }
 
-public enum CharacterStat
+public enum OverlayState
 {
-    Strength,
-    Cunning,
-    Speed,
-    Endurance,
-    Wisdom
+    None,
+    Transition,
+    EscapeMenu,
+    Display,
+    CharacterSheet
 }
 
 public enum WorldState
@@ -110,15 +142,24 @@ public enum WorldState
     Event,
     Reward,
     Shop,
-    Display,
     Combat,
-    Overworld,
-    Menu,
+    WorldMap,
     Town,
-    TownHall,
     Building,
+    Dialogue,
+    Overworld,
     Transition,
-    Dead
+    Deathscreen,
+    Cutscene,
+}
+
+public enum TransitionType
+{
+    None,
+    Normal,
+    DeathScreen, 
+    EnterAct
+
 }
 
 public enum BuildingType
@@ -128,7 +169,8 @@ public enum BuildingType
     Church, 
     TownHall,
     Barracks,
-    Leave
+    Leave,
+    Any
 }
 
 public enum EncounterType
@@ -158,5 +200,6 @@ public enum EnemyBehavior
 public enum CardActivityType
 {
     DrawCard,
-    AddCardToDeck
+    AddCardToDeck,
+    Splice
 }

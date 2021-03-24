@@ -21,7 +21,7 @@ public class RewardScreen : MonoBehaviour
     {
         for(int i = 0; i < keys.Length && i < content.transform.childCount; i++)
         {
-            if (Input.GetKeyDown(keys[i].ToString()) && WorldSystem.instance.worldState == WorldState.Reward && currentReward == null)
+            if (Input.GetKeyDown(keys[i].ToString()) && WorldStateSystem.instance.currentWorldState == WorldState.Reward && currentReward == null)
             {
                 Reward currentReward = content.transform.GetChild(keys[i] - 1).GetComponent<Reward>();
                 if(currentReward is RewardCard)
@@ -35,14 +35,22 @@ public class RewardScreen : MonoBehaviour
                 break;
             }
         }
-        if(Input.GetKeyDown(KeyCode.Space ) && WorldSystem.instance.worldState == WorldState.Reward)
+        if(Input.GetKeyDown(KeyCode.Space ) && WorldStateSystem.instance.currentWorldState == WorldState.Reward)
             RemoveRewardScreen();
     }
 
-    void OnCanvasEnable()
+    public void SetupRewards()
     {
+        canvas.SetActive(true);
+        int i = 0;
         while (content.transform.childCount > 0)
         {
+            i++;
+            if (i > 50)
+            {
+                Debug.Log("Should not happen");
+                break;
+            }
             DestroyImmediate(content.transform.GetChild(0).gameObject);
         }
 
@@ -58,8 +66,12 @@ public class RewardScreen : MonoBehaviour
                 CreateRewards(combatRewardBoss);
                 break;
 
-            default:
+            case EncounterType.OverworldCombatNormal:
                 CreateRewards(combatRewardNormal);
+                break;
+
+            default:
+                Debug.Log("No default rewards!");
                 break;
         }
     }
@@ -73,22 +85,14 @@ public class RewardScreen : MonoBehaviour
         }
         else
         {
-            WorldSystem.instance.worldStateManager.RemoveState(false);
+            WorldStateSystem.SetInReward(false);
         }
-        canvasCard.SetActive(false);
     }
 
     public void ResetCurrentRewardEvent()
     {
-        canvasCard.SetActive(false);
+        WorldStateSystem.SetInReward(false);
     }
-
-    public void SkipCardReward()
-    {
-        WorldSystem.instance.worldStateManager.RemoveState(false);
-        ResetCurrentReward();
-    }
-
 
     private void CreateRewards(List<GameObject> rewards)
     {
@@ -99,21 +103,12 @@ public class RewardScreen : MonoBehaviour
             newObject.transform.localScale =  new Vector3(1, 1, 1);
         }
     }
-    public void GetCombatReward()
-    {
-        
-        OnCanvasEnable();
-        
-        WorldSystem.instance.combatManager.combatController.content.gameObject.SetActive(false);
-        WorldSystem.instance.worldStateManager.AddState(WorldState.Reward);
-        canvas.SetActive(true);
-    }
 
     public void RemoveRewardScreen()
     {
         canvas.SetActive(false);
         canvasCard.SetActive(false);
-        WorldSystem.instance.worldStateManager.RemoveState(false);
+        WorldStateSystem.SetInReward(false);
         Debug.Log("RewardScreen Removing card!");
         if(encounterData.type == EncounterType.OverworldCombatBoss)
             WorldSystem.instance.EndCombat(true);

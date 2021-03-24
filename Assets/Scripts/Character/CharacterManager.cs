@@ -2,43 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
-public class CharacterManager : MonoBehaviour, ISaveable
+public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
 {
-    // should match all items from CharacterVariables Enum
-    private int _gold;
     private int _shard;
+    private int _gold;
 
-    public int startingGold = 99;
-    public int currentHealth;
-    public int maxHealth;
-    public int maxCardReward = 3;
-    public CharacterClass characterClass;
-    public int energy;
-    public int startDrawAmount;
-    public CharacterData characterData;
-
-    public Dictionary<CharacterStat, int> stats = new Dictionary<CharacterStat, int>();
-    public int damageModifier, blockModifier, handSize, cardDrawAmount, energyModifier, magicFind;
-    
-    public List<CardData> playerCardsData;
     public CharacterVariablesUI characterVariablesUI;
+    public Character character;
+    public GameObject characterPrefab;
+    public List<CardData> playerCardsData;
+    public List<string> playerCardsDataNames;
+    public CharacterClassType selectedCharacterClassType = CharacterClassType.Brute;
+    public List<PlayableCharacterData> allCharacterData;
+    public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    public CharacterSheet characterSheet;
+    int _currentHealth;
 
-    void Start()
+    protected override void Awake()
     {
-        BindCharacterData();
+        base.Awake();
+        world.characterManager = this;
     }
 
-    public int gold 
+    protected override void Start()
     {
-        get
+        base.Start(); 
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            return _gold;
-        }
-        set
-        {
-            _gold = value;
-            characterVariablesUI.UpdateUI();
+            if (selectedCharacterClassType == CharacterClassType.None)
+            {
+                selectedCharacterClassType = CharacterClassType.Brute;
+            }
+            SetupCharacterData();
+            if (!unlockedCharacters.Contains(selectedCharacterClassType))
+            {
+                unlockedCharacters.Add(selectedCharacterClassType);
+            }
+            world.SaveProgression();
         }
     }
     public int shard 
@@ -50,75 +52,65 @@ public class CharacterManager : MonoBehaviour, ISaveable
         set
         {
             _shard = value;
-            characterVariablesUI.UpdateUI();
+            characterVariablesUI.UpdateCharacterHUD();
+        }
+    }
+    public int gold 
+    {
+        get
+        {
+            return _gold;
+        }
+        set
+        {
+            _gold = value;
+            characterVariablesUI?.UpdateCharacterHUD();
         }
     }
 
     public void Reset()
     {
-        BindCharacterData();
+        SetupCharacterData();
     }
 
-    private void BindCharacterData()
+    void SetupCharacterData()
     {
-        playerCardsData.Clear();
-        stats.Clear();
-
-        _gold = startingGold;
-        maxHealth = characterData.maxHealth;
-        startDrawAmount = characterData.cardDrawAmount;
-        energy = characterData.energy;
-        characterClass = characterData.characterClass;
-        characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
-
-        foreach(CharacterStat stat in System.Enum.GetValues(typeof(CharacterStat)) )
+        if (character == null)
         {
-            stats.Add(stat, 0);
-        }
-        currentHealth = maxHealth;
+            character = Instantiate(characterPrefab).GetComponent<Character>();
+            character.SetCharacterData();
 
-        UpdateModifiers();
-    }
-
-
-    public void AddToCharacter(EncounterOutcomeType type, int value)
-    {
-        if(type.ToString().ToLower() == "gold")
-        {
-            _gold += value;
-            if(_gold < 0)
+            if (character.level == 0)
             {
-                _gold = 0;
+                character.CreateStartingCharacter(character.characterData);
             }
-            characterVariablesUI.UpdateUI();
+
+            character.name = character.characterData.classType.ToString();
         }
-        else if(type.ToString().ToLower() == "health")
+        selectedCharacterClassType = character.classType;
+        selectedCharacterClassType = character.characterData.classType;
+
+        if (playerCardsDataNames == null || playerCardsDataNames.Count == 0)
         {
-            currentHealth += value;
-            if(currentHealth < 1)
-            {
-                currentHealth = 0;
-                KillCharacter();
-            }
-            characterVariablesUI.UpdateUI();
+            character.characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
+            playerCardsData.ForEach(x => playerCardsDataNames.Add(x.name));
         }
+        else
+        {
+            playerCardsData = DatabaseSystem.instance.GetCardsByName(playerCardsDataNames);
+        }
+
+        if (_currentHealth <= 0)
+        {
+            character.currentHealth = character.maxHealth;
+        }
+        else
+        {
+            character.currentHealth = _currentHealth;
+        }
+
+        characterVariablesUI.UpdateCharacterHUD();
     }
-
-    public void AddStat(CharacterStat stat, int value)
-    {
-        stats[stat] += value; 
-        UpdateModifiers();
-    }
-
-
-    public void UpdateModifiers()
-    {
-        damageModifier = (int)stats[CharacterStat.Strength] / 3;
-        blockModifier = (int)stats[CharacterStat.Endurance] / 3;
-        energyModifier = energy + (int)stats[CharacterStat.Wisdom] / 5;
-        cardDrawAmount = startDrawAmount + (int)stats[CharacterStat.Speed] / 5;
-        magicFind = (int)stats[CharacterStat.Cunning] * 2;
-    } 
 
     public void AddCardDataToDeck(CardData newCardData)
     {
@@ -127,9 +119,9 @@ public class CharacterManager : MonoBehaviour, ISaveable
     }
     public void RemoveCardDataFromDeck(int index)
     {
-        if(playerCardsData.Count > 1)
+        if(playerCardsDataNames.Count > 1)
         {
-            playerCardsData.RemoveAt(index);
+            playerCardsDataNames.RemoveAt(index);
             WorldSystem.instance.deckDisplayManager.RemoveCardAtIndex(index);
         }
         else
@@ -143,17 +135,44 @@ public class CharacterManager : MonoBehaviour, ISaveable
         Debug.Log("You are dead!");
     }
 
-    public void PopulateSaveData(SaveData a_SaveData)
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.shard = _shard;
+        a_SaveData.unlockedCharacters = unlockedCharacters;
         Debug.Log("Saving Data");
     }
 
-    public void LoadFromSaveData(SaveData a_SaveData)
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         _shard = a_SaveData.shard;
+        unlockedCharacters = a_SaveData.unlockedCharacters;
         Debug.Log("Loading Data");
     }
 
+    public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        a_SaveData.playerCardsDataNames = playerCardsDataNames;
+        a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
+        a_SaveData.gold = gold;
+        a_SaveData.currentHealth = _currentHealth;
+    }
+
+    public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        playerCardsDataNames = a_SaveData.playerCardsDataNames;
+        selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
+        gold = a_SaveData.gold;
+        _currentHealth = a_SaveData.currentHealth;
+    }
+
+    public void PopulateSaveDataStart(SaveDataStart a_SaveData)
+    {
+        a_SaveData.characterClassType = selectedCharacterClassType;
+    }
+
+    public void LoadFromSaveDataStart(SaveDataStart a_SaveData)
+    {
+        selectedCharacterClassType = a_SaveData.characterClassType;
+    }
 }
 

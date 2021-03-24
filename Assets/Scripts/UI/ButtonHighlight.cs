@@ -5,14 +5,20 @@ using TMPro;
 
 public class ButtonHighlight : MonoBehaviour
 {
+    public bool isHighlighted = false;
     public void HighlightText(bool highlight)
     {
-        Debug.Log(this);
         Color color = this.GetComponent<TMP_Text>().color;
-        if(highlight)
-            color += new Color(0.1f, 0.1f, 0.1f, 0);
+        if(highlight && !isHighlighted)
+        {
+            color += new Color(0.2f, 0.2f, 0.2f, 0);
+            isHighlighted = true;
+        }
         else
-            color -= new Color(0.1f, 0.1f, 0.1f, 0);
+        {
+            color -= new Color(0.2f, 0.2f, 0.2f, 0);
+            isHighlighted = false;
+        }
 
         this.GetComponent<TMP_Text>().color = color;
     }

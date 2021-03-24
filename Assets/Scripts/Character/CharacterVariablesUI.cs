@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class CharacterVariablesUI : MonoBehaviour
@@ -8,33 +9,41 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text healthValue;
     public TMP_Text goldValue;
     public TMP_Text shardValue;
-    public TMP_Text worldState;
     public TMP_Text worldTier;
-    public TMP_Text combatState;
+    public Image levelUpImage;
 
-    public void UpdateUI()
+    public void UpdateCharacterHUD()
     {
-        int currentHealth = WorldSystem.instance.characterManager.currentHealth;
-        int maxHealth = WorldSystem.instance.characterManager.maxHealth;
-        int gold = WorldSystem.instance.characterManager.gold;
-        int shards = WorldSystem.instance.characterManager.shard;
-        healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
-        goldValue.text = gold.ToString();
-        shardValue.text = shards.ToString();
-        worldTier.text = "Act " + WorldSystem.instance.act.ToString();
-
-        //DEBUG:
-        worldState.text = WorldSystem.instance.worldStateManager.currentState.ToString();
-        if(WorldSystem.instance.combatManager.combatController.state != null)
-            combatState.text = WorldSystem.instance.combatManager.combatController.state.ToString();
-        else
-            combatState.text = "None";
-
+        if (WorldSystem.instance.characterManager != null && WorldSystem.instance.characterManager.character != null)
+        {
+            int currentHealth = WorldSystem.instance.characterManager.character.currentHealth;
+            int maxHealth = WorldSystem.instance.characterManager.character.maxHealth;
+            int gold = WorldSystem.instance.characterManager.gold;
+            int shards = WorldSystem.instance.characterManager.shard;
+            healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
+            goldValue.text = gold.ToString();
+            shardValue.text = shards.ToString();
+        }
     }
 
-    public void DisplayDeck()
+    public void ActivateLevelUp()
     {
-        WorldSystem.instance.deckDisplayManager.DisplayDeck();
+        levelUpImage.gameObject.SetActive(true);
+        LeanTween.scale(levelUpImage.gameObject, new Vector3(0.8f, 0.8f, 0.8f), 0.5f).setEaseInBounce().setLoopPingPong();
     }
 
+    public void DisableLevelUp()
+    {
+        levelUpImage.gameObject.SetActive(false);
+    }
+
+    public void ButtonDisplayDeck()
+    {
+        WorldStateSystem.SetInDisplay();
+    }
+
+    public void ButtonOpenCharacterSheet()
+    {
+        WorldStateSystem.SetInCharacterSheet();
+    }
 }

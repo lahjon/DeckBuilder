@@ -7,12 +7,12 @@ public class RewardCard : Reward
     protected override void CollectCombatReward()
     {
         
-        WorldSystem.instance.uiManager.rewardScreen.currentReward = this.GetComponent<RewardCard>();
-        WorldSystem.instance.uiManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCard>().SetupRewards();
+        WorldSystem.instance.rewardManager.rewardScreen.currentReward = this.GetComponent<RewardCard>();
+        WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
     }
     
 
-    public List<CardData> ChooseCard(CharacterClass characterClass, int amount = 3, bool random = true, CardData cardData = null)
+    public List<CardData> ChooseCard(CharacterClassType characterClass, int amount = 3, bool random = true, CardData cardData = null)
     {
         List<CardData> cardReward = new List<CardData>(); 
 

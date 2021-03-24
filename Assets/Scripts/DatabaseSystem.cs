@@ -51,13 +51,31 @@ public class DatabaseSystem : MonoBehaviour
             Debug.Log(card);
         }
         cardDatabase.UpdateDatabase(allCards);
-        
+    }
+    public List<CardData> GetCardsByName(List<string> cardNames)
+    {
+        List<CardData> result = new List<CardData>();
+        List<string> tempList = new List<string>();
+        allCards.ForEach(x => tempList.Add(x.name));
+
+        Debug.Log(allCards.Count);
+        Debug.Log(tempList.Count);
+        for (int i = 0; i < cardNames.Count; i++)
+        {
+            result?.Add(allCards[tempList.IndexOf(cardNames[i])]);
+            // if (tempList.Contains(cardNames[i]))
+            // {
+            //     result.Add(allCards[tempList.IndexOf(cardNames[i])]);
+            // }
+        }
+
+        return result;
     }
 
-    public CardData GetRandomCard(CharacterClass characterClass = CharacterClass.None)
+    public CardData GetRandomCard(CharacterClassType characterClass = CharacterClassType.None)
     {
         int idx;
-        if(characterClass == CharacterClass.None)
+        if(characterClass == CharacterClassType.None)
         {
             idx = Random.Range(0,allCards.Count);
             return allCards[idx];

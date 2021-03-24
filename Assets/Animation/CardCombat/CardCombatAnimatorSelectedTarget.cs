@@ -19,4 +19,8 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         card.transform.localEulerAngles = targetAngle;
     }
 
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        card.selected = false;
+    }
 }

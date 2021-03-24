@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class DebugUI : MonoBehaviour, ISaveable
+public class DebugUI : MonoBehaviour, ISaveableWorld
 {
     public GameObject canvas;
     public int strength;
+    public GameObject tokenReward;
+    public GameObject artifactReward;
+    public TMP_Text worldState;
+    public TMP_Text overlayState;
+    public TMP_Text worldTier;
+    public List<EnemyData> enemyData = new List<EnemyData>();
 
     void Update()
     {
@@ -15,14 +22,70 @@ public class DebugUI : MonoBehaviour, ISaveable
         }
     }
 
+<<<<<<< HEAD
     public void DebugChangeCardData()
     {
         WorldSystem.instance.characterManager.characterData.energy = 10;
+=======
+    public void UpdateCharacterDebugHUD()
+    {
+        worldState.text = WorldStateSystem.instance.currentWorldState.ToString();
+        overlayState.text = WorldStateSystem.instance.currentOverlayState.ToString();
+        worldTier.text = "Act " + WorldSystem.instance.act.ToString();
+>>>>>>> 3bdd8ad61deaecc500e6aec857a36b4c948e4f24
     }
 
     public void DebugCreateWarning()
     {
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
+    }
+
+    public void DebugDraftCards(int amount)
+    {
+        WorldSystem.instance.rewardManager.draftAmount = amount;
+        WorldStateSystem.SetInReward(true);
+    }
+
+    public void DebugAddSpecficArtifact()
+    {
+        WorldSystem.instance.artifactManager.AddArifact(artifactReward);
+    }
+    public void DebugAddExperience(int amount)
+    {
+        WorldSystem.instance.levelManager.AddExperience(amount);
+    }
+    public void DebugAddLevel()
+    {
+        WorldSystem.instance.levelManager.AddLevel();
+    }
+
+    public void DebugStartCombat()
+    {
+        WorldSystem.instance.combatManager.combatController.enemyDatas = enemyData;
+        WorldStateSystem.SetInOverworld(true);
+        WorldStateSystem.SetInTown(false);
+        WorldStateSystem.SetInCombat(true);
+    }
+    public void DebugRemoveSpecificArtifact()
+    {
+        WorldSystem.instance.artifactManager.RemoveArtifact(artifactReward);
+    }
+    public void DebugAddRandomArtifact()
+    {
+        WorldSystem.instance.artifactManager.AddArifact(WorldSystem.instance.artifactManager.GetRandomAvailableArtifact());
+    }
+
+    public void DebugRemoveRandomArtifact()
+    {
+        WorldSystem.instance.artifactManager.RemoveArtifact(WorldSystem.instance.artifactManager.GetRandomActiveArtifact());
+    }
+    public void DebugAddTokenPoints()
+    {
+        WorldSystem.instance.tokenManager.AddTokenPoint();
+    }
+    public void DebugAddTokenReward()
+    {
+        WorldSystem.instance.tokenManager.UnlockNewToken(tokenReward);
     }
 
     public void DebugGetShards()
@@ -32,7 +95,7 @@ public class DebugUI : MonoBehaviour, ISaveable
 
     public void DebugResetAllData()
     {
-        FileManager.WriteToFile("saveFile_0", "");
+        FileManager.WriteToFile(SaveDataManager.saveFileName, "");
     }
 
     public void DebugTriggerDeathScreen()
@@ -45,14 +108,9 @@ public class DebugUI : MonoBehaviour, ISaveable
         WorldSystem.instance.encounterManager.GenerateMap();
     }
 
-    public void DebugAddStrength()
-    {
-        WorldSystem.instance.characterManager.AddStat(CharacterStat.Strength, 1);
-        WorldSystem.instance.uiManager.characterSheet.UpdateCharacterSheet();
-    }
     public void DebugWinCombat()
     {
-        if(WorldSystem.instance.worldState == WorldState.Combat)
+        if(WorldStateSystem.instance.currentWorldState == WorldState.Combat)
             WorldSystem.instance.combatManager.combatController.WinCombat();
     }
     public void ToggleDebugMenu()
@@ -66,12 +124,12 @@ public class DebugUI : MonoBehaviour, ISaveable
             canvas.SetActive(true);
         }
     }
-    public void PopulateSaveData(SaveData a_SaveData)
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.strength = strength;
     }
 
-    public void LoadFromSaveData(SaveData a_SaveData)
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         strength = a_SaveData.strength;
     }
@@ -84,11 +142,11 @@ public class DebugUI : MonoBehaviour, ISaveable
 
     public void DebugLoadGame()
     {
-        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
     }
     public void DebugSaveGmae()
     {
-        SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveable>()));
+        SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
     }
 
 }

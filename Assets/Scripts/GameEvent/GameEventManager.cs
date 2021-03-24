@@ -8,9 +8,10 @@ public class GameEventManager : Manager
     public GameEvent currentGameEvent;
     public GameObject gameEventObject;
     private List<string> allGameEvents = new List<string>();
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
+        world.gameEventManager = this;
     }
     private void CreateEvent(string eventName)
     {

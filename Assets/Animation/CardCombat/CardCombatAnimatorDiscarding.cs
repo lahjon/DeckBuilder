@@ -11,6 +11,8 @@ public class CardCombatAnimatorDiscarding : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
+        combatController.DiscardCard(card);
+        card.animator.SetBool("HasTarget", false);
         card.GetComponent<BezierFollow>().StartAnimation();
     }
 

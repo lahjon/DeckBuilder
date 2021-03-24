@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class RuleEffect
 {
     public HealthEffects healthEffects;
+    public CombatActor actor { get { return healthEffects.combatActor; } }
     public bool stackable = true;
     public int nrStacked;
 
@@ -22,6 +23,10 @@ public abstract class RuleEffect
     public virtual void OnNewTurnBehaviour()
     {
         nrStacked--;
+    }
+
+    public virtual void OnEndTurnBehaviour()
+    {
     }
 
     public virtual string strStacked()

@@ -1,136 +1,157 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using TMPro;
+using System.Linq;
+using System;
 
-public abstract class Card : MonoBehaviour, IPointerClickHandler
+public class Card : MonoBehaviour
 {
+    public string cardName;
+    public Sprite artwork;
 
+    public int cost;
     public CardData cardData;
-    public Text nameText;
-    public TMP_Text descriptionText;
-    public Image artworkImage;
 
-    public Text costText;
-    public Text damageText;
-    public Text blockText;
-    public WorldState previousState;
-    public bool targetRequired;
+    public bool exhaust;
 
+    public CardEffect Damage;
+    public CardEffect Block;
+
+    public List<CardEffect> Effects = new List<CardEffect>();
+    public List<CardActivitySetting> activities = new List<CardActivitySetting>();
+
+    public GameObject animationPrefab;
 
     public void BindCardData()
-
     {
-        nameText.text = cardData.name;
+        name        = cardData.cardName;
+        artwork     = cardData.artwork;
+        cost        = cardData.cost;
+        exhaust     = cardData.exhaust;
+        Damage      = cardData.Damage;
+        Block       = cardData.Block;
+        Effects     = cardData.inEffects;
+        activities  = cardData.inActivities;
+        animationPrefab = cardData.animationPrefab;
+    }
 
-        targetRequired = cardData.targetRequired;
 
-        artworkImage.sprite = cardData.artwork;
-
-        costText.text = cardData.cost.ToString();
-
-        descriptionText.text = "";
-
-        List<CardEffect> allEffects = new List<CardEffect>();
-        allEffects.Add(cardData.Damage);
-        allEffects.Add(cardData.Block);
-        allEffects.AddRange(cardData.SelfEffects);
-        allEffects.AddRange(cardData.Effects);
-
-        for (int i = 0; i < allEffects.Count; i++)
+    [HideInInspector]
+    public bool targetRequired
+    {
+            get
         {
-            if (allEffects[i].Value == 0) continue;
-            descriptionText.text += allEffects[i].Type.ToString() + EffectTypeToIconCode(allEffects[i].Type) + ":" + allEffects[i].Value;
-            if (allEffects[i].Times != 1) descriptionText.text += " " + allEffects[i].Times + " times.";
-            if (i != allEffects.Count - 1) descriptionText.text += "\n";
+                if (Effects.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
+                    return false;
+                else
+                    return true;
+            }
         }
 
-        for(int i = 0; i < cardData.activities.Count; i++)
+    public List<CardEffect> allEffects
+    {
+        get
         {
-            descriptionText.text += CardActivitySystem.instance.DescriptionByCardActivity(cardData.activities[i]);
-        }
-
-    }
-
-    private string EffectTypeToIconCode(EffectType type)
-    {
-        if (type == EffectType.Damage)
-            return " <sprite name=\"Attack\">";
-        else if (type == EffectType.Block)
-            return " <sprite name=\"Block\">";
-        else
-            return "";
-    }
-
-    public virtual void OnMouseEnter()
-    {
-        return;
-    }
-
-    public virtual void OnMouseExit()
-    {
-        return;
-    }
-    public abstract void ResetScale();
-    
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        if (eventData.button == PointerEventData.InputButton.Left)
-            OnMouseClick();
-        else if (eventData.button == PointerEventData.InputButton.Right)
-            OnMouseRightClick();
-    }
-    
-    public void DisplayCard()
-    {
-        if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
-        {
-            WorldSystem.instance.worldStateManager.AddState(WorldState.Display, false);
-            WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-            WorldSystem.instance.deckDisplayManager.selectedCard = this;
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<Card>().BindCardData();
-            WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
-            WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
-            WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-            transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-        }
-        else
-        {
-            ResetCardPosition();
+            List<CardEffect> tempList = new List<CardEffect>();
+            tempList.Add(Damage);
+            tempList.Add(Block);
+            tempList.AddRange(Effects);
+            return tempList;
         }
     }
-    public void ResetCardPosition()
-    {
 
-        WorldSystem.instance.worldStateManager.RemoveState(false);
-        WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
-        WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
-        WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
-        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-        WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-        WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    }
-    public void ResetCardPositionNext()
+    public HashSet<CardTargetType> allTargetTypes
     {
-        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-        WorldSystem.instance.deckDisplayManager.previousPosition = Vector3.zero;
-        WorldSystem.instance.deckDisplayManager.selectedCard = null;
+        get
+        {
+            HashSet<CardTargetType> tempSet = new HashSet<CardTargetType>();
+            if (Damage.Value != 0) tempSet.Add(Damage.Target);
+            if (Block.Value != 0) tempSet.Add(Block.Target);
+            Effects.ForEach(x => tempSet.Add(x.Target));
+            return tempSet;
+        }
     }
 
-    public virtual void OnMouseClick()
+    public List<CardEffect> GetEffectsByType(EffectType type)
     {
-        Debug.Log("Clicky");
-        return;
+        return Effects.Where(x => x.Type == type).ToList();
     }
 
-    public virtual void OnMouseRightClick(bool allowDisplay = true)
+    public CardActivitySetting GetactivityByType(CardActivityType type)
     {
-        return;
+        return activities.Where(x => x.type == type).FirstOrDefault();
+    }
+
+    public static void SpliceCards(Card Target, Card a, Card b)
+    {
+        HashSet<EffectType> effectTypes = new HashSet<EffectType>();
+        HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
+
+        Target.artwork = a.artwork;
+        Target.animationPrefab = a.animationPrefab;
+        Target.cost = Mathf.Max(a.cost, b.cost);
+        for (int i = 0; i < Mathf.Max(a.cardName.Length, b.cardName.Length); i++)
+        {
+            if (i == a.cardName.Length)
+            {
+                Target.cardName += b.cardName.Substring(i);
+                break;
+            }
+            else if (i == b.cardName.Length)
+            {
+                Target.cardName += a.cardName.Substring(i);
+                break;
+            }
+
+            Target.cardName += i % 2 == 0 ? a.cardName[i] : b.cardName[i];
+        }
+
+        Target.Damage = a.Damage + b.Damage;
+        Target.Block = a.Block + b.Block;
+
+        a.Effects.ForEach(e => effectTypes.Add(e.Type));
+        b.Effects.ForEach(e => effectTypes.Add(e.Type));
+
+        foreach(EffectType type in effectTypes)
+        {
+            List<CardEffect> aE = a.GetEffectsByType(type);
+            List<CardEffect> bE = b.GetEffectsByType(type);
+
+            if (aE.Count == 0)
+                Target.Effects.AddRange(bE);
+            else if(bE.Count == 0)
+                Target.Effects.AddRange(aE);
+            else
+            {
+                HashSet<CardTargetType> targetTypes = new HashSet<CardTargetType>();
+                bE.ForEach(x => targetTypes.Add(x.Target));
+                aE.ForEach(x => targetTypes.Add(x.Target));
+
+                foreach(CardTargetType targetType in targetTypes)
+                    Target.Effects.Add(bE.Where(x => x.Target == targetType).FirstOrDefault() + aE.Where(x => x.Target == targetType).FirstOrDefault());
+            }
+        }
+
+        a.activities.ForEach(x => activityTypes.Add(x.type));
+        b.activities.ForEach(x => activityTypes.Add(x.type));
+
+        foreach(CardActivityType type in activityTypes)
+        {
+            if(type != CardActivityType.Splice)
+            {
+                Target.activities.AddRange(a.activities);
+                Target.activities.AddRange(b.activities);
+            }
+            else
+            {
+                int aParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
+                int bParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
+
+                Target.activities.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = Mathf.Max(aParam, bParam).ToString() });
+            }
+        }
     }
 
 
 }
+

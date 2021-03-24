@@ -46,6 +46,7 @@ public class DatabaseGoogle
     {
         ReadEntriesCard("Card", "Z", "Main");
         ReadEntriesCardEffects("CardEffects", "Z", "Main");
+        ReadEntriesCardActivites("CardActivities", "E", "Main");
     }
 
 
@@ -71,7 +72,8 @@ public class DatabaseGoogle
 
             CardData cardData = CardDataNameToAsset(databaseName);
 
-            cardData.name = (string)gt[i, "Name"];
+            cardData.name = (string)gt[i, "DatabaseName"];
+            cardData.cardName = (string)gt[i, "Name"];
             cardData.cost = Int32.Parse((string)gt[i, "Cost"]);
             cardData.Damage.Type = EffectType.Damage;
             cardData.Damage.Value = Int32.Parse((string)gt[i, "DamageValue"]);
@@ -81,10 +83,11 @@ public class DatabaseGoogle
             cardData.Block.Type = EffectType.Block;
             cardData.Block.Value = Int32.Parse((string)gt[i, "BlockValue"]);
             cardData.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
-            cardData.Block.Target = CardTargetType.Single;
+            cardData.Block.Target = CardTargetType.Self;
 
-            cardData.Effects.Clear();
-            cardData.SelfEffects.Clear();
+            cardData.inEffects.Clear();
+            cardData.inActivities.Clear();
+
 
             BindArt(cardData, databaseName);
 
@@ -107,17 +110,39 @@ public class DatabaseGoogle
 
             CardData cardData = CardDataNameToAsset(databaseName);
             CardEffect cardEffect = new CardEffect();
-
-            bool EnemyEffect = ((string)gt[i, "EffectDirection"]).Equals("Enemy");
-            List<CardEffect> cardEffects = EnemyEffect ? cardData.Effects : cardData.SelfEffects;
             Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
 
             cardEffect.Type = effectType;
-            cardEffects.Add(cardEffect);
+            cardData.inEffects.Add(cardEffect);
 
             cardEffect.Value = Int32.Parse((string)gt[i, "Value"]);
             cardEffect.Times = Int32.Parse((string)gt[i, "Times"]);
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
+
+            EditorUtility.SetDirty(cardData);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+    public void ReadEntriesCardActivites(string sheetName, string lastCol, string sheet)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            CardData cardData = CardDataNameToAsset(databaseName);
+            CardActivitySetting activitySetting = new CardActivitySetting();
+            Enum.TryParse((string)gt[i, "Activity"], out CardActivityType cardActivityType);
+
+            activitySetting.type = cardActivityType;
+            activitySetting.parameter = (string)gt[i, "Parameter"];
+            cardData.inActivities.Add(activitySetting);
 
             EditorUtility.SetDirty(cardData);
             AssetDatabase.SaveAssets();
@@ -202,6 +227,8 @@ public class DatabaseGoogle
         string[] strCardIDs = AssetDatabase.FindAssets("t:CardData", new string[] { "Assets/Cards" });
         List<IList<object>> InputDataCard = new List<IList<object>>();
         List<IList<object>> InputDataCardEffects = new List<IList<object>>();
+        List<IList<object>> InputDataCardActivities = new List<IList<object>>();
+
         foreach (string ID in strCardIDs)
         {
             List<object> cDataCard = new List<object>();
@@ -211,7 +238,7 @@ public class DatabaseGoogle
 
             cDataCard.Add(cardData.characterClass.ToString());
             cDataCard.Add(cardData.name);
-            cDataCard.Add(cardData.name);
+            cDataCard.Add(cardData.cardName);
             cDataCard.Add(cardData.cost);
             cDataCard.Add(cardData.Damage.Value);
             cDataCard.Add(cardData.Damage.Times);
@@ -221,17 +248,13 @@ public class DatabaseGoogle
 
             InputDataCard.Add(cDataCard);
 
-            if (cardData.Effects.Count + cardData.SelfEffects.Count != 0)
+            if (cardData.inEffects.Count != 0)
             {
-                List<CardEffect> allEffects = new List<CardEffect>(cardData.Effects);
-                allEffects.AddRange(cardData.SelfEffects);
-
-                foreach (CardEffect effect in allEffects)
+                foreach (CardEffect effect in cardData.inEffects)
                 {
                     List<object> cDataCardEffect = new List<object>();
                     cDataCardEffect.Add(cardData.name);
-                    cDataCardEffect.Add(cardData.name);
-                    cDataCardEffect.Add(cardData.Effects.Contains(effect) ? "Enemy" : "Self");
+                    cDataCardEffect.Add(cardData.cardName);
                     cDataCardEffect.Add(effect.Type.ToString());
                     cDataCardEffect.Add(effect.Times);
                     cDataCardEffect.Add(effect.Value);
@@ -239,10 +262,24 @@ public class DatabaseGoogle
                     InputDataCardEffects.Add(cDataCardEffect);
                 }
             }
+
+            if(cardData.inActivities.Count != 0)
+            {
+                foreach(CardActivitySetting caSetting in cardData.inActivities)
+                {
+                    List<object> cDataCardActivity = new List<object>();
+                    cDataCardActivity.Add(cardData.name);
+                    cDataCardActivity.Add(cardData.cardName);
+                    cDataCardActivity.Add(caSetting.type.ToString());
+                    cDataCardActivity.Add(caSetting.parameter.ToString());
+                    InputDataCardActivities.Add(cDataCardActivity);
+                }
+            }
         }
 
         GoogleUpdateData(InputDataCard, "Upl_Card", "A2:Z" + (InputDataCard.Count+100).ToString());
         GoogleUpdateData(InputDataCardEffects, "Upl_CardEffects", "A2:Z" + (InputDataCardEffects.Count + 100).ToString());
+        GoogleUpdateData(InputDataCardActivities, "Upl_CardActivities", "A2:Z" + (InputDataCardEffects.Count + 100).ToString());
     }
 
 

@@ -3,57 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class StatsController : MonoBehaviour
 {
-    private int defaultStartingStatPoints = 3;
-    public int statPoints;
-    public CharacterCreator aCharacterCreater;
-    public Text pointValue;
-    public List<StatController> statControllers;
+    public TMP_Text hpValue;
+    public TMP_Text energyValue;
+    public TMP_Text drawCardValue;
+    public TMP_Text levelValue;
+    public TMP_Text blockValue;
+    public TMP_Text damageValue;
 
-    void Start()
+    public TMP_Text hpValueMod;
+    public TMP_Text energyValueMod;
+    public TMP_Text drawCardValueMod;
+    public TMP_Text blockValueMod;
+    public TMP_Text damageValueMod;
+
+    public CharacterCreator characterCreator;
+
+    public void UpdateStats()
     {
-        ResetPoints();
-    }
+        hpValue.text = characterCreator.selectedCharacter.characterData.maxHp.ToString();
+        energyValue.text = characterCreator.selectedCharacter.characterData.energy.ToString();
+        drawCardValue.text = characterCreator.selectedCharacter.characterData.drawCardsAmount.ToString();
+        levelValue.text = characterCreator.selectedCharacter.level.ToString();
+        blockValue.text = characterCreator.selectedCharacter.characterData.blockModifier.ToString();
+        damageValue.text = characterCreator.selectedCharacter.characterData.damageModifier.ToString();
 
-    public int RequestPoint()
-    {
-        if(statPoints > 0)
-        {
-            statPoints--;
-            pointValue.text = statPoints.ToString();
-            return 1;
-        }
-        else
-            return 0;
-    }
-
-    public void ReturnPoint()
-    {
-        statPoints++;
-        pointValue.text = statPoints.ToString();
-    }
-
-    public void ResetPoints()
-    {
-        statPoints = defaultStartingStatPoints;
-        statControllers.ForEach(x => x.ResetPoints());
-        pointValue.text = statPoints.ToString();
-    }
-
-
-
-
-    public Dictionary<string, int> FetchStats()
-    {
-        Dictionary<string, int> characterStats = new Dictionary<string, int>();
-
-        foreach (StatController x in statControllers)
-        {
-            characterStats[x.type] = x.currentValue;
-        }
-
-        return characterStats;
+        hpValueMod.text = (characterCreator.selectedCharacter.maxHealth - characterCreator.selectedCharacter.characterData.maxHp).ToString();
+        energyValueMod.text = (characterCreator.selectedCharacter.energy - characterCreator.selectedCharacter.characterData.energy).ToString();
+        drawCardValueMod.text = (characterCreator.selectedCharacter.drawCardsAmount - characterCreator.selectedCharacter.characterData.drawCardsAmount).ToString();
+        blockValueMod.text = (characterCreator.selectedCharacter.block - characterCreator.selectedCharacter.characterData.blockModifier).ToString();
+        damageValueMod.text = (characterCreator.selectedCharacter.damage - characterCreator.selectedCharacter.characterData.damageModifier).ToString();
     }
 }

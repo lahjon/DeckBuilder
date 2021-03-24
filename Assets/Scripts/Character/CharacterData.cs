@@ -2,20 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 public class CharacterData : ScriptableObject
 {
-    public string charName;
-    //deprecate when we have models for animation
+    public string characterName;
     public Sprite artwork;
-    public GameObject characterGraphics;
-    public CharacterClass characterClass;
-    public bool unlocked;
-
-    public List<StatModifer> stats;
-    public int maxHealth;
-    public int energy;
-    public int cardDrawAmount;
-
-    public CardDatabase startingDeck;
+    public DialogueParticipant dialogueParticipant;
+    [TextArea(5,5)]
+    public string description;
 }
