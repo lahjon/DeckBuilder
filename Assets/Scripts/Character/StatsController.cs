@@ -29,12 +29,12 @@ public class StatsController : MonoBehaviour
         drawCardValue.text = characterCreator.selectedCharacter.characterData.drawCardsAmount.ToString();
         levelValue.text = characterCreator.selectedCharacter.level.ToString();
         blockValue.text = characterCreator.selectedCharacter.characterData.blockModifier.ToString();
-        damageValue.text = characterCreator.selectedCharacter.characterData.damageModifier.ToString();
+        //damageValue.text = characterCreator.selectedCharacter.characterData.damageModifier.ToString();
 
         hpValueMod.text = (characterCreator.selectedCharacter.maxHealth - characterCreator.selectedCharacter.characterData.maxHp).ToString();
         energyValueMod.text = (characterCreator.selectedCharacter.energy - characterCreator.selectedCharacter.characterData.energy).ToString();
         drawCardValueMod.text = (characterCreator.selectedCharacter.drawCardsAmount - characterCreator.selectedCharacter.characterData.drawCardsAmount).ToString();
         blockValueMod.text = (characterCreator.selectedCharacter.block - characterCreator.selectedCharacter.characterData.blockModifier).ToString();
-        damageValueMod.text = (characterCreator.selectedCharacter.damage - characterCreator.selectedCharacter.characterData.damageModifier).ToString();
+        //damageValueMod.text = (characterCreator.selectedCharacter.damage - characterCreator.selectedCharacter.characterData.damageModifier).ToString();
     }
 }

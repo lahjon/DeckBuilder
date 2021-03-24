@@ -17,38 +17,29 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public bool                     unlocked;
     public List<string>             selectedTokens = new List<string>();
     public int                      maxCardReward = 3;
+    CharacterStats characterStats;
 
     public void SetCharacterData()
     {
         SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)WorldSystem.instance.characterManager.selectedCharacterClassType - 1];
+        characterStats = gameObject.GetComponent<CharacterStats>();
+        characterStats.Init();
     }
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
-        damage = a_SaveData.damageModifier;
-        block = a_SaveData.blockModifier;
-        drawCardsAmount = a_SaveData.drawCardsAmount;
-        energy = a_SaveData.energy;
-        maxHealth = a_SaveData.maxHp;
         level = a_SaveData.level;
-        classType = a_SaveData.classType;
     }
     public void PopulateSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
-        a_SaveData.damageModifier = damage;
-        a_SaveData.blockModifier = block;
-        a_SaveData.drawCardsAmount = drawCardsAmount;
-        a_SaveData.energy = energy;
-        a_SaveData.maxHp = maxHealth;
         a_SaveData.level = level;
-        a_SaveData.classType = classType;
     }
 
     public void CreateStartingCharacter(PlayableCharacterData aCharacterData)
     {
         this.maxHealth = aCharacterData.maxHp;
-        this.damage = aCharacterData.damageModifier;
+        //this.damage = aCharacterData.damageModifier;
         this.block = aCharacterData.blockModifier;
         this.drawCardsAmount = aCharacterData.drawCardsAmount;
         this.energy = aCharacterData.energy;

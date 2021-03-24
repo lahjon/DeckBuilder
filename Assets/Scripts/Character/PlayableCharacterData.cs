@@ -6,7 +6,15 @@ using UnityEngine;
 public class PlayableCharacterData : CharacterData
 {
     public GameObject artworkAnimated;
-    public int damageModifier;
+
+    public List<Stat> stats = new List<Stat>()
+                                    {
+                                        new Stat(0, StatType.Strength), 
+                                        new Stat(0, StatType.Endurance), 
+                                        new Stat(0, StatType.Wit), 
+                                        new Stat(0, StatType.Energy), 
+                                        new Stat(0, StatType.Health)
+                                    };
     public int blockModifier;
     public int drawCardsAmount;
     public int energy;
@@ -17,4 +25,9 @@ public class PlayableCharacterData : CharacterData
 
 
     public CardDatabase startingDeck;
+
+    void Init()
+    {
+        
+    }
 }

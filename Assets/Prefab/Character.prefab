@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7403237522649378845}
   - component: {fileID: 4123106881673663200}
+  - component: {fileID: 5413731537463903703}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -57,6 +58,27 @@ MonoBehaviour:
   unlocked: 0
   selectedTokens: []
   maxCardReward: 3
+--- !u!114 &5413731537463903703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143385996355014696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f081f9fcca2024aa56eb7a51bbd1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
+  experience: 0
+  stats:
+  - value: 1
+    type: 0
+  - value: 1
+    type: 1
+  - value: 1
+    type: 2
 --- !u!1 &5016316874813098304
 GameObject:
   m_ObjectHideFlags: 0

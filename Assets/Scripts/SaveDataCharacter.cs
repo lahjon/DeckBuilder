@@ -5,14 +5,7 @@ using System.Linq;
 [System.Serializable]
 public class SaveDataCharacter
 {   
-    public int damageModifier;
-    public int blockModifier;
-    public int drawCardsAmount;
-    public int energy;
-    public int maxHp;
     public int level;
-    public CharacterClassType classType;
-    public PlayableCharacterData characterData;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

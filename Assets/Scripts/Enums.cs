@@ -35,17 +35,10 @@ public static class EnumExtenstions
     }
 }
 
-public enum CardRarity
-{
-    Starting,
-    Common, 
-    Uncommon, 
-    Rare
-};
-
 public enum Rarity
 {
     None,
+    Starting,
     Common, 
     Uncommon, 
     Rare
@@ -102,6 +95,15 @@ public enum CharacterAbility
     Objective, 
     Mission
 };
+
+public enum StatType
+{
+    Endurance,
+    Strength,
+    Wit,
+    Health,
+    Energy
+}
 
 public enum EncounterOutcomeType
 {

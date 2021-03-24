@@ -7,7 +7,6 @@ using System.Linq;
 public class CardData : ScriptableObject
 {
     public string cardName;
-    public string description;
 
     public Sprite artwork;
     public int cost;
@@ -22,7 +21,7 @@ public class CardData : ScriptableObject
 
     public List<CardActivitySetting> inActivities = new List<CardActivitySetting>();
 
-    public CardRarity cardRarity;
+    public Rarity cardRarity;
 
     public CharacterClassType characterClass;
     public GameObject animationPrefab;

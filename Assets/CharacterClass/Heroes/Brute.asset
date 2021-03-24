@@ -12,11 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ab495cd5328214d9dc1bfe3647eb76, type: 3}
   m_Name: Brute
   m_EditorClassIdentifier: 
+  characterName: 
   artwork: {fileID: 21300000, guid: 582617edbf2789642a888cd37b12c7cd, type: 3}
   dialogueParticipant: 1
   description: 
   artworkAnimated: {fileID: 0}
-  damageModifier: 1
+  stats:
+  - value: 6
+    type: 3
+  - value: 2
+    type: 1
+  - value: 1
+    type: 0
+  - value: 0
+    type: 2
+  - value: 3
+    type: 0
   blockModifier: 0
   drawCardsAmount: 5
   energy: 3

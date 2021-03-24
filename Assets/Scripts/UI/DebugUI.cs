@@ -22,17 +22,11 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
         }
     }
 
-<<<<<<< HEAD
-    public void DebugChangeCardData()
-    {
-        WorldSystem.instance.characterManager.characterData.energy = 10;
-=======
     public void UpdateCharacterDebugHUD()
     {
         worldState.text = WorldStateSystem.instance.currentWorldState.ToString();
         overlayState.text = WorldStateSystem.instance.currentOverlayState.ToString();
         worldTier.text = "Act " + WorldSystem.instance.act.ToString();
->>>>>>> 3bdd8ad61deaecc500e6aec857a36b4c948e4f24
     }
 
     public void DebugCreateWarning()
