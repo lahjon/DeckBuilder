@@ -72,6 +72,14 @@ public class DatabaseGoogle
 
             CardData cardData = CardDataNameToAsset(databaseName);
 
+            string Charclass = (string) gt[i, "Class"];
+            if (Charclass == "Enemy")
+                cardData.characterClass = CharacterClassType.None;
+            else
+                Enum.TryParse(Charclass, out cardData.characterClass);
+
+            Enum.TryParse((string)gt[i, "Rarity"], out cardData.cardRarity);
+
             cardData.name = (string)gt[i, "DatabaseName"];
             cardData.cardName = (string)gt[i, "Name"];
             cardData.cost = Int32.Parse((string)gt[i, "Cost"]);
@@ -84,6 +92,10 @@ public class DatabaseGoogle
             cardData.Block.Value = Int32.Parse((string)gt[i, "BlockValue"]);
             cardData.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
             cardData.Block.Target = CardTargetType.Self;
+
+            cardData.exhaust = (string)gt[i, "Exhaust"] == "TRUE";
+
+            cardData.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
 
             cardData.inEffects.Clear();
             cardData.inActivities.Clear();

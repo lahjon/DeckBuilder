@@ -44,11 +44,11 @@ public class CardActivitySplice : CardActivity
 
     public override string GetDescription(string input)
     {
-        return "Splice: " + input;
+        return "<b>Splice</b>" + input;
     }
 
     public override string GetToolTip(string input)
     {
-        return $"If you play this card while you have a Splice, this card will be combined with the top Splice card in your discard. Otherwise, you will get " + input + " Splice.";
+        return $"If you play this card while you have at leat one <b>Splice</b> status, combine this card with the top card having <b>Splice</b> in your discard pile. Otherwise, recieve the <b>Splice</b> status effect.";
     }
 }

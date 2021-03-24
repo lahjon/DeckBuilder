@@ -49,6 +49,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
             }
         }
 
+
         combatController.animator.Play(nextLayerState);
     }
         

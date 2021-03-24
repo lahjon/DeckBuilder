@@ -13,15 +13,12 @@ MonoBehaviour:
   m_Name: StartingCardsBrute
   m_EditorClassIdentifier: 
   allCards:
-  - {fileID: 11400000, guid: dfcf0a3a17781a2418d9f1e02a657aff, type: 2}
-  - {fileID: 11400000, guid: 154af09da553b2e4c974a430e8a9f190, type: 2}
-  - {fileID: 11400000, guid: 3e0ed7f51317b704984309c0157d85e9, type: 2}
-  - {fileID: 11400000, guid: 44e9892aff540f24286f89c3ad0cdf96, type: 2}
-  - {fileID: 11400000, guid: e635cffd18a21d846bb4758ab00efaf1, type: 2}
-  - {fileID: 11400000, guid: 154af09da553b2e4c974a430e8a9f190, type: 2}
-  - {fileID: 11400000, guid: 6571a26d29a0da44e9859d6dc9011e20, type: 2}
-  - {fileID: 11400000, guid: b8338d8a802ccc048ac3d49b5e62fa18, type: 2}
-  - {fileID: 11400000, guid: b8338d8a802ccc048ac3d49b5e62fa18, type: 2}
-  - {fileID: 11400000, guid: b8338d8a802ccc048ac3d49b5e62fa18, type: 2}
-  - {fileID: 11400000, guid: b8338d8a802ccc048ac3d49b5e62fa18, type: 2}
-  - {fileID: 11400000, guid: b8338d8a802ccc048ac3d49b5e62fa18, type: 2}
+  - {fileID: 11400000, guid: 3cc950aa641163944be0c7d345d90096, type: 2}
+  - {fileID: 11400000, guid: 6c8abb1df3f7c3947b533888fb16e752, type: 2}
+  - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
+  - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}
+  - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}
+  - {fileID: 11400000, guid: 7f5f74736bf2cb745a0735c150db6e6a, type: 2}
+  - {fileID: 11400000, guid: 7f5f74736bf2cb745a0735c150db6e6a, type: 2}
+  - {fileID: 11400000, guid: a3d7ecbaf4896254a931a5c5fb6cb4a0, type: 2}
+  - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}

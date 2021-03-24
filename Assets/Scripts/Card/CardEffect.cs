@@ -8,8 +8,17 @@ public class CardEffect
     public EffectType Type;
     public int Value;
     public int Times;
-    public CardTargetType Target = CardTargetType.EnemySingle;
+    public CardTargetType Target;
 
+    public CardEffect() { }
+
+    public CardEffect(EffectType type, int value, int times, CardTargetType cardTargetType = CardTargetType.EnemySingle)
+    {
+        Type = type;
+        Value = value;
+        Times = times;
+        Target = cardTargetType;
+    }
 
     public static CardEffect operator+(CardEffect a, CardEffect b)
     {
@@ -31,11 +40,7 @@ public class CardEffect
             return null;
         }
 
-        CardEffect effect = new CardEffect() { Type = a.Type };
-        effect.Times = a.Value == b.Value ? a.Times + b.Times : Mathf.Max(a.Times, b.Times);
-        effect.Value = a.Times == b.Times ? a.Value + b.Value : Mathf.Max(a.Value, b.Value);
-
-        effect.Target = a.Target;
+        CardEffect effect = new CardEffect(a.Type, a.Value*a.Times + b.Value*b.Times, 1, a.Target); 
 
         return effect;
     }

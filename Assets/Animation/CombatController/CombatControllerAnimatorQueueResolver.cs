@@ -17,12 +17,14 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
             ||
             (combatController.cEnergy < cardWaiting.card.cost))
         {
-            combatController.cEnergy -= cardWaiting.card.cost;
+            combatController.Hand.Add(cardWaiting.card);
+            combatController.RefreshHandPositions();
             cardWaiting.card.animator.SetTrigger("Unplayable");
         }
         else
         {
             combatController.CardInProcess = cardWaiting;
+            combatController.cEnergy -= cardWaiting.card.cost;
             animator.SetTrigger("CardCanProcess");
         }
     }

@@ -13,7 +13,7 @@ public class CardCombatAnimatorQueued : CardCombatAnimator
         combatController.RefreshHandPositions();
         card.transform.localEulerAngles = Vector3.zero;
 
-        combatController.CardQueue.Enqueue((card, combatController.ActiveEnemy));
+        combatController.CardQueue.Enqueue((card, combatController.TargetedEnemy));
         combatController.HeroCardsWaiting.Enqueue(card);
         combatController.animator.SetBool("CardsQueued", true);
     }

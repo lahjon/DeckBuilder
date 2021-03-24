@@ -134,13 +134,14 @@ public class Card : MonoBehaviour
 
         a.activities.ForEach(x => activityTypes.Add(x.type));
         b.activities.ForEach(x => activityTypes.Add(x.type));
+        List<CardActivityType> activityTypesList = activityTypes.OrderBy(x => x).ToList();
 
-        foreach(CardActivityType type in activityTypes)
+        foreach(CardActivityType type in activityTypesList)
         {
             if(type != CardActivityType.Splice)
             {
-                Target.activities.AddRange(a.activities);
-                Target.activities.AddRange(b.activities);
+                Target.activities.AddRange(a.activities.Where(x => x.type == type));
+                Target.activities.AddRange(b.activities.Where(x => x.type == type));
             }
             else
             {

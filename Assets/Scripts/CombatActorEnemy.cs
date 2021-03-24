@@ -126,6 +126,12 @@ public class CombatActorEnemy : CombatActor
 
     public void OnDeath()
     {
+        Destroy(hand.gameObject);
+        hand = null;
+        deck.ForEach(x => Destroy(x.gameObject));
+        deck.Clear();
+        discard.ForEach(x => Destroy(x.gameObject));
+        discard.Clear();
         Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
         EventManager.EnemyKilled(this.enemyData);
     }
@@ -167,7 +173,7 @@ public class CombatActorEnemy : CombatActor
             SetTarget(true);
 
 
-        if (combatController.ActiveEnemy is null) combatController.ActiveEnemy = this;
+        if (combatController.TargetedEnemy is null) combatController.TargetedEnemy = this;
     }
 
 
@@ -178,7 +184,7 @@ public class CombatActorEnemy : CombatActor
         tooltipController.ShowHide(false);
         toolTipShowing = false;
         SetTarget(false);
-        if (combatController.ActiveEnemy == this) combatController.ActiveEnemy = null;
+        if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
     }
 
     public void OnMouseDown()

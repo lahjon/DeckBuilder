@@ -12,7 +12,7 @@ public class RuleEffectBarricade : RuleEffect
     {
         stackable = false;
         stolenFunction = actor.RemoveAllBlock;
-        actor.actionsNewTurn.Remove(stolenFunction);
+        actor.actionsNewTurn.Remove(actor.RemoveAllBlock);
     }
 
     public override void RemoveFunctionFromRules()

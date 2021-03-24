@@ -51,7 +51,7 @@ public class RewardScreen : MonoBehaviour
                 Debug.Log("Should not happen");
                 break;
             }
-            DestroyImmediate(content.transform.GetChild(0).gameObject);
+            Destroy(content.transform.GetChild(0).gameObject);
         }
 
         encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;

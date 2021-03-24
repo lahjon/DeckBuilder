@@ -35,4 +35,4 @@ MonoBehaviour:
   level: 1
   classType: 1
   unlocked: 1
-  startingDeck: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}
+  startingDeck: {fileID: 11400000, guid: 4935eb9b684dbb645b9df36a0fdac2a6, type: 2}

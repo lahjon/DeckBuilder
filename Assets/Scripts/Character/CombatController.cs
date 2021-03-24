@@ -34,7 +34,6 @@ public class CombatController : MonoBehaviour
     public float origoCardRot = 1000f;
     public float origoCardPos = 1000f;
     public float handDegreeBetweenCards = 10f;
-    public CombatActorEnemy targetedEnemy;
 
     public AnimationCurve transitionCurve;
     public bool acceptSelections = true;
@@ -44,6 +43,7 @@ public class CombatController : MonoBehaviour
 
     public Animator animator;
 
+    public List<Action> OnCombatStart = new List<Action>();
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
@@ -85,7 +85,7 @@ public class CombatController : MonoBehaviour
     //[HideInInspector]
     public CardCombat _activeCard;
     [HideInInspector]
-    public CombatActorEnemy ActiveEnemy
+    public CombatActorEnemy TargetedEnemy
     {
         get
         {
@@ -198,6 +198,7 @@ public class CombatController : MonoBehaviour
     private void KillEnemy(CombatActorEnemy enemy)
     {
         enemy.OnDeath();
+        if (TargetedEnemy == enemy) TargetedEnemy = null;
         enemy.gameObject.SetActive(false);
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
@@ -210,22 +211,23 @@ public class CombatController : MonoBehaviour
         {
             KillEnemy(EnemiesInScene[0]);
         }
+
+
+        CleanUp();
         Debug.Log("Victory!");
-        ResetCombat();
         WorldStateSystem.SetInReward(true);
     }
 
-    void ResetCombat()
+    void CleanUp()
     {
-        DeadEnemiesInScene.Clear();
-        Deck.Clear();
+        Hand.ForEach(x => Destroy(x.gameObject));
         Hand.Clear();
+        Deck.ForEach(x => Destroy(x.gameObject));
+        Deck.Clear();
+        Discard.ForEach(x => Destroy(x.gameObject));
         Discard.Clear();
-        EnemiesInScene.Clear();
-        foreach (CardCombat card in createdCards)
-        {
-            DestroyImmediate(card);
-        }
+
+        DeadEnemiesInScene.Clear();
     }
 
     public CombatActorEnemy GetRandomEnemy()
@@ -346,9 +348,11 @@ public class CombatController : MonoBehaviour
 
     internal void ReportDeath(CombatActor combatActor)
     {
-        EnemiesInScene.Remove((CombatActorEnemy)combatActor);
-        Destroy(combatActor.gameObject);
+        if (combatActor != Hero)
+            KillEnemy((CombatActorEnemy)combatActor);
 
+        if (EnemiesInScene.Count == 0)
+            WinCombat();
     }
     #endregion
 
