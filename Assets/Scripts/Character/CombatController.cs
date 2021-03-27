@@ -180,8 +180,8 @@ public class CombatController : MonoBehaviour
 
     public void BindCharacterData()
     {
-        energyTurn = WorldSystem.instance.characterManager.character.energy;
-        drawCount = WorldSystem.instance.characterManager.character.drawCardsAmount;
+        energyTurn = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Energy);
+        drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Wit);
     }
 
     public void EndTurn()

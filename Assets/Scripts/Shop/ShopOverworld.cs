@@ -57,10 +57,6 @@ public class ShopOverworld : MonoBehaviour
             InsufficientGold();
         }
     }
-    public void DebugRemoveCard()
-    {
-        WorldSystem.instance.characterManager.RemoveCardDataFromDeck(WorldSystem.instance.characterManager.playerCardsData.Count - 1);
-    }
     public void DebugAddGold()
     {
         WorldSystem.instance.characterManager.gold += 100;

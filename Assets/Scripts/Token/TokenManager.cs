@@ -40,21 +40,6 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
         Init();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            if (tokenMenu.gameObject.activeSelf)
-            {
-                tokenMenu.gameObject.SetActive(false);    
-            }
-            else
-            {
-                tokenMenu.gameObject.SetActive(true); 
-            }
-        }
-    }
-
     public void UnlockNewToken(GameObject token)
     {
         unlockedTokens.Add(token.name);

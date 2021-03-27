@@ -6,24 +6,31 @@ using UnityEngine.SceneManagement;
 
 public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
 {
-    private int _shard;
-    private int _gold;
+    int _shard;
+    int _gold;
+    
+    [HideInInspector] public int maxCardReward;
+    [HideInInspector] public int defaultDrawCardAmount;
 
     public CharacterVariablesUI characterVariablesUI;
     public Character character;
     public GameObject characterPrefab;
-    public List<CardData> playerCardsData;
-    public List<string> playerCardsDataNames;
+    public List<CardData> playerCardsData = new List<CardData>();
     public CharacterClassType selectedCharacterClassType = CharacterClassType.Brute;
-    public List<PlayableCharacterData> allCharacterData;
+    public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public CharacterSheet characterSheet;
-    int _currentHealth;
+    public CharacterStats characterStats;
+    public int currentHealth;
+
+
 
     protected override void Awake()
     {
         base.Awake();
         world.characterManager = this;
+        maxCardReward = 3;
+        defaultDrawCardAmount = 5;
     }
 
     protected override void Start()
@@ -31,15 +38,26 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         base.Start(); 
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
+            
             if (selectedCharacterClassType == CharacterClassType.None)
             {
                 selectedCharacterClassType = CharacterClassType.Brute;
             }
             SetupCharacterData();
+            characterStats = character.GetComponent<CharacterStats>();
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = characterStats.GetStat(StatType.Health);
+            }
+
+            Debug.Log("Health is:" + currentHealth);
+
             if (!unlockedCharacters.Contains(selectedCharacterClassType))
             {
                 unlockedCharacters.Add(selectedCharacterClassType);
             }
+            characterVariablesUI.UpdateCharacterHUD();
             world.SaveProgression();
         }
     }
@@ -72,6 +90,30 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
     {
         SetupCharacterData();
     }
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+            KillCharacter();
+        }
+
+        characterVariablesUI.UpdateCharacterHUD();
+    }
+
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+
+        if (currentHealth > characterStats.GetStat(StatType.Health))
+        {
+            currentHealth = characterStats.GetStat(StatType.Health);
+        }
+
+        characterVariablesUI.UpdateCharacterHUD();
+    }
 
     void SetupCharacterData()
     {
@@ -90,26 +132,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         selectedCharacterClassType = character.classType;
         selectedCharacterClassType = character.characterData.classType;
 
-        if (playerCardsDataNames == null || playerCardsDataNames.Count == 0)
+        if (playerCardsData.Count == 0)
         {
             character.characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
-            playerCardsData.ForEach(x => playerCardsDataNames.Add(x.name));
         }
-        else
-        {
-            playerCardsData = DatabaseSystem.instance.GetCardsByName(playerCardsDataNames);
-        }
-
-        if (_currentHealth <= 0)
-        {
-            character.currentHealth = character.maxHealth;
-        }
-        else
-        {
-            character.currentHealth = _currentHealth;
-        }
-
-        characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void AddCardDataToDeck(CardData newCardData)
@@ -117,16 +143,15 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         playerCardsData.Add(newCardData); 
         WorldSystem.instance.deckDisplayManager.UpdateAllCards();
     }
-    public void RemoveCardDataFromDeck(int index)
+    public void RemoveCardDataFromDeck(string aCardName)
     {
-        if(playerCardsDataNames.Count > 1)
+        if(playerCardsData.Count > 1)
         {
-            playerCardsDataNames.RemoveAt(index);
-            WorldSystem.instance.deckDisplayManager.RemoveCardAtIndex(index);
-        }
-        else
-        {
-            Debug.Log("No more cards to remove!");
+            CardData cardData = playerCardsData.FirstOrDefault(x => x.cardName == aCardName);
+            if (cardData != null)
+            {
+                playerCardsData.RemoveAt(playerCardsData.IndexOf(cardData));
+            }
         }
     }
 
@@ -151,18 +176,29 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.playerCardsDataNames = playerCardsDataNames;
+        List<string> tempList = new List<string>();
+        playerCardsData.ForEach(x => tempList.Add(x.name));
+        a_SaveData.playerCardsDataNames = tempList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.gold = gold;
-        a_SaveData.currentHealth = _currentHealth;
+        a_SaveData.currentHealth = currentHealth;
+        a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        playerCardsDataNames = a_SaveData.playerCardsDataNames;
+        playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
         selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
         gold = a_SaveData.gold;
-        _currentHealth = a_SaveData.currentHealth;
+        
+        if (a_SaveData.currentHealth <= 0)
+        {
+            currentHealth = 0;
+        }
+        else
+        {
+            currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
+        }
     }
 
     public void PopulateSaveDataStart(SaveDataStart a_SaveData)

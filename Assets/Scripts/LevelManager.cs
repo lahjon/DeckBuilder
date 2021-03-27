@@ -12,11 +12,10 @@ public class LevelManager : Manager
     public int unusedLevelPoints => _unusedLevelPoints;
     public List<int> requiredExperience = new List<int>();
     
-    public List<GameObject> bruteLevelReward = new List<GameObject>();
-    public List<LevelReward> bruteLevelRewardData = new List<LevelReward>();
-    public List<GameObject> rogueLevelReward = new List<GameObject>();
-    public List<GameObject> splicerLevelReward = new List<GameObject>();
-    public List<GameObject> beastmasterLevelReward = new List<GameObject>();
+    public List<LevelReward> bruteLevelReward = new List<LevelReward>();
+    public List<LevelReward> rogueLevelReward = new List<LevelReward>();
+    public List<LevelReward> splicerLevelReward = new List<LevelReward>();
+    public List<LevelReward> beastmasterLevelReward = new List<LevelReward>();
 
     protected override void Awake()
     {
@@ -51,7 +50,7 @@ public class LevelManager : Manager
         world.characterManager.character.experience = _currentExperience;
     }
 
-    public GameObject GetLevelReward(int level)
+    public LevelReward GetLevelReward(int level)
     {
         int index = level - 2 - _unusedLevelPoints;
 
@@ -70,19 +69,21 @@ public class LevelManager : Manager
         }
     }
 
-    public GameObject SpendLevelPoint()
+    public LevelReward SpendLevelPoint()
     {
         if (_unusedLevelPoints > 0)
         {
             _unusedLevelPoints--;
             world.characterManager.characterVariablesUI.DisableLevelUp();
-            return GetLevelReward(_currentLevel);
+            LevelReward levelReward = GetLevelReward(_currentLevel);
+            return levelReward;
         }
         else
         {
             return null;
         }
     }
+    
 
     public void AddLevel()
     {

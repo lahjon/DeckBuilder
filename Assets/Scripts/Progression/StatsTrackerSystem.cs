@@ -35,7 +35,6 @@ public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        Debug.Log("Saving unlocked");
         buildingTracker.SetListsFromDictionary(ref a_SaveData.buildingTrackerKey, ref a_SaveData.buildingTrackerValues);
     }
 

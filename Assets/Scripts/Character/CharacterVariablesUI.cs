@@ -16,8 +16,8 @@ public class CharacterVariablesUI : MonoBehaviour
     {
         if (WorldSystem.instance.characterManager != null && WorldSystem.instance.characterManager.character != null)
         {
-            int currentHealth = WorldSystem.instance.characterManager.character.currentHealth;
-            int maxHealth = WorldSystem.instance.characterManager.character.maxHealth;
+            int currentHealth = WorldSystem.instance.characterManager.currentHealth;
+            int maxHealth = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
             int gold = WorldSystem.instance.characterManager.gold;
             int shards = WorldSystem.instance.characterManager.shard;
             healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();

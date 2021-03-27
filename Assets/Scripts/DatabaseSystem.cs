@@ -58,8 +58,6 @@ public class DatabaseSystem : MonoBehaviour
         List<string> tempList = new List<string>();
         allCards.ForEach(x => tempList.Add(x.name));
 
-        Debug.Log(allCards.Count);
-        Debug.Log(tempList.Count);
         for (int i = 0; i < cardNames.Count; i++)
         {
             result?.Add(allCards[tempList.IndexOf(cardNames[i])]);

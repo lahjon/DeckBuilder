@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.IO;
 
-public class DebugUI : MonoBehaviour, ISaveableWorld
+public class DebugUI : MonoBehaviour
 {
     public GameObject canvas;
     public int strength;
@@ -13,6 +14,7 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
     public TMP_Text overlayState;
     public TMP_Text worldTier;
     public List<EnemyData> enemyData = new List<EnemyData>();
+    WorldSystem world;
 
     void Update()
     {
@@ -22,90 +24,119 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
         }
     }
 
+    void Start()
+    {
+        world = WorldSystem.instance;
+    }
+
     public void UpdateCharacterDebugHUD()
     {
         worldState.text = WorldStateSystem.instance.currentWorldState.ToString();
         overlayState.text = WorldStateSystem.instance.currentOverlayState.ToString();
-        worldTier.text = "Act " + WorldSystem.instance.act.ToString();
+        worldTier.text = "Act " + world.act.ToString();
     }
 
     public void DebugCreateWarning()
     {
-        WorldSystem.instance.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
+        world.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
+    }
+    public void DebugTakeDamage(int amount)
+    {
+        world.characterManager.TakeDamage(amount);
+    }
+    public void DebugHeal(int amount)
+    {
+        world.characterManager.Heal(amount);
     }
 
     public void DebugDraftCards(int amount)
     {
-        WorldSystem.instance.rewardManager.draftAmount = amount;
+        world.rewardManager.draftAmount = amount;
         WorldStateSystem.SetInReward(true);
+    }
+
+    public void DebugAddStat(int amount)
+    {
+        world.characterManager.characterStats.ModifyHealth(amount);
+    }
+
+    public void DebugRemoveStat(int amount)
+    {
+        world.characterManager.characterStats.ModifyHealth(-amount);
     }
 
     public void DebugAddSpecficArtifact()
     {
-        WorldSystem.instance.artifactManager.AddArifact(artifactReward);
+        world.artifactManager.AddArifact(artifactReward);
     }
     public void DebugAddExperience(int amount)
     {
-        WorldSystem.instance.levelManager.AddExperience(amount);
+        world.levelManager.AddExperience(amount);
     }
     public void DebugAddLevel()
     {
-        WorldSystem.instance.levelManager.AddLevel();
+        world.levelManager.AddLevel();
     }
 
     public void DebugStartCombat()
     {
-        WorldSystem.instance.combatManager.combatController.enemyDatas = enemyData;
+        world.combatManager.combatController.enemyDatas = enemyData;
         WorldStateSystem.SetInOverworld(true);
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInCombat(true);
     }
     public void DebugRemoveSpecificArtifact()
     {
-        WorldSystem.instance.artifactManager.RemoveArtifact(artifactReward);
+        world.artifactManager.RemoveArtifact(artifactReward);
     }
     public void DebugAddRandomArtifact()
     {
-        WorldSystem.instance.artifactManager.AddArifact(WorldSystem.instance.artifactManager.GetRandomAvailableArtifact());
+        world.artifactManager.AddArifact(world.artifactManager.GetRandomAvailableArtifact());
     }
 
     public void DebugRemoveRandomArtifact()
     {
-        WorldSystem.instance.artifactManager.RemoveArtifact(WorldSystem.instance.artifactManager.GetRandomActiveArtifact());
+        world.artifactManager.RemoveArtifact(world.artifactManager.GetRandomActiveArtifact());
     }
     public void DebugAddTokenPoints()
     {
-        WorldSystem.instance.tokenManager.AddTokenPoint();
+        world.tokenManager.AddTokenPoint();
     }
     public void DebugAddTokenReward()
     {
-        WorldSystem.instance.tokenManager.UnlockNewToken(tokenReward);
+        world.tokenManager.UnlockNewToken(tokenReward);
     }
 
     public void DebugGetShards()
     {
-        WorldSystem.instance.characterManager.shard += 5;
+        world.characterManager.shard += 5;
     }
 
     public void DebugResetAllData()
     {
-        FileManager.WriteToFile(SaveDataManager.saveFileName, "");
+        Directory.GetFiles(Application.persistentDataPath);
+        DirectoryInfo dirInfo = new DirectoryInfo(Application.persistentDataPath);
+        foreach (FileInfo file in dirInfo.GetFiles())
+        {
+            Debug.Log(file);
+            file.Delete(); 
+        }
     }
 
     public void DebugTriggerDeathScreen()
     {
-        WorldSystem.instance.uiManager.deathScreen.TriggerDeathscreen();
+        world.uiManager.deathScreen.TriggerDeathscreen();
     }
 
     public void DebugGenerateWorld()
     {
-        WorldSystem.instance.encounterManager.GenerateMap();
+        world.encounterManager.GenerateMap();
     }
 
     public void DebugWinCombat()
     {
         if(WorldStateSystem.instance.currentWorldState == WorldState.Combat)
-            WorldSystem.instance.combatManager.combatController.WinCombat();
+            world.combatManager.combatController.WinCombat();
     }
     public void ToggleDebugMenu()
     {
@@ -118,29 +149,14 @@ public class DebugUI : MonoBehaviour, ISaveableWorld
             canvas.SetActive(true);
         }
     }
-    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
-    {
-        a_SaveData.strength = strength;
-    }
-
-    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
-    {
-        strength = a_SaveData.strength;
-    }
-
-    public void DebugPermanentMaxHealth()
-    {
-        strength++;
-        Debug.Log(strength);
-    }
 
     public void DebugLoadGame()
     {
-        SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
+        world.LoadProgression();
     }
     public void DebugSaveGmae()
     {
-        SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
+        world.SaveProgression();
     }
 
 }

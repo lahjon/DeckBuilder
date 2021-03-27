@@ -11,7 +11,7 @@ public class WorldStateAnimator : StateMachineBehaviour
 
     protected virtual void Init(TransitionType transactionType, WorldState aState)
     {
-        Debug.Log("Enter state: " + this.GetType().ToString().Remove(0,5));
+        //Debug.Log("Enter state: " + this.GetType().ToString().Remove(0,5));
 
         setState = aState;
 
@@ -24,7 +24,7 @@ public class WorldStateAnimator : StateMachineBehaviour
             worldStateSystem = WorldStateSystem.instance;
         }
 
-        Debug.Log("Do Transaction:" + transactionType);
+        //Debug.Log("Do Transaction:" + transactionType);
         
         if (transactionType != TransitionType.None)
         {
@@ -57,11 +57,6 @@ public class WorldStateAnimator : StateMachineBehaviour
         
         worldStateSystem.overrideTransitionType = TransitionType.None;
     }
-
-    // protected void TransitionCallback()
-    // {
-    //     worldStateSystem.currentWorldState = setState;
-    // }
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         

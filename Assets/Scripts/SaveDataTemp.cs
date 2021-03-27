@@ -12,6 +12,7 @@ public class SaveDataTemp
     public int availableTokenPoints;
     public int gold;
     public int currentHealth;
+    public int addedHealth;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

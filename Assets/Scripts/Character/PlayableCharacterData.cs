@@ -15,11 +15,6 @@ public class PlayableCharacterData : CharacterData
                                         new Stat(0, StatType.Energy), 
                                         new Stat(0, StatType.Health)
                                     };
-    public int blockModifier;
-    public int drawCardsAmount;
-    public int energy;
-    public int maxHp;
-    public int level;
     public CharacterClassType classType;
     public bool unlocked;
 

@@ -70,15 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f081f9fcca2024aa56eb7a51bbd1f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
-  experience: 0
-  stats:
-  - value: 1
-    type: 0
-  - value: 1
-    type: 1
-  - value: 1
-    type: 2
+  stats: []
+  statsModifer: []
 --- !u!1 &5016316874813098304
 GameObject:
   m_ObjectHideFlags: 0

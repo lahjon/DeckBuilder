@@ -17,12 +17,17 @@ MonoBehaviour:
   dialogueParticipant: 4
   description: 
   artworkAnimated: {fileID: 0}
-  damageModifier: 1
-  blockModifier: 0
-  drawCardsAmount: 5
-  energy: 3
-  maxHp: 35
-  level: 1
+  stats:
+  - value: 15
+    type: 0
+  - value: 0
+    type: 1
+  - value: 1
+    type: 2
+  - value: 0
+    type: 3
+  - value: 3
+    type: 4
   classType: 4
   unlocked: 0
   startingDeck: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}

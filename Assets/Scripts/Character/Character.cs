@@ -4,19 +4,12 @@ using UnityEngine;
 
 public class Character : MonoBehaviour, ISaveableCharacter
 {
-    public int                      damage;
-    public int                      block;
-    public int                      drawCardsAmount;
-    public int                      energy;
-    public int                      maxHealth;
-    public int                      currentHealth;
-    public int                      level = 1;
+    public int                      level;
     public int                      experience;
     public CharacterClassType       classType;
     public PlayableCharacterData    characterData;
     public bool                     unlocked;
     public List<string>             selectedTokens = new List<string>();
-    public int                      maxCardReward = 3;
     CharacterStats characterStats;
 
     public void SetCharacterData()
@@ -38,13 +31,6 @@ public class Character : MonoBehaviour, ISaveableCharacter
 
     public void CreateStartingCharacter(PlayableCharacterData aCharacterData)
     {
-        this.maxHealth = aCharacterData.maxHp;
-        //this.damage = aCharacterData.damageModifier;
-        this.block = aCharacterData.blockModifier;
-        this.drawCardsAmount = aCharacterData.drawCardsAmount;
-        this.energy = aCharacterData.energy;
-        this.maxHealth = aCharacterData.maxHp;
-        this.level = aCharacterData.level;
         this.classType = aCharacterData.classType;
         this.characterData = aCharacterData;
     }

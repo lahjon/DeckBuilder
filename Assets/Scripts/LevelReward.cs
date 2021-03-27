@@ -11,5 +11,5 @@ public class LevelReward : ScriptableObject
     [TextArea(5,5)]
     public string description;
     public Sprite artwork;
-    public List<string> effectName = new List<string>();
+    public string effectName;
 }

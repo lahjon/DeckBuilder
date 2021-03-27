@@ -7,8 +7,10 @@ public class CombatActorHero : CombatActor
 {
     void Start()
     {
-        healthEffects.combatActor = this;
         this.GetComponent<SpriteRenderer>().sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
+        healthEffects.combatActor = this;
+        healthEffects.maxHitPoints =  WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
+        healthEffects.hitPoints =  WorldSystem.instance.characterManager.currentHealth;
     }
 
 

@@ -15,14 +15,6 @@ public class ArtifactMenu : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ToggleDisplay();
-        }
-    }
-
     public void ToggleDisplay()
     {
         if (canvas.gameObject.activeSelf)

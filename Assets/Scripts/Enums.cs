@@ -98,10 +98,10 @@ public enum CharacterAbility
 
 public enum StatType
 {
-    Endurance,
-    Strength,
-    Wit,
-    Health,
+    Health,     
+    Strength,   // attack
+    Endurance,  // block
+    Wit,        // draw cards amount
     Energy
 }
 

@@ -49,7 +49,7 @@ public class LevelLoader : MonoBehaviour
         world.LoadProgression();
         if (world.missionManager != null && world.missionManager.mission == null)
         {
-            world.missionManager.NewMission("Mission001");
+            world.missionManager.NewMission("Mission001", false);
         }
     }
 

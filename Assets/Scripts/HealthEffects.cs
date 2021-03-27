@@ -7,8 +7,8 @@ using System;
 
 public class HealthEffects : MonoBehaviour
 {
-    public int maxHitPoints = 15;
-    public int hitPoints = 15;
+    public int maxHitPoints;
+    public int hitPoints;
     private int shield = 10;
 
     public GameObject cAnchorHealthEffects;

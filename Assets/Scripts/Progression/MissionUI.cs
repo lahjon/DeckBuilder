@@ -36,7 +36,6 @@ public class MissionUI : MonoBehaviour
                 }
                 if(WorldSystem.instance.missionManager.mission.goals != null && WorldSystem.instance.missionManager.mission.overrideMissionGoal != "")
                 {
-                    Debug.Log(goalObjs[i]);
                     goalObjs[i].GetComponent<TMP_Text>().text = WorldSystem.instance.missionManager.mission.overrideMissionGoal;
                 }
             }

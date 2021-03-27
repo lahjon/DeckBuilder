@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a4fc50a6935e042b16587f42cef8ce, type: 3}
-  m_Name: BruteLevel1Reward
+  m_Name: BruteLevel2Reward
   m_EditorClassIdentifier: 
   rewardName: Harder. Faster. Stronger.
   description: This text is used to display if reward should have a tooltip. Lots
     of text!
-  artwork: {fileID: 21300000, guid: 53ba25d0759657e4cb8b9f3ed70e50b8, type: 3}
+  artwork: {fileID: 21300000, guid: 90485fe2cb21d034f8f3e4889ca72094, type: 3}
   effectName: TestEffect

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CharacterSheet : MonoBehaviour
 {
 
-    //public TMP_Text strength, wisdom, endurance, cunning, speed, drawsize, health, handsize, damage, block, charClass, energy;
+    public TMP_Text strength, endurance, wit, energy, health, characterClass;
     public GameObject canvas;
     public TMP_Text level, experience;
     public Slider slider;
@@ -15,32 +15,26 @@ public class CharacterSheet : MonoBehaviour
     public Transform levelUpPanel;
     CharacterManager characterManager;
     LevelManager levelManager;
+    public List<GameObject> levelUpSlots = new List<GameObject>();
+    public GameObject levelRewardPrefab;
     
 
     public void UpdateCharacterSheet()
     {
         
 
-        // strength.text = characterManager.stats[CharacterStat.Strength].ToString();
-        // wisdom.text = characterManager.stats[CharacterStat.Wisdom].ToString();
-        // endurance.text = characterManager.stats[CharacterStat.Endurance].ToString();
-        // cunning.text = characterManager.stats[CharacterStat.Cunning].ToString();
-        // speed.text = characterManager.stats[CharacterStat.Speed].ToString();
-        // drawsize.text = characterManager.cardDrawAmount.ToString();
-        // health.text = characterManager.currentHealth.ToString() + "/" + characterManager.maxHealth.ToString();
-        // handsize.text = characterManager.handSize.ToString();
-        // damage.text = characterManager.damageModifier.ToString();
-        // block.text = characterManager.blockModifier.ToString();
-        //charClass.text = characterManager.selectedCharacterClassType.ToString();
-        //energy.text = characterManager.character.energy.ToString();
+        strength.text = characterManager.characterStats.GetStat(StatType.Strength).ToString();
+        endurance.text = characterManager.characterStats.GetStat(StatType.Endurance).ToString();
+        wit.text = characterManager.characterStats.GetStat(StatType.Wit).ToString();
+        energy.text = characterManager.characterStats.GetStat(StatType.Energy).ToString();
+        health.text = characterManager.currentHealth.ToString() + "/" + characterManager.characterStats.GetStat(StatType.Health).ToString();
+        characterClass.text = characterManager.character.classType.ToString();
+
         float curExp = WorldSystem.instance.levelManager.currentExperience;
         float reqExp = WorldSystem.instance.levelManager.requiredExperience[WorldSystem.instance.levelManager.currentLevel];
         experience.text = string.Format("{0}/{1}", curExp, reqExp);
         float value = curExp/reqExp;
-        Debug.Log(curExp);
-        Debug.Log(reqExp);
         slider.value = value;
-        //slider.maxValue = 100;
         level.text = WorldSystem.instance.levelManager.currentLevel.ToString();
     }
 
@@ -52,8 +46,9 @@ public class CharacterSheet : MonoBehaviour
         {
             Debug.Log(i);
             GameObject reward = levelUpPanel.GetChild(i).gameObject;
-            GameObject data = levelManager.GetLevelReward(i + 1);
-            reward.GetComponent<Image>().sprite = data.GetComponent<Image>().sprite;
+            LevelReward data = levelManager.GetLevelReward(i + 1);
+            reward.GetComponent<Image>().sprite = data.artwork;
+            Effect.GetEffect(reward, data.effectName, true);
             EnableReward(reward);
         }
     }
@@ -65,15 +60,21 @@ public class CharacterSheet : MonoBehaviour
 
     public void ButtonLevelUp()
     {
-        GameObject reward = Instantiate(levelManager.SpendLevelPoint());
+        LevelReward rewardData = levelManager.SpendLevelPoint();
+        Debug.Log(rewardData);
+        GameObject reward = Instantiate(levelRewardPrefab);
+        reward.GetComponent<Image>().enabled = true;
+        reward.GetComponent<Image>().sprite = rewardData.artwork;
+        
         int index = levelManager.currentLevel - levelManager.unusedLevelPoints - 2;
         if (index < 0)
         {
             return;
         }
-        Debug.Log(index);
+
         GameObject newReward = levelUpPanel.GetChild(index).gameObject;
-        newReward.GetComponent<Image>().sprite = reward.GetComponent<Image>().sprite;
+        Effect.GetEffect(newReward, rewardData.effectName, true);
+        newReward.GetComponent<Image>().sprite = rewardData.artwork;
         reward.transform.SetParent(levelUpPanel);
         reward.transform.localPosition = Vector3.zero;
         reward.transform.localScale = Vector3.zero;
@@ -92,11 +93,6 @@ public class CharacterSheet : MonoBehaviour
         reward.GetComponent<Image>().enabled = true;
     }
 
-    IEnumerator LevelUpAnimation()
-    {
-        yield return null;
-    }
-
     public void OpenCharacterSheet()
     {   
         canvas.SetActive(true);
@@ -106,5 +102,10 @@ public class CharacterSheet : MonoBehaviour
     public void CloseCharacterSheet()
     {
         canvas.SetActive(false);
+    }
+
+    public void ButtonCloseCharacterSheet()
+    {
+        WorldStateSystem.SetInCharacterSheet();
     }
 }

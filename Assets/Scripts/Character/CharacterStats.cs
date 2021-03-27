@@ -6,26 +6,13 @@ using System.Linq;
 public class CharacterStats : MonoBehaviour
 {
     CharacterManager characterManager;
-    public List<Stat> stats = new List<Stat>();
-    public List<Stat> statsModifer = new List<Stat>();
+    [SerializeField]
+    List<Stat> stats = new List<Stat>();
     public void Init()
     {
         characterManager = WorldSystem.instance.characterManager;
-        stats = characterManager.character.characterData.stats;
-        //statsModifer.AddRange(stats);
-        //stats.ForEach(x => statsModifer.Add(new Stat(0, x.type)));
-        // for (int i = 0; i < statsModifer.Count; i++)
-        // {
-        //     statsModifer[i].value = 0;
-        // }
+        characterManager.character.characterData.stats.ForEach(x => stats.Add(new Stat(x.value, x.type)));
     }
-
-    // public (int baseValue, int modiferValue, int sum) GetStat(StatType aStatType)
-    // {
-    //     int value = stats.Where(x => x.type == aStatType).FirstOrDefault().value;
-    //     int valueMod = statsModifer.Where(x => x.type == aStatType).FirstOrDefault().value;
-    //     return (value, valueMod, value + valueMod);
-    // }
 
     public int GetStat(StatType aStatType)
     {
@@ -33,19 +20,29 @@ public class CharacterStats : MonoBehaviour
         return value;
     }
 
-    public void AddStat(StatType aStatType, int aValue)
+    public void ModifyHealth(int aValue)
+    {
+        Stat health = stats.Where(x => x.type == StatType.Health).FirstOrDefault();
+        health.value += aValue;
+
+        characterManager.currentHealth += aValue;
+
+        if (GetStat(StatType.Health) < 1)
+        {
+            health.value = 1;
+        }
+
+        if (characterManager.currentHealth < 1)
+        {
+            characterManager.currentHealth = 1;
+        }
+
+        characterManager.characterVariablesUI.UpdateCharacterHUD();
+    }
+
+    public void ModifyStat(StatType aStatType, int aValue)
     {
         stats.Where(x => x.type == aStatType).FirstOrDefault().value += aValue;
-    }
-
-
-
-    public void AddModifier(int aValue, StatType aStatType)
-    {
-
-    }
-    public void RemoveModifier(int aValue, StatType aStatType)
-    {
-
+        characterManager.characterVariablesUI.UpdateCharacterHUD();
     }
 }

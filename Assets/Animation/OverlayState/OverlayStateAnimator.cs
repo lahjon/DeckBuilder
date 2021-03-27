@@ -9,7 +9,7 @@ public class OverlayStateAnimator : StateMachineBehaviour
 
     protected virtual void Init(OverlayState overlayState)
     {
-        Debug.Log("Enter overlay state: " + this.GetType().ToString().Remove(0,12));
+        //Debug.Log("Enter overlay state: " + this.GetType().ToString().Remove(0,12));
 
         if (world == null)
         {
