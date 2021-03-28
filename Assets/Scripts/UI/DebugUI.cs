@@ -125,7 +125,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugTriggerDeathScreen()
     {
-        world.uiManager.deathScreen.TriggerDeathscreen();
+        WorldStateSystem.SetInDeathScreen(true);
     }
 
     public void DebugGenerateWorld()

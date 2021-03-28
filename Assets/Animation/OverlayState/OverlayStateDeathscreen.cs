@@ -6,13 +6,13 @@ public class OverlayStateDeathscreen : OverlayStateAnimator
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Init(OverlayState.Transition);
+        Init(OverlayState.DeathScreen);
+        world.uiManager.deathScreen.GetComponent<Animation>().Play();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
-        animator.SetBool("InTransition", false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

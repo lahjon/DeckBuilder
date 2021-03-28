@@ -148,6 +148,21 @@ public class WorldStateSystem : MonoBehaviour
         }
     }
 
+    public static void SetInDeathScreen(bool buttoaBool)
+    {
+        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
+        {
+            if (!overlayAnimator.GetBool("InDeathScreen"))
+            {
+                overlayAnimator.SetBool("InDeathScreen", true);
+            }
+            else
+            {
+                overlayAnimator.SetTrigger("Clear");
+            }
+        }
+    }
+
     public static void SetInCharacterSheet()
     {
         if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.CharacterSheet)

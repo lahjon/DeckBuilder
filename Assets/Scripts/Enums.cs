@@ -133,6 +133,7 @@ public enum OverlayState
 {
     None,
     Transition,
+    DeathScreen,
     EscapeMenu,
     Display,
     CharacterSheet
