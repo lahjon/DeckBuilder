@@ -4,52 +4,52 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool unlocked = false;
     [HideInInspector]
     public bool selected = false;
     [HideInInspector]
     public bool active = false;
-    public int cost;
+    public Sprite artwork;
+    [HideInInspector] public int cost;
     Color colorUnselected = new Color(0.5f, 0.5f, 0.5f);
     Color colorSelected = new Color(1.0f, 1.0f, 1.0f);
     Color colorDisabled = new Color(0.0f, 0.0f, 0.0f);
     Button button;
     ColorBlock color;
 
-    [TextArea(5,5)]
-    public string description;
-    [HideInInspector]
-    public TokenManager tokenManager;
-    bool initialized = false;
+    [HideInInspector] public string description;
     Vector3 position = new Vector3();
     bool inAnimation = false;
+    TokenManager tokenManager;
 
-
-    void Start()
-    {
-        if (!initialized)
-        {
-            Init();
-        }
-        if (active)
-        {
-            ActiveToken();
-        }
-    }
-    public virtual void Init()
+    public virtual void Init(bool isActive = false)
     {
         tokenManager = WorldSystem.instance.tokenManager;
         button = this.GetComponent<Button>();
         color = button.colors;
         position = transform.position;
-        initialized = true;
+        this.GetComponent<Image>().sprite = artwork;
+        color.normalColor = colorUnselected;
+        if (isActive)
+        {
+            ActiveToken();
+        }
+        if (unlocked)
+        {
+            UnlockToken();
+        }
+        else
+        {
+            LockToken();
+        }
     }
     public virtual void ActiveToken()
     {
         color.normalColor = colorSelected;
         button.colors = color;
+        active = true;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -72,23 +72,25 @@ public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         tokenManager.availableTokenPoints += cost;
         color.normalColor = colorUnselected;
         button.colors = color;
-        tokenManager.RemoveSelectedToken(this.name);
+        tokenManager.RemoveSelectedToken(this.gameObject);
         selected = false;
     }
 
     public virtual void SetSelected(bool init = false)
     {
+
+        tokenManager.availableTokenPoints -= cost;
         if (!init)
         {
-            tokenManager.availableTokenPoints -= cost;
-            tokenManager.AddSelectedToken(this.name);
+            tokenManager.AddSelectedToken(this.gameObject);
         }
+
         color.normalColor = colorSelected;
         button.colors = color;
         selected = true;
     }
 
-    public virtual void ToggleSelect()
+    public virtual void ButtonToggleSelect()
     {
         if (!active)
         {
@@ -107,7 +109,7 @@ public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
         else
         {
-            foreach (GameObject token in tokenManager.tokenMenu.allTokens)
+            foreach (GameObject token in tokenManager.allTokens)
             {
                 if (token.name == name)
                 {
@@ -131,8 +133,5 @@ public abstract class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         this.GetComponent<Button>().interactable = false;
         unlocked = false;
     }
-
-    public abstract void AddActivity();
-    public abstract void RemoveActivity();
 
 }

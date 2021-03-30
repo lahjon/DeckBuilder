@@ -13,6 +13,7 @@ using System.Text;
 
 public static class Helpers
 {
+
     public static string ToLowerFirstChar(this string input)
     {
         if(string.IsNullOrEmpty(input))

@@ -8,7 +8,7 @@ public class DebugUI : MonoBehaviour
 {
     public GameObject canvas;
     public int strength;
-    public GameObject tokenReward;
+    public string tokenReward;
     public GameObject artifactReward;
     public TMP_Text worldState;
     public TMP_Text overlayState;

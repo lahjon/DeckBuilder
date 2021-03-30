@@ -126,9 +126,4 @@ public class WorldSystem : MonoBehaviour
         return;
     }
 
-    public void Reset()
-    {
-        characterManager.Reset();
-    }
-
 }

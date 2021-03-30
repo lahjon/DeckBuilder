@@ -86,10 +86,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         }
     }
 
-    public void Reset()
-    {
-        SetupCharacterData();
-    }
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
@@ -120,7 +116,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         if (character == null)
         {
             character = Instantiate(characterPrefab).GetComponent<Character>();
-            character.SetCharacterData();
+            character.SetCharacterData((int)WorldSystem.instance.characterManager.selectedCharacterClassType);
 
             if (character.level == 0)
             {
@@ -187,7 +183,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
+        if (a_SaveData.playerCardsDataNames != null && a_SaveData.playerCardsDataNames.Count > 0 && SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
+        }
         selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
         gold = a_SaveData.gold;
         

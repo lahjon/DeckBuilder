@@ -4,30 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
 
 public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
 {
+    public List<TokenData> tokenDatas = new List<TokenData>();
     public List<GameObject> allTokens = new List<GameObject>();
-    public List<GameObject> selectedTokens = new List<GameObject>();
-    public List<string> allTokensName = new List<string>();
+    public List<string> selectedTokens = new List<string>();
     public List<string> unlockedTokens = new List<string>();
-    public List<string> selectedTokensName = new List<string>();
     public TokenMenu tokenMenu;
-    public List<GameObject> tokensRequiresUpdate = new List<GameObject>();
-    public int tokenPoints = 1;
-    public int availableTokenPoints = 1;
-
-    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
-    {
-        unlockedTokens = a_SaveData.unlockedTokens;
-        tokenPoints = a_SaveData.tokenPoints;
-    }
-
-    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
-    {
-        a_SaveData.unlockedTokens = unlockedTokens;
-        a_SaveData.tokenPoints = tokenPoints;
-    }
+    public int tokenPoints;
+    public int availableTokenPoints;
+    public List<string> tokensRequireUpdate = new List<string>();
+    int startingPoints = 3;
 
     protected override void Awake()
     {
@@ -39,13 +28,53 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
         base.Start(); 
         Init();
     }
+    public void Init()
+    { 
+        for (int i = 0; i < tokenMenu.contentAll.transform.childCount; i++)
+        {
+            BindTokenData(tokenMenu.contentAll.transform.GetChild(i).gameObject, tokenDatas[i]);
+        }
 
-    public void UnlockNewToken(GameObject token)
+        if (tokenPoints < 4)
+        {
+            availableTokenPoints = startingPoints;
+        }
+        else
+        {
+            availableTokenPoints = tokenPoints;
+        }
+
+        tokenMenu.Init();
+    }
+    void BindTokenData(GameObject aToken, TokenData tokenData)
     {
-        unlockedTokens.Add(token.name);
-        tokensRequiresUpdate.Add(token);
-        allTokens[allTokensName.IndexOf(token.name)].GetComponent<Token>().UnlockToken();;
+        Token token = aToken.GetComponent<Token>();
+        token.artwork = tokenData.artwork;
+        token.description = tokenData.description;
+        token.cost = tokenData.cost;
+        aToken.name = tokenData.name;
+
+        if (tokenData.rarity == Rarity.Starting || unlockedTokens.Contains(aToken.name))
+        {
+            token.unlocked = true;
+        }
+
+        Effect.GetEffect(aToken, tokenData.effectName);
+        allTokens.Add(aToken);
+        token.Init();
+    }
+
+    public void UnlockNewToken(string tokenName)
+    {
+        unlockedTokens.Add(tokenName);
+        tokensRequireUpdate.Add(tokenName);
+        GetTokenByName(tokenName, allTokens).GetComponent<Token>().unlocked = true;
         world.SaveProgression();
+    }
+
+    public GameObject GetTokenByName(string tokenName, List<GameObject> tokenList)
+    {
+        return tokenList.Where(x => x.name == tokenName).FirstOrDefault();
     }
 
     public void AddTokenPoint()
@@ -56,73 +85,55 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
         world.SaveProgression();
     }
 
-    public void AddSelectedToken(string token, bool addNames = true)
+    public void AddSelectedToken(GameObject token)
     {
-        GameObject aToken = allTokens[allTokensName.IndexOf(token)];
-        selectedTokens.Add(aToken);
-        aToken.GetComponent<Token>().AddActivity();
-        
-        if (addNames)
-        {
-            selectedTokensName.Add(aToken.name);
-        }
-        tokenMenu.SelectToken(token);
-        
+        token.GetComponent<Effect>().AddEffect();
+        selectedTokens.Add(token.name);
+        tokenMenu.SelectToken(token); 
     }
 
-    public void RemoveSelectedToken(string token)
+    public void RemoveSelectedToken(GameObject token)
     {
-        Debug.Log("Remove");
-        GameObject aToken = allTokens[allTokensName.IndexOf(token)];
-        if (selectedTokens.Contains(aToken))
+        if (selectedTokens.Contains(token.name))
         {
-            selectedTokens.Remove(aToken);
-            aToken.GetComponent<Token>().RemoveActivity();
-            selectedTokensName.Remove(aToken.name);
-            tokenMenu.UnselectToken(token);
+            token.GetComponent<Effect>().RemoveEffect();
+            selectedTokens.Remove(token.name);
+            tokenMenu.UnselectToken(token.name);
         }
     }
 
-    public void Init()
-    { 
-        allTokensName = allTokens.ConvertAll(x => x.name);
 
-        if (SceneManager.GetActiveScene().buildIndex == 0 && selectedTokensName.Count == 0 && availableTokenPoints == 0)
-        {
-            availableTokenPoints = tokenPoints;
-        }
 
-        GameObject token;
-        selectedTokens.Clear();
-        foreach (string tokenName in selectedTokensName)
-        {
-            token = allTokens[allTokensName.IndexOf(tokenName)];
-            AddSelectedToken(token.name, false);
-        }
-        tokenMenu.Init();
-    }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.selectedTokens = selectedTokensName;
-        a_SaveData.availableTokenPoints = availableTokenPoints;
+        a_SaveData.selectedTokens = selectedTokens;
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        availableTokenPoints = a_SaveData.availableTokenPoints;
-        selectedTokensName = a_SaveData.selectedTokens;
+        selectedTokens = a_SaveData.selectedTokens;
     }
+
 
     public void PopulateSaveDataStart(SaveDataStart a_SaveData)
     {
-        a_SaveData.selectedTokens = selectedTokensName;
-        a_SaveData.availableTokenPoints = availableTokenPoints;
+        a_SaveData.selectedTokens = selectedTokens;
     }
 
     public void LoadFromSaveDataStart(SaveDataStart a_SaveData)
     {
-        availableTokenPoints = a_SaveData.availableTokenPoints;
-        selectedTokensName = a_SaveData.selectedTokens;
+        selectedTokens = a_SaveData.selectedTokens;
+    }
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
+    {
+        unlockedTokens = a_SaveData.unlockedTokens;
+        tokenPoints = a_SaveData.tokenPoints;
+    }
+
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
+    {
+        a_SaveData.unlockedTokens = unlockedTokens;
+        a_SaveData.tokenPoints = tokenPoints;
     }
 }

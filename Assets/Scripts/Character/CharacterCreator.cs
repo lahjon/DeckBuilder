@@ -75,6 +75,8 @@ public class CharacterCreator : MonoBehaviour
         selectedCharacterData = allCharacterData[index];
         decriptionText.text = selectedCharacterData.description;
         selectedCharacter = allCharacters[index];
+        world.characterManager.character = selectedCharacter;
+        selectedCharacter.SetCharacterData(index, selectedCharacterData);
         selectionIndex = index;
         statsController.UpdateStats();
         UpdateButtons();

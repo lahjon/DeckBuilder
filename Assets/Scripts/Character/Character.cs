@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Character : MonoBehaviour, ISaveableCharacter
 {
@@ -11,13 +12,28 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public bool                     unlocked;
     public List<string>             selectedTokens = new List<string>();
     CharacterStats characterStats;
+    bool initialized;
 
-    public void SetCharacterData()
+    public void SetCharacterData(int index, CharacterData characterData = null)
     {
-        SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
-        characterData = WorldSystem.instance.characterManager.allCharacterData[(int)WorldSystem.instance.characterManager.selectedCharacterClassType - 1];
-        characterStats = gameObject.GetComponent<CharacterStats>();
-        characterStats.Init();
+        if (!initialized)
+        {
+
+            if (characterData == null)
+            {
+                SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), index);
+                characterData = WorldSystem.instance.characterManager.allCharacterData[(int)WorldSystem.instance.characterManager.selectedCharacterClassType - 1];
+            }
+
+            if (level == 0)
+            {
+                level = 1;
+            }
+
+            characterStats = gameObject.GetComponent<CharacterStats>();
+            initialized = true;
+            characterStats.Init();
+        }
     }
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)

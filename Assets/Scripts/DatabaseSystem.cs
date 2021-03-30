@@ -54,6 +54,11 @@ public class DatabaseSystem : MonoBehaviour
     }
     public List<CardData> GetCardsByName(List<string> cardNames)
     {
+        if (cardNames.Count < 1)
+        {
+            return null;
+        }
+        
         List<CardData> result = new List<CardData>();
         List<string> tempList = new List<string>();
         allCards.ForEach(x => tempList.Add(x.name));

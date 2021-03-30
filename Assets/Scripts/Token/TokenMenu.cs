@@ -9,8 +9,6 @@ public class TokenMenu : MonoBehaviour
 {
     public Transform contentAll;
     public Transform contentActive;
-    public List<GameObject> allTokens = new List<GameObject>();
-    public List<GameObject> activeTokens = new List<GameObject>();
     WorldSystem world;
     TokenManager tokenManager;
     public List<GameObject> tokenPoints = new List<GameObject>();
@@ -21,9 +19,41 @@ public class TokenMenu : MonoBehaviour
     public TMP_Text tokenDescription;
     public GameObject textPanel;
 
+    void OnEnable()
+    {
+        if (world != null)
+        {
+            UpdateTokens(world.tokenManager.tokensRequireUpdate);
+        }
+        StopDisplayText();
+    }
+    
+    public void Init()
+    {
+        gameObject.SetActive(true);
+        tokenManager = WorldSystem.instance.tokenManager;
+        world = WorldSystem.instance;
+
+        foreach (string tokenName in tokenManager.selectedTokens)
+        {
+            GameObject token = tokenManager.GetTokenByName(tokenName, tokenManager.allTokens);
+            tokenManager.AddSelectedToken(token);
+        }
+
+        for (int i = 0; i < contentPoints.transform.childCount; i++)
+        {
+            GameObject token = contentPoints.transform.GetChild(i).gameObject;
+            tokenPoints.Add(token);
+            token.SetActive(false);
+        }
+        UpdatePoints();
+        gameObject.SetActive(false);
+    }
+
     public void UpdatePoints()
     {
         int limit = tokenManager.availableTokenPoints;
+
         for (int i = 0; i < tokenPoints.Count; i++)
         {
             if (i < limit)
@@ -50,49 +80,49 @@ public class TokenMenu : MonoBehaviour
         textPanel.SetActive(false);
     }
 
-    void OnEnable()
-    {
-        // if (!initialized)
-        // {
-        //     Init();
-        // }
-        if (world != null)
-        {
-            UpdateTokens(world.tokenManager.tokensRequiresUpdate);
-        }
-        StopDisplayText();
-    }
+
     
-    public void UpdateTokens(List<GameObject> tokens)
+    public void UpdateTokens(List<string> tokens)
     {
-        tokens?.ForEach(x => x.GetComponent<Token>().UnlockToken());
-        foreach (GameObject token in allTokens)
+        foreach (GameObject token in tokenManager.allTokens)
         {
+            if (tokens.Contains(token.name))
+            {
+                token.GetComponent<Token>().UnlockToken();
+            }
             token.transform.localScale = Vector3.one;
         }
     }
 
-    public void SelectToken(string tokenName)
+    public void SelectToken(GameObject token)
     {
-        foreach (GameObject token in activeTokens)
+        if (token == null)
         {
-            if (token.name == tokenName)
-            {
-                token.SetActive(true);
-                break;
-            }
+            return;
         }
+
+        GameObject activeToken = Instantiate(token);
+        activeToken.name = token.name;
+        activeToken.transform.SetParent(contentActive);
+        activeToken.GetComponent<Token>().Init(true);
+
     }
     public void UnselectToken(string tokenName)
     {
-        foreach (GameObject token in activeTokens)
+        List<GameObject> tokens = new List<GameObject>();
+
+        for (int i = 0; i < contentActive.transform.childCount; i++)
         {
-            if (token.name == tokenName)
-            {
-                token.SetActive(false);
-                break;
-            }
+            tokens.Add(contentActive.transform.GetChild(i).gameObject);
         }
+
+        GameObject token = tokenManager.GetTokenByName(tokenName, tokens);
+
+        if (token != null)
+        {
+            Destroy(token);
+        }
+
     }
 
     public void Confirm()
@@ -100,84 +130,6 @@ public class TokenMenu : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void AddNewToken(GameObject token, bool newUnlock = false)
-    {
-        GameObject newToken = Instantiate(token);
-        newToken.name = token.name;
-        newToken.transform.SetParent(contentAll);
-        allTokens.Add(newToken);
-        Token aToken = newToken.GetComponent<Token>();
-        aToken.Init();
-        aToken.active = false;
 
-        newToken = Instantiate(token);
-        newToken.name = token.name;
-        newToken.transform.SetParent(contentActive);
-        activeTokens.Add(newToken);
-        aToken = newToken.GetComponent<Token>();
-        aToken.Init();
-        aToken.active = true;
-        if (newUnlock)
-        {
-            aToken.gameObject.SetActive(false);
-        }
-    }
-
-    public void Init()
-    {
-        gameObject.SetActive(true);
-        tokenManager = WorldSystem.instance.tokenManager;
-        world = WorldSystem.instance;
-        foreach (GameObject token in tokenManager.allTokens)
-        {
-            AddNewToken(token);
-        }
-        for (int i = 0; i < contentPoints.transform.childCount; i++)
-        {
-            GameObject token = contentPoints.transform.GetChild(i).gameObject;
-            tokenPoints.Add(token);
-            token.SetActive(false);
-        }
-
-        LoadTokens();
-        initialized = true;
-        gameObject.SetActive(false);
-    }
-
-
-    public void LoadTokens()
-    {
-        foreach (GameObject token in allTokens)
-        {
-            Token aToken = token.GetComponent<Token>();
-            if (tokenManager.allTokens[tokenManager.allTokensName.IndexOf(aToken.name)].GetComponent<Token>().unlocked)
-            {
-                aToken.UnlockToken();
-                if (tokenManager.selectedTokensName.Contains(aToken.gameObject.name))
-                {
-                    aToken.SetSelected(true);
-                }
-            }
-            else
-            {
-                aToken.LockToken();
-            }
-        }
-
-        foreach (GameObject token in activeTokens)
-        {
-            Token aToken = token.GetComponent<Token>();
-            if(tokenManager.selectedTokensName.Contains(aToken.gameObject.name))
-            {
-                aToken.gameObject.SetActive(true);
-            }
-            else
-            {
-                aToken.gameObject.SetActive(false);
-            }
-        }
-
-        UpdatePoints();
-    }
     
 }

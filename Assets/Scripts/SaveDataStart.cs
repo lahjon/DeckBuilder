@@ -9,7 +9,6 @@ public class SaveDataStart
     public List<string> selectedTokens = new List<string>(); 
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>(); 
     
-    public int availableTokenPoints;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);
