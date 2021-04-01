@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Brute_SpliceAtt
   m_EditorClassIdentifier: 
   cardName: SpliceAtt
-  description: 
   artwork: {fileID: 21300000, guid: 7cfe686dfdf28994ea46851461e76e7f, type: 3}
   cost: 1
   goldValue: 10
@@ -32,7 +31,7 @@ MonoBehaviour:
   inActivities:
   - type: 2
     parameter: 2
-  cardRarity: 0
+  cardRarity: 1
   characterClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

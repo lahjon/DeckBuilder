@@ -36,7 +36,7 @@ public class CombatController : MonoBehaviour
     public float handDegreeBetweenCards = 10f;
 
     public AnimationCurve transitionCurve;
-    public bool acceptSelections = true;
+    public bool acceptEndTurn = true;
     public bool acceptActions = true;
     public Canvas canvas;
     private CombatActorEnemy _activeEnemy;
@@ -127,6 +127,11 @@ public class CombatController : MonoBehaviour
 
     public void SetUpEncounter(List<EnemyData> enemyDatas = null)
     {
+        Hero.healthEffects.combatActor = Hero;
+        Hero.combatController = this;
+        Hero.healthEffects.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
+        Hero.healthEffects.hitPoints = WorldSystem.instance.characterManager.currentHealth;
+
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
 
         foreach(CardData cd in DeckData)
@@ -226,6 +231,7 @@ public class CombatController : MonoBehaviour
         Deck.Clear();
         Discard.ForEach(x => Destroy(x.gameObject));
         Discard.Clear();
+        Hero.healthEffects.RemoveAllBlock();
 
         DeadEnemiesInScene.Clear();
     }
@@ -455,7 +461,7 @@ public class CombatController : MonoBehaviour
                 break;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space) && acceptSelections == true)
+        if (Input.GetKeyDown(KeyCode.Space) && acceptEndTurn == true)
         {
             PlayerInputEndTurn();
         }

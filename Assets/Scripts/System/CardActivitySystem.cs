@@ -25,6 +25,7 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
         ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
         ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();
+        ActivityTypeToAction[CardActivityType.ExhaustDiscard] = new CardActivityExhaustDiscard();
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)

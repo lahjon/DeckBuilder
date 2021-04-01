@@ -14,7 +14,7 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
 
     public IEnumerator EndPlayerturn()
     {
-        combatController.acceptSelections = false;
+        combatController.acceptEndTurn = false;
         combatController.ActiveActor.healthEffects.EffectsOnEndTurnBehavior();
         for (int i = 0; i < combatController.ActiveActor.actionsEndTurn.Count; i++)
             yield return combatController.StartCoroutine(combatController.ActiveActor.actionsEndTurn[i].Invoke());

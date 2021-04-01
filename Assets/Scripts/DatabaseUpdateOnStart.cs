@@ -21,6 +21,10 @@ public static class DatabaseUpdateOnStart
         string[] guids1 = AssetDatabase.FindAssets("l:CardDatabase", null);
         CardDatabase cardDatabase = (CardDatabase)AssetDatabase.LoadAssetAtPath("Assets/Database/CardDatabase.asset", typeof(CardDatabase));
         cardDatabase.UpdateDatabase(cards);
+
+        EditorUtility.SetDirty(cardDatabase);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
         Debug.Log("Database updated!");
 
         EditorApplication.isPlaying = true;

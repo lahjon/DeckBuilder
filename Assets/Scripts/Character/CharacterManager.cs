@@ -48,6 +48,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
             characterStats = character.GetComponent<CharacterStats>();
 
+            // Check if health still below zero after health mods
             if (currentHealth <= 0)
             {
                 currentHealth = characterStats.GetStat(StatType.Health);

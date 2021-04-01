@@ -6,6 +6,7 @@ using UnityEngine;
 public class CombatActor : MonoBehaviour
 {
     public HealthEffects healthEffects;
+    public CombatController combatController;
 
     public List<Func<float, float>> dealAttackMods = new List<Func<float, float>>();
     public List<Func<float, float>> takeAttackMods = new List<Func<float, float>>();

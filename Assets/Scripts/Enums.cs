@@ -204,5 +204,6 @@ public enum CardActivityType
 {
     DrawCard,
     AddCardToDeck,
-    Splice
+    Splice,
+    ExhaustDiscard
 }
