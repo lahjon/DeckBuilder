@@ -4941,7 +4941,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 285, y: 391}
+  m_CellSize: {x: 250, y: 391}
   m_Spacing: {x: 70, y: 70}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -8547,7 +8547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_AnchorMax.x
@@ -25286,7 +25286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allCardsData: []
-  cardPrefab: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
+  cardPrefab: {fileID: 1577957614717447411, guid: 965a45917710a6743b5e45a8e44ab250, type: 3}
   content: {fileID: 290228078}
   canvas: {fileID: 309282867}
   deckDisplay: {fileID: 2139546816}

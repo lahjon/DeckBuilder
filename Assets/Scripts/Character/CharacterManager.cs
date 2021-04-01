@@ -141,7 +141,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void KillCharacter()
     {
-        Debug.Log("You are dead!");
+        WorldStateSystem.SetInDeathScreen(true);
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)

@@ -12,7 +12,7 @@ public class DeathScreen : MonoBehaviour
 
     public void ButtonConfirm()
     {
-        WorldSystem.instance.SaveProgression();
+        WorldSystem.instance.SaveProgression(false);
         LevelLoader.instance.LoadNewLevel(0);
     }
 }

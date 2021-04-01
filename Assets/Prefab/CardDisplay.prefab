@@ -172,7 +172,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardName: 
+  artwork: {fileID: 0}
+  cost: 0
   cardData: {fileID: 0}
+  exhaust: 0
+  Damage:
+    Type: 0
+    Value: 0
+    Times: 0
+    Target: 0
+  Block:
+    Type: 0
+    Value: 0
+    Times: 0
+    Target: 0
+  Effects: []
+  activities: []
+  animationPrefab: {fileID: 0}
   nameText: {fileID: 1577957616059870876}
   descriptionText: {fileID: 1098937564493932982}
   artworkImage: {fileID: 1577957614699435812}
@@ -180,8 +197,7 @@ MonoBehaviour:
   damageText: {fileID: 1577957615296818472}
   blockText: {fileID: 1577957615692851394}
   previousState: 0
-  targetRequired: 0
-  deckDisplayManager: {fileID: 0}
+  disable: 0
 --- !u!114 &1568275771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +424,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

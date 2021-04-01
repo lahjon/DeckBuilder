@@ -62,12 +62,16 @@ public class WorldSystem : MonoBehaviour
         }
     }
 
-    public void SaveProgression()
+    public void SaveProgression(bool saveTemp = true)
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
-            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+            
+            if (saveTemp)
+            {
+                SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
+            }
 
             int index = (int)characterManager.selectedCharacterClassType;
 

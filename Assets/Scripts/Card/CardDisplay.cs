@@ -24,19 +24,26 @@ public class CardDisplay : CardVisual
     }
     public override void OnMouseClick()
     {
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && !disable)
+        if (!disable)
         {
-            DisplayCard();
-        }
-        else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop && !disable)
-        {
-            WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-            WorldSystem.instance.shopManager.shop.PurchaseCard(this);
-        }
-        else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward && !disable)
-        {
-            WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-            RewardCallback();
+            if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
+            {
+                DisplayCard();
+            }
+            else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
+            {
+                bool success = WorldSystem.instance.shopManager.shop.PurchaseCard(this);
+
+                if (success)
+                {
+                    WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
+                }
+            }
+            else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+            {
+                WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
+                RewardCallback();
+            }
         }
     }
 

@@ -40,7 +40,7 @@ public class ShopOverworld : MonoBehaviour
     {
         Debug.Log("Not enough Gold!");
     }
-    public void PurchaseCard(CardVisual clickedCard)
+    public bool PurchaseCard(CardVisual clickedCard)
     {
         int characterGold = WorldSystem.instance.characterManager.gold;
         int goldCost = clickedCard.cardData.goldValue;
@@ -51,10 +51,12 @@ public class ShopOverworld : MonoBehaviour
             clickedCard.gameObject.SetActive(false);
             clickedCard.ResetScale();
             UpdateCardPrices();
+            return true;
         }
         else
         {
             InsufficientGold();
+            return false;
         }
     }
     public void DebugAddGold()
