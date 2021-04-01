@@ -19,9 +19,3 @@ public class SaveDataStart
         JsonUtility.FromJsonOverwrite(a_Json, this);
     }
 }
-
-public interface ISaveableStart
-{
-    void PopulateSaveDataStart(SaveDataStart a_SaveData);
-    void LoadFromSaveDataStart(SaveDataStart a_SaveData);
-}

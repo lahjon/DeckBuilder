@@ -51,6 +51,7 @@ public class CardDisplay : CardVisual
         else
         {
             WorldSystem.instance.rewardManager.rewardScreen.ResetCurrentReward();
+            WorldSystem.instance.rewardManager.rewardScreenCardSelection.canvas.SetActive(false);
         }
     }
 

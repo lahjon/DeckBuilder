@@ -28,7 +28,6 @@ public class CharacterCreator : MonoBehaviour
     void Start()
     {
         world = WorldSystem.instance;
-        //characterClassType = FileManager.GetClassType();
 
         for (int i = 0; i < allCharacterData.Count; i++)
         {
@@ -76,7 +75,7 @@ public class CharacterCreator : MonoBehaviour
         decriptionText.text = selectedCharacterData.description;
         selectedCharacter = allCharacters[index];
         world.characterManager.character = selectedCharacter;
-        selectedCharacter.SetCharacterData(index, selectedCharacterData);
+        selectedCharacter.SetCharacterData(index + 1);
         selectionIndex = index;
         statsController.UpdateStats();
         UpdateButtons();
@@ -101,7 +100,6 @@ public class CharacterCreator : MonoBehaviour
         }
         world.characterManager.selectedCharacterClassType = selectedCharacter.classType;
         world.characterManager.character = selectedCharacter;
-        world.SaveProgression();
         LevelLoader.instance.LoadNewLevel();
     }
 

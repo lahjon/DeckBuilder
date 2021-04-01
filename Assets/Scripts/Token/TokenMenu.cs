@@ -37,7 +37,7 @@ public class TokenMenu : MonoBehaviour
         foreach (string tokenName in tokenManager.selectedTokens)
         {
             GameObject token = tokenManager.GetTokenByName(tokenName, tokenManager.allTokens);
-            tokenManager.AddSelectedToken(token);
+            token.GetComponent<Token>().SetSelected(true);
         }
 
         for (int i = 0; i < contentPoints.transform.childCount; i++)

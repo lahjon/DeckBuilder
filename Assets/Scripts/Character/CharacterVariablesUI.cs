@@ -11,6 +11,7 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text shardValue;
     public TMP_Text worldTier;
     public Image levelUpImage;
+    public GameObject leftBar;
 
     public void UpdateCharacterHUD()
     {
@@ -24,6 +25,16 @@ public class CharacterVariablesUI : MonoBehaviour
             goldValue.text = gold.ToString();
             shardValue.text = shards.ToString();
         }
+    }
+
+    public void ShowLeftBar()
+    {
+        Debug.Log("Show");
+    }
+
+    public void HideLeftBar()
+    {
+        Debug.Log("Hide");
     }
 
     public void ActivateLevelUp()

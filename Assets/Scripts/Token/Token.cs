@@ -80,10 +80,8 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
 
         tokenManager.availableTokenPoints -= cost;
-        if (!init)
-        {
-            tokenManager.AddSelectedToken(this.gameObject);
-        }
+
+        tokenManager.AddSelectedToken(this.gameObject, init);
 
         color.normalColor = colorSelected;
         button.colors = color;

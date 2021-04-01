@@ -7,6 +7,7 @@ public class OverlayStateDeathscreen : OverlayStateAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(OverlayState.DeathScreen);
+        FileManager.ResetTempData();
         world.uiManager.deathScreen.GetComponent<Animation>().Play();
     }
 

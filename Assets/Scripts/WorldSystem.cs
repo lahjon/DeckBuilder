@@ -52,11 +52,11 @@ public class WorldSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             SaveProgression();
         }
-        if (Input.GetKey(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             LoadProgression();
         }
@@ -64,16 +64,13 @@ public class WorldSystem : MonoBehaviour
 
     public void SaveProgression()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
-        {
-            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
-        }
-        else
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableWorld>()));
             SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
 
             int index = (int)characterManager.selectedCharacterClassType;
+
             if (index > 0)
             {
                 SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);  
@@ -90,8 +87,6 @@ public class WorldSystem : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableStart>()));
-
             int index = (int)characterManager.selectedCharacterClassType;
             if (index > 0)
             {

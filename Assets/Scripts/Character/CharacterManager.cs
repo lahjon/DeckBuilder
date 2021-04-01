@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
+public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 {
     int _shard;
     int _gold;
@@ -16,7 +16,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
     public Character character;
     public GameObject characterPrefab;
     public List<CardData> playerCardsData = new List<CardData>();
-    public CharacterClassType selectedCharacterClassType = CharacterClassType.Brute;
+    public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public CharacterSheet characterSheet;
@@ -43,7 +43,9 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
             {
                 selectedCharacterClassType = CharacterClassType.Brute;
             }
+
             SetupCharacterData();
+
             characterStats = character.GetComponent<CharacterStats>();
 
             if (currentHealth <= 0)
@@ -52,13 +54,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
             }
 
             Debug.Log("Health is:" + currentHealth);
-
-            if (!unlockedCharacters.Contains(selectedCharacterClassType))
-            {
-                unlockedCharacters.Add(selectedCharacterClassType);
-            }
             characterVariablesUI.UpdateCharacterHUD();
-            world.SaveProgression();
+            //world.SaveProgression();
         }
     }
     public int shard 
@@ -113,22 +110,12 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
 
     void SetupCharacterData()
     {
-        if (character == null)
-        {
-            character = Instantiate(characterPrefab).GetComponent<Character>();
-            character.SetCharacterData((int)WorldSystem.instance.characterManager.selectedCharacterClassType);
+        character = Instantiate(characterPrefab).GetComponent<Character>();
+        character.SetCharacterData((int)selectedCharacterClassType);
 
-            if (character.level == 0)
-            {
-                character.CreateStartingCharacter(character.characterData);
-            }
+        character.name = character.characterData.classType.ToString();
 
-            character.name = character.characterData.classType.ToString();
-        }
-        selectedCharacterClassType = character.classType;
-        selectedCharacterClassType = character.characterData.classType;
-
-        if (playerCardsData.Count == 0)
+        if (playerCardsData == null || playerCardsData.Count == 0)
         {
             character.characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
         }
@@ -177,8 +164,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         a_SaveData.playerCardsDataNames = tempList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.gold = gold;
-        a_SaveData.currentHealth = currentHealth;
-        a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            a_SaveData.currentHealth = currentHealth;
+            a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
+        }
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
@@ -187,27 +177,14 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
         {
             playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
         }
+
+
         selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
+        Debug.Log(selectedCharacterClassType);
         gold = a_SaveData.gold;
-        
-        if (a_SaveData.currentHealth <= 0)
-        {
-            currentHealth = 0;
-        }
-        else
-        {
-            currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
-        }
-    }
 
-    public void PopulateSaveDataStart(SaveDataStart a_SaveData)
-    {
-        a_SaveData.characterClassType = selectedCharacterClassType;
-    }
+        currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
 
-    public void LoadFromSaveDataStart(SaveDataStart a_SaveData)
-    {
-        selectedCharacterClassType = a_SaveData.characterClassType;
     }
 }
 

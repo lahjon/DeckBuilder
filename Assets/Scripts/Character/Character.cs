@@ -14,16 +14,13 @@ public class Character : MonoBehaviour, ISaveableCharacter
     CharacterStats characterStats;
     bool initialized;
 
-    public void SetCharacterData(int index, CharacterData characterData = null)
+    public void SetCharacterData(int index)
     {
         if (!initialized)
         {
 
-            if (characterData == null)
-            {
-                SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), index);
-                characterData = WorldSystem.instance.characterManager.allCharacterData[(int)WorldSystem.instance.characterManager.selectedCharacterClassType - 1];
-            }
+            SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), index);
+            characterData = WorldSystem.instance.characterManager.allCharacterData[index - 1];
 
             if (level == 0)
             {

@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19c194009e765aa42ba699305b762f2f, type: 3}
   m_Name: StartingCardsRogue
   m_EditorClassIdentifier: 
-  allCards: []
+  allCards:
+  - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
+  - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
+  - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
+  - {fileID: 11400000, guid: 7f5f74736bf2cb745a0735c150db6e6a, type: 2}
+  - {fileID: 11400000, guid: 493759162ad8eb041885518c94087a0e, type: 2}

@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 using System;
 
-public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableStart
+public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
 {
     public List<TokenData> tokenDatas = new List<TokenData>();
     public List<GameObject> allTokens = new List<GameObject>();
@@ -35,15 +35,13 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
             BindTokenData(tokenMenu.contentAll.transform.GetChild(i).gameObject, tokenDatas[i]);
         }
 
-        if (tokenPoints < 4)
+        if (tokenPoints < startingPoints)
         {
-            availableTokenPoints = startingPoints;
-        }
-        else
-        {
-            availableTokenPoints = tokenPoints;
+            tokenPoints = startingPoints;
         }
 
+        availableTokenPoints = tokenPoints;
+        
         tokenMenu.Init();
     }
     void BindTokenData(GameObject aToken, TokenData tokenData)
@@ -85,10 +83,16 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
         world.SaveProgression();
     }
 
-    public void AddSelectedToken(GameObject token)
+    public void AddSelectedToken(GameObject token, bool init = false)
     {
-        token.GetComponent<Effect>().AddEffect();
-        selectedTokens.Add(token.name);
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            token.GetComponent<Effect>().AddEffect();
+        }
+        if (!init)
+        {
+            selectedTokens.Add(token.name);
+        }
         tokenMenu.SelectToken(token); 
     }
 
@@ -96,7 +100,10 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
     {
         if (selectedTokens.Contains(token.name))
         {
-            token.GetComponent<Effect>().RemoveEffect();
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+            {
+                token.GetComponent<Effect>().RemoveEffect();
+            }
             selectedTokens.Remove(token.name);
             tokenMenu.UnselectToken(token.name);
         }
@@ -108,6 +115,8 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
         a_SaveData.selectedTokens = selectedTokens;
+        a_SaveData.selectedTokens.ForEach(x => Debug.Log(x));
+        selectedTokens.ForEach(x => Debug.Log(x));
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
@@ -115,16 +124,6 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp, ISaveableSta
         selectedTokens = a_SaveData.selectedTokens;
     }
 
-
-    public void PopulateSaveDataStart(SaveDataStart a_SaveData)
-    {
-        a_SaveData.selectedTokens = selectedTokens;
-    }
-
-    public void LoadFromSaveDataStart(SaveDataStart a_SaveData)
-    {
-        selectedTokens = a_SaveData.selectedTokens;
-    }
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         unlockedTokens = a_SaveData.unlockedTokens;

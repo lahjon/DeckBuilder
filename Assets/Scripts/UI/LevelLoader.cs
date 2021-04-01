@@ -10,6 +10,9 @@ public class LevelLoader : MonoBehaviour
     public Canvas canvas;
     WorldSystem world;
     public int currentScene = 0;
+
+    CharacterClassType selectedCharacterClassType;
+    List<string> selectedTokens = new List<string>();
     
     void Awake()
     {
@@ -41,15 +44,27 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNewLevel(int index = 1)
     {
+        // save start data to bring to overworld
+        selectedCharacterClassType = world.characterManager.selectedCharacterClassType;
+        selectedTokens = world.tokenManager.selectedTokens;
+
         StartCoroutine(LoadLevel(0.2f, index));
     }
 
     public void StartNewLevel(int index = 1)
     {
         world.LoadProgression();
-        if (world.missionManager != null && world.missionManager.mission == null)
+
+        if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            world.missionManager.NewMission("Mission001", false);
+            if (world.missionManager != null && world.missionManager.mission == null)
+            {
+                world.missionManager.NewMission("Mission001", false);
+            }
+
+            // load start data to bring to overworld
+            world.characterManager.selectedCharacterClassType = selectedCharacterClassType;
+            world.tokenManager.selectedTokens = selectedTokens;
         }
     }
 
@@ -79,10 +94,5 @@ public class LevelLoader : MonoBehaviour
             WorldStateSystem.SetInTown(true);
         }
         canvas.gameObject.SetActive(false);
-    }
-
-    public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
-    {
-        return;
     }
 }
