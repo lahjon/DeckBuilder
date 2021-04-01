@@ -8,7 +8,15 @@ using System;
 public class HealthEffects : MonoBehaviour
 {
     public int maxHitPoints;
-    public int hitPoints;
+    private int _hitPoints;
+    public int hitPoints { 
+        get { return _hitPoints; } 
+        set { 
+            _hitPoints = value;
+            if (combatActor == combatActor.combatController.Hero)
+                WorldSystem.instance.characterManager.currentHealth = _hitPoints;
+            } 
+    }
     private int shield = 10;
 
     public GameObject cAnchorHealthEffects;

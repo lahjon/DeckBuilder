@@ -10,15 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
-  m_Name: Encounter_NormalCombat_01
+  m_Name: Encounter_NormalCombat_01_NullCasterMageApprentice2
   m_EditorClassIdentifier: 
-  name: Angry Wolf
+  name: NullcasterMages
   type: 3
   tier: 1
-  encounterOutcome: []
+  isVisited: 0
+  secretCondition: 0
+  events: 
+  description: sdkvmasdlkvm
+  choice1: 
+  choice2: 
+  choice3: 
+  newEncounterData: []
   enemyData:
-  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
-  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
-  encounterUI: {fileID: 0}
-  isCleared: 0
-  description: This is an angry wolf that. You attack!
+  - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
+  - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
+  cardData: []

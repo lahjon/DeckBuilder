@@ -8,7 +8,6 @@ using System.Linq;
 
 public class CombatActorEnemy : CombatActor
 {
-    public CombatController combatController;
     public IntentDisplay intentDisplay;
     public TMP_Text txtMoveDisplay;
     public EnemyData enemyData;
@@ -36,10 +35,7 @@ public class CombatActorEnemy : CombatActor
     float toolTipDelay = 1f;
     bool toolTipShowing = false;
 
-    private void Start()
-    {
-        healthEffects.combatActor = this;
-    }
+
     public void SetTarget(bool set = false)
     {
         if(set && !target.activeSelf)
@@ -58,6 +54,7 @@ public class CombatActorEnemy : CombatActor
             enemyData = inEnemyData;
 
         SetupCamera();
+        healthEffects.combatActor = this;
 
         foreach(CardData cardData in enemyData.deck)
         {
@@ -68,7 +65,6 @@ public class CombatActorEnemy : CombatActor
             card.BindCardData();
             deck.Add(card);
         }
-
 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = enemyData.artwork;

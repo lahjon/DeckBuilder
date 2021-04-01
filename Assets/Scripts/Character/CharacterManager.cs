@@ -46,6 +46,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
             SetupCharacterData();
             characterStats = character.GetComponent<CharacterStats>();
 
+            // Check if health still below zero after health mods
             if (currentHealth <= 0)
             {
                 currentHealth = characterStats.GetStat(StatType.Health);
@@ -118,6 +119,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, ISaveabl
             character = Instantiate(characterPrefab).GetComponent<Character>();
             character.SetCharacterData((int)WorldSystem.instance.characterManager.selectedCharacterClassType);
 
+            // Only used when game started from overworld OR absolutely first game
             if (character.level == 0)
             {
                 character.CreateStartingCharacter(character.characterData);

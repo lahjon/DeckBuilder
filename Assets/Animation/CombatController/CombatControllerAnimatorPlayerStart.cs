@@ -24,7 +24,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
 
         hero.healthEffects.EffectsOnNewTurnBehavior();
 
-        combatController.acceptSelections = true;
+        combatController.acceptEndTurn = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
         combatController.EnemiesInScene.ForEach(x => x.DrawCard());

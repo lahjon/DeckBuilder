@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Brute_Barricade
   m_EditorClassIdentifier: 
   cardName: Barricade
-  description: 
   artwork: {fileID: 21300000, guid: 2f2cbef36af36034a98df4becf772c39, type: 3}
   cost: 2
   goldValue: 10
@@ -34,7 +33,7 @@ MonoBehaviour:
     Times: 1
     Target: 1
   inActivities: []
-  cardRarity: 0
+  cardRarity: 1
   characterClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

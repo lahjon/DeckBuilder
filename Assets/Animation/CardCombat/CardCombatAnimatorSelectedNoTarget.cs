@@ -9,7 +9,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
     {
         //Debug.Log("Selected OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
-        Debug.Log("Selected card " + card.cardData.name);
+        Debug.Log("Selected card " + card.name);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
