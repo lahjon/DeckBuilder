@@ -31,7 +31,6 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
             }
             else
             {
-                combatController.animator.SetBool("EnemyQueued", combatController.enemiesWaiting.Count != 0);
                 ((CombatActorEnemy)combatController.ActiveActor).discard.Add(card);
             }
         }

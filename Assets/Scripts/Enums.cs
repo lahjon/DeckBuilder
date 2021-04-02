@@ -29,6 +29,8 @@ public static class EnumExtenstions
                 return new RuleEffectThorns();
             case EffectType.Splice:
                 return new RuleEffectSplice();
+            case EffectType.Poison:
+                return new RuleEffectPoison();
             default:
                 return null;
         }

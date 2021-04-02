@@ -8,15 +8,8 @@ using System;
 public class HealthEffects : MonoBehaviour
 {
     public int maxHitPoints;
-    private int _hitPoints;
-    public int hitPoints { 
-        get { return _hitPoints; } 
-        set { 
-            _hitPoints = value;
-            if (combatActor == combatActor.combatController.Hero)
-                WorldSystem.instance.characterManager.currentHealth = _hitPoints;
-            } 
-    }
+
+    public int hitPoints = 10;
     private int shield = 10;
 
     public GameObject cAnchorHealthEffects;
@@ -78,11 +71,22 @@ public class HealthEffects : MonoBehaviour
             RemoveBlock(shieldDamage);
             damage -= shieldDamage;
         }
-        
-        hitPoints -= Mathf.Min(hitPoints, damage);
+
+        LooseLife(Mathf.Min(damage));
+
         UpdateHealthBar();
         if (hitPoints == 0)
             WorldSystem.instance.combatManager.combatController.ReportDeath(combatActor);
+    }
+
+    public void LooseLife(int lifeToLose)
+    {
+        if (lifeToLose == 0) return;
+
+        //kör on damage about to recieve
+        hitPoints -= Mathf.Min(lifeToLose, hitPoints);
+        WorldSystem.instance.characterManager.TakeDamage(Mathf.Min(lifeToLose, hitPoints));
+        // kör onDamageRecieved
     }
 
     public void RecieveEffectNonDamageNonBlock(CardEffect effect)

@@ -10,27 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_ApprenticeStealMatter
+  m_Name: Enemy_ScoutPoisonBite
   m_EditorClassIdentifier: 
-  cardName: Apprentice Steal Matter
-  artwork: {fileID: 21300000, guid: 308c2f66da6694f4390837a6b79d6706, type: 3}
-  cost: 2
+  cardName: Scout Poison Bite
+  artwork: {fileID: 21300000, guid: 1cbd701c07f457947be38d384d00f6fb, type: 3}
+  cost: 1
   goldValue: 0
   exhaust: 0
   Damage:
     Type: 0
-    Value: 0
-    Times: 0
+    Value: 3
+    Times: 1
     Target: 1
   Block:
     Type: 2
-    Value: 12
-    Times: 1
+    Value: 0
+    Times: 0
     Target: 0
-  inEffects: []
-  inActivities:
-  - type: 3
-    parameter: 1
+  inEffects:
+  - Type: 1
+    Value: 4
+    Times: 1
+    Target: 1
+  inActivities: []
   cardRarity: 0
   characterClass: 0
   animationPrefab: {fileID: 0}

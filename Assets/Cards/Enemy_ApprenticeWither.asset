@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Apprentice Wither
   artwork: {fileID: 21300000, guid: c9467bdeed356a544af5af263f004121, type: 3}
-  cost: 0
+  cost: 1
   goldValue: 0
   exhaust: 0
   Damage:
