@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
   m_Name: SetNielsen1
   m_EditorClassIdentifier: 
-  StartingHP: 10
+  StartingHP: 15
   enemyId: 0001
   enemyName: SetNielsen1
   artwork: {fileID: 0}
   characterArt: {fileID: 8674257438334899846, guid: 7a2dc14cdcea4b044be7a3ef5cfe5226, type: 3}
-  tier: 1
+  tier: 15
   experience: 0
   deck:
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
+  - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}
   - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}

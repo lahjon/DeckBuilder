@@ -17,7 +17,7 @@ MonoBehaviour:
   enemyName: Boss1
   artwork: {fileID: 0}
   characterArt: {fileID: 4399961221871102342, guid: 2a133b27818b15542ac30a81e856d43e, type: 3}
-  tier: 1
+  tier: 40
   experience: 0
   deck:
   - {fileID: 11400000, guid: 6c8abb1df3f7c3947b533888fb16e752, type: 2}

@@ -14,16 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Start Act 1
   type: 4
-  tier: 0
-  encounterOutcome:
-  - type: 0
-    value: 0
-    encounterValue: 0
-  - type: 0
-    value: 0
-    encounterValue: 0
+  tier: 1
+  isVisited: 0
+  secretCondition: 0
+  events: 
+  description: En Elite
+  choice1: 
+  choice2: 
+  choice3: 
+  newEncounterData: []
   enemyData:
   - {fileID: 11400000, guid: 8f70ce79052b6514a9b2a93c341fd989, type: 2}
-  encounterUI: {fileID: 0}
-  isCleared: 0
-  description: This is the start of your journey.
+  cardData: []

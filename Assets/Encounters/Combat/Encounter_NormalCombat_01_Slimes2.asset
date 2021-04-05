@@ -18,7 +18,7 @@ MonoBehaviour:
   isVisited: 0
   secretCondition: 0
   events: 
-  description: This is an angry wolf that. You attack!
+  description: "Tv\xE5 Slimes"
   choice1: 
   choice2: 
   choice3: 

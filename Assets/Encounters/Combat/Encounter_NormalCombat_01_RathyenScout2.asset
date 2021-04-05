@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
   m_Name: Encounter_NormalCombat_01_RathyenScout2
   m_EditorClassIdentifier: 
-  name: RatherScouts
+  name: nRathyeScouts
   type: 3
   tier: 1
   isVisited: 0
   secretCondition: 0
   events: 
-  description: sdkvmasdlkvm
+  description: "Tv\xE5 scouts"
   choice1: 
   choice2: 
   choice3: 

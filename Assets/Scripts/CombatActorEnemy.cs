@@ -170,7 +170,7 @@ public class CombatActorEnemy : CombatActor
         
         if (combatController.ActiveCard != null  && combatController.ActiveCard.targetRequired)
             SetTarget(true);
-
+        
 
         if (combatController.TargetedEnemy is null) combatController.TargetedEnemy = this;
     }

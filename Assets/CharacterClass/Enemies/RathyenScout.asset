@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
-  m_Name: RathenScout
+  m_Name: RathyenScout
   m_EditorClassIdentifier: 
   StartingHP: 15
   enemyId: 0003
-  enemyName: Rathyen Scout
+  enemyName: Scout
   artwork: {fileID: 21300000, guid: 946b409c6f6337c44a811feeabf6fb71, type: 3}
   characterArt: {fileID: 0}
-  tier: 1
+  tier: 15
   experience: 0
   deck:
   - {fileID: 11400000, guid: 5fa75ec339a5f9a4ea4bbb6eec1ccb10, type: 2}
