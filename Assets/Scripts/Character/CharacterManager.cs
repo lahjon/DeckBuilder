@@ -22,8 +22,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterSheet characterSheet;
     public CharacterStats characterStats;
     public int currentHealth;
-
-
+    public List<string> effectDescriptions = new List<string>();
 
     protected override void Awake()
     {

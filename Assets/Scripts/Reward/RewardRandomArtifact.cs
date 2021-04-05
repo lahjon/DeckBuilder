@@ -8,17 +8,17 @@ public class RewardRandomArtifact : Reward
 {
     public Image icon;
     public TMP_Text text;
-    GameObject artifact;
+    ArtifactData artifact;
 
     void Start()
     {
         artifact = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
-        icon.sprite = artifact.GetComponent<Image>().sprite;
-        text.text = artifact.GetComponent<Artifact>().displayName;
+        icon.sprite = artifact.artwork;
+        text.text = artifact.artifactName;
     }
 
     protected override void CollectCombatReward()
     {
-        WorldSystem.instance.artifactManager.AddArifact(artifact);
+        WorldSystem.instance.artifactManager.AddArifact(artifact.artifactName);
     }
 }

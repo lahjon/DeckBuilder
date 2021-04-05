@@ -12,6 +12,22 @@ public class CharacterVariablesUI : MonoBehaviour
     public TMP_Text worldTier;
     public Image levelUpImage;
     public GameObject leftBar;
+    Vector3 startPos;
+    Vector3 offset = new Vector3(-50,0,0);
+    float moveSpeed = 0.2f;
+    bool active;
+    public GameObject content;
+    Color positiveColor = new Color(0.5f, 0.5f, 0.5f);
+    Color normalColor = new Color(0.0f, 0.0f, 0.0f);
+    Color negativeColor = new Color(0.3f, 0.0f, 0.0f);
+    public TMP_Text textStrength, textWit, textEnergy, textEndurance;
+    public Image imageStrength, imageWit, imageEnergy, imageEndurance;
+
+    void Start()
+    {
+        startPos = leftBar.transform.position;
+        HideBar();
+    }
 
     public void UpdateCharacterHUD()
     {
@@ -24,17 +40,51 @@ public class CharacterVariablesUI : MonoBehaviour
             healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
             goldValue.text = gold.ToString();
             shardValue.text = shards.ToString();
+            SetStats();
         }
     }
 
-    public void ShowLeftBar()
-    {
-        Debug.Log("Show");
+    void SetStats()
+    { 
+        SetStat(StatType.Endurance, imageEndurance, textEndurance);
+        SetStat(StatType.Energy, imageEnergy, textEnergy);
+        SetStat(StatType.Strength, imageStrength, textStrength);
+        SetStat(StatType.Wit, imageWit, textWit);
     }
 
-    public void HideLeftBar()
+    void SetStat(StatType statType, Image statImage, TMP_Text statText)
     {
-        Debug.Log("Hide");
+        CharacterStats stats = WorldSystem.instance.characterManager.characterStats;
+        int value = stats.GetStat(statType);
+        
+        if (value == 0)
+        {
+            statText.text = "";
+            statImage.color = normalColor;
+        }
+        else if(value < 0)
+        {
+            statText.text = "-" + value.ToString();
+            statImage.color = negativeColor;
+        }
+        else
+        {
+            statText.text = "+" + value.ToString();
+            statImage.color = positiveColor;
+        }
+    }
+
+    public void ShowBar()
+    {
+        Debug.Log("Show HUD");
+        LeanTween.move(leftBar, startPos, moveSpeed).setEaseOutCubic().setOnComplete(() => active = true);
+    }
+
+    public void HideBar()
+    {
+        Debug.Log("Hide HUD");
+        active = false;
+        LeanTween.move(leftBar, startPos + offset, moveSpeed).setEaseOutCubic();
     }
 
     public void ActivateLevelUp()
@@ -50,11 +100,17 @@ public class CharacterVariablesUI : MonoBehaviour
 
     public void ButtonDisplayDeck()
     {
-        WorldStateSystem.SetInDisplay();
+        if (active)
+        {
+            WorldStateSystem.SetInDisplay();
+        }
     }
 
     public void ButtonOpenCharacterSheet()
     {
-        WorldStateSystem.SetInCharacterSheet();
+        if (active)
+        {
+            WorldStateSystem.SetInCharacterSheet();
+        }
     }
 }

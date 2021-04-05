@@ -7,6 +7,16 @@ using UnityEditor;
 public static class DatabaseUpdateOnStart
 {
     [MenuItem("Edit/Play-Unplay, Update Database %0")]
+    static void UpdateDatabase()
+    {
+        UpdateAllCards();
+        UpdateAllTokens();
+        UpdateAllArtifacts();
+        UpdateAllCharacters();
+
+        EditorApplication.isPlaying = true;
+        Debug.Log("Updated Database");
+    }
     static void UpdateAllCards()
     {
         List<CardData> cards = new List<CardData>();
@@ -25,10 +35,65 @@ public static class DatabaseUpdateOnStart
         EditorUtility.SetDirty(cardDatabase);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
-        Debug.Log("Database updated!");
-
-        EditorApplication.isPlaying = true;
     }
+
+    static void UpdateAllTokens()
+    {
+        GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefab/TokenManager.prefab", typeof(GameObject));
+        List<TokenData> tokens = prefab.GetComponent<TokenManager>().tokenDatas;
+        tokens.Clear();
+
+        string[] lGuids = AssetDatabase.FindAssets("t:TokenData", new string[] { "Assets/Tokens" });
+
+        for (int i = 0; i < lGuids.Length; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            tokens.Add(AssetDatabase.LoadAssetAtPath<TokenData>(lAssetPath));
+        }
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    static void UpdateAllArtifacts()
+    {
+        GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefab/ArtifactManager.prefab", typeof(GameObject));
+        List<ArtifactData> artifacts = prefab.GetComponent<ArtifactManager>().allArtifacts;
+        artifacts.Clear();
+
+        string[] lGuids = AssetDatabase.FindAssets("t:ArtifactData", new string[] { "Assets/Artifacts" });
+
+        for (int i = 0; i < lGuids.Length; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            artifacts.Add(AssetDatabase.LoadAssetAtPath<ArtifactData>(lAssetPath));
+        }
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    static void UpdateAllCharacters()
+    {
+        GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefab/CharacterManager.prefab", typeof(GameObject));
+        List<PlayableCharacterData> data = prefab.GetComponent<CharacterManager>().allCharacterData;
+        data.Clear();
+
+        string[] lGuids = AssetDatabase.FindAssets("t:PlayableCharacterData", new string[] { "Assets/CharacterClass/Heroes" });
+
+        for (int i = 0; i < lGuids.Length; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            data.Add(AssetDatabase.LoadAssetAtPath<PlayableCharacterData>(lAssetPath));
+        }
+
+        EditorUtility.SetDirty(prefab);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
 
     [MenuItem("Edit/Download GoogleCards %G")]
     static void UpdateFromGoogle()

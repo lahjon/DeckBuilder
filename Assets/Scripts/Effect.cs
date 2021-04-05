@@ -15,6 +15,7 @@ public abstract class Effect : MonoBehaviour
     public static Effect GetEffect(GameObject obj, string name, bool addEffect = false)
     {
         Effect effect = (Effect)obj.AddComponent(Type.GetType(name));
+        //effect.Init();
 
         if (effect != null && addEffect)
         {

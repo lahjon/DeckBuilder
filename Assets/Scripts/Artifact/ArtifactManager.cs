@@ -5,9 +5,8 @@ using System.Linq;
 
 public class ArtifactManager : Manager, ISaveableTemp
 {
-    public List<GameObject> allArtifacts = new List<GameObject>();
-    public List<string> allArtifactsName = new List<string>();
-    public List<GameObject> allActiveArtifacts = new List<GameObject>();
+    public List<ArtifactData> allArtifacts = new List<ArtifactData>();
+    List<string> allArtifactsNames = new List<string>();
     public List<string> allActiveArtifactsNames = new List<string>();
 
     public ArtifactMenu artifactMenu;
@@ -17,7 +16,7 @@ public class ArtifactManager : Manager, ISaveableTemp
     {
         base.Awake();
         world.artifactManager = this;
-        allArtifacts.ForEach(x => allArtifactsName.Add(x.name));
+        
     }
     protected override void Start()
     {
@@ -27,80 +26,68 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public void Init()
     {
-        allActiveArtifactsNames.ForEach(x => InitArifact(GetArtifactFromName(x)));
+        allArtifacts.ForEach(x => allArtifactsNames.Add(x.artifactName));
+        allActiveArtifactsNames.ForEach(x => AddArifact(x));
     }
 
-    public GameObject GetRandomAvailableArtifact(Rarity rarity = Rarity.None)
+    public ArtifactData GetRandomAvailableArtifact()
     {
-        List<GameObject> allAvailableArtifacts = allArtifacts.Except(allActiveArtifacts).ToList();
-        
-        if (rarity != Rarity.None)
+        List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).ToList();
+
+        if (availbleArtifacts.Count <= 0)
         {
-            allAvailableArtifacts = allAvailableArtifacts.Where(x => x.GetComponent<Artifact>().rarity == rarity).ToList();
+            return null;
         }
 
-        if (allAvailableArtifacts.Count > 0)
-        {
-            int range = Random.Range(0, allAvailableArtifacts.Count);
-            GameObject randomArtifact = allAvailableArtifacts[range];
-            return randomArtifact;
-        }
-        return null;
+        string artifactName = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
+
+        return allArtifacts[allArtifactsNames.IndexOf(artifactName)];
     }
 
-    public GameObject GetRandomActiveArtifact()
+    public string GetRandomActiveArtifact()
     {
-        if (allActiveArtifacts.Count > 0)
+        if (allActiveArtifactsNames.Count > 0)
         {
-            int range = Random.Range(0, allActiveArtifacts.Count);
-            GameObject randomArtifact = allActiveArtifacts[range];
-            return randomArtifact;
+            int range = Random.Range(0, allActiveArtifactsNames.Count);
+            return allActiveArtifactsNames[range];
         }
         return null;
     }
-    void InitArifact(GameObject anArtifact)
+    public void AddArifact(string artifactName, bool save = false)
     {
-        if (anArtifact != null)
+        if (artifactName != null && artifactName.Length > 0 && !allActiveArtifactsNames.Contains(artifactName))
         {
-            Artifact artifact = anArtifact.GetComponent<Artifact>();
-            artifact.AddActivity();
-            artifactMenu.AddUIArtifact(anArtifact);
-            allActiveArtifacts.Add(anArtifact);
-        }
-    }
-    public void AddArifact(GameObject anArtifact)
-    {
-        if (anArtifact != null && !allActiveArtifactsNames.Contains(anArtifact.name))
-        {
-            Artifact artifact = anArtifact.GetComponent<Artifact>();
-            artifact.AddActivity();
-            artifactMenu.AddUIArtifact(anArtifact);
-            allActiveArtifacts.Add(anArtifact);
+            ArtifactData artifactData = GetArtifactFromName(artifactName);
+            GameObject newArtifact = artifactMenu.AddUIArtifact(artifactData);
+            allActiveArtifactsNames.Add(artifactName);
 
-            allActiveArtifactsNames.Add(anArtifact.name);
-            world.SaveProgression();
+            Effect.GetEffect(newArtifact, artifactData.effectName, true);
+
+            if (save)
+            {
+                world.SaveProgression();
+            }
         }
     }
 
 
-    public void RemoveArtifact(GameObject anArtifact)
+    public void RemoveArtifact(string artifactName)
     {
-        Debug.Log(anArtifact);
-        if (anArtifact != null && allActiveArtifactsNames.Contains(anArtifact.name))
+        foreach (GameObject artifact in artifactMenu.allUIArtifacts)
         {
-            Artifact artifact = anArtifact.GetComponent<Artifact>();
-            artifact.RemoveActivity();
-            artifactMenu.RemoveUIArtifact(anArtifact);
-
-            allActiveArtifacts.Remove(anArtifact);
-            allActiveArtifactsNames.Remove(anArtifact.name);
-            world.SaveProgression();
+            if (artifact.name == artifactName)
+            {
+                artifact.GetComponent<Effect>().RemoveEffect();
+                artifactMenu.RemoveUIArtifact(artifact);
+                allActiveArtifactsNames.Remove(artifactName);
+                break;
+            }
         }
     }
 
-    public GameObject GetArtifactFromName(string artifactName)
+    public ArtifactData GetArtifactFromName(string artifactName)
     {
-        return allArtifacts[allArtifactsName.IndexOf(artifactName)];
+        return allArtifacts[allArtifactsNames.IndexOf(artifactName)];
     }
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {

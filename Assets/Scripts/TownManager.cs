@@ -12,16 +12,26 @@ public class TownManager : Manager, ISaveableWorld
     public BuildingTownHall buildingTownHall;
     public BuildingBarracks buildingBarracks;
     public Canvas townMapCanvas;
+    public Transform encounters;
     protected override void Awake()
     {
         base.Awake();
-        world.townManager = this;
-        townMapCanvas.gameObject.SetActive(true);
+        Init();
     }
     public void OpenWorldMap()
     {
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInWorldMap(true);
+    }
+
+    void Init()
+    {
+        world.townManager = this;
+        townMapCanvas.gameObject.SetActive(true);
+        for (int i = 0; i < encounters.childCount ; i++)
+        {
+            townEncounters.Add(encounters.GetChild(i).GetComponent<TownInteractable>());
+        }
     }
 
     public bool UnlockBuilding(BuildingType building)
