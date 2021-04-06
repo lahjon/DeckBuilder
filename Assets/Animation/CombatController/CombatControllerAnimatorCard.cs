@@ -14,8 +14,8 @@ public class CombatControllerAnimatorCard : CombatControllerAnimator
     public void SetRefs(Animator animator)
     {
         base.SetRefs(animator);
-        card = combatController.CardInProcess.card;
-        suppliedTarget = combatController.CardInProcess.target;
+        card = combatController.InProcessCard;
+        suppliedTarget = combatController.InProcessTarget;
     }
 
 }

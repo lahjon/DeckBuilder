@@ -9,18 +9,20 @@ public class CardActivitySplice : CardActivity
     CardEffect cardEffect = new CardEffect() { Type = EffectType.Splice, Times = 1};
     public override IEnumerator Execute(string input)
     {
-        if (!combatController.Hero.healthEffects.effectTypeToRule.ContainsKey(EffectType.Splice)) {
+        CombatActor hero = combatController.Hero;
+
+        if (!hero.healthEffects.effectTypeToRule.ContainsKey(EffectType.Splice)) {
             cardEffect.Value = Int32.Parse(input);
-            combatController.Hero.healthEffects.RecieveEffectNonDamageNonBlock(cardEffect);
+            hero.healthEffects.RecieveEffectNonDamageNonBlock(cardEffect);
         }
         else
         {
             CardCombat discardedCard = null;
-            for(int i = combatController.Discard.Count -1; i >= 0; i--)
+            for(int i = 0; i < hero.discard.Count; i++)
             {
-                if(combatController.Discard[i].activities.Count(x => x.type == CardActivityType.Splice) != 0)
+                if(hero.discard[i].activities.Count(x => x.type == CardActivityType.Splice) != 0)
                 {
-                    discardedCard = combatController.Discard[i];
+                    discardedCard = (CardCombat)hero.discard[i];
                     break;
                 }
             }
@@ -29,10 +31,10 @@ public class CardActivitySplice : CardActivity
             {
                 cardEffect.Value = -1;
                 combatController.ActiveActor.healthEffects.RecieveEffectNonDamageNonBlock(cardEffect);
-                CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)combatController.CardInProcess.card, discardedCard);
-                combatController.Deck.Add(splicedCard);
-                combatController.CardInProcess.card.exhaust = true;
-                combatController.Discard.Remove(discardedCard);
+                CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)combatController.InProcessCard, discardedCard);
+                hero.deck.Add(splicedCard);
+                combatController.InProcessCard.exhaust = true;
+                hero.discard.Remove(discardedCard);
                 CombatController.Destroy(discardedCard.gameObject);
                 combatController.UpdateDeckTexts();
 

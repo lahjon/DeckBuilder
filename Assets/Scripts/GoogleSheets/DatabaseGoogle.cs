@@ -22,6 +22,10 @@ public class DatabaseGoogle
     readonly string strFilePathBase = @"Assets\";
     static char[] separators = { '+', '-' };
 
+    readonly string CardPath = @"Assets\Cards";
+    readonly string EnemyPath = @"Assets\CharacterClass\Enemies";
+    readonly string EncounterPath = @"Assets\Encounters\Combat";
+
     SheetsService service;
 
     public DatabaseGoogle()
@@ -83,12 +87,12 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { @"Assets\Cards" });
+            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { CardPath});
             if (data is null)
             {
                 data = ScriptableObject.CreateInstance<CardData>();
                 AssetDatabase.SaveAssets();
-                AssetDatabase.CreateAsset(data, @"Assets\Cards\" + databaseName + ".asset");
+                AssetDatabase.CreateAsset(data, CardPath + @"\" + databaseName + ".asset");
             }
 
             string Charclass = (string) gt[i, "Class"];
@@ -139,7 +143,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { @"Assets\Cards" });
+            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { CardPath });
             CardEffect cardEffect = new CardEffect();
             Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
 
@@ -167,7 +171,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { @"Assets\Cards" });
+            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] {CardPath });
             CardActivitySetting activitySetting = new CardActivitySetting();
             Enum.TryParse((string)gt[i, "Activity"], out CardActivityType cardActivityType);
 
@@ -204,7 +208,7 @@ public class DatabaseGoogle
 
     public void PrintCardData()
     {
-        string[] strCardIDs = AssetDatabase.FindAssets("t:CardData", new string[] { "Assets/Cards" });
+        string[] strCardIDs = AssetDatabase.FindAssets("t:CardData", new string[] {CardPath });
         List<IList<object>> InputDataCard = new List<IList<object>>();
         List<IList<object>> InputDataCardEffects = new List<IList<object>>();
         List<IList<object>> InputDataCardActivities = new List<IList<object>>();
@@ -276,11 +280,11 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[]{@"Assets\CharacterClass\Enemies"});
+            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[]{EnemyPath});
             if(data is null)
             {
                 data = ScriptableObject.CreateInstance<EnemyData>();
-                AssetDatabase.CreateAsset(data, @"Assets\CharacterClass\Enemies\" + databaseName + ".asset");
+                AssetDatabase.CreateAsset(data, EnemyPath + @"\" + databaseName + ".asset");
             }
 
 
@@ -347,11 +351,11 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { @"Assets\Encounters\Combat" });
+            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { EncounterPath});
             if (data is null)
             {
                 data = ScriptableObject.CreateInstance<EncounterData>();
-                AssetDatabase.CreateAsset(data, @"Assets\Encounters\Combat\" + databaseName + ".asset");
+                AssetDatabase.CreateAsset(data, EncounterPath + @"\" + databaseName + ".asset");
             }
 
 
@@ -378,7 +382,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { @"Assets\Encounters\Combat" });
+            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { EncounterPath });
             if (data == null)
             {
                 Debug.LogError("SKIPPED: Enemy assigned to non-existant encounter : " + databaseName);
@@ -387,7 +391,7 @@ public class DatabaseGoogle
 
             string EnemyName = (string)gt[i, "EnemyDatabaseName"];
 
-            EnemyData enemyData  = TDataNameToAsset<EnemyData>(EnemyName, new string[] { @"Assets\CharacterClass\Enemies" });
+            EnemyData enemyData  = TDataNameToAsset<EnemyData>(EnemyName, new string[] { EnemyPath });
             if (enemyData == null)
             {
                 Debug.LogError("SKIPPED: Encounter assigned non-existant enemy: " + EnemyName);

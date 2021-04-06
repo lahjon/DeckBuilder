@@ -15,5 +15,8 @@ public class EnemyData : ScriptableObject
     public int tier;
     public int experience;
     public List<CardData> deck;
-    
+
+    public List<CardEffect> startingEffects = new List<CardEffect>();
+    public List<CardActivity> startingActivities = new List<CardActivity>();
+
 }

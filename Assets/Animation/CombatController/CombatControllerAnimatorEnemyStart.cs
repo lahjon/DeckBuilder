@@ -12,7 +12,8 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
 
         enemy = combatController.enemiesWaiting.Dequeue();
         combatController.ActiveActor = enemy;
-        combatController.CardInProcess = (enemy.hand, combatController.Hero);
+        combatController.InProcessCard = enemy.hand;
+        combatController.InProcessTarget = combatController.Hero;
         combatController.StartCoroutine(EnemyTurn());
     }
 

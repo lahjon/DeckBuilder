@@ -17,8 +17,6 @@ public class CombatActorEnemy : CombatActor
     public GameObject cardTemplate;
 
     [HideInInspector]
-    public List<Card> deck;
-    public List<Card> discard;
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
 
@@ -63,6 +61,7 @@ public class CombatActorEnemy : CombatActor
             Card card = cardObject.GetComponent<Card>();
             card.cardData = cardData;
             card.BindCardData();
+            card.owner = this;
             deck.Add(card);
         }
 

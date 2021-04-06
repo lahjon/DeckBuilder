@@ -24,4 +24,7 @@ public class EncounterData : ScriptableObject
     public List<EnemyData> enemyData = new List<EnemyData>();
     public List<CardData> cardData = new List<CardData>();
 
+    public List<CardEffect> startingEffects = new List<CardEffect>();
+    public List<CardActivity> startingActivities = new List<CardActivity>();
+
 }
