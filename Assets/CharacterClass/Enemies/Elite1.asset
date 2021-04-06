@@ -17,10 +17,11 @@ MonoBehaviour:
   enemyName: Elite1
   artwork: {fileID: 0}
   characterArt: {fileID: 4399961221871102342, guid: 2a133b27818b15542ac30a81e856d43e, type: 3}
-  tier: 30
+  tier: 1
   experience: 0
   deck:
   - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
   - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
+  startingEffects: []

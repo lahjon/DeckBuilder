@@ -27,3 +27,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
   cardData: []
+  startingEffects:
+  - Type: 4
+    Value: 2
+    Times: 1
+    Target: 2
+  startEffectsTargets: 00000000

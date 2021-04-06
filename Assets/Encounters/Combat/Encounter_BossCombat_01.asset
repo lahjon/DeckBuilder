@@ -26,3 +26,5 @@ MonoBehaviour:
   enemyData:
   - {fileID: 11400000, guid: 1aede0d27bdbb0b429f45b452eb2ee6a, type: 2}
   cardData: []
+  startingEffects: []
+  startEffectsTargets: 

@@ -48,7 +48,7 @@ public static class DatabaseUpdateOnStart
         Debug.Log("Googled the enemies bro!");
     }
 
-    [MenuItem("Edit/Download GoogleEnemies %#O")]
+    [MenuItem("Edit/Download GoogleEncounters %#O")]
     static void UpdateFromGoogleEncounters()
     {
         DatabaseGoogle google = new DatabaseGoogle();

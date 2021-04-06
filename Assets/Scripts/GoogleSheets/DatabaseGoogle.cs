@@ -57,12 +57,14 @@ public class DatabaseGoogle
     {
         ReadEntriesEnemy("Enemy", "Z", "Main");
         ReadEntriesEnemyCards("EnemyDecks", "Z", "Main");
+        ReadEntriesEnemyEffects("EnemyEffects", "Z", "Main");
     }
 
     public void DownloadEncounters()
     {
         ReadEntriesEncounter("CombatEncounter", "Z", "Main");
         ReadEntriesEncounterEnemies("CombatEncounterEnemies", "Z", "Main");
+        ReadEntriesEncounterEffects("CombatEncounterEffects", "Z", "Main");
     }
 
 
@@ -294,6 +296,7 @@ public class DatabaseGoogle
             data.experience     = int.Parse((string)gt[i, "Experience"]);
             
             data.deck.Clear();
+            data.startingEffects.Clear();
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -336,7 +339,37 @@ public class DatabaseGoogle
 
     }
 
+    public void ReadEntriesEnemyEffects(string sheetName, string lastCol, string sheet)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
 
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { @"Assets\CharacterClass\Enemies" });
+            if (data == null)
+            {
+                Debug.LogError("SKIPPED: Effect assigned to non-existant enemy named: " + databaseName);
+                continue;
+            }
+
+            CardEffect cardEffect = new CardEffect();
+            cardEffect.Target = CardTargetType.Self;
+            Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
+            cardEffect.Value = int.Parse((string)gt[i, "Value"]);
+            cardEffect.Times = int.Parse((string)gt[i, "Times"]);
+
+            data.startingEffects.Add(cardEffect);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
 
     #endregion
 
@@ -365,6 +398,8 @@ public class DatabaseGoogle
             data.description = (string)gt[i, "Description"];
 
             data.enemyData.Clear();
+            data.startEffectsTargets.Clear();
+            data.startingEffects.Clear();
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -405,6 +440,38 @@ public class DatabaseGoogle
             AssetDatabase.Refresh();
         }
 
+    }
+
+    private void ReadEntriesEncounterEffects(string sheetName, string lastCol, string sheet)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { EncounterPath });
+            if (data == null)
+            {
+                Debug.LogError("SKIPPED: Effects assigned to non-existant encounter : " + databaseName);
+                continue;
+            }
+
+            CardEffect cardEffect = new CardEffect();
+            Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
+            cardEffect.Value = int.Parse((string)gt[i, "Value"]);
+            cardEffect.Times = int.Parse((string)gt[i, "Times"]);
+            Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
+
+            data.startingEffects.Add(cardEffect);
+            data.startEffectsTargets.Add(int.Parse((string)gt[i, "EnemyNr"]));
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
     }
 
 

@@ -124,7 +124,7 @@ public class CombatController : MonoBehaviour
 
     #region Plumbing, Setup, Start/End turn
 
-    public void SetUpEncounter(List<EnemyData> enemyDatas = null)
+    public void SetUpEncounter(List<EnemyData> enemyData = null)
     {
         Hero.healthEffects.combatActor = Hero;
         Hero.combatController = this;
@@ -141,20 +141,20 @@ public class CombatController : MonoBehaviour
 
         Hero.ShuffleDeck();
 
-        if (enemyDatas == null || enemyDatas?.Count < 1)
+        if (enemyData == null || enemyData?.Count < 1)
         {
-            enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
+            enemyData = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
             Debug.Log("EnemyData is null");
         }
 
-        enemyDatas.ForEach(x => Debug.Log(x));
+        enemyData.ForEach(x => Debug.Log(x));
 
-        for (int i = 0; i < enemyDatas.Count; i++)
+        for (int i = 0; i < enemyData.Count; i++)
         {
             GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.combatController = this;
-            combatActorEnemy.ReadEnemyData(enemyDatas[i]);
+            combatActorEnemy.ReadEnemyData(enemyData[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
         animator.SetTrigger("StartSetup");
