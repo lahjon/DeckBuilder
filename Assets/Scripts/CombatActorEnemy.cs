@@ -17,8 +17,6 @@ public class CombatActorEnemy : CombatActor
     public GameObject cardTemplate;
 
     [HideInInspector]
-    public List<Card> deck;
-    public List<Card> discard;
     public CardData nextCard;
     public GameObject AnchorMoveDisplay;
 
@@ -63,6 +61,7 @@ public class CombatActorEnemy : CombatActor
             Card card = cardObject.GetComponent<Card>();
             card.cardData = cardData;
             card.BindCardData();
+            card.owner = this;
             deck.Add(card);
         }
 
@@ -71,9 +70,12 @@ public class CombatActorEnemy : CombatActor
         enemyName = enemyData.enemyName;
         tooltipController.AddTipText($"<b>{enemyName}</b>\nThis enemy has {deck.Count} cards in its deck!");
 
-        GameObject enemyArt = Instantiate(enemyData.characterArt);
-        enemyArt.transform.SetParent(this.gameObject.transform);
-        enemyArt.transform.localPosition = Vector3.zero + new Vector3(0,-2, 0);
+        if (enemyData.characterArt != null)
+        {
+            GameObject enemyArt = Instantiate(enemyData.characterArt);
+            enemyArt.transform.SetParent(this.gameObject.transform);
+            enemyArt.transform.localPosition = Vector3.zero + new Vector3(0, -2, 0);
+        }
 
         healthEffects.maxHitPoints = enemyData.StartingHP;
         healthEffects.hitPoints = enemyData.StartingHP;
@@ -167,7 +169,7 @@ public class CombatActorEnemy : CombatActor
         
         if (combatController.ActiveCard != null  && combatController.ActiveCard.targetRequired)
             SetTarget(true);
-
+        
 
         if (combatController.TargetedEnemy is null) combatController.TargetedEnemy = this;
     }

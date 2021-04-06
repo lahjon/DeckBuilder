@@ -22,19 +22,7 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
         if (card.exhaust)
             Destroy(card.gameObject);
         else
-        {
-            if (combatController.ActiveActor == combatController.Hero)
-            {
-                Debug.Log("Combatcontroller Sending card to discard");
-                combatController.Discard.Add((CardCombat)card);
-                ((CardCombat)card).animator.SetTrigger("Discarded");
-            }
-            else
-            {
-                combatController.animator.SetBool("EnemyQueued", combatController.enemiesWaiting.Count != 0);
-                ((CombatActorEnemy)combatController.ActiveActor).discard.Add(card);
-            }
-        }
+            card.owner.DiscardCard(card);
            
         combatController.animator.SetTrigger("CardFinished");
     }

@@ -19,7 +19,7 @@ MonoBehaviour:
   exhaust: 0
   Damage:
     Type: 0
-    Value: 6
+    Value: 7
     Times: 1
     Target: 1
   Block:

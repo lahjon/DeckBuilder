@@ -16,7 +16,7 @@ public class CardActivityAddCardToDeck : CardActivity
         else
         {
             CardCombat card = CardCombat.CreateCardCombatFromData(cd);
-            combatController.Deck.Add(card);
+            card.owner.AddToDeck(card);
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {input} to Deck!");
             combatController.UpdateDeckTexts();
         }

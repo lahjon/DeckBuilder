@@ -57,9 +57,7 @@ public class CombatController : MonoBehaviour
     }
 
     private List<CardData> DeckData;
-    public List<CardCombat> Deck = new List<CardCombat>();
     public List<CardCombat> Hand = new List<CardCombat>();
-    public List<CardCombat> Discard = new List<CardCombat>();
     public List<CardCombat> createdCards = new List<CardCombat>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
@@ -74,7 +72,8 @@ public class CombatController : MonoBehaviour
         new Queue<(CardCombat card, CombatActor target)>();
 
     [SerializeField]
-    public (Card card, CombatActor target) CardInProcess;
+    public Card         InProcessCard;
+    public CombatActor  InProcessTarget;
 
     public Queue<CardCombat> HeroCardsWaiting = new Queue<CardCombat>();
     public Queue<CombatActorEnemy> enemiesWaiting = new Queue<CombatActorEnemy>();
@@ -125,7 +124,7 @@ public class CombatController : MonoBehaviour
 
     #region Plumbing, Setup, Start/End turn
 
-    public void SetUpEncounter(List<EnemyData> enemyDatas = null)
+    public void SetUpEncounter(List<EnemyData> enemyData = null)
     {
         Hero.healthEffects.combatActor = Hero;
         Hero.combatController = this;
@@ -137,25 +136,25 @@ public class CombatController : MonoBehaviour
         foreach(CardData cd in DeckData)
         {
             CardCombat card = CardCombat.CreateCardCombatFromData(cd);
-            Deck.Add(card);
+            Hero.deck.Add(card);
         }
 
-        ShuffleDeck();
+        Hero.ShuffleDeck();
 
-        if (enemyDatas == null || enemyDatas?.Count < 1)
+        if (enemyData == null || enemyData?.Count < 1)
         {
-            enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
+            enemyData = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
             Debug.Log("EnemyData is null");
         }
 
-        enemyDatas.ForEach(x => Debug.Log(x));
+        enemyData.ForEach(x => Debug.Log(x));
 
-        for (int i = 0; i < enemyDatas.Count; i++)
+        for (int i = 0; i < enemyData.Count; i++)
         {
             GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.combatController = this;
-            combatActorEnemy.ReadEnemyData(enemyDatas[i]);
+            combatActorEnemy.ReadEnemyData(enemyData[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
         animator.SetTrigger("StartSetup");
@@ -227,10 +226,10 @@ public class CombatController : MonoBehaviour
     {
         Hand.ForEach(x => Destroy(x.gameObject));
         Hand.Clear();
-        Deck.ForEach(x => Destroy(x.gameObject));
-        Deck.Clear();
-        Discard.ForEach(x => Destroy(x.gameObject));
-        Discard.Clear();
+        Hero.deck.ForEach(x => Destroy(x.gameObject));
+        Hero.deck.Clear();
+        Hero.discard.ForEach(x => Destroy(x.gameObject));
+        Hero.discard.Clear();
         Hero.healthEffects.RemoveAllBlock();
 
         DeadEnemiesInScene.Clear();
@@ -373,14 +372,14 @@ public class CombatController : MonoBehaviour
                 break;
             }
 
-            if (Deck.Count == 0)
+            if (Hero.deck.Count == 0)
             {
-                Deck.AddRange(Discard);
-                Discard.Clear();
-                ShuffleDeck();
+                Hero.deck.AddRange(Hero.discard);
+                Hero.discard.Clear();
+                Hero.ShuffleDeck();
             }
 
-            if (Deck.Count == 0)
+            if (Hero.deck.Count == 0)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("no cards to draw broooow");
                 break;
@@ -393,8 +392,8 @@ public class CombatController : MonoBehaviour
 
     private void DrawSingleCard()
     {
-        CardCombat card = Deck[0];
-        Deck.RemoveAt(0);
+        CardCombat card = (CardCombat)Hero.deck[0];
+        Hero.deck.RemoveAt(0);
         Hand.Add(card);
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
@@ -405,18 +404,6 @@ public class CombatController : MonoBehaviour
         ActiveCard.selected = false;
         ActiveCard = null;
         ResetSiblingIndexes();
-    }
-
-
-    private void ShuffleDeck()
-    {
-        for(int i = 0; i < Deck.Count; i++)
-        {
-            CardCombat temp = Deck[i];
-            int index = UnityEngine.Random.Range(i, Deck.Count);
-            Deck[i] = Deck[index];
-            Deck[index] = temp;
-        }
     }
 
     public IEnumerator DiscardAllCards()
@@ -430,7 +417,7 @@ public class CombatController : MonoBehaviour
     public IEnumerator DiscardCard(CardCombat card)
     {
         Hand.Remove(card);
-        Discard.Add(card);
+        Hero.discard.Add(card);
 
         card.animator.SetTrigger("Discarded");
         RefreshHandPositions();
@@ -440,8 +427,8 @@ public class CombatController : MonoBehaviour
 
     public void UpdateDeckTexts()
     {
-        txtDeck.GetComponent<Text>().text = "Deck:\n" + Deck.Count;
-        txtDiscard.GetComponent<Text>().text = "Discard:\n" + Discard.Count;
+        txtDeck.GetComponent<Text>().text = "Deck:\n" + Hero.deck.Count;
+        txtDiscard.GetComponent<Text>().text = "Discard:\n" + Hero.discard.Count;
     }
 
     #endregion

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
+  m_Name: RathyenScout
+  m_EditorClassIdentifier: 
+  StartingHP: 15
+  enemyId: 0003
+  enemyName: Scout
+  artwork: {fileID: 21300000, guid: 946b409c6f6337c44a811feeabf6fb71, type: 3}
+  characterArt: {fileID: 0}
+  tier: 1
+  experience: 0
+  deck:
+  - {fileID: 11400000, guid: 5fa75ec339a5f9a4ea4bbb6eec1ccb10, type: 2}
+  - {fileID: 11400000, guid: f59adc2b20688454d913a381a22e03b8, type: 2}
+  startingEffects: []

@@ -18,7 +18,7 @@ MonoBehaviour:
   isVisited: 0
   secretCondition: 0
   events: 
-  description: sdkvmasdlkvm
+  description: "Tv\xE5 nullcasters"
   choice1: 
   choice2: 
   choice3: 
@@ -27,3 +27,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
   - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
   cardData: []
+  startingEffects: []
+  startEffectsTargets: 

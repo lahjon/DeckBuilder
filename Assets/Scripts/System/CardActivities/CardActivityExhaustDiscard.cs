@@ -10,26 +10,17 @@ public class CardActivityExhaustDiscard : CardActivity
     {
         int x = Int32.Parse(input);
 
-         CombatActor target = combatController.CardInProcess.target;
+        CombatActor target = combatController.InProcessTarget;
         
-        if(target == combatController.Hero)
+        for(int i = 0; i < x && target.discard.Count >= 0; i++)
         {
-            for(int i = 0; i < x && combatController.Discard.Count != 0; i++)
+            Card card = target.discard[0];
+            target.discard.RemoveAt(0);
+            CombatActor.Destroy(card.gameObject);
+            if(target == combatController.Hero)
             {
-                CardCombat card = combatController.Discard[combatController.Discard.Count -1];
-                combatController.Discard.Remove(card);
-                CombatController.Destroy(card.gameObject);
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Top in discard was exhausted!");
                 combatController.UpdateDeckTexts();
-            }
-        }
-        else {
-            CombatActorEnemy enemy = (CombatActorEnemy)target;
-            for (int i = 0; i < x && enemy.discard.Count != 0; i++)
-            {
-                Card card = enemy.discard[enemy.discard.Count-1];
-                enemy.discard.Remove(card);
-                CombatController.Destroy(card.gameObject);
             }
         }
 

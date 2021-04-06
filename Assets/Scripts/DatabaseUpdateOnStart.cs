@@ -95,15 +95,31 @@ public static class DatabaseUpdateOnStart
     }
 
 
-    [MenuItem("Edit/Download GoogleCards %G")]
+    [MenuItem("Edit/Download GoogleCards %C")]
     static void UpdateFromGoogle()
     {
         DatabaseGoogle google = new DatabaseGoogle();
-        google.DownloadAll(); 
+        google.DownloadCards(); 
 
         Debug.Log("Googled the cards bro!");
+    }
 
+    [MenuItem("Edit/Download GoogleEnemies %#E")]
+    static void UpdateFromGoogleEnemies()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadEnemies();
 
+        Debug.Log("Googled the enemies bro!");
+    }
+
+    [MenuItem("Edit/Download GoogleEncounters %#O")]
+    static void UpdateFromGoogleEncounters()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadEncounters();
+
+        Debug.Log("Googled the combatEncounters bro!");
     }
 
 
@@ -114,7 +130,5 @@ public static class DatabaseUpdateOnStart
         google.PrintCardData();
 
         Debug.Log("Uploaded the cards bro!");
-
-
     }
 }

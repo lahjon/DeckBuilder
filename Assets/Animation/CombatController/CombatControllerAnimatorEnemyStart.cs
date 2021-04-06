@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatControllerAnimatorEnemyTurn : CombatControllerAnimator
+public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
 {
     CombatActorEnemy enemy;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -12,7 +12,8 @@ public class CombatControllerAnimatorEnemyTurn : CombatControllerAnimator
 
         enemy = combatController.enemiesWaiting.Dequeue();
         combatController.ActiveActor = enemy;
-        combatController.CardInProcess = (enemy.hand, combatController.Hero);
+        combatController.InProcessCard = enemy.hand;
+        combatController.InProcessTarget = combatController.Hero;
         combatController.StartCoroutine(EnemyTurn());
     }
 

@@ -86,6 +86,7 @@ public class CardCombat : CardVisual
         card.BindCardVisualData();
 
         card.combatController = combatController;
+        card.owner = combatController.Hero;
         card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
         combatController.createdCards.Add(card);
 
@@ -106,6 +107,7 @@ public class CardCombat : CardVisual
         card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
         SpliceCards(card, a, b);
         card.BindCardVisualData();
+        card.owner = combatController.ActiveActor;
         card.allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) card.tooltipController.AddTipText(x.Type.GetDescription()); });
         card.activities.ForEach(x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
 

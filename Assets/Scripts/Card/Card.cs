@@ -21,17 +21,18 @@ public class Card : MonoBehaviour
     public List<CardActivitySetting> activities = new List<CardActivitySetting>();
 
     public GameObject animationPrefab;
+    public CombatActor owner;
 
     public void BindCardData()
     {
-        name        = cardData.cardName;
-        artwork     = cardData.artwork;
-        cost        = cardData.cost;
-        exhaust     = cardData.exhaust;
-        Damage      = cardData.Damage;
-        Block       = cardData.Block;
-        Effects     = cardData.inEffects;
-        activities  = cardData.inActivities;
+        name            = cardData.cardName;
+        artwork         = cardData.artwork;
+        cost            = cardData.cost;
+        exhaust         = cardData.exhaust;
+        Damage          = cardData.Damage;
+        Block           = cardData.Block;
+        Effects         = cardData.inEffects;
+        activities      = cardData.inActivities;
         animationPrefab = cardData.animationPrefab;
     }
 

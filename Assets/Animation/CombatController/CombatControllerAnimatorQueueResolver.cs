@@ -23,7 +23,8 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
         }
         else
         {
-            combatController.CardInProcess = cardWaiting;
+            combatController.InProcessCard = cardWaiting.card;
+            combatController.InProcessTarget = cardWaiting.suppliedTarget;
             combatController.cEnergy -= cardWaiting.card.cost;
             animator.SetTrigger("CardCanProcess");
         }

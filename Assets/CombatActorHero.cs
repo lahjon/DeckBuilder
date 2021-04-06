@@ -15,4 +15,10 @@ public class CombatActorHero : CombatActor
     {
 
     }
+
+    public override void DiscardCard(Card card)
+    {
+        ((CardCombat)card).animator.SetTrigger("Discarded");
+        base.DiscardCard(card);
+    }
 }

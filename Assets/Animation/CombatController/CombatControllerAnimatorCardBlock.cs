@@ -36,7 +36,7 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
         Debug.Log("Starting block recieving");
         foreach (CombatActor actor in targetActors)
         {
-            for (int i = 0; i < block.Times; i++)
+            for (int i = 0; i < block.Times; i++)   
             {
                 actor.healthEffects.RecieveBlock(block.Value);
                 yield return new WaitForSeconds(0.3f);
