@@ -11,4 +11,5 @@ public class CompanionData : ScriptableObject
     public int goldValue;
     public Sprite artwork;
     public Rarity rarity;
+    public string effectName;
 }

@@ -28,6 +28,10 @@ public class SaveDataWorld
     // stats tracker
     public List<BuildingType> buildingTrackerKey;
     public List<int> buildingTrackerValues;
+    public List<CharacterClassType> classTypes;
+    public List<int> level;
+    public List<string> enemyId;
+    public List<int> enemyAmountKilled;
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public int tokenPoints;
     public string ToJson()

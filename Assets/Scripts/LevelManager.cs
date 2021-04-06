@@ -97,7 +97,7 @@ public class LevelManager : Manager
         world.characterManager.character.level = _currentLevel;
         world.characterManager.characterSheet.OnLevelUp();
         world.characterManager.characterVariablesUI.ActivateLevelUp();
-        EventManager.LevelUp();
+        EventManager.LevelUp(world.characterManager.character.classType, _currentLevel);
         if (_currentLevel >= _maxLevel)
         {
             SetMaxLevel();
