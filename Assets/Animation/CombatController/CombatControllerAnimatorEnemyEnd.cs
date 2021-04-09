@@ -10,7 +10,6 @@ public class CombatControllerAnimatorEnemyEnd: CombatControllerAnimator
         SetRefs(animator);
 
         enemy = (CombatActorEnemy)combatController.ActiveActor;
-        combatController.animator.SetBool("EnemyQueued", combatController.enemiesWaiting.Count != 0);
         combatController.StartCoroutine(EnemyEnd());
     }
 
@@ -18,7 +17,8 @@ public class CombatControllerAnimatorEnemyEnd: CombatControllerAnimator
     {
         for (int i = 0; i < enemy.actionsEndTurn.Count; i++)
             yield return combatController.StartCoroutine(enemy.actionsEndTurn[i].Invoke());
-
+        
+        combatController.animator.SetBool("EnemyQueued", combatController.enemiesWaiting.Count != 0);
         combatController.animator.SetTrigger("EnemyFinished");
     }
  

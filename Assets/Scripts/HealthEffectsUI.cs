@@ -22,7 +22,10 @@ public class HealthEffectsUI : MonoBehaviour
     public Transform EffectsAnchor;
     public Dictionary<EffectType, EffectDisplay> effectToDisplay = new Dictionary<EffectType, EffectDisplay>();
     public GameObject templateEffectDisplay;
+    public List<EffectionNotificationFade> EffectNotificators;
 
+    private Queue<RuleEffect> queuedEffectsAnimation = new Queue<RuleEffect>();
+    private IEnumerator coroutineEffectAdder;
 
     public void Start()
     {
@@ -70,26 +73,73 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public void SetEffect(EffectType effect, RuleEffect ruleEffect)
+
+    public void ModifyEffectUI(RuleEffect effect)
     {
-        if (effectToDisplay.ContainsKey(effect))
+        queuedEffectsAnimation.Enqueue(effect);
+        if(coroutineEffectAdder is null)
         {
-            if (ruleEffect.nrStacked == 0)
-            {
-                Destroy(effectToDisplay[effect].gameObject);
-                effectToDisplay.Remove(effect);
-            }
-            else
-                effectToDisplay[effect].SetLabel(ruleEffect);
+            coroutineEffectAdder = EffectDequeuer();
+            StartCoroutine(coroutineEffectAdder);
         }
-        else if (ruleEffect.nrStacked != 0)
+    }
+
+    public IEnumerator EffectDequeuer()
+    {
+        while(queuedEffectsAnimation.Count != 0)
+        {
+            RuleEffect current = queuedEffectsAnimation.Dequeue();
+            UpdateEffectUI(current);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        coroutineEffectAdder = null;
+        yield return null;
+    }
+
+    public void UpdateEffectUI(RuleEffect effect)
+    {
+        EffectType effectType = effect.type;
+
+        if(effect.nrStacked == 0)
+        {
+            if (effectToDisplay.ContainsKey(effectType)){
+                Destroy(effectToDisplay[effectType].gameObject);
+                effectToDisplay.Remove(effectType);
+                StartEffectNotification(effect.effectName + " wore off");
+                return;
+            }
+        }
+
+        string label = effect.stackable ? effect.nrStacked.ToString() : "";
+
+        if (effectToDisplay.ContainsKey(effectType))
+        {
+            effectToDisplay[effectType].SetLabel(label);
+        }
+        else if (effect.nrStacked != 0)
         {
             GameObject effectObject = Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor) as GameObject;
-            effectToDisplay[effect] = effectObject.GetComponent<EffectDisplay>();
-            effectToDisplay[effect].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(ruleEffect.effectName));
-            effectToDisplay[effect].SetLabel(ruleEffect);
+            effectToDisplay[effectType] = effectObject.GetComponent<EffectDisplay>();
+            effectToDisplay[effectType].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(effect.effectName));
+            effectToDisplay[effectType].SetLabel(label);
+            StartEffectNotification(effect.effectName);
         }
 
     }
+
+    public void StartEffectNotification(string notification)
+    {
+        for(int i = 0; i < EffectNotificators.Count; i++)
+        {
+            if (!EffectNotificators[i].isActiveAndEnabled)
+            {
+                EffectNotificators[i].gameObject.SetActive(true);
+                EffectNotificators[i].ResetLabel(notification);
+                break;
+            }
+        }
+    }
+
 
 }

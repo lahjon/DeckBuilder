@@ -6,7 +6,7 @@ using TMPro;
 public class ShopOverworld : MonoBehaviour
 {
     public CardDisplay currentCard;
-    public List<GameObject> cardsInStock;
+    public List<CardVisual> cardsInStock;
     public List<TMP_Text> cardsPrices;
 
     void UpdateCardPrices()
@@ -14,25 +14,25 @@ public class ShopOverworld : MonoBehaviour
         for (int i = 0; i < cardsInStock.Count; i++)
         {
             if(cardsInStock[i].gameObject.activeSelf)
-                cardsPrices[i].text = cardsInStock[i].GetComponent<CardVisual>().cardData.goldValue.ToString() + " g";
+                cardsPrices[i].text = cardsInStock[i].cardData.goldValue.ToString() + " g";
             else
                 cardsPrices[i].text = "Out of Stock!";
         }
     }
     void GetNewCards()
     {
-        foreach (GameObject card in cardsInStock)
+        foreach (CardVisual card in cardsInStock)
         {
-            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard();
-            card.GetComponent<CardDisplay>().BindCardData();
-            card.GetComponent<CardDisplay>().BindCardVisualData();
+            card.cardData = DatabaseSystem.instance.GetRandomCard();
+            card.BindCardData();
+            card.BindCardVisualData();
         }
     }
     public void RestockShop()
     {
-        foreach (GameObject card in cardsInStock)
+        foreach (CardDisplay card in cardsInStock)
         {
-            card.SetActive(true);
+            card.gameObject.SetActive(true);
         }
         GetNewCards();
         UpdateCardPrices();

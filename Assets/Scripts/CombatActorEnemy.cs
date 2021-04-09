@@ -122,7 +122,7 @@ public class CombatActorEnemy : CombatActor
 
     public void OnDeath()
     {
-        Destroy(hand.gameObject);
+        if(hand != null) Destroy(hand.gameObject);
         hand = null;
         deck.ForEach(x => Destroy(x.gameObject));
         deck.Clear();

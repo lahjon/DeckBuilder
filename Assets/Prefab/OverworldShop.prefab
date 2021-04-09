@@ -662,6 +662,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1019,6 +1020,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1371,6 +1373,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1541,6 +1544,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2027,7 +2031,7 @@ GameObject:
   - component: {fileID: 366531183660470776}
   - component: {fileID: 366531183660470779}
   m_Layer: 0
-  m_Name: Shop
+  m_Name: OverworldShop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2066,9 +2070,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentCard: {fileID: 0}
   cardsInStock:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1239432930074983701}
+  - {fileID: 1218180565927053540}
+  - {fileID: 7824485187974607759}
   cardsPrices:
   - {fileID: 366531183517488023}
   - {fileID: 366531183935718929}
@@ -2195,8 +2199,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 366531183660470779}
-        m_TargetAssemblyTypeName: Shop, Assembly-CSharp
-        m_MethodName: LeaveShop
+        m_TargetAssemblyTypeName: ShopOverworld, Assembly-CSharp
+        m_MethodName: ButtonLeave
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2258,6 +2262,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2487,6 +2492,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -2894,6 +2900,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
+--- !u!114 &1239432930074983701 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1577957614717447409, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
+  m_PrefabInstance: {fileID: 348274405359571428}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1239432930074983700 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
@@ -3013,6 +3030,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
   m_PrefabInstance: {fileID: 360799046996517909}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1218180565927053540 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1577957614717447409, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
+  m_PrefabInstance: {fileID: 360799046996517909}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8750546601355976574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3122,6 +3150,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
+--- !u!114 &7824485187974607759 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1577957614717447409, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
+  m_PrefabInstance: {fileID: 8750546601355976574}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7824485187974607758 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}

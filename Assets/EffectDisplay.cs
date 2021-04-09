@@ -10,6 +10,7 @@ public class EffectDisplay : MonoBehaviour
 
     float durationPopin = 0.2f;
     public Vector3 popinStartSize = new Vector3(0f, 0f, 0f);
+    public Vector3 fullSize = Vector3.one;
 
     IEnumerator popinFunction;
 
@@ -26,9 +27,7 @@ public class EffectDisplay : MonoBehaviour
 
     public IEnumerator Popin()
     {
-        Debug.Log("Starting effect pop-in");
         float time = 0;
-        Vector3 fullSize = new Vector3(1f, 1f, 1f);
         while(time < durationPopin)
         {
             time += Time.deltaTime;
@@ -39,12 +38,9 @@ public class EffectDisplay : MonoBehaviour
         transform.localScale = fullSize;
     }
 
-    public void SetLabel(RuleEffect ruleEffect)
+    public void SetLabel(string stackNr)
     {
-        if (ruleEffect.stackable)
-            effectLabel.text = ruleEffect.nrStacked.ToString();
-        else
-            effectLabel.text = "";
+         effectLabel.text = stackNr;
     }
 
     public void SetSprite(Sprite sprite)

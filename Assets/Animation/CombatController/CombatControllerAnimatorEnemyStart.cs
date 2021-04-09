@@ -29,6 +29,7 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
             yield return combatController.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 
+        enemy.EffectsOnNewTurnBehavior();
         combatController.animator.SetTrigger("EnemyPlayCard");
     }
  

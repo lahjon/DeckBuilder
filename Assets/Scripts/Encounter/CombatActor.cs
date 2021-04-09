@@ -118,7 +118,7 @@ public class CombatActor : MonoBehaviour
         }
 
         //Update UI
-        healthEffectsUI.SetEffect(effect.Type, effectTypeToRule[effect.Type]);
+        healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect.Type]);
     }
 
     public void EffectsOnNewTurnBehavior()
@@ -127,7 +127,7 @@ public class CombatActor : MonoBehaviour
         foreach (EffectType effect in effects)
         {
             effectTypeToRule[effect].OnNewTurnBehaviour();
-            healthEffectsUI.SetEffect(effect, effectTypeToRule[effect]);
+            healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect]);
             if (effectTypeToRule[effect].nrStacked <= 0)
             {
                 effectTypeToRule[effect].RemoveFunctionFromRules();
@@ -142,7 +142,7 @@ public class CombatActor : MonoBehaviour
         foreach (EffectType effect in effects)
         {
             effectTypeToRule[effect].OnEndTurnBehaviour();
-            healthEffectsUI.SetEffect(effect, effectTypeToRule[effect]);
+            healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect]);
             if (effectTypeToRule[effect].nrStacked <= 0)
             {
                 effectTypeToRule[effect].RemoveFunctionFromRules();

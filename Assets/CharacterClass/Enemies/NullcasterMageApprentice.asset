@@ -29,3 +29,7 @@ MonoBehaviour:
     Value: 2
     Times: 1
     Target: 0
+  - Type: 3
+    Value: 2
+    Times: 1
+    Target: 0

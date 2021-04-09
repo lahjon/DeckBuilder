@@ -26,7 +26,6 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
 
         combatController.acceptEndTurn = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
-        combatController.EnemiesInScene.ForEach(x => x.EffectsOnNewTurnBehavior());
         combatController.EnemiesInScene.ForEach(x => x.DrawCard());
         combatController.EnemiesInScene.ForEach(x => x.ShowMoveDisplay(true));
 

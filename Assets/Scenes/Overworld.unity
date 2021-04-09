@@ -8366,11 +8366,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
---- !u!1 &755148374 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1218180565927053542, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-  m_PrefabInstance: {fileID: 366531182881619017}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &763000941
 GameObject:
   m_ObjectHideFlags: 0
@@ -14154,11 +14149,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421547268}
   m_CullTransparentMesh: 1
---- !u!1 &436266211 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1239432930074983703, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-  m_PrefabInstance: {fileID: 366531182881619017}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &440266334
 GameObject:
   m_ObjectHideFlags: 0
@@ -18437,11 +18427,6 @@ MonoBehaviour:
   rewardScreen: {fileID: 1764640840}
   rewardScreenCardSelection: {fileID: 1186353786}
   draftAmount: 0
---- !u!1 &1149136140 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7824485187974607757, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-  m_PrefabInstance: {fileID: 366531182881619017}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1186353784
 GameObject:
   m_ObjectHideFlags: 0
@@ -24132,10 +24117,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1477392702}
     m_Modifications:
-    - target: {fileID: 366531183309694001, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 366531183660470776, guid: b809b88fe68213b45943c5d070794f51, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -24187,26 +24168,6 @@ PrefabInstance:
     - target: {fileID: 366531183660470777, guid: b809b88fe68213b45943c5d070794f51, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-      propertyPath: cardsInStock.Array.data[0]
-      value: 
-      objectReference: {fileID: 436266211}
-    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-      propertyPath: cardsInStock.Array.data[1]
-      value: 
-      objectReference: {fileID: 755148374}
-    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-      propertyPath: cardsInStock.Array.data[2]
-      value: 
-      objectReference: {fileID: 1149136140}
-    - target: {fileID: 366531183686724456, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ButtonLeave
-      objectReference: {fileID: 0}
-    - target: {fileID: 366531183686724456, guid: b809b88fe68213b45943c5d070794f51, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ShopOverworld, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b809b88fe68213b45943c5d070794f51, type: 3}
