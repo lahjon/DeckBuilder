@@ -10,6 +10,7 @@ public class CombatControllerAnimator : StateMachineBehaviour
     {
         if (combatController is null)
         {
+
             combatController = animator.GetComponent<CombatController>();
         }
     }

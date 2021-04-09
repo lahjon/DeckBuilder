@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Encounter", menuName = "CardGame/Encounter")]
+[CreateAssetMenu(fileName = "NewEncounter", menuName = "CardGame/Encounter")]
 public class EncounterData : ScriptableObject
 {
     public new string name;
