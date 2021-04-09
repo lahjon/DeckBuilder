@@ -24,7 +24,7 @@ public static class EnumExtenstions
             case EffectType.Weak:
                 return new RuleEffectWeak();
             case EffectType.Vurnerable:
-                return new RuleEffectVurnerable();
+                return new RuleEffectVulnerable();
             case EffectType.Thorns:
                 return new RuleEffectThorns();
             case EffectType.Splice:

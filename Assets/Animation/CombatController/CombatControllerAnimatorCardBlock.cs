@@ -5,7 +5,7 @@ using UnityEngine;
 public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 {
     CardEffect block;
-    List<CombatActor> targetActors = new List<CombatActor>();
+    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -24,22 +24,18 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
             combatController.animator.Play(nextLayerState);
         else
         {
-            targetActors.Clear();
-            targetActors = combatController.GetTargets(combatController.ActiveActor, block.Target, suppliedTarget);
-
+            effectAndTarget = combatController.GetTargets(combatController.ActiveActor, block, suppliedTarget);
             combatController.StartCoroutine(GetBlock());
         }
     }
 
     IEnumerator GetBlock()
     {
-        Debug.Log("Starting block recieving");
-        foreach (CombatActor actor in targetActors)
+        for (int i = 0; i < effectAndTarget.effect.Times; i++)
         {
-            for (int i = 0; i < block.Times; i++)   
+            foreach (CombatActor actor in effectAndTarget.targets)
             {
-                actor.healthEffects.RecieveBlock(block.Value);
-                yield return new WaitForSeconds(0.3f);
+                yield return combatController.StartCoroutine(actor.ChangeBlock(effectAndTarget.effect.Value));
             }
         }
 

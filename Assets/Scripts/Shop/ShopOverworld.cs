@@ -25,6 +25,7 @@ public class ShopOverworld : MonoBehaviour
         {
             card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard();
             card.GetComponent<CardDisplay>().BindCardData();
+            card.GetComponent<CardDisplay>().BindCardVisualData();
         }
     }
     public void RestockShop()

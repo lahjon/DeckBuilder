@@ -6,12 +6,12 @@ public class RuleEffectWeak : RuleEffect
 {
     public override void AddFunctionToRules()
     {
-        healthEffects.combatActor.dealAttackMods.Add(WeakDamage);
+        actor.dealAttackMods.Add(WeakDamage);
     }
 
     public override void RemoveFunctionFromRules()
     {
-        healthEffects.combatActor.dealAttackMods.Remove(WeakDamage);
+        actor.dealAttackMods.Remove(WeakDamage);
     }
 
     public static float WeakDamage(float x)

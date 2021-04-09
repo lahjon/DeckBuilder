@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RuleEffectPoison : RuleEffect
 {
+
     public override void AddFunctionToRules()
     {
         actor.actionsEndTurn.Add(PoisonDamage);
@@ -16,7 +17,7 @@ public class RuleEffectPoison : RuleEffect
 
     IEnumerator PoisonDamage()
     {
-        healthEffects.LooseLife(nrStacked--);
+        actor.LooseLife(nrStacked--);
         yield return null;
     }
 

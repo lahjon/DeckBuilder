@@ -55,6 +55,7 @@ public class RewardScreenCardSelection : MonoBehaviour
         {
             card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard();
             card.GetComponent<CardDisplay>().BindCardData();
+            card.GetComponent<CardDisplay>().BindCardVisualData();
         }
     }
     private void SetSpecificCard(List<CardData> rCards)
@@ -63,6 +64,7 @@ public class RewardScreenCardSelection : MonoBehaviour
         {
             cards[i].GetComponent<CardDisplay>().cardData = rCards[i];
             cards[i].GetComponent<CardDisplay>().BindCardData();
+            cards[i].GetComponent<CardDisplay>().BindCardVisualData();
         }
     }
     

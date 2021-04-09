@@ -13,6 +13,7 @@ public static class DatabaseUpdateOnStart
         UpdateAllTokens();
         UpdateAllArtifacts();
         UpdateAllCharacters();
+        UpdateUImanager();
 
         EditorApplication.isPlaying = true;
         Debug.Log("Updated Database");
@@ -44,6 +45,7 @@ public static class DatabaseUpdateOnStart
         tokens.Clear();
 
         string[] lGuids = AssetDatabase.FindAssets("t:TokenData", new string[] { "Assets/Tokens" });
+
 
         for (int i = 0; i < lGuids.Length; i++)
         {
@@ -94,8 +96,29 @@ public static class DatabaseUpdateOnStart
         AssetDatabase.Refresh();
     }
 
+    [MenuItem("Edit/DELETE THIS %T")]
+    static void UpdateUImanager()
+    {
+        GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefab/UIManager.prefab", typeof(GameObject));
+        UIManager manager = prefab.GetComponent<UIManager>();
+        manager.namedEffectIcons.Clear();
 
-    [MenuItem("Edit/Download GoogleCards %C")]
+        string[] lGuids = AssetDatabase.FindAssets("t:Sprite", new string[] { "Assets/Artwork/Effects" });
+
+        for (int i = 0; i < lGuids.Length; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(lAssetPath);
+            manager.namedEffectIcons.Add(new NamedSprite { name = sprite.name, sprite = sprite });
+        }
+
+        EditorUtility.SetDirty(manager);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+
+    [MenuItem("Edit/Download GoogleCards %#C")]
     static void UpdateFromGoogle()
     {
         DatabaseGoogle google = new DatabaseGoogle();

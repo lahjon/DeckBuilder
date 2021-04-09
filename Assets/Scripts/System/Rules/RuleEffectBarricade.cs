@@ -6,7 +6,6 @@ using UnityEngine;
 public class RuleEffectBarricade : RuleEffect
 {
     Func<IEnumerator> stolenFunction;
-   
 
     public override void AddFunctionToRules()
     {

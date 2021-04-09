@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class RuleEffectThorns : RuleEffect
 {
+
     public override void AddFunctionToRules()
     {
         actor.onAttackRecieved.Add(ThornIt);
@@ -22,7 +23,7 @@ public class RuleEffectThorns : RuleEffect
 
     public IEnumerator ThornIt(CombatActor source)
     {
-        source.healthEffects.TakeDamage(nrStacked);
+        source.TakeDamage(nrStacked);
         yield return new WaitForSeconds(0.2f);
     }
 }

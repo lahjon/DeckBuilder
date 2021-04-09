@@ -20,6 +20,11 @@ public class CardEffect
         Target = cardTargetType;
     }
 
+    public CardEffect Clone()
+    {
+        return new CardEffect(Type, Value, Times, Target);
+    }
+
     public static CardEffect operator+(CardEffect a, CardEffect b)
     {
         if (a == null)

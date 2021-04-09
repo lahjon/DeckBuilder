@@ -126,10 +126,9 @@ public class CombatController : MonoBehaviour
 
     public void SetUpEncounter(List<EnemyData> enemyData = null)
     {
-        Hero.healthEffects.combatActor = Hero;
         Hero.combatController = this;
-        Hero.healthEffects.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
-        Hero.healthEffects.hitPoints = WorldSystem.instance.characterManager.currentHealth;
+        Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
+        Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
 
         DeckData = WorldSystem.instance.characterManager.playerCardsData;
 
@@ -186,6 +185,8 @@ public class CombatController : MonoBehaviour
     {
         energyTurn = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Energy);
         drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Wit);
+        Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
+        Hero.maxHitPoints = WorldSystem.instance.characterManager.currentHealth;
     }
 
     public void EndTurn()
@@ -230,7 +231,7 @@ public class CombatController : MonoBehaviour
         Hero.deck.Clear();
         Hero.discard.ForEach(x => Destroy(x.gameObject));
         Hero.discard.Clear();
-        Hero.healthEffects.RemoveAllBlock();
+        Hero.RemoveAllBlock();
 
         DeadEnemiesInScene.Clear();
     }
@@ -241,25 +242,35 @@ public class CombatController : MonoBehaviour
         return EnemiesInScene[id];
     }
 
-    public List<CombatActor> GetTargets(CombatActor source, CardTargetType type, CombatActor suppliedTarget = null)
+    public (CardEffect effect, List<CombatActor> targets) GetTargets(CombatActor source, CardEffect effect, CombatActor suppliedTarget)
     {
         List<CombatActor> targets = new List<CombatActor>();
 
-        if (type == CardTargetType.Self)
+        if (effect.Target == CardTargetType.Self)
             targets.Add(source);
-        else if (type == CardTargetType.EnemyAll)
+        else if (effect.Target == CardTargetType.EnemyAll)
             targets.AddRange(EnemiesInScene);
-        else if (type == CardTargetType.EnemySingle)
+        else if (effect.Target == CardTargetType.EnemySingle)
             targets.Add(suppliedTarget);
-        else if (type == CardTargetType.EnemyRandom)
+        else if (effect.Target == CardTargetType.EnemyRandom)
             targets.Add(GetRandomEnemy());
-        else if(type == CardTargetType.All)
+        else if(effect.Target == CardTargetType.All)
         {
             targets.Add(Hero);
             targets.AddRange(EnemiesInScene);
         }
 
-        return targets;
+        CardEffect returnEffect;
+
+        if (effect.Target == CardTargetType.EnemyRandom)
+        {
+            returnEffect = effect.Clone();
+            returnEffect.Times = 1;
+        }
+        else
+            returnEffect = effect;
+
+        return (returnEffect, targets);
     }
 
     #endregion

@@ -22,11 +22,11 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
         for(int i = 0; i < hero.actionsNewTurn.Count; i++)
             yield return combatController.StartCoroutine(hero.actionsNewTurn[i].Invoke());
 
-        hero.healthEffects.EffectsOnNewTurnBehavior();
+        hero.EffectsOnNewTurnBehavior();
 
         combatController.acceptEndTurn = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
-        combatController.EnemiesInScene.ForEach(x => x.healthEffects.EffectsOnNewTurnBehavior());
+        combatController.EnemiesInScene.ForEach(x => x.EffectsOnNewTurnBehavior());
         combatController.EnemiesInScene.ForEach(x => x.DrawCard());
         combatController.EnemiesInScene.ForEach(x => x.ShowMoveDisplay(true));
 

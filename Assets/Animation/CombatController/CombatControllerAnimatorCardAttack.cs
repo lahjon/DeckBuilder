@@ -5,7 +5,7 @@ using UnityEngine;
 public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 {
     CardEffect attack;
-    List<CombatActor> targetActors = new List<CombatActor>();
+    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
 
     CombatActor activeActor { get { return combatController.ActiveActor; } }
 
@@ -24,9 +24,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
             combatController.animator.Play(nextLayerState);
         else
         {
-            targetActors.Clear();
-            targetActors = combatController.GetTargets(activeActor, attack.Target, suppliedTarget);
-
+            effectAndTarget = combatController.GetTargets(activeActor, attack, suppliedTarget);
             combatController.StartCoroutine(PerformAttack());
         }
     }
@@ -35,20 +33,14 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 
     IEnumerator PerformAttack()
     {
-        foreach (CombatActor actor in targetActors)
+        for(int i = 0; i < effectAndTarget.effect.Times; i++)
         {
-            for (int i = 0; i < attack.Times; i++)
+            foreach (CombatActor actor in effectAndTarget.targets)
             {
-                int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
-                actor.healthEffects.TakeDamage(damage);
-
-                for (int a = 0; a < actor.onAttackRecieved.Count; a++)
-                    yield return actor.onAttackRecieved[a].Invoke(activeActor);
-
-                yield return new WaitForSeconds(0.1f);
+                int damage = RulesSystem.instance.CalculateDamage(effectAndTarget.effect.Value, activeActor, actor);
+                yield return combatController.StartCoroutine(actor.GetAttacked(damage, activeActor));
             }
         }
-
 
         combatController.animator.Play(nextLayerState);
     }
