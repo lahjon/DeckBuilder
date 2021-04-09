@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Playable Character Data", menuName = "CardGame/PlayableCharacterData")]
+[CreateAssetMenu(fileName = "NewPlayableCharacterData", menuName = "CardGame/PlayableCharacterData")]
 public class PlayableCharacterData : CharacterData
 {
     public GameObject artworkAnimated;
