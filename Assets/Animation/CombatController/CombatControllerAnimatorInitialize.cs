@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 {
+    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
         combatController.StartCoroutine(SetupCombat());
     }
-
 
     public IEnumerator SetupCombat()
     {
@@ -18,41 +19,22 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         yield return new WaitForSeconds(0.5f);
 
         EncounterData encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
-        List<CardEffect> startingEffects    = encounterData.startingEffects;
-        List<int> startingTargets           = encounterData.startEffectsTargets;
+        List<CardEffect>    startingEffects = encounterData.startingEffects;
+        List<int>           startingTargets = encounterData.startEffectsTargets;
+        int counter = 0;
 
         foreach (CardEffect e in startingEffects)
         {
-            List<CombatActor> targetedActors = new List<CombatActor>();
-            if (e.Target == CardTargetType.Self)
-                targetedActors.Add(combatController.Hero);
-            else if (e.Target == CardTargetType.EnemySingle)
-                targetedActors.Add(combatController.EnemiesInScene[startingTargets[startingEffects.IndexOf(e)]]);
-            else if (e.Target == CardTargetType.EnemyAll)
-                targetedActors.AddRange(combatController.EnemiesInScene);
-            else if(e.Target == CardTargetType.All)
-            {
-                targetedActors.Add(combatController.Hero);
-                targetedActors.AddRange(combatController.EnemiesInScene);
-            }
-            else if(e.Target == CardTargetType.EnemyRandom)
-            {
-                for(int i = 0; i < e.Times; i++)
-                {
-                    int index = Random.Range(0, combatController.EnemiesInScene.Count);
-                    targetedActors.Add(combatController.EnemiesInScene[index]);
-                }
-            }
+            effectAndTarget = combatController.GetTargets(combatController.Hero, e, combatController.EnemiesInScene[startingTargets[counter++]]);
 
-
-            targetedActors.ForEach(x => x.healthEffects.RecieveEffectNonDamageNonBlock(e));
+            for (int i = 0; i < effectAndTarget.effect.Times; i++)
+                foreach (CombatActor actor in effectAndTarget.targets)
+                    actor.RecieveEffectNonDamageNonBlock(effectAndTarget.effect);
         }
 
-        for(int i = 0; i < encounterData.enemyData.Count; i++)
-        {
+        for (int i = 0; i < encounterData.enemyData.Count; i++)
             foreach (CardEffect e in encounterData.enemyData[i].startingEffects)
-                combatController.EnemiesInScene[i].healthEffects.RecieveEffectNonDamageNonBlock(e);
-        }
+                combatController.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e);
 
         combatController.animator.SetTrigger("SetupComplete");
     }

@@ -52,7 +52,6 @@ public class CombatActorEnemy : CombatActor
             enemyData = inEnemyData;
 
         SetupCamera();
-        healthEffects.combatActor = this;
 
         foreach(CardData cardData in enemyData.deck)
         {
@@ -77,12 +76,11 @@ public class CombatActorEnemy : CombatActor
             enemyArt.transform.localPosition = Vector3.zero + new Vector3(0, -2, 0);
         }
 
-        healthEffects.maxHitPoints = enemyData.StartingHP;
-        healthEffects.hitPoints = enemyData.StartingHP;
-        healthEffects.RemoveAllBlock();
+        maxHitPoints = enemyData.StartingHP;
+        hitPoints = enemyData.StartingHP;
         ShuffleDeck();
-        SetUIpositions();
         UpdateMoveDisplay(deck[0]);
+        StartCoroutine(RemoveAllBlock());
     }
 
     public void SetupCamera()
@@ -131,32 +129,9 @@ public class CombatActorEnemy : CombatActor
         discard.ForEach(x => Destroy(x.gameObject));
         discard.Clear();
         Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
-        EventManager.EnemyKilled(this.enemyData);
+        EventManager.EnemyKilled(enemyData);
     }
 
-    public void SetUIpositions()
-    {
-        // Vector3 coordinates = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorMoveDisplay.transform.position);
-        // CanvasMoveDisplay.transform.position = coordinates;
-    }
-
-    private void ShuffleDeck()
-    {
-        for (int i = 0; i < deck.Count; i++)
-        {
-            Card temp = deck[i];
-            int index = Random.Range(i, deck.Count);
-            deck[i] = deck[index];
-            deck[index] = temp;
-        }
-    }
-
-
-
-    public void TakeDamage(int x)
-    {
-        healthEffects.TakeDamage(x);
-    }
 
     public void OnMouseOver()
     {
@@ -175,7 +150,6 @@ public class CombatActorEnemy : CombatActor
     }
 
 
-
     public void OnMouseExit()
     {
         toolTiptimer = 0;
@@ -185,9 +159,4 @@ public class CombatActorEnemy : CombatActor
         if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
     }
 
-    public void OnMouseDown()
-    {
-        //combatController.CardUsed(this);
-        Debug.Log("Press Enemy");
-    }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 {
-    List<CombatActor> targetActors = new List<CombatActor>();
+    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
 
     CardTargetType? lastTargetType;
 
@@ -21,20 +21,15 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 
         foreach(CardEffect e in card.Effects)
         {
-            if (lastTargetType == null || lastTargetType != e.Target)
-            {
-                targetActors.Clear();
-                targetActors = combatController.GetTargets(combatController.ActiveActor, e.Target, suppliedTarget);
-            }
+            effectAndTarget = combatController.GetTargets(combatController.ActiveActor, e, suppliedTarget);
 
-            foreach (CombatActor actor in targetActors)
-            {
-                actor.healthEffects.RecieveEffectNonDamageNonBlock(e);
-                yield return new WaitForSeconds(0.1f);
-            }
+            for (int i = 0; i < effectAndTarget.effect.Times; i++)
+                foreach (CombatActor actor in effectAndTarget.targets)
+                    actor.RecieveEffectNonDamageNonBlock(effectAndTarget.effect);
         }
 
         combatController.animator.SetTrigger("CardEffectsHandled");
+        yield return null;
     }
         
 

@@ -695,7 +695,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7926990767184347318}
   - component: {fileID: 2174800877100517175}
-  - component: {fileID: 5071783096234444347}
   m_Layer: 5
   m_Name: StatusEffects
   m_TagString: Untagged
@@ -746,19 +745,6 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &5071783096234444347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7926990767184347319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b38942fb5f99f440b60a16927d4cf6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  templateEffectDisplay: {fileID: 7560752018412192792, guid: b20f62a3c8a769d4b871c6500c36ba92, type: 3}
 --- !u!1 &7926990767266708849
 GameObject:
   m_ObjectHideFlags: 0
@@ -803,8 +789,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0a4c8ee92dd3d4aa9c1c844550d4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 15
-  hitPoints: 15
   cAnchorHealthEffects: {fileID: 7926990767812551263}
   combatActor: {fileID: 0}
   intentDisplayAnchor: {fileID: 0}
@@ -814,7 +798,8 @@ MonoBehaviour:
   sldShield: {fileID: 2607770245500723756}
   txtShield: {fileID: 3949985026846138981}
   canvas: {fileID: 7926990767373210138}
-  effectDisplayManager: {fileID: 5071783096234444347}
+  EffectsAnchor: {fileID: 7926990767184347318}
+  templateEffectDisplay: {fileID: 7560752018412192792, guid: b20f62a3c8a769d4b871c6500c36ba92, type: 3}
 --- !u!1 &7926990767373210142
 GameObject:
   m_ObjectHideFlags: 0

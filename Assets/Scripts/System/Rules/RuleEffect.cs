@@ -4,12 +4,11 @@ using UnityEngine;
 
 public abstract class RuleEffect
 {
-    public HealthEffects healthEffects;
-    public CombatActor actor { get { return healthEffects.combatActor; } }
+    public CombatActor actor;
+    public string effectName { get { return GetType().ToString().Substring(10); } }
     public bool stackable = true;
     public int nrStacked;
 
- 
     public virtual void AddFunctionToRules()
     {
 

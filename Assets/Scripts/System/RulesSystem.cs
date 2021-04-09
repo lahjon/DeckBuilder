@@ -37,21 +37,6 @@ public class RulesSystem : MonoBehaviour
     }
 
 
-    public void CarryOutCard(CardData cardData, CombatActor source, CombatActor target)
-    {
-
-        if (cardData.Damage.Value != 0)
-        {  
-            int damage = cardData.Damage.Times * CalculateDamage(cardData.Damage.Value, source, target);
-            target.healthEffects.TakeDamage(damage);
-        }
-        for (int i = 0; i < cardData.inEffects.Count; i++)
-        {
-            target.healthEffects.RecieveEffectNonDamageNonBlock(cardData.inEffects[i]);
-        }
-    }
-
-
     public IEnumerator StartTurn()
     {
         Debug.Log("actionsStartTurnEnum: " + actionsStartTurnEnum.Count);

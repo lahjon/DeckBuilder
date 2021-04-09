@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuleEffectVurnerable : RuleEffect
+public class RuleEffectVulnerable : RuleEffect
 {
+
     public override void AddFunctionToRules()
     {
         actor.takeAttackMods.Add(VurnerableDamage);

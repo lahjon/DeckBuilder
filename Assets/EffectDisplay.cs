@@ -6,6 +6,7 @@ using TMPro;
 public class EffectDisplay : MonoBehaviour
 {
     public TMP_Text effectLabel;
+    public SpriteRenderer spriteRenderer;
 
     float durationPopin = 0.2f;
     public Vector3 popinStartSize = new Vector3(0f, 0f, 0f);
@@ -46,5 +47,9 @@ public class EffectDisplay : MonoBehaviour
             effectLabel.text = "";
     }
 
+    public void SetSprite(Sprite sprite)
+    {
+        if(sprite != null) spriteRenderer.sprite = sprite;
+    }
 
 }

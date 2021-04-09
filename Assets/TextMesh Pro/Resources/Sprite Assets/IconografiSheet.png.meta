@@ -14,6 +14,15 @@ TextureImporter:
   - first:
       213: 8827154002151289367
     second: IconografiSheet_3
+  - first:
+      213: -5203445889613809889
+    second: IconografiSheet_4
+  - first:
+      213: 3281715923148944554
+    second: IconografiSheet_5
+  - first:
+      213: 6751244872058690101
+    second: IconografiSheet_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -110,7 +119,7 @@ TextureImporter:
         y: 900
         width: 100
         height: 100
-      alignment: 6
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -131,7 +140,7 @@ TextureImporter:
         y: 900
         width: 100
         height: 100
-      alignment: 6
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -148,11 +157,11 @@ TextureImporter:
       name: IconografiSheet_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 800
+        x: 200
+        y: 900
         width: 100
         height: 100
-      alignment: 6
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -169,11 +178,11 @@ TextureImporter:
       name: IconografiSheet_3
       rect:
         serializedVersion: 2
-        x: 100
-        y: 800
+        x: 300
+        y: 900
         width: 100
         height: 100
-      alignment: 6
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
@@ -182,6 +191,69 @@ TextureImporter:
       bones: []
       spriteID: 71235e3fbc9508a70800000000000000
       internalID: 8827154002151289367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconografiSheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 800
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f173a9d4885a9c7b0800000000000000
+      internalID: -5203445889613809889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconografiSheet_5
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 800
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa4390dae3ffa8d20800000000000000
+      internalID: 3281715923148944554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconografiSheet_6
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 800
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53a5cb6017d31bd50800000000000000
+      internalID: 6751244872058690101
       vertices: []
       indices: 
       edges: []

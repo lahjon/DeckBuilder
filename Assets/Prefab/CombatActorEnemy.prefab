@@ -589,6 +589,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -641,16 +642,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ce2f4685f144a4a854cac6ec58c250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthEffects: {fileID: 58403642600554845}
+  maxHitPoints: 0
+  healthEffectsUI: {fileID: 58403642600554845}
   combatController: {fileID: 0}
+  deck: []
+  discard: []
   intentDisplay: {fileID: 3994621570618273060}
   txtMoveDisplay: {fileID: 6587673754262971815}
   enemyData: {fileID: 0}
   CanvasMoveDisplay: {fileID: 3337036418940820247}
   enemyName: 
   cardTemplate: {fileID: 6026151248113403073, guid: ee3c21cb80d250144807eab97f276bf2, type: 3}
-  deck: []
-  discard: []
   nextCard: {fileID: 0}
   AnchorMoveDisplay: {fileID: 3198054596687555240}
   canvasEffects: {fileID: 58403642778381864}
@@ -893,6 +895,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

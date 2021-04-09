@@ -45,6 +45,7 @@ public class DeckDisplayManager : Manager
                 allDisplayedCards.Add(newCard);
                 newCard.GetComponent<CardVisual>().cardData = allCardsData[allDisplayedCards.Count - 1];
                 newCard.GetComponent<CardVisual>().BindCardData();
+                newCard.GetComponent<CardVisual>().BindCardVisualData();
             }
         }
         else if(allCardsData.Count < allDisplayedCards.Count)
