@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RuleEffectSplice : RuleEffect
 {
+    public override bool isBuff { get { return true; } }
+
     public override void OnEndTurnBehaviour()
     {
         nrStacked = 0;

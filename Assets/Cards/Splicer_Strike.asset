@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Splicer_Strike
   m_EditorClassIdentifier: 
   cardName: Strike
-  artwork: {fileID: 21300000, guid: 46737260d9a26324b932ee3c9d252057, type: 3}
+  artwork: {fileID: 21300000, guid: 2910b335bd5c23e4db9ed07039017d60, type: 3}
   cost: 1
   goldValue: 10
   exhaust: 0

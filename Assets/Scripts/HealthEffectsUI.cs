@@ -34,6 +34,11 @@ public class HealthEffectsUI : MonoBehaviour
         SetPositions();
     }
 
+    public void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
     public void SetupCamera()
     {
         canvas.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
@@ -80,7 +85,7 @@ public class HealthEffectsUI : MonoBehaviour
         if(coroutineEffectAdder is null)
         {
             coroutineEffectAdder = EffectDequeuer();
-            StartCoroutine(coroutineEffectAdder);
+            if(gameObject.activeSelf) StartCoroutine(coroutineEffectAdder);
         }
     }
 

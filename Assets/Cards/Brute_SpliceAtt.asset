@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Brute_SpliceAtt
   m_EditorClassIdentifier: 
   cardName: SpliceAtt
-  artwork: {fileID: 21300000, guid: 7cfe686dfdf28994ea46851461e76e7f, type: 3}
+  artwork: {fileID: 21300000, guid: 6e642a283aa73f940acac9e9524bf83a, type: 3}
   cost: 1
   goldValue: 10
   exhaust: 0

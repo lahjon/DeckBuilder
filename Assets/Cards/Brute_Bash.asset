@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Brute_Bash
   m_EditorClassIdentifier: 
   cardName: Bash
-  artwork: {fileID: 21300000, guid: 6ac60098751ba784fb093ef9f3d447ff, type: 3}
+  artwork: {fileID: 21300000, guid: 5548ce0acb8e0044289dc54959db952c, type: 3}
   cost: 3
   goldValue: 10
   exhaust: 0

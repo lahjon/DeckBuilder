@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RuleEffectWeak : RuleEffect
 {
+    public override bool isBuff { get { return false; } }
     public override void AddFunctionToRules()
     {
         actor.dealAttackMods.Add(WeakDamage);

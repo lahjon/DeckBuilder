@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Brute_Strike
   m_EditorClassIdentifier: 
   cardName: Strike
-  artwork: {fileID: 21300000, guid: 610659ac9afc4ca44b6bf0c449a21579, type: 3}
+  artwork: {fileID: 21300000, guid: 8ed8c4cffd238d442bad1bd4cb5ab294, type: 3}
   cost: 1
   goldValue: 10
   exhaust: 0

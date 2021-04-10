@@ -7,6 +7,8 @@ public abstract class RuleEffect
 {
     public CombatActor actor;
     public string effectName { get { return GetType().ToString().Substring(10); } }
+    public abstract bool isBuff { get; }
+
     public EffectType type {get 
         {
             EffectType retType;

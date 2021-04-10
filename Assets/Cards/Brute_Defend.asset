@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Brute_Defend
   m_EditorClassIdentifier: 
   cardName: Defend
-  artwork: {fileID: 21300000, guid: b74aa785a826c55439c82566c9d4fce4, type: 3}
+  artwork: {fileID: 21300000, guid: eaad97e302885d64aacf148170db6aa7, type: 3}
   cost: 1
   goldValue: 10
   exhaust: 0

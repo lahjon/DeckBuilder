@@ -93,8 +93,11 @@ public class CombatController : MonoBehaviour
         set
         {
             _activeEnemy = value;
-            if (!(ActiveCard is null)) 
-                ActiveCard.animator.SetBool("HasTarget",!(value is null));
+            if (!(ActiveCard is null))
+            {
+                ActiveCard.animator.SetBool("HasTarget", !(value is null));
+                SetCardCalcDamage(ActiveCard, value);
+            }
 
         }
     }
@@ -231,7 +234,6 @@ public class CombatController : MonoBehaviour
         Hero.deck.Clear();
         Hero.discard.ForEach(x => Destroy(x.gameObject));
         Hero.discard.Clear();
-        Hero.RemoveAllBlock();
 
         DeadEnemiesInScene.Clear();
     }
@@ -271,6 +273,34 @@ public class CombatController : MonoBehaviour
             returnEffect = effect;
 
         return (returnEffect, targets);
+    }
+
+    public int PreviewCalcDamageAllEnemies(int value)
+    {
+        int possibleDamage = PreviewCalcDamageEnemy(value, EnemiesInScene[0]);
+        foreach (CombatActor enemy in EnemiesInScene)
+            if (possibleDamage != PreviewCalcDamageEnemy(value, enemy))
+                return value;
+
+        return possibleDamage;
+    }
+
+    public int PreviewCalcDamageEnemy(int value, CombatActor enemy)
+    {
+        return RulesSystem.instance.CalculateDamage(value, Hero, enemy);
+    }
+
+    public void SetCardCalcDamage(CardCombat card, CombatActor enemy = null)
+    {
+        if (card.Damage.Value == 0) return;
+
+        int baseVal = card.Damage.Value;
+        int calcDamage = enemy is null ? PreviewCalcDamageAllEnemies(baseVal) : PreviewCalcDamageEnemy(baseVal, enemy);
+        if(calcDamage != card.calcDamage)
+        {
+            card.calcDamage = calcDamage;
+            card.RefreshDescriptionText();
+        }
     }
 
     #endregion

@@ -17,6 +17,11 @@ public abstract class CardVisual : Card, IPointerClickHandler
     public Text blockText;
     public WorldState previousState;
 
+    public int calcDamage = -1;
+    public int calcBlock = -1;
+
+    readonly static string colorCodeGood = "#2e590c";
+    readonly static string colorCodeBad = "#a16658";
 
     public void BindCardVisualData()
     {
@@ -26,20 +31,66 @@ public abstract class CardVisual : Card, IPointerClickHandler
 
         costText.text = cost.ToString();
 
-        descriptionText.text = "";
+        ResetDamageBlockCalc();
+        RefreshDescriptionText();
+    }
 
-        for (int i = 0; i < allEffects.Count; i++)
+    public void ResetDamageBlockCalc()
+    {
+
+        calcDamage = Damage.Value;
+        calcBlock = Block.Value;
+    }
+
+    public void RefreshDescriptionText()
+    {
+        string descText = "";
+        
+        //Special care for Damage on Block
+        if(Damage.Value != 0)
         {
-            if (allEffects[i].Value == 0) continue;
-            descriptionText.text += allEffects[i].Type.ToString() + EffectTypeToIconCode(allEffects[i].Type) + ":" + allEffects[i].Value;
-            if (allEffects[i].Times != 1) descriptionText.text += " " + allEffects[i].Times + " times.";
-            if (i != allEffects.Count - 1) descriptionText.text += "\n";
+            descText += Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + ":";
+            if (calcDamage < Damage.Value)
+                descText += "<color=" + colorCodeBad + ">" + calcDamage.ToString() + "</color>";
+            else if (calcDamage > Damage.Value)
+                descText += "<color=" + colorCodeGood + ">" + calcDamage.ToString() + "</color>";
+            else
+                descText += calcDamage.ToString();
+
+            if (Damage.Times != 1) descText += " " + Damage.Times + " times.";
         }
 
-        for(int i = 0; i < activities.Count; i++)
+        //Special care for Damage on Block
+        if (Block.Value != 0)
         {
-            descriptionText.text += CardActivitySystem.instance.DescriptionByCardActivity(activities[i]);
+            descText += Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + ":";
+            if (calcBlock < Block.Value)
+                descText += "<color=" + colorCodeBad + ">" + calcBlock.ToString() + "</color>";
+            else if (calcBlock > Block.Value)
+                descText += "<color=" + colorCodeGood + ">" + calcBlock.ToString() + "</color>";
+            else
+                descText += calcBlock.ToString();
+
+            if (Block.Times != 1) descText += " " + Block.Times + " times.";
         }
+
+        //Generall non-modifiable descs
+
+        for (int i = 0; i < Effects.Count; i++)
+        {
+            if (Effects[i].Value == 0) continue;
+            if (descText != "") descText += "\n";
+            descText += Effects[i].Type.ToString() + EffectTypeToIconCode(Effects[i].Type) + ":" + Effects[i].Value;
+            if (Effects[i].Times != 1) descText += " " + Effects[i].Times + " times.";
+        }
+
+        for (int i = 0; i < activities.Count; i++)
+        {
+            if (descText != "") descText += "\n";
+            descText += CardActivitySystem.instance.DescriptionByCardActivity(activities[i]);
+        }
+
+        descriptionText.text = descText;
     }
 
     private string EffectTypeToIconCode(EffectType type)

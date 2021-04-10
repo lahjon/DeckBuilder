@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RuleEffectVulnerable : RuleEffect
 {
-
+    public override bool isBuff { get { return false; } }
     public override void AddFunctionToRules()
     {
         actor.takeAttackMods.Add(VurnerableDamage);

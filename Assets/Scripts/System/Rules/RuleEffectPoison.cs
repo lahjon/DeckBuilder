@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RuleEffectPoison : RuleEffect
 {
+    public override bool isBuff { get { return false; } }
+
 
     public override void AddFunctionToRules()
     {
