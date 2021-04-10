@@ -8,7 +8,7 @@ public abstract class RuleEffect
     public CombatActor actor;
     public string effectName { get { return GetType().ToString().Substring(10); } }
     public abstract bool isBuff { get; }
-    public abstract bool triggerRecalcDamage { get; }
+    public virtual bool triggerRecalcDamage { get { return false; } }
 
     public EffectType type {get 
         {

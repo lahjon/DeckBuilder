@@ -13,8 +13,6 @@ public abstract class CardVisual : Card, IPointerClickHandler
     public Image artworkImage;
 
     public Text costText;
-    public Text damageText;
-    public Text blockText;
     public WorldState previousState;
 
     public int calcDamage = -1;
