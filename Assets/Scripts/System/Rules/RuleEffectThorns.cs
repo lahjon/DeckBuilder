@@ -6,7 +6,7 @@ using UnityEngine;
 public class RuleEffectThorns : RuleEffect
 {
     public override bool isBuff { get { return true; } }
-
+    public override bool triggerRecalcDamage { get { return false; } }
     public override void AddFunctionToRules()
     {
         actor.onAttackRecieved.Add(ThornIt);

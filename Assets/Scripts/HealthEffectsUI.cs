@@ -124,7 +124,7 @@ public class HealthEffectsUI : MonoBehaviour
         }
         else if (effect.nrStacked != 0)
         {
-            GameObject effectObject = Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor) as GameObject;
+            GameObject effectObject = Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor);
             effectToDisplay[effectType] = effectObject.GetComponent<EffectDisplay>();
             effectToDisplay[effectType].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(effect.effectName));
             effectToDisplay[effectType].SetLabel(label);

@@ -30,7 +30,7 @@ MonoBehaviour:
   inEffects: []
   inActivities:
   - type: 1
-    parameter: Strike
+    parameter: Brute_Strike
   cardRarity: 1
   characterClass: 1
   animationPrefab: {fileID: 0}

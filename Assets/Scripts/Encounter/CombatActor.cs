@@ -108,6 +108,7 @@ public class CombatActor : MonoBehaviour
         if (effectTypeToRule.ContainsKey(effect.Type))
         {
             effectTypeToRule[effect.Type].nrStacked += effect.Value * effect.Times;
+            if(effectTypeToRule[effect.Type].nrStacked == 0 && effectTypeToRule[effect.Type].triggerRecalcDamage) combatController.RecalcAllCardsDamage();
         }
         else
         {
@@ -115,6 +116,7 @@ public class CombatActor : MonoBehaviour
             effectTypeToRule[effect.Type].actor = this;
             effectTypeToRule[effect.Type].AddFunctionToRules();
             effectTypeToRule[effect.Type].nrStacked = effect.Value * effect.Times;
+            if (effectTypeToRule[effect.Type].triggerRecalcDamage) combatController.RecalcAllCardsDamage();
         }
 
         //Update UI

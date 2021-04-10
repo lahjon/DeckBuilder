@@ -6,6 +6,7 @@ using UnityEngine;
 public class RuleEffectSplice : RuleEffect
 {
     public override bool isBuff { get { return true; } }
+    public override bool triggerRecalcDamage { get { return false; } }
 
     public override void OnEndTurnBehaviour()
     {

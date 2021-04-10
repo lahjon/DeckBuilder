@@ -7,6 +7,7 @@ public class RuleEffectBarricade : RuleEffect
 {
     Func<IEnumerator> stolenFunction;
     public override bool isBuff { get { return true; } }
+    public override bool triggerRecalcDamage { get { return false; } }
 
     public override void AddFunctionToRules()
     {

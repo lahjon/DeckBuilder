@@ -303,6 +303,14 @@ public class CombatController : MonoBehaviour
         }
     }
 
+    public void RecalcAllCardsDamage()
+    {
+        foreach(CardCombat card in Hand)
+        {
+            SetCardCalcDamage(card);
+        }
+    }
+
     #endregion
 
     #region Positioning and Scale
