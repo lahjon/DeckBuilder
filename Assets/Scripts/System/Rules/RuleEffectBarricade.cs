@@ -20,7 +20,7 @@ public class RuleEffectBarricade : RuleEffect
         actor.actionsNewTurn.Add(stolenFunction);
     }
 
-    public override void OnNewTurnBehaviour()
+    public override void OnNewTurn()
     {
         
     }

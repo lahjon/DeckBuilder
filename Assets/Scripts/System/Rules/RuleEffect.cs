@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 
 public abstract class RuleEffect
@@ -10,7 +7,9 @@ public abstract class RuleEffect
     public abstract bool isBuff { get; }
     public virtual bool triggerRecalcDamage { get { return false; } }
 
-    public EffectType type {get 
+    public EffectType type
+    {
+        get
         {
             EffectType retType;
             Enum.TryParse<EffectType>(effectName, out retType);
@@ -31,14 +30,20 @@ public abstract class RuleEffect
 
     }
 
-    public virtual void OnNewTurnBehaviour()
+    public virtual void OnNewTurn()
     {
         nrStacked--;
     }
 
-    public virtual void OnEndTurnBehaviour()
+    public virtual void OnEndTurn()
     {
     }
+
+    public virtual void OnActorDeath()
+    {
+
+    }
+
 
     public virtual string strStacked()
     {

@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 3625591857804818643}
   - component: {fileID: 9192700267599507065}
   m_Layer: 5
-  m_Name: Notification (2)
+  m_Name: notiStatus3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 6875224225079863033}
   - component: {fileID: 6272672599233420926}
   m_Layer: 5
-  m_Name: Notification (3)
+  m_Name: notiStatus4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 1128932720851334011}
   - component: {fileID: 7725504597665462703}
   m_Layer: 5
-  m_Name: Notification (1)
+  m_Name: notiStatus2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1140,6 +1140,41 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &3962227368025777250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 790355313039938069}
+  m_Layer: 5
+  m_Name: AnchorHealthChangeNotifications
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &790355313039938069
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3962227368025777250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7926990767812551262}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 494}
+  m_SizeDelta: {x: 300, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4431592953039501985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1418,11 +1453,13 @@ MonoBehaviour:
   canvas: {fileID: 7926990767373210138}
   EffectsAnchor: {fileID: 7926990767184347318}
   templateEffectDisplay: {fileID: 7560752018412192792, guid: b20f62a3c8a769d4b871c6500c36ba92, type: 3}
-  EffectNotificators:
+  uINotificators:
   - {fileID: 5937850813780429994}
   - {fileID: 7725504597665462703}
   - {fileID: 9192700267599507065}
   - {fileID: 6272672599233420926}
+  AnchorEffectNotifications: {fileID: 1585881312869588872}
+  AnchorHealthNotifications: {fileID: 790355313039938069}
 --- !u!1 &7926990767373210142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1630,6 +1667,7 @@ RectTransform:
   - {fileID: 7926990767946250739}
   - {fileID: 7926990767184347318}
   - {fileID: 1585881312869588872}
+  - {fileID: 790355313039938069}
   m_Father: {fileID: 7926990767373210141}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2007,7 +2045,7 @@ GameObject:
   - component: {fileID: 8147577933838402288}
   - component: {fileID: 5937850813780429994}
   m_Layer: 5
-  m_Name: Notification
+  m_Name: notiStatus1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

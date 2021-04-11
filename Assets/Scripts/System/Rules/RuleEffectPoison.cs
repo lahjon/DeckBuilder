@@ -22,7 +22,7 @@ public class RuleEffectPoison : RuleEffect
         yield return null;
     }
 
-    public override void OnNewTurnBehaviour()
+    public override void OnNewTurn()
     {
     }
 

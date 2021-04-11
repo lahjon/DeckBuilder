@@ -16,7 +16,7 @@ public class RuleEffectThorns : RuleEffect
         actor.onAttackRecieved.Remove(ThornIt);
     }
 
-    public override void OnNewTurnBehaviour()
+    public override void OnNewTurn()
     {
         
     }

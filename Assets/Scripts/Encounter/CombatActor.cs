@@ -62,6 +62,11 @@ public class CombatActor : MonoBehaviour
         discard.Insert(0,card);
     }
 
+    public virtual void CardResolved(Card card)
+    {
+        discard.Insert(0, card);
+    }
+
     public virtual void AddToDeck(Card card)
     {
         deck.Insert(0, card);
@@ -82,7 +87,7 @@ public class CombatActor : MonoBehaviour
         if (shield > 0)
         {
             int shieldDamage = Mathf.Min(shield, damage);
-            ChangeBlock(-shieldDamage);
+            StartCoroutine(ChangeBlock(-shieldDamage));
             damage -= shieldDamage;
         }
 
@@ -100,6 +105,9 @@ public class CombatActor : MonoBehaviour
         hitPoints -= Mathf.Min(lifeToLose, hitPoints);
         if (this == combatController.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
+
+        Debug.Log("Starting LifeLoss");
+        healthEffectsUI.StartLifeLossNotification(lifeToLose);
         // kör onLifeLost
     }
 
@@ -128,7 +136,7 @@ public class CombatActor : MonoBehaviour
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
         {
-            effectTypeToRule[effect].OnNewTurnBehaviour();
+            effectTypeToRule[effect].OnNewTurn();
             healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect]);
             if (effectTypeToRule[effect].nrStacked <= 0)
             {
@@ -143,7 +151,7 @@ public class CombatActor : MonoBehaviour
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
         {
-            effectTypeToRule[effect].OnEndTurnBehaviour();
+            effectTypeToRule[effect].OnEndTurn();
             healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect]);
             if (effectTypeToRule[effect].nrStacked <= 0)
             {

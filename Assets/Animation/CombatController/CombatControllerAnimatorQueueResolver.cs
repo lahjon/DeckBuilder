@@ -26,6 +26,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
             combatController.InProcessCard = cardWaiting.card;
             combatController.InProcessTarget = cardWaiting.suppliedTarget;
             combatController.cEnergy -= cardWaiting.card.cost;
+            cardWaiting.card.animator.SetTrigger("CanPlay");
             animator.SetTrigger("CardCanProcess");
         }
     }
