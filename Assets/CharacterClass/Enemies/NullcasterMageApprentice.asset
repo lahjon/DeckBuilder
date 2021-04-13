@@ -33,3 +33,5 @@ MonoBehaviour:
     Value: 2
     Times: 1
     Target: 0
+  shuffleInit: 1
+  stochasticReshuffle: 1

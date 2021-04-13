@@ -25,6 +25,8 @@ public class CombatActorEnemy : CombatActor
     public Canvas canvasToolTip;
     public GameObject target;
 
+    public bool stochasticReshuffle = true;
+
     public TooltipController tooltipController;
 
     public Card hand;
@@ -67,6 +69,7 @@ public class CombatActorEnemy : CombatActor
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = enemyData.artwork;
         enemyName = enemyData.enemyName;
+        stochasticReshuffle = enemyData.stochasticReshuffle;
         tooltipController.AddTipText($"<b>{enemyName}</b>\nThis enemy has {deck.Count} cards in its deck!");
 
         if (enemyData.characterArt != null)
@@ -78,7 +81,7 @@ public class CombatActorEnemy : CombatActor
 
         maxHitPoints = enemyData.StartingHP;
         hitPoints = enemyData.StartingHP;
-        ShuffleDeck();
+        if(enemyData.shuffleInit) ShuffleDeck();
         UpdateMoveDisplay(deck[0]);
         StartCoroutine(RemoveAllBlock());
     }
@@ -109,8 +112,15 @@ public class CombatActorEnemy : CombatActor
     {
         if (deck.Count == 0)
         {
-            deck.AddRange(discard);
-            ShuffleDeck();
+            if (stochasticReshuffle)
+            {
+                deck.AddRange(discard);
+                ShuffleDeck();
+            }
+            else
+                for (int i = discard.Count - 1; i >= 0; i++)
+                    deck.Add(discard[i]);
+
             discard.Clear();
         }
 
