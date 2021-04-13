@@ -7,10 +7,10 @@ public class RuleEffectBarricade : RuleEffect
 {
     Func<IEnumerator> stolenFunction;
     public override bool isBuff { get { return true; } }
+    public override bool stackable { get { return false; } }
 
     public override void AddFunctionToRules()
     {
-        stackable = false;
         stolenFunction = actor.RemoveAllBlock;
         actor.actionsNewTurn.Remove(actor.RemoveAllBlock);
     }

@@ -19,6 +19,7 @@ public class RuleEffectPoison : RuleEffect
     IEnumerator PoisonDamage()
     {
         actor.LooseLife(nrStacked--);
+        if (nrStacked == 0) Dismantle();
         yield return null;
     }
 

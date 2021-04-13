@@ -31,6 +31,8 @@ public static class EnumExtenstions
                 return new RuleEffectSplice();
             case EffectType.Poison:
                 return new RuleEffectPoison();
+            case EffectType.Challenge:
+                return new RuleEffectChallenge();
             default:
                 return null;
         }
@@ -128,7 +130,8 @@ public enum EffectType
     Vurnerable,
     Barricade,
     Thorns,
-    Splice
+    Splice,
+    Challenge
 }
 
 public enum OverlayState

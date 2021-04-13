@@ -28,6 +28,8 @@ public class CombatActor : MonoBehaviour
     public List<Func<float, float>> dealAttackMods = new List<Func<float, float>>();
     public List<Func<float, float>> takeAttackMods = new List<Func<float, float>>();
 
+    public Dictionary<CombatActor, List<Func<float, float>>> dealAttackActorMods = new Dictionary<CombatActor, List<Func<float, float>>>();
+
     public List<Func<IEnumerator>> actionsNewTurn = new List<Func<IEnumerator>>();
     public List<Func<IEnumerator>> actionsEndTurn = new List<Func<IEnumerator>>();
 
@@ -36,14 +38,14 @@ public class CombatActor : MonoBehaviour
     public List<Card> deck = new List<Card>();
     public List<Card> discard = new List<Card>();
 
-    public void Awake()
+
+    public void InitializeCombat()
     {
         actionsNewTurn.Add(RemoveAllBlock);
-    }
-
-    public void Start()
-    {
         healthEffectsUI.UpdateShield(shield);
+
+        foreach (CombatActor actor in combatController.ActorsInScene)
+            dealAttackActorMods[actor] = new List<Func<float, float>>();
     }
 
     public void ShuffleDeck()
@@ -111,39 +113,24 @@ public class CombatActor : MonoBehaviour
         // kör onLifeLost
     }
 
+
     public void RecieveEffectNonDamageNonBlock(CardEffect effect)
     {
         if (effectTypeToRule.ContainsKey(effect.Type))
-        {
-            effectTypeToRule[effect.Type].nrStacked += effect.Value * effect.Times;
-            if(effectTypeToRule[effect.Type].nrStacked == 0 && effectTypeToRule[effect.Type].triggerRecalcDamage) combatController.RecalcAllCardsDamage();
-        }
+            effectTypeToRule[effect.Type].RecieveInput(effect);
         else
         {
             effectTypeToRule[effect.Type] = effect.Type.GetRuleEffect();
             effectTypeToRule[effect.Type].actor = this;
-            effectTypeToRule[effect.Type].AddFunctionToRules();
-            effectTypeToRule[effect.Type].nrStacked = effect.Value * effect.Times;
-            if (effectTypeToRule[effect.Type].triggerRecalcDamage) combatController.RecalcAllCardsDamage();
+            effectTypeToRule[effect.Type].RecieveInput(effect);
         }
-
-        //Update UI
-        healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect.Type]);
     }
 
     public void EffectsOnNewTurnBehavior()
     {
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
-        {
             effectTypeToRule[effect].OnNewTurn();
-            healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect]);
-            if (effectTypeToRule[effect].nrStacked <= 0)
-            {
-                effectTypeToRule[effect].RemoveFunctionFromRules();
-                effectTypeToRule.Remove(effect);
-            }
-        }
     }
 
     public void EffectsOnEndTurnBehavior()
@@ -173,5 +160,7 @@ public class CombatActor : MonoBehaviour
     {
         yield return StartCoroutine(ChangeBlock(-shield));
     }
+
+    
 
 }

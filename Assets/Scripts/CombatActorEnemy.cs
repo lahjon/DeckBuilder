@@ -122,6 +122,9 @@ public class CombatActorEnemy : CombatActor
 
     public void OnDeath()
     {
+        foreach (RuleEffect re in effectTypeToRule.Values)
+            re.OnActorDeath();
+
         if(hand != null) Destroy(hand.gameObject);
         hand = null;
         deck.ForEach(x => Destroy(x.gameObject));

@@ -30,7 +30,6 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         speed = 3.5f;
 
         //Reset any modified values from previous buffs
-        card.ResetDamageBlockCalc();
         combatController.SetCardCalcDamage(card);
 
         //Called every frame since we might draw more cards. 

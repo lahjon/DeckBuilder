@@ -65,15 +65,13 @@ public class RulesSystem : MonoBehaviour
 
         float x = startingValue;
         foreach (Func<float, float> func in source.dealAttackMods)
-        {
-            Debug.Log("Modified damage for attacker");
             x = func(x);
-        }
+
+        foreach (Func<float, float> func in source.dealAttackActorMods[target])
+            x = func(x);
+
         foreach (Func<float, float> func in target.takeAttackMods)
-        {
-            Debug.Log("Modified damage for reciever");
             x = func(x);
-        }
 
         return (int)x;
     }

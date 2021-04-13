@@ -66,7 +66,11 @@ public class CombatController : MonoBehaviour
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
     public List<CombatActorEnemy> DeadEnemiesInScene = new List<CombatActorEnemy>();
-    public List<CombatActor> ActorsInScene = new List<CombatActor>();
+    public List<CombatActor> ActorsInScene { get { 
+            List<CombatActor> retList = new List<CombatActor>(EnemiesInScene);
+            retList.Add(Hero);
+            return retList;
+        } }
 
     public Queue<(CardCombat card, CombatActor target)> CardQueue =
         new Queue<(CardCombat card, CombatActor target)>();
