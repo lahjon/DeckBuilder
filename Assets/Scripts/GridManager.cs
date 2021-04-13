@@ -16,14 +16,12 @@ public class GridManager : Manager
     public float tileGap;
     public List<HexTile> inventory = new List<HexTile>();
     public Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
-    public HashSet<Vector3Int> tilesHash = new HashSet<Vector3Int>();
     public List<HexTile> activeTiles = new List<HexTile>();
     public Vector3 hoverTilePosition = Vector3.zero;
     public HexTile hoverTile;
     public HexTile oldHoverTile;
     public HexTile activeTile;
     public List<HexTile> completedTiles = new List<HexTile>();
-    public GridState gridState;
     
     List<Vector3Int> tileDirections = new List<Vector3Int>  {
                                                                 new Vector3Int(1, -1, 0), 
@@ -44,14 +42,17 @@ public class GridManager : Manager
     {
         base.Start();
         CreateTileMap();
+
+        // create a 0,0,0 start tile
         GetTile(Vector3Int.zero).Activate(TileState.Completed);
 
+        // create some randoms tiles spread out on third row
         for (int i = 0; i < 4; i++)
         {
             GetRandomTile(3).Activate();
         }
 
-        // setup inventory
+        // add some tiles to inventory to test placement
         foreach (HexTile tile in inventory)
         {
             tile.Init();
@@ -93,6 +94,7 @@ public class GridManager : Manager
 
     void CreateTileMap()
     {
+        // create a hex shaped map och inactive tiles
         for (int q = -gridWidth; q <= gridWidth; q++)
         {
             int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
@@ -118,50 +120,6 @@ public class GridManager : Manager
             return Vector3Int.zero;
         }
     }
-
-    // public bool TilePlacementValidStart(HexTile tile)
-    // {
-    //     List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
-
-    //     neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
-
-    //     foreach (int dir in tile.availableDirections)
-    //     {
-    //         foreach (var neighbour in neighbours)
-    //         {
-    //             if (GetTile(neighbour) is HexTile neighbourTile)
-    //             {
-    //                 if (completedTiles.Contains(neighbourTile))
-    //                 {
-    //                     return true;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
-        public bool TilePlacementValidStart(HexTile tile)
-    {
-        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
-
-        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
-
-        foreach (int dir in tile.availableDirections)
-        {
-            foreach (var neighbour in neighbours)
-            {
-                if (GetTile(neighbour) is HexTile neighbourTile)
-                {
-                    if (completedTiles.Contains(neighbourTile))
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     public void ButtonRotateTileLeft()
     {
         if (activeTile != null)
@@ -174,7 +132,7 @@ public class GridManager : Manager
 
                 if (newDir > 5)
                 {
-                    newDir = newDir - 6;
+                    newDir -= 6;
                 }
 
                 newRotations.Add(newDir);
@@ -184,26 +142,88 @@ public class GridManager : Manager
             activeTile.transform.Rotate(new Vector3(0,0,60));
         }
     }
+    public void ButtonRotateTileRight()
+    {
+        if (activeTile != null)
+        {
+            List<int> newRotations = new List<int>();
+
+            for (int i = 0; i < activeTile.availableDirections.Count; i++)
+            {
+                int newDir = activeTile.availableDirections[i] - 1;
+
+                if (newDir < 0)
+                {
+                    newDir += 6;
+                }
+
+                newRotations.Add(newDir);
+            }
+
+            activeTile.availableDirections = newRotations;
+            activeTile.transform.Rotate(new Vector3(0,0,-60));
+        }
+    }
+
+    public bool TilePlacementValidStart(HexTile tile)
+    {
+        // get all the neighbours of a tile and discard all inactive tiles
+        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+
+        // look at all exists
+        foreach (int dir in tile.availableDirections)
+        {
+            // look at all neighbours of the tile
+            foreach (var neighbour in neighbours)
+            {
+                // look if any neighbour tile is completed
+                if (GetTile(neighbour) is HexTile neighbourTile)
+                {
+                    if (completedTiles.Contains(neighbourTile))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
 
     public bool TilePlacementValid(HexTile tile)
     {
+        // get all the neighbours of a tile and discard all inactive tiles
         List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
-        //neighbours.ForEach(x => Debug.Log(x));
+
         bool freeExist = false;
-        
+
+        // look at all exists
         foreach (int dir in tile.availableDirections)
         {
+            // make sure that one exit connects to a inactive tile
             if (GetTile(tile.coord + GetTileDirection(dir)).tileState == TileState.Inactive)
             {
                 freeExist = true;
+                break;
             }
+        }
+        
+        // look at all exists
+        foreach (int dir in tile.availableDirections)
+        {
+            // look at all neighbours of the tile
             foreach (Vector3Int neighbour in neighbours)
             {
+                // get the neighbours of the tile that are connected
                 if (GetTile(neighbour) is HexTile neighbourTile && tile.coord + GetTileDirection(dir) == neighbourTile.coord)
                 {
+                    // look at all neighbours
                     foreach (int neighDir in neighbourTile.availableDirections)
                     {
+                        // neighbour connects to the piece, the piece is connected to at least one completed tile and there is one exit to an inactive tile
                         if (neighbourTile.coord + GetTileDirection(neighDir) == tile.coord && completedTiles.Contains(neighbourTile) && freeExist)
                         {
                             return true;
@@ -230,7 +250,7 @@ public class GridManager : Manager
             return tiles.ElementAt(Random.Range(0, tiles.Count)).Value;
         }
 
-        foreach (Vector3Int tile in tilesHash.Except(activeTiles.ConvertAll(x => x.coord)))
+        foreach (Vector3Int tile in tiles.Keys.Except(activeTiles.ConvertAll(x => x.coord)))
         {
             HashSet<int> tileList = VectorToArray(tile);
 
@@ -296,7 +316,7 @@ public class GridManager : Manager
 
     public Vector3 CellPosToWorldPos(Vector3Int coord)
     {
-
+        // get world position of the coord
         float width = Mathf.Sqrt(3) * (tileSize + tileGap);
         float height = 1.5f * (tileSize + tileGap);
         float x = (width * coord.x * 0.5f) - (width * coord.y * 0.5f);
@@ -323,7 +343,6 @@ public class GridManager : Manager
         if (!tiles.ContainsValue(tile))
         {
             tiles.Add(coord, tile);
-            tilesHash.Add(coord);
         }
     }
 }

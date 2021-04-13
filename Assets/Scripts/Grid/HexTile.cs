@@ -6,8 +6,8 @@ using System.Linq;
 
 public class HexTile : MonoBehaviour
 {
-    TileState _tileState; 
-    public Sprite artwork;
+    [SerializeField] TileState _tileState; 
+    [HideInInspector] public Sprite artwork;
     public Vector3Int coord;
     public List<int> availableDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
