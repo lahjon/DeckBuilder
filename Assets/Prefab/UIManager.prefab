@@ -5730,8 +5730,12 @@ MonoBehaviour:
   debugUI: {fileID: 347953519859478627}
   escapeMenu: {fileID: 347953519846195028}
   namedEffectIcons:
+  - name: Barricade
+    sprite: {fileID: 21300000, guid: 65b12d49f1b4630438027b2122a366f4, type: 3}
   - name: Block
     sprite: {fileID: 21300000, guid: 09c1c92591f02f7489bb2cfc53286b82, type: 3}
+  - name: Challenge
+    sprite: {fileID: 21300000, guid: 668cb9c1f148a234cb6ae299b9671a36, type: 3}
   - name: Damage
     sprite: {fileID: 21300000, guid: 5d4067b849f49c94686ba8a4c3c4e981, type: 3}
   - name: Poison
