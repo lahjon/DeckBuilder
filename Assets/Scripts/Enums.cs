@@ -46,6 +46,21 @@ public enum Rarity
     Rare
 };
 
+public enum TileState
+{
+    Inactive,
+    Inventory,
+    Placement,
+    Active,
+    Completed
+}
+public enum GridState
+{
+    Idle,
+    Dragging,
+    Rotating
+}
+
 public enum CardTargetType
 {
     Self,

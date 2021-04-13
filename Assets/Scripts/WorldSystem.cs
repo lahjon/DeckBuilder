@@ -28,6 +28,7 @@ public class WorldSystem : MonoBehaviour
     public DialogueManager dialogueManager;
     public RewardManager rewardManager;
     public LevelManager levelManager;
+    public GridManager gridManager;
     public int act;
     public int saveAmount;
     public int loadAmount;
