@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RuleEffectThorns : RuleEffect
 {
-
+    public override bool isBuff { get { return true; } }
     public override void AddFunctionToRules()
     {
         actor.onAttackRecieved.Add(ThornIt);
@@ -16,7 +16,7 @@ public class RuleEffectThorns : RuleEffect
         actor.onAttackRecieved.Remove(ThornIt);
     }
 
-    public override void OnNewTurnBehaviour()
+    public override void OnNewTurn()
     {
         
     }

@@ -15,7 +15,9 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
     public IEnumerator SetupCombat()
     {
         combatController.BindCharacterData();
-        Debug.Log("Starting combat");
+        foreach (CombatActor actor in combatController.ActorsInScene)
+            actor.InitializeCombat();
+
         yield return new WaitForSeconds(0.5f);
 
         EncounterData encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;

@@ -25,3 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3cc950aa641163944be0c7d345d90096, type: 2}
   - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}
   startingEffects: []
+  shuffleInit: 1
+  stochasticReshuffle: 1

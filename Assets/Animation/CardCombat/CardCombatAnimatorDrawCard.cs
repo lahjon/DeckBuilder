@@ -29,6 +29,9 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         card.transform.localEulerAngles = Vector3.zero;
         speed = 3.5f;
 
+        //Reset any modified values from previous buffs
+        combatController.SetCardCalcDamage(card);
+
         //Called every frame since we might draw more cards. 
         (Vector3, Vector3) tempTransInfo = combatController.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);

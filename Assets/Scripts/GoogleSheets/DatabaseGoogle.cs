@@ -294,6 +294,9 @@ public class DatabaseGoogle
             data.StartingHP     = int.Parse((string)gt[i, "HP"]);
             data.tier           = int.Parse((string)gt[i, "Tier"]);
             data.experience     = int.Parse((string)gt[i, "Experience"]);
+
+            data.shuffleInit    = bool.Parse((string)gt[i, "InitialShuffle"]);
+            data.stochasticReshuffle = bool.Parse((string)gt[i, "StochasticReshuffle"]);
             
             data.deck.Clear();
             data.startingEffects.Clear();

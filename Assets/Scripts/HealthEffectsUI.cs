@@ -22,16 +22,28 @@ public class HealthEffectsUI : MonoBehaviour
     public Transform EffectsAnchor;
     public Dictionary<EffectType, EffectDisplay> effectToDisplay = new Dictionary<EffectType, EffectDisplay>();
     public GameObject templateEffectDisplay;
-    public List<EffectionNotificationFade> EffectNotificators;
+    
+    public List<HealtUINotification> uINotificators;
+    public Transform AnchorEffectNotifications;
+    public Transform AnchorHealthNotifications;
+
 
     private Queue<RuleEffect> queuedEffectsAnimation = new Queue<RuleEffect>();
     private IEnumerator coroutineEffectAdder;
+
+    private Color32 lifeRed = new Color32(255, 0, 0, 255);
+    private Color32 generealWhite = new Color32(0, 0, 0, 255);
 
     public void Start()
     {
         aAnchorHealthEffects = this.gameObject;
         SetupCamera();
         SetPositions();
+    }
+
+    public void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     public void SetupCamera()
@@ -80,7 +92,7 @@ public class HealthEffectsUI : MonoBehaviour
         if(coroutineEffectAdder is null)
         {
             coroutineEffectAdder = EffectDequeuer();
-            StartCoroutine(coroutineEffectAdder);
+            if(gameObject.activeSelf) StartCoroutine(coroutineEffectAdder);
         }
     }
 
@@ -111,18 +123,16 @@ public class HealthEffectsUI : MonoBehaviour
             }
         }
 
-        string label = effect.stackable ? effect.nrStacked.ToString() : "";
-
         if (effectToDisplay.ContainsKey(effectType))
         {
-            effectToDisplay[effectType].SetLabel(label);
+            effectToDisplay[effectType].SetLabel(effect.strStacked());
         }
         else if (effect.nrStacked != 0)
         {
-            GameObject effectObject = Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor) as GameObject;
+            GameObject effectObject = Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor);
             effectToDisplay[effectType] = effectObject.GetComponent<EffectDisplay>();
             effectToDisplay[effectType].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(effect.effectName));
-            effectToDisplay[effectType].SetLabel(label);
+            effectToDisplay[effectType].SetLabel(effect.strStacked());
             StartEffectNotification(effect.effectName);
         }
 
@@ -130,13 +140,32 @@ public class HealthEffectsUI : MonoBehaviour
 
     public void StartEffectNotification(string notification)
     {
-        for(int i = 0; i < EffectNotificators.Count; i++)
+        for(int i = 0; i < uINotificators.Count; i++)
         {
-            if (!EffectNotificators[i].isActiveAndEnabled)
+            if (!uINotificators[i].isActiveAndEnabled)
             {
-                EffectNotificators[i].gameObject.SetActive(true);
-                EffectNotificators[i].ResetLabel(notification);
-                break;
+                uINotificators[i].transform.SetParent(AnchorEffectNotifications);
+                uINotificators[i].SetColor(generealWhite);
+                uINotificators[i].gameObject.SetActive(true);
+                uINotificators[i].SetKineticFun("LinearRise");
+                uINotificators[i].ResetLabel(notification);
+                return;
+            }
+        }
+    }
+
+    public void StartLifeLossNotification(int lifeChange)
+    {
+        for (int i = 0; i < uINotificators.Count; i++)
+        {
+            if (!uINotificators[i].isActiveAndEnabled)
+            {
+                uINotificators[i].transform.SetParent(AnchorHealthNotifications);
+                uINotificators[i].gameObject.SetActive(true);
+                uINotificators[i].SetColor(lifeRed);
+                uINotificators[i].SetKineticFun("Poly2Rise");
+                uINotificators[i].ResetLabel(lifeChange.ToString(),1.5f);
+                return;
             }
         }
     }

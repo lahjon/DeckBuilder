@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RuleEffectPoison : RuleEffect
 {
+    public override bool isBuff { get { return false; } }
 
     public override void AddFunctionToRules()
     {
@@ -18,10 +19,11 @@ public class RuleEffectPoison : RuleEffect
     IEnumerator PoisonDamage()
     {
         actor.LooseLife(nrStacked--);
+        if (nrStacked == 0) Dismantle();
         yield return null;
     }
 
-    public override void OnNewTurnBehaviour()
+    public override void OnNewTurn()
     {
     }
 

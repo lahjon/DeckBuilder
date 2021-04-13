@@ -6,10 +6,11 @@ using UnityEngine;
 public class RuleEffectBarricade : RuleEffect
 {
     Func<IEnumerator> stolenFunction;
+    public override bool isBuff { get { return true; } }
+    public override bool stackable { get { return false; } }
 
     public override void AddFunctionToRules()
     {
-        stackable = false;
         stolenFunction = actor.RemoveAllBlock;
         actor.actionsNewTurn.Remove(actor.RemoveAllBlock);
     }
@@ -19,7 +20,7 @@ public class RuleEffectBarricade : RuleEffect
         actor.actionsNewTurn.Add(stolenFunction);
     }
 
-    public override void OnNewTurnBehaviour()
+    public override void OnNewTurn()
     {
         
     }

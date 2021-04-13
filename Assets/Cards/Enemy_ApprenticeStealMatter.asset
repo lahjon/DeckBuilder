@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_ApprenticeStealMatter
   m_EditorClassIdentifier: 
   cardName: Apprentice Steal Matter
-  artwork: {fileID: 21300000, guid: 308c2f66da6694f4390837a6b79d6706, type: 3}
+  artwork: {fileID: 21300000, guid: 8d39282e160d1404eb5aa92d80731c11, type: 3}
   cost: 2
   goldValue: 0
   exhaust: 0

@@ -22,9 +22,10 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
         if (card.exhaust)
             Destroy(card.gameObject);
         else
-            card.owner.DiscardCard(card);
+            card.owner.CardResolved(card);
            
         combatController.animator.SetTrigger("CardFinished");
+        
     }
         
 

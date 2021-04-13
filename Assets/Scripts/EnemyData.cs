@@ -14,9 +14,12 @@ public class EnemyData : ScriptableObject
     public GameObject characterArt;
     public int tier;
     public int experience;
-    public List<CardData> deck;
+    public List<CardData> deck = new List<CardData>();
 
     public List<CardEffect> startingEffects = new List<CardEffect>();
     public List<CardActivity> startingActivities = new List<CardActivity>();
+
+    public bool shuffleInit = true;
+    public bool stochasticReshuffle = true;
 
 }

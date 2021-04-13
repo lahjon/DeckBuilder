@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class RuleEffectVulnerable : RuleEffect
 {
+    public override bool isBuff { get { return false; } }
+    public override bool triggerRecalcDamage { get { return true; } }
+
 
     public override void AddFunctionToRules()
     {
