@@ -22,6 +22,8 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
         for(int i = 0; i < hero.actionsNewTurn.Count; i++)
             yield return combatController.StartCoroutine(hero.actionsNewTurn[i].Invoke());
 
+
+
         hero.EffectsOnNewTurnBehavior();
 
         combatController.acceptEndTurn = true;

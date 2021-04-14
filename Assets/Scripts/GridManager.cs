@@ -120,51 +120,19 @@ public class GridManager : Manager
             return Vector3Int.zero;
         }
     }
-    public void ButtonRotateTileLeft()
+    public void ButtonRotate(bool clockwise)
     {
+        int sign = clockwise ? 1 : -1;
         if (activeTile != null)
         {
-            List<int> newRotations = new List<int>();
-
             for (int i = 0; i < activeTile.availableDirections.Count; i++)
-            {
-                int newDir = activeTile.availableDirections[i] + 1;
-
-                if (newDir > 5)
-                {
-                    newDir -= 6;
-                }
-
-                newRotations.Add(newDir);
-            }
-
-            activeTile.availableDirections = newRotations;
-            activeTile.transform.Rotate(new Vector3(0,0,60));
-        }
-    }
-    public void ButtonRotateTileRight()
-    {
-        if (activeTile != null)
-        {
-            List<int> newRotations = new List<int>();
-
-            for (int i = 0; i < activeTile.availableDirections.Count; i++)
-            {
-                int newDir = activeTile.availableDirections[i] - 1;
-
-                if (newDir < 0)
-                {
-                    newDir += 6;
-                }
-
-                newRotations.Add(newDir);
-            }
-
-            activeTile.availableDirections = newRotations;
-            activeTile.transform.Rotate(new Vector3(0,0,-60));
+                activeTile.availableDirections[i] = (activeTile.availableDirections[i] + sign + 6) % 6;
+            
+            activeTile.transform.Rotate(new Vector3(0,0,sign*60));
         }
     }
 
+    //used for placing a tile before rotation 
     public bool TilePlacementValidStart(HexTile tile)
     {
         // get all the neighbours of a tile and discard all inactive tiles
@@ -178,12 +146,9 @@ public class GridManager : Manager
             foreach (var neighbour in neighbours)
             {
                 // look if any neighbour tile is completed
-                if (GetTile(neighbour) is HexTile neighbourTile)
+                if (GetTile(neighbour) is HexTile neighbourTile && completedTiles.Contains(neighbourTile))
                 {
-                    if (completedTiles.Contains(neighbourTile))
-                    {
                         return true;
-                    }
                 }
             }
         }

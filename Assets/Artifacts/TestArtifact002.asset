@@ -17,4 +17,4 @@ MonoBehaviour:
   description: This is anoteher test artifact
   rarity: 3
   artwork: {fileID: 21300000, guid: a3980393528d4fc4c8a1555858f8b209, type: 3}
-  effectName: TestEffect1
+  effectName: TestEffectThorns

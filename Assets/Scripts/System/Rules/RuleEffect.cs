@@ -7,7 +7,6 @@ public abstract class RuleEffect
     public string effectName { get { return GetType().ToString().Substring(10); } }
     public abstract bool isBuff { get; }
     public virtual bool triggerRecalcDamage { get { return false; } }
-
     public virtual bool stackable { get { return true; } }
 
     public EffectType type

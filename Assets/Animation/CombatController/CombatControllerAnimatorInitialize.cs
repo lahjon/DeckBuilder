@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 {
@@ -17,6 +18,9 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         combatController.BindCharacterData();
         foreach (CombatActor actor in combatController.ActorsInScene)
             actor.InitializeCombat();
+
+        foreach (Func<IEnumerator> func in combatController.Hero.actionsStartCombat)
+            yield return combatController.StartCoroutine(func.Invoke());
 
         yield return new WaitForSeconds(0.5f);
 

@@ -32,6 +32,7 @@ public class CombatActor : MonoBehaviour
 
     public List<Func<IEnumerator>> actionsNewTurn = new List<Func<IEnumerator>>();
     public List<Func<IEnumerator>> actionsEndTurn = new List<Func<IEnumerator>>();
+    public List<Func<IEnumerator>> actionsStartCombat = new List<Func<IEnumerator>>();
 
     public List<Func<CombatActor, IEnumerator>> onAttackRecieved = new List<Func<CombatActor,IEnumerator>>();
 
