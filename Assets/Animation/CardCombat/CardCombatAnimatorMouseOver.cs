@@ -33,9 +33,6 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
             toolTipOn = true;
             Vector3[] position = new Vector3[4];
             card.TooltipAnchor.GetWorldCorners(position);
-            //Debug.Log("Anchor tip: " + card.TooltipAnchor.TransformPoint(new Vector3(0f, 0f, 0f)));
-            //Debug.Log("Screen point: " + RectTransformUtility.WorldToScreenPoint(WorldSystem.instance.cameraManager.mainCamera, card.TooltipAnchor.TransformPoint(new Vector3(0f, 0f, 0f))));
-            //WorldSystem.instance.toolTipManager.Tips(card.toolTipTextBits, RectTransformUtility.WorldToScreenPoint(WorldSystem.instance.cameraManager.mainCamera, card.TooltipAnchor.TransformPoint(new Vector3(0f, 0f, 0f))));
             WorldSystem.instance.toolTipManager.Tips(card.toolTipTextBits, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(card.TooltipAnchor.position));
 
         }
