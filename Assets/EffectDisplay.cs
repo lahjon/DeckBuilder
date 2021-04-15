@@ -12,6 +12,8 @@ public class EffectDisplay : MonoBehaviour
     public Vector3 popinStartSize = new Vector3(0f, 0f, 0f);
     public Vector3 fullSize = Vector3.one;
 
+    public EffectType backingType;
+
     IEnumerator popinFunction;
 
     private void Awake()
@@ -47,5 +49,7 @@ public class EffectDisplay : MonoBehaviour
     {
         if(sprite != null) spriteRenderer.sprite = sprite;
     }
+
+
 
 }
