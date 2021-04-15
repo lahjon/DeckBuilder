@@ -22,8 +22,9 @@ public class HealthEffectsUI : MonoBehaviour
     public Transform EffectsAnchor;
     public Dictionary<EffectType, EffectDisplay> effectToDisplay = new Dictionary<EffectType, EffectDisplay>();
     public GameObject templateEffectDisplay;
+    public GameObject templateNotification;
     
-    public List<HealtUINotification> uINotificators;
+    public Queue<HealtUINotification> uINotificators = new Queue<HealtUINotification>();
     public Transform AnchorEffectNotifications;
     public Transform AnchorHealthNotifications;
 
@@ -140,36 +141,29 @@ public class HealthEffectsUI : MonoBehaviour
 
     public void StartEffectNotification(string notification)
     {
-        for(int i = 0; i < uINotificators.Count; i++)
-        {
-            if (!uINotificators[i].isActiveAndEnabled)
-            {
-                uINotificators[i].transform.SetParent(AnchorEffectNotifications);
-                uINotificators[i].SetColor(generealWhite);
-                uINotificators[i].gameObject.SetActive(true);
-                uINotificators[i].SetKineticFun("LinearRise");
-                uINotificators[i].ResetLabel(notification);
-                return;
-            }
-        }
+        HealtUINotification noti = GetNotification();
+        noti.Kinetor = noti.DecreasingRise;
+        noti.ResetLabel(notification, generealWhite, AnchorEffectNotifications);
     }
 
     public void StartLifeLossNotification(int lifeChange)
     {
-        for (int i = 0; i < uINotificators.Count; i++)
-        {
-            if (!uINotificators[i].isActiveAndEnabled)
-            {
-                uINotificators[i].transform.SetParent(AnchorHealthNotifications);
-                uINotificators[i].gameObject.SetActive(true);
-                uINotificators[i].SetColor(lifeRed);
-                uINotificators[i].SetKineticFun("Poly2Rise");
-                uINotificators[i].ResetLabel(lifeChange.ToString(),1.5f);
-                return;
-            }
-        }
+        HealtUINotification noti = GetNotification();
+        noti.Kinetor = noti.Poly2Rise;
+        noti.ResetLabel(lifeChange.ToString(), lifeRed, AnchorHealthNotifications);
     }
 
-    
+    private HealtUINotification GetNotification()
+    {
+        if (uINotificators.Count == 0)
+        {
+            GameObject notObject = Instantiate(templateNotification, AnchorHealthNotifications.position, Quaternion.Euler(0, 0, 0), AnchorHealthNotifications);
+            HealtUINotification noti = notObject.GetComponent<HealtUINotification>();
+            noti.healthEffectsUI = this;
+            return noti;
+        }
+        else
+            return uINotificators.Dequeue();
+    }
 
 }

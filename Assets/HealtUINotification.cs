@@ -6,15 +6,19 @@ using System;
 
 public class HealtUINotification : MonoBehaviour
 {
+    [HideInInspector]
+    public HealthEffectsUI healthEffectsUI;
+
     public TMP_Text label;
-    public float timePassed;
-    public float animationDuration = 3f;
+    float timePassed;
+    float animationDuration = 3f;
     public static float speed = 40f;
+    public AnimationCurve decreasingRise;
 
     public Color32 startColor = new Color32(255,255,255,255);
     public Color32 endColor = new Color32(255, 255, 255, 0);
 
-    private Func<float , Vector3> Kinetor;
+    public Func<float , Vector3> Kinetor;
 
     private int signHorizontal = 1;   
 
@@ -24,13 +28,15 @@ public class HealtUINotification : MonoBehaviour
             Kinetor = LinearRise;
     }
 
-    public void ResetLabel(string newLabel, float duration = 2.5f)
+    public void ResetLabel(string newLabel, Color32 color, Transform parent, float duration = 2.5f)
     {
+        SetColor(color);
         transform.localPosition = Vector3.zero;
         signHorizontal = UnityEngine.Random.Range(0f, 1f) < 0.5 ? -1 : 1; 
         label.text = newLabel;
         animationDuration = duration;
         timePassed = 0;
+        gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -42,29 +48,30 @@ public class HealtUINotification : MonoBehaviour
         transform.localPosition = Kinetor(pct);
 
         if (timePassed > animationDuration)
+        {
             gameObject.SetActive(false);
+            healthEffectsUI.uINotificators.Enqueue(this);
+        }
     }
 
 
     public void SetColor(Color32 color)
     {
         startColor = color;
+        label.color = color;
         endColor = new Color32(color.r, color.g, color.b, 0);
     }
 
-    public void SetKineticFun(string strFunc)
-    {
-        if (strFunc == "LinearRise")
-            Kinetor = LinearRise;
-        else if (strFunc == "Poly2Rise")
-            Kinetor = Poly2Rise;
-        else
-            Kinetor = LinearRise;
-    }
+
 
     public Vector3 LinearRise(float pct)
     {
         return new Vector3(0, pct*speed);
+    }
+
+    public Vector3 DecreasingRise(float pct)
+    {
+        return new Vector3(0, decreasingRise.Evaluate(pct)*speed*2);
     }
 
     public Vector3 Poly2Rise(float pct)

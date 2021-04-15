@@ -3421,11 +3421,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421547268}
   m_CullTransparentMesh: 1
---- !u!1 &436266211 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1239432930074983703, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+--- !u!114 &436266213 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1239432930074983701, guid: b809b88fe68213b45943c5d070794f51, type: 3}
   m_PrefabInstance: {fileID: 366531182881619017}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &440266334
 GameObject:
   m_ObjectHideFlags: 0
@@ -4947,11 +4953,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: acbf256f2994cdf45ae3fc47583927c7, type: 3}
---- !u!1 &755148374 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1218180565927053542, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+--- !u!114 &755148376 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1218180565927053540, guid: b809b88fe68213b45943c5d070794f51, type: 3}
   m_PrefabInstance: {fileID: 366531182881619017}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &763000941
 GameObject:
   m_ObjectHideFlags: 0
@@ -7972,11 +7984,17 @@ MonoBehaviour:
   rewardScreen: {fileID: 1764640840}
   rewardScreenCardSelection: {fileID: 1186353786}
   draftAmount: 0
---- !u!1 &1149136140 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7824485187974607757, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+--- !u!114 &1149136142 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7824485187974607759, guid: b809b88fe68213b45943c5d070794f51, type: 3}
   m_PrefabInstance: {fileID: 366531182881619017}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1186353784
 GameObject:
   m_ObjectHideFlags: 0
@@ -14517,17 +14535,33 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+      propertyPath: cardsInStock.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
       propertyPath: cardsInStock.Array.data[0]
       value: 
-      objectReference: {fileID: 436266211}
+      objectReference: {fileID: 436266213}
     - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
       propertyPath: cardsInStock.Array.data[1]
       value: 
-      objectReference: {fileID: 755148374}
+      objectReference: {fileID: 755148376}
     - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
       propertyPath: cardsInStock.Array.data[2]
       value: 
-      objectReference: {fileID: 1149136140}
+      objectReference: {fileID: 1149136142}
+    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+      propertyPath: cardsInStock.Array.data[3]
+      value: 
+      objectReference: {fileID: 1149136142}
+    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+      propertyPath: cardsInStock.Array.data[4]
+      value: 
+      objectReference: {fileID: 1149136142}
+    - target: {fileID: 366531183660470779, guid: b809b88fe68213b45943c5d070794f51, type: 3}
+      propertyPath: cardsInStock.Array.data[5]
+      value: 
+      objectReference: {fileID: 1149136142}
     - target: {fileID: 366531183686724456, guid: b809b88fe68213b45943c5d070794f51, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonLeave
