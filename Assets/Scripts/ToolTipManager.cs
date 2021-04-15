@@ -47,13 +47,8 @@ public class ToolTipManager : Manager
             vlg.enabled = true;
             txt_tips[i].transform.parent.gameObject.SetActive(true);
             txt_tips[i].text = tips[i];
-            txt_tips[i].transform.parent.GetComponentInChildren<VerticalLayoutGroup>().enabled = false;
-            txt_tips[i].transform.parent.GetComponentInChildren<VerticalLayoutGroup>().enabled = true;
         }
-
-        vlg.enabled = false;
-        vlg.enabled = true;
-        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(TipLocation);
         TipLocation.position = screenPoint;
     }
 
