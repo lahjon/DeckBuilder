@@ -17,12 +17,16 @@ public class CardCombat : CardVisual
 
     public TooltipController tooltipController;
 
+    public RectTransform TooltipAnchor; 
+
     private bool _selected = false;
     private bool _selectable = false;
     private bool _mouseReact = false;
 
     public float fanDegreeCurrent;
     public float fanDegreeTarget;
+
+    public List<string> toolTipTextBits = new List<string>();
 
     public bool MouseReact
     {
@@ -90,8 +94,7 @@ public class CardCombat : CardVisual
         card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
         combatController.createdCards.Add(card);
 
-        card.allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) card.tooltipController.AddTipText(x.Type.GetDescription()); });
-        card.activities.ForEach( x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+        card.SetToolTips();
 
         return card;
     }
@@ -108,12 +111,17 @@ public class CardCombat : CardVisual
         SpliceCards(card, a, b);
         card.BindCardVisualData();
         card.owner = combatController.ActiveActor;
-        card.allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) card.tooltipController.AddTipText(x.Type.GetDescription()); });
-        card.activities.ForEach(x => card.tooltipController.AddTipText(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+        card.SetToolTips();
 
         return card;
     }
 
+    private void SetToolTips()
+    {
+        toolTipTextBits.Clear();
+        allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
+        activities.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+    }
 
     public override void OnMouseEnter()
     {

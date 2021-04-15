@@ -219,6 +219,7 @@ public class CombatController : MonoBehaviour
         Hero.deck.Clear();
         Hero.discard.ForEach(x => Destroy(x.gameObject));
         Hero.discard.Clear();
+        Hero.ClearAllEffects();
 
         DeadEnemiesInScene.Clear();
     }
