@@ -32,6 +32,7 @@ public class HealtUINotification : MonoBehaviour
     {
         SetColor(color);
         transform.localPosition = Vector3.zero;
+        transform.SetParent(parent);
         signHorizontal = UnityEngine.Random.Range(0f, 1f) < 0.5 ? -1 : 1; 
         label.text = newLabel;
         animationDuration = duration;
@@ -44,7 +45,7 @@ public class HealtUINotification : MonoBehaviour
     {
         timePassed += Time.deltaTime;
         float pct = timePassed / animationDuration;
-        label.color = Color32.Lerp(startColor, endColor, pct);
+        label.color = Color32.Lerp(startColor, endColor, Mathf.Max(pct*2-1f,0f));
         transform.localPosition = Kinetor(pct);
 
         if (timePassed > animationDuration)
@@ -71,7 +72,7 @@ public class HealtUINotification : MonoBehaviour
 
     public Vector3 DecreasingRise(float pct)
     {
-        return new Vector3(0, decreasingRise.Evaluate(pct)*speed*2);
+        return new Vector3(0, decreasingRise.Evaluate(pct)*speed*3);
     }
 
     public Vector3 Poly2Rise(float pct)

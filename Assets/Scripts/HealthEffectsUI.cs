@@ -58,12 +58,12 @@ public class HealthEffectsUI : MonoBehaviour
         //Vector3 coordinates = WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(aAnchorHealthEffects.transform.localPosition);
 
         cAnchorHealthEffects.transform.position = aAnchorHealthEffects.transform.parent.position;
-        cAnchorHealthEffects.transform.localPosition += new Vector3(0, -(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height * 50 / 2), -100);
+        cAnchorHealthEffects.transform.localPosition += new Vector3(0, -(aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height * 50 / 2 + 20));
 
         if (intentDisplayAnchor != null)
         {
             intentDisplayAnchor.transform.position = aAnchorHealthEffects.transform.parent.position;
-            intentDisplayAnchor.transform.localPosition += new Vector3(0, (aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height * 50 / 2), -100);
+            intentDisplayAnchor.transform.localPosition += new Vector3(0, (aAnchorHealthEffects.transform.parent.GetComponent<CapsuleCollider>().height * 50 / 2 +20));
         }
     }
 
@@ -150,7 +150,7 @@ public class HealthEffectsUI : MonoBehaviour
     {
         HealtUINotification noti = GetNotification();
         noti.Kinetor = noti.Poly2Rise;
-        noti.ResetLabel(lifeChange.ToString(), lifeRed, AnchorHealthNotifications);
+        noti.ResetLabel(lifeChange.ToString(), lifeRed, AnchorHealthNotifications,1.5f);
     }
 
     private HealtUINotification GetNotification()

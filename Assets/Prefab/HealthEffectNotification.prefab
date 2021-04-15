@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4512699640697055678}
   - component: {fileID: 2149674174188988388}
   m_Layer: 5
-  m_Name: notiStatus
+  m_Name: HealthEffectNotification
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a75d8eebd243d3418393b1db6e71d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthEffectsUI: {fileID: 0}
   label: {fileID: 4512699640697055678}
   decreasingRise:
     serializedVersion: 2
@@ -191,21 +192,21 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 6.069122
-      outSlope: 6.069122
+      inSlope: 3.589518
+      outSlope: 3.589518
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.116845295
+      outWeight: 0.113598965
     - serializedVersion: 3
-      time: 0.19622262
-      value: 0.6834284
-      inSlope: 1.3571138
-      outSlope: 1.3571138
+      time: 0.29498246
+      value: 0.6999793
+      inSlope: 1.0427039
+      outSlope: 1.0427039
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0.0938714
     - serializedVersion: 3
       time: 1
       value: 1
