@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using TMPro;
 
 
 public class GridManager : Manager
@@ -22,6 +23,24 @@ public class GridManager : Manager
     public HexTile oldHoverTile;
     public HexTile activeTile;
     public List<HexTile> completedTiles = new List<HexTile>();
+    public GridState gridState;
+    public TMP_Text bossCounterText;
+    int _bossCounter;
+    public int bossCounter
+    {
+        get
+        {
+            return _bossCounter;
+        }
+
+        set 
+        {
+            _bossCounter = value;
+            bossCounterText.text = _bossCounter.ToString();
+            LeanTween.scale(bossCounterText.gameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.2f).setEaseInBounce().setLoopPingPong(2);
+        }
+    }
+    
     
     List<Vector3Int> tileDirections = new List<Vector3Int>  {
                                                                 new Vector3Int(1, -1, 0), 
@@ -71,12 +90,17 @@ public class GridManager : Manager
         animator.SetBool("IsRotating", rotate);
     }
 
+    public void IsComplete()
+    {
+        animator.SetBool("IsComplete", true);
+    }
+
     public void ButtonCompletePlacement()
     {
         if (TilePlacementValid(activeTile))
         {
             activeTile.ConfirmTilePlacement();
-            animator.SetBool("IsComplete", true);
+            IsComplete();
         }
         else
         {
@@ -107,6 +131,21 @@ public class GridManager : Manager
         }
     }
 
+    Sprite GetSprite(TileState tileState)
+    {
+        switch (tileState)
+        {
+            case TileState.Inactive:
+                return sprites[1];
+
+            case TileState.Active:
+                return sprites[0];
+            
+            default:
+                return sprites[0];
+        }
+    }
+
     
     Vector3Int GetTileDirection(int direction)
     {
@@ -132,6 +171,26 @@ public class GridManager : Manager
         }
     }
 
+    public bool CheckFreeSlot(HexTile tile)
+    {
+        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
+
+        foreach (Vector3Int neighbour in neighbours)
+        {
+            if (GetTile(neighbour) is HexTile neighbourTile)
+            {
+                foreach (int dir in neighbourTile.availableDirections)
+                {
+                    if((neighbour + GetTileDirection(dir)) == tile.coord)
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     //used for placing a tile before rotation 
     public bool TilePlacementValidStart(HexTile tile)
     {
@@ -143,7 +202,7 @@ public class GridManager : Manager
         foreach (int dir in tile.availableDirections)
         {
             // look at all neighbours of the tile
-            foreach (var neighbour in neighbours)
+            foreach (Vector3Int neighbour in neighbours)
             {
                 // look if any neighbour tile is completed
                 if (GetTile(neighbour) is HexTile neighbourTile && completedTiles.Contains(neighbourTile))
@@ -237,6 +296,29 @@ public class GridManager : Manager
     HashSet<int> VectorToArray(Vector3Int coord)
     {
         HashSet<int> result = new HashSet<int>{coord.x, coord.y, coord.z};
+        return result;
+    }
+
+    public List<int> GetNewExits(HexTile tile)
+    {
+        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
+        List<int> result = new List<int>();
+
+        foreach (Vector3Int neighbour in neighbours)
+        {
+            if (GetTile(neighbour) is HexTile neighbourTile)
+            {
+                foreach (int dir in neighbourTile.availableDirections)
+                {
+                    if((neighbour + GetTileDirection(dir)) == tile.coord)
+                    {
+                        result.Add((dir - 3 + 6) % 6);
+                    }
+                }
+            }
+        }
+
         return result;
     }
 

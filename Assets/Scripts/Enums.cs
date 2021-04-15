@@ -54,13 +54,16 @@ public enum TileState
     Inventory,
     Placement,
     Active,
-    Completed
+    Completed,
+    Animation
 }
+
 public enum GridState
 {
     Idle,
     Dragging,
-    Rotating
+    Rotating,
+    Complete
 }
 
 public enum CardTargetType

@@ -42,10 +42,13 @@ public class HexTile : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Activate(TileState aTileState = TileState.Active)
+    public void Activate(TileState aTileState = TileState.Active, bool activeDebug = true)
     {
         availableDirections = gridManager.AddNeighbours();
-        availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
+        if (activeDebug)
+        {
+            availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
+        }
         spriteRenderer.sprite = gridManager.sprites[0];
         tileState = aTileState;
     }
@@ -62,16 +65,19 @@ public class HexTile : MonoBehaviour
         // }
     }
     
-    void OnMouseDown()
+    void OnMouseUp()
     {
         switch (tileState)
         {
             case TileState.Inactive:
-                //Debug.Log(gridManager.TilePlacementValid(gridManager.activeTile));
+                if (gridManager.gridState == GridState.Idle)
+                {
+                    FlipDownNewTile();
+                }
                 break;
 
             case TileState.Inventory:
-                if (gridManager.activeTile == null)
+                if (gridManager.activeTile == null && gridManager.gridState != GridState.Complete)
                 {
                     StartPlacement();
                 }
@@ -79,7 +85,6 @@ public class HexTile : MonoBehaviour
 
             case TileState.Placement:
                 //Debug.Log(gridManager.TilePlacementValid(this));
-                transform.Rotate(new Vector3(0,0,-60));
                 break;
 
             case TileState.Active:
@@ -96,32 +101,34 @@ public class HexTile : MonoBehaviour
         }
     }
 
-    void OnMouseUp()
+    void FlipDownNewTile()
     {
-        switch (tileState)
-        {
-            case TileState.Inactive:
-                break;
-
-            case TileState.Inventory:
-                
-                break;
-
-            case TileState.Placement:
-                transform.Rotate(new Vector3(0,0,-60));
-                break;
-
-            case TileState.Active:
-                break;
-
-
-            case TileState.Completed:
-                break;
-
-            default:
-                break;
-        }
+        spriteRenderer.color = Color.white;
+        gridManager.IsComplete();
+        tileState = TileState.Animation;
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 1.5f).setEaseInCubic().setOnComplete(() => FlipUpNewTile());
     }
+
+    public void FlipUpNewTile()
+    {
+        Activate(TileState.Active, false);
+        List<int> requiredExits = gridManager.GetNewExits(this);
+
+        foreach (int dir in requiredExits)
+        {
+            if(!availableDirections.Contains(dir))
+            {
+                availableDirections[requiredExits.IndexOf(dir)] = dir;
+            }
+        }
+        availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
+
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
+            () => tileState = TileState.Completed
+        );
+    }
+
+
     void StartPlacement()
     {
         startPosition = transform.position;
@@ -166,25 +173,85 @@ public class HexTile : MonoBehaviour
 
     void OnMouseEnter()
     {
-        //Debug.Log("Enter");
+        switch (tileState)
+        {
+            case TileState.Inactive:
+                if (gridManager.gridState == GridState.Idle && _tileState == TileState.Inactive)
+                {
+                    if (gridManager.activeTile == null && gridManager.CheckFreeSlot(this))
+                    {
+                        spriteRenderer.color = Color.green;
+                    }
+                    else
+                    {
+                        spriteRenderer.color = Color.red;
+                    }
+                }
+
+                break;
+
+            case TileState.Inventory:
+                
+                break;
+
+            case TileState.Placement:
+                break;
+
+            case TileState.Active:
+                break;
+
+
+            case TileState.Completed:
+                break;
+
+            default:
+                break;
+        }
     }
 
     void OnMouseOver()
     {
-        if (tileState == TileState.Inactive && gridManager.hoverTile != this)
+        switch (tileState)
         {
-            gridManager.hoverTilePosition = transform.position;
-            gridManager.hoverTile = this;;
-            if (gridManager.activeTile != null && gridManager.oldHoverTile == null)
-            {
-                gridManager.activeTile.coord = coord;
-            }
+            case TileState.Inactive:
+                if (gridManager.hoverTile != this)
+                {
+                    gridManager.hoverTilePosition = transform.position;
+                    gridManager.hoverTile = this;;
+                    if (gridManager.activeTile != null && gridManager.oldHoverTile == null)
+                    {
+                        gridManager.activeTile.coord = coord;
+                    }
+                }
+
+                break;
+
+            case TileState.Inventory:
+                
+                break;
+
+            case TileState.Placement:
+                break;
+
+            case TileState.Active:
+                break;
+
+
+            case TileState.Completed:
+                break;
+
+            default:
+                break;
         }
+
     }
 
     void OnMouseExit()
     {
-        //Debug.Log("Yes");
+        if (_tileState == TileState.Inactive)
+        {
+            spriteRenderer.color = Color.white;
+        }
         gridManager.hoverTilePosition = Vector3.zero;
         gridManager.hoverTile = null;
     }

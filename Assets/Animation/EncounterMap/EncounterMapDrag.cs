@@ -6,7 +6,8 @@ public class EncounterMapDrag : EncounterMapAnimator
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Init();
+        base.Init();
+        gridManager.gridState = GridState.Dragging;
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
