@@ -16,18 +16,14 @@ public class CombatActorEnemy : CombatActor
 
     public GameObject cardTemplate;
 
-    [HideInInspector]
-    public CardData nextCard;
     public GameObject AnchorMoveDisplay;
+    public RectTransform AnchorToolTip;
 
     public Canvas canvasEffects;
     public Canvas canvasIntent;
-    public Canvas canvasToolTip;
     public GameObject target;
 
     public bool stochasticReshuffle = true;
-
-    public TooltipController tooltipController;
 
     public Card hand;
 
@@ -70,7 +66,6 @@ public class CombatActorEnemy : CombatActor
         spriteRenderer.sprite = enemyData.artwork;
         enemyName = enemyData.enemyName;
         stochasticReshuffle = enemyData.stochasticReshuffle;
-        tooltipController.AddTipText($"<b>{enemyName}</b>\nThis enemy has {deck.Count} cards in its deck!");
 
         if (enemyData.characterArt != null)
         {
@@ -93,9 +88,6 @@ public class CombatActorEnemy : CombatActor
 
         canvasEffects.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
         canvasEffects.planeDistance = WorldSystem.instance.uiManager.planeDistance;
-
-        canvasToolTip.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
-        canvasToolTip.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
     public void UpdateMoveDisplay(Card card)
@@ -152,9 +144,8 @@ public class CombatActorEnemy : CombatActor
         if(!toolTipShowing && toolTiptimer > toolTipDelay)
         {
             toolTipShowing = true;
-            tooltipController.ShowHide(true);
+            WorldSystem.instance.toolTipManager.Tips(new List<string>() { "blueee" }, canvasIntent.worldCamera.WorldToScreenPoint(AnchorToolTip.position));
         }
-        
         if (combatController.ActiveCard != null  && combatController.ActiveCard.targetRequired)
             SetTarget(true);
         
@@ -166,8 +157,8 @@ public class CombatActorEnemy : CombatActor
     public void OnMouseExit()
     {
         toolTiptimer = 0;
-        tooltipController.ShowHide(false);
         toolTipShowing = false;
+        WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
         if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
     }

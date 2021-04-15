@@ -34,7 +34,7 @@ public class ToolTipManager : Manager
 
     public void Tips(List<string> tips, Vector3 screenPoint)
     {
-        TipLocation.position = screenPoint;
+        TipLocation.anchoredPosition = screenPoint;
         //TipLocation.position = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, screenPoint);
         for (int i = 0; i < tips.Count; i++) {
             if (i == txt_tips.Count)
@@ -49,7 +49,6 @@ public class ToolTipManager : Manager
             txt_tips[i].text = tips[i];
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate(TipLocation);
-        TipLocation.position = screenPoint;
     }
 
 
