@@ -46,6 +46,7 @@ public class EncounterUI : MonoBehaviour
 
     public void BindEncounterData()
     {
+
         int count = 0;
         foreach (EncounterEventType e in encounterData.events)
         {
@@ -112,6 +113,10 @@ public class EncounterUI : MonoBehaviour
             newEncounterData = encounterData.newEncounterData[2];
             bool disable = EncounterEvent.TriggerEvent(event3);
             ConfirmOption(disable);
+        }
+        if (newEncounterData != null)
+        {
+            WorldSystem.instance.encounterManager.currentEncounter.encounterData = newEncounterData;
         }
     }
 

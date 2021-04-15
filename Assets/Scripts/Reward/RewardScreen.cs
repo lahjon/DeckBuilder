@@ -109,7 +109,12 @@ public class RewardScreen : MonoBehaviour
         canvas.SetActive(false);
         canvasCard.SetActive(false);
         WorldStateSystem.SetInReward(false);
-        Debug.Log("RewardScreen Removing card!");
+
+        for (int i = 0; i < content.transform.childCount; i++)
+        {
+            Destroy(content.transform.GetChild(i).gameObject);
+        }
+
         if(encounterData.type == EncounterType.OverworldCombatBoss)
             WorldSystem.instance.EndCombat(true);
         else

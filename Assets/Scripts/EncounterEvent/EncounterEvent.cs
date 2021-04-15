@@ -59,13 +59,6 @@ public class EncounterEvent
         ui.BindEncounterData();
         ui.background.GetComponent<CanvasGroup>().alpha = 0.0f;
 
-        // Debug.Log(ui.encounterData.events.Count);
-        // Debug.Log(ui.encounterData.events[0]);
-        // if (ui.encounterData.events.Count == 1 && ui.encounterData.events[0] == EncounterEventType.Combat)
-        // {
-        //     return false;
-        // }
-
         ui.StartFade(oldUI, ui.background);
         return false;
     }

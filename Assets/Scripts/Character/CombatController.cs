@@ -131,7 +131,7 @@ public class CombatController : MonoBehaviour
 
     #region Plumbing, Setup, Start/End turn
 
-    public void SetUpEncounter(List<EnemyData> enemyData = null)
+    public void SetUpEncounter()
     {
         Hero.combatController = this;
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
@@ -147,20 +147,16 @@ public class CombatController : MonoBehaviour
 
         Hero.ShuffleDeck();
 
-        if (enemyData == null || enemyData?.Count < 1)
-        {
-            enemyData = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
-            Debug.Log("EnemyData is null");
-        }
+        enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
 
-        enemyData.ForEach(x => Debug.Log(x));
+        enemyDatas.ForEach(x => Debug.Log(x));
 
-        for (int i = 0; i < enemyData.Count; i++)
+        for (int i = 0; i < enemyDatas.Count; i++)
         {
             GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.combatController = this;
-            combatActorEnemy.ReadEnemyData(enemyData[i]);
+            combatActorEnemy.ReadEnemyData(enemyDatas[i]);
             EnemiesInScene.Add(combatActorEnemy);
         }
         animator.SetTrigger("StartSetup");
@@ -169,22 +165,7 @@ public class CombatController : MonoBehaviour
     public void StartCombat()
     {
         gameObject.SetActive(true);
-
-        if (WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData != null)
-        {
-            enemyDatas = WorldSystem.instance.uiManager.encounterUI?.encounterData?.enemyData;
-        }
-        if (enemyDatas?.Count < 1)
-        {
-            Debug.Log("From null");
-            SetUpEncounter();
-        }
-        else
-        {
-            Debug.Log("From something");
-            SetUpEncounter(enemyDatas);
-            WorldSystem.instance.uiManager.encounterUI.ResetEncounter();
-        }
+        SetUpEncounter();
     }
 
 
