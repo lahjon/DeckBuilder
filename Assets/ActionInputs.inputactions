@@ -1,0 +1,98 @@
+{
+    "name": "ActionInputs",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "4fa2f033-88ef-4012-a571-a5d385bcf284",
+            "actions": [
+                {
+                    "name": "ToggleConsole",
+                    "type": "Button",
+                    "id": "11b047c8-85be-4437-a9e5-aaf175b47ddc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "OnEnterKey",
+                    "type": "Button",
+                    "id": "03669245-ac09-4add-a3d2-74d84abb561c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "008c6dda-034b-4e17-9098-4abda162d91e",
+                    "path": "<Keyboard>/#(§)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8954f81-be5a-49fd-95ae-e6341fa26419",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnEnterKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Debug",
+            "id": "21eae75a-de93-4ab0-95e4-f0b0455038f1",
+            "actions": [
+                {
+                    "name": "Save",
+                    "type": "Button",
+                    "id": "b31b8d84-677c-47ea-b039-d52c256a4253",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Load",
+                    "type": "Button",
+                    "id": "9f0a4094-3596-4800-a416-cb22df4eaf7e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "24ec27a9-1d28-4ff6-876d-a05ac8fea789",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Save",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d65b8404-6913-4323-8c66-169d52f8463a",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Load",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

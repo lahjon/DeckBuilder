@@ -26,6 +26,7 @@ public class GridManager : Manager
     public GridState gridState;
     public TMP_Text bossCounterText;
     int _bossCounter;
+    public int tilesUntilBoss;
     public int bossCounter
     {
         get
@@ -36,8 +37,15 @@ public class GridManager : Manager
         set 
         {
             _bossCounter = value;
-            bossCounterText.text = _bossCounter.ToString();
-            LeanTween.scale(bossCounterText.gameObject, new Vector3(1.5f, 1.5f, 1.5f), 0.2f).setEaseInBounce().setLoopPingPong(2);
+            bossCounterText.text = (tilesUntilBoss - _bossCounter).ToString();
+            float a = (float)_bossCounter;
+            float b = (float)tilesUntilBoss;
+            float textScale = 1.0f + (a / b) * 0.5f;
+            LeanTween.scale(bossCounterText.gameObject, new Vector3(textScale, textScale, textScale), 0.2f).setEaseInBounce().setLoopPingPong(2);
+            if (_bossCounter >= tilesUntilBoss)
+            {
+                StartBoss();
+            }
         }
     }
     
@@ -78,6 +86,11 @@ public class GridManager : Manager
             tile.Activate(TileState.Inventory);
         }
     } 
+
+    void StartBoss()
+    {
+
+    }
 
     public void InPlacement(HexTile tile)
     {

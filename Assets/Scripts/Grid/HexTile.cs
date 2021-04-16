@@ -65,41 +65,7 @@ public class HexTile : MonoBehaviour
         // }
     }
     
-    void OnMouseUp()
-    {
-        switch (tileState)
-        {
-            case TileState.Inactive:
-                if (gridManager.gridState == GridState.Idle)
-                {
-                    FlipDownNewTile();
-                }
-                break;
 
-            case TileState.Inventory:
-                if (gridManager.activeTile == null && gridManager.gridState != GridState.Complete)
-                {
-                    StartPlacement();
-                }
-                break;
-
-            case TileState.Placement:
-                //Debug.Log(gridManager.TilePlacementValid(this));
-                break;
-
-            case TileState.Active:
-                //Debug.Log(gridManager.TilePlacementValid(this));
-                break;
-
-
-            case TileState.Completed:
-                //Debug.Log(gridManager.TilePlacementValid(this));
-                break;
-
-            default:
-                break;
-        }
-    }
 
     void FlipDownNewTile()
     {
@@ -170,6 +136,42 @@ public class HexTile : MonoBehaviour
         tileState = TileState.Completed;
     }
 
+    void OnMouseUp()
+    {
+        switch (tileState)
+        {
+            case TileState.Inactive:
+                if (gridManager.gridState == GridState.Idle)
+                {
+                    FlipDownNewTile();
+                }
+                break;
+
+            case TileState.Inventory:
+                if (gridManager.activeTile == null && gridManager.gridState != GridState.Complete)
+                {
+                    StartPlacement();
+                }
+                break;
+
+            case TileState.Placement:
+                //Debug.Log(gridManager.TilePlacementValid(this));
+                break;
+
+            case TileState.Active:
+                //Debug.Log(gridManager.TilePlacementValid(this));
+                break;
+
+
+            case TileState.Completed:
+                //Debug.Log(gridManager.TilePlacementValid(this));
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
     void OnMouseEnter()
     {
@@ -217,7 +219,7 @@ public class HexTile : MonoBehaviour
                 if (gridManager.hoverTile != this)
                 {
                     gridManager.hoverTilePosition = transform.position;
-                    gridManager.hoverTile = this;;
+                    gridManager.hoverTile = this;
                     if (gridManager.activeTile != null && gridManager.oldHoverTile == null)
                     {
                         gridManager.activeTile.coord = coord;
