@@ -18,6 +18,7 @@ public class CardCombat : CardVisual
     public TooltipController tooltipController;
 
     public RectTransform TooltipAnchor; 
+    public GameObject highlight;
 
     private bool _selected = false;
     private bool _selectable = false;

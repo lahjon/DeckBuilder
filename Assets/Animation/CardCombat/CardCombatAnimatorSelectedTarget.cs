@@ -17,10 +17,12 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         card.transform.localPosition = targetPos;
         card.transform.localScale = targetScale;
         card.transform.localEulerAngles = targetAngle;
+        card.highlight.SetActive(true);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         card.selected = false;
+        card.highlight.SetActive(false);
     }
 }

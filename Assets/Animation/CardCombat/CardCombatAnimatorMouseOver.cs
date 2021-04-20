@@ -23,6 +23,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
 
         time = 0;
         toolTipOn = false;
+        card.highlight.SetActive(true);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -50,6 +51,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
         //Debug.Log("MouseOver StateExit: Sending Refresh idle trigger" + Time.frameCount);
         combatController.ResetSiblingIndexes();
         WorldSystem.instance.toolTipManager.DisableTips();
+        card.highlight.SetActive(false);
     }
 
 }

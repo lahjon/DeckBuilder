@@ -10,6 +10,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
         //Debug.Log("Selected OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
         Debug.Log("Selected card " + card.name);
+        card.highlight.SetActive(true);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -24,6 +25,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
     {
         card.selected = false;
         animator.SetBool("AllowMouseOver",false);
+        card.highlight.SetActive(false);
     }
 
 }
