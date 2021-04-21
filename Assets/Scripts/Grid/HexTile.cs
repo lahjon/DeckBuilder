@@ -10,8 +10,9 @@ public class HexTile : MonoBehaviour
     [HideInInspector] public Sprite artwork;
     public Vector3Int coord;
     public List<int> availableDirections = new List<int>();
+    public List<int> lockedDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
-    GridManager gridManager;
+    static GridManager gridManager;
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
     public TileState tileState
@@ -53,24 +54,33 @@ public class HexTile : MonoBehaviour
         tileState = aTileState;
     }
 
-    void Update()
+    public void CloseExits(List<int> openExists)
     {
-        // if (selected)
-        // {
-        //     if (Input.GetMouseButtonDown(1))
-        //     {
-        //         TestPlacement();
-        //     }
-        //     CheckPlacement();
-        // }
-    }
-    
+        // close all exists not connecting to the placed hex
+        List<int> closedDirections = availableDirections.Except(lockedDirections).Except(openExists).ToList();
+        availableDirections = availableDirections.Except(closedDirections).ToList();
 
+        // debug to display exists that are no longer available
+        closedDirections.ForEach(x => exits[x].GetComponent<SpriteRenderer>().color = Color.red);
+    }
+
+    public void LockDirections(List<int> directions = null)
+    {
+        if (directions == null)
+        {
+            lockedDirections = availableDirections;
+            return;
+        }
+        lockedDirections = directions;
+    }
 
     void FlipDownNewTile()
     {
         spriteRenderer.color = Color.white;
+
         gridManager.IsComplete();
+
+
         tileState = TileState.Animation;
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 1.5f).setEaseInCubic().setOnComplete(() => FlipUpNewTile());
     }
@@ -89,9 +99,17 @@ public class HexTile : MonoBehaviour
         }
         availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
 
+        
+
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
-            () => tileState = TileState.Completed
+            () => CompleteFlip()
         );
+    }
+
+    void CompleteFlip()
+    {
+        tileState = TileState.Completed;
+        gridManager.CloseExists(this);
     }
 
 
@@ -141,7 +159,7 @@ public class HexTile : MonoBehaviour
         switch (tileState)
         {
             case TileState.Inactive:
-                if (gridManager.gridState == GridState.Idle)
+                if (gridManager.gridState == GridState.Idle && gridManager.TileConnectedToExit(this))
                 {
                     FlipDownNewTile();
                 }

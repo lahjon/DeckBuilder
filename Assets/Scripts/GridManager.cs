@@ -71,7 +71,10 @@ public class GridManager : Manager
         CreateTileMap();
 
         // create a 0,0,0 start tile
-        GetTile(Vector3Int.zero).Activate(TileState.Completed);
+        HexTile firstTile = GetTile(Vector3Int.zero);
+
+        firstTile.Activate(TileState.Completed);
+        firstTile.LockDirections();
 
         // create some randoms tiles spread out on third row
         for (int i = 0; i < 4; i++)
@@ -89,7 +92,7 @@ public class GridManager : Manager
 
     void StartBoss()
     {
-
+        world.uiManager.UIWarningController.CreateWarning("Starting Boss fight!");
     }
 
     public void InPlacement(HexTile tile)
@@ -113,6 +116,7 @@ public class GridManager : Manager
         if (TilePlacementValid(activeTile))
         {
             activeTile.ConfirmTilePlacement();
+
             IsComplete();
         }
         else
@@ -184,6 +188,11 @@ public class GridManager : Manager
         }
     }
 
+    public int InvertDirection(int direction)
+    {
+         return (direction - 3 + 6) % 6;
+    }
+
     public bool CheckFreeSlot(HexTile tile)
     {
         List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
@@ -196,7 +205,9 @@ public class GridManager : Manager
                 foreach (int dir in neighbourTile.availableDirections)
                 {
                     if((neighbour + GetTileDirection(dir)) == tile.coord)
+                    {
                         return true;
+                    }
                 }
             }
         }
@@ -204,7 +215,30 @@ public class GridManager : Manager
         return false;
     }
 
-    //used for placing a tile before rotation 
+    // used to see if the tile is connected to an exit
+    public bool TileConnectedToExit(HexTile tile)
+    {
+        // look at all exists
+        foreach (Vector3Int dir in tileDirections)
+        {
+            // make sure its a connected neighbour
+            if (GetTile(tile.coord + dir) is HexTile neighbourTile && neighbourTile.tileState == TileState.Completed)
+            {
+                // look at all neighbour directions
+                foreach (int neighDir in neighbourTile.availableDirections)
+                {
+                    // check if the neighbor tile has an avaiable direction to the initial tile
+                    if (tile == GetTile(GetTileDirection(neighDir) + neighbourTile.coord))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    // used for placing a tile before rotation 
     public bool TilePlacementValidStart(HexTile tile)
     {
         // get all the neighbours of a tile and discard all inactive tiles
@@ -220,7 +254,7 @@ public class GridManager : Manager
                 // look if any neighbour tile is completed
                 if (GetTile(neighbour) is HexTile neighbourTile && completedTiles.Contains(neighbourTile))
                 {
-                        return true;
+                    return true;
                 }
             }
         }
@@ -263,15 +297,49 @@ public class GridManager : Manager
                         // neighbour connects to the piece, the piece is connected to at least one completed tile and there is one exit to an inactive tile
                         if (neighbourTile.coord + GetTileDirection(neighDir) == tile.coord && completedTiles.Contains(neighbourTile) && freeExist)
                         {
+                            CloseExists(tile);
                             return true;
                         }
                     }
                 }
             }
         }
-
         return false;
+    }
 
+    public void CloseExists(HexTile tile)
+    {
+        List<int> openExists = new List<int>();
+
+        // get all the neighbours of a tile and discard all inactive tiles
+        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+
+        // look at all exists
+        foreach (int dir in tile.availableDirections)
+        {
+            openExists.Clear();
+            // look at all neighbours of the tile
+            foreach (Vector3Int neighbour in neighbours)
+            {
+                // get the neighbours of the tile that are connected
+                if (GetTile(neighbour) is HexTile neighbourTile && tile.coord + GetTileDirection(dir) == neighbourTile.coord)
+                {
+                    foreach (int neighDir in neighbourTile.availableDirections)
+                    {
+                        if (GetTile(neighbourTile.coord + GetTileDirection(neighDir)) is HexTile aTile)
+                        {
+                            if (aTile.tileState == TileState.Completed || aTile.tileState == TileState.Active)
+                            {
+                                openExists.Add(neighDir);
+                            }
+                        }
+                    }
+                    openExists.Add(InvertDirection(dir));
+                    neighbourTile.CloseExits(openExists);
+                }
+            }
+        }
     }
 
     HexTile GetTile(Vector3Int cellCoordinate)
@@ -326,7 +394,7 @@ public class GridManager : Manager
                 {
                     if((neighbour + GetTileDirection(dir)) == tile.coord)
                     {
-                        result.Add((dir - 3 + 6) % 6);
+                        result.Add(InvertDirection(dir));
                     }
                 }
             }

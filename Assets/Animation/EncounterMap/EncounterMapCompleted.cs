@@ -10,7 +10,8 @@ public class EncounterMapCompleted : EncounterMapAnimator
         base.Init();
         gridManager.gridState = GridState.Complete;
         gridManager.bossCounter++;
-        //animator.SetBool("IsComplete", false);
+        animator.SetBool("IsComplete", false);
+
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
