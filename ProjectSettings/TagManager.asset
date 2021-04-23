@@ -46,3 +46,39 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Town
+    uniqueID: 447477707
+    locked: 0
+  - name: GridMap
+    uniqueID: 1521960915
+    locked: 0
+  - name: GridTiles
+    uniqueID: 2351338455
+    locked: 0
+  - name: Background
+    uniqueID: 4018418663
+    locked: 0
+  - name: Midground
+    uniqueID: 4192651549
+    locked: 0
+  - name: Foreground
+    uniqueID: 120520623
+    locked: 0
+  - name: VFX
+    uniqueID: 3078801465
+    locked: 0
+  - name: Character
+    uniqueID: 3553680045
+    locked: 0
+  - name: HealthEffects
+    uniqueID: 2034861665
+    locked: 0
+  - name: CardCanvas
+    uniqueID: 4061878109
+    locked: 0
+  - name: Card
+    uniqueID: 1299891345
+    locked: 0
+  - name: CardDisplay
+    uniqueID: 1106051305
+    locked: 0

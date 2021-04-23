@@ -243,9 +243,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 51
+  m_SortingLayerID: -1943628841
+  m_SortingLayer: 3
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2dc86b0a2c83bda419e422ddb69a319d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -341,10 +341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5158f17e467f61a4bb1f2bcea5bc4f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tileState: 0
   artwork: {fileID: 0}
   coord: {x: 0, y: 0, z: 0}
-  tileState: 0
   availableDirections: 
+  lockedDirections: 
   exits:
   - {fileID: 1678832871474423792}
   - {fileID: 2659946061306919466}
@@ -352,6 +353,7 @@ MonoBehaviour:
   - {fileID: 8007286444005158950}
   - {fileID: 3305091518935174113}
   - {fileID: 2595203540615779284}
+  spriteRenderer: {fileID: 0}
 --- !u!1 &4983871044968348383
 GameObject:
   m_ObjectHideFlags: 0
