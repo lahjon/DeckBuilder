@@ -14,7 +14,6 @@ public class TokenMenu : MonoBehaviour
     public List<GameObject> tokenPoints = new List<GameObject>();
     public Transform contentPoints;
     public TMP_Text pointAmountText;
-    bool initialized = false;
     public TMP_Text tokenName;
     public TMP_Text tokenDescription;
     public GameObject textPanel;

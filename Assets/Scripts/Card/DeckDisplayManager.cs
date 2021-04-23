@@ -41,6 +41,7 @@ public class DeckDisplayManager : Manager
             {
                 GameObject newCard = Instantiate(cardPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
                 newCard.transform.SetParent(content.gameObject.transform);
+                newCard.transform.localPosition = Vector3.zero;
                 newCard.transform.localScale = new Vector3(1, 1, 1);
                 allDisplayedCards.Add(newCard);
                 newCard.GetComponent<CardVisual>().cardData = allCardsData[allDisplayedCards.Count - 1];

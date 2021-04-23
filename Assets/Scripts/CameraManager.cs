@@ -36,32 +36,4 @@ public class CameraManager : Manager
                 break;
         }
     }
-
-    public void UpdateCameras()
-    {
-
-    }
-
-
-
-    // public void ToggleCamera(Camera aCamera, bool doTransition = true)
-    // {
-    //     if(doTransition)
-    //         screenTransition.ToggleActive();
-            
-    //     if(currentCamera != aCamera)
-    //     {
-    //         previousCamera = currentCamera;
-    //         currentCamera = aCamera;
-    //         previousCamera.gameObject.SetActive(false);
-    //         currentCamera.gameObject.SetActive(true);
-    //     }
-    //     else
-    //     {
-    //         currentCamera = previousCamera;
-    //         previousCamera = aCamera;
-    //         currentCamera.gameObject.SetActive(true);
-    //         previousCamera.gameObject.SetActive(false);
-    //     }
-    // }
 }

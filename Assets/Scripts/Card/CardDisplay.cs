@@ -7,6 +7,8 @@ public class CardDisplay : CardVisual
 {
     private float startDragPos;
     public bool disable;
+    bool dragging;
+
     public override void OnMouseEnter()
     {
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
@@ -107,7 +109,7 @@ public class CardDisplay : CardVisual
         if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
             float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
-            Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * -1);
+            Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * 7.0f * -1);
             WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
         }
     }
@@ -127,22 +129,36 @@ public class CardDisplay : CardVisual
         if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
         {
             startDragPos = Input.mousePosition.y;
+            dragging = true;
+        }
+    }
+
+    public void OnMouseEndDrag()
+    {
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
+        {
+            dragging = false;
         }
     }
     public void OnMouseDrag()
     {
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
+        if(dragging && WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
             float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
             float currentPos = Input.mousePosition.y;
             float direction;
+
             if(currentPos > startDragPos)
                 direction = -1;
             else if(currentPos < startDragPos)
                 direction = 1;
             else
                 direction = 0;
-            Vector2 scrollPos = new Vector2(0, direction * sensitivity * 0.3f * -1);
+
+            Debug.Log(currentPos);
+            Debug.Log(startDragPos);
+
+            Vector2 scrollPos = new Vector2(0, direction * sensitivity * 2.0f * -1);
             WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
         }
     }
