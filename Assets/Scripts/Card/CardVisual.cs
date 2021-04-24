@@ -8,11 +8,13 @@ using TMPro;
 
 public abstract class CardVisual : Card, IPointerClickHandler
 {
-    public Text nameText;
+    public TMP_Text nameText;
     public TMP_Text descriptionText;
     public Image artworkImage;
+    public GameObject highlight;
+    public Image border;
 
-    public Text costText;
+    public TMP_Text costText;
     public WorldState previousState;
 
     public int calcDamage = -1;
@@ -21,14 +23,14 @@ public abstract class CardVisual : Card, IPointerClickHandler
     readonly static string colorCodeGood = "#2e590c";
     readonly static string colorCodeBad = "#a16658";
 
+
     public void BindCardVisualData()
     {
         nameText.text = cardName;
-
         artworkImage.sprite = artwork;
-
         costText.text = cost.ToString();
 
+        SetBorderColor();
         ResetDamageBlockCalc();
         RefreshDescriptionText();
     }
@@ -101,6 +103,12 @@ public abstract class CardVisual : Card, IPointerClickHandler
             return "";
     }
 
+    void SetBorderColor()
+    {
+        int index = (int)cardData.characterClass;
+        border.color = Helpers.borderColors[index];
+    }
+
     public virtual void OnMouseEnter()
     {
         return;
@@ -114,6 +122,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
     
     public virtual void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("Click");
         if (eventData.button == PointerEventData.InputButton.Left)
             OnMouseClick();
         else if (eventData.button == PointerEventData.InputButton.Right)
@@ -124,6 +133,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
     {
         if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
+            Debug.Log("Display");
             WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
             WorldSystem.instance.deckDisplayManager.selectedCard = this;
             WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
@@ -136,11 +146,13 @@ public abstract class CardVisual : Card, IPointerClickHandler
         }
         else
         {
+            Debug.Log("RESET!");
             ResetCardPosition();
         }
     }
     public void ResetCardPosition()
     {
+        Debug.Log("RESET2");
         WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
         WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
         WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;

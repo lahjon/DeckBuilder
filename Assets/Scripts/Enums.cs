@@ -188,6 +188,18 @@ public enum TransitionType
 
 }
 
+public enum EnemyType
+{
+    Minion,
+    Normal,
+    Elite, 
+    Boss
+}
+public enum Formation
+{
+    
+}
+
 public enum BuildingType
 {
     Shop, 

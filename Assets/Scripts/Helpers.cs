@@ -13,6 +13,14 @@ using System.Text;
 
 public static class Helpers
 {
+    public static List<Color> borderColors = new List<Color>
+                                            {
+                                                Color.white,    // neutral
+                                                Color.red,      // brute
+                                                Color.blue,     // rogue
+                                                Color.green,    // splicer
+                                                Color.magenta   // beastmaster
+                                            }; 
 
     public static string ToLowerFirstChar(this string input)
     {

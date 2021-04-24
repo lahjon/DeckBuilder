@@ -6,15 +6,10 @@ using System.Linq;
 
 public class CombatActorHero : CombatActor
 {
-    void Start()
-    {
-        GetComponent<SpriteRenderer>().sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
-    }
-
-
     void OnEnable()
     {
-
+        spriteRenderer.sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
+        collision = gameObject.AddComponent<BoxCollider2D>();
     }
 
     public override void DiscardCard(Card card)

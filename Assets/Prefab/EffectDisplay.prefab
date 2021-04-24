@@ -187,6 +187,8 @@ MonoBehaviour:
   effectLabel: {fileID: 5933077861295258999}
   spriteRenderer: {fileID: 1766613809734772044}
   popinStartSize: {x: 0, y: 0, z: 0}
+  fullSize: {x: 1, y: 1, z: 1}
+  backingType: 0
 --- !u!1 &7981603013865350287
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,8 +272,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2034861665
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0f54148581f0974478c5f762be97ab47, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

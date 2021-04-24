@@ -84,8 +84,11 @@ public class DatabaseSystem : MonoBehaviour
             return allCards[idx];
         }
         else
-            idx = Random.Range(0,allCards.Count);
-            return allCards[idx];
+        {
+            List<CardData> classCards = allCards.Where(x => x.characterClass == characterClass).ToList();
+            idx = Random.Range(0, classCards.Count);
+            return classCards[idx];
+        }
     }
 
     public List<CardData> GetStartingDeck(string Character = "Brute")

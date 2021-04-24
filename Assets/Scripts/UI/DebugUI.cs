@@ -13,7 +13,7 @@ public class DebugUI : MonoBehaviour
     public TMP_Text worldState;
     public TMP_Text overlayState;
     public TMP_Text worldTier;
-    public List<EnemyData> enemyData = new List<EnemyData>();
+    public EncounterData encounterData;
     WorldSystem world;
 
     void Update()
@@ -80,7 +80,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugStartCombat()
     {
-        world.combatManager.combatController.enemyDatas = enemyData;
+        //world.combatManager.combatController.enemyDatas = enemyData;
         WorldStateSystem.SetInOverworld(true);
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInCombat(true);

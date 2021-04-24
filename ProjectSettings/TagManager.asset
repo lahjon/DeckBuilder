@@ -73,6 +73,9 @@ TagManager:
   - name: HealthEffects
     uniqueID: 2034861665
     locked: 0
+  - name: Shop
+    uniqueID: 3803983533
+    locked: 0
   - name: CardCanvas
     uniqueID: 4061878109
     locked: 0

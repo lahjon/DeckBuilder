@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class CombatActor : MonoBehaviour
 {
-    public int maxHitPoints;
+    [HideInInspector] public int maxHitPoints;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
+    [HideInInspector] public BoxCollider2D collision;
+    [HideInInspector] public CombatController combatController;
     int _hitPoints;
 
     public int hitPoints { get { return _hitPoints; } set
@@ -23,7 +26,6 @@ public class CombatActor : MonoBehaviour
 
     public Dictionary<EffectType, RuleEffect> effectTypeToRule = new Dictionary<EffectType, RuleEffect>();
 
-    public CombatController combatController;
 
     public List<Func<float, float>> dealAttackMods = new List<Func<float, float>>();
     public List<Func<float, float>> takeAttackMods = new List<Func<float, float>>();
@@ -36,9 +38,11 @@ public class CombatActor : MonoBehaviour
 
     public List<Func<CombatActor, IEnumerator>> onAttackRecieved = new List<Func<CombatActor,IEnumerator>>();
 
+    
     public List<Card> deck = new List<Card>();
     public List<Card> discard = new List<Card>();
 
+    
 
     public void InitializeCombat()
     {
@@ -75,7 +79,6 @@ public class CombatActor : MonoBehaviour
         deck.Insert(0, card);
     }
 
-
     public IEnumerator GetAttacked(int damage, CombatActor sourceActor)
     {
         TakeDamage(damage);
@@ -104,14 +107,14 @@ public class CombatActor : MonoBehaviour
     {
         if (lifeToLose == 0) return;
 
-        //kör on life about to be lost
+        //kï¿½r on life about to be lost
         hitPoints -= Mathf.Min(lifeToLose, hitPoints);
         if (this == combatController.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
         Debug.Log("Starting LifeLoss");
         healthEffectsUI.StartLifeLossNotification(lifeToLose);
-        // kör onLifeLost
+        // kï¿½r onLifeLost
     }
 
 

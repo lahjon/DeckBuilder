@@ -7,8 +7,7 @@ using UnityEngine.EventSystems;
 
 public class CardCombat : CardVisual
 {
-    [HideInInspector]
-    public CombatController combatController;
+    [HideInInspector] public CombatController combatController;
     public RectTransform cardPanel;
     public AnimationCurve transitionCurveDraw;
     public AnimationCurve transitionCurveReturn;
@@ -18,7 +17,6 @@ public class CardCombat : CardVisual
     public TooltipController tooltipController;
 
     public RectTransform TooltipAnchor; 
-    public GameObject highlight;
 
     private bool _selected = false;
     private bool _selectable = false;

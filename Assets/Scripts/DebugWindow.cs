@@ -24,7 +24,7 @@ public class DebugWindow : EditorWindow
         // toggle grid visibility
         if(GUILayout.Button("Toggle Grid Visibility"))
         {
-            ToggleActiveObject("--------------MANAGERS--------------", "GridManager");
+            ToggleActiveObject("--------------MAPS--------------", "GridManager");
         }
 
         // toggle combat visibility

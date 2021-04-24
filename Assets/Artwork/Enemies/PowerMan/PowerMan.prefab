@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4399961221871102340}
   - component: {fileID: 4399961221871102343}
+  - component: {fileID: 3613522260170536940}
   m_Layer: 0
   m_Name: PowerMan
   m_TagString: Untagged
@@ -48,6 +49,32 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!61 &3613522260170536940
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4399961221871102342}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 2.36}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.05, y: 5.3}
+  m_EdgeRadius: 0
 --- !u!1001 &4399961220552179317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -89,7 +116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8365514179753329907, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8365514179753329907, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -113,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7804512230209563994, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -7804512230209563994, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -137,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6516728292290739902, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -6516728292290739902, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -201,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -71878936827683314, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -71878936827683314, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -257,7 +284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1714020150315125723, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1714020150315125723, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -265,7 +292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3440467646298542334, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3440467646298542334, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -325,7 +352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5650607706947679797, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5650607706947679797, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID
@@ -437,7 +464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9193213301629937045, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9193213301629937045, guid: f2a796f6643e7584a876498246c1a4f2, type: 3}
       propertyPath: m_SortingLayerID

@@ -9,6 +9,7 @@ using System.Linq;
 public class CombatActorEnemy : CombatActor
 {
     public IntentDisplay intentDisplay;
+    public GameObject test;
     public TMP_Text txtMoveDisplay;
     public EnemyData enemyData;
     public GameObject CanvasMoveDisplay;
@@ -43,7 +44,6 @@ public class CombatActorEnemy : CombatActor
             target.SetActive(false);
         }
     }
-
     public void ReadEnemyData(EnemyData inEnemyData = null)
     {
         if (!(inEnemyData is null))
@@ -62,17 +62,32 @@ public class CombatActorEnemy : CombatActor
             deck.Add(card);
         }
 
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = enemyData.artwork;
         enemyName = enemyData.enemyName;
         stochasticReshuffle = enemyData.stochasticReshuffle;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = enemyData.artwork;
 
         if (enemyData.characterArt != null)
         {
             GameObject enemyArt = Instantiate(enemyData.characterArt);
             enemyArt.transform.SetParent(this.gameObject.transform);
-            enemyArt.transform.localPosition = Vector3.zero + new Vector3(0, -2, 0);
+            enemyArt.transform.localPosition = Vector3.zero ;
+            spriteRenderer.color = new Color(1,1,1,0);
+            collision = gameObject.AddComponent<BoxCollider2D>();
+            collision.size = enemyArt.GetComponent<BoxCollider2D>().size;
+            collision.offset = enemyArt.GetComponent<BoxCollider2D>().offset;
         }
+        else
+        {
+            spriteRenderer.sprite = enemyData.artwork;
+            collision = gameObject.AddComponent<BoxCollider2D>();
+        }
+
+        target.transform.localPosition += new Vector3(0, collision.size.y / 2, 0);
+        
+        //intentDisplay.GetComponent<RectTransform>().position += canvasIntent.worldCamera.WorldToScreenPoint(test.transform.position);
+        //transform.position += new Vector3(0, test.transform.position.y, 0) + new Vector3(0, intentDisplay.transform.parent.position.y - 1, 0);
 
         maxHitPoints = enemyData.StartingHP;
         hitPoints = enemyData.StartingHP;

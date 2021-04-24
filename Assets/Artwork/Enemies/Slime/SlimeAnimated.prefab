@@ -222,7 +222,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -741287251
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 1
   m_Sprite: {fileID: 3958601103418771939, guid: be6e96de38f39cb4591cae7745bf7fba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -363,7 +363,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -741287251
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 3
   m_Sprite: {fileID: -6989604082736714518, guid: be6e96de38f39cb4591cae7745bf7fba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -437,6 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8988367590376532145}
   - component: {fileID: 4711546276879475407}
+  - component: {fileID: 1370859578120427045}
   m_Layer: 0
   m_Name: SlimeAnimated
   m_TagString: Untagged
@@ -481,6 +482,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &1370859578120427045
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8674257438334899846}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 2.45}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.78, y: 2.96}
+  m_EdgeRadius: 0
 --- !u!1 &8940345141689200406
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,7 +615,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -741287251
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 2
   m_Sprite: {fileID: -6274472986294965290, guid: be6e96de38f39cb4591cae7745bf7fba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
