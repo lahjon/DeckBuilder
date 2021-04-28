@@ -164,7 +164,7 @@ public class CombatController : MonoBehaviour
 
     public void StartCombat()
     {
-        gameObject.SetActive(true);
+        content.SetActive(true);
         SetUpEncounter();
     }
 

@@ -17042,6 +17042,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1100226158}
     m_Modifications:
+    - target: {fileID: 1524636429263365878, guid: 4dcc99aeda5805e429d5f14401d4af30, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1524636429360745062, guid: 4dcc99aeda5805e429d5f14401d4af30, type: 3}
       propertyPath: m_Name
       value: EnvironmentCombat

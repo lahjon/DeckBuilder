@@ -26,6 +26,7 @@ public class Card : MonoBehaviour
 
     public void BindCardData()
     {
+        name            = cardData.cardName;
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
         cost            = cardData.cost;
