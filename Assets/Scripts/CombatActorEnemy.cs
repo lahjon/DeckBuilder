@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 
-public class CombatActorEnemy : CombatActor
+public class CombatActorEnemy : CombatActor, IPointerEnterHandler
 {
     public IntentDisplay intentDisplay;
     public GameObject test;
@@ -178,4 +179,13 @@ public class CombatActorEnemy : CombatActor
         if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
     }
 
+    public void Dummy()
+    {
+        Debug.Log("Dummy");
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Dummy");
+    }
 }
