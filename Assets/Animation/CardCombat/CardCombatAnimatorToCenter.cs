@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardCombatAnimatorToCenter : CardCombatAnimator
 {
@@ -22,7 +23,7 @@ public class CardCombatAnimatorToCenter : CardCombatAnimator
         time = 0;
         speed = 3.5f;
         reached = false;
-
+        card.GetComponent<Image>().raycastTarget = false;
         TargetTransInfo = (combatController.cardHoldPos.localPosition, StartTransInfo.scale, Vector3.one);
     }
 

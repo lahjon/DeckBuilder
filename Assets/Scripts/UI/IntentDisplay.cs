@@ -13,6 +13,7 @@ public class IntentDisplay : MonoBehaviour
     public Sprite OtherSprite;
 
     public TMP_Text lblIntent;
+    public GameObject cAnchorIntent;
 
     public void RecieveIntent(CardEffect block, CardEffect Damage, List<CardEffect> Effects)
     {
@@ -38,6 +39,12 @@ public class IntentDisplay : MonoBehaviour
             Icons[cursor++].gameObject.SetActive(true);
         }
 
+    }
+
+    public void SetPosition()
+    {
+        float height = transform.parent.GetComponent<SpriteRenderer>().size.y;
+        cAnchorIntent.transform.position = transform.parent.transform.position + new Vector3(0,height,0);
     }
 
     public void ShowDisplay(bool enabled)

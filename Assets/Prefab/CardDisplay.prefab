@@ -141,7 +141,7 @@ MonoBehaviour:
   artworkImage: {fileID: 5282765989145436325}
   highlight: {fileID: 7842814478568713348}
   border: {fileID: 7695902140003894457}
-  costText: {fileID: 669835656910243549}
+  costText: {fileID: 6468055499818804120}
   previousState: 0
   calcDamage: -1
   calcBlock: -1
@@ -339,6 +339,17 @@ MonoBehaviour:
 --- !u!114 &669835656910243549 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6196271672250184028, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+  m_PrefabInstance: {fileID: 6680579575582242689}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6468055499818804120 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 393231055042712601, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

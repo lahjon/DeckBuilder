@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-public class DebugCommandBase : MonoBehaviour
+public class DebugCommandBase
 {
     public string commandId;
     public string commandDescription;

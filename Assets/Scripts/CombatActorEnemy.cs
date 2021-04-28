@@ -86,10 +86,8 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         }
 
         target.transform.localPosition += new Vector3(0, collision.size.y / 2, 0);
-        
-        //intentDisplay.GetComponent<RectTransform>().position += canvasIntent.worldCamera.WorldToScreenPoint(test.transform.position);
-        //transform.position += new Vector3(0, test.transform.position.y, 0) + new Vector3(0, intentDisplay.transform.parent.position.y - 1, 0);
-
+        intentDisplay.SetPosition();
+       
         maxHitPoints = enemyData.StartingHP;
         hitPoints = enemyData.StartingHP;
         if(enemyData.shuffleInit) ShuffleDeck();

@@ -28,8 +28,9 @@ public class CardCombatAnimator : StateMachineBehaviour
         return (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
     }
 
-    public void CardLerp((Vector3 pos,Vector3 scale ,Vector3 angles) startTransInfo, (Vector3 pos, Vector3 scale, Vector3 angles) targetTransInfo, float percent)
+    public void CardLerp((Vector3 pos,Vector3 scale ,Vector3 angles) startTransInfo, (Vector3 pos, Vector3 scale, Vector3 angles) targetTransInfo, float percent, AnimationCurve curve = null)
     {
+        if (!(curve is null)) percent = curve.Evaluate(percent);
         card.transform.localPosition    = Vector3.Lerp(startTransInfo.pos,      targetTransInfo.pos,    percent);
         card.transform.localScale       = Vector3.Lerp(startTransInfo.scale,    targetTransInfo.scale,  percent);
         card.transform.localEulerAngles = AngleLerp(   startTransInfo.angles,   targetTransInfo.angles, percent);

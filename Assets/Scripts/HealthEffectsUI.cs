@@ -39,7 +39,7 @@ public class HealthEffectsUI : MonoBehaviour
     {
         aAnchorHealthEffects = this.gameObject;
         SetupCamera();
-        SetPositions();
+        SetPosition();
     }
 
     public void OnDisable()
@@ -53,18 +53,9 @@ public class HealthEffectsUI : MonoBehaviour
         canvas.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
-    public void SetPositions()
+    public void SetPosition()
     {
-        //Vector3 coordinates = WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(aAnchorHealthEffects.transform.localPosition);
-
         cAnchorHealthEffects.transform.position = aAnchorHealthEffects.transform.parent.position;
-        // cAnchorHealthEffects.transform.localPosition += new Vector3(0, -(aAnchorHealthEffects.transform.parent.gameObject.GetComponent<CombatActor>().collision.size.y * 50 / 2 + 20));
-
-        if (intentDisplayAnchor != null)
-        {
-            intentDisplayAnchor.transform.position = aAnchorHealthEffects.transform.parent.position;
-            //intentDisplayAnchor.transform.localPosition += new Vector3(0, (aAnchorHealthEffects.transform.parent.GetComponent<CombatActor>().collision.size.y * 50 / 2 + 20));
-        }
     }
 
     public void UpdateHealthBar(int hitPoints, int maxHitPoints)

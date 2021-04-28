@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BezierFollow : MonoBehaviour
 {
@@ -58,5 +59,6 @@ public class BezierFollow : MonoBehaviour
         WorldSystem.instance.combatManager.combatController.UpdateDeckTexts();
         attachedCard.animator.SetTrigger("DoneDiscarding");
         tParam = 0f;
+        attachedCard.GetComponent<Image>().raycastTarget = true;
     }
 }

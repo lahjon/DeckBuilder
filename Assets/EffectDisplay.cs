@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class EffectDisplay : MonoBehaviour
 {
     public TMP_Text effectLabel;
-    public SpriteRenderer spriteRenderer;
+    public Image image;
 
     float durationPopin = 0.2f;
     public Vector3 popinStartSize = new Vector3(0f, 0f, 0f);
@@ -47,7 +48,7 @@ public class EffectDisplay : MonoBehaviour
 
     public void SetSprite(Sprite sprite)
     {
-        if(sprite != null) spriteRenderer.sprite = sprite;
+        if(sprite != null) image.sprite = sprite;
     }
 
 

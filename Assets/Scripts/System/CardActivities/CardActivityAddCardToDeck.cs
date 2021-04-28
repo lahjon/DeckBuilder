@@ -5,6 +5,7 @@ using System.Linq;
 
 public class CardActivityAddCardToDeck : CardActivity
 {
+    string databaseName;
     public override IEnumerator Execute(string input)
     {
         Debug.Log("Starting AddCard");
@@ -25,11 +26,12 @@ public class CardActivityAddCardToDeck : CardActivity
 
     public override string GetDescription(string input)
     {
-        return $"Add a <b>{input}</b> to your deck.";
+        databaseName = DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == input).FirstOrDefault().cardName;
+        return $"Add a <b>{databaseName}</b> to your deck.";
     }
 
     public override string GetToolTip(string input)
     {
-        return $"When you play this card, a <b>{input}</b> will be added to your deck.";
+        return $"When you play this card, a <b>{databaseName}</b> will be added to your deck.";
     }
 }

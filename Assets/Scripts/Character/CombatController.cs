@@ -130,6 +130,10 @@ public class CombatController : MonoBehaviour
 
 
     #region Plumbing, Setup, Start/End turn
+    private void OnDisable()
+    {
+        Debug.Log("cc disabled");
+    }
 
     public void SetUpEncounter()
     {
@@ -164,6 +168,7 @@ public class CombatController : MonoBehaviour
 
     public void StartCombat()
     {
+        Debug.Log("Starting combat");
         content.SetActive(true);
         SetUpEncounter();
     }

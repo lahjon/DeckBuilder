@@ -31,7 +31,7 @@ MonoBehaviour:
   - Type: 5
     Value: 1
     Times: 1
-    Target: 1
+    Target: 0
   inActivities: []
   cardRarity: 1
   characterClass: 1

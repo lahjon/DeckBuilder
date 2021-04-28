@@ -13,7 +13,8 @@ public class StateCombat : WorldStateAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        world.combatManager.combatController.content.gameObject.SetActive(false);
+        world.combatManager.combatController.content.SetActive(false);
+        Debug.Log("Leaving combat");
         WorldStateSystem.SetInCombat(false);
     }
 
