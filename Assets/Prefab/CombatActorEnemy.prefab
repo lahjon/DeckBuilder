@@ -451,7 +451,6 @@ GameObject:
   - component: {fileID: 4296724836048231568}
   - component: {fileID: 4296724836048231569}
   - component: {fileID: 4296724836048231583}
-  - component: {fileID: 1921560811142289504}
   - component: {fileID: 205019966188131150}
   m_Layer: 0
   m_Name: CombatActorEnemy
@@ -543,11 +542,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHitPoints: 0
-  healthEffectsUI: {fileID: 58403642600554845}
+  spriteRenderer: {fileID: 0}
+  collision: {fileID: 0}
   combatController: {fileID: 0}
+  healthEffectsUI: {fileID: 58403642600554845}
   deck: []
   discard: []
   intentDisplay: {fileID: 3994621570618273060}
+  test: {fileID: 0}
   txtMoveDisplay: {fileID: 6587673754262971815}
   enemyData: {fileID: 0}
   CanvasMoveDisplay: {fileID: 3337036418940820247}
@@ -560,20 +562,6 @@ MonoBehaviour:
   target: {fileID: 4906731746218057388}
   stochasticReshuffle: 1
   hand: {fileID: 0}
---- !u!136 &1921560811142289504
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4296724836048231570}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 2.54
-  m_Height: 6.62
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &205019966188131150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1138,6 +1126,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+--- !u!223 &58403642778381864 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7926990767373210138, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+  m_PrefabInstance: {fileID: 7984083718437354546}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &58403642600554818 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7926990767266708848, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+  m_PrefabInstance: {fileID: 7984083718437354546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &58403642600554845 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7926990767266708847, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
@@ -1149,13 +1147,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0a4c8ee92dd3d4aa9c1c844550d4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &58403642600554818 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7926990767266708848, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
-  m_PrefabInstance: {fileID: 7984083718437354546}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &58403642778381864 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 7926990767373210138, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
-  m_PrefabInstance: {fileID: 7984083718437354546}
-  m_PrefabAsset: {fileID: 0}

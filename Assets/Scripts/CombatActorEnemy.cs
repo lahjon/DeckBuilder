@@ -54,12 +54,12 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
 
         foreach(CardData cardData in enemyData.deck)
         {
+            /*
             GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-            cardObject.transform.SetParent(this.gameObject.transform);
-            Card card = cardObject.GetComponent<Card>();
-            card.cardData = cardData;
+            cardObject.transform.SetParent(gameObject.transform);
+            */
+            Card card = new Card() { owner = this, cardData = cardData } ;
             card.BindCardData();
-            card.owner = this;
             deck.Add(card);
         }
 

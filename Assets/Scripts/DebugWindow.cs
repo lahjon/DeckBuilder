@@ -30,7 +30,7 @@ public class DebugWindow : EditorWindow
         // toggle combat visibility
         if(GUILayout.Button("Toggle Combat Visiblity"))
         {
-            ToggleActiveObject("CombatScene", "CombatEnvironment");
+            ToggleActiveObject("--------------COMBAT--------------", "CombatScene");
         }
     }
 
