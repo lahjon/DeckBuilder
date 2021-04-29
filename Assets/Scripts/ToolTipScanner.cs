@@ -49,9 +49,11 @@ public class ToolTipScanner : MonoBehaviour
         WorldSystem.instance.toolTipManager.DisableTips(this);
     }
 
+    /* Behövs ej längre? On destroy verkar trigga att mouse exit
     private void OnDestroy()
     {
         LeanTween.cancel(delayAction.uniqueId);
         WorldSystem.instance.toolTipManager.DisableTips(this);
     }
+    */
 }

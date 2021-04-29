@@ -10,6 +10,12 @@ public static class EnumExtenstions
                 return $"<b>Vurnerable</b>\nRecieve 25% more attack damage";
             case EffectType.Thorns:
                 return $"<b>Thorns</b>\nDeal damage back when attacked";
+            case EffectType.Weak:
+                return $"<b>Weak</b>\nDeals 25% less damage";
+            case EffectType.Challenge:
+                return $"<b>Challenge</b>\nChallanged actors deal double damage against eachother";
+            case EffectType.Poison:
+                return $"<b>Poison</b>\nLoose life at the end of the turn";
             default:
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
@@ -43,8 +49,8 @@ public enum Rarity
 {
     None,
     Starting,
-    Common, 
-    Uncommon, 
+    Common,
+    Uncommon,
     Rare
 };
 
@@ -77,7 +83,7 @@ public enum CardTargetType
 public enum CharacterClassType
 {
     None,
-    Brute, 
+    Brute,
     Rogue,
     Splicer,
     Beastmaster,
@@ -86,7 +92,7 @@ public enum CharacterClassType
 public enum DialogueParticipant
 {
     None,
-    Brute, 
+    Brute,
     Rogue,
     Splicer,
     Beastmaster,
@@ -97,8 +103,8 @@ public enum DialogueParticipant
 public enum EncounterEventType
 {
     None,
-    Leave, 
-    Combat, 
+    Leave,
+    Combat,
     CardSpecific,
     CardRandom,
     NewMap,
@@ -108,19 +114,19 @@ public enum EncounterEventType
 public enum GameEventStatus
 {
     NotStarted,
-    Started, 
+    Started,
     Done
 }
 
 public enum CharacterAbility
 {
-    Objective, 
+    Objective,
     Mission
 };
 
 public enum StatType
 {
-    Health,     
+    Health,
     Strength,   // attack
     Endurance,  // block
     Wit,        // draw cards amount
@@ -131,7 +137,7 @@ public enum EncounterOutcomeType
 {
     Stat,
     Health,
-    Gold, 
+    Gold,
     Artifact,
     CardSpecified,
     CardChoose,
@@ -183,7 +189,7 @@ public enum TransitionType
 {
     None,
     Normal,
-    DeathScreen, 
+    DeathScreen,
     EnterAct
 
 }
@@ -192,19 +198,19 @@ public enum EnemyType
 {
     Minion,
     Normal,
-    Elite, 
+    Elite,
     Boss
 }
 public enum Formation
 {
-    
+
 }
 
 public enum BuildingType
 {
-    Shop, 
-    Tavern, 
-    Church, 
+    Shop,
+    Tavern,
+    Church,
     TownHall,
     Barracks,
     Leave,
@@ -224,14 +230,14 @@ public enum EncounterType
 }
 public enum EncounterValue
 {
-    Positive, 
-    Negative, 
+    Positive,
+    Negative,
     Neutral
 }
 
 public enum EnemyBehavior
 {
-    Random, 
+    Random,
     Sequential
 }
 
