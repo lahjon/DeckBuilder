@@ -19,7 +19,6 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
     public GameObject cardTemplate;
 
     public GameObject AnchorMoveDisplay;
-    public RectTransform AnchorToolTip;
 
     public Canvas canvasEffects;
     public Canvas canvasIntent;
@@ -86,13 +85,13 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         }
 
         target.transform.localPosition += new Vector3(0, collision.size.y / 2, 0);
+        AnchorToolTip.transform.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.75f);
         intentDisplay.SetPosition();
        
         maxHitPoints = enemyData.StartingHP;
         hitPoints = enemyData.StartingHP;
         if(enemyData.shuffleInit) ShuffleDeck();
         UpdateMoveDisplay(deck[0]);
-        StartCoroutine(RemoveAllBlock());
     }
 
     public void SetupCamera()
@@ -158,7 +157,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         if(!toolTipShowing && toolTiptimer > toolTipDelay)
         {
             toolTipShowing = true;
-            WorldSystem.instance.toolTipManager.Tips(new List<string>() { "blueee" }, canvasIntent.worldCamera.WorldToScreenPoint(AnchorToolTip.position));
+            //WorldSystem.instance.toolTipManager.Tips(new List<string>() { "blueee" }, canvasIntent.worldCamera.WorldToScreenPoint(AnchorToolTip.position));
         }
         if (combatController.ActiveCard != null  && combatController.ActiveCard.targetRequired)
             SetTarget(true);
@@ -172,7 +171,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
     {
         toolTiptimer = 0;
         toolTipShowing = false;
-        WorldSystem.instance.toolTipManager.DisableTips();
+        //WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
         if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
     }
@@ -186,4 +185,5 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
     {
         Debug.Log("Dummy");
     }
+
 }

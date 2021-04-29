@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class CardCombat : CardVisual
+public class CardCombat : CardVisual, IToolTipable
 {
     [HideInInspector] public CombatController combatController;
     public RectTransform cardPanel;
@@ -13,8 +13,6 @@ public class CardCombat : CardVisual
     public AnimationCurve transitionCurveReturn;
 
     public Animator animator;
-
-    public TooltipController tooltipController;
 
     public RectTransform TooltipAnchor; 
 
@@ -180,5 +178,10 @@ public class CardCombat : CardVisual
         float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
         float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
         return new Vector3(xLerp, yLerp, zLerp);
+    }
+
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        return (toolTipTextBits, TooltipAnchor.position);
     }
 }

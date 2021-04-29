@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class EffectDisplay : MonoBehaviour
+public class EffectDisplay : MonoBehaviour, IToolTipable
 {
     public TMP_Text effectLabel;
     public Image image;
@@ -12,6 +12,7 @@ public class EffectDisplay : MonoBehaviour
     float durationPopin = 0.2f;
     public Vector3 popinStartSize = new Vector3(0f, 0f, 0f);
     public Vector3 fullSize = Vector3.one;
+
 
     public EffectType backingType;
 
@@ -51,6 +52,8 @@ public class EffectDisplay : MonoBehaviour
         if(sprite != null) image.sprite = sprite;
     }
 
-
-
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        return (new List<string>() { backingType.GetDescription()}, transform.position);
+    }
 }

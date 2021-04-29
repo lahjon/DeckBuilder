@@ -9,5 +9,5 @@ using UnityEngine.UI;
 
 public interface IToolTipable
 {
-   
+    (List<string> tips, Vector3 worldPosition) GetTipInfo();
 }

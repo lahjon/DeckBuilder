@@ -11921,16 +11921,16 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_Camera: {fileID: 951404445}
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingLayerID: 1299891345
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!1 &1586548898
 GameObject:
@@ -17121,7 +17121,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 58403641886391649, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 58403641886391649, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_AnchorMax.y
@@ -17129,7 +17129,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 58403641886391649, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 58403642070572652, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17169,7 +17169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 58403643136901755, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 58403643136901755, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_AnchorMax.y

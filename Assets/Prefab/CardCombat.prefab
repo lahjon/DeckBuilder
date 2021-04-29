@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 248037277262318977}
   - component: {fileID: 7126495680530560642}
   - component: {fileID: 6985510345366933409}
+  - component: {fileID: 2844651702644537897}
   m_Layer: 0
   m_Name: CardCombat
   m_TagString: Untagged
@@ -181,7 +182,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animator: {fileID: 0}
-  tooltipController: {fileID: 7280443652759664057}
   TooltipAnchor: {fileID: 5262464430781879494}
   fanDegreeCurrent: 0
   fanDegreeTarget: 0
@@ -289,6 +289,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   route: {fileID: 0}
+--- !u!114 &2844651702644537897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130489016394698252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97338f21000cccb46aa75e715796a449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeDelay: 0.5
 --- !u!1001 &6680579575582242689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -473,14 +486,3 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1566733967387714375, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7280443652759664057 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4161180195676717624, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-  m_PrefabInstance: {fileID: 6680579575582242689}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67073e739cc183e4c8f40f1605731f14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

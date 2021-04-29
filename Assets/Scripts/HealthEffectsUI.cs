@@ -105,14 +105,12 @@ public class HealthEffectsUI : MonoBehaviour
     {
         EffectType effectType = effect.type;
 
-        if(effect.nrStacked == 0)
+        if(effect.nrStacked == 0 && effectToDisplay.ContainsKey(effectType))
         {
-            if (effectToDisplay.ContainsKey(effectType)){
-                Destroy(effectToDisplay[effectType].gameObject);
-                effectToDisplay.Remove(effectType);
-                StartEffectNotification(effect.effectName + " wore off");
-                return;
-            }
+            Destroy(effectToDisplay[effectType].gameObject);
+            effectToDisplay.Remove(effectType);
+            StartEffectNotification(effect.effectName + " wore off");
+            return;
         }
 
         if (effectToDisplay.ContainsKey(effectType))
@@ -125,6 +123,7 @@ public class HealthEffectsUI : MonoBehaviour
             effectToDisplay[effectType] = effectObject.GetComponent<EffectDisplay>();
             effectToDisplay[effectType].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(effect.effectName));
             effectToDisplay[effectType].SetLabel(effect.strStacked());
+            effectToDisplay[effectType].backingType = effect.type;
             StartEffectNotification(effect.effectName);
         }
 

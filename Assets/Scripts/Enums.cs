@@ -6,7 +6,7 @@ public static class EnumExtenstions
         {
             case EffectType.Barricade:
                 return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
-            case EffectType.Vurnerable:
+            case EffectType.Vulnerable:
                 return $"<b>Vurnerable</b>\nRecieve 25% more attack damage";
             case EffectType.Thorns:
                 return $"<b>Thorns</b>\nDeal damage back when attacked";
@@ -23,7 +23,7 @@ public static class EnumExtenstions
                 return new RuleEffectBarricade();
             case EffectType.Weak:
                 return new RuleEffectWeak();
-            case EffectType.Vurnerable:
+            case EffectType.Vulnerable:
                 return new RuleEffectVulnerable();
             case EffectType.Thorns:
                 return new RuleEffectThorns();
@@ -145,7 +145,7 @@ public enum EffectType
     Poison,
     Block,
     Weak,
-    Vurnerable,
+    Vulnerable,
     Barricade,
     Thorns,
     Splice,

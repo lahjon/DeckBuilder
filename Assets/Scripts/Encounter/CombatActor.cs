@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
-public class CombatActor : MonoBehaviour
+public class CombatActor : MonoBehaviour, IToolTipable
 {
     [HideInInspector] public int maxHitPoints;
     [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -21,6 +22,8 @@ public class CombatActor : MonoBehaviour
     }
 
     private int shield = 0;
+
+    public Transform AnchorToolTip;
 
     public HealthEffectsUI healthEffectsUI;
 
@@ -46,6 +49,8 @@ public class CombatActor : MonoBehaviour
 
     public void InitializeCombat()
     {
+        AnchorToolTip.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.9f);
+
         actionsNewTurn.Add(RemoveAllBlock);
         healthEffectsUI.UpdateShield(shield);
 
@@ -165,6 +170,13 @@ public class CombatActor : MonoBehaviour
         yield return StartCoroutine(ChangeBlock(-shield));
     }
 
-    
+
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        List<string> toolTipTextBits = new List<string>();
+        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetDescription()); });
+        return (toolTipTextBits, AnchorToolTip.position);
+    }
+
 
 }

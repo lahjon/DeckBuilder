@@ -12,7 +12,7 @@ public class HealtUINotification : MonoBehaviour
     public TMP_Text label;
     float timePassed;
     float animationDuration = 3f;
-    public static float speed = 40f;
+    public static float speed = 20f;
     public AnimationCurve decreasingRise;
 
     public Color32 startColor = new Color32(255,255,255,255);

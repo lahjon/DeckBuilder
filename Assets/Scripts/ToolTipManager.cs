@@ -15,6 +15,17 @@ public class ToolTipManager : Manager
     public RectTransform TipLocation; 
     public List<TMP_Text> txt_tips = new List<TMP_Text>();
 
+    private ToolTipScanner currentScanner = null;
+
+    private bool _canShow = true;
+    public bool canShow { get { return _canShow; } 
+        set {
+            if (value == false)
+                DisableTips(currentScanner);
+            Debug.Log("tooltip Can show  set to:" + value);
+            _canShow = value;
+        } }
+
     VerticalLayoutGroup vlg;
 
     protected override void Awake()
@@ -32,10 +43,12 @@ public class ToolTipManager : Manager
     }
 
 
-    public void Tips(List<string> tips, Vector3 screenPoint)
+    public void Tips(List<string> tips, Vector3 screenPoint, ToolTipScanner scanner)
     {
+        if (!canShow || tips.Count == 0) return;
+        currentScanner = scanner;
+
         TipLocation.anchoredPosition = screenPoint;
-        //TipLocation.position = RectTransformUtility.WorldToScreenPoint(canvas.worldCamera, screenPoint);
         for (int i = 0; i < tips.Count; i++) {
             if (i == txt_tips.Count)
             {
@@ -52,8 +65,9 @@ public class ToolTipManager : Manager
     }
 
 
-    public void DisableTips()
+    public void DisableTips(ToolTipScanner scanner)
     {
+        if (scanner != currentScanner) return;
         foreach (TMP_Text text in txt_tips)
             text.transform.parent.gameObject.SetActive(false);
     }

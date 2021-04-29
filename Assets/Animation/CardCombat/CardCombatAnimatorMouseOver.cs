@@ -10,10 +10,8 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
     (Vector3 pos, Vector3 scale, Vector3 angles) TargetTransInfo;
     (Vector3 pos, Vector3 scale, Vector3 angles) StartTransInfo;
 
-    float TimeUntilToolTip = 1f;
-
     float time;
-    bool toolTipOn;
+
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -22,21 +20,12 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
         StartTransInfo = (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
 
         time = 0;
-        toolTipOn = false;
         card.highlight.SetActive(true);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         time += Time.deltaTime;
-        if(!toolTipOn && time > TimeUntilToolTip)
-        {
-            toolTipOn = true;
-            Vector3[] position = new Vector3[4];
-            card.TooltipAnchor.GetWorldCorners(position);
-            WorldSystem.instance.toolTipManager.Tips(card.toolTipTextBits, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(card.TooltipAnchor.position));
-
-        }
 
         // ugly but dont know what else todo
         card.transform.SetAsLastSibling();
@@ -50,7 +39,6 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
     {
         //Debug.Log("MouseOver StateExit: Sending Refresh idle trigger" + Time.frameCount);
         combatController.ResetSiblingIndexes();
-        WorldSystem.instance.toolTipManager.DisableTips();
         card.highlight.SetActive(false);
     }
 

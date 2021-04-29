@@ -38,11 +38,11 @@ public class DatabaseSystem : MonoBehaviour
     {
         effectsStackable.Add(EffectType.Poison);
         effectsStackable.Add(EffectType.Weak);
-        effectsStackable.Add(EffectType.Vurnerable);
+        effectsStackable.Add(EffectType.Vulnerable);
 
         effectEndOfTurnBehavior[EffectType.Poison] = -1;
         effectEndOfTurnBehavior[EffectType.Weak] = -1;
-        effectEndOfTurnBehavior[EffectType.Vurnerable] = -1;
+        effectEndOfTurnBehavior[EffectType.Vulnerable] = -1;
     }
     public void FetchCards(List<CardData> allCards)
     {

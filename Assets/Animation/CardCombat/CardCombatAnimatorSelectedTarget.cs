@@ -21,6 +21,7 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         time = 0;
 
         card.highlight.SetActive(true);
+        WorldSystem.instance.toolTipManager.canShow = false;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -37,5 +38,6 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
     {
         card.selected = false;
         card.highlight.SetActive(false);
+        WorldSystem.instance.toolTipManager.canShow = true;
     }
 }
