@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using DG.Tweening;
 
 public class HealthEffectsUI : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class HealthEffectsUI : MonoBehaviour
     public Slider sldShield;
     public TMP_Text txtShield;
     public Canvas canvas;
+    IEnumerator Decay;
 
     public Transform EffectsAnchor;
     public Dictionary<EffectType, EffectDisplay> effectToDisplay = new Dictionary<EffectType, EffectDisplay>();
@@ -68,22 +70,60 @@ public class HealthEffectsUI : MonoBehaviour
     public void UpdateHealthBar(int hitPoints, int maxHitPoints)
     {
         txtHealth.text = hitPoints.ToString() + "/" + maxHitPoints.ToString();
-        float newValue = 1.0f * hitPoints / maxHitPoints;
+        float toValue = 1.0f * hitPoints / maxHitPoints;
+        //float fromValue;
+        sldHealth.value = toValue;
 
-        if (healthAction != null)
-        {
-            LeanTween.cancel(healthAction.uniqueId);
-        }
+        DOTween.To(() => sldHealthTemp.value, x => sldHealthTemp.value = x, toValue, 1.0f).SetEase(Ease.InExpo);
 
-        sldHealth.value = newValue;
+        // if (Decay != null)
+        // {
+        //     StopCoroutine(Decay);
+        // }
 
-        healthAction = LeanTween.value(gameObject, (float x) => sldHealthTemp.value = x, sldHealthTemp.value , sldHealth.value, 2f).setEaseInOutExpo().setOnComplete(() => healthAction = null);
+        // Decay =  DecayHealth(1.0f);
+        // StartCoroutine(Decay);
+
+        // if (healthAction != null)
+        // {
+        //     LeanTween.cancel(healthAction.uniqueId);
+        //     Debug.Log("Cancel");
+        //     healthAction = null;
+        // }
+
+        // sldHealth.value = toValue;
+        // fromValue = sldHealthTemp.value;
+
+        // Debug.Log("From: " + sldHealthTemp.value);
+        // Debug.Log("To: " + toValue);
+        // healthAction = LeanTween.value(gameObject, (float x) => sldHealthTemp.value = x, fromValue , toValue, 2f).setEaseInOutExpo().setOnComplete(() =>{healthAction = null; Debug.Log("Done");});
 
         // LeanTween.value(gameObject, (float x) => sldHealthTemp.value = x, sldHealthTemp.value , sldHealth.value, 0.5f).setOnComplete(
         //     () => sldHealth.value = newValue
         // );
 
     }
+
+    // IEnumerator DecayHealth(float decayTime)
+    // {
+    //     yield return new WaitForSeconds(0.2f);
+
+        
+
+    //     float time = 0.0f;
+    //     float from = sldHealthTemp.value;
+    //     float to = sldHealth.value;
+
+    //     while (time < decayTime)
+    //     {
+    //         time += Time.deltaTime;
+
+    //         sldHealthTemp.value = Mathf.Lerp(from, to, time / decayTime);
+    //         yield return null;
+    //     }
+
+    //     Decay = null;
+    // }
 
 
     public IEnumerator UpdateShield(int shield)
