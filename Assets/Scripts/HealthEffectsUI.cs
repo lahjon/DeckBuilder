@@ -9,12 +9,16 @@ public class HealthEffectsUI : MonoBehaviour
 {
     public GameObject cAnchorHealthEffects;
     public CombatActor combatActor;
+    private LTDescr healthAction;
 
     private GameObject aAnchorHealthEffects;
     public GameObject intentDisplayAnchor;
     public  Slider sldHealth;
+    public  Slider sldHealthTemp;
+    public float sldHealthValue;
     public TMP_Text txtHealth;
     public GameObject objShield;
+    public GameObject shieldIcon;
     public Slider sldShield;
     public TMP_Text txtShield;
     public Canvas canvas;
@@ -23,7 +27,7 @@ public class HealthEffectsUI : MonoBehaviour
     public Dictionary<EffectType, EffectDisplay> effectToDisplay = new Dictionary<EffectType, EffectDisplay>();
     public GameObject templateEffectDisplay;
     public GameObject templateNotification;
-    
+
     public Queue<HealtUINotification> uINotificators = new Queue<HealtUINotification>();
     public Transform AnchorEffectNotifications;
     public Transform AnchorHealthNotifications;
@@ -38,13 +42,16 @@ public class HealthEffectsUI : MonoBehaviour
     public void Start()
     {
         aAnchorHealthEffects = this.gameObject;
+        sldHealthTemp.value = sldHealth.value;
         SetupCamera();
         SetPosition();
     }
 
     public void OnDisable()
     {
+        Debug.Log("Stopping ALL");
         StopAllCoroutines();
+
     }
 
     public void SetupCamera()
@@ -61,7 +68,21 @@ public class HealthEffectsUI : MonoBehaviour
     public void UpdateHealthBar(int hitPoints, int maxHitPoints)
     {
         txtHealth.text = hitPoints.ToString() + "/" + maxHitPoints.ToString();
-        sldHealth.value = 1.0f * hitPoints / maxHitPoints;
+        float newValue = 1.0f * hitPoints / maxHitPoints;
+
+        if (healthAction != null)
+        {
+            LeanTween.cancel(healthAction.uniqueId);
+        }
+
+        sldHealth.value = newValue;
+
+        healthAction = LeanTween.value(gameObject, (float x) => sldHealthTemp.value = x, sldHealthTemp.value , sldHealth.value, 2f).setEaseInOutExpo().setOnComplete(() => healthAction = null);
+
+        // LeanTween.value(gameObject, (float x) => sldHealthTemp.value = x, sldHealthTemp.value , sldHealth.value, 0.5f).setOnComplete(
+        //     () => sldHealth.value = newValue
+        // );
+
     }
 
 
@@ -69,8 +90,16 @@ public class HealthEffectsUI : MonoBehaviour
     {
         objShield.SetActive(shield != 0);
 
+        // if (shieldAction != null)
+        // {
+        //     Debug.Log("Cancel");
+        //     LeanTween.cancel(shieldAction.uniqueId);
+        //     shieldIcon.transform.localScale = Vector3.one;
+        // }
+
         if (shield != 0)
         {
+            //shieldAction = LeanTween.scale(shieldIcon, Vector3.one * 1.5f, 0.3f).setLoopPingPong(1).setOnComplete(() => shieldAction = null);
             sldShield.value = sldHealth.value;
             txtShield.text = shield.ToString();
         }
