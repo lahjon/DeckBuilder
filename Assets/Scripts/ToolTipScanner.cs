@@ -48,4 +48,10 @@ public class ToolTipScanner : MonoBehaviour
         LeanTween.cancel(delayAction.uniqueId);
         WorldSystem.instance.toolTipManager.DisableTips(this);
     }
+
+    private void OnDestroy()
+    {
+        LeanTween.cancel(delayAction.uniqueId);
+        WorldSystem.instance.toolTipManager.DisableTips(this);
+    }
 }

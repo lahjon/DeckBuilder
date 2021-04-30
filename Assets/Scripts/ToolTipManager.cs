@@ -67,9 +67,9 @@ public class ToolTipManager : Manager
 
     public void DisableTips(ToolTipScanner scanner)
     {
-        if (scanner != currentScanner) return;
-        foreach (TMP_Text text in txt_tips)
-            text.transform.parent.gameObject.SetActive(false);
+        if (currentScanner is null || scanner == currentScanner)
+            foreach (TMP_Text text in txt_tips)
+                text.transform.parent.gameObject.SetActive(false);
     }
 
 }
