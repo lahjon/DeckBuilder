@@ -21,13 +21,18 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public void SetLabel(string stackNr)
     {
         effectLabel.text = stackNr;
+        CancelAnimation();
+        myTween = effectLabel.transform.DOScale(1.3f, 0.2f).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
+    }
+
+    public void CancelAnimation()
+    {
         if(myTween != null)
         {
             myTween.Kill();
             myTween = null;
             effectLabel.transform.localScale = Vector3.one;
         }
-        myTween = effectLabel.transform.DOScale(1.3f, 0.2f).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
     }
 
     public void SetSprite(Sprite sprite)

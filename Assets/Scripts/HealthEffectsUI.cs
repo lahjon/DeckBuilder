@@ -120,6 +120,10 @@ public class HealthEffectsUI : MonoBehaviour
 
         if(effect.nrStacked == 0 && effectToDisplay.ContainsKey(effectType))
         {
+            if (effectToDisplay[effectType] is EffectDisplay tempEffect)
+            {
+                tempEffect.CancelAnimation();
+            }
             Destroy(effectToDisplay[effectType].gameObject);
             effectToDisplay.Remove(effectType);
             StartEffectNotification(effect.effectName + " wore off");
