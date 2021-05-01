@@ -213,15 +213,15 @@ SpriteRenderer:
   m_SortingLayerID: -741287251
   m_SortingLayer: 8
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 90b9a162277117d4bb0483cc7d4b7270, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &9084859207354406156
@@ -316,7 +316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7926990767266708848, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7926990767266708848, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -365,7 +365,11 @@ PrefabInstance:
     - target: {fileID: 7926990767373210138, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 5012235028449285108}
+      objectReference: {fileID: 0}
+    - target: {fileID: 7926990767373210138, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7926990767373210138, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_PlaneDistance
       value: 10
@@ -384,16 +388,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7926990767812551262, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -843
+      value: 2344
       objectReference: {fileID: 0}
     - target: {fileID: 7926990767812551262, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 13
+      value: -1801
       objectReference: {fileID: 0}
     - target: {fileID: 7926990767812551262, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -273
+      value: -735.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7926990767946250738, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
     - target: {fileID: 7926990768876797513, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

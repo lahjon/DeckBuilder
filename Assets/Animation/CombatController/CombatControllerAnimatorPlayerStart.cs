@@ -13,6 +13,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
         combatController.ActiveActor = combatController.Hero;
         hero = combatController.Hero;
         combatController.StartCoroutine(StartPlayerTurn());
+        combatController.combatOverlay.AnimatePlayerTurn();
     }
 
 

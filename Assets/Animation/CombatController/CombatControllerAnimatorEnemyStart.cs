@@ -10,6 +10,8 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         Debug.Log("Entered enemy start state");
         SetRefs(animator);
 
+        combatController.combatOverlay.AnimateEnemyTurn();
+
         enemy = combatController.enemiesWaiting.Dequeue();
         combatController.ActiveActor = enemy;
         combatController.InProcessCard = enemy.hand;

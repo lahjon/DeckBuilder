@@ -6,37 +6,42 @@ using TMPro;
 
 public class IntentDisplay : MonoBehaviour
 {
-    public Image[] Icons = new Image[3];
+    public List<Sprite> attackIcons = new List<Sprite>();
 
-    public Sprite AttackSprite;
-    public Sprite DefendSprite;
-    public Sprite OtherSprite;
-
+    public GameObject attackSprite, defendSprite, otherSprite;
+    public GameObject intentHolder;
     public TMP_Text lblIntent;
     public GameObject cAnchorIntent;
 
     public void RecieveIntent(CardEffect block, CardEffect Damage, List<CardEffect> Effects)
     {
-        for (int i = 0; i < Icons.Length; i++)
-            Icons[i].gameObject.SetActive(false);
+        attackSprite.SetActive(false);
+        defendSprite.SetActive(false);
+        otherSprite.SetActive(false);
         lblIntent.text = "";
-
-        int cursor = 0;
-
 
         if(Damage.Value != 0)
         {
-            Icons[cursor].sprite = AttackSprite;
-            Icons[cursor++].gameObject.SetActive(true);
+            attackSprite.SetActive(true);
             lblIntent.text = Damage.Value.ToString() + (Damage.Times != 1 ? "x" + Damage.Times.ToString() : "");
+            if (Effects.Count <= 0)
+            {
+                attackSprite.GetComponent<Intent>().image.sprite = attackIcons[0];
+            }
+            else
+            {
+                attackSprite.GetComponent<Intent>().image.sprite = attackIcons[1];
+            }
         }
 
-
-
+        if (Effects.Count > 0 && Damage.Value <= 0)
+        {
+            otherSprite.gameObject.SetActive(true);
+        }
+        
         if(block.Value != 0)
         {
-            Icons[cursor].sprite = DefendSprite;
-            Icons[cursor++].gameObject.SetActive(true);
+            defendSprite.gameObject.SetActive(true);
         }
 
     }
@@ -49,6 +54,14 @@ public class IntentDisplay : MonoBehaviour
 
     public void ShowDisplay(bool enabled)
     {
+        if(enabled == false)
+        {
+            attackSprite.GetComponent<Intent>().DisableTween();
+            defendSprite.GetComponent<Intent>().DisableTween();
+            otherSprite.GetComponent<Intent>().DisableTween();
+
+        }
+
         gameObject.SetActive(enabled);
     }
 

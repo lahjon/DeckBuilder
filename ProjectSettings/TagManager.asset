@@ -73,6 +73,9 @@ TagManager:
   - name: HealthEffects
     uniqueID: 2034861665
     locked: 0
+  - name: CombatOverlay
+    uniqueID: 3957876583
+    locked: 0
   - name: Shop
     uniqueID: 3803983533
     locked: 0

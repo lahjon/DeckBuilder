@@ -22,6 +22,9 @@ public static class Helpers
                                                 Color.magenta   // beastmaster
                                             }; 
 
+    public static Color attackColor = new Color(190,83,83);
+    public static Color neutralColor = Color.white;
+
     public static string ToLowerFirstChar(this string input)
     {
         if(string.IsNullOrEmpty(input))

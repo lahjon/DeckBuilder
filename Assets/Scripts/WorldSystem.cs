@@ -118,7 +118,7 @@ public class WorldSystem : MonoBehaviour
     {
         worldState = WorldState.Town;
         encounterManager.UpdateAllTownEncounters(act);
-        cameraManager.CameraGoto(WorldState.Town, true);
+        //cameraManager.CameraGoto(WorldState.Town, true);
     }
     private void UpdateStartScene()
     {

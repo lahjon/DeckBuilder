@@ -1063,6 +1063,7 @@ MonoBehaviour:
   intentDisplayAnchor: {fileID: 0}
   sldHealth: {fileID: 7926990766968582755}
   sldHealthTemp: {fileID: 8246389954172334765}
+  sldHealthValue: 0
   txtHealth: {fileID: 7926990767946250738}
   objShield: {fileID: 4431592953039501985}
   shieldIcon: {fileID: 3409147108697781394}
@@ -1283,7 +1284,7 @@ MonoBehaviour:
   m_text: 70/140
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

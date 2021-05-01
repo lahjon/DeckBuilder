@@ -8,6 +8,12 @@ public class ShopOverworld : MonoBehaviour
     public CardDisplay currentCard;
     public List<CardVisual> cardsInStock;
     public List<TMP_Text> cardsPrices;
+    public Canvas canvas;
+
+    void OnEnable()
+    {
+        canvas.worldCamera = Camera.main;
+    }
 
     void UpdateCardPrices()
     {
