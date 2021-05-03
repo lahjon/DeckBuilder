@@ -58,6 +58,8 @@ public class GridManager : Manager
                                                                 new Vector3Int(-1, 0, 1), 
                                                                 new Vector3Int(0, -1, 1)
                                                             };
+
+    List<int> nrDirections = new List<int>() { 0, 1, 2, 3, 4, 5 };
     
     protected override void Awake()
     {
@@ -178,24 +180,20 @@ public class GridManager : Manager
     }
     public void ButtonRotate(bool clockwise)
     {
+        if (activeTile is null) return;
+
         int sign = clockwise ? 1 : -1;
-        if (activeTile != null)
-        {
-            for (int i = 0; i < activeTile.availableDirections.Count; i++)
-                activeTile.availableDirections[i] = (activeTile.availableDirections[i] + sign + 6) % 6;
+        for (int i = 0; i < activeTile.availableDirections.Count; i++)
+            activeTile.availableDirections[i] = (activeTile.availableDirections[i] + sign + 6) % 6;
             
-            activeTile.transform.Rotate(new Vector3(0,0,sign*60));
-        }
+        activeTile.transform.Rotate(new Vector3(0,0,sign*60));
     }
 
-    public int InvertDirection(int direction)
-    {
-         return (direction - 3 + 6) % 6;
-    }
+    public int InvertDirection(int direction) => (direction - 3 + 6) % 6;
 
     public bool CheckFreeSlot(HexTile tile)
     {
-        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
 
         foreach (Vector3Int neighbour in neighbours)
@@ -242,7 +240,7 @@ public class GridManager : Manager
     public bool TilePlacementValidStart(HexTile tile)
     {
         // get all the neighbours of a tile and discard all inactive tiles
-        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
 
         // look at all exists
@@ -266,7 +264,7 @@ public class GridManager : Manager
     public bool TilePlacementValid(HexTile tile)
     {
         // get all the neighbours of a tile and discard all inactive tiles
-        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
 
         bool freeExist = false;
@@ -312,7 +310,7 @@ public class GridManager : Manager
         List<int> openExists = new List<int>();
 
         // get all the neighbours of a tile and discard all inactive tiles
-        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
 
         // look at all exists
@@ -382,7 +380,7 @@ public class GridManager : Manager
 
     public List<int> GetNewExits(HexTile tile)
     {
-        List<Vector3Int> neighbours = GetTileNeighbours(tile.coord);
+        List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
         List<int> result = new List<int>();
 
@@ -403,7 +401,7 @@ public class GridManager : Manager
         return result;
     }
 
-    List<Vector3Int> GetTileNeighbours(Vector3Int coord)
+    List<Vector3Int> GetNeighboursCoords(Vector3Int coord)
     {
         List<Vector3Int> neighbours = new List<Vector3Int>();
         
@@ -424,13 +422,8 @@ public class GridManager : Manager
 
     List<int> GenerateUniqueRandomNumbers(int maxNumbers)
     {
-        List<int> uniqueNumbers = new List<int>();
+        List<int> uniqueNumbers = new List<int>(nrDirections);
         List<int> result = new List<int>();
-
-        for(int i = 0; i <= 5; i++)
-        {
-            uniqueNumbers.Add(i);
-        }
 
         for(int i = 0; i < maxNumbers; i ++)
         {

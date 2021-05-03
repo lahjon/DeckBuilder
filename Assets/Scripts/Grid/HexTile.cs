@@ -74,7 +74,7 @@ public class HexTile : MonoBehaviour
         lockedDirections = directions;
     }
 
-    void FlipDownNewTile()
+    void BeginFlipUpNewTile()
     {
         spriteRenderer.color = Color.white;
 
@@ -82,10 +82,10 @@ public class HexTile : MonoBehaviour
 
 
         tileState = TileState.Animation;
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 1.5f).setEaseInCubic().setOnComplete(() => FlipUpNewTile());
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 1.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile());
     }
 
-    public void FlipUpNewTile()
+    public void EndFlipUpNewTile()
     {
         Activate(TileState.Active, false);
         List<int> requiredExits = gridManager.GetNewExits(this);
@@ -161,7 +161,7 @@ public class HexTile : MonoBehaviour
             case TileState.Inactive:
                 if (gridManager.gridState == GridState.Idle && gridManager.TileConnectedToExit(this))
                 {
-                    FlipDownNewTile();
+                    BeginFlipUpNewTile();
                 }
                 break;
 
@@ -209,21 +209,6 @@ public class HexTile : MonoBehaviour
                 }
 
                 break;
-
-            case TileState.Inventory:
-                
-                break;
-
-            case TileState.Placement:
-                break;
-
-            case TileState.Active:
-                break;
-
-
-            case TileState.Completed:
-                break;
-
             default:
                 break;
         }
@@ -245,21 +230,6 @@ public class HexTile : MonoBehaviour
                 }
 
                 break;
-
-            case TileState.Inventory:
-                
-                break;
-
-            case TileState.Placement:
-                break;
-
-            case TileState.Active:
-                break;
-
-
-            case TileState.Completed:
-                break;
-
             default:
                 break;
         }

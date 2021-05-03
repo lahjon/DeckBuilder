@@ -6,11 +6,14 @@ using System.Linq;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class ToolTipScanner : MonoBehaviour
 { 
     private static LTDescr delayAction;
     public float timeDelay = 0.5f;
+    private Tween _delayTween;
+    private float dummy; 
 
     /*
     /* Verkar inte behövas fattar fan noll???
@@ -32,21 +35,32 @@ public class ToolTipScanner : MonoBehaviour
     }
     */
 
+    Coroutine _delayAction;
+
     public void OnMouseEnter()
     {
-        delayAction = LeanTween.delayedCall(timeDelay, () =>
-        {
-            Debug.Log("TooltipScanner sending");
+        /*
+        delayAction = LeanTween.delayedCall(timeDelay, () => {
             (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
             WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos), this);
         }
         );
+        */
+        //_delayAction = StartCoroutine(DelayAction());
+
+        (_delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
+            (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
+            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos), this);
+        }); 
     }
 
     public void OnMouseExit()
     {
-        LeanTween.cancel(delayAction.uniqueId);
+        //StopCoroutine(_delayAction);
+        //LeanTween.cancel(delayAction.uniqueId);
+        _delayTween.Kill();
         WorldSystem.instance.toolTipManager.DisableTips(this);
+
     }
 
     /* Behövs ej längre? On destroy verkar trigga att mouse exit
@@ -56,4 +70,11 @@ public class ToolTipScanner : MonoBehaviour
         WorldSystem.instance.toolTipManager.DisableTips(this);
     }
     */
+
+    IEnumerator DelayAction()
+    {
+        yield return new WaitForSeconds(timeDelay);
+        (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
+        WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos), this);
+    }
 }

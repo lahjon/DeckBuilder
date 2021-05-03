@@ -21,9 +21,12 @@ public class EncounterUI : MonoBehaviour
     public EncounterData newEncounterData;
     private bool transition = false;
 
+    private GameObject[] choices;
+    private string[] encounterDateChoices = new string[3];
+
     void Start()
     {
- 
+        choices = new GameObject[] { choice1, choice2, choice3 };
     }
 
     public void StartEncounter()
@@ -49,71 +52,42 @@ public class EncounterUI : MonoBehaviour
 
         int count = 0;
         foreach (EncounterEventType e in encounterData.events)
-        {
             if (e != EncounterEventType.None)
-            {
                 count++;
-            }
-        }
         
         choice1.SetActive(false);
         choice2.SetActive(false);
         choice3.SetActive(false);
 
-        if(count > 0)
+        encounterDateChoices[0] = encounterData.choice1;
+        encounterDateChoices[1] = encounterData.choice2;
+        encounterDateChoices[2] = encounterData.choice3;
+
+        for (int i = 0; i < count; i++)
         {
-            choice1.SetActive(true);
-            event1 = encounterData.events[0];
-            
-            choice1.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice1;
+            choices[i].SetActive(true);
+            choices[i].transform.GetChild(0).GetComponent<TMP_Text>().text = encounterDateChoices[i];
         }
-        if(count > 1)
-        {
-            choice2.SetActive(true);
-            event2 = encounterData.events[1];
-            
-            choice2.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice2;
-        }
-        if(count > 2)
-        {
-            choice3.SetActive(true);
-            event3 = encounterData.events[2];
-            
-            choice3.transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choice3;
-        }
-        if(encounterTitle != null)
-            encounterTitle.text = encounterData.name;
-        if(encounterDescription != null)
-            encounterDescription.text = encounterData.description;
+
+
+        encounterTitle.text = encounterData.name;
+        encounterDescription.text = encounterData.description;
 
     }
 
     public void CloseEncounter()
     {
-        encounter?.SetIsVisited();
+        StartCoroutine(encounter.SetVisited(() => { }));
         canvas.SetActive(false);
     }
 
     public void ChooseOption(int index)
     {
-        if (index == 1 && !transition)
-        {
-            newEncounterData = encounterData.newEncounterData[0];
-            bool disable = EncounterEvent.TriggerEvent(event1);
-            ConfirmOption(disable);
-        }
-        else if(index == 2 && !transition)
-        {
-            newEncounterData = encounterData.newEncounterData[1];
-            bool disable = EncounterEvent.TriggerEvent(event2);
-            ConfirmOption(disable);
-        }
-        else if(index == 3 && !transition)
-        {
-            newEncounterData = encounterData.newEncounterData[2];
-            bool disable = EncounterEvent.TriggerEvent(event3);
-            ConfirmOption(disable);
-        }
+        Debug.Log("Choose option in EncUI:" + index + " with data " + encounterData.events[index]);
+        newEncounterData = encounterData.newEncounterData[index -1];
+        bool disable = EncounterEvent.TriggerEvent(encounterData.events[index-1]);
+        ConfirmOption(disable);
+       
         if (newEncounterData != null)
         {
             WorldSystem.instance.encounterManager.currentEncounter.encounterData = newEncounterData;
@@ -122,7 +96,6 @@ public class EncounterUI : MonoBehaviour
 
     public void ConfirmOption(bool disable)
     {
-        
         if (disable)
         {
             canvas.SetActive(false);
