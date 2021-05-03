@@ -10,6 +10,7 @@ using System;
 
 public class CombatController : MonoBehaviour
 {
+    public CombatOverlay combatOverlay;
     public GameObject TemplateCard;
     public BezierPath bezierPath;
     public GameObject TemplateEnemy;

@@ -11,6 +11,7 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
     {
         SetRefs(animator);
         combatController.StartCoroutine(SetupCombat());
+        combatController.combatOverlay.AnimateCombatStart();
     }
 
     public IEnumerator SetupCombat()
