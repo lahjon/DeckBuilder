@@ -210,14 +210,10 @@ public class CombatController : MonoBehaviour
         {
             KillEnemy(EnemiesInScene[0]);
         }
-
-
-        CleanUp();
-        Debug.Log("Victory!");
-        WorldStateSystem.SetInReward(true);
+        animator.SetTrigger("Win");
     }
 
-    void CleanUp()
+    public void CleanUp()
     {
         Hand.ForEach(x => Destroy(x.gameObject));
         Hand.Clear();

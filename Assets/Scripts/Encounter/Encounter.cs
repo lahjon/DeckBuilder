@@ -23,7 +23,7 @@ public abstract class Encounter : MonoBehaviour
 
     public abstract void ButtonPress();
 
-    public IEnumerator SetVisited(System.Action VisitAction, Encounter enc = null)
+    public IEnumerator Entering(System.Action VisitAction, Encounter enc = null)
     {
         selectable = false;
 
@@ -59,7 +59,6 @@ public abstract class Encounter : MonoBehaviour
         button.colors = color;
 
         WorldSystem.instance.encounterManager.currentEncounter = this;
-        Debug.Log("Doing Action");
         VisitAction();
     }
 

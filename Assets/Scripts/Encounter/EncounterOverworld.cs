@@ -16,7 +16,7 @@ public class EncounterOverworld : Encounter
     {
         if (gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
         {
-            StartCoroutine(SetVisited(() => { }));
+            StartCoroutine(Entering(() => { }));
         }
         encounterType = encounterData.type;
         UpdateIcon();
@@ -32,12 +32,12 @@ public class EncounterOverworld : Encounter
         if(selectable)
         {
             if (encounterType == EncounterType.OverworldCombatNormal || encounterType == EncounterType.OverworldCombatElite || encounterType == EncounterType.OverworldCombatBoss)
-                StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
+                StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true), this));
             else if (encounterType == EncounterType.OverworldShop)
-                StartCoroutine(SetVisited(() => WorldStateSystem.SetInShop(true), this));
+                StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true), this));
             else if (encounterType == EncounterType.OverworldRandomEvent) {
-                WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                StartCoroutine(SetVisited(() => WorldStateSystem.SetInEvent(true), this));
+                WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
+                StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true), this));
             }
         }
     }
