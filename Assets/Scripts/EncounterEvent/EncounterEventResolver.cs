@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EncounterEvent
+public class EncounterEventResolver
 {
     /// <returns>bool disable: Returns a bool that is used to disable the UI.</returns>
     public static bool TriggerEvent(EncounterEventType encounterEventType)

@@ -133,7 +133,7 @@ public class EncounterManager : Manager
         }
 
         StartAddRoads(encounters[0][0]);
-        encounters[0][0].SetIsVisited();
+        StartCoroutine(encounters[0][0].Entering(() => { }));
     }
 
     public void AssignNeighbours(int floor, int unassigned_lb, int unassigned_ub, int lb, int ub)

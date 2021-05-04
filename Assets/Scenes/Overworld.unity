@@ -5003,7 +5003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
       propertyPath: m_Name
-      value: HexTile
+      value: Hex_Inventory0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
@@ -6346,7 +6346,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
       propertyPath: m_Name
-      value: HexTile (2)
+      value: Hex_Inventory2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
@@ -6995,7 +6995,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 1521960915
+  m_SortingLayerID: 120520623
   m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &955537520
@@ -14366,7 +14366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
       propertyPath: m_Name
-      value: HexTile (3)
+      value: Hex_Inventory3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
@@ -14745,7 +14745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
       propertyPath: m_Name
-      value: HexTile (1)
+      value: Hex_Inventory1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}

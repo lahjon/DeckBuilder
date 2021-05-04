@@ -14,14 +14,11 @@ public class EncounterOverworld : Encounter
 
     public override void UpdateEncounter()
     {
-        
-        if(gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
+        if (gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
         {
-            SetIsVisited();
+            StartCoroutine(Entering(() => { }));
         }
         encounterType = encounterData.type;
-
-        isVisited = isClicked = encounterData.isVisited;
         UpdateIcon();
     }
 
@@ -32,39 +29,15 @@ public class EncounterOverworld : Encounter
 
     public override void ButtonPress()
     {
-        if(!isVisited && CheckViablePath(this) && !isClicked && WorldStateSystem.instance.currentWorldState == WorldState.Overworld)
+        if(selectable)
         {
-            switch (this.encounterType)
-            {
-                case EncounterType.OverworldCombatNormal:
-                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
-
-                    break;
-                
-                case EncounterType.OverworldCombatElite:
-                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
-
-                    break;
-                
-                case EncounterType.OverworldCombatBoss:
-                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInCombat(true), this));
-
-                    break;
-
-                case EncounterType.OverworldShop:
-                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInShop(true), this));
-
-                    break;
-
-                case EncounterType.OverworldRandomEvent:
-                    WorldSystem.instance.uiManager.encounterUI.encounterData = this.encounterData;
-                    StartCoroutine(SetVisited(() => WorldStateSystem.SetInEvent(true), this));
-                    
-                    break;
-                
-                default:
-                    isClicked = true;
-                    break;
+            if (encounterType == EncounterType.OverworldCombatNormal || encounterType == EncounterType.OverworldCombatElite || encounterType == EncounterType.OverworldCombatBoss)
+                StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true), this));
+            else if (encounterType == EncounterType.OverworldShop)
+                StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true), this));
+            else if (encounterType == EncounterType.OverworldRandomEvent) {
+                WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
+                StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true), this));
             }
         }
     }
