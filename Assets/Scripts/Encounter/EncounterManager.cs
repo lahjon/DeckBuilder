@@ -12,6 +12,7 @@ public class EncounterManager : Manager
     public List<Encounter> overworldEncounters;
     public GameObject townEncounter;
     public Encounter currentEncounter;
+    public EncounterHex currentEncounterHex;
     public int encounterTier;
 
     public GameObject ActTemplate;
@@ -24,6 +25,7 @@ public class EncounterManager : Manager
     public float placementNoise = 3.0f;
     public double branshProb = 0.25;
 
+    public GameObject templateHexEncounter; 
 
     Encounter[][] encounters;
 
@@ -249,5 +251,50 @@ public class EncounterManager : Manager
             dist_t += gap + width;
             count++;
         }
+    }
+
+    public void GenerateHexEncounters(HexTile tile)
+    {
+        List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.encounterPositions);
+
+        List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
+        List<EncounterHex> encounters = new List<EncounterHex>();
+
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(EncounterSlots[x])));
+        chosenEncountersSlots.ForEach(x => EncounterSlots.Remove(x));
+
+        int nrAdditional = Random.Range(1, tile.availableDirections.Count / 2);
+
+        for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
+        {
+            int index = Random.Range(0, EncounterSlots.Count);
+            chosenEncountersSlots.Add(EncounterSlots[index]);
+            EncounterSlots.RemoveAt(index);
+        }
+
+        foreach(Vector3Int vec in chosenEncountersSlots)
+        {
+            GameObject EnemyObject = Instantiate(templateHexEncounter, tile.encounterParent) as GameObject;
+            EncounterHex enc = EnemyObject.GetComponent<EncounterHex>();
+            enc.coordinates = vec;
+            enc.encounterType = (EncounterType)Random.Range(1, 6);
+            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(vec);
+            encounters.Add(enc);
+        }
+
+        EncounterHex chosen = encounters[0];
+
+        for (int i = 0; i < nrAdditional + tile.availableDirections.Count -1 ; i++)
+        {
+            EncounterHex enc = encounters[Random.Range(0, encounters.Count)];
+            encounters.Remove(enc);
+            EncounterHex neigh = encounters[Random.Range(0, encounters.Count)];
+
+            enc.hexNeighboors.Add(neigh);
+            neigh.hexNeighboors.Add(enc);
+            Debug.DrawLine(enc.transform.position, neigh.transform.position, Color.green, 100000, false);
+        }
+
+        StartCoroutine(chosen.Entering(() => { }));
     }
 }

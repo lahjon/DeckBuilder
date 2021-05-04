@@ -14297,6 +14297,13 @@ MonoBehaviour:
   gridState: 0
   bossCounterText: {fileID: 240440558}
   tilesUntilBoss: 10
+  tileDirections:
+  - {x: 1, y: -1, z: 0}
+  - {x: 1, y: 0, z: -1}
+  - {x: 0, y: 1, z: -1}
+  - {x: -1, y: 1, z: 0}
+  - {x: -1, y: 0, z: 1}
+  - {x: 0, y: -1, z: 1}
 --- !u!224 &1848971790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14444,6 +14451,7 @@ MonoBehaviour:
   length: 7
   placementNoise: 10
   branshProb: 0.25
+  templateHexEncounter: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
   encounterParent: {fileID: 0}
   roadParent: {fileID: 0}
   roadImage: {fileID: 3736500116089201315, guid: cf0b7f39c9ff9e6439f6f9d0848dadbb, type: 3}

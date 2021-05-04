@@ -145,12 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72e591be4a33f746b215be463f74ebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterData: {fileID: 0}
-  sprite: {fileID: 0}
-  matHighlight: {fileID: 0}
-  matNormal: {fileID: 0}
-  matVisited: {fileID: 0}
   neighbourEncounters: []
-  encounterUI: {fileID: 0}
-  newEncounterUIPrefab: {fileID: 0}
+  encounterData: {fileID: 0}
   encounterType: 0
+  selectable: 0

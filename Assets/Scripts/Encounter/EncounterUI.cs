@@ -77,13 +77,12 @@ public class EncounterUI : MonoBehaviour
 
     public void CloseEncounter()
     {
-        StartCoroutine(encounter.Entering(() => { }));
+        //StartCoroutine(encounter.Entering(() => { }));
         canvas.SetActive(false);
     }
 
     public void ChooseOption(int index)
     {
-        Debug.Log("Choose option in EncUI:" + index + " with data " + encounterData.events[index]);
         newEncounterData = encounterData.newEncounterData[index -1];
         bool disable = EncounterEventResolver.TriggerEvent(encounterData.events[index-1]);
         ConfirmOption(disable);

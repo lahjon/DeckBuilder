@@ -15,13 +15,38 @@ public class HexTile : MonoBehaviour
     static GridManager gridManager;
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
+
+    public Transform encounterParent;
+
+    public static List<Vector3Int> encounterPositions = new List<Vector3Int>  {
+
+                                                                new Vector3Int(1, -1, 0),
+                                                                new Vector3Int(1, 0, -1),
+                                                                new Vector3Int(0, 1, -1),
+                                                                new Vector3Int(-1, 1, 0),
+                                                                new Vector3Int(-1, 0, 1),
+                                                                new Vector3Int(0, -1, 1),
+
+                                                                new Vector3Int(2, -1, -1),
+                                                                new Vector3Int(1, 1, -2),
+                                                                new Vector3Int(-1, 2, -1),
+                                                                new Vector3Int(-2, 1, 1),
+                                                                new Vector3Int(-1, -1, 2),
+                                                                new Vector3Int(1, -2, 1),
+
+                                                                new Vector3Int(0, 0, 0)
+
+                                                            };
+
+    public static float encounterRadius = 1.0f;
+    public static float zRadFactor = Mathf.Sqrt(3/2);
+
     public TileState tileState
     {
         get
         {
             return _tileState;
         }
-
         set 
         {
             _tileState = value;
@@ -76,6 +101,7 @@ public class HexTile : MonoBehaviour
 
     void BeginFlipUpNewTile()
     {
+        GetComponent<PolygonCollider2D>().enabled = false; //ska bort när man ska lägga ut själv
         spriteRenderer.color = Color.white;
 
         gridManager.IsComplete();
@@ -99,8 +125,6 @@ public class HexTile : MonoBehaviour
         }
         availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
 
-        
-
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
             () => CompleteFlip()
         );
@@ -109,6 +133,7 @@ public class HexTile : MonoBehaviour
     void CompleteFlip()
     {
         tileState = TileState.Completed;
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
         gridManager.CloseExists(this);
     }
 
@@ -156,95 +181,56 @@ public class HexTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        switch (tileState)
-        {
-            case TileState.Inactive:
-                if (gridManager.gridState == GridState.Idle && gridManager.TileConnectedToExit(this))
-                {
-                    BeginFlipUpNewTile();
-                }
-                break;
-
-            case TileState.Inventory:
-                if (gridManager.activeTile == null && gridManager.gridState != GridState.Complete)
-                {
-                    StartPlacement();
-                }
-                break;
-
-            case TileState.Placement:
-                //Debug.Log(gridManager.TilePlacementValid(this));
-                break;
-
-            case TileState.Active:
-                //Debug.Log(gridManager.TilePlacementValid(this));
-                break;
-
-
-            case TileState.Completed:
-                //Debug.Log(gridManager.TilePlacementValid(this));
-                break;
-
-            default:
-                break;
-        }
+        if(tileState == TileState.Inactive && gridManager.gridState == GridState.Idle && gridManager.TileConnectedToExit(this))
+            BeginFlipUpNewTile();
+        else if(tileState == TileState.Inventory && gridManager.activeTile == null && gridManager.gridState != GridState.Complete)
+            StartPlacement();
     }
-
-
     void OnMouseEnter()
     {
-        switch (tileState)
+        if (gridManager.gridState == GridState.Idle && tileState == TileState.Inactive)
         {
-            case TileState.Inactive:
-                if (gridManager.gridState == GridState.Idle && _tileState == TileState.Inactive)
-                {
-                    if (gridManager.activeTile == null && gridManager.CheckFreeSlot(this))
-                    {
-                        spriteRenderer.color = Color.green;
-                    }
-                    else
-                    {
-                        spriteRenderer.color = Color.red;
-                    }
-                }
-
-                break;
-            default:
-                break;
+            if (gridManager.activeTile == null && gridManager.CheckFreeSlot(this))
+                spriteRenderer.color = Color.green;
+            else
+                spriteRenderer.color = Color.red;
         }
     }
 
     void OnMouseOver()
     {
-        switch (tileState)
+        if (tileState == TileState.Inactive && gridManager.hoverTile != this)
         {
-            case TileState.Inactive:
-                if (gridManager.hoverTile != this)
-                {
-                    gridManager.hoverTilePosition = transform.position;
-                    gridManager.hoverTile = this;
-                    if (gridManager.activeTile != null && gridManager.oldHoverTile == null)
-                    {
-                        gridManager.activeTile.coord = coord;
-                    }
-                }
-
-                break;
-            default:
-                break;
+            gridManager.hoverTilePosition = transform.position;
+            gridManager.hoverTile = this;
+            if (gridManager.activeTile != null && gridManager.oldHoverTile == null)
+                gridManager.activeTile.coord = coord;
         }
-
     }
 
     void OnMouseExit()
     {
         if (_tileState == TileState.Inactive)
-        {
             spriteRenderer.color = Color.white;
-        }
         gridManager.hoverTilePosition = Vector3.zero;
         gridManager.hoverTile = null;
     }
 
+    #region Encounters 
 
+
+    public static Vector3 EncounterPosToLocalCoord(Vector3Int encPos)
+    {
+        float x = (encPos.x * 0.5f) - (encPos.y * 0.5f);
+        float y = zRadFactor*encPos.z * -1;
+
+        return encounterRadius*(new Vector3(x, y));
+    }
+
+    public static Vector3Int DirectionToDoorEncounter(Vector3Int dir)
+    {
+        return encounterPositions[encounterPositions.IndexOf(dir) + 6];
+    }
+
+    #endregion
 }

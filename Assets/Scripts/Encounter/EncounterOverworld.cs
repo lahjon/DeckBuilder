@@ -1,44 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.UI;
 
-public class EncounterOverworld : Encounter
+public class EncounterOverworld: Encounter
 {
-    private EncounterManager encounterManager;
-    [HideInInspector]
-    public int mapIndex;
-    void Awake()
+    public override IEnumerator Entering(System.Action VisitAction, Encounter enc = null)
     {
-        encounterManager = WorldSystem.instance.encounterManager;
-    }
+        selectable = false;
 
-    public override void UpdateEncounter()
-    {
-        if (gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
+        if(enc != null && roads.Count > 0)
         {
-            StartCoroutine(Entering(() => { }));
-        }
-        encounterType = encounterData.type;
-        UpdateIcon();
-    }
-
-    protected override bool CheckViablePath(Encounter anEncounter)
-    {
-        return encounterManager.currentEncounter.neighbourEncounters.Contains(anEncounter);
-    }
-
-    public override void ButtonPress()
-    {
-        if(selectable)
-        {
-            if (encounterType == EncounterType.OverworldCombatNormal || encounterType == EncounterType.OverworldCombatElite || encounterType == EncounterType.OverworldCombatBoss)
-                StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true), this));
-            else if (encounterType == EncounterType.OverworldShop)
-                StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true), this));
-            else if (encounterType == EncounterType.OverworldRandomEvent) {
-                WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
-                StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true), this));
+            foreach(KeyValuePair<GameObject, List<Encounter>> p in roads)
+            {
+                if(p.Value[0] == WorldSystem.instance.encounterManager.currentEncounter && p.Value[1] == this)
+                {
+                    int counter = 0;
+                    int countMax = p.Key.transform.childCount;
+                    while (counter < countMax)
+                    {
+                        p.Key.transform.GetChild(counter++).GetComponent<Image>().color = new Color (1.0f, 0.5f, 0.5f);
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                    break;
+                }
             }
         }
+
+        WorldSystem.instance.encounterManager.currentEncounter?.SetLeaving(this);
+
+        foreach (Encounter e in neighbourEncounters)
+            e.selectable = true;
+
+        Button button = GetComponent<Button>();
+        ColorBlock color = button.colors;
+
+        color.normalColor = new Color (1.0f, 0.5f, 0.5f);
+        color.disabledColor = new Color (1.0f, 0.5f, 0.5f);
+        color.selectedColor = new Color (1.0f, 0.5f, 0.5f);
+        button.colors = color;
+
+        WorldSystem.instance.encounterManager.currentEncounter = this;
+        VisitAction();
     }
+
+    public override void SetLeaving(Encounter nextEnc)
+    {
+        foreach (Encounter e in neighbourEncounters)
+            e.selectable = (e == nextEnc);
+    }
+
 }
