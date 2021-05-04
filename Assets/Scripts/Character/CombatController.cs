@@ -198,23 +198,21 @@ public class CombatController : MonoBehaviour
     {
         enemy.OnDeath();
         if (TargetedEnemy == enemy) TargetedEnemy = null;
-        enemy.gameObject.SetActive(false);
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
     }
-
-    //called from DEBUG
     public void WinCombat()
     {
-        while (EnemiesInScene.Count > 0)
-        {
-            KillEnemy(EnemiesInScene[0]);
-        }
         animator.SetTrigger("Win");
     }
 
     public void CleanUp()
     {
+        while (EnemiesInScene.Count > 0)
+        {
+            KillEnemy(EnemiesInScene[0]);
+        }
+
         Hand.ForEach(x => Destroy(x.gameObject));
         Hand.Clear();
         Hero.deck.ForEach(x => Destroy(x.gameObject));

@@ -136,7 +136,7 @@ public class DebugUI : MonoBehaviour
     public void DebugWinCombat()
     {
         if(WorldStateSystem.instance.currentWorldState == WorldState.Combat)
-            world.combatManager.combatController.WinCombat();
+            world.combatManager.combatController.animator.SetTrigger("Win");
     }
     public void ToggleDebugMenu()
     {

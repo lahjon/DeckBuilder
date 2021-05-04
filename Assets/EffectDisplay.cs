@@ -22,7 +22,8 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     {
         effectLabel.text = stackNr;
         CancelAnimation();
-        myTween = effectLabel.transform.DOScale(1.3f, 0.2f).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
+        if(effectLabel != null)
+            myTween = effectLabel.transform.DOScale(1.3f, 0.2f).SetEase(Ease.InOutSine).SetLoops(1, LoopType.Yoyo);
     }
 
     public void CancelAnimation()
@@ -31,7 +32,8 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
         {
             myTween.Kill();
             myTween = null;
-            effectLabel.transform.localScale = Vector3.one;
+            if(effectLabel != null)
+                effectLabel.transform.localScale = Vector3.one;
         }
     }
 

@@ -44,7 +44,7 @@ public class MissionUI : MonoBehaviour
     }
     public void ClearUI(bool nameChange = false)
     {
-        goalObjs?.ForEach(x => DestroyImmediate(x));
+        goalObjs?.ForEach(x => Destroy(x));
         goalObjs.Clear();
         
         if (nameChange)

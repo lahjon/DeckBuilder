@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 
 public class CombatActorEnemy : CombatActor, IPointerEnterHandler
@@ -31,6 +32,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
     float toolTiptimer = 0;
     float toolTipDelay = 1f;
     bool toolTipShowing = false;
+    [SerializeField] Enemy enemyScript;
 
 
     public void SetTarget(bool set = false)
@@ -77,6 +79,15 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
             collision = gameObject.AddComponent<BoxCollider2D>();
             collision.size = enemyArt.GetComponent<BoxCollider2D>().size;
             collision.offset = enemyArt.GetComponent<BoxCollider2D>().offset;
+
+            Enemy enemy;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                if (transform.GetChild(i).TryGetComponent<Enemy>(out enemy))
+                {
+                    enemyScript = enemy;
+                }
+            }
         }
         else
         {
@@ -147,9 +158,30 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         discard.ForEach(x => Destroy(x.gameObject));
         discard.Clear();
         Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
+
+        StartDeathAnimation();
+    
         EventManager.EnemyKilled(enemyData);
     }
 
+    void StartDeathAnimation()
+    {
+        float timeDelay = 0.5f;
+        SpriteRenderer spriteRenderer;
+        if (enemyScript != null)
+        {
+            enemyScript.material.DOFloat(0, "Dissolve", 1.0f).OnComplete( () =>
+                {DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => Destroy(gameObject));}
+                );
+        }
+        else if (TryGetComponent<SpriteRenderer>(out spriteRenderer))
+        {
+            spriteRenderer.DOColor(new Color(1,1,1,0), 1.0f).OnComplete( () =>
+                {DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => Destroy(gameObject));}
+                );
+        }
+        
+    }   
 
     public void OnMouseOver()
     {

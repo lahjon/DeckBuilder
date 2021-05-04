@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class RewardScreen : MonoBehaviour
 {
@@ -42,15 +43,9 @@ public class RewardScreen : MonoBehaviour
     public void SetupRewards()
     {
         canvas.SetActive(true);
-        int i = 0;
+
         while (content.transform.childCount > 0)
         {
-            i++;
-            if (i > 50)
-            {
-                Debug.Log("Should not happen");
-                break;
-            }
             Destroy(content.transform.GetChild(0).gameObject);
         }
 
@@ -74,6 +69,12 @@ public class RewardScreen : MonoBehaviour
                 Debug.Log("No default rewards!");
                 break;
         }
+
+        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
+        canvasGroup.interactable = false;
+        canvasGroup.alpha = 0;
+
+        DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, 1.5f).OnComplete( () => canvasGroup.interactable = true );
     }
 
     public void ResetCurrentReward()

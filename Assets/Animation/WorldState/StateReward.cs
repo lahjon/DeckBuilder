@@ -19,6 +19,8 @@ public class StateReward : WorldStateAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        world.combatManager.combatController.CleanUp();
+        world.combatManager.combatController.content.SetActive(false);
         world.rewardManager.draftAmount = 0;
         world.rewardManager.CloseRewardScreen();
     }

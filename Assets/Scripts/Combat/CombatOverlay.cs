@@ -41,9 +41,9 @@ public class CombatOverlay : MonoBehaviour
         Sequence mySequence = DOTween.Sequence();
         CanvasGroup canvasGroup = combatWin.GetComponent<CanvasGroup>();
         
-        mySequence.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, .5f).SetEase(Ease.InCubic));
+        mySequence.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1f, .5f).SetEase(Ease.OutCubic));
         mySequence.AppendInterval(0.3f);
-        mySequence.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, .5f).SetEase(Ease.InCubic).OnComplete(() => canvasGroup.alpha = 0));
+        mySequence.Append(DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 0f, 1.5f).SetEase(Ease.InCubic).OnComplete(() => canvasGroup.alpha = 0));
     }
     public void AnimatePlayerTurn()
     {
