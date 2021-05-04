@@ -9,69 +9,54 @@ public abstract class Encounter : MonoBehaviour
     [HideInInspector]
     public List<Encounter> neighbourEncounters;
     public EncounterData encounterData;
-    public EncounterType encounterType;
+    private EncounterType _encounterType;
+    public EncounterType encounterType { get { return _encounterType; } set { _encounterType = value; UpdateIcon(); } }
     public bool selectable = false;
     public Dictionary<GameObject, List<Encounter>> roads = new Dictionary<GameObject, List<Encounter>>();
     protected delegate void VisitAction();
+    private EncounterManager encounterManager;
 
-    public abstract void UpdateEncounter();
 
-    protected virtual bool CheckViablePath(Encounter anEncounter)
+    void Awake()
     {
-        return false;
+        encounterManager = WorldSystem.instance.encounterManager;
     }
 
-    public abstract void ButtonPress();
+    public abstract IEnumerator Entering(System.Action VisitAction, Encounter enc = null);
 
-    public IEnumerator Entering(System.Action VisitAction, Encounter enc = null)
-    {
-        selectable = false;
 
-        if(enc != null && roads.Count > 0)
-        {
-            foreach(KeyValuePair<GameObject, List<Encounter>> p in roads)
-            {
-                if(p.Value[0] == WorldSystem.instance.encounterManager.currentEncounter && p.Value[1] == this)
-                {
-                    int counter = 0;
-                    int countMax = p.Key.transform.childCount;
-                    while (counter < countMax)
-                    {
-                        p.Key.transform.GetChild(counter++).GetComponent<Image>().color = new Color (1.0f, 0.5f, 0.5f);
-                        yield return new WaitForSeconds(0.1f);
-                    }
-                    break;
-                }
-            }
-        }
-
-        WorldSystem.instance.encounterManager.currentEncounter?.SetLeaving(this);
-
-        foreach (Encounter e in neighbourEncounters)
-            e.selectable = true;
-
-        Button button = GetComponent<Button>();
-        ColorBlock color = button.colors;
-
-        color.normalColor = new Color (1.0f, 0.5f, 0.5f);
-        color.disabledColor = new Color (1.0f, 0.5f, 0.5f);
-        color.selectedColor = new Color (1.0f, 0.5f, 0.5f);
-        button.colors = color;
-
-        WorldSystem.instance.encounterManager.currentEncounter = this;
-        VisitAction();
-    }
-
-    public void SetLeaving(Encounter nextEnc)
-    {
-        foreach (Encounter e in neighbourEncounters)
-            e.selectable = (e == nextEnc);
-    }
-
-    public void UpdateIcon()
+    public abstract void SetLeaving(Encounter nextEnc);
+    private void UpdateIcon()
     {
         List<Sprite> allIcons = DatabaseSystem.instance.iconDatabase.allIcons;
         Sprite icon = allIcons.Where(x => x.name == encounterType.ToString()).FirstOrDefault();
-        GetComponent<Image>().sprite = icon;
+        //GetComponent<Image>().sprite = icon;
+    }
+
+    public void UpdateEncounter()
+    {
+        if (gameObject.GetComponent<Encounter>() == encounterManager.overworldEncounters[0])
+        {
+            StartCoroutine(Entering(() => { }));
+        }
+        encounterType = encounterData.type;
+        UpdateIcon();
+    }
+
+    public void ButtonPress()
+    {
+        Debug.Log("Encounter pressed");
+        if (selectable)
+        {
+            if (encounterType == EncounterType.OverworldCombatNormal || encounterType == EncounterType.OverworldCombatElite || encounterType == EncounterType.OverworldCombatBoss)
+                StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true), this));
+            else if (encounterType == EncounterType.OverworldShop)
+                StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true), this));
+            else if (encounterType == EncounterType.OverworldRandomEvent)
+            {
+                WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
+                StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true), this));
+            }
+        }
     }
 }

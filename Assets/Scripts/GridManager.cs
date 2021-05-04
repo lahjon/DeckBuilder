@@ -50,7 +50,7 @@ public class GridManager : Manager
     }
     
     
-    List<Vector3Int> tileDirections = new List<Vector3Int>  {
+    public List<Vector3Int> tileDirections = new List<Vector3Int>  {
                                                                 new Vector3Int(1, -1, 0), 
                                                                 new Vector3Int(1, 0, -1), 
                                                                 new Vector3Int(0, 1, -1), 

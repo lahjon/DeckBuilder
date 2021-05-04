@@ -22,17 +22,22 @@ public class Intent : MonoBehaviour
 
     void OnEnable()
     {
-        if (myTween == null)
-        {
-            myTween = DOTween.To(() => rect.anchoredPosition, x => rect.anchoredPosition = x, new Vector2(0, startOffset + offset), 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-        }
+        myTween = DOTween.To(() => rect.anchoredPosition, x => rect.anchoredPosition = x, new Vector2(0, startOffset + offset), 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
     }
 
+    private void OnDisable()
+    {
+        Debug.Log("Disable-----------------------------");
+        myTween?.Kill();
+        rect.anchoredPosition = new Vector2(0, startOffset);
+    }
     public void DisableTween()
     {
+        /*
         Debug.Log("Disable-----------------------------");
         myTween?.Kill();
         myTween = null;
         rect.anchoredPosition = new Vector2(0, startOffset);
+        */
     }
 }

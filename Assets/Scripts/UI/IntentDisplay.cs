@@ -33,13 +33,11 @@ public class IntentDisplay : MonoBehaviour
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[1];
             }
         }
-
-        if (Effects.Count > 0 && Damage.Value <= 0)
+        else if(Effects.Count > 0)
         {
             otherSprite.gameObject.SetActive(true);
         }
-        
-        if(block.Value != 0)
+        else if(block.Value != 0)
         {
             defendSprite.gameObject.SetActive(true);
         }
