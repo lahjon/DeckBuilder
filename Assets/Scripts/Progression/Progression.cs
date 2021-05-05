@@ -11,7 +11,7 @@ public abstract class Progression : MonoBehaviour
     public bool completed = false;
     public virtual void CheckGoals()
     {
-        Debug.Log("checking goals");
+        //Debug.Log("checking goals");
         completed = goals.All(g => g.completed);
         WorldSystem.instance.missionManager.missionUI.UpdateUI(false);
 

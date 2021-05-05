@@ -122,7 +122,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
     
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click");
+        //Debug.Log("Click");
         if (eventData.button == PointerEventData.InputButton.Left)
             OnMouseClick();
         else if (eventData.button == PointerEventData.InputButton.Right)
@@ -133,7 +133,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
     {
         if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
         {
-            Debug.Log("Display");
+            //Debug.Log("Display");
             WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
             WorldSystem.instance.deckDisplayManager.selectedCard = this;
             WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
@@ -146,13 +146,13 @@ public abstract class CardVisual : Card, IPointerClickHandler
         }
         else
         {
-            Debug.Log("RESET!");
+            //Debug.Log("RESET!");
             ResetCardPosition();
         }
     }
     public void ResetCardPosition()
     {
-        Debug.Log("RESET2");
+        //Debug.Log("RESET2");
         WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
         WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
         WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
@@ -169,7 +169,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
 
     public virtual void OnMouseClick()
     {
-        Debug.Log("Clicky");
+        //Debug.Log("Clicky");
         return;
     }
 

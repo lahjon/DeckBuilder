@@ -123,7 +123,6 @@ public class GridManager : Manager
         }
         else
         {
-            Debug.Log("Here?");
             animator.SetBool("IsRotating", false);
         }
     }
@@ -450,7 +449,7 @@ public class GridManager : Manager
     {
         if (coord.x + coord.y + coord.z != 0)
         {
-            Debug.Log("Invalid coord");
+            Debug.CreateWarning("Invalid coord");
             return;
         }
         

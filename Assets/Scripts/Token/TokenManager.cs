@@ -115,8 +115,8 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
         a_SaveData.selectedTokens = selectedTokens;
-        a_SaveData.selectedTokens.ForEach(x => Debug.Log(x));
-        selectedTokens.ForEach(x => Debug.Log(x));
+        //a_SaveData.selectedTokens.ForEach(x => Debug.Log(x));
+        //selectedTokens.ForEach(x => Debug.Log(x));
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

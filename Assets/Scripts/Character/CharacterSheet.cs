@@ -44,7 +44,7 @@ public class CharacterSheet : MonoBehaviour
         levelManager = WorldSystem.instance.levelManager;
         for (int i = 1; i < levelManager.currentLevel; i++)
         {
-            Debug.Log(i);
+            //Debug.Log(i);
             GameObject reward = levelUpPanel.GetChild(i).gameObject;
             LevelReward data = levelManager.GetLevelReward(i + 1);
             reward.GetComponent<Image>().sprite = data.artwork;
@@ -61,7 +61,7 @@ public class CharacterSheet : MonoBehaviour
     public void ButtonLevelUp()
     {
         LevelReward rewardData = levelManager.SpendLevelPoint();
-        Debug.Log(rewardData);
+        //Debug.Log(rewardData);
         GameObject reward = Instantiate(levelRewardPrefab);
         reward.GetComponent<Image>().enabled = true;
         reward.GetComponent<Image>().sprite = rewardData.artwork;

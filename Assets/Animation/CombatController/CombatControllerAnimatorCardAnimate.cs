@@ -13,11 +13,11 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
         if (card.animationPrefab != null) // has animation
         {
             CreateAnimation();
-            Debug.Log("Created Animation");
+            //Debug.Log("Created Animation");
         }
         else // no animation
         {
-            Debug.Log("No Animation");
+            //Debug.Log("No Animation");
             animationSystem = null;
         }
 

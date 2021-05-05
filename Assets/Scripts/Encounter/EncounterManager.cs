@@ -140,7 +140,7 @@ public class EncounterManager : Manager
 
     public void AssignNeighbours(int floor, int unassigned_lb, int unassigned_ub, int lb, int ub)
     {
-        Debug.Log("Enter assign neightbors with: " + floor + "," + unassigned_lb + "," + unassigned_ub + "," + lb + "," + ub);
+        //Debug.Log("Enter assign neightbors with: " + floor + "," + unassigned_lb + "," + unassigned_ub + "," + lb + "," + ub);
         if (unassigned_lb == unassigned_ub)
         {
             for (int i = lb; i <= ub; i++)
@@ -150,7 +150,7 @@ public class EncounterManager : Manager
 
         int chosenNode = Random.Range(unassigned_lb, unassigned_ub + 1);
         double placement = 1.0*(chosenNode - unassigned_lb) / (unassigned_ub - unassigned_lb);
-        Debug.Log("chosenNode is: " + chosenNode + ", and relative placement is:" + placement);
+        //Debug.Log("chosenNode is: " + chosenNode + ", and relative placement is:" + placement);
 
         int target = 0;
         int bonusLeft = 0;
@@ -173,7 +173,7 @@ public class EncounterManager : Manager
             if (Random.Range(0, 1f) < branshProb)
             {
                 encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][i]);
-                Debug.Log("RandomLeft!");
+                //Debug.Log("RandomLeft!");
                 bonusLeft--;
             }
             else
@@ -185,7 +185,7 @@ public class EncounterManager : Manager
             if (Random.Range(0, 1f) < branshProb)
             {
                 encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][i]);
-                Debug.Log("RandomRight!");
+                //Debug.Log("RandomRight!");
                 bonusRight++;
             }
             else
@@ -210,7 +210,7 @@ public class EncounterManager : Manager
         {
             for (int j = 0; j < encounters[i].Length; j++) 
             {
-                Debug.Log(encounters[i][j]);
+                //Debug.Log(encounters[i][j]);
                 foreach(Encounter enc in encounters[i][j].neighbourEncounters)
                 {
                     DrawRoad(encounters[i][j], enc);

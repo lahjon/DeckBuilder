@@ -7,7 +7,7 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
     CombatActorEnemy enemy;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Entered enemy start state");
+        //Debug.Log("Entered enemy start state");
         SetRefs(animator);
 
         combatController.combatOverlay.AnimateEnemyTurn();

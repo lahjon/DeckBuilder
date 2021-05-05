@@ -20,6 +20,6 @@ public class CharacterTypesUI : MonoBehaviour
 
     public void ButtonHover(GameObject aButton)
     {
-        Debug.Log(aButton.name);
+        //Debug.Log(aButton.name);
     }
 }

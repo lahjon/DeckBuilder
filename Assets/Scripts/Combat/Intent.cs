@@ -14,7 +14,7 @@ public class Intent : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("Awake---------------------------");
+        //Debug.Log("Awake---------------------------");
         rect = image.GetComponent<RectTransform>();
         offset = 20;
         startOffset = 0;
@@ -27,7 +27,7 @@ public class Intent : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("Disable-----------------------------");
+        //Debug.Log("Disable-----------------------------");
         myTween?.Kill();
         rect.anchoredPosition = new Vector2(0, startOffset);
     }

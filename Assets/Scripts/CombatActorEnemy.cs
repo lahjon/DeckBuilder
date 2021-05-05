@@ -157,7 +157,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         deck.Clear();
         discard.ForEach(x => Destroy(x.gameObject));
         discard.Clear();
-        Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
+        //Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
 
         StartDeathAnimation();
     
@@ -206,11 +206,6 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         //WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
         if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
-    }
-
-    public void Dummy()
-    {
-        Debug.Log("Dummy");
     }
 
     public void OnPointerEnter(PointerEventData eventData)

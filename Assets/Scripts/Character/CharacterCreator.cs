@@ -46,7 +46,7 @@ public class CharacterCreator : MonoBehaviour
         {
             if (allCharacterData[i].unlocked && !world.characterManager.unlockedCharacters.Contains(allCharacterData[i].classType))
             {
-                Debug.Log("Create New");
+                //Debug.Log("Create New");
                 allCharacters[i].CreateStartingCharacter(allCharacterData[i]);
                 allCharacters[i].unlocked = true;
             }

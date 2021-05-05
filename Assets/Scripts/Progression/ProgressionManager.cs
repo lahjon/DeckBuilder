@@ -37,7 +37,6 @@ public class ProgressionManager : Manager, ISaveableWorld
         {
             if (allClearedProgression.Contains(item.name))
             {
-                Debug.Log(item);
                 allDisabledProgressions.Add(item);
             }
         }

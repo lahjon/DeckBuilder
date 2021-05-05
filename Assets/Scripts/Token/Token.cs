@@ -103,6 +103,7 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             else
             {
                 Debug.Log("Cant AFFORD");
+                // add animation or sound or something
             }
         }
         else

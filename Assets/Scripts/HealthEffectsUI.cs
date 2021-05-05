@@ -51,9 +51,7 @@ public class HealthEffectsUI : MonoBehaviour
 
     public void OnDisable()
     {
-        Debug.Log("Stopping ALL");
         StopAllCoroutines();
-
     }
 
     public void SetupCamera()

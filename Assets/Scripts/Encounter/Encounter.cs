@@ -45,7 +45,7 @@ public abstract class Encounter : MonoBehaviour
 
     public void ButtonPress()
     {
-        Debug.Log("Encounter pressed");
+        //Debug.Log("Encounter pressed");
         if (selectable)
         {
             if (encounterType == EncounterType.OverworldCombatNormal || encounterType == EncounterType.OverworldCombatElite || encounterType == EncounterType.OverworldCombatBoss)

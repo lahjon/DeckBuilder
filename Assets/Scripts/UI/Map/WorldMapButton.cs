@@ -54,7 +54,7 @@ public class WorldMapButton : MonoBehaviour
 
     void Confirm()
     {
-        Debug.Log("Clicked: " + index);
+        //Debug.Log("Clicked: " + index);
         WorldSystem.instance.worldMapManager.actIndex = index;
         if (index == 0)
         {

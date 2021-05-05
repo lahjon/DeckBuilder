@@ -9,7 +9,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
     {
         //Debug.Log("Selected OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
-        Debug.Log("Selected card " + card.name);
+        //Debug.Log("Selected card " + card.name);
         card.highlight.SetActive(true);
         WorldSystem.instance.toolTipManager.canShow = false;
     }

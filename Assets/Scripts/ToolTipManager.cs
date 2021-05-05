@@ -22,7 +22,7 @@ public class ToolTipManager : Manager
         set {
             if (value == false)
                 DisableTips(currentScanner);
-            Debug.Log("tooltip Can show  set to:" + value);
+            //Debug.Log("tooltip Can show  set to:" + value);
             _canShow = value;
         } }
 

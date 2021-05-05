@@ -8,7 +8,7 @@ public static class FileManager
     public static bool WriteToFile(string a_FileName, string a_FileContents)
     {
         string fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
-        Debug.Log(fullPath);
+        Debug.Log(fullPath); // keep this debug line, its useful for finding the save data file
 
         try
         {

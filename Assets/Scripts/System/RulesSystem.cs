@@ -39,20 +39,20 @@ public class RulesSystem : MonoBehaviour
 
     public IEnumerator StartTurn()
     {
-        Debug.Log("actionsStartTurnEnum: " + actionsStartTurnEnum.Count);
+        //Debug.Log("actionsStartTurnEnum: " + actionsStartTurnEnum.Count);
         for (int i = 0; i < actionsStartTurnEnum.Count; i++)
             yield return StartCoroutine(actionsStartTurnEnum[i].Invoke());
 
-        Debug.Log("Leaving StartTurn Enum");
+        //Debug.Log("Leaving StartTurn Enum");
     }
 
 
     public IEnumerator ResetRemainingEnergy()
     {
-        Debug.Log("Start Energy Reset");
+        //Debug.Log("Start Energy Reset");
         combatController.cEnergy = combatController.energyTurn;
         yield return new WaitForSeconds(1);
-        Debug.Log("Leaving Energy Reset");
+        //Debug.Log("Leaving Energy Reset");
     }
 
     public IEnumerator DrawCardsNewTurn()

@@ -139,22 +139,22 @@ public class CardCombat : CardVisual, IToolTipable
     }
     public override void  OnMouseRightClick(bool allowDisplay = true)
     {
-        Debug.Log("OnMouseRighclick called");
+        //Debug.Log("OnMouseRighclick called");
         if (combatController.ActiveCard == this)
         {
             DeselectCard();
-            Debug.Log("Deselect");
+            //Debug.Log("Deselect");
         }
         else if(!selected && allowDisplay && combatController.ActiveCard == null)
         {
             DisplayCard();
-            Debug.Log("Display");
+            //Debug.Log("Display");
         }
     }
 
     public override void OnMouseClick()
     {
-        Debug.Log("Cardclicked: " + cardName);
+        //Debug.Log("Cardclicked: " + cardName);
         if(combatController.ActiveCard == this)
             combatController.SelectedCardTriggered();
         else if(combatController.CardisSelectable(this,false))

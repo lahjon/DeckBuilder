@@ -154,7 +154,7 @@ public class CombatController : MonoBehaviour
 
         enemyDatas = ((EncounterDataCombat)WorldSystem.instance.encounterManager.currentEncounter.encounterData).enemyData;
 
-        enemyDatas.ForEach(x => Debug.Log(x));
+        //enemyDatas.ForEach(x => Debug.Log(x));
 
         for (int i = 0; i < enemyDatas.Count; i++)
         {
@@ -169,7 +169,7 @@ public class CombatController : MonoBehaviour
 
     public void StartCombat()
     {
-        Debug.Log("Starting combat");
+        //Debug.Log("Starting combat");
         content.SetActive(true);
         SetUpEncounter();
     }
@@ -425,10 +425,27 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    private void DrawSingleCard()
+    public void DrawSingleCard()
     {
         CardCombat card = (CardCombat)Hero.deck[0];
         Hero.deck.RemoveAt(0);
+        Hand.Add(card);
+        card.animator.SetTrigger("StartDraw");
+        UpdateDeckTexts();
+    }
+    public void ReturnCardFromDiscard(Card discardCard = null)
+    {
+        CardCombat card;
+        if (discardCard != null)
+        {
+            card = Hero.discard.Where(x => x = discardCard).FirstOrDefault;
+        }
+        else
+        {
+            card = (CardCombat)Hero.discard[0];
+        }
+        
+        Hero.discard.RemoveAt(0);
         Hand.Add(card);
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
@@ -491,7 +508,7 @@ public class CombatController : MonoBehaviour
 
     public void DetectCanvasClick()
     {
-        Debug.Log("Canvas detected click");
+        //Debug.Log("Canvas detected click");
         if (ActiveCard != null)
         {
             if (Input.GetMouseButton(0))
@@ -522,21 +539,21 @@ public class CombatController : MonoBehaviour
     {
         Vector2 result;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(cardPanel.GetComponent<RectTransform>(), Input.mousePosition, WorldSystem.instance.cameraManager.mainCamera, out result);
-        Debug.Log(result);
+        //Debug.Log(result);
 
         if (cardPanel.GetComponent<RectTransform>().rect.Contains(result))
         {
-            Debug.Log("True");
+            //Debug.Log("True");
             return true;
         }
 
-        Debug.Log("False");
+        //Debug.Log("False");
         return false;
     }
 
     public void SelectedCardTriggered()
     {
-        Debug.Log("mouseclicked");
+        //Debug.Log("mouseclicked");
         if (ActiveCard is null)
             return;
 

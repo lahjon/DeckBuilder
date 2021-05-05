@@ -18,11 +18,11 @@ public class EncounterMapRotating : EncounterMapAnimator
 
         if (animator.GetBool("IsComplete"))
         {
-            Debug.Log("Stuff");
+            //Debug.Log("Stuff");
         }
         else
         {
-            Debug.Log("Nistus");
+            //Debug.Log("Nistus");
             tile.EndPlacement();
         }
 
@@ -33,7 +33,6 @@ public class EncounterMapRotating : EncounterMapAnimator
     {
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("Dick");
             animator.SetBool("IsRotating", false);
         }
     }

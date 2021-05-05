@@ -29,7 +29,6 @@ public class TransitionScreen : MonoBehaviour
     public void EnterActTransitionMidSwap()
     {
         WorldSystem.instance.encounterManager.GenerateMap(2,2,4);
-        Debug.Log("MID");
     }
     public void NormalTransitionStart() 
     {

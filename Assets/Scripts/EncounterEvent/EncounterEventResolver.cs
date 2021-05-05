@@ -42,7 +42,6 @@ public class EncounterEventResolver
     }
     private static bool EventCardRandom()
     {
-        Debug.Log("Here");
         WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
         return true;
     }

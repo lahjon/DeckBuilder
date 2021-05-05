@@ -10,8 +10,8 @@ public class DebugManager : MonoBehaviour
     bool showHelp;
     string input;
     public static DebugCommand SaveGame, LoadGame, Help;
-    public static DebugCommand<int> GoldAdd, ShardsAdd, Heal;
-    public static DebugCommand<string> CardAdd, CardRemove;
+    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy;
+    public static DebugCommand<string> AddCard, RemoveCard;
     public List<object> commandList;
     public string lastCommand;
     public Dictionary<string, string> words = new Dictionary<string, string>();
@@ -21,45 +21,81 @@ public class DebugManager : MonoBehaviour
     void Awake()
     {
         Help = new DebugCommand("help", "shows all commands", "help", () =>
-        {
-            showHelp = true;
-            Debug.Log("Help");
-        }
+            {
+                showHelp = true;
+                Debug.Log("Help");
+            }
         );
         SaveGame = new DebugCommand("save", "saves the game", "save", () =>
-        {
-            Debug.Log("Save");
-        }
+            {
+                world.SaveProgression();
+                Debug.Log("Save");
+            }
         );
         LoadGame = new DebugCommand("load", "loads the game", "load", () =>
-        {
-            Debug.Log("Load");
-        }
+            {
+                world.LoadProgression();
+                Debug.Log("Load");
+            }
         );
-        GoldAdd = new DebugCommand<int>("gold_add", "add x gold", "gold_add <shard_amount>", (x) =>
-        {
-            Debug.Log("Gold: " + x);
-        }
+        AddGold = new DebugCommand<int>("add_gold", "add x gold", "add_gold <shard_amount>", (x) =>
+            {
+                world.characterManager.gold += x;
+                Debug.Log("Gold: " + x);
+            }
         );
-        ShardsAdd = new DebugCommand<int>("shards_add", "add x shards.", "shards_add <gold_amount>", (x) =>
-        {
-            Debug.Log("Shards: " + x);
-        }
+        AddShards = new DebugCommand<int>("add_shards", "add x shards.", "add_shards <gold_amount>", (x) =>
+            {
+                world.characterManager.shards += x;
+                Debug.Log("Shards: " + x);
+            }
         );
         Heal = new DebugCommand<int>("heal", "heal x amount", "heal <heal_amount>", (x) =>
-        {
-            Debug.Log("Heal: " + x);
-        }
+            {
+                world.characterManager.Heal(x);
+                Debug.Log("Heal: " + x);
+            }
         );
-        CardAdd = new DebugCommand<string>("card_add", "add card to deck", "card_add <card_name>", (x) =>
-        {
-            Debug.Log("Add Card: " + x);
-        }
+        AddCard = new DebugCommand<string>("add_card", "add card to deck", "add_card <card_name>", (x) =>
+            {
+                if (WorldStateSystem.currentWorldState = WorldState.Combat)
+                {
+                    CardData cd = DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == input).FirstOrDefault();
+                    if (cd is null)
+                    {
+                        Debug.LogError($"No such card named {input}");
+                    }
+                    else
+                    {
+                        CardCombat card = CardCombat.CreateCardCombatFromData(cd);
+                        card.owner.AddToDeck(card);
+                        WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {card.cardName} to Deck!");
+                        combatController.UpdateDeckTexts();
+                    }
+                    Debug.Log("Add Card: " + x);
+                }
+            }
         );
-        CardRemove = new DebugCommand<string>("card_remove", "remove card from deck", "card_remove <card_name>", (x) =>
-        {
-            Debug.Log("Remove Card: " + x);
-        }
+        RemoveCard = new DebugCommand<string>("remove_card", "remove card from deck", "remove_card <card_name>", (x) =>
+            {
+                if (WorldStateSystem.currentWorldState = WorldState.Combat)
+                {
+                    List<Card> cards = world.combatManager.combatController.Hero.deck;
+                    Card card = cards.Where(x => x.name == x).FirstOrDefault();
+                    if(card != null) 
+                        world.combatManager.combatController.Hero.deck.Remove(x);
+                    Debug.Log("Remove Card: " + x);
+                }
+            }
+        );
+        AddEnergy = new DebugCommand<int>("add_energy", "add energy to player", "add_energy <amount>", (x) =>
+            {
+                if (WorldStateSystem.currentWorldState = WorldState.Combat)
+                {
+                    world.combatManager.combatController.cEnergy += x;
+                    Debug.Log("added energy: " + x);
+                }
+            }
         );
 
         commandList = new List<object>
@@ -67,11 +103,12 @@ public class DebugManager : MonoBehaviour
             Help,
             SaveGame, 
             LoadGame,
-            GoldAdd,
-            ShardsAdd,
+            AddGold,
+            AddShards,
             Heal,
-            CardAdd,
-            CardRemove
+            AddCard,
+            RemoveCard,
+            AddEnergy
         };
 
         for (int i = 0; i < commandList.Count; i++)

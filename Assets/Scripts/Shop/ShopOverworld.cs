@@ -46,6 +46,7 @@ public class ShopOverworld : MonoBehaviour
     void InsufficientGold()
     {
         Debug.Log("Not enough Gold!");
+        // add animatino or something
     }
     public bool PurchaseCard(CardVisual clickedCard)
     {

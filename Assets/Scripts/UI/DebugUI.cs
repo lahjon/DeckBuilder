@@ -118,7 +118,7 @@ public class DebugUI : MonoBehaviour
         DirectoryInfo dirInfo = new DirectoryInfo(Application.persistentDataPath);
         foreach (FileInfo file in dirInfo.GetFiles())
         {
-            Debug.Log(file);
+            Debug.Log(file + " removed");
             file.Delete(); 
         }
     }

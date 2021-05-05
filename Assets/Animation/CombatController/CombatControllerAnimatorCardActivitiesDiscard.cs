@@ -8,7 +8,7 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        Debug.Log("Entered activities & discard");
+        //Debug.Log("Entered activities & discard");
         combatController.StartCoroutine(ActivitiesDiscard());
     }
 

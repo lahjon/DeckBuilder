@@ -155,8 +155,8 @@ public class CardDisplay : CardVisual
             else
                 direction = 0;
 
-            Debug.Log(currentPos);
-            Debug.Log(startDragPos);
+            //Debug.Log(currentPos);
+            //Debug.Log(startDragPos);
 
             Vector2 scrollPos = new Vector2(0, direction * sensitivity * 5.0f * -1);
             WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;

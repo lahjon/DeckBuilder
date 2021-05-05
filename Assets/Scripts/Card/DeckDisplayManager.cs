@@ -63,8 +63,8 @@ public class DeckDisplayManager : Manager
     {
         DestroyImmediate(allDisplayedCards[index]);
         allDisplayedCards.RemoveAt(index);
-        Debug.Log(allDisplayedCards.Count);
-        Debug.Log(index);
+        //Debug.Log(allDisplayedCards.Count);
+        //Debug.Log(index);
     }
 
     public void ResetCardDisplay()

@@ -13,7 +13,6 @@ public class StateCombat : WorldStateAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Leaving combat");
         WorldStateSystem.SetInCombat(false);
     }
 

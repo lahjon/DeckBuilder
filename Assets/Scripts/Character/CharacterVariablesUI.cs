@@ -76,13 +76,13 @@ public class CharacterVariablesUI : MonoBehaviour
 
     public void ShowBar()
     {
-        Debug.Log("Show HUD");
+        //Debug.Log("Show HUD");
         LeanTween.move(leftBar, startPos, moveSpeed).setEaseOutCubic().setOnComplete(() => active = true);
     }
 
     public void HideBar()
     {
-        Debug.Log("Hide HUD");
+        //Debug.Log("Hide HUD");
         active = false;
         LeanTween.move(leftBar, startPos + offset, moveSpeed).setEaseOutCubic();
     }

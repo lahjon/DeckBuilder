@@ -112,14 +112,12 @@ public class CombatActor : MonoBehaviour, IToolTipable
     {
         if (lifeToLose == 0) return;
 
-        //k�r on life about to be lost
         hitPoints -= Mathf.Min(lifeToLose, hitPoints);
         if (this == combatController.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
-        Debug.Log("Starting LifeLoss");
+        //Debug.Log("Starting LifeLoss");
         healthEffectsUI.StartLifeLossNotification(lifeToLose);
-        // k�r onLifeLost
     }
 
 
@@ -159,9 +157,9 @@ public class CombatActor : MonoBehaviour, IToolTipable
 
     public IEnumerator ChangeBlock(int change)
     {
-        Debug.Log("Starting change of block with " + change);
+        //Debug.Log("Starting change of block with " + change);
         shield += change;
-        Debug.Log("Shield now at  " + shield);
+        //Debug.Log("Shield now at  " + shield);
         yield return StartCoroutine(healthEffectsUI.UpdateShield(shield));
     }
 

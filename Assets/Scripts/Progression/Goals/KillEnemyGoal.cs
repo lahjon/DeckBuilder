@@ -35,7 +35,7 @@ public class KillEnemyGoal : ProgressionGoal, IEvents
 
     void EnemyKilled(EnemyData enemyData)
     {
-        Debug.Log("Enemy died with ID: " + enemyData.enemyName);
+        //Debug.Log("Enemy died with ID: " + enemyData.enemyName);
         if (enemyData.enemyId == enemyId)
         {
             currentAmount++;

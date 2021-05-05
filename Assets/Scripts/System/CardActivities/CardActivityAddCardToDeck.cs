@@ -8,7 +8,7 @@ public class CardActivityAddCardToDeck : CardActivity
     string databaseName;
     public override IEnumerator Execute(string input)
     {
-        Debug.Log("Starting AddCard");
+        //Debug.Log("Starting AddCard");
         CardData cd = DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == input).FirstOrDefault();
         if (cd is null)
         {

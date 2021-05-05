@@ -9,7 +9,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        Debug.Log("Entered Player Start");
+        //Debug.Log("Entered Player Start");
         combatController.ActiveActor = combatController.Hero;
         hero = combatController.Hero;
         combatController.StartCoroutine(StartPlayerTurn());

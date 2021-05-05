@@ -17,7 +17,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 
     IEnumerator DealEffects()
     {
-        Debug.Log("Starting effets transmittion");
+        //Debug.Log("Starting effets transmittion");
 
         foreach(CardEffect e in card.Effects)
         {

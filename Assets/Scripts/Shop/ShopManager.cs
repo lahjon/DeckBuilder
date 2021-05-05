@@ -13,13 +13,11 @@ public class ShopManager : Manager
     }
     public void LeaveShop()
     {
-        Debug.Log("Leave Shop!");
         shop.gameObject.SetActive(false);
     }
 
     public void EnterShop()
     {
-        Debug.Log("Enter Shop!");
         shop.gameObject.SetActive(true);
         shop.RestockShop();
     }

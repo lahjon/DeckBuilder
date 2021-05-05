@@ -59,13 +59,13 @@ public class EncounterHex : Encounter
     private void OnMouseDown()
     {
         if (!selectableHex) return;
-        Debug.Log("starting click");
+        //Debug.Log("starting click");
         StartCoroutine(Entering(() => { } ));
     }
 
     private void OnMouseEnter()
     {
-        Debug.Log("Collider works");
+        //Debug.Log("Collider works");
     }
 
     public bool CheckConnection(EncounterHex target)

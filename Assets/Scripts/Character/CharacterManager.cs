@@ -53,7 +53,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
                 currentHealth = characterStats.GetStat(StatType.Health);
             }
 
-            Debug.Log("Health is:" + currentHealth);
+            //Debug.Log("Health is:" + currentHealth);
             characterVariablesUI.UpdateCharacterHUD();
             //world.SaveProgression();
         }
@@ -180,7 +180,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
 
         selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
-        Debug.Log(selectedCharacterClassType);
+        //Debug.Log(selectedCharacterClassType);
         gold = a_SaveData.gold;
 
         currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
