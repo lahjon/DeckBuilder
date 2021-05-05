@@ -433,19 +433,19 @@ public class CombatController : MonoBehaviour
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
     }
-    public void ReturnCardFromDiscard(Card discardCard = null)
+    public void ReturnCardFromDiscard(CardCombat discardCard = null)
     {
         CardCombat card;
         if (discardCard != null)
         {
-            card = Hero.discard.Where(x => x = discardCard).FirstOrDefault;
+            card = (CardCombat)Hero.discard.Where(x => x == discardCard).FirstOrDefault();
         }
         else
         {
             card = (CardCombat)Hero.discard[0];
         }
-        
-        Hero.discard.RemoveAt(0);
+
+        Hero.discard.Remove(card);
         Hand.Add(card);
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();

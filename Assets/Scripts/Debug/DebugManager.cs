@@ -46,7 +46,7 @@ public class DebugManager : MonoBehaviour
         );
         AddShards = new DebugCommand<int>("add_shards", "add x shards.", "add_shards <gold_amount>", (x) =>
             {
-                world.characterManager.shards += x;
+                world.characterManager.shard += x;
                 Debug.Log("Shards: " + x);
             }
         );
@@ -58,7 +58,7 @@ public class DebugManager : MonoBehaviour
         );
         AddCard = new DebugCommand<string>("add_card", "add card to deck", "add_card <card_name>", (x) =>
             {
-                if (WorldStateSystem.currentWorldState = WorldState.Combat)
+                if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
                     CardData cd = DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == input).FirstOrDefault();
                     if (cd is null)
@@ -69,8 +69,8 @@ public class DebugManager : MonoBehaviour
                     {
                         CardCombat card = CardCombat.CreateCardCombatFromData(cd);
                         card.owner.AddToDeck(card);
-                        WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {card.cardName} to Deck!");
-                        combatController.UpdateDeckTexts();
+                        world.uiManager.UIWarningController.CreateWarning($"Added card {card.cardName} to Deck!");
+                        world.combatManager.combatController.UpdateDeckTexts();
                     }
                     Debug.Log("Add Card: " + x);
                 }
@@ -78,19 +78,19 @@ public class DebugManager : MonoBehaviour
         );
         RemoveCard = new DebugCommand<string>("remove_card", "remove card from deck", "remove_card <card_name>", (x) =>
             {
-                if (WorldStateSystem.currentWorldState = WorldState.Combat)
+                if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
                     List<Card> cards = world.combatManager.combatController.Hero.deck;
-                    Card card = cards.Where(x => x.name == x).FirstOrDefault();
-                    if(card != null) 
-                        world.combatManager.combatController.Hero.deck.Remove(x);
+                    Card card = cards.Where(c => c.name == x).FirstOrDefault();
+                    if(card != null)
+                        world.combatManager.combatController.Hero.deck.Remove(card);
                     Debug.Log("Remove Card: " + x);
                 }
             }
         );
         AddEnergy = new DebugCommand<int>("add_energy", "add energy to player", "add_energy <amount>", (x) =>
             {
-                if (WorldStateSystem.currentWorldState = WorldState.Combat)
+                if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
                     world.combatManager.combatController.cEnergy += x;
                     Debug.Log("added energy: " + x);

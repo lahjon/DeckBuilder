@@ -449,7 +449,7 @@ public class GridManager : Manager
     {
         if (coord.x + coord.y + coord.z != 0)
         {
-            Debug.CreateWarning("Invalid coord");
+            Debug.LogWarning("Invalid coord");
             return;
         }
         
