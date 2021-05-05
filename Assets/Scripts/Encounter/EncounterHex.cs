@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Animations;
 
 public class EncounterHex : Encounter
 {
@@ -27,6 +28,8 @@ public class EncounterHex : Encounter
     public void Awake()
     {
         startingScale = transform.localScale;
+        RotationConstraint rotCon = GetComponent<RotationConstraint>();
+        //rotCon.AddSource(WorldSystem.instance.gridManager.gameObject);
     }
 
     public override IEnumerator Entering(System.Action VisitAction, Encounter fromEncounter = null)

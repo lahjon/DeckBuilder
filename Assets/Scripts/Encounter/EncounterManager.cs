@@ -264,6 +264,7 @@ public class EncounterManager : Manager
         chosenEncountersSlots.ForEach(x => EncounterSlots.Remove(x));
 
         int nrAdditional = Random.Range(1, tile.availableDirections.Count / 2);
+        //int nrAdditional = 100;
 
         for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
         {

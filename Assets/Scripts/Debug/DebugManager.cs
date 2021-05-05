@@ -60,19 +60,23 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
-                    CardData cd = DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == input).FirstOrDefault();
+                    CardActivityAddCardToDeck addIt = new CardActivityAddCardToDeck();
+                    StartCoroutine(addIt.Execute(x));
+                    /*
+                    carddata cd = databasesystem.instance.carddatabase.allcards.where(c => c.name == x).firstordefault();
                     if (cd is null)
                     {
-                        Debug.LogError($"No such card named {input}");
+                        debug.logerror($"no such card named {x}");
                     }
                     else
                     {
-                        CardCombat card = CardCombat.CreateCardCombatFromData(cd);
-                        card.owner.AddToDeck(card);
-                        world.uiManager.UIWarningController.CreateWarning($"Added card {card.cardName} to Deck!");
-                        world.combatManager.combatController.UpdateDeckTexts();
+                        cardcombat card = cardcombat.createcardcombatfromdata(cd);
+                        card.owner.addtodeck(card);
+                        world.uimanager.uiwarningcontroller.createwarning($"added card {card.cardname} to deck!");
+                        world.combatmanager.combatcontroller.updatedecktexts();
                     }
-                    Debug.Log("Add Card: " + x);
+                    debug.log("add card: " + x);
+                    */
                 }
             }
         );

@@ -36,6 +36,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9877b9d0-844f-44c2-ac67-9d33ac1931b8",
+                    "path": "<Keyboard>/OEM1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e8954f81-be5a-49fd-95ae-e6341fa26419",
                     "path": "<Keyboard>/enter",
                     "interactions": "",

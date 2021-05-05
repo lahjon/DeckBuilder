@@ -119,6 +119,7 @@ MonoBehaviour:
   selectable: 0
   hexNeighboors: []
   coordinates: {x: 0, y: 0, z: 0}
+  startingScale: {x: 0, y: 0, z: 0}
 --- !u!1818360609 &138869171408777161
 RotationConstraint:
   m_ObjectHideFlags: 0
@@ -136,5 +137,5 @@ RotationConstraint:
   m_IsContraintActive: 1
   m_IsLocked: 1
   m_Sources:
-  - sourceTransform: {fileID: 7855614801254085766}
+  - sourceTransform: {fileID: 0}
     weight: 1

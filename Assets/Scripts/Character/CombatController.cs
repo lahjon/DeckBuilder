@@ -88,7 +88,8 @@ public class CombatController : MonoBehaviour
 
     //[HideInInspector]
     public CardCombat _activeCard;
-    [HideInInspector]
+
+
     public CombatActorEnemy TargetedEnemy
     {
         get
