@@ -25,7 +25,7 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 
         yield return new WaitForSeconds(0.5f);
 
-        EncounterData encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
+        EncounterDataCombat encounterData = (EncounterDataCombat)WorldSystem.instance.encounterManager.currentEncounter.encounterData;
         List<CardEffect>    startingEffects = encounterData.startingEffects;
         List<int>           startingTargets = encounterData.startEffectsTargets;
         int counter = 0;

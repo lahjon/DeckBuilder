@@ -4709,10 +4709,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 687562894}
     m_Modifications:
-    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4800,6 +4796,10 @@ PrefabInstance:
     - target: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Name
       value: CardDisplay (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 248babe840a04174b92feffd40320a2f, type: 3}
@@ -8611,10 +8611,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 687562894}
     m_Modifications:
-    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8702,6 +8698,10 @@ PrefabInstance:
     - target: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Name
       value: CardDisplay (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 248babe840a04174b92feffd40320a2f, type: 3}
@@ -11211,7 +11211,7 @@ PrefabInstance:
     - target: {fileID: 3061333605294930576, guid: 291870a81e7b5b14295f49a7798ceb2f, type: 3}
       propertyPath: encounterData
       value: 
-      objectReference: {fileID: 11400000, guid: 5af575dfc7b326542835d19838f5c577, type: 2}
+      objectReference: {fileID: 11400000, guid: c4f732494b905f744b3463135cc6236f, type: 2}
     - target: {fileID: 6509705178551945312, guid: 291870a81e7b5b14295f49a7798ceb2f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -14442,6 +14442,7 @@ MonoBehaviour:
   overworldEncounters: []
   townEncounter: {fileID: 51815187}
   currentEncounter: {fileID: 0}
+  currentEncounterHex: {fileID: 0}
   encounterTier: 1
   ActTemplate: {fileID: 0}
   RoadTemplate: {fileID: 8916605011419603288, guid: cd786f346ac9b4f4c9645e1e51a0de7e, type: 3}
@@ -14615,10 +14616,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 687562894}
     m_Modifications:
-    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -14706,6 +14703,10 @@ PrefabInstance:
     - target: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Name
       value: CardDisplay (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 248babe840a04174b92feffd40320a2f, type: 3}
@@ -15332,7 +15333,7 @@ PrefabInstance:
     - target: {fileID: 3509122980786923381, guid: 02828bf7c44707342b1581e7414b2e7d, type: 3}
       propertyPath: encounterData
       value: 
-      objectReference: {fileID: 11400000, guid: ca451bc958b7f7041b7533543a9d2ba1, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 6509705178551945312, guid: 02828bf7c44707342b1581e7414b2e7d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

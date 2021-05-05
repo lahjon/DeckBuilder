@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RewardManager : Manager
 {
-    public RewardScreen rewardScreen;
+    public RewardScreenCombat rewardScreen;
     public RewardScreenCardSelection rewardScreenCardSelection;
     public int draftAmount = 0;
     protected override void Awake()

@@ -9,24 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fcd7312160c9084bbec00687a62ebaf, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e07b25af5ccb63468eba3bc9e6c3443, type: 3}
   m_Name: Encounter_NormalCombat_01_RathyenScout2
   m_EditorClassIdentifier: 
   name: nRathyeScouts
   type: 3
   tier: 1
-  isVisited: 0
-  secretCondition: 0
-  events: 
-  description: "Tv\xE5 scouts"
-  choice1: 
-  choice2: 
-  choice3: 
-  newEncounterData: []
   enemyData:
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
-  cardData: []
   startingEffects:
   - Type: 4
     Value: 2

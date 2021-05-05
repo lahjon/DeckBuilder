@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b65acff94868d404c9e995dea8fb7d2e, type: 3}
-  m_Name: AllEncounters
+  m_Name: EncounterDatabase
   m_EditorClassIdentifier: 
   allOverworld:
-  - {fileID: 11400000, guid: a9ef6cbdb528a7e41a5f7b12d2b1729f, type: 2}
-  - {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
-  - {fileID: 11400000, guid: ee1994537771a83409ee813509eb6a8e, type: 2}
-  - {fileID: 11400000, guid: e7e9517dc55c1984c8c6b4405c2a8f43, type: 2}
-  - {fileID: 11400000, guid: ed75e13bc7d0f68488809f7aa7d39431, type: 2}
-  - {fileID: 11400000, guid: c59613ecc2a7757419e85fa7956a9547, type: 2}
-  - {fileID: 11400000, guid: 9ac2c72e268018a468d66b70dacf2be4, type: 2}
-  bossEncounters:
   - {fileID: 11400000, guid: 566232c36ab50154382e041699a0eea7, type: 2}
+  - {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
+  - {fileID: 11400000, guid: ed75e13bc7d0f68488809f7aa7d39431, type: 2}
+  - {fileID: 11400000, guid: 9ac2c72e268018a468d66b70dacf2be4, type: 2}
+  - {fileID: 11400000, guid: c59613ecc2a7757419e85fa7956a9547, type: 2}
+  - {fileID: 11400000, guid: a9ef6cbdb528a7e41a5f7b12d2b1729f, type: 2}
+  bossEncounters:
+  - {fileID: 0}

@@ -39,7 +39,7 @@ public abstract class Encounter : MonoBehaviour
         {
             StartCoroutine(Entering(() => { }));
         }
-        encounterType = encounterData.type;
+        encounterType = EncounterType.OverworldCombatNormal;
         UpdateIcon();
     }
 
@@ -54,7 +54,7 @@ public abstract class Encounter : MonoBehaviour
                 StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true), this));
             else if (encounterType == EncounterType.OverworldRandomEvent)
             {
-                WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
+                WorldSystem.instance.uiManager.encounterUI.encounterData = (EncounterDataRandomEvent)encounterData;
                 StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true), this));
             }
         }

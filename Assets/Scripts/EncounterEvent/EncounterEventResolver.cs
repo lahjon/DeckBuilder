@@ -55,7 +55,7 @@ public class EncounterEventResolver
     {
         EncounterUI ui = WorldSystem.instance.uiManager.encounterUI;
         GameObject oldUI = ui.CreateNewUI(ui.background, ui.panel);
-        ui.encounterData = ui.newEncounterData;
+        ui.encounterData = (EncounterDataRandomEvent)ui.newEncounterData;
         ui.BindEncounterData();
         ui.background.GetComponent<CanvasGroup>().alpha = 0.0f;
 

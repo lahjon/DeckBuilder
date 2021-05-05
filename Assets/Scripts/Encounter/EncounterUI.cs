@@ -5,7 +5,7 @@ using TMPro;
 
 public class EncounterUI : MonoBehaviour
 {
-    public EncounterData encounterData;
+    public EncounterDataRandomEvent encounterData;
     public TMP_Text encounterTitle;
     public TMP_Text encounterDescription;
     public GameObject canvas;

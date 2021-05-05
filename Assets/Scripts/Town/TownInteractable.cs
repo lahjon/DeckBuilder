@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class TownInteractable : MonoBehaviour
 {
     public new string name;
-    public EncounterData encounterData;
+    public EncounterDataRandomEvent encounterData;
     public BuildingType buildingType;
     public Building building;
 

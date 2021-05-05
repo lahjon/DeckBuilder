@@ -8,4 +8,9 @@ public class EncounterDatabase : ScriptableObject
     public List<EncounterData> allOverworld;
     public List<EncounterData> bossEncounters;
 
+    public void UpdateDatabase(List<EncounterData> data)
+    {
+        allOverworld = data;
+    }
+
 }

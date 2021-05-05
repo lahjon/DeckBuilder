@@ -24,7 +24,7 @@ public class DatabaseGoogle
 
     readonly string CardPath = @"Assets\Cards";
     readonly string EnemyPath = @"Assets\CharacterClass\Enemies";
-    readonly string EncounterPath = @"Assets\Encounters\Combat";
+    readonly string EncounterPath = @"Assets\Encounters\Overworld\Combat";
 
     SheetsService service;
 
@@ -387,10 +387,10 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { EncounterPath});
+            EncounterDataCombat data = TDataNameToAsset<EncounterDataCombat>(databaseName, new string[] { EncounterPath});
             if (data is null)
             {
-                data = ScriptableObject.CreateInstance<EncounterData>();
+                data = ScriptableObject.CreateInstance<EncounterDataCombat>();
                 AssetDatabase.CreateAsset(data, EncounterPath + @"\" + databaseName + ".asset");
             }
 
@@ -398,7 +398,6 @@ public class DatabaseGoogle
             data.name = (string)gt[i, "Name"];
             Enum.TryParse((string)gt[i, "Type"], out data.type);
             data.tier = int.Parse((string)gt[i, "Tier"]);
-            data.description = (string)gt[i, "Description"];
 
             data.enemyData.Clear();
             data.startEffectsTargets.Clear();
@@ -420,7 +419,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { EncounterPath });
+            EncounterDataCombat data = TDataNameToAsset<EncounterDataCombat>(databaseName, new string[] { EncounterPath });
             if (data == null)
             {
                 Debug.LogError("SKIPPED: Enemy assigned to non-existant encounter : " + databaseName);
@@ -455,7 +454,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EncounterData data = TDataNameToAsset<EncounterData>(databaseName, new string[] { EncounterPath });
+            EncounterDataCombat data = TDataNameToAsset<EncounterDataCombat>(databaseName, new string[] { EncounterPath });
             if (data == null)
             {
                 Debug.LogError("SKIPPED: Effects assigned to non-existant encounter : " + databaseName);

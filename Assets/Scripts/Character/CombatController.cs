@@ -152,7 +152,7 @@ public class CombatController : MonoBehaviour
 
         Hero.ShuffleDeck();
 
-        enemyDatas = WorldSystem.instance.encounterManager.currentEncounter.encounterData.enemyData;
+        enemyDatas = ((EncounterDataCombat)WorldSystem.instance.encounterManager.currentEncounter.encounterData).enemyData;
 
         enemyDatas.ForEach(x => Debug.Log(x));
 

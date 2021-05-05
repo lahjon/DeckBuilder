@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class RewardScreen : MonoBehaviour
+public class RewardScreenCombat : MonoBehaviour
 {
     public GameObject content;
-    public EncounterData encounterData;
+    public EncounterDataCombat encounterData;
     public GameObject rewardScreenCard;
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
@@ -49,19 +49,19 @@ public class RewardScreen : MonoBehaviour
             Destroy(content.transform.GetChild(0).gameObject);
         }
 
-        encounterData = WorldSystem.instance.encounterManager.currentEncounter.encounterData;
+        encounterData = (EncounterDataCombat)WorldSystem.instance.encounterManager.currentEncounter.encounterData;
 
         switch (encounterData.type)
         {
-            case EncounterType.OverworldCombatElite:
+            case EnemyType.Elite:
                 CreateRewards(combatRewardElite);
                 break;
 
-            case EncounterType.OverworldCombatBoss:
+            case EnemyType.Boss:
                 CreateRewards(combatRewardBoss);
                 break;
 
-            case EncounterType.OverworldCombatNormal:
+            case EnemyType.Normal:
                 CreateRewards(combatRewardNormal);
                 break;
 
@@ -116,7 +116,7 @@ public class RewardScreen : MonoBehaviour
             Destroy(content.transform.GetChild(i).gameObject);
         }
 
-        if(encounterData.type == EncounterType.OverworldCombatBoss)
+        if(encounterData.type == EnemyType.Boss)
             WorldSystem.instance.EndCombat(true);
         else
             WorldSystem.instance.EndCombat();

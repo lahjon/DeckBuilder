@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
+using System.Linq;
 
 [ExecuteInEditMode]
 public static class DatabaseUpdateOnStart
@@ -11,6 +13,7 @@ public static class DatabaseUpdateOnStart
     {
         UpdateAllCards();
         UpdateAllTokens();
+        UpdateAllEncounters();
         UpdateAllArtifacts();
         UpdateAllCharacters();
         UpdateUImanager();
@@ -34,6 +37,26 @@ public static class DatabaseUpdateOnStart
         cardDatabase.UpdateDatabase(cards);
 
         EditorUtility.SetDirty(cardDatabase);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
+    static void UpdateAllEncounters()
+    {
+        List<EncounterData> encounters = new List<EncounterData>();
+        List<string> lGuids = new List<string>(AssetDatabase.FindAssets("t:EncounterData", new string[] { "Assets/Encounters/Overworld/Combat" }));
+        lGuids.AddRange(AssetDatabase.FindAssets("t:EncounterData", new string[] { "Assets/Encounters/Overworld/RandomEvent" }));
+
+        for (int i = 0; i < lGuids.Count; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            encounters.Add(AssetDatabase.LoadAssetAtPath<EncounterData>(lAssetPath));
+        }
+        string[] guids1 = AssetDatabase.FindAssets("l:EncounterDatabase", null);
+        EncounterDatabase database = (EncounterDatabase)AssetDatabase.LoadAssetAtPath("Assets/Database/EncounterDatabase.asset", typeof(EncounterDatabase));
+        database.UpdateDatabase(encounters);
+
+        EditorUtility.SetDirty(database);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }

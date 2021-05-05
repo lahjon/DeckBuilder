@@ -5737,7 +5737,9 @@ MonoBehaviour:
   - name: Challenge
     sprite: {fileID: 21300000, guid: 668cb9c1f148a234cb6ae299b9671a36, type: 3}
   - name: Damage
-    sprite: {fileID: 21300000, guid: 5d4067b849f49c94686ba8a4c3c4e981, type: 3}
+    sprite: {fileID: 21300000, guid: 5992a4cbdf6ded34c8745c56835e5222, type: 3}
+  - name: DamageWithEffect
+    sprite: {fileID: 21300000, guid: 20f66431b4865fe4dac24a1ccbe23fa1, type: 3}
   - name: Poison
     sprite: {fileID: 21300000, guid: 7d5d02684ea1a8f44ad4047d6cc4ade6, type: 3}
   - name: Splice
@@ -10987,9 +10989,7 @@ MonoBehaviour:
   worldState: {fileID: 347953518552015521}
   overlayState: {fileID: 347953519505108215}
   worldTier: {fileID: 347953519010918151}
-  enemyData:
-  - {fileID: 11400000, guid: 1aede0d27bdbb0b429f45b452eb2ee6a, type: 2}
-  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
+  encounterData: {fileID: 0}
 --- !u!1 &347953519886253001
 GameObject:
   m_ObjectHideFlags: 0
