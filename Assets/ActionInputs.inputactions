@@ -2,63 +2,6 @@
     "name": "ActionInputs",
     "maps": [
         {
-            "name": "Player",
-            "id": "4fa2f033-88ef-4012-a571-a5d385bcf284",
-            "actions": [
-                {
-                    "name": "ToggleConsole",
-                    "type": "Button",
-                    "id": "11b047c8-85be-4437-a9e5-aaf175b47ddc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "OnEnterKey",
-                    "type": "Button",
-                    "id": "03669245-ac09-4add-a3d2-74d84abb561c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "008c6dda-034b-4e17-9098-4abda162d91e",
-                    "path": "<Keyboard>/#(§)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleConsole",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9877b9d0-844f-44c2-ac67-9d33ac1931b8",
-                    "path": "<Keyboard>/OEM1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleConsole",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e8954f81-be5a-49fd-95ae-e6341fa26419",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OnEnterKey",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "Debug",
             "id": "21eae75a-de93-4ab0-95e4-f0b0455038f1",
             "actions": [
@@ -77,6 +20,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ToggleConsole",
+                    "type": "Button",
+                    "id": "932398c7-6045-4690-b293-0b24c3353737",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DownArrow",
+                    "type": "Button",
+                    "id": "738b2c52-1519-4024-b766-24a01889c165",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "OnEnterKey",
+                    "type": "Button",
+                    "id": "7cfc999b-bdcd-471b-9be0-1900f09487da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "UpArrow",
+                    "type": "Button",
+                    "id": "f3b7825d-f752-4034-8603-0245e7ac67f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -84,7 +59,7 @@
                     "name": "",
                     "id": "24ec27a9-1d28-4ff6-876d-a05ac8fea789",
                     "path": "<Keyboard>/s",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Save",
@@ -95,10 +70,65 @@
                     "name": "",
                     "id": "d65b8404-6913-4323-8c66-169d52f8463a",
                     "path": "<Keyboard>/l",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Load",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c49882ff-3417-4b8b-b7c0-925c50478e18",
+                    "path": "<Keyboard>/#(§)",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de8cc3c0-7c21-4619-babd-6efe39f487e6",
+                    "path": "<Keyboard>/OEM1",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8db529c7-8c3c-4b7b-a9af-3074472ea9da",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DownArrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "66423dfe-b8e8-426c-a895-4320b4e04937",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OnEnterKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79764007-1d96-4e10-bee8-ff128f2c4796",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpArrow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

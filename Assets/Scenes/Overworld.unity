@@ -2942,6 +2942,38 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1302136608}
         m_TargetAssemblyTypeName: DebugManager, Assembly-CSharp
+        m_MethodName: OnSKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+    m_ActionId: b31b8d84-677c-47ea-b039-d52c256a4253
+    m_ActionName: Debug/Save[/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1302136608}
+        m_TargetAssemblyTypeName: DebugManager, Assembly-CSharp
+        m_MethodName: OnLKey
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9f0a4094-3596-4800-a416-cb22df4eaf7e
+    m_ActionName: Debug/Load[/Keyboard/l]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1302136608}
+        m_TargetAssemblyTypeName: DebugManager, Assembly-CSharp
         m_MethodName: OnToggleConsole
         m_Mode: 0
         m_Arguments:
@@ -2952,16 +2984,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 11b047c8-85be-4437-a9e5-aaf175b47ddc
-    m_ActionName: Player/ToggleConsole[/Keyboard/backquote]
+    m_ActionId: 932398c7-6045-4690-b293-0b24c3353737
+    m_ActionName: Debug/ToggleConsole[/Keyboard/backquote,/Keyboard/OEM1]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b31b8d84-677c-47ea-b039-d52c256a4253
-    m_ActionName: Debug/Save[/Keyboard/s]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 9f0a4094-3596-4800-a416-cb22df4eaf7e
-    m_ActionName: Debug/Load[/Keyboard/l]
+      m_Calls:
+      - m_Target: {fileID: 1302136608}
+        m_TargetAssemblyTypeName: DebugManager, Assembly-CSharp
+        m_MethodName: OnArrowDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 738b2c52-1519-4024-b766-24a01889c165
+    m_ActionName: Debug/AutoFill[/Keyboard/downArrow]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1302136608}
@@ -2976,11 +3016,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 03669245-ac09-4add-a3d2-74d84abb561c
-    m_ActionName: Player/OnEnterKey[/Keyboard/enter]
+    m_ActionId: 7cfc999b-bdcd-471b-9be0-1900f09487da
+    m_ActionName: Debug/OnEnterKey[/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1302136608}
+        m_TargetAssemblyTypeName: DebugManager, Assembly-CSharp
+        m_MethodName: OnArrowUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f3b7825d-f752-4034-8603-0245e7ac67f6
+    m_ActionName: Debug/UpArrow[/Keyboard/upArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Debug
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &348978066

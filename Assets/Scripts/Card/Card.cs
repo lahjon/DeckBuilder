@@ -23,6 +23,7 @@ public class Card : MonoBehaviour
 
     public GameObject animationPrefab;
     public CombatActor owner;
+    public Material material;
 
     public void BindCardData()
     {
@@ -42,14 +43,29 @@ public class Card : MonoBehaviour
     [HideInInspector]
     public bool targetRequired
     {
-            get
+        get
         {
-                if (Effects.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
-                    return false;
-                else
-                    return true;
-            }
+            if (Effects.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
+                return false;
+            else
+                return true;
         }
+    }
+
+    void Start()
+    {
+        //AssignMaterials();
+    } 
+
+    void AssignMaterials()
+    {
+        // material = Instantiate(material);
+
+        // for (int i = 0; i < transform.childCount; i++)
+        // {
+            
+        // }
+    }
 
     public List<CardEffect> allEffects
     {
