@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PowerMan
+  m_Name: Enemy
   m_Shader: {fileID: -6465566751694194690, guid: cc64b0f7a521c53429bbdf1f96ef0f60, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4

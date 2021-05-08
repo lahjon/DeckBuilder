@@ -17,6 +17,7 @@ public class DebugManager : MonoBehaviour
     public Dictionary<string, string> words = new Dictionary<string, string>();
     WorldSystem world;
     Vector2 scroll;
+    List<string> found = new List<string>();
 
     void Awake()
     {
@@ -62,21 +63,6 @@ public class DebugManager : MonoBehaviour
                 {
                     CardActivityAddCardToDeck addIt = new CardActivityAddCardToDeck();
                     StartCoroutine(addIt.Execute(x));
-                    /*
-                    carddata cd = databasesystem.instance.carddatabase.allcards.where(c => c.name == x).firstordefault();
-                    if (cd is null)
-                    {
-                        debug.logerror($"no such card named {x}");
-                    }
-                    else
-                    {
-                        cardcombat card = cardcombat.createcardcombatfromdata(cd);
-                        card.owner.addtodeck(card);
-                        world.uimanager.uiwarningcontroller.createwarning($"added card {card.cardname} to deck!");
-                        world.combatmanager.combatcontroller.updatedecktexts();
-                    }
-                    debug.log("add card: " + x);
-                    */
                 }
             }
         );
@@ -121,9 +107,18 @@ public class DebugManager : MonoBehaviour
             words.Add(commandBase.commandFormat, commandBase.commandId);
         }
     }
+
+
     void Start()
     {
         world = WorldSystem.instance;
+    }
+
+    List<string> GetAllCards()
+    {
+        List<string> allCards = new List<string>();
+        DatabaseSystem.instance.cardDatabase.allCards.ForEach(x => allCards.Add(x.name));
+        return allCards;
     }
 
     public void OnEnterKey(InputAction.CallbackContext value)
@@ -137,11 +132,50 @@ public class DebugManager : MonoBehaviour
         }
     }
 
+    public void OnArrowDown(InputAction.CallbackContext value)
+    {
+        if(showConsole && value.performed)
+        {
+            if (found != null && found.Count > 0)
+            {
+                string[] output = found[0].Split(' ');
+                input = output[0];
+                
+                Debug.Log(found[0]);
+            }
+        }
+    }
+    public void OnArrowUp(InputAction.CallbackContext value)
+    {
+        if(showConsole && value.performed)
+        {
+            Debug.Log("Up");
+        }
+    }
+    public void OnSKey(InputAction.CallbackContext value)
+    {
+        if(!showConsole && value.performed)
+        {
+            world.SaveProgression();
+            Debug.Log("Save Game");
+        }
+    }
+    public void OnLKey(InputAction.CallbackContext value)
+    {
+        if(!showConsole && value.performed)
+        {
+            world.LoadProgression();
+        }
+    }
+
 
     public void OnToggleConsole(InputAction.CallbackContext value)
     {
-        showConsole = !showConsole;
-        showHelp = false;
+        if(value.performed)
+        {
+            showConsole = !showConsole;
+            showHelp = false;
+        }
     }
 
     void OnGUI()
@@ -177,13 +211,13 @@ public class DebugManager : MonoBehaviour
         GUI.backgroundColor = new Color(0, 0, 0, 0);
         GUI.SetNextControlName("Console");
         input = GUI.TextField(new Rect(10.0f, y + 5.0f, Screen.width - 20.0f, 20.0f), input);
+
         if (input != "")
         {
             lastCommand = input;
         }
         GUI.FocusControl("Console");
 
-        List<string> found = new List<string>();
         if (!string.IsNullOrEmpty(input)) 
         {
             found = words.Keys.ToList().FindAll( w => w.StartsWith(input) );
@@ -203,7 +237,25 @@ public class DebugManager : MonoBehaviour
             }
 
             GUI.EndScrollView();
+        }
 
+        if (input.Contains("add_card"))
+        {
+            y += 40;
+            GUI.Box(new Rect(0, y, Screen.width, 100), "");
+            Rect viewport = new Rect(0.0f, 0.0f, Screen.width - 30.0f, 20.0f * commandList.Count);
+            scroll = GUI.BeginScrollView(new Rect(0, y + 5.0f, Screen.width, 9000), scroll, viewport);
+
+            string[] cards = GetAllCards().ToArray();
+
+            for (int i = 0; i < cards.Length; i++)
+            {
+                string label = cards[i];
+                Rect labelRect = new Rect(5.0f, 20.0f * i, viewport.width - 100.0f, 20.0f);
+                GUI.Label(labelRect, label);
+            }
+
+            GUI.EndScrollView();
         }
 
     }
@@ -211,6 +263,7 @@ public class DebugManager : MonoBehaviour
     void HandleInput()
     {
         string[] properties = input.Split(' ');
+        Debug.Log(properties);
         int index;
 
         for (int i = 0; i < commandList.Count; i++)
@@ -223,11 +276,11 @@ public class DebugManager : MonoBehaviour
                 {
                     dc.Invoke();
                 }
-                else if (commandList[i] is DebugCommand<int> dcInt && properties.Length > 0 && int.TryParse(properties[1], out index))
+                else if (commandList[i] is DebugCommand<int> dcInt && properties.Length > 1 && int.TryParse(properties[1], out index))
                 {
                     dcInt.Invoke(index);
                 }
-                else if (commandList[i] is DebugCommand<string> dcString && properties.Length > 0 && properties[1] is string)
+                else if (commandList[i] is DebugCommand<string> dcString && properties.Length > 1 && properties[1] is string)
                 {
                     dcString.Invoke(properties[1]);
                 }

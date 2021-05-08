@@ -113,6 +113,7 @@ MonoBehaviour:
   activities: []
   animationPrefab: {fileID: 6703861643799209601}
   owner: {fileID: 0}
+  material: {fileID: 2100000, guid: 2d3d4743c13f4034c80822f0466a0e54, type: 2}
   nameText: {fileID: 669835656910243549}
   descriptionText: {fileID: 6805669008975766311}
   artworkImage: {fileID: 5282765989145436325}

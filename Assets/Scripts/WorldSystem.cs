@@ -52,17 +52,7 @@ public class WorldSystem : MonoBehaviour
         act = 1;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveProgression();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadProgression();
-        }
-    }
+
 
     public void SaveProgression(bool saveTemp = true)
     {
