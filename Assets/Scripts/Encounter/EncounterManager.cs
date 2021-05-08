@@ -256,15 +256,16 @@ public class EncounterManager : Manager
     public void GenerateHexEncounters(HexTile tile)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.encounterPositions);
-
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
         List<EncounterHex> encounters = new List<EncounterHex>();
+
+        List<(Vector2 p1, Vector2 p2)> edges = new List<(Vector2, Vector2)>();
 
         tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(EncounterSlots[x])));
         chosenEncountersSlots.ForEach(x => EncounterSlots.Remove(x));
 
-        int nrAdditional = Random.Range(1, tile.availableDirections.Count / 2);
-        //int nrAdditional = 100;
+        //int nrAdditional = Random.Range(1, tile.availableDirections.Count / 2);
+        int nrAdditional = 100;
 
         for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
         {
@@ -285,17 +286,50 @@ public class EncounterManager : Manager
 
         EncounterHex chosen = encounters[0];
 
-        for (int i = 0; i < nrAdditional + tile.availableDirections.Count -1 ; i++)
+        // Create paths
+        for (int i = 0; i < nrAdditional + tile.availableDirections.Count -1 && encounters.Count != 0 ; i++)
         {
             EncounterHex enc = encounters[Random.Range(0, encounters.Count)];
             encounters.Remove(enc);
-            EncounterHex neigh = encounters[Random.Range(0, encounters.Count)];
 
-            enc.hexNeighboors.Add(neigh);
-            neigh.hexNeighboors.Add(enc);
-            Debug.DrawLine(enc.transform.position, neigh.transform.position, Color.green, 100000, false);
+            List<EncounterHex> potentialNeigh = new List<EncounterHex>(encounters);
+            for(int j = 0; j < encounters.Count; j++)
+            { 
+                EncounterHex neigh = potentialNeigh[Random.Range(0, potentialNeigh.Count)];
+                potentialNeigh.Remove(neigh);
+
+                (Vector2 p1, Vector2 p2) potentialEdge = (enc.transform.position, neigh.transform.position);
+
+                bool crosses = false;
+                foreach ((Vector2, Vector2) edge in edges)
+                {
+                    if(PathCrosses(edge, potentialEdge))
+                    {
+                        crosses = true;
+                        break;
+                    }
+                }
+                if (crosses) continue; 
+                edges.Add(potentialEdge);
+                enc.hexNeighboors.Add(neigh);
+                neigh.hexNeighboors.Add(enc);
+                Debug.DrawLine(enc.transform.position, neigh.transform.position, Color.green, 100000, false);
+                break;
+
+            }         
         }
 
         StartCoroutine(chosen.Entering(() => { }));
     }
+
+    public bool PathCrosses((Vector2 p1,Vector2 p2) e1, (Vector2 p3,Vector2 p4) e2)
+    {
+        float den = ((e1.p1.x - e1.p2.x) * (e2.p3.y - e2.p4.y) - (e1.p1.y - e1.p2.y) * (e2.p3.x - e2.p4.x));
+        float t = ((e1.p1.x - e2.p3.x) * (e2.p3.y - e2.p4.y) - (e1.p1.y - e2.p3.y) * (e2.p3.x - e2.p4.x)) / den;
+        float u = ((e1.p2.x - e1.p1.x) * (e1.p1.y - e2.p3.y) - (e1.p2.y - e1.p1.y) * (e1.p1.x - e2.p3.x)) / den;
+        bool ans = t > 0 && t < 1 && u > 0 && u < 1;
+        Debug.Log(ans + "," + u + "," + t);
+        return ans;
+    }
+
 }
