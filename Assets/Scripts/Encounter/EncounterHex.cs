@@ -12,6 +12,7 @@ public class EncounterHex : Encounter
     public Vector3Int coordinates;
     public Vector3 startingScale;
     private Tween tweenAction;
+    public HexTile tile;
 
     private bool _selectable = false;
     public bool selectableHex { get { return _selectable; } set
@@ -34,13 +35,16 @@ public class EncounterHex : Encounter
 
     public override IEnumerator Entering(System.Action VisitAction, Encounter fromEncounter = null)
     {
-        transform.localScale = startingScale;
+        transform.localScale = startingScale*1.5f;
         selectableHex = false;
+
+        tile.encounters.Remove(this);
+        tile.encountersExits.Remove(this);
 
         WorldSystem.instance.encounterManager.currentEncounterHex?.SetLeaving(this);
 
         foreach (EncounterHex e in hexNeighboors)
-            e.selectableHex = true;
+            e.selectable = WorldSystem.instance.encounterManager.CanReachExitNode(e, tile.encountersExits);
 
         WorldSystem.instance.encounterManager.currentEncounterHex = this;
 
@@ -50,10 +54,11 @@ public class EncounterHex : Encounter
 
     public override void SetLeaving(Encounter nextEnc)
     {
+        transform.localScale = startingScale;
         foreach (EncounterHex enc in hexNeighboors)
         {
             enc.hexNeighboors.Remove(this);
-            enc.selectableHex = false;
+            enc.selectable = false;
         }
 
         hexNeighboors.Clear();
