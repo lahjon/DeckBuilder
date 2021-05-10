@@ -39,7 +39,12 @@ public class HexTile : MonoBehaviour
                                                             };
 
     public static float encounterRadius = 1.0f;
+    public static float encounterNoiseAllowed = 0.1f;
     public static float zRadFactor = Mathf.Sqrt(3/2);
+
+    public List<EncounterHex> encounters;
+    public List<EncounterHex> encountersExits;
+    
 
     public TileState tileState
     {
