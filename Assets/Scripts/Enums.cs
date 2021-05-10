@@ -67,6 +67,8 @@ public enum TileState
 public enum GridState
 {
     Idle,
+    Panning,
+    Zoomed,
     Dragging,
     Rotating,
     Complete

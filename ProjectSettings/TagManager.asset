@@ -88,3 +88,6 @@ TagManager:
   - name: CardDisplay
     uniqueID: 1106051305
     locked: 0
+  - name: SelectionPath
+    uniqueID: 223154637
+    locked: 0

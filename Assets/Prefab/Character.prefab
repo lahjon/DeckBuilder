@@ -45,19 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1a06fbd2bdde04c9f5812e208d756d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
-  block: 0
-  drawCardsAmount: 5
-  energy: 3
-  maxHealth: 0
-  currentHealth: 0
   level: 0
   experience: 0
   classType: 1
   characterData: {fileID: 11400000, guid: 380d21352f1d09d46ba0cdac2e056954, type: 2}
   unlocked: 0
   selectedTokens: []
-  maxCardReward: 3
 --- !u!114 &5413731537463903703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +64,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: []
-  statsModifer: []
 --- !u!1 &5016316874813098304
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +82,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6595720682640215237
 Transform:
   m_ObjectHideFlags: 0
@@ -124,6 +116,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1

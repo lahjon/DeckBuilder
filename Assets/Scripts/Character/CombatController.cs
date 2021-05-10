@@ -12,7 +12,8 @@ public class CombatController : MonoBehaviour
 {
     public CombatOverlay combatOverlay;
     public GameObject TemplateCard;
-    public BezierPath bezierPath;
+    public BezierPath discardPath;
+    public SelectionPath selectionPath;
     public GameObject TemplateEnemy;
     public List<EnemyData> enemyDatas = new List<EnemyData>();
     public TMP_Text lblEnergy;

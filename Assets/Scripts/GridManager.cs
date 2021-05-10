@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 using TMPro;
+using DG.Tweening;
 
 
 public class GridManager : Manager
 {
-    Animator animator;
+    public Animator animator;
     public Canvas canvas;
     public GameObject prefab; 
     public List<Sprite> sprites = new List<Sprite>();
@@ -25,8 +26,10 @@ public class GridManager : Manager
     public List<HexTile> completedTiles = new List<HexTile>();
     public GridState gridState;
     public TMP_Text bossCounterText;
+    public HexMapController hexMapController;
     int _bossCounter;
     public int tilesUntilBoss;
+    float hexScale = 0.3765092f;
     public int bossCounter
     {
         get
@@ -66,6 +69,7 @@ public class GridManager : Manager
         base.Awake();
         world.gridManager = this;
         animator = GetComponent<Animator>();
+        hexMapController = GetComponent<HexMapController>();
     }
     protected override void Start()
     {
@@ -91,6 +95,17 @@ public class GridManager : Manager
             tile.Activate(TileState.Inventory);
         }
     } 
+
+    public void ExpandMap()
+    {
+        hexMapController.disableInput = true;
+        GetComponent<CameraShake>().ShakeCamera();
+        gridWidth++;
+        CreateRow(gridWidth);
+        GetTilesAtRow(gridWidth).ForEach(x => 
+            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.disableInput = false)
+        );
+    }
 
     void StartBoss()
     {
@@ -145,6 +160,23 @@ public class GridManager : Manager
             for (int r = r1; r <= r2; r++)
             {
                 AddTile(new Vector3Int(q, r, -q-r));
+            }
+        }
+    }
+
+    void CreateRow(int row)
+    {
+        List<Vector3> newRow = new List<Vector3>();
+        for (int q = -gridWidth; q <= gridWidth; q++)
+        {
+            int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
+            int r2 = Mathf.Min(gridWidth, -q + gridWidth);
+            for (int r = r1; r <= r2; r++)
+            {
+                if (Mathf.Abs(q) == row || Mathf.Abs(r) == row || Mathf.Abs(-q-r) == row)
+                {
+                    AddTile(new Vector3Int(q, r, -q-r), true);
+                }
             }
         }
     }
@@ -371,6 +403,29 @@ public class GridManager : Manager
         }
     }
 
+    List<HexTile> GetTilesAtRow(int row)
+    {
+        List<HexTile> result = new List<HexTile>();
+        if (row == 0)
+        {
+            result.Add(GetTile(Vector3Int.zero));
+        }
+        else
+        {
+            foreach (Vector3Int tile in tiles.Keys.Except(activeTiles.ConvertAll(x => x.coord)))
+            {
+                HashSet<int> tileList = VectorToArray(tile);
+
+                if (tileList.Any(x => Mathf.Abs(x) == row) && tileList.All(x => Mathf.Abs(x) <= row))
+                {
+                    result.Add(GetTile(tile));
+                }
+            }
+        }
+
+        return result;
+    }
+
     HashSet<int> VectorToArray(Vector3Int coord)
     {
         HashSet<int> result = new HashSet<int>{coord.x, coord.y, coord.z};
@@ -445,7 +500,7 @@ public class GridManager : Manager
         return new Vector3(x, y, transform.position.z);
     }
 
-    void AddTile(Vector3Int coord)
+    void AddTile(Vector3Int coord, bool invisible = false)
     {
         if (coord.x + coord.y + coord.z != 0)
         {
@@ -459,6 +514,11 @@ public class GridManager : Manager
         HexTile tile = obj.GetComponent<HexTile>();
         tile.coord = coord;
         tile.Init();
+
+        if (invisible)
+        {
+            obj.transform.localScale = Vector3.zero;
+        }
 
         if (!tiles.ContainsValue(tile))
         {

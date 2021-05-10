@@ -11,7 +11,7 @@ public class CombatControllerAnimatorCard : CombatControllerAnimator
 
     public string nextLayerState { get { return layerName + "." + nextState; } }
 
-    public void SetRefs(Animator animator)
+    public override void SetRefs(Animator animator)
     {
         base.SetRefs(animator);
         card = combatController.InProcessCard;

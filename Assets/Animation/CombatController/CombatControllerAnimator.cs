@@ -6,11 +6,10 @@ public class CombatControllerAnimator : StateMachineBehaviour
 {
     public static CombatController combatController;
 
-    public void SetRefs(Animator animator)
+    public virtual void SetRefs(Animator animator)
     {
         if (combatController is null)
         {
-
             combatController = animator.GetComponent<CombatController>();
         }
     }

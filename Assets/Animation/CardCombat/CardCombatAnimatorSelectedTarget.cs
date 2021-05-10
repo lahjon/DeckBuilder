@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
 {
@@ -10,6 +11,8 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
 
     float duration = 0.2f;
     float time;
+    float timeDelay = 0.05f;
+    SelectionPath selectionPath;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -22,6 +25,9 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
 
         card.highlight.SetActive(true);
         WorldSystem.instance.toolTipManager.canShow = false;
+
+        selectionPath = combatController.selectionPath;
+        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => selectionPath.StartFollow());
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,6 +38,8 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
             CardLerp(StartTransInfo, TargetTransInfo, time/duration, card.transitionCurveReturn); //fucking time.Deltatime??? messed up.
         else
             CardLerp(StartTransInfo, TargetTransInfo, 1);
+
+        selectionPath.FollowPath();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -39,5 +47,6 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         card.selected = false;
         card.highlight.SetActive(false);
         WorldSystem.instance.toolTipManager.canShow = true;
+        selectionPath.StopFollow();
     }
 }

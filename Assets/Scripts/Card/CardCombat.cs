@@ -88,7 +88,7 @@ public class CardCombat : CardVisual, IToolTipable
 
         card.combatController = combatController;
         card.owner = combatController.Hero;
-        card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
+        card.GetComponent<BezierFollow>().route = combatController.discardPath.transform;
         combatController.createdCards.Add(card);
 
         card.SetToolTips();
@@ -104,7 +104,7 @@ public class CardCombat : CardVisual, IToolTipable
         CardObject.transform.localScale = Vector3.one;
         CardCombat card = CardObject.GetComponent<CardCombat>();
         card.combatController = combatController;
-        card.GetComponent<BezierFollow>().route = combatController.bezierPath.transform;
+        card.GetComponent<BezierFollow>().route = combatController.discardPath.transform;
         SpliceCards(card, a, b);
         card.BindCardVisualData();
         card.owner = combatController.ActiveActor;
