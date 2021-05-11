@@ -2,24 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EncounterMapCompleted : EncounterMapAnimator
+public class EncounterMapPlacing : EncounterMapAnimator
 {
-
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.Init();
-        gridManager.gridState = GridState.Complete;
-        gridManager.bossCounter++;
-        animator.SetBool("IsComplete", false);
-
+        gridManager.gridState = GridState.Placement;
+        animator.SetBool("IsRotating", true);
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        gridManager.ExitPlacement();
+        animator.SetBool("IsPlacing", false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        // gridManager.hexMapController.PanCamera();
     }
+    
 }

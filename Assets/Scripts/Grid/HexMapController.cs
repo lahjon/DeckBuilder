@@ -17,7 +17,7 @@ public class HexMapController : MonoBehaviour
     public float panSensitivity;
     GridManager gridManager;
     [HideInInspector] float timer;
-    [HideInInspector] public bool disableInput;
+    public bool disableInput;
     Vector3 cameraPosition;
     [SerializeField] int _zoomStep = 1;
     public int zoomStep
@@ -62,21 +62,44 @@ public class HexMapController : MonoBehaviour
         gridManager = GetComponent<GridManager>();
         zoomIn = 7;
         zoomOut = cam.transform.localPosition.z;
+        _zoomStep = 1;
     }
-    public void ZoomInner()
+
+    public void FocusTile(HexTile focusTile)
+    {
+        if (focusTile != null)
+        {
+            _zoomStep = 0;
+            ZoomInner(focusTile.transform.position);
+        }
+    }
+    public void FocusOverview(bool disable)
+    {
+        ZoomOuter(disable);
+    }
+    void ZoomInner(Vector3? pos = null)
     {
         disableInput = true;
-        Vector3? mousePosition = GetMousePosition();
         Vector3 zoomPosition;
 
-        if (mousePosition != null)
+        if (pos != null)
         {
-            zoomPosition = (Vector3)mousePosition;
+            zoomPosition = (Vector3)pos;
         }
         else
         {
-            zoomPosition = cam.transform.position;
+            Vector3? mousePosition = GetMousePosition();
+            if (mousePosition != null)
+            {
+                zoomPosition = (Vector3)mousePosition;
+            }
+            else
+            {
+                zoomPosition = cam.transform.position;
+            }
+            
         }
+
 
         zoomPosition.z = zoomOut + zoomIn;
 
@@ -84,10 +107,9 @@ public class HexMapController : MonoBehaviour
             disableInput = false;
             panSensitivity = 3f;
             newPosition = cam.transform.position;
-            gridManager.animator.SetBool("IsZoomed", true);
         });
     }
-    public void ZoomMid()
+    void ZoomMid()
     {
         disableInput = true;
         cam.transform.DOMoveZ(zoomOut, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
@@ -95,18 +117,16 @@ public class HexMapController : MonoBehaviour
             panSensitivity = 5f;
 
             newPosition = cam.transform.position;
-            gridManager.animator.SetBool("IsZoomed", false);
         });
     }
-    public void ZoomOuter()
+    void ZoomOuter(bool disable = false)
     {
-        disableInput = true;
+        disableInput = disable;
         cam.transform.DOMoveZ(zoomOut - zoomIn, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
             disableInput = false;
             panSensitivity = 5f;
 
             newPosition = cam.transform.position;
-            gridManager.animator.SetBool("IsZoomed", false);
         });
     }
 
@@ -114,10 +134,12 @@ public class HexMapController : MonoBehaviour
     {
         if(Input.mouseScrollDelta.y > 0) // zoom in
         {
+            //if (gridManager.hoverTile != null)
             zoomStep--;
         }
-        else if(Input.mouseScrollDelta.y < 0) // zoom out
+        else if(Input.mouseScrollDelta.y < 0 && gridManager.hoverTile != null) // zoom out
         {
+            //if (gridManager.hoverTile != null)
             zoomStep++;
         }
     }

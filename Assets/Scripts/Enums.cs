@@ -59,6 +59,7 @@ public enum TileState
     Inactive,
     Inventory,
     Placement,
+    Current,
     Active,
     Completed,
     Animation
@@ -66,9 +67,11 @@ public enum TileState
 
 public enum GridState
 {
-    Idle,
+    Creating,
+    Placement,
+    Play,
     Panning,
-    Zoomed,
+    Overview,
     Dragging,
     Rotating,
     Complete

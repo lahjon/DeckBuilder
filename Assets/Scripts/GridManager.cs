@@ -23,6 +23,7 @@ public class GridManager : Manager
     public HexTile hoverTile;
     public HexTile oldHoverTile;
     public HexTile activeTile;
+    public HexTile currentTile;
     public List<HexTile> completedTiles = new List<HexTile>();
     public GridState gridState;
     public TMP_Text bossCounterText;
@@ -74,32 +75,74 @@ public class GridManager : Manager
     protected override void Start()
     {
         base.Start();
-        CreateTileMap();
+        InitializeMap();
+    } 
 
-        // create a 0,0,0 start tile
+    public void ButtonCreateMap()
+    {
+        StartCoroutine(CreateMap());
+    }
+
+    public void ButtonCompleteCurrentTile()
+    {
+        CompleteCurrentTile();
+    }
+
+    IEnumerator CreateMap()
+    {
+        float timeMultiplier = .5f;
+        hexMapController.disableInput = true;
+        gridState = GridState.Creating;
+
+        float timer = 0;
+
+        // create a 0,0,0 start tile and activate it
         HexTile firstTile = GetTile(Vector3Int.zero);
-
-        firstTile.Activate(TileState.Completed);
+        firstTile.gameObject.SetActive(true);
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(firstTile);
+        //world.encounterManager.GenerateHexEncounters(firstTile);
+        firstTile.Activate();
         firstTile.LockDirections();
+
+        // flip it up
+        timer = 1 * timeMultiplier;
+        firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
+        yield return new WaitForSeconds(timer);
+
+        hexMapController.FocusOverview(true);
+        yield return new WaitForSeconds(1);
+
+        timer = 0.3f * timeMultiplier;
+
+        for (int i = 1; i <= 4; i++)
+        {
+            foreach (HexTile tile in GetTilesAtRow(i))
+            {
+                tile.gameObject.SetActive(true);
+                tile.transform.DOScale(hexScale, timer).SetEase(Ease.InExpo);
+            }
+            yield return new WaitForSeconds(timer);
+        }
 
         // create some randoms tiles spread out on third row
         for (int i = 0; i < 4; i++)
         {
-            GetRandomTile(3).Activate();
+            HexTile tile = GetRandomTile(3);
+            timer = tile.BeginFlipUpNewTile() +.2f;
+            yield return new WaitForSeconds(timer * timeMultiplier); 
         }
 
-        // add some tiles to inventory to test placement
-        foreach (HexTile tile in inventory)
-        {
-            tile.Init();
-            tile.Activate(TileState.Inventory);
-        }
-    } 
+        yield return new WaitForSeconds(timer * timeMultiplier);
+
+        firstTile.tileState = TileState.Current;
+        hexMapController.disableInput = false;
+        animator.SetBool("IsPlaying", true);
+    }
 
     public void ExpandMap()
     {
         hexMapController.disableInput = true;
-        GetComponent<CameraShake>().ShakeCamera();
+        //GetComponent<CameraShake>().ShakeCamera();
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
@@ -123,22 +166,13 @@ public class GridManager : Manager
         animator.SetBool("IsRotating", rotate);
     }
 
-    public void IsComplete()
+    public void CompleteCurrentTile()
     {
-        animator.SetBool("IsComplete", true);
-    }
-
-    public void ButtonCompletePlacement()
-    {
-        if (TilePlacementValid(activeTile))
+        if (currentTile != null)
         {
-            activeTile.ConfirmTilePlacement();
-
-            IsComplete();
-        }
-        else
-        {
-            animator.SetBool("IsRotating", false);
+            currentTile.tileState = TileState.Completed;
+            currentTile = null;
+            animator.SetBool("IsPlaying", false);
         }
     }
 
@@ -149,9 +183,10 @@ public class GridManager : Manager
         animator.SetBool("IsDraging", false);
     }
 
-    void CreateTileMap()
+    void InitializeMap()
     {
         // create a hex shaped map och inactive tiles
+        HexTile tile;
         for (int q = -gridWidth; q <= gridWidth; q++)
         {
             int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
@@ -159,7 +194,10 @@ public class GridManager : Manager
 
             for (int r = r1; r <= r2; r++)
             {
-                AddTile(new Vector3Int(q, r, -q-r));
+                tile = AddTile(new Vector3Int(q, r, -q-r));
+                //WorldSystem.instance.encounterManager.GenerateHexEncounters(tile);
+                tile.transform.localScale = Vector3.zero;
+                tile.gameObject.SetActive(false);
             }
         }
     }
@@ -167,6 +205,7 @@ public class GridManager : Manager
     void CreateRow(int row)
     {
         List<Vector3> newRow = new List<Vector3>();
+        HexTile tile;
         for (int q = -gridWidth; q <= gridWidth; q++)
         {
             int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
@@ -175,7 +214,8 @@ public class GridManager : Manager
             {
                 if (Mathf.Abs(q) == row || Mathf.Abs(r) == row || Mathf.Abs(-q-r) == row)
                 {
-                    AddTile(new Vector3Int(q, r, -q-r), true);
+                    tile = AddTile(new Vector3Int(q, r, -q-r));
+                    tile.transform.localScale = Vector3.zero;
                 }
             }
         }
@@ -373,7 +413,12 @@ public class GridManager : Manager
 
     HexTile GetTile(Vector3Int cellCoordinate)
     {
-        return tiles[cellCoordinate];
+        if (tiles.ContainsKey(cellCoordinate))
+        {
+            return tiles[cellCoordinate];
+        }
+        else   
+            return null;
     }
 
     HexTile GetRandomTile(int row = 0, bool aboveRow = false)
@@ -381,7 +426,7 @@ public class GridManager : Manager
         List<Vector3Int> result = new List<Vector3Int>();
         if (row == 0)
         {
-            return tiles.ElementAt(Random.Range(0, tiles.Count)).Value;
+            return GetTile(Vector3Int.zero);
         }
 
         foreach (Vector3Int tile in tiles.Keys.Except(activeTiles.ConvertAll(x => x.coord)))
@@ -500,12 +545,12 @@ public class GridManager : Manager
         return new Vector3(x, y, transform.position.z);
     }
 
-    void AddTile(Vector3Int coord, bool invisible = false)
+    HexTile AddTile(Vector3Int coord)
     {
         if (coord.x + coord.y + coord.z != 0)
         {
             Debug.LogWarning("Invalid coord");
-            return;
+            return null;
         }
         
         GameObject obj = Instantiate(prefab, CellPosToWorldPos(coord), transform.rotation, transform);
@@ -515,14 +560,10 @@ public class GridManager : Manager
         tile.coord = coord;
         tile.Init();
 
-        if (invisible)
-        {
-            obj.transform.localScale = Vector3.zero;
-        }
-
         if (!tiles.ContainsValue(tile))
         {
             tiles.Add(coord, tile);
         }
+        return tile;
     }
 }

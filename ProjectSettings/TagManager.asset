@@ -55,6 +55,9 @@ TagManager:
   - name: GridTiles
     uniqueID: 2351338455
     locked: 0
+  - name: GridEnvironment
+    uniqueID: 2678275619
+    locked: 0
   - name: Background
     uniqueID: 4018418663
     locked: 0

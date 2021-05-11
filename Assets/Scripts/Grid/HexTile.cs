@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 
 public class HexTile : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class HexTile : MonoBehaviour
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
     public Transform encounterParent;
+    Color highlight = new Color(.5f, .5f, .5f, 1f);
+    Color normal = new Color(1f, 1f, 1f, 1f);
+    Tween colorTween;
 
     public static List<Vector3Int> encounterPositions = new List<Vector3Int>  {
 
@@ -55,6 +59,7 @@ public class HexTile : MonoBehaviour
         set 
         {
             _tileState = value;
+            colorTween?.Kill();
 
             if (_tileState == TileState.Active)
             {
@@ -65,6 +70,11 @@ public class HexTile : MonoBehaviour
                 gridManager.completedTiles.Add(this);
                 spriteRenderer.color = Color.gray;
             }
+            else if (_tileState == TileState.Current)
+            {
+                colorTween = spriteRenderer.DOColor(highlight, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = normal);
+                gridManager.currentTile = this;
+            }
         }
     }
     public void Init()
@@ -73,15 +83,15 @@ public class HexTile : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Activate(TileState aTileState = TileState.Active, bool activeDebug = true)
+    public void Activate(bool activeDebug = true)
     {
         availableDirections = gridManager.AddNeighbours();
+        gridManager.activeTiles.Add(this);
         if (activeDebug)
         {
             availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
         }
         spriteRenderer.sprite = gridManager.sprites[0];
-        tileState = aTileState;
     }
 
     public void CloseExits(List<int> openExists)
@@ -104,21 +114,24 @@ public class HexTile : MonoBehaviour
         lockedDirections = directions;
     }
 
-    void BeginFlipUpNewTile()
+    public float BeginFlipUpNewTile(bool enterPlacement = false)
     {
-        GetComponent<PolygonCollider2D>().enabled = false; //ska bort när man ska lägga ut själv
+        GetComponent<PolygonCollider2D>().enabled = false; //ska bort nï¿½r man ska lï¿½gga ut sjï¿½lv
         spriteRenderer.color = Color.white;
-
-        gridManager.IsComplete();
-
+        if (enterPlacement)
+        {
+            gridManager.animator.SetBool("IsPlacing", true);
+        }
 
         tileState = TileState.Animation;
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 1.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile());
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile());
+        return 1f;
     }
 
     public void EndFlipUpNewTile()
     {
-        Activate(TileState.Active, false);
+        Activate(false);
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
         List<int> requiredExits = gridManager.GetNewExits(this);
 
         foreach (int dir in requiredExits)
@@ -137,9 +150,16 @@ public class HexTile : MonoBehaviour
 
     void CompleteFlip()
     {
-        tileState = TileState.Completed;
-        WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
-        gridManager.CloseExists(this);
+        if (gridManager.gridState != GridState.Creating)
+        {
+            tileState = TileState.Placement;
+            StartPlacement();
+        }
+        else
+        {
+            tileState = TileState.Active;
+        }
+        //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
     }
 
 
@@ -178,27 +198,39 @@ public class HexTile : MonoBehaviour
         transform.position = gridManager.CellPosToWorldPos(coord);
         Destroy(gridManager.oldHoverTile.gameObject);
         gridManager.oldHoverTile = null;
-        //tileState = TileState.Active;
-
-        // DEBUG
-        tileState = TileState.Completed;
+    }
+    void Highlight()
+    {
+        spriteRenderer.color = highlight;
+    }
+    void UnHighlight()
+    {
+        spriteRenderer.color = normal;
     }
 
     void OnMouseUp()
     {
-        if(tileState == TileState.Inactive && gridManager.gridState == GridState.Idle && gridManager.TileConnectedToExit(this))
-            BeginFlipUpNewTile();
-        else if(tileState == TileState.Inventory && gridManager.activeTile == null && gridManager.gridState != GridState.Complete)
+        if(tileState == TileState.Inactive && gridManager.gridState == GridState.Placement && gridManager.TileConnectedToExit(this))
+            BeginFlipUpNewTile(true);
+        else if(tileState == TileState.Inventory && gridManager.activeTile == null && gridManager.gridState != GridState.Complete )
             StartPlacement();
+        else if(gridManager.gridState == GridState.Play && gridManager.hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
+        {
+            gridManager.hexMapController.FocusTile(this);
+        }
     }
     void OnMouseEnter()
     {
-        if (gridManager.gridState == GridState.Idle && tileState == TileState.Inactive)
+        if (gridManager.gridState == GridState.Placement && tileState == TileState.Inactive && gridManager.hexMapController.zoomStep != 2)
         {
             if (gridManager.activeTile == null && gridManager.CheckFreeSlot(this))
                 spriteRenderer.color = Color.green;
             else
                 spriteRenderer.color = Color.red;
+        }
+        else if (gridManager.gridState == GridState.Play)
+        {
+            Highlight();
         }
     }
 
@@ -217,6 +249,7 @@ public class HexTile : MonoBehaviour
     {
         if (_tileState == TileState.Inactive)
             spriteRenderer.color = Color.white;
+        UnHighlight();
         gridManager.hoverTilePosition = Vector3.zero;
         gridManager.hoverTile = null;
     }

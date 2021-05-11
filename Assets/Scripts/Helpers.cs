@@ -24,6 +24,7 @@ public static class Helpers
 
     public static Color attackColor = new Color(190,83,83);
     public static Color neutralColor = Color.white;
+    public static float timeMultiplier = 1.0f;
 
     public static string ToLowerFirstChar(this string input)
     {
@@ -43,6 +44,8 @@ public static class Helpers
             }
         }
     }
+
+
 
     public static void SetListsFromDictionary<T1, T2>(this Dictionary<T1, T2> dict, ref List<T1> keys, ref List<T2> values)
     {
