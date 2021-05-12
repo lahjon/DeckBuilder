@@ -31,6 +31,8 @@ public class GridManager : Manager
     int _bossCounter;
     public int tilesUntilBoss;
     float hexScale = 0.3765092f;
+    bool initialized;
+    public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public int bossCounter
     {
         get
@@ -149,12 +151,12 @@ public class GridManager : Manager
         firstTile.tileState = TileState.Current;
         hexMapController.disableInput = false;
         animator.SetBool("IsPlaying", true);
+        initialized = true;
     }
 
     public void ExpandMap()
     {
         hexMapController.disableInput = true;
-        //GetComponent<CameraShake>().ShakeCamera();
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
@@ -185,6 +187,27 @@ public class GridManager : Manager
             currentTile.tileState = TileState.Completed;
             currentTile = null;
             animator.SetBool("IsPlaying", false);
+        }
+    }
+
+    public void HighlightEntries()
+    {
+        highlightedTiles.Clear();
+        if (initialized)
+        {
+            HashSet<Vector3Int> openSlots = new HashSet<Vector3Int>();
+            foreach (HexTile tile in completedTiles)
+            {
+                openSlots.UnionWith(CheckOpenNeighbours(tile));
+            }
+            foreach (Vector3Int coord in openSlots)
+            {
+                if (GetTile(coord) is HexTile tile)
+                {
+                    highlightedTiles.Add(tile);
+                    tile.StartFadeInOutColor();
+                }
+            }
         }
     }
 
@@ -296,6 +319,25 @@ public class GridManager : Manager
         }
 
         return false;
+    }
+
+    HashSet<Vector3Int> CheckOpenNeighbours(HexTile tile)
+    {
+        // get all the neighbours of a tile and discard all inactive tiles
+        List<Vector3Int> neighboursList = GetNeighboursCoords(tile.coord);
+        neighboursList = neighboursList.Except(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+        HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>(neighboursList);
+        HashSet<Vector3Int> result = new HashSet<Vector3Int>();
+
+        foreach (int dir in tile.availableDirections)
+        {
+            if(neighbours.Contains(tile.coord + GetTileDirection(dir)))
+            {
+                result.Add(tile.coord + GetTileDirection(dir));
+            }
+        }
+
+        return result;
     }
 
     // used to see if the tile is connected to an exit

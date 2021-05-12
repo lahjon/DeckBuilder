@@ -243,7 +243,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 2dc86b0a2c83bda419e422ddb69a319d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -351,8 +351,10 @@ MonoBehaviour:
   - {fileID: 2595203540615779284}
   spriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1022666182270178936}
+  highlighted: 0
   encounters: []
   encountersExits: []
+  specialTile: 0
 --- !u!1 &4928128889099951435
 GameObject:
   m_ObjectHideFlags: 0

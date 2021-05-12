@@ -18,9 +18,9 @@ public class HexTile : MonoBehaviour
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
     public Transform encounterParent;
-    Color highlightColor = new Color(.7f, .7f, .7f, 1f);
-    Color completedColor = new Color(.5f, .5f, .5f, 1f);
-    Color normalColor = new Color(1f, 1f, 1f, 1f);
+    Color highlightColor = new Color(.6f, .6f, .6f, 1f);
+    Color completedColor = new Color(.4f, .4f, .4f, 1f);
+    Color normalColor = new Color(.8f, .8f, .8f, 1f);
     Tween colorTween;
     public bool highlighted;
 
@@ -74,9 +74,29 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.Current)
             {
-                colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = normalColor);
+                spriteRenderer.color = normalColor;
+                StartFadeInOutColor();
                 gridManager.currentTile = this;
             }
+        }
+    }
+
+    public void StartFadeInOutColor()
+    {
+        colorTween?.Kill();
+        spriteRenderer.color = normalColor;
+        colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = normalColor);
+    }
+    public void StopFadeInOutColor()
+    {
+        colorTween?.Kill();
+        if (tileState == TileState.Completed)
+        {
+            spriteRenderer.color = completedColor;
+        }
+        else
+        {
+            spriteRenderer.color = normalColor;
         }
     }
     public void Init()
@@ -121,13 +141,13 @@ public class HexTile : MonoBehaviour
     public float BeginFlipUpNewTile(bool enterPlacement = false)
     {
         //GetComponent<PolygonCollider2D>().enabled = false; //ska bort n�r man ska l�gga ut sj�lv
-        spriteRenderer.color = Color.white;
+        //spriteRenderer.color = Color.white;
         if (enterPlacement)
         {
+            Activate(false);
             Debug.Log(transform.localScale);
             WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
             gridManager.animator.SetBool("IsPlacing", true);
-            Activate(false);
         }
         else
         {
@@ -218,16 +238,18 @@ public class HexTile : MonoBehaviour
     {
         if(!highlighted)
         {
-            spriteRenderer.color -= new Color(0.2f, 0.2f, 0.2f, 1);
-            highlighted = false;
+            Debug.Log("Highlight");
+            spriteRenderer.color += new Color(0.2f, 0.2f, 0.2f, 1);
+            highlighted = true;
         }
     }
     void UnHighlight()
     {
         if(highlighted)
         {
-            spriteRenderer.color += new Color(0.2f, 0.2f, 0.2f, 1);
-            highlighted = true;
+            Debug.Log("Unhighlight");
+            spriteRenderer.color -= new Color(0.2f, 0.2f, 0.2f, 1);
+            highlighted = false;
         }
     }
 
@@ -242,22 +264,6 @@ public class HexTile : MonoBehaviour
             gridManager.hexMapController.FocusTile(this);
         }
     }
-    void OnMouseEnter()
-    {
-        if (!gridManager.hexMapController.disableInput)
-        {
-            Highlight();
-            if (gridManager.gridState == GridState.Placement && tileState == TileState.Inactive && gridManager.hexMapController.zoomStep != 2)
-            {
-                if (gridManager.activeTile == null && gridManager.CheckFreeSlot(this))
-                    spriteRenderer.color = Color.green;
-                else
-                    spriteRenderer.color = Color.red;
-            }
-            
-        }
-    }
-
     void OnMouseOver()
     {
         if (tileState == TileState.Inactive && gridManager.hoverTile != this)
@@ -266,17 +272,36 @@ public class HexTile : MonoBehaviour
             gridManager.hoverTile = this;
         }
     }
+    void OnMouseEnter()
+    {
+        if (tileState == TileState.Current)
+        {
+            spriteRenderer.color = normalColor;
+            Highlight();
+            StartFadeInOutColor();
+        }
+        else
+        {
+            Highlight();
+        }
+    }
+
 
     void OnMouseExit()
     {
-        if (!gridManager.hexMapController.disableInput)
+        if (tileState == TileState.Current)
+        {
+            spriteRenderer.color = normalColor;
+            UnHighlight();
+            StartFadeInOutColor();
+        }
+        else
         {
             UnHighlight();
-            if (_tileState == TileState.Inactive)
-                spriteRenderer.color = normalColor;
-            gridManager.hoverTilePosition = Vector3.zero;
-            gridManager.hoverTile = null;
         }
+        gridManager.hoverTilePosition = Vector3.zero;
+        gridManager.hoverTile = null;
+        
     }
 
     public static void EncountersInitializePositions(Dictionary<Vector3Int, EncounterHex> encPos, int gridWidth)
