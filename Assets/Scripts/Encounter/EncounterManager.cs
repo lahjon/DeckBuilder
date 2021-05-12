@@ -254,17 +254,14 @@ public class EncounterManager : Manager
 
     public void GenerateHexEncounters(HexTile tile)
     {
-        List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.encounterPositions);
+        List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
-        List<EncounterHex> encounters = new List<EncounterHex>();
-        List<EncounterHex> encountersDoor = new List<EncounterHex>();
         List<EdgeEncounter> edges;
 
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(EncounterSlots[x])));
-        chosenEncountersSlots.ForEach(x => EncounterSlots.Remove(x));
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(GridManager.tileDirections[x])));
 
-        int nrAdditional = Random.Range(1, tile.availableDirections.Count);
-        //int nrAdditional = 100;
+        //int nrAdditional = Random.Range(1, tile.availableDirections.Count+2);
+        int nrAdditional = 100;
 
         for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
         {
@@ -280,20 +277,18 @@ public class EncounterManager : Manager
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = (EncounterType)Random.Range(1, 6);
-            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
+            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(0 /*HexTile.encounterNoiseAllowed*/);
             enc.tile = tile;
-            encounters.Add(enc);
-            if (i < tile.availableDirections.Count) encountersDoor.Add(enc); 
+            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
+
         }
 
-        EncounterHex chosen = encounters[0];
-
         // Create initital non-crossing Paths. Taking copy since arguments is destructive
-        edges = AssignNonCrossingEdges(new List<EncounterHex>(encounters));
+        edges = AssignNonCrossingEdges(tile.posToEncounter);
 
         // Time to check if all nodes are connected to the same graph
-        List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(encounters));
-        if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges);
+        List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(tile.encounters));
+        if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, new HashSet<Vector3Int>(tile.posToEncounter.Keys));
 
         //Finally, time to see if it is possible to back into a corner
         
@@ -304,12 +299,11 @@ public class EncounterManager : Manager
             e.n2.hexNeighboors.Remove(e.n1);
 
             //if true graphs.Count will be larger than one, otherwise would have found exits
-            if (!(CanReachExitNode(e.n1, encountersDoor) && CanReachExitNode(e.n2, encountersDoor)))
+            if (!(CanReachExitNode(e.n1, tile.encountersExits) && CanReachExitNode(e.n2, tile.encountersExits)))
             {
                 Debug.Log("Extra connect for edge between" + e.n1.name + ", and " + e.n2.name);
-                ConnectBiGraphsNoCrosses(FindBiGraphs(new List<EncounterHex>(encounters)), edges, e);
+                ConnectBiGraphsNoCrosses(FindBiGraphs(new List<EncounterHex>(tile.encounters)), edges, new HashSet<Vector3Int>(tile.posToEncounter.Keys), e);
             }
-                
 
             e.n1.hexNeighboors.Add(e.n2);
             e.n2.hexNeighboors.Add(e.n1);
@@ -318,31 +312,30 @@ public class EncounterManager : Manager
 
         foreach(EdgeEncounter e in edges)
             Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false);
-
-        tile.encounters = encounters;
-        tile.encountersExits = encountersDoor;
-
-        StartCoroutine(chosen.Entering(() => { }));
     }
 
-    private List<EdgeEncounter> AssignNonCrossingEdges(List<EncounterHex> nodes)
+    private List<EdgeEncounter> AssignNonCrossingEdges(Dictionary<Vector3Int, EncounterHex> nodes)
     {
         Debug.Log("assign non crossing edges");
         List<EdgeEncounter> edges = new List<EdgeEncounter>();
         int nrNodes = nodes.Count;
-        List<EncounterHex> allNodes = new List<EncounterHex>(nodes);
-        for (int i = 0; i < nrNodes; i++)
-        {
-            EncounterHex enc = nodes[Random.Range(0, nodes.Count)];
-            nodes.Remove(enc);
+        List<EncounterHex> allNodes = new List<EncounterHex>(nodes.Values);
+        List<EncounterHex> allNodesNeigh = new List<EncounterHex>(allNodes);
 
-            Shuffle(allNodes);
-            for (int j = 0; j < allNodes.Count; j++)
+        HashSet<Vector3Int> occupiedCoords = new HashSet<Vector3Int>(nodes.Keys);
+
+        Shuffle(allNodes);
+        foreach(EncounterHex enc in allNodes)
+        {
+            Shuffle(allNodesNeigh);
+            foreach(EncounterHex neigh in allNodesNeigh)
             {
-                if (allNodes[j] == enc) continue;
-                EncounterHex neigh = allNodes[j];
+                if (neigh == enc) continue;
                 EdgeEncounter potentialEdge = new EdgeEncounter(enc, neigh);
                 if (edges.Contains(potentialEdge)) continue;
+
+                if (NodeExistsBetween(enc.coordinates, neigh.coordinates, occupiedCoords))
+                    continue;
 
                 bool crosses = false;
                 foreach (EdgeEncounter edge in edges)
@@ -358,7 +351,6 @@ public class EncounterManager : Manager
                 enc.hexNeighboors.Add(neigh);
                 neigh.hexNeighboors.Add(enc);
                 break;
-
             }
         }
         return edges;
@@ -432,7 +424,7 @@ public class EncounterManager : Manager
         return false;
     }
 
-    private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges, EdgeEncounter exceptEdge = null)
+    private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges,HashSet<Vector3Int> coordsEncounters, EdgeEncounter exceptEdge = null)
     {
         while (graphs.Count > 1)
         {
@@ -441,7 +433,7 @@ public class EncounterManager : Manager
             {
                 List<EncounterHex> g1 = new List<EncounterHex>(graphs[0]);
                 List<EncounterHex> g2 = new List<EncounterHex>(graphs[i]);
-                if(Connect2Graphs(g1,g2, currentEdges,exceptEdge))
+                if(Connect2Graphs(g1,g2, currentEdges, coordsEncounters, exceptEdge))
                 {
                     graphs[0].AddRange(graphs[i]);
                     graphs.RemoveAt(i);
@@ -451,7 +443,7 @@ public class EncounterManager : Manager
         }
     }
 
-    private bool Connect2Graphs(List<EncounterHex> g1, List<EncounterHex> g2, List<EdgeEncounter> currentEdges, EdgeEncounter exceptEdge = null)
+    private bool Connect2Graphs(List<EncounterHex> g1, List<EncounterHex> g2, List<EdgeEncounter> currentEdges, HashSet<Vector3Int> coordsEncounters, EdgeEncounter exceptEdge = null)
     {
         Shuffle(g1);
         Shuffle(g2);
@@ -466,11 +458,20 @@ public class EncounterManager : Manager
                     Debug.Log("identical edge requested, skipping" + g1n.name + "," + g2n.name);
                     continue;
                 }
-                if (exceptEdge != null) Debug.Log("running extra");
+
+                if (NodeExistsBetween(g1n.coordinates, g2n.coordinates, coordsEncounters))
+                    continue;
+
+
                 bool crosses = false;
                 foreach (EdgeEncounter edge in currentEdges)
-                    if(PathCrosses(potentialEdge.GetNodePos(), edge.GetNodePos()))
+                {
+                    if (PathCrosses(potentialEdge.GetNodePos(), edge.GetNodePos()))
+                    {
                         crosses = true;
+                        break;
+                    }
+                }
 
                 if (!crosses)
                 {
@@ -490,6 +491,53 @@ public class EncounterManager : Manager
         float t = ((e1.p1.x - e2.p3.x) * (e2.p3.y - e2.p4.y) - (e1.p1.y - e2.p3.y) * (e2.p3.x - e2.p4.x)) / den;
         float u = ((e1.p2.x - e1.p1.x) * (e1.p1.y - e2.p3.y) - (e1.p2.y - e1.p1.y) * (e1.p1.x - e2.p3.x)) / den;
         return t > 0.01 && t < 0.99 && u > 0.01 && u < 0.99;
+    }
+
+    public bool NodeExistsBetween(Vector3Int posA, Vector3Int posB, HashSet<Vector3Int> occupied)
+    {
+
+        Vector3Int starting;
+        Vector3Int end;
+        if (posA.x == posB.x)
+        {
+            starting = posA.y < posB.y ? posA : posB;
+            end = posA.y < posB.y ? posB : posA;
+            for (int i = 1; i < end.y - starting.y; i++)
+            {
+                if (occupied.Contains(new Vector3Int(starting.x,    starting.y + i,     starting.z - i)))
+                    return true;
+            }
+        }
+        else if (posA.y == posB.y)
+        {
+            starting = posA.x < posB.x ? posA : posB;
+            end = posA.x < posB.x ? posB : posA;
+            for (int i = 1; i < end.x - starting.x; i++)
+            {
+                if (occupied.Contains(new Vector3Int(posA.x + i,    starting.y,         starting.z - i)))
+                    return true;
+            }
+        }
+        else if (posA.z == posB.z)
+        {
+            starting = posA.x < posB.x ? posA : posB;
+            end = posA.x < posB.x ? posB : posA;
+            for (int i = 1; i < end.x - starting.x; i++)
+            {
+                if (occupied.Contains(new Vector3Int(posA.x + i,    starting.y -1,      starting.z)))
+                    return true;
+            }
+        }
+
+        starting = posA.x < posB.x ? posA : posB;
+        end = posA.x < posB.x ? posB : posA;
+        for (int i = 1; i < end.x - starting.x; i++)
+        {
+            if (occupied.Contains(new Vector3Int(posA.x + i, starting.y - i, starting.z - 2*i)))
+                return true;
+        }
+
+        return false;
     }
 
     private static void Shuffle<T>(List<T> list)

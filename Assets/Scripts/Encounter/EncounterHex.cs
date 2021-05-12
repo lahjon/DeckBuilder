@@ -30,6 +30,7 @@ public class EncounterHex : Encounter
     {
         startingScale = transform.localScale;
         RotationConstraint rotCon = GetComponent<RotationConstraint>();
+        
         //rotCon.AddSource(WorldSystem.instance.gridManager.gameObject);
     }
 

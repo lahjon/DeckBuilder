@@ -22,33 +22,27 @@ public class HexTile : MonoBehaviour
     Color normal = new Color(1f, 1f, 1f, 1f);
     Tween colorTween;
 
-    public static List<Vector3Int> encounterPositions = new List<Vector3Int>  {
+    public Dictionary<Vector3Int, EncounterHex> posToEncounter = new Dictionary<Vector3Int, EncounterHex>();
+    public Dictionary<Vector3Int, EncounterHex> posToEncountersExit = new Dictionary<Vector3Int, EncounterHex>();
+    public static List<Vector3Int> positionsExit = new List<Vector3Int>()
+    {
+        new Vector3Int(3, -3, 0),
+        new Vector3Int(3, 0, -3),
+        new Vector3Int(0, 3, -3),
+        new Vector3Int(-3, 3, 0),
+        new Vector3Int(-3, 0, 3),
+        new Vector3Int(0, -3, 3)
+    };
 
-                                                                new Vector3Int(1, -1, 0),
-                                                                new Vector3Int(1, 0, -1),
-                                                                new Vector3Int(0, 1, -1),
-                                                                new Vector3Int(-1, 1, 0),
-                                                                new Vector3Int(-1, 0, 1),
-                                                                new Vector3Int(0, -1, 1),
+    public static List<Vector3Int> positionsInner = new List<Vector3Int>();
 
-                                                                new Vector3Int(2, -1, -1),
-                                                                new Vector3Int(1, 1, -2),
-                                                                new Vector3Int(-1, 2, -1),
-                                                                new Vector3Int(-2, 1, 1),
-                                                                new Vector3Int(-1, -1, 2),
-                                                                new Vector3Int(1, -2, 1),
-
-                                                                new Vector3Int(0, 0, 0)
-
-                                                            };
-
-    public static float encounterRadius = 1.0f;
+    public static float radiusInverse = 0.65f;
     public static float encounterNoiseAllowed = 0.1f;
     public static float zRadFactor = Mathf.Sqrt(3/2);
+    private int gridWidth = 2;
 
     public List<EncounterHex> encounters;
     public List<EncounterHex> encountersExits;
-    
 
     public TileState tileState
     {
@@ -81,6 +75,7 @@ public class HexTile : MonoBehaviour
     {
         gridManager = WorldSystem.instance.gridManager;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        EncountersInitializePositions(posToEncounter, gridWidth);
     }
 
     public void Activate(bool activeDebug = true)
@@ -254,6 +249,20 @@ public class HexTile : MonoBehaviour
         gridManager.hoverTile = null;
     }
 
+    public static void EncountersInitializePositions(Dictionary<Vector3Int, EncounterHex> encPos, int gridWidth)
+    {
+        if (positionsInner.Count != 0) return; 
+        for (int q = -gridWidth; q <= gridWidth; q++)
+        {
+            int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
+            int r2 = Mathf.Min(gridWidth, -q + gridWidth);
+
+            for (int r = r1; r <= r2; r++)
+                positionsInner.Add(new Vector3Int(q, r, -q - r));
+        }
+
+    }
+
     #region Encounters 
 
 
@@ -262,13 +271,25 @@ public class HexTile : MonoBehaviour
         float x = (encPos.x * 0.5f) - (encPos.y * 0.5f);
         float y = zRadFactor*encPos.z * -1;
 
-        return encounterRadius*(new Vector3(x, y));
+        return radiusInverse*(new Vector3(x, y));
     }
 
     public static Vector3Int DirectionToDoorEncounter(Vector3Int dir)
     {
-        return encounterPositions[encounterPositions.IndexOf(dir) + 6];
+        return dir*3;
     }
 
+    public void AddEncounter(Vector3Int pos, EncounterHex enc, bool exit = false)
+    {
+        if (exit)
+        {
+            posToEncountersExit[pos] = enc;
+            encountersExits.Add(enc);
+        }
+
+        posToEncounter[pos] = enc;
+        encounters.Add(enc);
+
+    }
     #endregion
 }
