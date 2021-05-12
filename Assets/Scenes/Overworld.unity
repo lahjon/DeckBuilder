@@ -14856,10 +14856,10 @@ MonoBehaviour:
   minY: -8
   maxX: 8
   maxY: 8
-  panSpeed: 5
+  panSpeed: 7
   panSensitivity: 1
   disableInput: 0
-  _zoomStep: 0
+  zoomStep: 1
 --- !u!114 &1848971792
 MonoBehaviour:
   m_ObjectHideFlags: 0

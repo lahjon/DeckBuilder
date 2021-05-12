@@ -82,7 +82,11 @@ public class GridManager : Manager
 
     public void ButtonCreateMap()
     {
-        StartCoroutine(CreateMap());
+        if (!initialized)
+        {
+            StartCoroutine(CreateMap());
+            
+        }
     }
 
     public void ButtonCompleteCurrentTile()
@@ -122,7 +126,7 @@ public class GridManager : Manager
         firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
         yield return new WaitForSeconds(timer);
 
-        hexMapController.FocusOverview(true);
+        hexMapController.Zoom(ZoomState.Outer, null, true);
         yield return new WaitForSeconds(1);
 
         timer = 0.3f * timeMultiplier;
@@ -185,7 +189,6 @@ public class GridManager : Manager
         if (currentTile != null)
         {
             currentTile.tileState = TileState.Completed;
-            currentTile = null;
             animator.SetBool("IsPlaying", false);
         }
     }
@@ -205,7 +208,7 @@ public class GridManager : Manager
                 if (GetTile(coord) is HexTile tile)
                 {
                     highlightedTiles.Add(tile);
-                    tile.StartFadeInOutColor();
+                    tile.tileState = TileState.InactiveHighlight;
                 }
             }
         }

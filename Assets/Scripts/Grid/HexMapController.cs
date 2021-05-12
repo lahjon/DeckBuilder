@@ -19,38 +19,19 @@ public class HexMapController : MonoBehaviour
     [HideInInspector] float timer;
     public bool disableInput;
     Vector3 cameraPosition;
-    [SerializeField] int _zoomStep = 1;
-    public int zoomStep
-    {
-        get
-        {
-            return _zoomStep;
-        }
-        set
-        {
-            if (value >= 0 && value <= 2)
-                _zoomStep = value; 
+    public int zoomStep = 1;
 
-            if (_zoomStep == 0)
-            {
-                ZoomInner();
-            }
-            else if (_zoomStep == 1)
-            {
-                ZoomMid();
-            }
-            else if (_zoomStep == 2)
-            {
-                ZoomOuter();
-            }
-        }
-    }
     void Update()
     {
         if (!disableInput)
         {
             PanCamera();
             ZoomCamera();  
+        }
+
+        if (cam.transform.position != newPosition)
+        {
+            MoveCamera();
         }
     }
 
@@ -62,85 +43,89 @@ public class HexMapController : MonoBehaviour
         gridManager = GetComponent<GridManager>();
         zoomIn = 7;
         zoomOut = cam.transform.localPosition.z;
-        _zoomStep = 1;
+        zoomStep = 1;
     }
 
-    public void FocusTile(HexTile focusTile)
+    public void FocusTile(HexTile focusTile, ZoomState zoomstate, bool endDisable = false)
     {
         if (focusTile != null)
         {
-            _zoomStep = 0;
-            ZoomInner(focusTile.transform.position);
+            if (zoomstate == ZoomState.Inner)
+            {
+                Zoom(ZoomState.Inner, focusTile.transform.position, endDisable);
+            }
+            else if (zoomstate == ZoomState.Mid)
+            {
+                Zoom(ZoomState.Mid, focusTile.transform.position, endDisable);
+            }
         }
     }
-    public void FocusOverview(bool disable)
-    {
-        ZoomOuter(disable);
-    }
-    void ZoomInner(Vector3? pos = null)
+
+    public void Zoom(ZoomState zoomState = ZoomState.Mid, Vector3? pos = null, bool endDisable = false)
     {
         disableInput = true;
         Vector3 zoomPosition;
-
         if (pos != null)
         {
             zoomPosition = (Vector3)pos;
         }
+        else if (GetMousePosition() is Vector3 mousePosition)
+        {
+            zoomPosition = mousePosition;
+        }
         else
         {
-            Vector3? mousePosition = GetMousePosition();
-            if (mousePosition != null)
-            {
-                zoomPosition = (Vector3)mousePosition;
-            }
-            else
-            {
-                zoomPosition = cam.transform.position;
-            }
-            
+            zoomPosition = cam.transform.position;
         }
 
-
-        zoomPosition.z = zoomOut + zoomIn;
-
-        cam.transform.DOMove(zoomPosition, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
-            disableInput = false;
-            panSensitivity = 3f;
-            newPosition = cam.transform.position;
-        });
-    }
-    void ZoomMid()
-    {
-        disableInput = true;
-        cam.transform.DOMoveZ(zoomOut, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
-            disableInput = false;
-            panSensitivity = 5f;
-
-            newPosition = cam.transform.position;
-        });
-    }
-    void ZoomOuter(bool disable = false)
-    {
-        disableInput = disable;
-        cam.transform.DOMoveZ(zoomOut - zoomIn, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
-            disableInput = false;
-            panSensitivity = 5f;
-
-            newPosition = cam.transform.position;
-        });
+        if (zoomState == ZoomState.Inner)
+        {
+            zoomStep = 0;
+            zoomPosition.z = zoomOut + zoomIn;
+            cam.transform.DOMove(zoomPosition, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
+                disableInput = endDisable;
+                panSensitivity = 3f;
+                newPosition = cam.transform.position;
+            });
+        }
+        else if (zoomState == ZoomState.Mid)
+        {
+            zoomStep = 1;
+            zoomPosition.z = zoomOut;
+            cam.transform.DOMove(zoomPosition, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
+                disableInput = endDisable;
+                panSensitivity = 5f;
+                newPosition = cam.transform.position;
+            });
+        }
+        else if (zoomState == ZoomState.Outer)
+        {
+            zoomStep = 2;
+            cam.transform.DOMoveZ(zoomOut - zoomIn, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
+                disableInput = endDisable;
+                panSensitivity = 5f;
+                newPosition = cam.transform.position;
+            });
+        }
     }
 
     void ZoomCamera()
     {
         if(Input.mouseScrollDelta.y > 0) // zoom in
         {
-            //if (gridManager.hoverTile != null)
-            zoomStep--;
+            if (zoomStep > 0)
+            {
+                zoomStep--;
+                Zoom((ZoomState)zoomStep);
+            }
         }
         else if(Input.mouseScrollDelta.y < 0) // zoom out
         {
-            //if (gridManager.hoverTile != null)
-            zoomStep++;
+            if (zoomStep < 2)
+            {
+                zoomStep++;
+                Zoom((ZoomState)zoomStep);
+            }
         }
     }
 
@@ -188,18 +173,23 @@ public class HexMapController : MonoBehaviour
 
             timer += Time.deltaTime;
         }
+    }
 
+    void MoveCamera()
+    {
         cameraPosition = Vector3.Lerp(cam.transform.position, newPosition, Time.deltaTime * panSpeed);
 
         if (timer > .3f || Vector3.Distance(cameraPosition, newPosition) > .1f)
         {
             gridManager.animator.SetBool("IsPanning", true);
         }
-        else
-        {
-            gridManager.animator.SetBool("IsPanning", false);
-        }
 
         cam.transform.position = new Vector3(Mathf.Clamp(cameraPosition.x, minX, maxX), Mathf.Clamp(cameraPosition.y, minY, maxY), cameraPosition.z);
+
+        if (Vector3.Distance(cam.transform.position, newPosition) < 0.01f)
+        {
+            cam.transform.position = newPosition;
+            gridManager.animator.SetBool("IsPanning", false);
+        }
     }
 }

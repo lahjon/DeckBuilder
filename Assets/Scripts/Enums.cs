@@ -54,11 +54,19 @@ public enum Rarity
     Rare
 };
 
+public enum ZoomState
+{
+    Inner, 
+    Mid, 
+    Outer
+}
+
 public enum TileState
 {
     Inactive,
     Inventory,
     Placement,
+    InactiveHighlight,
     Current,
     Special,
     Active,

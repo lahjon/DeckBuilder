@@ -9,7 +9,10 @@ public class EncounterMapIdle : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Placement;
-        gridManager.HighlightEntries();
+
+        
+        gridManager.HighlightEntries(); 
+        
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

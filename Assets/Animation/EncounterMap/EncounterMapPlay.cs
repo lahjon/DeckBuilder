@@ -8,11 +8,6 @@ public class EncounterMapPlay : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Play;
-        foreach (HexTile tile in gridManager.highlightedTiles)
-        {
-            Debug.Log(tile.coord);
-            tile.StopFadeInOutColor();
-        }
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

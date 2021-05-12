@@ -9,6 +9,13 @@ public class EncounterMapPlacement : EncounterMapAnimator
         base.Init();
         gridManager.gridState = GridState.Placement;
         gridManager.hexMapController.disableInput = true;
+        foreach (HexTile tile in gridManager.highlightedTiles)
+        {
+            if (tile.tileState == TileState.InactiveHighlight)
+            {
+                tile.tileState = TileState.Inactive;
+            }
+        }
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

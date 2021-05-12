@@ -14,6 +14,7 @@ public class HexTile : MonoBehaviour
     public List<int> lockedDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
     static GridManager gridManager;
+    public Vector3Int entryPosition;
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -68,6 +69,11 @@ public class HexTile : MonoBehaviour
                 gridManager.completedTiles.Add(this);
                 spriteRenderer.color = completedColor;
             }
+            else if (_tileState == TileState.InactiveHighlight)
+            {
+                spriteRenderer.color = normalColor;
+                StartFadeInOutColor();
+            }
             else if (_tileState == TileState.Special)
             {
                 spriteRenderer.sprite = gridManager.sprites[2]; 
@@ -83,12 +89,14 @@ public class HexTile : MonoBehaviour
 
     public void StartFadeInOutColor()
     {
+        Debug.Log("START");
         colorTween?.Kill();
         spriteRenderer.color = normalColor;
         colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = normalColor);
     }
     public void StopFadeInOutColor()
     {
+        Debug.Log("STOP");
         colorTween?.Kill();
         if (tileState == TileState.Completed)
         {
@@ -140,19 +148,21 @@ public class HexTile : MonoBehaviour
 
     public float BeginFlipUpNewTile(bool enterPlacement = false)
     {
-        //GetComponent<PolygonCollider2D>().enabled = false; //ska bort n�r man ska l�gga ut sj�lv
-        //spriteRenderer.color = Color.white;
         if (enterPlacement)
         {
             Activate(false);
-            Debug.Log(transform.localScale);
+            entryPosition = gridManager.currentTile.coord;
+            //gridManager.currentTile = null;
             WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
             gridManager.animator.SetBool("IsPlacing", true);
+            gridManager.hexMapController.FocusTile(this, ZoomState.Mid, true);
         }
         else
         {
             spriteRenderer.sprite = gridManager.sprites[2];
         }
+
+        
 
         tileState = TileState.Animation;
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile());
@@ -255,26 +265,26 @@ public class HexTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        if(tileState == TileState.Inactive && gridManager.gridState == GridState.Placement && gridManager.TileConnectedToExit(this))
+        if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement)
             BeginFlipUpNewTile(true);
-        else if(tileState == TileState.Inventory && gridManager.activeTile == null && gridManager.gridState != GridState.Complete )
-            StartPlacement();
+        // else if(gridManager.activeTile == null && gridManager.gridState != GridState.Complete )
+        //     StartPlacement();
         else if(gridManager.gridState == GridState.Play && gridManager.hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
         {
-            gridManager.hexMapController.FocusTile(this);
+            gridManager.hexMapController.FocusTile(this, ZoomState.Inner);
         }
     }
-    void OnMouseOver()
-    {
-        if (tileState == TileState.Inactive && gridManager.hoverTile != this)
-        {
-            gridManager.hoverTilePosition = transform.position;
-            gridManager.hoverTile = this;
-        }
-    }
+    // void OnMouseOver()
+    // {
+    //     if (tileState == TileState.Inactive && gridManager.hoverTile != this)
+    //     {
+    //         gridManager.hoverTilePosition = transform.position;
+    //         gridManager.hoverTile = this;
+    //     }
+    // }
     void OnMouseEnter()
     {
-        if (tileState == TileState.Current)
+        if (tileState == TileState.Current || tileState == TileState.InactiveHighlight)
         {
             spriteRenderer.color = normalColor;
             Highlight();
@@ -289,7 +299,7 @@ public class HexTile : MonoBehaviour
 
     void OnMouseExit()
     {
-        if (tileState == TileState.Current)
+        if (tileState == TileState.Current || tileState == TileState.InactiveHighlight)
         {
             spriteRenderer.color = normalColor;
             UnHighlight();
