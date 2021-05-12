@@ -60,6 +60,7 @@ public enum TileState
     Inventory,
     Placement,
     Current,
+    Special,
     Active,
     Completed,
     Animation

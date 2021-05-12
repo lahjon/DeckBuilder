@@ -4874,6 +4874,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 687562894}
     m_Modifications:
+    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4961,10 +4965,6 @@ PrefabInstance:
     - target: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Name
       value: CardDisplay (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 248babe840a04174b92feffd40320a2f, type: 3}
@@ -9106,6 +9106,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 687562894}
     m_Modifications:
+    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9193,10 +9197,6 @@ PrefabInstance:
     - target: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Name
       value: CardDisplay (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 248babe840a04174b92feffd40320a2f, type: 3}
@@ -9627,7 +9627,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1848971789}
         m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
-        m_MethodName: ButtonCompletePlacement
+        m_MethodName: ButtonConfirm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15486,6 +15486,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 687562894}
     m_Modifications:
+    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -15573,10 +15577,6 @@ PrefabInstance:
     - target: {fileID: 1577957614717447411, guid: 7d0b4d78b5b269c4ca1e296200a0f357, type: 3}
       propertyPath: m_Name
       value: CardDisplay (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 248babe840a04174b92feffd40320a2f, type: 3}

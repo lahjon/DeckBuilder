@@ -8,6 +8,7 @@ public class EncounterMapPlacement : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Placement;
+        gridManager.hexMapController.disableInput = true;
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

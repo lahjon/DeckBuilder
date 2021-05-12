@@ -16,9 +16,9 @@ public class EncounterMapIdle : EncounterMapAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            animator.SetBool("IsPanning", true);
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     animator.SetBool("IsPanning", true);
+        // }
     }
 }

@@ -14,9 +14,9 @@ public class EncounterMapRotating : EncounterMapAnimator
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         gridManager.canvas.gameObject.SetActive(false);
-        tile.spriteRenderer.sortingOrder -= 1;
+        //tile.spriteRenderer.sortingOrder -= 1;
 
-        if (animator.GetBool("IsComplete"))
+        if (animator.GetBool("Confirm"))
         {
             //Debug.Log("Stuff");
         }

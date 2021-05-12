@@ -87,6 +87,17 @@ public class GridManager : Manager
     {
         CompleteCurrentTile();
     }
+    public void ButtonConfirm()
+    {
+        if (TilePlacementValid(activeTile))
+        {
+            activeTile.EndPlacement();
+        }
+        else
+        {
+            Debug.Log("FAIL");
+        }
+    }
 
     IEnumerator CreateMap()
     {
@@ -128,6 +139,7 @@ public class GridManager : Manager
         for (int i = 0; i < 4; i++)
         {
             HexTile tile = GetRandomTile(3);
+            tile.specialTile = true;
             timer = tile.BeginFlipUpNewTile() +.2f;
             yield return new WaitForSeconds(timer * timeMultiplier); 
         }
@@ -178,9 +190,11 @@ public class GridManager : Manager
 
     public void ExitPlacement()
     {
+        activeTile.tileState = TileState.Current;
+        hexMapController.disableInput = false;
         activeTile = null;
         oldHoverTile = null;
-        animator.SetBool("IsDraging", false);
+        animator.SetBool("Confirm", true);
     }
 
     void InitializeMap()
@@ -344,8 +358,11 @@ public class GridManager : Manager
         foreach (int dir in tile.availableDirections)
         {
             // make sure that one exit connects to a inactive tile
-            if (GetTile(tile.coord + GetTileDirection(dir)).tileState == TileState.Inactive)
+            //Debug.Log(tile.coord);
+            //Debug.Log(GetTileDirection(dir));
+            if (GetTile(tile.coord + GetTileDirection(dir)) is HexTile validTile && validTile.tileState == TileState.Inactive)
             {
+                Debug.Log("One Exit");
                 freeExist = true;
                 break;
             }

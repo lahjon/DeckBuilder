@@ -137,7 +137,7 @@ public class HexMapController : MonoBehaviour
             //if (gridManager.hoverTile != null)
             zoomStep--;
         }
-        else if(Input.mouseScrollDelta.y < 0 && gridManager.hoverTile != null) // zoom out
+        else if(Input.mouseScrollDelta.y < 0) // zoom out
         {
             //if (gridManager.hoverTile != null)
             zoomStep++;
