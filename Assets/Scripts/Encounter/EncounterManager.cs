@@ -258,10 +258,14 @@ public class EncounterManager : Manager
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
         List<EdgeEncounter> edges;
 
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(GridManager.tileDirections[x])));
+        for (int i = 0; i < 6; i++)
+            if (!tile.availableDirections.Contains(i))
+                EncounterSlots.Add(HexTile.DirectionToDoorEncounter(i));
 
-        //int nrAdditional = Random.Range(1, tile.availableDirections.Count+2);
-        int nrAdditional = 100;
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
+
+        int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count*2);
+        //int nrAdditional = 100;
 
         for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
         {
@@ -277,7 +281,7 @@ public class EncounterManager : Manager
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = (EncounterType)Random.Range(1, 6);
-            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(0 /*HexTile.encounterNoiseAllowed*/);
+            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
 
@@ -312,6 +316,8 @@ public class EncounterManager : Manager
 
         foreach(EdgeEncounter e in edges)
             Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false);
+
+        
     }
 
     private List<EdgeEncounter> AssignNonCrossingEdges(Dictionary<Vector3Int, EncounterHex> nodes)
@@ -406,6 +412,8 @@ public class EncounterManager : Manager
     public bool CanReachExitNode(EncounterHex node, List<EncounterHex> doorNodes)
     {
         if (doorNodes.Contains(node)) return true;
+        if (node.status == EncounterHexStatus.Unreachable || node.status == EncounterHexStatus.Visited) return false;
+
         List<EncounterHex> frontier = new List<EncounterHex>();
         List<EncounterHex> visited = new List<EncounterHex>();
         frontier.Add(node);
@@ -500,8 +508,8 @@ public class EncounterManager : Manager
         Vector3Int end;
         if (posA.x == posB.x)
         {
-            starting = posA.y < posB.y ? posA : posB;
-            end = posA.y < posB.y ? posB : posA;
+            starting =  posA.y < posB.y ? posA : posB;
+            end =       posA.y < posB.y ? posB : posA;
             for (int i = 1; i < end.y - starting.y; i++)
             {
                 if (occupied.Contains(new Vector3Int(starting.x,    starting.y + i,     starting.z - i)))
@@ -510,8 +518,8 @@ public class EncounterManager : Manager
         }
         else if (posA.y == posB.y)
         {
-            starting = posA.x < posB.x ? posA : posB;
-            end = posA.x < posB.x ? posB : posA;
+            starting =  posA.x < posB.x ? posA : posB;
+            end =       posA.x < posB.x ? posB : posA;
             for (int i = 1; i < end.x - starting.x; i++)
             {
                 if (occupied.Contains(new Vector3Int(posA.x + i,    starting.y,         starting.z - i)))
@@ -520,8 +528,8 @@ public class EncounterManager : Manager
         }
         else if (posA.z == posB.z)
         {
-            starting = posA.x < posB.x ? posA : posB;
-            end = posA.x < posB.x ? posB : posA;
+            starting =  posA.x < posB.x ? posA : posB;
+            end =       posA.x < posB.x ? posB : posA;
             for (int i = 1; i < end.x - starting.x; i++)
             {
                 if (occupied.Contains(new Vector3Int(posA.x + i,    starting.y -1,      starting.z)))

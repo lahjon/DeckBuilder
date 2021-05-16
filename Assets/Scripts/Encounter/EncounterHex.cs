@@ -14,18 +14,28 @@ public class EncounterHex : Encounter
     private Tween tweenAction;
     public HexTile tile;
 
-    private bool _selectable = false;
-    public bool selectableHex { get { return _selectable; } set
+    private EncounterHexStatus _status = EncounterHexStatus.Idle;
+    public EncounterHexStatus status
+    {
+        get
         {
-            _selectable = value;
-            if (_selectable)
-            {
+            return _status;
+        }
+        set
+        {
+            _status = value;
+            if(_status == EncounterHexStatus.Selectable)
                 tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-            }
             else
                 tweenAction.Kill();
+
+            if(_status == EncounterHexStatus.Unreachable)
+            {
+                hexNeighboors.Where(x => x.status == EncounterHexStatus.Idle).ToList().ForEach(x => x.status = EncounterHexStatus.Unreachable);
+            }
         }
     }
+
     public void Awake()
     {
         startingScale = transform.localScale;
@@ -37,7 +47,7 @@ public class EncounterHex : Encounter
     public override IEnumerator Entering(System.Action VisitAction, Encounter fromEncounter = null)
     {
         transform.localScale = startingScale*1.5f;
-        selectableHex = false;
+        status = EncounterHexStatus.Visited;
 
         tile.encounters.Remove(this);
         tile.encountersExits.Remove(this);
@@ -45,7 +55,10 @@ public class EncounterHex : Encounter
         WorldSystem.instance.encounterManager.currentEncounterHex?.SetLeaving(this);
 
         foreach (EncounterHex e in hexNeighboors)
-            e.selectable = WorldSystem.instance.encounterManager.CanReachExitNode(e, tile.encountersExits);
+        {
+            bool canReachExit = WorldSystem.instance.encounterManager.CanReachExitNode(e, tile.encountersExits);
+            e.status = canReachExit ? EncounterHexStatus.Selectable : EncounterHexStatus.Unreachable;
+        }
 
         WorldSystem.instance.encounterManager.currentEncounterHex = this;
 
@@ -56,10 +69,15 @@ public class EncounterHex : Encounter
     public override void SetLeaving(Encounter nextEnc)
     {
         transform.localScale = startingScale;
-        foreach (EncounterHex enc in hexNeighboors)
+        foreach (EncounterHex e in hexNeighboors)
         {
-            enc.hexNeighboors.Remove(this);
-            enc.selectable = false;
+            e.hexNeighboors.Remove(this);
+        }
+
+        foreach (EncounterHex e in hexNeighboors)
+        {
+            bool canReachExit = WorldSystem.instance.encounterManager.CanReachExitNode(e, tile.encountersExits);
+            e.status = canReachExit ? EncounterHexStatus.Selectable : EncounterHexStatus.Unreachable;
         }
 
         hexNeighboors.Clear();
@@ -67,7 +85,7 @@ public class EncounterHex : Encounter
 
     private void OnMouseDown()
     {
-        if (!selectableHex) return;
+        if (status != EncounterHexStatus.Selectable) return;
         //Debug.Log("starting click");
         StartCoroutine(Entering(() => { } ));
     }
