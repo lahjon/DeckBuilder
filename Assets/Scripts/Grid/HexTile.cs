@@ -14,7 +14,6 @@ public class HexTile : MonoBehaviour
     public List<int> lockedDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
     static GridManager gridManager;
-    public Vector3Int entryPosition;
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -30,17 +29,17 @@ public class HexTile : MonoBehaviour
     public Dictionary<Vector3Int, EncounterHex> posToEncountersExit = new Dictionary<Vector3Int, EncounterHex>();
     public static List<Vector3Int> positionsExit = new List<Vector3Int>()
     {
-        new Vector3Int(3, -3, 0),
-        new Vector3Int(3, 0, -3),
-        new Vector3Int(0, 3, -3),
-        new Vector3Int(-3, 3, 0),
-        new Vector3Int(-3, 0, 3),
-        new Vector3Int(0, -3, 3)
+        new Vector3Int(1, -2, 1),
+        new Vector3Int(2, -1, -1),
+        new Vector3Int(1, 1, -2),
+        new Vector3Int(-1, 2, -1),
+        new Vector3Int(-2, 1, 1),
+        new Vector3Int(-1, -1, 2)
     };
 
     public static List<Vector3Int> positionsInner = new List<Vector3Int>();
 
-    public static float radiusInverse = 0.65f;
+    public static float radiusInverse = 0.90f;
     public static float encounterNoiseAllowed = 0.1f;
     public static float zRadFactor = Mathf.Sqrt(3/2);
     private int gridWidth = 2;
@@ -179,12 +178,12 @@ public class HexTile : MonoBehaviour
 
     public float BeginFlipUpNewTile(bool enterPlacement = false)
     {
+        //GetComponent<PolygonCollider2D>().enabled = false; //ska bort n�r man ska l�gga ut sj�lv
+        spriteRenderer.color = Color.white;
         if (enterPlacement)
         {
             Activate(false);
-            entryPosition = gridManager.currentTile.coord;
-            //gridManager.currentTile = null;
-            WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
+            Debug.Log(transform.localScale);
             gridManager.animator.SetBool("IsPlacing", true);
             gridManager.hexMapController.FocusTile(this, ZoomState.Mid, true);
             tileState = TileState.Animation;
@@ -221,6 +220,7 @@ public class HexTile : MonoBehaviour
         if (gridManager.initialized)
         {
             tileState = TileState.Placement;
+            WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
             StartPlacement();
         }
         //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
@@ -286,42 +286,28 @@ public class HexTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement)
+        if(tileState == TileState.Inactive && gridManager.gridState == GridState.Placement && gridManager.TileConnectedToExit(this))
             BeginFlipUpNewTile(true);
         else if(gridManager.gridState == GridState.Play && gridManager.hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
         {
             gridManager.hexMapController.FocusTile(this, ZoomState.Inner);
         }
     }
-    // void OnMouseOver()
-    // {
-    //     if (tileState == TileState.Inactive && gridManager.hoverTile != this)
-    //     {
-    //         gridManager.hoverTilePosition = transform.position;
-    //         gridManager.hoverTile = this;
-    //     }
-    // }
     void OnMouseEnter()
     {
         Highlight();
     }
 
-
     void OnMouseExit()
     {
-        if (tileState == TileState.Current || tileState == TileState.InactiveHighlight)
-        {
-            spriteRenderer.color = normalColor;
-            UnHighlight();
-            StartFadeInOutColor();
-        }
-        else
+        if (!gridManager.hexMapController.disableInput)
         {
             UnHighlight();
+            if (_tileState == TileState.Inactive)
+                spriteRenderer.color = normalColor;
+            gridManager.hoverTilePosition = Vector3.zero;
+            gridManager.hoverTile = null;
         }
-        gridManager.hoverTilePosition = Vector3.zero;
-        gridManager.hoverTile = null;
-        
     }
 
     public static void EncountersInitializePositions(Dictionary<Vector3Int, EncounterHex> encPos, int gridWidth)
@@ -333,7 +319,11 @@ public class HexTile : MonoBehaviour
             int r2 = Mathf.Min(gridWidth, -q + gridWidth);
 
             for (int r = r1; r <= r2; r++)
-                positionsInner.Add(new Vector3Int(q, r, -q - r));
+            {
+                Vector3Int coords = new Vector3Int(q, r, -q - r);
+                if(!positionsExit.Contains(coords))
+                    positionsInner.Add(coords);
+            }
         }
 
     }
@@ -349,9 +339,9 @@ public class HexTile : MonoBehaviour
         return radiusInverse*(new Vector3(x, y));
     }
 
-    public static Vector3Int DirectionToDoorEncounter(Vector3Int dir)
+    public static Vector3Int DirectionToDoorEncounter(int dir)
     {
-        return dir*3;
+        return positionsExit[dir];
     }
 
     public void AddEncounter(Vector3Int pos, EncounterHex enc, bool exit = false)

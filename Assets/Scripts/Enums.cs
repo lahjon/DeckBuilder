@@ -125,6 +125,14 @@ public enum EncounterEventType
     NewEvent
 }
 
+public enum EncounterHexStatus
+{
+    Visited,
+    Selectable,
+    Unreachable,
+    Idle
+}
+
 public enum GameEventStatus
 {
     NotStarted,
