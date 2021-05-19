@@ -156,7 +156,6 @@ public class GridManager : Manager
         hexMapController.disableInput = false;
         animator.SetBool("IsPlaying", true);
         initialized = true;
-        firstTile.SetCurrentEncounter(new Vector3Int(0, 0, 0));
     }
 
     public void ExpandMap()
