@@ -49,10 +49,10 @@ public class HexTile : MonoBehaviour
 
     public bool highlighted
     {
-        get
-        {
-            return _highlighted;
-        }
+        get => _highlighted;
+        // {
+        //     return _highlighted;
+        // }
         set
         {
             _highlighted = value;
@@ -63,7 +63,7 @@ public class HexTile : MonoBehaviour
             }
             else
             {
-                tileState = tileState;
+                tileState = _tileState; // trigger setter
             }
         }
     }
@@ -286,7 +286,7 @@ public class HexTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        if(tileState == TileState.Inactive && gridManager.gridState == GridState.Placement && gridManager.TileConnectedToExit(this))
+        if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement && gridManager.TileConnectedToExit(this))
             BeginFlipUpNewTile(true);
         else if(gridManager.gridState == GridState.Play && gridManager.hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
         {
