@@ -50,9 +50,6 @@ public class HexTile : MonoBehaviour
     public bool highlighted
     {
         get => _highlighted;
-        // {
-        //     return _highlighted;
-        // }
         set
         {
             _highlighted = value;
@@ -129,7 +126,7 @@ public class HexTile : MonoBehaviour
     {
         colorTween?.Kill();
         spriteRenderer.color = inactiveColor;
-        colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = normalColor);
+        colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo);
     }
     public void StopFadeInOutColor()
     {
@@ -295,7 +292,10 @@ public class HexTile : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        Highlight();
+        if (!gridManager.hexMapController.disableInput)
+        {
+            Highlight();
+        }
     }
 
     void OnMouseExit()
@@ -303,8 +303,8 @@ public class HexTile : MonoBehaviour
         if (!gridManager.hexMapController.disableInput)
         {
             UnHighlight();
-            if (_tileState == TileState.Inactive)
-                spriteRenderer.color = normalColor;
+            // if (_tileState == TileState.Inactive)
+            //     spriteRenderer.color = normalColor;
             gridManager.hoverTilePosition = Vector3.zero;
             gridManager.hoverTile = null;
         }
