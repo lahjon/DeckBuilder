@@ -31,4 +31,9 @@ public class EdgeEncounter
             return (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1);
         }
     }
+
+    public bool Equals(EncounterHex n1, EncounterHex n2)
+    {
+        return (n1 == this.n1 && n2 == this.n2) || (n1 == this.n2 && n2 == this.n1);
+    }
 }

@@ -9,7 +9,7 @@ public abstract class Encounter : MonoBehaviour
     [HideInInspector]
     public List<Encounter> neighbourEncounters;
     public EncounterData encounterData;
-    private OverworldEncounterType _encounterType;
+    public OverworldEncounterType _encounterType;
     public OverworldEncounterType encounterType { get { return _encounterType; } set { _encounterType = value; UpdateIcon(); } }
     public bool selectable = false;
     public Dictionary<GameObject, List<Encounter>> roads = new Dictionary<GameObject, List<Encounter>>();
@@ -29,6 +29,7 @@ public abstract class Encounter : MonoBehaviour
     private void UpdateIcon()
     {
         Sprite icon = encounterType.GetIcon();
+        GetComponent<SpriteRenderer>().sprite = icon;
     }
 
     public void UpdateEncounter()

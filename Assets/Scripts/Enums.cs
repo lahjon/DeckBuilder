@@ -49,8 +49,10 @@ public static class EnumExtenstions
 
     public static Sprite GetIcon(this OverworldEncounterType type)
     {
-        Sprite found = DatabaseSystem.instance.iconDatabase.allIcons.Where(x => x.name == type.ToString()).FirstOrDefault();
+        Sprite found = DatabaseSystem.instance.iconDatabase.allIcons.Where(x => x.name == "Overworld" + type.ToString()).FirstOrDefault();
+        if (found != null) Debug.Log("returning icon with name: " + found.name);
         if (found != null) return found;
+        Debug.Log("icon not found for: " + type.ToString());
         return DatabaseSystem.instance.iconDatabase.allIcons.Where(x => x.name == "OverworldRandomEvent").FirstOrDefault();
     }
 }

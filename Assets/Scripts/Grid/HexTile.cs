@@ -206,7 +206,7 @@ public class HexTile : MonoBehaviour
             }
         }
         availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
-
+        
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
             () => CompleteFlip()
         );
@@ -217,9 +217,11 @@ public class HexTile : MonoBehaviour
         if (gridManager.initialized)
         {
             tileState = TileState.Placement;
-            WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
             StartPlacement();
         }
+        
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
+
         //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
     }
 

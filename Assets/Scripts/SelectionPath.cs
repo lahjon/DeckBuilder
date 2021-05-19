@@ -63,7 +63,6 @@ public class SelectionPath : MonoBehaviour
         }
         pathIcons[pathIcons.Count - 1].transform.position = targetPos;
         pathIcons[pathIcons.Count - 1].transform.rotation = Quaternion.LookRotation(pathIcons[pathIcons.Count - 2].transform.position, pathIcons[pathIcons.Count - 1].transform.position);
-
     }
 
     void CreatePath()

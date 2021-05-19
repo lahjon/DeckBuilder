@@ -14814,6 +14814,7 @@ MonoBehaviour:
   bossCounterText: {fileID: 240440558}
   hexMapController: {fileID: 0}
   tilesUntilBoss: 10
+  initialized: 0
 --- !u!224 &1848971790
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14852,6 +14853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 951404445}
+  newPosition: {x: 0, y: 0, z: 0}
   minX: -8
   minY: -8
   maxX: 8
@@ -15005,7 +15007,7 @@ MonoBehaviour:
   templateHexEncounter: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
   encounterParent: {fileID: 0}
   roadParent: {fileID: 0}
-  roadImage: {fileID: 3736500116089201315, guid: cf0b7f39c9ff9e6439f6f9d0848dadbb, type: 3}
+  roadImage: {fileID: 8916605011419603288, guid: cd786f346ac9b4f4c9645e1e51a0de7e, type: 3}
   roadMaterial: {fileID: 2100000, guid: 20f8e8ac9fc949041bfb9cf7f1acdbd3, type: 2}
 --- !u!4 &1867544623 stripped
 Transform:
