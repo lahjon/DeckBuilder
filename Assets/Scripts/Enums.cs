@@ -1,3 +1,6 @@
+using UnityEngine;
+using System.Linq;
+
 public static class EnumExtenstions
 {
     public static string GetDescription(this EffectType type)
@@ -42,6 +45,13 @@ public static class EnumExtenstions
             default:
                 return null;
         }
+    }
+
+    public static Sprite GetIcon(this OverworldEncounterType type)
+    {
+        Sprite found = DatabaseSystem.instance.iconDatabase.allIcons.Where(x => x.name == type.ToString()).FirstOrDefault();
+        if (found != null) return found;
+        return DatabaseSystem.instance.iconDatabase.allIcons.Where(x => x.name == "OverworldRandomEvent").FirstOrDefault();
     }
 }
 
@@ -239,17 +249,18 @@ public enum BuildingType
     Any
 }
 
-public enum EncounterType
+public enum OverworldEncounterType
 {
-    OverworldStart,
-    OverworldRandomEvent,
-    OverworldShop,
-    OverworldCombatNormal,
-    OverworldCombatElite,
-    OverworldCombatBoss,
-    OverworldTransition,
-    TownEvent
+    Start,
+    Exit,
+    RandomEvent,
+    Shop,
+    CombatNormal,
+    CombatElite,
+    CombatBoss
 }
+
+
 public enum EncounterValue
 {
     Positive,

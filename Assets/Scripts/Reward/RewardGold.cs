@@ -23,17 +23,17 @@ public class RewardGold : Reward
         text.text = "Gold: " + goldAmount.ToString();
     }
 
-    private int GetGold(int tier, EncounterType encounterType)
+    private int GetGold(int tier, OverworldEncounterType encounterType)
     {
         float multiplier = tier * tierMultiplier;
 
         switch (encounterType)
         {
-            case EncounterType.OverworldCombatElite:
+            case OverworldEncounterType.CombatElite:
                 multiplier += eliteMultiplier;
                 break;
 
-            case EncounterType.OverworldCombatBoss:
+            case OverworldEncounterType.CombatBoss:
                 multiplier += bossMultiplier;
                 break;
             

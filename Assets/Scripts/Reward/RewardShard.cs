@@ -23,17 +23,17 @@ public class RewardShard : Reward
         text.text = "Shards: " + shardAmount.ToString();
     }
 
-    private int GetShards(int tier, EncounterType encounterType)
+    private int GetShards(int tier, OverworldEncounterType encounterType)
     {
         float multiplier = tier * tierMultiplier;
 
         switch (encounterType)
         {
-            case EncounterType.OverworldCombatElite:
+            case OverworldEncounterType.CombatElite:
                 multiplier += eliteMultiplier;
                 break;
 
-            case EncounterType.OverworldCombatBoss:
+            case OverworldEncounterType.CombatBoss:
                 multiplier += bossMultiplier;
                 break;
             

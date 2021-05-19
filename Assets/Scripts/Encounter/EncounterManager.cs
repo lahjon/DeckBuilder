@@ -257,11 +257,16 @@ public class EncounterManager : Manager
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
         List<EdgeEncounter> edges;
+        List<Vector3Int> exitEncounters = new List<Vector3Int>();
 
         Debug.Log("Starting Hex generate for tile " + tile.name + ", nr directions " + tile.availableDirections.Count);
         for (int i = 0; i < 6; i++)
             if (!tile.availableDirections.Contains(i))
-                EncounterSlots.Add(HexTile.DirectionToDoorEncounter(i));
+            {
+                Vector3Int v = HexTile.DirectionToDoorEncounter(1);
+                EncounterSlots.Add(v);
+                exitEncounters.Add(v);
+            }
 
 
         tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
@@ -283,7 +288,7 @@ public class EncounterManager : Manager
             EncounterHex enc = EnemyObject.GetComponent<EncounterHex>();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = (EncounterType)Random.Range(1, 6);
+            enc.encounterType = exitEncounters.Contains(enc.coordinates) ? OverworldEncounterType.Exit : (OverworldEncounterType)Random.Range(2, 6);
             enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
