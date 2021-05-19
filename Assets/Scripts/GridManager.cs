@@ -116,10 +116,10 @@ public class GridManager : Manager
         // create a 0,0,0 start tile and activate it
         HexTile firstTile = GetTile(Vector3Int.zero);
         firstTile.gameObject.SetActive(true);
-        WorldSystem.instance.encounterManager.GenerateHexEncounters(firstTile);
         //world.encounterManager.GenerateHexEncounters(firstTile);
         firstTile.Activate();
         firstTile.LockDirections();
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(firstTile,new List<Vector3Int>() {new Vector3Int(0,0,0) });
 
         // flip it up
         timer = 1 * timeMultiplier;
@@ -156,6 +156,7 @@ public class GridManager : Manager
         hexMapController.disableInput = false;
         animator.SetBool("IsPlaying", true);
         initialized = true;
+        firstTile.SetCurrentEncounter(new Vector3Int(0, 0, 0));
     }
 
     public void ExpandMap()

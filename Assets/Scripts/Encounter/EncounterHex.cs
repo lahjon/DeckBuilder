@@ -14,7 +14,7 @@ public class EncounterHex : Encounter
     private Tween tweenAction;
     public HexTile tile;
 
-    private EncounterHexStatus _status = EncounterHexStatus.Idle;
+    public EncounterHexStatus _status = EncounterHexStatus.Idle;
     public EncounterHexStatus status
     {
         get

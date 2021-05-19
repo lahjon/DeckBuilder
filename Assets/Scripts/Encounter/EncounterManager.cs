@@ -252,17 +252,20 @@ public class EncounterManager : Manager
         }
     }
 
-    public void GenerateHexEncounters(HexTile tile)
+    public void GenerateHexEncounters(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
         List<EdgeEncounter> edges;
 
+        Debug.Log("Starting Hex generate for tile " + tile.name + ", nr directions " + tile.availableDirections.Count);
         for (int i = 0; i < 6; i++)
             if (!tile.availableDirections.Contains(i))
                 EncounterSlots.Add(HexTile.DirectionToDoorEncounter(i));
 
+
         tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
+        mandatoryInnerSlots?.ForEach(x => { chosenEncountersSlots.Add(x); EncounterSlots.Remove(x);});
 
         int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count*2);
         //int nrAdditional = 100;
@@ -315,9 +318,7 @@ public class EncounterManager : Manager
         
 
         foreach(EdgeEncounter e in edges)
-            Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false);
-
-        
+            Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false); 
     }
 
     private List<EdgeEncounter> AssignNonCrossingEdges(Dictionary<Vector3Int, EncounterHex> nodes)
