@@ -31,7 +31,7 @@ public class GridManager : Manager
     int _bossCounter;
     public int tilesUntilBoss;
     float hexScale = 0.3765092f;
-    bool initialized;
+    public bool initialized;
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public int bossCounter
     {
@@ -145,7 +145,7 @@ public class GridManager : Manager
         for (int i = 0; i < 4; i++)
         {
             HexTile tile = GetRandomTile(3);
-            tile.specialTile = true;
+            tile.tileState = TileState.Special;
             timer = tile.BeginFlipUpNewTile() +.2f;
             yield return new WaitForSeconds(timer * timeMultiplier); 
         }
@@ -238,6 +238,7 @@ public class GridManager : Manager
                 tile = AddTile(new Vector3Int(q, r, -q-r));
                 //WorldSystem.instance.encounterManager.GenerateHexEncounters(tile);
                 tile.transform.localScale = Vector3.zero;
+                tile.tileState = TileState.Inactive;
                 tile.gameObject.SetActive(false);
             }
         }
