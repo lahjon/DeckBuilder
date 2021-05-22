@@ -294,16 +294,17 @@ public class EncounterManager : Manager
 
         }
 
+
+        HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
         // Create initital non-crossing Paths. Taking copy since arguments is destructive
         edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
 
         // Time to check if all nodes are connected to the same graph
         List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(tile.encounters));
-        if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, new HashSet<Vector3Int>(tile.posToEncounter.Keys));
+        if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, occupiedSpaces);
 
         //Finally, time to see if it is possible to back into a corner
         
-        List<EdgeEncounter> initialEdges = new List<EdgeEncounter>(edges);
         List<EncounterHex> subGraphLoop = new List<EncounterHex>(); 
         foreach(EncounterHex n in tile.encounters)
         {
@@ -313,7 +314,7 @@ public class EncounterManager : Manager
             {
                 if (!CanReachExitNode(neigh, tile.encountersExits, subGraphLoop))
                 {
-                    Connect2Graphs(subGraphLoop, tile.encounters.Except(subGraphLoop).ToList(), edges, new HashSet<Vector3Int>(tile.posToEncounter.Keys), n);
+                    Connect2Graphs(subGraphLoop, tile.encounters.Except(subGraphLoop).ToList(), edges, occupiedSpaces, n);
                     subGraphLoop.Clear();
                 }
             }
@@ -446,7 +447,8 @@ public class EncounterManager : Manager
 
     private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges,HashSet<Vector3Int> coordsEncounters, EncounterHex exceptEnc = null)
     {
-        while (graphs.Count > 1)
+        int limit = 10000;
+        while (graphs.Count > 1 && --limit > 0)
         {
             int gCount = graphs.Count;
             for(int i = 1; i < gCount; i++)
@@ -467,7 +469,6 @@ public class EncounterManager : Manager
     {
         Shuffle(g1);
         Shuffle(g2);
-
         foreach (EncounterHex g1n in g1)
         {
             foreach (EncounterHex g2n in g2) 
@@ -498,6 +499,7 @@ public class EncounterManager : Manager
                 }
             }
         }
+        Debug.Log("Couldnt connect two node sets!");
         return false;
     }
 
@@ -549,7 +551,7 @@ public class EncounterManager : Manager
         end = posA.x < posB.x ? posB : posA;
         for (int i = 1; i < end.x - starting.x; i++)
         {
-            if (occupied.Contains(new Vector3Int(starting.x + i, starting.y - i, starting.z - 2*i)))
+            if (occupied.Contains(new Vector3Int(starting.x + i, starting.y + i, starting.z - 2*i)))
                 return true;
         }
 
