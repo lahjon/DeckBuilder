@@ -54,6 +54,16 @@ public class GridManager : Manager
             }
         }
     }
+
+    OverworldEncounterType RandomEncounterType()
+    {
+        List<OverworldEncounterType> allTypes = new List<OverworldEncounterType>{
+            OverworldEncounterType.RandomEvent, 
+            OverworldEncounterType.CombatElite, 
+            };
+
+        return allTypes[Random.Range(0, allTypes.Count)];
+    }
     
     
     public static List<Vector3Int> tileDirections = new List<Vector3Int>  {
@@ -119,12 +129,14 @@ public class GridManager : Manager
         //world.encounterManager.GenerateHexEncounters(firstTile);
         firstTile.Activate();
         firstTile.LockDirections();
-        WorldSystem.instance.encounterManager.GenerateHexEncounters(firstTile,new List<Vector3Int>() {new Vector3Int(0,0,0) });
 
         // flip it up
         timer = 1 * timeMultiplier;
         firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
         yield return new WaitForSeconds(timer);
+
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(firstTile,new List<Vector3Int>() {new Vector3Int(0,0,0) });
+        yield return StartCoroutine(firstTile.AnimateVisible());
 
         hexMapController.Zoom(ZoomState.Outer, null, true);
         yield return new WaitForSeconds(1);
@@ -589,7 +601,7 @@ public class GridManager : Manager
 
         for(int i = 0; i < maxNumbers; i ++)
         {
-            int randomNumber = uniqueNumbers[Random.Range(0,uniqueNumbers.Count)];
+            int randomNumber = uniqueNumbers[Random.Range(0, uniqueNumbers.Count)];
             result.Add(randomNumber);
             uniqueNumbers.Remove(randomNumber);
         }
@@ -621,6 +633,7 @@ public class GridManager : Manager
     
         HexTile tile = obj.GetComponent<HexTile>();
         tile.coord = coord;
+        tile.tileType = RandomEncounterType();
         tile.Init();
 
         if (!tiles.ContainsValue(tile))

@@ -283,8 +283,8 @@ public class EncounterManager : Manager
 
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
         {
-            GameObject EnemyObject = Instantiate(templateHexEncounter, tile.encounterParent) as GameObject;
-            EncounterHex enc = EnemyObject.GetComponent<EncounterHex>();
+            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent) as GameObject;
+            EncounterHex enc = obj.GetComponent<EncounterHex>();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : (OverworldEncounterType)Random.Range(2, 6);

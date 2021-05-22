@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +13,7 @@ public class HexTile : MonoBehaviour
     public List<int> lockedDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
     static GridManager gridManager;
+    public Vector3Int entryPosition;
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
@@ -24,6 +24,7 @@ public class HexTile : MonoBehaviour
     Color normalColor = new Color(.8f, .8f, .8f, 1f);
     Tween colorTween;
     bool _highlighted;
+    public OverworldEncounterType tileType;
 
     public Dictionary<Vector3Int, EncounterHex> posToEncounter = new Dictionary<Vector3Int, EncounterHex>();
     public Dictionary<Vector3Int, EncounterHex> posToEncountersExit = new Dictionary<Vector3Int, EncounterHex>();
@@ -43,6 +44,7 @@ public class HexTile : MonoBehaviour
     public static float encounterNoiseAllowed = 0.1f;
     public static float zRadFactor = Mathf.Sqrt(3/2);
     private int gridWidth = 2;
+    Color tempColor;
 
     public List<EncounterHex> encounters;
     public List<EncounterHex> encountersExits;
@@ -89,7 +91,6 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.InactiveHighlight)
             {
-                spriteRenderer.color = inactiveColor;
                 StartFadeInOutColor();
             }
             else if (_tileState == TileState.Inactive)
@@ -110,7 +111,6 @@ public class HexTile : MonoBehaviour
 
     public void SetCurrentTile()
     {
-        spriteRenderer.color = normalColor;
         gridManager.currentTile = this;
         if (gridManager.hexMapController.zoomStep != 0)
         {
@@ -125,15 +125,75 @@ public class HexTile : MonoBehaviour
     public void StartFadeInOutColor()
     {
         colorTween?.Kill();
-        spriteRenderer.color = inactiveColor;
-        colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo);
+        float t = Helpers.InverseLerp(inactiveColor.r, highlightColor.r, spriteRenderer.color.r);
+        colorTween = spriteRenderer.DOColor(inactiveColor, t).SetEase(Ease.InSine).OnComplete(() => {
+
+            spriteRenderer.color = inactiveColor;
+            colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => tempColor = spriteRenderer.color);
+        });
     }
+
+    public IEnumerator AnimateVisible()
+    {
+        float timer = 0.1f * Helpers.timeMultiplier * .5f;
+        for (int i = 0; i < encounterParent.childCount; i++)
+        {
+            // turn of nodes
+            Transform node = encounterParent.GetChild(i);
+            node.gameObject.SetActive(false);
+
+            for (int j = 0; j < node.childCount; j++)
+            {
+                // turn of road parents
+                Transform roadParent = node.GetChild(j);
+                roadParent.gameObject.SetActive(false);
+
+                for (int k = 0; k < roadParent.childCount; k++)
+                {
+                    // turn of roads
+                    roadParent.GetChild(k).gameObject.SetActive(false);
+                }
+            }
+        }
+
+        for (int i = 0; i < encounterParent.childCount; i++)
+        {
+            // turn on nodes
+            Transform node = encounterParent.GetChild(i);
+            node.gameObject.SetActive(true);
+            for (int j = 0; j < node.childCount; j++)
+            {
+                node.GetChild(j).gameObject.SetActive(false);
+            }
+            yield return new WaitForSeconds(timer * 2);
+        }
+
+        for (int i = 0; i < encounterParent.childCount; i++)
+        {
+            Transform node = encounterParent.GetChild(i);
+            for (int j = 0; j < node.childCount; j++)
+            {
+                // turn on road parent
+                Transform roadParent = node.GetChild(j);
+                roadParent.gameObject.SetActive(true);
+
+                for (int k = 0; k < roadParent.childCount; k++)
+                {
+                    // turn on roads
+                    roadParent.GetChild(k).gameObject.SetActive(true);
+                    yield return new WaitForSeconds(timer);
+                }
+            }
+        }
+    }
+
     public void StopFadeInOutColor()
     {
         colorTween?.Kill();
 
-        //spriteRenderer.color = normalColor;
+        spriteRenderer.color = normalColor;
     }
+
     public void Init()
     {
         gridManager = WorldSystem.instance.gridManager;
@@ -143,7 +203,17 @@ public class HexTile : MonoBehaviour
 
     public void Activate(bool activeDebug = true)
     {
-        availableDirections = gridManager.AddNeighbours();
+        if (coord == Vector3.zero)
+        {
+            if(Random.Range(0,2) == 0)
+                availableDirections = new List<int>{0,2,4};
+            else
+                availableDirections = new List<int>{1,3,5};
+        }
+        else
+        {
+            availableDirections = gridManager.AddNeighbours();
+        }
         if (activeDebug)
         {
             availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
@@ -183,7 +253,21 @@ public class HexTile : MonoBehaviour
             Debug.Log(transform.localScale);
             gridManager.animator.SetBool("IsPlacing", true);
             gridManager.hexMapController.FocusTile(this, ZoomState.Mid, true);
+            if (gridManager.currentTile != null)
+                entryPosition = gridManager.currentTile.coord;
+
             tileState = TileState.Animation;
+
+            List<int> requiredExits = gridManager.GetNewExits(this);
+            foreach (int dir in requiredExits)
+            {
+                if(!availableDirections.Contains(dir))
+                {
+                    availableDirections[requiredExits.IndexOf(dir)] = dir;
+                }
+            }
+            WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
+            encounterParent.gameObject.SetActive(false);
         }
         else
         {
@@ -196,15 +280,7 @@ public class HexTile : MonoBehaviour
 
     public void EndFlipUpNewTile()
     {
-        List<int> requiredExits = gridManager.GetNewExits(this);
-
-        foreach (int dir in requiredExits)
-        {
-            if(!availableDirections.Contains(dir))
-            {
-                availableDirections[requiredExits.IndexOf(dir)] = dir;
-            }
-        }
+        encounterParent.gameObject.SetActive(true);
         availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
         
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
@@ -220,7 +296,6 @@ public class HexTile : MonoBehaviour
             StartPlacement();
         }
         
-        WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
 
         //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
     }
@@ -299,17 +374,21 @@ public class HexTile : MonoBehaviour
             Highlight();
         }
     }
+    void OnMouseOver()
+    {
+        // if (!gridManager.hexMapController.disableInput)
+        // {
+        //     Highlight();
+        // }
+    }
 
     void OnMouseExit()
     {
-        if (!gridManager.hexMapController.disableInput)
-        {
-            UnHighlight();
-            // if (_tileState == TileState.Inactive)
-            //     spriteRenderer.color = normalColor;
-            gridManager.hoverTilePosition = Vector3.zero;
-            gridManager.hoverTile = null;
-        }
+
+        UnHighlight();
+        gridManager.hoverTilePosition = Vector3.zero;
+        gridManager.hoverTile = null;
+        
     }
 
     public static void EncountersInitializePositions(Dictionary<Vector3Int, EncounterHex> encPos, int gridWidth)

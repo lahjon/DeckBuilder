@@ -99,7 +99,7 @@ public class HexMapController : MonoBehaviour
                 ZoomCallback(endDisable, 5f);
                 if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)
                 {
-                    gridManager.currentTile.SetCurrentTile();
+                    gridManager.currentTile.StartFadeInOutColor();
                 }
             });
         }
@@ -108,10 +108,6 @@ public class HexMapController : MonoBehaviour
             zoomStep = 2;
             cam.transform.DOMoveZ(zoomOut - zoomIn, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
                 ZoomCallback(endDisable, 5f);
-                if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)
-                {
-                    gridManager.currentTile.StartFadeInOutColor();
-                }
             });
         }
     }
