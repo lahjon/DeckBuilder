@@ -13,11 +13,13 @@ public class HexTile : MonoBehaviour
     public List<int> lockedDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
     static GridManager gridManager;
+    static HexMapController hexMapController;
     public Vector3Int entryPosition;
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
     public Transform encounterParent;
+    public Transform roadParent;
     Color highlightColor = new Color(1f, 1f, 1f, 1f);
     Color completedColor = new Color(.7f, .7f, .7f, 1f);
     Color inactiveColor = new Color(.4f, .4f, .4f, 1f);
@@ -112,7 +114,7 @@ public class HexTile : MonoBehaviour
     public void SetCurrentTile()
     {
         gridManager.currentTile = this;
-        if (gridManager.hexMapController.zoomStep != 0)
+        if (hexMapController.zoomStep != 0)
         {
             StartFadeInOutColor();
         }
@@ -138,21 +140,21 @@ public class HexTile : MonoBehaviour
         float timer = 0.1f * Helpers.timeMultiplier * .5f;
         for (int i = 0; i < encounterParent.childCount; i++)
         {
-            // turn of nodes
+            // turn off nodes
             Transform node = encounterParent.GetChild(i);
+            node.gameObject.SetActive(false);
+        }
+        for (int i = 0; i < roadParent.childCount; i++)
+        {
+            // turn off nodes
+            Transform node = roadParent.GetChild(i);
             node.gameObject.SetActive(false);
 
             for (int j = 0; j < node.childCount; j++)
             {
-                // turn of road parents
+                // turn off road parents
                 Transform roadParent = node.GetChild(j);
                 roadParent.gameObject.SetActive(false);
-
-                for (int k = 0; k < roadParent.childCount; k++)
-                {
-                    // turn of roads
-                    roadParent.GetChild(k).gameObject.SetActive(false);
-                }
             }
         }
 
@@ -161,28 +163,20 @@ public class HexTile : MonoBehaviour
             // turn on nodes
             Transform node = encounterParent.GetChild(i);
             node.gameObject.SetActive(true);
-            for (int j = 0; j < node.childCount; j++)
-            {
-                node.GetChild(j).gameObject.SetActive(false);
-            }
-            yield return new WaitForSeconds(timer * 2);
+            yield return new WaitForSeconds(timer);
         }
-
-        for (int i = 0; i < encounterParent.childCount; i++)
+        for (int i = 0; i < roadParent.childCount; i++)
         {
-            Transform node = encounterParent.GetChild(i);
+            // turn on nodes
+            Transform node = roadParent.GetChild(i);
+            node.gameObject.SetActive(true);
+
             for (int j = 0; j < node.childCount; j++)
             {
-                // turn on road parent
+                // turn on road parents
                 Transform roadParent = node.GetChild(j);
                 roadParent.gameObject.SetActive(true);
-
-                for (int k = 0; k < roadParent.childCount; k++)
-                {
-                    // turn on roads
-                    roadParent.GetChild(k).gameObject.SetActive(true);
-                    yield return new WaitForSeconds(timer);
-                }
+                yield return new WaitForSeconds(timer * 0.5f);
             }
         }
     }
@@ -197,6 +191,7 @@ public class HexTile : MonoBehaviour
     public void Init()
     {
         gridManager = WorldSystem.instance.gridManager;
+        hexMapController = gridManager.GetComponent<HexMapController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         EncountersInitializePositions(posToEncounter, gridWidth);
     }
@@ -252,7 +247,7 @@ public class HexTile : MonoBehaviour
             Activate(false);
             Debug.Log(transform.localScale);
             gridManager.animator.SetBool("IsPlacing", true);
-            gridManager.hexMapController.FocusTile(this, ZoomState.Mid, true);
+            hexMapController.FocusTile(this, ZoomState.Mid, true);
             if (gridManager.currentTile != null)
                 entryPosition = gridManager.currentTile.coord;
 
@@ -268,6 +263,7 @@ public class HexTile : MonoBehaviour
             }
             WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
             encounterParent.gameObject.SetActive(false);
+            roadParent.gameObject.SetActive(false);
         }
         else
         {
@@ -281,6 +277,7 @@ public class HexTile : MonoBehaviour
     public void EndFlipUpNewTile()
     {
         encounterParent.gameObject.SetActive(true);
+        roadParent.gameObject.SetActive(true);
         availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
         
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
@@ -329,19 +326,33 @@ public class HexTile : MonoBehaviour
         // }
     }
 
+    public void OffsetRotation(bool instant = false)
+    {
+
+            for (int i = 0; i < encounterParent.childCount; i++)
+            {
+                if (instant)
+                    encounterParent.GetChild(i).transform.rotation = Quaternion.identity;
+                else
+                    encounterParent.GetChild(i).transform.DORotate(Vector3.zero, 0.5f).SetEase(Ease.InExpo);
+            }
+
+    }
+
     public void EndPlacement()
     {
         transform.position = startPosition;
-        
         gridManager.ExitPlacement();
     }
 
     public void ConfirmTilePlacement()
     {
+        Debug.Log("Confirm");
         gridManager.tiles[gridManager.activeTile.coord] = gridManager.activeTile;
         transform.position = gridManager.CellPosToWorldPos(coord);
         Destroy(gridManager.oldHoverTile.gameObject);
         gridManager.oldHoverTile = null;
+
     }
     void Highlight()
     {
@@ -360,16 +371,16 @@ public class HexTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement && gridManager.TileConnectedToExit(this))
+        if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement && hexMapController.zoomStep != 0)
             BeginFlipUpNewTile(true);
-        else if(gridManager.gridState == GridState.Play && gridManager.hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
+        else if(gridManager.gridState == GridState.Play && hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
         {
-            gridManager.hexMapController.FocusTile(this, ZoomState.Inner);
+            hexMapController.FocusTile(this, ZoomState.Inner);
         }
     }
     void OnMouseEnter()
     {
-        if (!gridManager.hexMapController.disableInput)
+        if (!hexMapController.disableInput && hexMapController.zoomStep != 0)
         {
             Highlight();
         }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4345727149606564356}
   - component: {fileID: 8123761251308629729}
   - component: {fileID: 2221239004410162194}
-  - component: {fileID: 138869171408777161}
   m_Layer: 0
   m_Name: HexEncounter
   m_TagString: Untagged
@@ -116,27 +115,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neighbourEncounters: []
   encounterData: {fileID: 0}
+  _encounterType: 0
   selectable: 0
   hexNeighboors: []
   coordinates: {x: 0, y: 0, z: 0}
   startingScale: {x: 0, y: 0, z: 0}
   tile: {fileID: 0}
---- !u!1818360609 &138869171408777161
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1514214933025952111}
-  m_Enabled: 1
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_IsContraintActive: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 0}
-    weight: 1
+  _status: 3

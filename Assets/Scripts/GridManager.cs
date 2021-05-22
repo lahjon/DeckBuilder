@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using System.Linq;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.UI;
 
 
 public class GridManager : Manager
@@ -32,7 +33,9 @@ public class GridManager : Manager
     public int tilesUntilBoss;
     float hexScale = 0.3765092f;
     public bool initialized;
+    int furthestRowReached;
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
+    public Transform tileParent;
     public int bossCounter
     {
         get
@@ -76,7 +79,10 @@ public class GridManager : Manager
                                                             };
 
     List<int> nrDirections = new List<int>() { 0, 1, 2, 3, 4, 5 };
-    
+    int rotateCounter;
+    float rotationAmount;
+    [SerializeField] Button buttonRotateLeft, buttonRotateRight; 
+
     protected override void Awake()
     {
         base.Awake();
@@ -200,8 +206,30 @@ public class GridManager : Manager
     {
         if (currentTile != null)
         {
+            List<int> tileList = new List<int>();
+            VectorToArray(currentTile.coord).ToList().ForEach(x => tileList.Add(Mathf.Abs(x)));
+            tileList.Sort();
+
+            if (tileList[tileList.Count - 1] > furthestRowReached)
+            {
+                furthestRowReached = tileList[tileList.Count - 1];
+            }
+
             currentTile.tileState = TileState.Completed;
             animator.SetBool("IsPlaying", false);
+        }
+    }
+
+    public void AddRandomExit()
+    {
+        HexTile tile = GetRandomCompletedTile(furthestRowReached);
+        List<int> newDirs = nrDirections.Except(tile.availableDirections).ToList();
+        if (newDirs.Count > 0)
+        {
+            int newDir = newDirs[Random.Range(0, newDirs.Count)];
+            tile.availableDirections.Add(newDir);
+            tile.exits[newDir].gameObject.SetActive(true);
+            HighlightEntries();
         }
     }
 
@@ -306,11 +334,39 @@ public class GridManager : Manager
     {
         if (activeTile is null) return;
 
+        if (rotateCounter > 6)
+        {
+            Debug.Log("Shouldnt Happen");
+            rotateCounter = 0;
+            return;
+        }
+
+
         int sign = clockwise ? 1 : -1;
         for (int i = 0; i < activeTile.availableDirections.Count; i++)
             activeTile.availableDirections[i] = (activeTile.availableDirections[i] + sign + 6) % 6;
+        rotationAmount += sign*60;
+        //activeTile.transform.Rotate(new Vector3(0, 0, sign * 60));
+        if (!TilePlacementValid(activeTile))
+        {
+            ButtonRotate(clockwise);
+            rotateCounter++;
+        }
+        else
+        {
+            buttonRotateLeft.enabled = false;
+            buttonRotateRight.enabled = false;
+            activeTile.OffsetRotation();
             
-        activeTile.transform.Rotate(new Vector3(0,0,sign*60));
+            activeTile.transform.DORotate(new Vector3(0, 0, activeTile.transform.localRotation.eulerAngles.z + rotationAmount), 0.5f).SetEase(Ease.InExpo).OnComplete(() => {
+                buttonRotateLeft.enabled = true;
+                buttonRotateRight.enabled = true;
+                rotationAmount = 0;
+                rotateCounter = 0;
+            });
+        }
+
+            
     }
 
     public int InvertDirection(int direction) => (direction - 3 + 6) % 6;
@@ -496,7 +552,7 @@ public class GridManager : Manager
             return null;
     }
 
-    HexTile GetRandomTile(int row = 0, bool aboveRow = false)
+    HexTile GetRandomTile(int row = 0)
     {
         List<Vector3Int> result = new List<Vector3Int>();
         if (row == 0)
@@ -521,6 +577,26 @@ public class GridManager : Manager
         {
             return null;
         }
+    }
+
+    HexTile GetRandomCompletedTile(int row)
+    {
+        if (completedTiles.Count == 0)
+            return null;
+
+        List<Vector3Int> result = new List<Vector3Int>();
+
+        foreach (Vector3Int tile in completedTiles.Select(x => x.coord))
+        {
+            HashSet<int> tileList = VectorToArray(tile);
+
+            if (tileList.Any(x => Mathf.Abs(x) == row) && tileList.All(x => Mathf.Abs(x) <= row))
+            {
+                result.Add(tile);
+            }
+        }
+
+        return GetTile(result[Random.Range(0, result.Count)]);
     }
 
     List<HexTile> GetTilesAtRow(int row)
@@ -628,7 +704,7 @@ public class GridManager : Manager
             return null;
         }
         
-        GameObject obj = Instantiate(prefab, CellPosToWorldPos(coord), transform.rotation, transform);
+        GameObject obj = Instantiate(prefab, CellPosToWorldPos(coord), transform.rotation, tileParent);
         obj.name = string.Format("Tile_{0}_{1}_{2}", coord.x, coord.y, coord.z);
     
         HexTile tile = obj.GetComponent<HexTile>();

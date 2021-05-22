@@ -233,7 +233,7 @@ public class EncounterManager : Manager
 
         GameObject newRoadParent = new GameObject();
         newRoadParent.name = string.Format("road_{0}_to_{1}", fromEnc.gameObject.name, toEnc.gameObject.name);
-        newRoadParent.transform.SetParent(fromEnc.transform);
+        newRoadParent.transform.SetParent(fromEnc.transform.parent.parent.GetChild(2));
         List<Encounter> roads = new List<Encounter>();
         roads.Add(fromEnc);
         roads.Add(toEnc);
@@ -328,6 +328,7 @@ public class EncounterManager : Manager
             DrawRoad(e.n1, e.n2);
             //Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false);
         }
+        tile.OffsetRotation(true);
     }
 
     private List<EdgeEncounter> AssignNonCrossingEdges(Dictionary<Vector3Int, EncounterHex> nodes, List<EncounterHex> doorNodes)
