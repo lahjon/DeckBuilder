@@ -292,7 +292,7 @@ public class HexTile : MonoBehaviour
             tileState = TileState.Placement;
             StartPlacement();
         }
-        
+        StartCoroutine(encountersExits[0].Entering(() => { }));
 
         //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
     }

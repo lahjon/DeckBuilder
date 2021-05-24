@@ -29,9 +29,13 @@ public class EncounterHex : Encounter
             else
                 tweenAction.Kill();
 
-            if(_status == EncounterHexStatus.Unreachable)
+            if(_status == EncounterHexStatus.Unreachable || _status == EncounterHexStatus.Visited)
             {
-                hexNeighboors.Where(x => x.status == EncounterHexStatus.Idle).ToList().ForEach(x => x.status = EncounterHexStatus.Unreachable);
+                GetComponent<SpriteRenderer>().color = new Color32(200, 200, 200,255);
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
             }
         }
     }
@@ -76,8 +80,9 @@ public class EncounterHex : Encounter
 
         foreach (EncounterHex e in hexNeighboors)
         {
+            if (e == nextEnc) continue;
             bool canReachExit = WorldSystem.instance.encounterManager.CanReachExitNode(e, tile.encountersExits);
-            e.status = canReachExit ? EncounterHexStatus.Selectable : EncounterHexStatus.Unreachable;
+            e.status = canReachExit ? EncounterHexStatus.Idle : EncounterHexStatus.Unreachable;
         }
 
         hexNeighboors.Clear();

@@ -427,7 +427,6 @@ public class EncounterManager : Manager
         List<EncounterHex> frontier = new List<EncounterHex>();
         List<EncounterHex> visited = new List<EncounterHex>();
         frontier.Add(node);
-        visited.Add(node);
         while(frontier.Count != 0)
         {
             List<EncounterHex> newFrontier = new List<EncounterHex>();
