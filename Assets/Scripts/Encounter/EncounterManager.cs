@@ -447,7 +447,7 @@ public class EncounterManager : Manager
 
     private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges,HashSet<Vector3Int> coordsEncounters, EncounterHex exceptEnc = null)
     {
-        int limit = 10000;
+        int limit = 10;
         while (graphs.Count > 1 && --limit > 0)
         {
             int gCount = graphs.Count;
@@ -473,6 +473,7 @@ public class EncounterManager : Manager
         {
             foreach (EncounterHex g2n in g2) 
             {
+                Debug.Log("checking possible conn between:" + g1n.name + "," + g2n.name);
                 if (g1n == exceptEnc || g2n == exceptEnc) continue;
                 EdgeEncounter potentialEdge = new EdgeEncounter(g1n, g2n);
             
@@ -547,15 +548,104 @@ public class EncounterManager : Manager
             }
         }
 
-        starting = posA.x < posB.x ? posA : posB;
-        end = posA.x < posB.x ? posB : posA;
-        for (int i = 1; i < end.x - starting.x; i++)
+        LinearLineAxisType crossLine = HexCoordsOnLine(posA, posB);
+        if (crossLine == LinearLineAxisType.Z)
         {
-            if (occupied.Contains(new Vector3Int(starting.x + i, starting.y + i, starting.z - 2*i)))
-                return true;
+            starting = posA.x < posB.x ? posA : posB;
+            end = posA.x < posB.x ? posB : posA;
+            for (int i = 1; i < end.x - starting.x; i++)
+            {
+                if (occupied.Contains(new Vector3Int(starting.x + i, starting.y + i, starting.z - 2 * i)))
+                    return true;
+            }
+        }
+
+        if (crossLine == LinearLineAxisType.X)
+        {
+            starting = posA.x < posB.x ? posA : posB;
+            end = posA.x < posB.x ? posB : posA;
+            for (int i = 1; i < end.x - starting.x; i++)
+            {
+                if (occupied.Contains(new Vector3Int(starting.x + 2 * i, starting.y - 1 * i, starting.z - 1 * i)))
+                    return true;
+            }
+        }
+
+        if (crossLine == LinearLineAxisType.Y)
+        {
+            starting = posA.y < posB.y ? posA : posB;
+            end = posA.y < posB.y ? posB : posA;
+            for (int i = 1; i < end.y - starting.y; i++)
+            {
+                if (occupied.Contains(new Vector3Int(starting.x - 1 * i, starting.y + 2 * i, starting.z - 1 * i)))
+                    return true;
+            }
         }
 
         return false;
+    }
+
+    public HashSet<EncounterHex> FindAllReachableNodes(EncounterHex enc)
+    {
+        HashSet<EncounterHex> hs = new HashSet<EncounterHex>();
+
+        if(enc.encounterType == OverworldEncounterType.Exit)
+        {
+            hs.Add(enc);
+            return hs;
+        }
+
+        List<EncounterHex> neighs = enc.hexNeighboors.Where(e => e.status == EncounterHexStatus.Idle || e.status == EncounterHexStatus.Selectable).ToList();
+        foreach (EncounterHex neigh in neighs)
+        {
+            EncounterHexStatus originalStatus = neigh.status;
+            //avoiding animationtriggers
+            neigh._status = EncounterHexStatus.Visited;
+            hs.UnionWith(FindAllReachableNodes(neigh));
+            neigh._status = originalStatus;
+        }
+
+        if (hs.Count == 0) return hs;
+        hs.Add(enc);
+        return hs;
+    }
+
+    public void Testie()
+    {
+        HashSet<EncounterHex> hs = new HashSet<EncounterHex>();
+        List<EncounterHex> list = new List<EncounterHex>();
+        hs.UnionWith(list);
+        hs.UnionWith(list);
+        hs.UnionWith(list);
+    }
+
+    LinearLineAxisType HexCoordsOnLine(Vector3Int a, Vector3Int b)
+    {
+        Vector3Int starting = a.x < b.x ? a : b;
+        Vector3Int end      = a.x < b.x ? b : a;
+        for (int i = 1; i <= end.x - starting.x; i++)
+            if (end == new Vector3Int(starting.x + i, starting.y + i, starting.z - 2 * i)) return LinearLineAxisType.Z;
+
+        starting    = a.x < b.x ? a : b;
+        end         = a.x < b.x ? b : a;
+        for (int i = 1; i <= end.x - starting.x; i++)
+            if (end == new Vector3Int(starting.x + 2 * i, starting.y - 1 * i, starting.z - 1 * i)) return LinearLineAxisType.X;
+
+
+        starting    = a.y < b.y ? a : b;
+        end         = a.y < b.y ? b : a;
+        for (int i = 1; i < end.y - starting.y; i++)
+            if (end == new Vector3Int(starting.x - 1 * i, starting.y + 2 * i, starting.z - 1 * i)) return LinearLineAxisType.Y;
+
+        return LinearLineAxisType.NONE;
+    }
+
+    enum LinearLineAxisType
+    {
+        Z,
+        Y,
+        X,
+        NONE
     }
 
     private static void Shuffle<T>(List<T> list)

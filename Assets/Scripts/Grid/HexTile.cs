@@ -292,6 +292,7 @@ public class HexTile : MonoBehaviour
             tileState = TileState.Placement;
             StartPlacement();
         }
+        encountersExits[0].encounterType = OverworldEncounterType.Start;
         StartCoroutine(encountersExits[0].Entering(() => { }));
 
         //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
