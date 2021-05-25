@@ -262,6 +262,21 @@ public enum OverworldEncounterType
     CombatBoss
 }
 
+public enum TileEncounterType
+{
+    None,
+    Treasure,
+    Elite,
+    Special
+}
+
+public enum TileBiome
+{
+    None,
+    Forest, 
+    Snow,
+    Desert
+}
 
 public enum EncounterValue
 {
