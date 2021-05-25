@@ -29,14 +29,12 @@ public class EncounterHex : Encounter
             if (_status == EncounterHexStatus.Selectable)
                 tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
                 
-            if(_status == EncounterHexStatus.Unreachable || _status == EncounterHexStatus.Visited)
-            {
-                GetComponent<SpriteRenderer>().color = new Color32(200, 200, 200,255);
-            }
+            if(_status == EncounterHexStatus.Visited)
+                GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0,255);
+            else if(_status == EncounterHexStatus.Unreachable)
+                GetComponent<SpriteRenderer>().color = new Color32(200, 200, 200, 255);
             else
-            {
                 GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
-            }
         }
     }
 
