@@ -14935,10 +14935,16 @@ MonoBehaviour:
   animator: {fileID: 0}
   canvas: {fileID: 955537519}
   prefab: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
-  sprites:
-  - {fileID: 21300000, guid: 117c65317c9366f45afe5819cb7f8705, type: 3}
+  inactiveTilesSprite:
   - {fileID: 21300000, guid: 2dc86b0a2c83bda419e422ddb69a319d, type: 3}
+  - {fileID: 21300000, guid: 4b97ce238125cba4d810c316b8c2dfbf, type: 3}
   - {fileID: 21300000, guid: 2152a8dedfecf054faac2edbfe3e646b, type: 3}
+  - {fileID: 21300000, guid: 2bda84fc865ba8b488e310414967f165, type: 3}
+  activeTilesSprite:
+  - {fileID: 21300000, guid: 117c65317c9366f45afe5819cb7f8705, type: 3}
+  - {fileID: 21300000, guid: 06d60b412becff0498558a8fc3a5d0ee, type: 3}
+  - {fileID: 21300000, guid: 47980bdbe3779214baf18f923cf904bc, type: 3}
+  - {fileID: 21300000, guid: 76bb95f4f10712e43bfbb6039a880568, type: 3}
   gridWidth: 3
   tileSize: 1
   tileGap: 0
@@ -14947,20 +14953,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  activeTiles: []
   hoverTilePosition: {x: 0, y: 0, z: 0}
   hoverTile: {fileID: 0}
   oldHoverTile: {fileID: 0}
   activeTile: {fileID: 0}
   currentTile: {fileID: 0}
   completedTiles: []
+  specialTiles: []
   gridState: 0
   bossCounterText: {fileID: 240440558}
   hexMapController: {fileID: 0}
   tilesUntilBoss: 10
   initialized: 0
-  tileParent: {fileID: 0}
-  roadParent: {fileID: 0}
+  tileParent: {fileID: 624123282}
   buttonRotateLeft: {fileID: 2037849953}
   buttonRotateRight: {fileID: 180596911}
 --- !u!224 &1848971790

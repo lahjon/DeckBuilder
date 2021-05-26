@@ -13,19 +13,20 @@ public class GridManager : Manager
     public Animator animator;
     public Canvas canvas;
     public GameObject prefab; 
-    public List<Sprite> sprites = new List<Sprite>();
+    public List<Sprite> inactiveTilesSprite = new List<Sprite>();
+    public List<Sprite> activeTilesSprite = new List<Sprite>();
     public int gridWidth = 3;
     public float tileSize;
     public float tileGap;
     public List<HexTile> inventory = new List<HexTile>();
     public Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
-    public List<HexTile> activeTiles = new List<HexTile>();
     public Vector3 hoverTilePosition = Vector3.zero;
     public HexTile hoverTile;
     public HexTile oldHoverTile;
     public HexTile activeTile;
     public HexTile currentTile;
     public List<HexTile> completedTiles = new List<HexTile>();
+    public List<HexTile> specialTiles = new List<HexTile>();
     public GridState gridState;
     public TMP_Text bossCounterText;
     public HexMapController hexMapController;
@@ -58,11 +59,23 @@ public class GridManager : Manager
         }
     }
 
-    OverworldEncounterType RandomEncounterType()
+    TileEncounterType GetRandomEncounterType()
     {
-        List<OverworldEncounterType> allTypes = new List<OverworldEncounterType>{
-            OverworldEncounterType.RandomEvent, 
-            OverworldEncounterType.CombatElite, 
+        List<TileEncounterType> allTypes = new List<TileEncounterType>{
+            TileEncounterType.Elite,
+            TileEncounterType.Special, 
+            TileEncounterType.Treasure
+            };
+
+        return allTypes[Random.Range(0, allTypes.Count)];
+    }
+
+    TileBiome GetRandomTileBiome()
+    {
+        List<TileBiome> allTypes = new List<TileBiome>{
+            TileBiome.Snow,
+            TileBiome.Desert, 
+            TileBiome.Forest
             };
 
         return allTypes[Random.Range(0, allTypes.Count)];
@@ -134,6 +147,7 @@ public class GridManager : Manager
         firstTile.gameObject.SetActive(true);
         //world.encounterManager.GenerateHexEncounters(firstTile);
         firstTile.Activate();
+        firstTile.spriteRenderer.sprite = activeTilesSprite[(int)firstTile.tileBiome];
         firstTile.LockDirections();
 
         // flip it up
@@ -301,22 +315,6 @@ public class GridManager : Manager
             }
         }
     }
-
-    Sprite GetSprite(TileState tileState)
-    {
-        switch (tileState)
-        {
-            case TileState.Inactive:
-                return sprites[1];
-
-            case TileState.Active:
-                return sprites[0];
-            
-            default:
-                return sprites[0];
-        }
-    }
-
     
     Vector3Int GetTileDirection(int direction)
     {
@@ -397,7 +395,7 @@ public class GridManager : Manager
     {
         // get all the neighbours of a tile and discard all inactive tiles
         List<Vector3Int> neighboursList = GetNeighboursCoords(tile.coord);
-        neighboursList = neighboursList.Except(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+        neighboursList = neighboursList.Except(completedTiles.ConvertAll(x => x.coord)).ToList();
         HashSet<Vector3Int> neighbours = new HashSet<Vector3Int>(neighboursList);
         HashSet<Vector3Int> result = new HashSet<Vector3Int>();
 
@@ -440,7 +438,7 @@ public class GridManager : Manager
     {
         // get all the neighbours of a tile and discard all inactive tiles
         List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
-        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
 
         // look at all exists
         foreach (int dir in tile.availableDirections)
@@ -464,7 +462,7 @@ public class GridManager : Manager
     {
         // get all the neighbours of a tile and discard all inactive tiles
         List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
-        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
 
         bool freeExist = false;
 
@@ -513,7 +511,7 @@ public class GridManager : Manager
 
         // get all the neighbours of a tile and discard all inactive tiles
         List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
-        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord).Union(activeTiles.ConvertAll(x => x.coord))).ToList();
+        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
 
         // look at all exists
         foreach (int dir in tile.availableDirections)
@@ -560,7 +558,7 @@ public class GridManager : Manager
             return GetTile(Vector3Int.zero);
         }
 
-        foreach (Vector3Int tile in tiles.Keys.Except(activeTiles.ConvertAll(x => x.coord)))
+        foreach (Vector3Int tile in tiles.Keys.Except(specialTiles.ConvertAll(x => x.coord)))
         {
             HashSet<int> tileList = VectorToArray(tile);
 
@@ -608,7 +606,7 @@ public class GridManager : Manager
         }
         else
         {
-            foreach (Vector3Int tile in tiles.Keys.Except(activeTiles.ConvertAll(x => x.coord)))
+            foreach (Vector3Int tile in tiles.Keys.Except(specialTiles.ConvertAll(x => x.coord)))
             {
                 HashSet<int> tileList = VectorToArray(tile);
 
@@ -709,7 +707,8 @@ public class GridManager : Manager
     
         HexTile tile = obj.GetComponent<HexTile>();
         tile.coord = coord;
-        tile.tileType = RandomEncounterType();
+        tile.tileEncounterType = GetRandomEncounterType();
+        tile.tileBiome = GetRandomTileBiome();
         tile.Init();
 
         if (!tiles.ContainsValue(tile))

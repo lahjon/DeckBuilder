@@ -26,7 +26,8 @@ public class HexTile : MonoBehaviour
     Color normalColor = new Color(.8f, .8f, .8f, 1f);
     Tween colorTween;
     bool _highlighted;
-    public OverworldEncounterType tileType;
+    public TileEncounterType tileEncounterType;
+    public TileBiome tileBiome;
 
     public Dictionary<Vector3Int, EncounterHex> posToEncounter = new Dictionary<Vector3Int, EncounterHex>();
     public Dictionary<Vector3Int, EncounterHex> posToEncountersExit = new Dictionary<Vector3Int, EncounterHex>();
@@ -84,7 +85,7 @@ public class HexTile : MonoBehaviour
 
             if (_tileState == TileState.Active)
             {
-                gridManager.activeTiles.Add(this);
+                Debug.Log("Not used atm");
             }
             else if (_tileState == TileState.Completed)
             {
@@ -101,7 +102,8 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.Special)
             {
-                spriteRenderer.sprite = gridManager.sprites[2]; 
+                gridManager.specialTiles.Add(this);
+                SetSpecialImage();
                 spriteRenderer.color = completedColor;
             }
             else if (_tileState == TileState.Current)
@@ -214,8 +216,7 @@ public class HexTile : MonoBehaviour
             availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
         }
 
-        spriteRenderer.sprite = gridManager.sprites[0];
-
+        spriteRenderer.sprite = gridManager.activeTilesSprite[0];
     }
 
     public void CloseExits(List<int> openExists)
@@ -249,7 +250,9 @@ public class HexTile : MonoBehaviour
             gridManager.animator.SetBool("IsPlacing", true);
             hexMapController.FocusTile(this, ZoomState.Mid, true);
             if (gridManager.currentTile != null)
-                entryPosition = gridManager.currentTile.coord;
+            {
+                
+            }
 
             tileState = TileState.Animation;
 
@@ -267,18 +270,27 @@ public class HexTile : MonoBehaviour
         }
         else
         {
-            spriteRenderer.sprite = gridManager.sprites[2];
+            SetSpecialImage();
         }
 
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile());
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile(enterPlacement));
         return 1f;
     }
 
-    public void EndFlipUpNewTile()
+    public void SetSpecialImage()
+    {
+        spriteRenderer.sprite = gridManager.inactiveTilesSprite[(int)tileBiome];
+    }
+
+    public void EndFlipUpNewTile(bool enterPlacement)
     {
         encounterParent.gameObject.SetActive(true);
         roadParent.gameObject.SetActive(true);
         availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
+        if (enterPlacement)
+        {
+            spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
+        }
         
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
             () => CompleteFlip()
