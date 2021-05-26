@@ -67,7 +67,6 @@ public class EncounterHex : Encounter
         }
 
         
-
         WorldSystem.instance.encounterManager.currentEncounterHex = this;
 
         encounterType.Invoke();

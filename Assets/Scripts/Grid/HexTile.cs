@@ -341,15 +341,13 @@ public class HexTile : MonoBehaviour
 
     public void OffsetRotation(bool instant = false)
     {
-
-            for (int i = 0; i < encounterParent.childCount; i++)
-            {
-                if (instant)
-                    encounterParent.GetChild(i).transform.rotation = Quaternion.identity;
-                else
-                    encounterParent.GetChild(i).transform.DORotate(Vector3.zero, 0.5f).SetEase(Ease.InExpo);
-            }
-
+        for (int i = 0; i < encounterParent.childCount; i++)
+        {
+            if (instant)
+                encounterParent.GetChild(i).transform.rotation = Quaternion.identity;
+            else
+                encounterParent.GetChild(i).transform.DORotate(Vector3.zero, 0.5f, RotateMode.FastBeyond360).SetEase(Ease.InExpo);
+        }
     }
 
     public void EndPlacement()

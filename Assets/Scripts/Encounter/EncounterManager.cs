@@ -122,7 +122,7 @@ public class EncounterManager : Manager
         {
             for (int j = 0; j < encounters[i].Length; j++)
             {
-                encounters[i][j].encounterData = (i == encounters.Length - 1 ? DatabaseSystem.instance.GetRandomEncounterBoss() : DatabaseSystem.instance.GetRandomEncounter());
+                //encounters[i][j].encounterData = (i == encounters.Length - 1 ? DatabaseSystem.instance.GetRandomEncounterBoss() : DatabaseSystem.instance.GetRandomEncounter());
                 encounters[i][j].UpdateEncounter();
             }
         }

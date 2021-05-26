@@ -113,6 +113,9 @@ public class GridManager : Manager
     {
         if (!initialized)
         {
+            //DEBUG FÖR ATT KUNNA TESTA: 
+            WorldStateSystem.SetInTown(false);
+            WorldStateSystem.SetInOverworld(true);
             StartCoroutine(CreateMap());
             
         }
@@ -356,7 +359,7 @@ public class GridManager : Manager
             buttonRotateRight.enabled = false;
             activeTile.OffsetRotation();
             
-            activeTile.transform.DORotate(new Vector3(0, 0, activeTile.transform.localRotation.eulerAngles.z + rotationAmount), 0.5f).SetEase(Ease.InExpo).OnComplete(() => {
+            activeTile.transform.DORotate(new Vector3(0, 0, activeTile.transform.localRotation.eulerAngles.z + rotationAmount), 0.5f, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
                 buttonRotateLeft.enabled = true;
                 buttonRotateRight.enabled = true;
                 rotationAmount = 0;

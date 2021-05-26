@@ -43,6 +43,8 @@ public class CombatController : MonoBehaviour
     public Canvas canvas;
     private CombatActorEnemy _activeEnemy;
 
+    public EncounterDataCombat encounterData;
+
     public Animator animator;
 
     public List<Action> OnCombatStart = new List<Action>();
@@ -154,7 +156,7 @@ public class CombatController : MonoBehaviour
 
         Hero.ShuffleDeck();
 
-        enemyDatas = ((EncounterDataCombat)WorldSystem.instance.encounterManager.currentEncounter.encounterData).enemyData;
+        enemyDatas = encounterData.enemyData;
 
         //enemyDatas.ForEach(x => Debug.Log(x));
 

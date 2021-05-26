@@ -84,13 +84,13 @@ public class EncounterUI : MonoBehaviour
     public void ChooseOption(int index)
     {
         newEncounterData = encounterData.newEncounterData[index -1];
+        if (newEncounterData is EncounterDataCombat encC)
+            WorldSystem.instance.combatManager.combatController.encounterData = encC;
+        else if (newEncounterData is EncounterDataRandomEvent encR)
+            WorldSystem.instance.uiManager.encounterUI.encounterData = encR;
+
         bool disable = EncounterEventResolver.TriggerEvent(encounterData.events[index-1]);
         ConfirmOption(disable);
-       
-        if (newEncounterData != null)
-        {
-            WorldSystem.instance.encounterManager.currentEncounter.encounterData = newEncounterData;
-        }
     }
 
     public void ConfirmOption(bool disable)

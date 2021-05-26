@@ -8,14 +8,15 @@ public class DatabaseSystem : MonoBehaviour
     public CardDatabase cardDatabase;
     public CardDatabase StartingCardsBrute;
     public IconDatabase iconDatabase;
-    public EncounterDatabase EncounterDatabase;
     public static DatabaseSystem instance;
+
+    public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
+    public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
 
     private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
 
     private List<CardData> allCards { get { return cardDatabase.allCards; } }
 
-    public Dictionary<EffectType, int> effectEndOfTurnBehavior = new Dictionary<EffectType, int>();
     public HashSet<EffectType> effectsStackable = new HashSet<EffectType>();
 
     private void Awake()
@@ -34,16 +35,7 @@ public class DatabaseSystem : MonoBehaviour
 
     }
 
-    public void Start()
-    {
-        effectsStackable.Add(EffectType.Poison);
-        effectsStackable.Add(EffectType.Weak);
-        effectsStackable.Add(EffectType.Vulnerable);
 
-        effectEndOfTurnBehavior[EffectType.Poison] = -1;
-        effectEndOfTurnBehavior[EffectType.Weak] = -1;
-        effectEndOfTurnBehavior[EffectType.Vulnerable] = -1;
-    }
     public void FetchCards(List<CardData> allCards)
     {
         foreach(CardData card in allCards)
@@ -97,16 +89,17 @@ public class DatabaseSystem : MonoBehaviour
         return StartingCards[Character].allCards;
     }
 
-    public EncounterData GetRandomEncounter()
+    public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
     {
-        int id = Random.Range(0, EncounterDatabase.allOverworld.Count);
-        return EncounterDatabase.allOverworld[id];
+        List<EncounterDataCombat> encounters = encountersCombat.Where(e => (int)e.type == (int)type).ToList();
+        int id = Random.Range(0, encounters.Count);
+        return encounters[id];
     }
 
-    public EncounterData GetRandomEncounterBoss()
+    public EncounterDataRandomEvent GetRndEncounterEvent()
     {
-        int id = Random.Range(0, EncounterDatabase.bossEncounters.Count);
-        return EncounterDatabase.bossEncounters[id];
+        int id = Random.Range(0, encounterEvent.Count);
+        return encounterEvent[id];
     }
 }
 

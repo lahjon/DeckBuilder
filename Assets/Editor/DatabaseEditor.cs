@@ -28,7 +28,7 @@ public class DatabaseEditor : Editor
         DatabaseSystem database = (DatabaseSystem)target;
         if(GUILayout.Button("Update Database"))
         {
-            database.FetchCards(GetAllCards());
+            DatabaseUpdateOnStart.UpdateDatabase(false);
         }
     }
 }

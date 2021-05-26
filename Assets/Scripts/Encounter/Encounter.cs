@@ -8,7 +8,6 @@ public abstract class Encounter : MonoBehaviour
 {
     [HideInInspector]
     public List<Encounter> neighbourEncounters;
-    public EncounterData encounterData;
     public OverworldEncounterType _encounterType;
     public OverworldEncounterType encounterType { get { return _encounterType; } set { _encounterType = value; GetComponent<SpriteRenderer>().sprite = encounterType.GetIcon(); } }
     public bool selectable = false;
@@ -46,7 +45,7 @@ public abstract class Encounter : MonoBehaviour
                 StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true)));
             else if (encounterType == OverworldEncounterType.RandomEvent)
             {
-                WorldSystem.instance.uiManager.encounterUI.encounterData = (EncounterDataRandomEvent)encounterData;
+                //WorldSystem.instance.uiManager.encounterUI.encounterData = (EncounterDataRandomEvent)encounterData;
                 StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true)));
             }
         }
