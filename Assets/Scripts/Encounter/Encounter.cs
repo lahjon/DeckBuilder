@@ -10,7 +10,7 @@ public abstract class Encounter : MonoBehaviour
     public List<Encounter> neighbourEncounters;
     public EncounterData encounterData;
     public OverworldEncounterType _encounterType;
-    public OverworldEncounterType encounterType { get { return _encounterType; } set { _encounterType = value; UpdateIcon(); } }
+    public OverworldEncounterType encounterType { get { return _encounterType; } set { _encounterType = value; GetComponent<SpriteRenderer>().sprite = encounterType.GetIcon(); } }
     public bool selectable = false;
     public Dictionary<GameObject, List<Encounter>> roads = new Dictionary<GameObject, List<Encounter>>();
     protected delegate void VisitAction();
@@ -22,15 +22,9 @@ public abstract class Encounter : MonoBehaviour
         encounterManager = WorldSystem.instance.encounterManager;
     }
 
-    public abstract IEnumerator Entering(System.Action VisitAction, Encounter enc = null);
-
+    public abstract IEnumerator Entering(System.Action VisitAction);
 
     public abstract void SetLeaving(Encounter nextEnc);
-    private void UpdateIcon()
-    {
-        Sprite icon = encounterType.GetIcon();
-        GetComponent<SpriteRenderer>().sprite = icon;
-    }
 
     public void UpdateEncounter()
     {
@@ -39,7 +33,6 @@ public abstract class Encounter : MonoBehaviour
             StartCoroutine(Entering(() => { }));
         }
         encounterType = OverworldEncounterType.CombatNormal;
-        UpdateIcon();
     }
 
     public void ButtonPress()
@@ -48,13 +41,13 @@ public abstract class Encounter : MonoBehaviour
         if (selectable)
         {
             if (encounterType == OverworldEncounterType.CombatNormal || encounterType == OverworldEncounterType.CombatElite || encounterType == OverworldEncounterType.CombatBoss)
-                StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true), this));
+                StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true)));
             else if (encounterType == OverworldEncounterType.Shop)
-                StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true), this));
+                StartCoroutine(Entering(() => WorldStateSystem.SetInShop(true)));
             else if (encounterType == OverworldEncounterType.RandomEvent)
             {
                 WorldSystem.instance.uiManager.encounterUI.encounterData = (EncounterDataRandomEvent)encounterData;
-                StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true), this));
+                StartCoroutine(Entering(() => WorldStateSystem.SetInEvent(true)));
             }
         }
     }

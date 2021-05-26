@@ -46,7 +46,7 @@ public class EncounterHex : Encounter
         //rotCon.AddSource(WorldSystem.instance.gridManager.gameObject);
     }
 
-    public override IEnumerator Entering(System.Action VisitAction, Encounter fromEncounter = null)
+    public override IEnumerator Entering(System.Action VisitAction)
     {
         transform.localScale = startingScale*1.5f;
         status = EncounterHexStatus.Visited;
@@ -66,19 +66,19 @@ public class EncounterHex : Encounter
                 enc.status = EncounterHexStatus.Unreachable;
         }
 
-        /*
-        foreach (EncounterHex e in hexNeighboors)
-        {
-            bool canReachExit = WorldSystem.instance.encounterManager.CanReachExitNode(e, tile.encountersExits);
-            e.status = canReachExit ? EncounterHexStatus.Selectable : EncounterHexStatus.Unreachable;
-        }
-        */
+        
 
         WorldSystem.instance.encounterManager.currentEncounterHex = this;
 
+        encounterType.Invoke();
+
         yield return null;
+
+
+
         VisitAction();
     }
+
 
     public override void SetLeaving(Encounter nextEnc)
     {

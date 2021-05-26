@@ -55,7 +55,33 @@ public static class EnumExtenstions
         Debug.Log("icon not found for: " + type.ToString());
         return DatabaseSystem.instance.iconDatabase.allIcons.Where(x => x.name == "OverworldRandomEvent").FirstOrDefault();
     }
+
+    public static void Invoke(this OverworldEncounterType type)
+    {
+        switch (type)
+        {
+            case OverworldEncounterType.CombatNormal:
+            case OverworldEncounterType.CombatElite:
+            case OverworldEncounterType.CombatBoss:
+                WorldStateSystem.SetInCombat(true);
+                break;
+            case OverworldEncounterType.Shop:
+                WorldStateSystem.SetInShop(true);
+                break;
+            case OverworldEncounterType.RandomEvent:
+                WorldSystem.instance.uiManager.encounterUI.encounterData = (EncounterDataRandomEvent)WorldSystem.instance.encounterManager.currentEncounterHex.encounterData;
+                WorldStateSystem.SetInEvent(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+
 }
+
+
 
 public enum Rarity
 {

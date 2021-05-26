@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class EncounterOverworld: Encounter
 {
-    public override IEnumerator Entering(System.Action VisitAction, Encounter enc = null)
+    public override IEnumerator Entering(System.Action VisitAction)
     {
         selectable = false;
 
-        if(enc != null && roads.Count > 0)
+        if(WorldSystem.instance.encounterManager.currentEncounter != null && roads.Count > 0)
         {
             foreach(KeyValuePair<GameObject, List<Encounter>> p in roads)
             {
