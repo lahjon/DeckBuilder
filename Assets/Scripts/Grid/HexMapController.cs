@@ -79,10 +79,16 @@ public class HexMapController : MonoBehaviour
             zoomPosition = cam.transform.position;
         }
 
+        if (disableInput)
+        {
+            zoomPosition = cam.transform.position;
+        }
+
         if (zoomState == ZoomState.Inner)
         {
             zoomStep = 0;
             zoomPosition.z = zoomOut + zoomIn;
+
             cam.transform.DOMove(zoomPosition, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
                 ZoomCallback(endDisable, 3f);
                 if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)

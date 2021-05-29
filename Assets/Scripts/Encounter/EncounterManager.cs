@@ -50,8 +50,8 @@ public class EncounterManager : Manager
     protected override void Start()
     {
         base.Start();
-        encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
-        roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
+        //encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
+        //roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
     }
     public void UpdateAllTownEncounters(int act)
     {
@@ -62,16 +62,6 @@ public class EncounterManager : Manager
             Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();
             e.UpdateEncounter();
         }
-    }
-
-    public void OpenOverworldMap()
-    {
-        canvas.gameObject.SetActive(true);
-    }
-
-    public void CloseOverworldMap()
-    {
-        canvas.gameObject.SetActive(false);
     }
     public void GenerateMap(int newMinWidth = 0, int newMaxWidth = 0, int newLength = 0)
     {
@@ -219,7 +209,7 @@ public class EncounterManager : Manager
         }
     }
 
-    public void DrawRoad(Encounter fromEnc, Encounter toEnc)
+    public void DrawRoad(Encounter fromEnc, Encounter toEnc, bool animate = false)
     {
         Vector3 from = fromEnc.transform.position;
         Vector3 to = toEnc.transform.position;
@@ -248,6 +238,18 @@ public class EncounterManager : Manager
             newRoad.transform.rotation = Quaternion.LookRotation(from, to);
             dist_t += gap + width;
             count++;
+            if (animate) newRoad.SetActive(false);
+        }
+
+        if (animate) StartCoroutine(AnimateRoad(newRoadParent));
+    }
+
+    IEnumerator AnimateRoad(GameObject parent)
+    {
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            parent.transform.GetChild(i).gameObject.SetActive(true);
+            yield return new WaitForSeconds(.3f);
         }
     }
 
@@ -297,7 +299,7 @@ public class EncounterManager : Manager
 
         HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
         // Create initital non-crossing Paths. Taking copy since arguments is destructive
-        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
+        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits.Keys.ToList());
 
         // Time to check if all nodes are connected to the same graph
         List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(tile.encounters));
@@ -312,7 +314,7 @@ public class EncounterManager : Manager
 
             foreach(EncounterHex neigh in n.hexNeighboors)
             {
-                if (!CanReachExitNode(neigh, tile.encountersExits, subGraphLoop))
+                if (!CanReachExitNode(neigh, tile.encountersExits.Keys.ToList(), subGraphLoop))
                 {
                     Connect2Graphs(subGraphLoop, tile.encounters.Except(subGraphLoop).ToList(), edges, occupiedSpaces, n);
                     subGraphLoop.Clear();

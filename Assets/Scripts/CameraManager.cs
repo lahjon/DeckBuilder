@@ -5,9 +5,8 @@ using System.Collections.Generic;
 public class CameraManager : Manager 
 {
     public Camera mainCamera;
-    public Transform combatCameraPos;
-    public Transform shopCameraPos;
-    public List<Transform> actCameraPos;
+    public Camera combatCamera;
+    public List<Canvas> swapCanvas = new List<Canvas>();
 
     protected override void Awake()
     {
@@ -15,25 +14,22 @@ public class CameraManager : Manager
         world.cameraManager = this;
     }
 
-    public void CameraGoto(WorldState worldstate, bool doTransition = true)
+    public void SwapToMain()
     {
-        switch (worldstate)
+        foreach (Canvas canvas in swapCanvas)
         {
-            case WorldState.Combat:
-                mainCamera.transform.position = combatCameraPos.position;
-                break;
-
-            case WorldState.Overworld:
-                int act = WorldSystem.instance.act;
-                mainCamera.transform.position = actCameraPos[act - 1].position;
-                break;
-
-            case WorldState.Shop:
-                mainCamera.transform.position = shopCameraPos.position;
-                break;   
-             
-            default:
-                break;
+            canvas.worldCamera = mainCamera;
         }
+        world.cameraManager.combatCamera.gameObject.SetActive(false);
+        world.cameraManager.mainCamera.gameObject.SetActive(true);
+    }
+    public void SwapToCombat()
+    {
+        foreach (Canvas canvas in swapCanvas)
+        {
+            canvas.worldCamera = combatCamera;
+        }
+        world.cameraManager.combatCamera.gameObject.SetActive(true);
+        world.cameraManager.mainCamera.gameObject.SetActive(false);
     }
 }

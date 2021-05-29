@@ -107,10 +107,10 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
 
     public void SetupCamera()
     {
-        canvasIntent.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvasIntent.worldCamera = WorldSystem.instance.cameraManager.combatCamera;
         canvasIntent.planeDistance = WorldSystem.instance.uiManager.planeDistance;
 
-        canvasEffects.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvasEffects.worldCamera = WorldSystem.instance.cameraManager.combatCamera;
         canvasEffects.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 

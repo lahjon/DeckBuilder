@@ -37,7 +37,7 @@ public abstract class Encounter : MonoBehaviour
     public void ButtonPress()
     {
         //Debug.Log("Encounter pressed");
-        if (selectable)
+        if (selectable && WorldSystem.instance.gridManager.hexMapController.zoomStep == 0)
         {
             if (encounterType == OverworldEncounterType.CombatNormal || encounterType == OverworldEncounterType.CombatElite || encounterType == OverworldEncounterType.CombatBoss)
                 StartCoroutine(Entering(() => WorldStateSystem.SetInCombat(true)));

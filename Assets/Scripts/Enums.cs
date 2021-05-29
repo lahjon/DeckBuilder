@@ -74,7 +74,7 @@ public static class EnumExtenstions
                 WorldStateSystem.SetInEvent(true);
                 break;
             case OverworldEncounterType.Exit:
-                //FREDRIK VAD HÄNDER EXIT!!!!!!!!!
+                WorldSystem.instance.gridManager.CompleteCurrentTile();
                 break;
             default:
                 break;

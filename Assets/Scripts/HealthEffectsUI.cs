@@ -56,7 +56,7 @@ public class HealthEffectsUI : MonoBehaviour
 
     public void SetupCamera()
     {
-        canvas.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvas.worldCamera = WorldSystem.instance.cameraManager.combatCamera;
         canvas.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 

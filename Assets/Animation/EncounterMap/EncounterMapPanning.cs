@@ -15,7 +15,6 @@ public class EncounterMapPanning : EncounterMapAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // gridManager.hexMapController.PanCamera();
     }
     
 }

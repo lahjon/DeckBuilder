@@ -38,7 +38,7 @@ public class ToolTipManager : Manager
 
     protected override void Start()
     {
-        canvas.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
+        canvas.worldCamera = WorldSystem.instance.cameraManager.combatCamera;
         canvas.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 

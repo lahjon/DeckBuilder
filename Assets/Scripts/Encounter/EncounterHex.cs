@@ -11,8 +11,11 @@ public class EncounterHex : Encounter
     public List<EncounterHex> hexNeighboors;
     public Vector3Int coordinates;
     public Vector3 startingScale;
-    private Tween tweenAction;
+    private Tween tweenAction1;
+    private Tween tweenAction2;
     public HexTile tile;
+    public static Color highlightColor = new Color(.5f, .5f, .5f, 1f);
+    SpriteRenderer spriteRenderer;
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     public EncounterHexStatus status
@@ -24,26 +27,42 @@ public class EncounterHex : Encounter
         set
         {
             _status = value;
-            tweenAction.Kill();
+            tweenAction1?.Kill();
+            tweenAction2?.Kill();
 
             if (_status == EncounterHexStatus.Selectable)
-                tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-                
+                AnimateEncounter();
             if(_status == EncounterHexStatus.Visited)
-                GetComponent<SpriteRenderer>().color = new Color32(0, 0, 0,255);
+                spriteRenderer.color = new Color32(50, 50, 50,255);
             else if(_status == EncounterHexStatus.Unreachable)
-                GetComponent<SpriteRenderer>().color = new Color32(200, 200, 200, 255);
+                spriteRenderer.color = new Color32(200, 200, 200, 255);
             else
-                GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+                spriteRenderer.color = new Color32(255, 255, 255, 255);
         }
     }
 
     public void Awake()
     {
         startingScale = transform.localScale;
-        RotationConstraint rotCon = GetComponent<RotationConstraint>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        //RotationConstraint rotCon = GetComponent<RotationConstraint>();
         
         //rotCon.AddSource(WorldSystem.instance.gridManager.gameObject);
+    }
+
+    public void AnimateEncounter()
+    {
+        //tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        transform.localScale *= 1.3f;
+        tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
+        tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
+    }
+
+    public void CancelAnimation()
+    {
+        tweenAction1.Kill();
+        tweenAction2.Kill();
     }
 
     public override IEnumerator Entering(System.Action VisitAction)
@@ -52,7 +71,10 @@ public class EncounterHex : Encounter
         status = EncounterHexStatus.Visited;
 
         tile.encounters.Remove(this);
-        tile.encountersExits.Remove(this);
+        //tile.encountersExits.Remove(this);
+
+        if (WorldSystem.instance.encounterManager.currentEncounterHex != null && encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is EncounterHex encEntry)
+            WorldSystem.instance.encounterManager.DrawRoad(encEntry, this, true);
 
         WorldSystem.instance.encounterManager.currentEncounterHex?.SetLeaving(this);
 
@@ -76,6 +98,23 @@ public class EncounterHex : Encounter
 
 
         VisitAction();
+    }
+
+    public void UpdateEntry()
+    {
+        Debug.Log(HexTile.positionsExit[tile.encountersExits[this]]);
+        Debug.Log(tile.entryDir);
+        if (tile.entryDir == tile.encountersExits[this])
+        {
+            AnimateEncounter();
+            tile.encounterEntry = (this, tile.entryDir);
+            encounterType = OverworldEncounterType.Start;
+        }
+        else
+        {
+            encounterType = OverworldEncounterType.Exit;
+        }
+
     }
 
 
