@@ -211,9 +211,8 @@ public class GridManager : Manager
 
         yield return new WaitForSeconds(timer * timeMultiplier);
 
-        firstTile.tileState = TileState.Current;
+        firstTile.tileState = TileState.Completed;
         hexMapController.disableInput = false;
-        animator.SetBool("IsPlaying", true);
         initialized = true;
     }
 
