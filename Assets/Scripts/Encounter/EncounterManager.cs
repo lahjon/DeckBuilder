@@ -253,7 +253,46 @@ public class EncounterManager : Manager
         }
     }
 
-    public void GenerateHexEncounters(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null)
+    public void GenerateInitialHex(HexTile tile)
+    {
+        List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (!tile.availableDirections.Contains(i))
+            {
+                Vector3Int v = HexTile.DirectionToDoorEncounter(i);
+                chosenEncountersSlots.Add(v);
+            }
+        }
+
+        chosenEncountersSlots.Add(Vector3Int.zero);
+
+        for (int i = 0; i < chosenEncountersSlots.Count; i++)
+        {
+            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
+            EncounterHex enc = obj.GetComponent<EncounterHex>();
+            enc.coordinates = chosenEncountersSlots[i];
+            enc.name = chosenEncountersSlots[i].ToString();
+            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit :OverworldEncounterType.Start;
+            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
+            enc.tile = tile;
+            enc.status = EncounterHexStatus.Visited;
+            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
+        }
+
+        EncounterHex middleEnc = tile.posToEncounter[Vector3Int.zero];
+
+        foreach(EncounterHex enc in tile.encountersExits.Keys)
+        {
+            enc.hexNeighboors.Add(middleEnc);
+            middleEnc.hexNeighboors.Add(enc);
+            DrawRoad(enc, middleEnc);
+        }
+        tile.OffsetRotation(true);
+    }
+
+    public void GenerateHexEncounter(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
@@ -324,11 +363,9 @@ public class EncounterManager : Manager
             n.status = EncounterHexStatus.Idle;
         }
 
-
         foreach (EdgeEncounter e in edges)
         {
             DrawRoad(e.n1, e.n2);
-            //Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false);
         }
         tile.OffsetRotation(true);
     }

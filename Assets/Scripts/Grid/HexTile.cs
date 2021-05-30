@@ -278,7 +278,7 @@ public class HexTile : MonoBehaviour
                     availableDirections[requiredExits.IndexOf(dir)] = dir;
                 }
             }
-            WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
+            WorldSystem.instance.encounterManager.GenerateHexEncounter(this, new List<Vector3Int>() { Vector3Int.zero});
             encounterParent.gameObject.SetActive(false);
             roadParent.gameObject.SetActive(false);
         }

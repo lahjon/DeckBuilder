@@ -182,7 +182,7 @@ public class GridManager : Manager
         firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
         yield return new WaitForSeconds(timer);
 
-        WorldSystem.instance.encounterManager.GenerateHexEncounters(firstTile,new List<Vector3Int>() {new Vector3Int(0,0,0) });
+        WorldSystem.instance.encounterManager.GenerateInitialHex(firstTile);
         yield return StartCoroutine(firstTile.AnimateVisible());
 
         hexMapController.Zoom(ZoomState.Outer, null, true);
