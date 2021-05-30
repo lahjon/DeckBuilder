@@ -259,7 +259,7 @@ public class EncounterManager : Manager
 
         for (int i = 0; i < 6; i++)
         {
-            if (!tile.availableDirections.Contains(i))
+            if (tile.availableDirections.Contains(i))
             {
                 Vector3Int v = HexTile.DirectionToDoorEncounter(i);
                 chosenEncountersSlots.Add(v);
