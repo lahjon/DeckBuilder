@@ -21,12 +21,14 @@ public class HexTile : MonoBehaviour
 
     public Transform encounterParent;
     public Transform roadParent;
-    Color highlightColor = new Color(1f, 1f, 1f, 1f);
-    Color completedColor = new Color(.7f, .7f, .7f, 1f);
-    Color inactiveColor = new Color(.4f, .4f, .4f, 1f);
-    Color normalColor = new Color(.8f, .8f, .8f, 1f);
+    static Color highlightColorPrimary = new Color(1f, 1f, 1f, 1f);
+    static Color highlightColorSecondary = new Color(.7f, .7f, .7f, 1f);
+    static Color completedColor = new Color(.7f, .7f, .7f, 1f);
+    static Color inactiveColor = new Color(.4f, .4f, .4f, 1f);
+    static Color normalColor = new Color(.8f, .8f, .8f, 1f);
     Tween colorTween;
-    bool _highlighted;
+    bool _highlightedPrimary;
+    bool _highlightedSecondary;
     public TileEncounterType tileEncounterType;
     public TileBiome tileBiome;
     public bool completed;
@@ -55,16 +57,34 @@ public class HexTile : MonoBehaviour
     public (EncounterHex, int) encounterEntry;
     public Dictionary<EncounterHex, int> encountersExits = new Dictionary<EncounterHex, int>();
 
-    public bool highlighted
+    public bool highlightedPrimary
     {
-        get => _highlighted;
+        get => _highlightedPrimary;
         set
         {
-            _highlighted = value;
+            _highlightedPrimary = value;
             if (value == true)
             {
                 colorTween?.Kill();
-                spriteRenderer.color = highlightColor;
+                spriteRenderer.color = highlightColorPrimary;
+            }
+            else
+            {
+                tileState = _tileState; // trigger setter
+            }
+        }
+    }
+
+    public bool highlightedSecondary
+    {
+        get => _highlightedSecondary;
+        set
+        {
+            _highlightedSecondary = value;
+            if (value == true)
+            {
+                colorTween?.Kill();
+                spriteRenderer.color = highlightColorSecondary;
             }
             else
             {
@@ -136,11 +156,12 @@ public class HexTile : MonoBehaviour
     public void StartFadeInOutColor()
     {
         colorTween?.Kill();
-        float t = Helpers.InverseLerp(inactiveColor.r, highlightColor.r, spriteRenderer.color.r);
+        spriteRenderer.color = highlightColorSecondary;
+        float t = Helpers.InverseLerp(inactiveColor.r, highlightColorPrimary.r, spriteRenderer.color.r);
         colorTween = spriteRenderer.DOColor(inactiveColor, t).SetEase(Ease.InSine).OnComplete(() => {
 
             spriteRenderer.color = inactiveColor;
-            colorTween = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => tempColor = spriteRenderer.color);
+            colorTween = spriteRenderer.DOColor(highlightColorPrimary, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => tempColor = spriteRenderer.color);
         });
     }
 
@@ -382,16 +403,36 @@ public class HexTile : MonoBehaviour
     }
     void Highlight()
     {
-        if(!highlighted)
+        if(!highlightedPrimary)
         {
-            highlighted = true;
+            highlightedPrimary = true;
+            if (this.tileState == TileState.InactiveHighlight)
+            {
+                foreach (HexTile tile in gridManager.highlightedTiles)
+                {
+                    if (tile != this)
+                    {
+                        tile.highlightedSecondary = true;
+                    }
+                }
+            }
         }
     }
     void UnHighlight()
     {
-        if(highlighted)
+        if(highlightedPrimary)
         {
-            highlighted = false;
+            highlightedPrimary = false;
+            if (this.tileState == TileState.InactiveHighlight)
+            {
+                foreach (HexTile tile in gridManager.highlightedTiles)
+                {
+                    if (tile != this)
+                    {
+                        tile.highlightedSecondary = false;
+                    }
+                }
+            }
         }
     }
 

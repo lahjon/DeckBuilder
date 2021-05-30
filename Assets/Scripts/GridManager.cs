@@ -214,6 +214,7 @@ public class GridManager : Manager
         firstTile.tileState = TileState.Completed;
         hexMapController.disableInput = false;
         initialized = true;
+        HighlightEntries(); 
     }
 
     public void ExpandMap()
@@ -230,19 +231,6 @@ public class GridManager : Manager
     {
         world.uiManager.UIWarningController.CreateWarning("Starting Boss fight!");
     }
-
-    public void InPlacement(HexTile tile)
-    {
-        activeTile = tile;
-        animator.SetBool("IsDraging", true);
-    }
-
-    public void InRotation(bool rotate = true)
-    {
-        animator.SetBool("IsRotating", rotate);
-    }
-
-    
 
     public void CompleteCurrentTile()
     {
@@ -578,44 +566,6 @@ public class GridManager : Manager
         }
         return false;
     }
-
-    // public void CloseExists(HexTile tile)
-    // {
-    //     List<int> openExists = new List<int>();
-
-    //     // get all the neighbours of a tile and discard all inactive tiles
-    //     List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
-    //     neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
-
-    //     // look at all exists
-    //     foreach (int dir in tile.availableDirections)
-    //     {
-    //         openExists.Clear();
-    //         // look at all neighbours of the tile
-    //         foreach (Vector3Int neighbour in neighbours)
-    //         {
-    //             // get the neighbours of the tile that are connected
-    //             if (GetTile(neighbour) is HexTile neighbourTile && tile.coord + GetTileDirection(dir) == neighbourTile.coord)
-    //             {
-    //                 foreach (int neighDir in neighbourTile.availableDirections)
-    //                 {
-    //                     if (GetTile(neighbourTile.coord + GetTileDirection(neighDir)) is HexTile aTile)
-    //                     {
-    //                         if (aTile.tileState == TileState.Completed || aTile.tileState == TileState.Active)
-    //                         {
-    //                             openExists.Add(neighDir);
-    //                         }
-    //                     }
-    //                 }
-    //                 openExists.Add(InvertDirection(dir));
-    //                 neighbourTile.CloseExits(openExists);
-    //             }
-    //         }
-    //     }
-    // }
-
-    
-
 
     HexTile GetTile(Vector3Int cellCoordinate)
     {
