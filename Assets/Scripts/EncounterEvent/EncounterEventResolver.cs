@@ -5,23 +5,23 @@ using UnityEngine;
 public class EncounterEventResolver
 {
     /// <returns>bool disable: Returns a bool that is used to disable the UI.</returns>
-    public static bool TriggerEvent(EncounterEventType encounterEventType)
+    public static bool TriggerEvent(EncounterEventChoiceOutcome encounterEventType)
     {
         switch (encounterEventType)
         {
-            case EncounterEventType.Combat:
+            case EncounterEventChoiceOutcome.Combat:
                 return EventCombat();
 
-            case EncounterEventType.CardRandom:
+            case EncounterEventChoiceOutcome.CardRandom:
                 return EventCardRandom();
 
-            case EncounterEventType.CardSpecific:
+            case EncounterEventChoiceOutcome.CardSpecific:
                 return EventCardSpecfic();
 
-            case EncounterEventType.NewEvent:
+            case EncounterEventChoiceOutcome.NewEvent:
                 return EventNewEvent();
 
-            case EncounterEventType.NewMap:
+            case EncounterEventChoiceOutcome.NewMap:
                 return EventNewMap();
             
             default:
@@ -47,7 +47,7 @@ public class EncounterEventResolver
     }
     private static bool EventCardSpecfic()
     {
-        WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.cardData);
+        WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.chosenOption.cardRewards);
         return true;
     }
     private static bool EventNewEvent()

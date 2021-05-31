@@ -152,7 +152,7 @@ public enum DialogueParticipant
     Major
 }
 
-public enum EncounterEventType
+public enum EncounterEventChoiceOutcome
 {
     None,
     Leave,

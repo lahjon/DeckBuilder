@@ -8,7 +8,6 @@ public class DatabaseSystem : MonoBehaviour
     public CardDatabase cardDatabase;
     public CardDatabase StartingCardsBrute;
     public IconDatabase iconDatabase;
-    public EncounterDatabase EncounterDatabase;
     public static DatabaseSystem instance;
 
     private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
@@ -34,16 +33,6 @@ public class DatabaseSystem : MonoBehaviour
 
     }
 
-    public void Start()
-    {
-        effectsStackable.Add(EffectType.Poison);
-        effectsStackable.Add(EffectType.Weak);
-        effectsStackable.Add(EffectType.Vulnerable);
-
-        effectEndOfTurnBehavior[EffectType.Poison] = -1;
-        effectEndOfTurnBehavior[EffectType.Weak] = -1;
-        effectEndOfTurnBehavior[EffectType.Vulnerable] = -1;
-    }
     public void FetchCards(List<CardData> allCards)
     {
         foreach(CardData card in allCards)
@@ -97,16 +86,5 @@ public class DatabaseSystem : MonoBehaviour
         return StartingCards[Character].allCards;
     }
 
-    public EncounterData GetRandomEncounter()
-    {
-        int id = Random.Range(0, EncounterDatabase.allOverworld.Count);
-        return EncounterDatabase.allOverworld[id];
-    }
-
-    public EncounterData GetRandomEncounterBoss()
-    {
-        int id = Random.Range(0, EncounterDatabase.bossEncounters.Count);
-        return EncounterDatabase.bossEncounters[id];
-    }
 }
 

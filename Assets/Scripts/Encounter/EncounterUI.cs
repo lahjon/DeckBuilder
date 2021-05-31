@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class EncounterUI : MonoBehaviour
 {
@@ -11,9 +12,9 @@ public class EncounterUI : MonoBehaviour
     public GameObject canvas;
     public GameObject background;
     public GameObject panel;
-    public EncounterEventType event1;
-    public EncounterEventType event2;
-    public EncounterEventType event3;
+    public EncounterEventChoiceOutcome event1;
+    public EncounterEventChoiceOutcome event2;
+    public EncounterEventChoiceOutcome event3;
     public GameObject choice1;
     public GameObject choice2;
     public GameObject choice3;
@@ -27,6 +28,8 @@ public class EncounterUI : MonoBehaviour
     void Start()
     {
         choices = new GameObject[] { choice1, choice2, choice3 };
+        foreach (GameObject go in choices)
+            go.SetActive(false);
     }
 
     public void StartEncounter()
@@ -37,8 +40,8 @@ public class EncounterUI : MonoBehaviour
 
     public GameObject CreateNewUI(GameObject background, GameObject panel)
     {
-        GameObject oldUI = Instantiate(background, background.transform.position, Quaternion.Euler(0, 0, 0), panel.transform) as GameObject;
-        return oldUI;
+        GameObject UI = Instantiate(background, background.transform.position, Quaternion.Euler(0, 0, 0), panel.transform);
+        return UI;
     }
 
     public void ResetEncounter()
@@ -49,30 +52,14 @@ public class EncounterUI : MonoBehaviour
 
     public void BindEncounterData()
     {
-
-        int count = 0;
-        foreach (EncounterEventType e in encounterData.events)
-            if (e != EncounterEventType.None)
-                count++;
-        
-        choice1.SetActive(false);
-        choice2.SetActive(false);
-        choice3.SetActive(false);
-
-        encounterDateChoices[0] = encounterData.choice1;
-        encounterDateChoices[1] = encounterData.choice2;
-        encounterDateChoices[2] = encounterData.choice3;
-
-        for (int i = 0; i < count; i++)
-        {
-            choices[i].SetActive(true);
-            choices[i].transform.GetChild(0).GetComponent<TMP_Text>().text = encounterDateChoices[i];
-        }
-
-
         encounterTitle.text = encounterData.name;
         encounterDescription.text = encounterData.description;
-
+        
+        for(int i = 0; i < encounterData.choices.Count; i++)
+        {
+            choices[i].SetActive(true);
+            choices[i].transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choices[i].label;
+        }
     }
 
     public void CloseEncounter()
@@ -83,8 +70,8 @@ public class EncounterUI : MonoBehaviour
 
     public void ChooseOption(int index)
     {
-        newEncounterData = encounterData.newEncounterData[index -1];
-        bool disable = EncounterEventResolver.TriggerEvent(encounterData.events[index-1]);
+        newEncounterData = encounterData.choices[index -1].newEncounter;
+        bool disable = EncounterEventResolver.TriggerEvent(encounterData.choices[index-1].outcome);
         ConfirmOption(disable);
        
         if (newEncounterData != null)

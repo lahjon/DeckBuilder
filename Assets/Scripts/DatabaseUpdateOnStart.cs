@@ -44,6 +44,10 @@ public static class DatabaseUpdateOnStart
     static void UpdateAllEncounters()
     {
         List<EncounterData> encounters = new List<EncounterData>();
+        GameObject dbGO = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbSystem = dbGO.GetComponent<DatabaseSystem>();
+        
+
         List<string> lGuids = new List<string>(AssetDatabase.FindAssets("t:EncounterData", new string[] { "Assets/Encounters/Overworld/Combat" }));
         lGuids.AddRange(AssetDatabase.FindAssets("t:EncounterData", new string[] { "Assets/Encounters/Overworld/RandomEvent" }));
 
@@ -52,11 +56,12 @@ public static class DatabaseUpdateOnStart
             string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
             encounters.Add(AssetDatabase.LoadAssetAtPath<EncounterData>(lAssetPath));
         }
-        string[] guids1 = AssetDatabase.FindAssets("l:EncounterDatabase", null);
-        EncounterDatabase database = (EncounterDatabase)AssetDatabase.LoadAssetAtPath("Assets/Database/EncounterDatabase.asset", typeof(EncounterDatabase));
-        database.UpdateDatabase(encounters);
+        
+        //string[] guids1 = AssetDatabase.FindAssets("l:EncounterDatabase", null);
+        //EncounterDatabase database = (EncounterDatabase)AssetDatabase.LoadAssetAtPath("Assets/Database/EncounterDatabase.asset", typeof(EncounterDatabase));
+        //database.UpdateDatabase(encounters);
 
-        EditorUtility.SetDirty(database);
+        //EditorUtility.SetDirty(database);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
+  m_Name: EncounterEventSethNielsen
+  m_EditorClassIdentifier: 
+  name: 
+  tier: 0
+  description: A handsome man enters! Its Seth Nielsen
+  choices:
+  - label: Compliment him, boost ego further!
+    outcome: 3
+    newEncounter: {fileID: 0}
+    cardRewards:
+    - {fileID: 11400000, guid: ece646c1670b7f64e8b0b36499fcd8f3, type: 2}
+  - label: Avoid the creepy man
+    outcome: 1
+    newEncounter: {fileID: 0}
+    cardRewards: []
+  - label: Tell him he is not the prettiest
+    outcome: 6
+    newEncounter: {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
+    cardRewards: []
+  chosenOption:
+    label: 
+    outcome: 0
+    newEncounter: {fileID: 0}
+    cardRewards: []
