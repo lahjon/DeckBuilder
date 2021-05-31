@@ -41,6 +41,7 @@ public static class DatabaseUpdateOnStart
         AssetDatabase.Refresh();
     }
 
+    [MenuItem("Edit/UpdateAllEncounters")]
     static void UpdateAllEncounters()
     {
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");

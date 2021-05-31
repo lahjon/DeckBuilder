@@ -98,8 +98,9 @@ public class DatabaseSystem : MonoBehaviour
 
     public EncounterDataRandomEvent GetRndEncounterEvent()
     {
-        int id = Random.Range(0, encounterEvent.Count);
-        return encounterEvent[id];
+        List<EncounterDataRandomEvent> encounters = encounterEvent.Where(e => e.FindInRandom).ToList();
+        int id = Random.Range(0, encounters.Count);
+        return encounters[id];
     }
 }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEncounter", menuName = "CardGame/EncounterDataCombat")]
 public class EncounterDataCombat : EncounterData
 {
-    public EnemyType type;
+    public CombatEncounterType type;
 
     public List<EnemyData> enemyData = new List<EnemyData>();
   

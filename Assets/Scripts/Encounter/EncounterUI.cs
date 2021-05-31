@@ -12,9 +12,6 @@ public class EncounterUI : MonoBehaviour
     public GameObject canvas;
     public GameObject background;
     public GameObject panel;
-    public EncounterEventChoiceOutcome event1;
-    public EncounterEventChoiceOutcome event2;
-    public EncounterEventChoiceOutcome event3;
     public GameObject choice1;
     public GameObject choice2;
     public GameObject choice3;
@@ -23,13 +20,10 @@ public class EncounterUI : MonoBehaviour
     private bool transition = false;
 
     private GameObject[] choices;
-    private string[] encounterDateChoices = new string[3];
 
     void Start()
     {
         choices = new GameObject[] { choice1, choice2, choice3 };
-        foreach (GameObject go in choices)
-            go.SetActive(false);
     }
 
     public void StartEncounter()
@@ -44,18 +38,15 @@ public class EncounterUI : MonoBehaviour
         return UI;
     }
 
-    public void ResetEncounter()
-    {
-        encounterData = null;
-        newEncounterData = null;
-    }
-
     public void BindEncounterData()
     {
         encounterTitle.text = encounterData.name;
         encounterDescription.text = encounterData.description;
-        
-        for(int i = 0; i < encounterData.choices.Count; i++)
+
+        foreach (GameObject go in choices)
+            go.SetActive(false);
+
+        for (int i = 0; i < encounterData.choices.Count; i++)
         {
             choices[i].SetActive(true);
             choices[i].transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choices[i].label;
@@ -73,11 +64,11 @@ public class EncounterUI : MonoBehaviour
         newEncounterData = encounterData.choices[index -1].newEncounter;
         bool disable = EncounterEventResolver.TriggerEvent(encounterData.choices[index-1].outcome);
         ConfirmOption(disable);
-       
-        if (newEncounterData != null)
-        {
-            WorldSystem.instance.encounterManager.currentEncounter.encounterData = newEncounterData;
-        }
+
+        if (newEncounterData is EncounterDataCombat encC)
+            WorldSystem.instance.combatManager.combatController.encounterData = encC;
+        else if (newEncounterData is EncounterDataRandomEvent encR)
+            WorldSystem.instance.uiManager.encounterUI.encounterData = encR;
     }
 
     public void ConfirmOption(bool disable)

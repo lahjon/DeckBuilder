@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Encounter_NormalCombat_01_Slimes2
   m_EditorClassIdentifier: 
   name: Angry Wolf
-  type: 3
   tier: 1
+  type: 4
   enemyData:
   - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
   - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}

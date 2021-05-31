@@ -53,15 +53,15 @@ public class RewardScreenCombat : MonoBehaviour
 
         switch (encounterData.type)
         {
-            case EnemyType.Elite:
+            case CombatEncounterType.Elite:
                 CreateRewards(combatRewardElite);
                 break;
 
-            case EnemyType.Boss:
+            case CombatEncounterType.Boss:
                 CreateRewards(combatRewardBoss);
                 break;
 
-            case EnemyType.Normal:
+            case CombatEncounterType.Normal:
                 CreateRewards(combatRewardNormal);
                 break;
 
@@ -116,7 +116,7 @@ public class RewardScreenCombat : MonoBehaviour
             Destroy(content.transform.GetChild(i).gameObject);
         }
 
-        if(encounterData.type == EnemyType.Boss)
+        if(encounterData.type == CombatEncounterType.Boss)
             WorldSystem.instance.EndCombat(true);
         else
             WorldSystem.instance.EndCombat();

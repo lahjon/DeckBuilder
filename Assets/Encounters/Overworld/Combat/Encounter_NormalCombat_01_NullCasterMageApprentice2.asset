@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Encounter_NormalCombat_01_NullCasterMageApprentice2
   m_EditorClassIdentifier: 
   name: NullcasterMages
-  type: 3
   tier: 1
+  type: 4
   enemyData:
   - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
   - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
