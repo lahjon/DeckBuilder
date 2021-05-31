@@ -23,6 +23,7 @@ public class StateReward : WorldStateAnimator
         world.combatManager.combatController.content.SetActive(false);
         world.rewardManager.draftAmount = 0;
         world.rewardManager.CloseRewardScreen();
+        world.cameraManager.SwapToMain();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

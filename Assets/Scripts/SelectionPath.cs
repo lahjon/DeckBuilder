@@ -52,7 +52,7 @@ public class SelectionPath : MonoBehaviour
 
     public void FollowPath()
     {
-        Vector3 targetPos = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
+        Vector3 targetPos = WorldSystem.instance.cameraManager.combatCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
         int counter = 0;
         controlPoints[3].position = targetPos;
         for(float t = 0; t <= 1; t += 0.05f)

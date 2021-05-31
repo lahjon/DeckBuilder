@@ -16,7 +16,7 @@ public class ToolTipScanner : MonoBehaviour
     private float dummy; 
 
     /*
-    /* Verkar inte behövas fattar fan noll???
+    /* Verkar inte behï¿½vas fattar fan noll???
     public void OnPointerEnter(PointerEventData eventData)
     {
         delayAction = LeanTween.delayedCall(timeDelay, () =>
@@ -50,7 +50,7 @@ public class ToolTipScanner : MonoBehaviour
 
         (_delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
             (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos), this);
+            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.combatCamera.WorldToScreenPoint(tipInfo.worldPos), this);
         }); 
     }
 
@@ -63,7 +63,7 @@ public class ToolTipScanner : MonoBehaviour
 
     }
 
-    /* Behövs ej längre? On destroy verkar trigga att mouse exit
+    /* Behï¿½vs ej lï¿½ngre? On destroy verkar trigga att mouse exit
     private void OnDestroy()
     {
         LeanTween.cancel(delayAction.uniqueId);

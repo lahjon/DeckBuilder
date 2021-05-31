@@ -16,18 +16,7 @@ public class EncounterMapDrag : EncounterMapAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (gridManager.hoverTilePosition != Vector3.zero)
-        {
-            tile.transform.position = gridManager.hoverTilePosition;
-        }
-        else
-        {
-            tile.transform.position = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, gridManager.transform.position.z));
-        }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            tile.CheckPlacement();
-        }
+        tile.transform.position = WorldSystem.instance.cameraManager.mainCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, gridManager.transform.position.z));
     }
 }

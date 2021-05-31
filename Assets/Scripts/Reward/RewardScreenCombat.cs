@@ -49,7 +49,7 @@ public class RewardScreenCombat : MonoBehaviour
             Destroy(content.transform.GetChild(0).gameObject);
         }
 
-        encounterData = (EncounterDataCombat)WorldSystem.instance.encounterManager.currentEncounter.encounterData;
+        encounterData = WorldSystem.instance.combatManager.combatController.encounterData;
 
         switch (encounterData.type)
         {

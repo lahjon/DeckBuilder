@@ -10,11 +10,13 @@ public class DatabaseSystem : MonoBehaviour
     public IconDatabase iconDatabase;
     public static DatabaseSystem instance;
 
+    public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
+    public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
+
     private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
 
     private List<CardData> allCards { get { return cardDatabase.allCards; } }
 
-    public Dictionary<EffectType, int> effectEndOfTurnBehavior = new Dictionary<EffectType, int>();
     public HashSet<EffectType> effectsStackable = new HashSet<EffectType>();
 
     private void Awake()
@@ -32,6 +34,7 @@ public class DatabaseSystem : MonoBehaviour
         StartingCards["Brute"] = StartingCardsBrute;
 
     }
+
 
     public void FetchCards(List<CardData> allCards)
     {
@@ -86,5 +89,17 @@ public class DatabaseSystem : MonoBehaviour
         return StartingCards[Character].allCards;
     }
 
+    public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
+    {
+        List<EncounterDataCombat> encounters = encountersCombat.Where(e => (int)e.type == (int)type).ToList();
+        int id = Random.Range(0, encounters.Count);
+        return encounters[id];
+    }
+
+    public EncounterDataRandomEvent GetRndEncounterEvent()
+    {
+        int id = Random.Range(0, encounterEvent.Count);
+        return encounterEvent[id];
+    }
 }
 

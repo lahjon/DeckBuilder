@@ -50,8 +50,8 @@ public class EncounterManager : Manager
     protected override void Start()
     {
         base.Start();
-        encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
-        roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
+        //encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
+        //roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
     }
     public void UpdateAllTownEncounters(int act)
     {
@@ -62,16 +62,6 @@ public class EncounterManager : Manager
             Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();
             e.UpdateEncounter();
         }
-    }
-
-    public void OpenOverworldMap()
-    {
-        canvas.gameObject.SetActive(true);
-    }
-
-    public void CloseOverworldMap()
-    {
-        canvas.gameObject.SetActive(false);
     }
     public void GenerateMap(int newMinWidth = 0, int newMaxWidth = 0, int newLength = 0)
     {
@@ -122,7 +112,7 @@ public class EncounterManager : Manager
         {
             for (int j = 0; j < encounters[i].Length; j++)
             {
-                encounters[i][j].encounterData = null;
+                //encounters[i][j].encounterData = (i == encounters.Length - 1 ? DatabaseSystem.instance.GetRandomEncounterBoss() : DatabaseSystem.instance.GetRandomEncounter());
                 encounters[i][j].UpdateEncounter();
             }
         }
@@ -219,7 +209,7 @@ public class EncounterManager : Manager
         }
     }
 
-    public void DrawRoad(Encounter fromEnc, Encounter toEnc)
+    public void DrawRoad(Encounter fromEnc, Encounter toEnc, bool animate = false)
     {
         Vector3 from = fromEnc.transform.position;
         Vector3 to = toEnc.transform.position;
@@ -248,10 +238,61 @@ public class EncounterManager : Manager
             newRoad.transform.rotation = Quaternion.LookRotation(from, to);
             dist_t += gap + width;
             count++;
+            if (animate) newRoad.SetActive(false);
+        }
+
+        if (animate) StartCoroutine(AnimateRoad(newRoadParent));
+    }
+
+    IEnumerator AnimateRoad(GameObject parent)
+    {
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            parent.transform.GetChild(i).gameObject.SetActive(true);
+            yield return new WaitForSeconds(.3f);
         }
     }
 
-    public void GenerateHexEncounters(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null)
+    public void GenerateInitialHex(HexTile tile)
+    {
+        List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (tile.availableDirections.Contains(i))
+            {
+                Vector3Int v = HexTile.DirectionToDoorEncounter(i);
+                chosenEncountersSlots.Add(v);
+            }
+        }
+
+        chosenEncountersSlots.Add(Vector3Int.zero);
+
+        for (int i = 0; i < chosenEncountersSlots.Count; i++)
+        {
+            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
+            EncounterHex enc = obj.GetComponent<EncounterHex>();
+            enc.coordinates = chosenEncountersSlots[i];
+            enc.name = chosenEncountersSlots[i].ToString();
+            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit :OverworldEncounterType.Start;
+            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
+            enc.tile = tile;
+            enc.status = EncounterHexStatus.Visited;
+            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
+        }
+
+        EncounterHex middleEnc = tile.posToEncounter[Vector3Int.zero];
+
+        foreach(EncounterHex enc in tile.encountersExits.Keys)
+        {
+            enc.hexNeighboors.Add(middleEnc);
+            middleEnc.hexNeighboors.Add(enc);
+            DrawRoad(enc, middleEnc);
+        }
+        tile.OffsetRotation(true);
+    }
+
+    public void GenerateHexEncounter(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
@@ -297,7 +338,7 @@ public class EncounterManager : Manager
 
         HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
         // Create initital non-crossing Paths. Taking copy since arguments is destructive
-        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
+        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits.Keys.ToList());
 
         // Time to check if all nodes are connected to the same graph
         List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(tile.encounters));
@@ -312,7 +353,7 @@ public class EncounterManager : Manager
 
             foreach(EncounterHex neigh in n.hexNeighboors)
             {
-                if (!CanReachExitNode(neigh, tile.encountersExits, subGraphLoop))
+                if (!CanReachExitNode(neigh, tile.encountersExits.Keys.ToList(), subGraphLoop))
                 {
                     Connect2Graphs(subGraphLoop, tile.encounters.Except(subGraphLoop).ToList(), edges, occupiedSpaces, n);
                     subGraphLoop.Clear();
@@ -322,11 +363,9 @@ public class EncounterManager : Manager
             n.status = EncounterHexStatus.Idle;
         }
 
-
         foreach (EdgeEncounter e in edges)
         {
             DrawRoad(e.n1, e.n2);
-            //Debug.DrawLine(e.n1.transform.position, e.n2.transform.position, Color.green, 100000, false);
         }
         tile.OffsetRotation(true);
     }

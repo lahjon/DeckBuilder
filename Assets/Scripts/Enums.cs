@@ -63,14 +63,18 @@ public static class EnumExtenstions
             case OverworldEncounterType.CombatNormal:
             case OverworldEncounterType.CombatElite:
             case OverworldEncounterType.CombatBoss:
+                WorldSystem.instance.combatManager.combatController.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(type);
                 WorldStateSystem.SetInCombat(true);
                 break;
             case OverworldEncounterType.Shop:
                 WorldStateSystem.SetInShop(true);
                 break;
             case OverworldEncounterType.RandomEvent:
-                WorldSystem.instance.uiManager.encounterUI.encounterData = (EncounterDataRandomEvent)WorldSystem.instance.encounterManager.currentEncounterHex.encounterData;
+                WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterEvent();
                 WorldStateSystem.SetInEvent(true);
+                break;
+            case OverworldEncounterType.Exit:
+                WorldSystem.instance.gridManager.CompleteCurrentTile();
                 break;
             default:
                 break;
@@ -283,9 +287,16 @@ public enum OverworldEncounterType
     Exit,
     RandomEvent,
     Shop,
-    CombatNormal,
-    CombatElite,
-    CombatBoss
+    CombatNormal = 4,
+    CombatElite = 5,
+    CombatBoss = 6
+}
+
+public enum CombatEncounterType
+{
+    Normal = 4,
+    Elite = 5,
+    Boss = 6
 }
 
 public enum TileEncounterType

@@ -7,7 +7,7 @@ public class StateCombat : WorldStateAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(TransitionType.Normal, WorldState.Combat);
-        //world.cameraManager.CameraGoto(WorldState.Combat, true);
+        world.cameraManager.SwapToCombat();
         world.combatManager.combatController.StartCombat();
     }
 

@@ -9,7 +9,7 @@ using System.Linq;
 public static class DatabaseUpdateOnStart
 {
     [MenuItem("Edit/Play-Unplay, Update Database %0")]
-    static void UpdateDatabase()
+    public static void UpdateDatabase(bool startPlaying = true)
     {
         UpdateAllCards();
         UpdateAllTokens();
@@ -18,7 +18,7 @@ public static class DatabaseUpdateOnStart
         UpdateAllCharacters();
         UpdateUImanager();
 
-        EditorApplication.isPlaying = true;
+        EditorApplication.isPlaying = startPlaying;
         Debug.Log("Updated Database");
     }
     static void UpdateAllCards()
@@ -43,10 +43,11 @@ public static class DatabaseUpdateOnStart
 
     static void UpdateAllEncounters()
     {
-        List<EncounterData> encounters = new List<EncounterData>();
-        GameObject dbGO = GameObject.Find("DatabaseSystem");
-        DatabaseSystem dbSystem = dbGO.GetComponent<DatabaseSystem>();
-        
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        dbs.encounterEvent.Clear();
+        dbs.encountersCombat.Clear();
 
         List<string> lGuids = new List<string>(AssetDatabase.FindAssets("t:EncounterData", new string[] { "Assets/Encounters/Overworld/Combat" }));
         lGuids.AddRange(AssetDatabase.FindAssets("t:EncounterData", new string[] { "Assets/Encounters/Overworld/RandomEvent" }));
@@ -54,14 +55,15 @@ public static class DatabaseUpdateOnStart
         for (int i = 0; i < lGuids.Count; i++)
         {
             string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
-            encounters.Add(AssetDatabase.LoadAssetAtPath<EncounterData>(lAssetPath));
-        }
-        
-        //string[] guids1 = AssetDatabase.FindAssets("l:EncounterDatabase", null);
-        //EncounterDatabase database = (EncounterDatabase)AssetDatabase.LoadAssetAtPath("Assets/Database/EncounterDatabase.asset", typeof(EncounterDatabase));
-        //database.UpdateDatabase(encounters);
+            EncounterData enc = AssetDatabase.LoadAssetAtPath<EncounterData>(lAssetPath);
+            if (enc is EncounterDataCombat encComb)
+                dbs.encountersCombat.Add(encComb);
+            else if (enc is EncounterDataRandomEvent encEv)
+                dbs.encounterEvent.Add(encEv);
 
-        //EditorUtility.SetDirty(database);
+        }
+
+        EditorUtility.SetDirty(dbs);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
