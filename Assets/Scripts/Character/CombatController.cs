@@ -47,7 +47,8 @@ public class CombatController : MonoBehaviour
 
     public Animator animator;
 
-    public List<Action> OnCombatStart = new List<Action>();
+    public List<Vector3> formationPositions;
+
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
 
@@ -157,12 +158,14 @@ public class CombatController : MonoBehaviour
         Hero.ShuffleDeck();
 
         enemyDatas = encounterData.enemyData;
+        formationPositions = encounterData.formation.GetLocalPositions();
 
         //enemyDatas.ForEach(x => Debug.Log(x));
 
         for (int i = 0; i < enemyDatas.Count; i++)
         {
-            GameObject EnemyObject = Instantiate(TemplateEnemy, trnsEnemyPositions[i].position, Quaternion.Euler(0, 0, 0), this.transform) as GameObject;
+            GameObject EnemyObject = Instantiate(TemplateEnemy, transform);
+            EnemyObject.transform.localPosition = formationPositions[i];
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.combatController = this;
             combatActorEnemy.ReadEnemyData(enemyDatas[i]);

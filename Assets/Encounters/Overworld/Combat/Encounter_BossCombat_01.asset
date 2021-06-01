@@ -15,6 +15,7 @@ MonoBehaviour:
   name: Start Act 1
   tier: 1
   type: 6
+  formation: 0
   enemyData:
   - {fileID: 11400000, guid: 1aede0d27bdbb0b429f45b452eb2ee6a, type: 2}
   startingEffects: []

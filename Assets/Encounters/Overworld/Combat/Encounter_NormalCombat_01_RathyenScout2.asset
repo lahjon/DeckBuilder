@@ -15,6 +15,7 @@ MonoBehaviour:
   name: nRathyeScouts
   tier: 1
   type: 4
+  formation: 1
   enemyData:
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
