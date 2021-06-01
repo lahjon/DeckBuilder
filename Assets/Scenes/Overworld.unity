@@ -15213,7 +15213,7 @@ MonoBehaviour:
   specialTiles: []
   gridState: 0
   bossCounterText: {fileID: 240440558}
-  content: {fileID: 0}
+  content: {fileID: 1380248318}
   hexMapController: {fileID: 0}
   currentTurn: 0
   initialized: 0

@@ -164,7 +164,8 @@ public class GridManager : Manager
     IEnumerator CreateMap()
     {
         float timeMultiplier = .5f;
-        hexMapController.disableInput = true;
+        hexMapController.disablePanning = true;
+        hexMapController.disableZoom = true;
         gridState = GridState.Creating;
 
         float timer = 0;
@@ -212,18 +213,19 @@ public class GridManager : Manager
         yield return new WaitForSeconds(timer * timeMultiplier);
 
         firstTile.tileState = TileState.Completed;
-        hexMapController.disableInput = false;
+        hexMapController.disablePanning = false;
+        hexMapController.disableZoom = false;
         initialized = true;
         HighlightEntries(); 
     }
 
     public void ExpandMap()
     {
-        hexMapController.disableInput = true;
+        hexMapController.disablePanning = true;
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
-            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.disableInput = false)
+            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.disablePanning = false)
         );
     }
 
@@ -291,7 +293,7 @@ public class GridManager : Manager
     public void ExitPlacement()
     {
         activeTile.tileState = TileState.Current;
-        hexMapController.disableInput = false;
+        hexMapController.disablePanning = false;
         activeTile = null;
         animator.SetBool("Confirm", true);
     }

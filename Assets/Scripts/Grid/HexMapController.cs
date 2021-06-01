@@ -17,18 +17,21 @@ public class HexMapController : MonoBehaviour
     public float panSensitivity;
     GridManager gridManager;
     [HideInInspector] float timer;
-    public bool disableInput;
+    public bool disablePanning;
     Vector3 cameraPosition;
     public int zoomStep = 1;
+    public bool disableZoom;
 
     void Update()
     {
-        if (!disableInput)
+        if (!disablePanning)
         {
             PanCamera();
-            ZoomCamera();  
         }
-
+        if(!disableZoom)
+        {
+            ZoomCamera();
+        }
         if (cam.transform.position != newPosition)
         {
             MoveCamera();
@@ -63,7 +66,10 @@ public class HexMapController : MonoBehaviour
 
     public void Zoom(ZoomState zoomState = ZoomState.Mid, Vector3? pos = null, bool endDisable = false)
     {
-        disableInput = true;
+        if (!endDisable) endDisable = disablePanning;
+
+        disablePanning = true;
+        disableZoom = true;
         timer = 0.5f;
         Vector3 zoomPosition;
         if (pos != null)
@@ -79,11 +85,8 @@ public class HexMapController : MonoBehaviour
             zoomPosition = cam.transform.position;
         }
 
-        if (disableInput)
-        {
-            zoomPosition = cam.transform.position;
-        }
-
+        if (gridManager.gridState == GridState.Rotating) zoomPosition = cam.transform.position;
+        
         if (zoomState == ZoomState.Inner)
         {
             zoomStep = 0;
@@ -120,7 +123,8 @@ public class HexMapController : MonoBehaviour
 
     void ZoomCallback(bool endDisable, float panSensitivity)
     {
-        disableInput = endDisable;
+        disablePanning = endDisable;
+        disableZoom = false;
         panSensitivity = 5f;
         newPosition = cam.transform.position;
         timer = 0;
@@ -139,7 +143,12 @@ public class HexMapController : MonoBehaviour
         }
         else if(Input.mouseScrollDelta.y < 0) // zoom out
         {
-            if (zoomStep < 2)
+            if (zoomStep < 1)
+            {
+                zoomStep++;
+                Zoom((ZoomState)zoomStep);
+            }
+            else if (!disablePanning && !disableZoom && zoomStep < 2)
             {
                 zoomStep++;
                 Zoom((ZoomState)zoomStep);

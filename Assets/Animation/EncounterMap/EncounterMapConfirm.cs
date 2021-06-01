@@ -12,7 +12,8 @@ public class EncounterMapConfirm : EncounterMapAnimator
         gridManager.bossCounter++;
         animator.SetBool("Confirm", false);
         animator.SetBool("IsPlaying", true);
-        gridManager.hexMapController.disableInput = false;
+        gridManager.hexMapController.disablePanning = false;
+        gridManager.hexMapController.disableZoom = false;
 
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

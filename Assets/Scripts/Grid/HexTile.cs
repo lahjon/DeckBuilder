@@ -156,7 +156,10 @@ public class HexTile : MonoBehaviour
     public void StartFadeInOutColor()
     {
         colorTween?.Kill();
-        spriteRenderer.color = highlightColorSecondary;
+        if (spriteRenderer.color != inactiveColor)
+        {
+            spriteRenderer.color = highlightColorSecondary;
+        }
         float t = Helpers.InverseLerp(inactiveColor.r, highlightColorPrimary.r, spriteRenderer.color.r);
         colorTween = spriteRenderer.DOColor(inactiveColor, t).SetEase(Ease.InSine).OnComplete(() => {
 
@@ -214,7 +217,6 @@ public class HexTile : MonoBehaviour
     public void StopFadeInOutColor()
     {
         colorTween?.Kill();
-
         spriteRenderer.color = normalColor;
     }
 
@@ -279,16 +281,14 @@ public class HexTile : MonoBehaviour
 
     public float BeginFlipUpNewTile(bool enterPlacement = false)
     {
-        //GetComponent<PolygonCollider2D>().enabled = false; //ska bort n�r man ska l�gga ut sj�lv
         spriteRenderer.color = Color.white;
         if (enterPlacement)
         {
             Activate(false);
             Debug.Log(transform.localScale);
             gridManager.animator.SetBool("IsPlacing", true);
-            hexMapController.FocusTile(this, ZoomState.Mid, true);
+            hexMapController.FocusTile(this, ZoomState.Inner, true);
             entryDir = gridManager.GetEntry(this).Item1;
-
             tileState = TileState.Animation;
 
             List<int> requiredExits = gridManager.GetNewExits(this);
@@ -327,7 +327,7 @@ public class HexTile : MonoBehaviour
             spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
             gridManager.currentTurn++;
             turnCompleted = gridManager.currentTurn;
-
+            hexMapController.disableZoom = false;
             encountersExits.Keys.ToList().ForEach(x => x.UpdateEntry());
         }
         
@@ -378,6 +378,7 @@ public class HexTile : MonoBehaviour
     public void EndPlacement()
     {
         gridManager.ExitPlacement();
+        hexMapController.disableZoom = true;
         StartCoroutine(encounterEntry.Item1.Entering(() => { }));
     }
 
@@ -388,7 +389,6 @@ public class HexTile : MonoBehaviour
         Debug.Log(encountersExits.Count);
         for (int i = 0; i < encountersExits.Count; i++)
         {
-            Debug.Log(encountersExits.ElementAt(i).Key.status);
             if (encountersExits.ElementAt(i).Key.status == EncounterHexStatus.Visited)
             {
                 dirs.Add(encountersExits.ElementAt(i).Value);
@@ -397,9 +397,6 @@ public class HexTile : MonoBehaviour
         }
 
         availableDirections = dirs.Union(lockedDirections).ToList();
-        // exits.ForEach(x => x.color = Color.red);
-        // availableDirections.ForEach(x => exits[x].color = Color.blue);
-
     }
     void Highlight()
     {
@@ -447,7 +444,7 @@ public class HexTile : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        if (!hexMapController.disableInput && hexMapController.zoomStep != 0)
+        if (!hexMapController.disablePanning && hexMapController.zoomStep != 0)
         {
             Highlight();
         }
