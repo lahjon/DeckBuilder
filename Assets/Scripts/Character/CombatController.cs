@@ -17,7 +17,6 @@ public class CombatController : MonoBehaviour
     public GameObject TemplateEnemy;
     public List<EnemyData> enemyDatas = new List<EnemyData>();
     public TMP_Text lblEnergy;
-    public List<Transform> trnsEnemyPositions;
     public Camera CombatCamera;
     public GameObject content;
     public Transform cardPanel;
