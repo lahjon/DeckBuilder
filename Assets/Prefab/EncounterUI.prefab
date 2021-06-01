@@ -1270,7 +1270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6207417422054994661
 Transform:
   m_ObjectHideFlags: 0
@@ -1298,19 +1298,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329c9bfb78c89134caf47f8b77af5f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  encounterData: {fileID: 0}
   encounterTitle: {fileID: 79452426142693537}
   encounterDescription: {fileID: 8129106089377260619}
   canvas: {fileID: 7909521072143579197}
-  background: {fileID: 3285389046409336686}
-  panel: {fileID: 7832193849146383988}
-  event1: {fileID: 0}
-  event2: {fileID: 0}
-  event3: {fileID: 0}
-  choice1: {fileID: 1176964441160620301}
-  choice2: {fileID: 7554775759848319283}
-  choice3: {fileID: 85245815327062160}
-  encounter: {fileID: 0}
+  background: {fileID: 166996132}
+  choices:
+  - {fileID: 1176964441160620301}
+  - {fileID: 7554775759848319283}
+  - {fileID: 85245815327062160}
+  encounterData: {fileID: 0}
   newEncounterData: {fileID: 0}
 --- !u!1 &7554775759848319283
 GameObject:
@@ -1539,7 +1535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6723644627129782992
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1579,7 +1575,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &4813223202206041563
 MonoBehaviour:

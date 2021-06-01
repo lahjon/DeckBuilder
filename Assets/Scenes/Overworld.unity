@@ -16780,6 +16780,7 @@ MonoBehaviour:
   canvas: {fileID: 265525352006420601}
   encounterData: {fileID: 0}
   animator: {fileID: 4721787840318485329}
+  formationPositions: []
   backingEnergy: 0
   Hand: []
   createdCards: []
@@ -19184,15 +19185,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4296724836048231568, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.9
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 4296724836048231568, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.99
+      value: -0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4296724836048231568, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.6323967
+      value: -2.8
       objectReference: {fileID: 0}
     - target: {fileID: 4296724836048231568, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
       propertyPath: m_LocalRotation.w
@@ -19793,18 +19794,6 @@ PrefabInstance:
     - target: {fileID: 7428867938525039053, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
       propertyPath: m_Name
       value: EncounterUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 7428867938525039053, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7909521072143579197, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8331481743372473502, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 684b184f5fef17844946fd97162d69e5, type: 3}

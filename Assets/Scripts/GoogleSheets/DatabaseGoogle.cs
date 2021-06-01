@@ -397,6 +397,7 @@ public class DatabaseGoogle
 
             data.name = (string)gt[i, "Name"];
             Enum.TryParse((string)gt[i, "Type"], out data.type);
+            Enum.TryParse((string)gt[i, "Formation"], out data.formation);
             data.tier = int.Parse((string)gt[i, "Tier"]);
 
             data.enemyData.Clear();

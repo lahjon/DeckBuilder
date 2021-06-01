@@ -6,36 +6,19 @@ using System.Linq;
 
 public class EncounterUI : MonoBehaviour
 {
-    public EncounterDataRandomEvent encounterData;
     public TMP_Text encounterTitle;
     public TMP_Text encounterDescription;
     public GameObject canvas;
-    public GameObject background;
-    public GameObject panel;
-    public GameObject choice1;
-    public GameObject choice2;
-    public GameObject choice3;
-    public Encounter encounter;
-    public EncounterData newEncounterData;
+    public CanvasGroup background;
+    public GameObject[] choices;
+    public EncounterDataRandomEvent encounterData;
+    public EncounterDataRandomEvent newEncounterData;
     private bool transition = false;
-
-    private GameObject[] choices;
-
-    void Start()
-    {
-        choices = new GameObject[] { choice1, choice2, choice3 };
-    }
 
     public void StartEncounter()
     {
         canvas.SetActive(true);
         BindEncounterData();
-    }
-
-    public GameObject CreateNewUI(GameObject background, GameObject panel)
-    {
-        GameObject UI = Instantiate(background, background.transform.position, Quaternion.Euler(0, 0, 0), panel.transform);
-        return UI;
     }
 
     public void BindEncounterData()
@@ -53,55 +36,55 @@ public class EncounterUI : MonoBehaviour
         }
     }
 
-    public void CloseEncounter()
-    {
-        //StartCoroutine(encounter.Entering(() => { }));
-        canvas.SetActive(false);
-    }
-
     public void ChooseOption(int index)
     {
-        newEncounterData = encounterData.choices[index -1].newEncounter;
-        bool disable = EncounterEventResolver.TriggerEvent(encounterData.choices[index-1].outcome);
-        ConfirmOption(disable);
-
-        if (newEncounterData is EncounterDataCombat encC)
-            WorldSystem.instance.combatManager.combatController.encounterData = encC;
-        else if (newEncounterData is EncounterDataRandomEvent encR)
-            WorldSystem.instance.uiManager.encounterUI.encounterData = encR;
-    }
-
-    public void ConfirmOption(bool disable)
-    {
-        if (disable)
+        if (transition) return;
+        switch (encounterData.choices[index - 1].outcome)
         {
-            canvas.SetActive(false);
+            case EncounterEventChoiceOutcome.NewEvent:
+                newEncounterData = (EncounterDataRandomEvent)encounterData.choices[index - 1].newEncounter;
+                StartCoroutine(FadeToNextEvent());
+                return;
+            case EncounterEventChoiceOutcome.Combat:
+                WorldSystem.instance.combatManager.combatController.encounterData = (EncounterDataCombat)encounterData.choices[index - 1].newEncounter;
+                WorldStateSystem.SetInCombat(true);
+                break;
+            case EncounterEventChoiceOutcome.CardRandom:
+                WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
+                break;
+            case EncounterEventChoiceOutcome.CardSpecific:
+                WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.chosenOption.cardRewards);
+                break;
+            default:
+                WorldStateSystem.SetInEvent(false);
+                break;
         }
+        CloseEncounter();
     }
 
-    public void StartFade(GameObject oldObj, GameObject newObj)
-    {
-        StartCoroutine(FadeInAndOut(oldObj, newObj));
-    }
-
-    IEnumerator FadeInAndOut(GameObject oldObj, GameObject newObj)
+    IEnumerator FadeToNextEvent()
     {
         transition = true;
-        CanvasGroup firstFade = oldObj.GetComponent<CanvasGroup>();
-        CanvasGroup secondFade = newObj.GetComponent<CanvasGroup>();
         float time = 0.3f;
 
         for (float t = time; t >= 0; t -= Time.deltaTime)
         {
-            firstFade.alpha = t / time;
+            background.alpha = t / time;
             yield return null;
         }
+        encounterData = newEncounterData;
+        newEncounterData = null;
+        BindEncounterData();
+
         for (float t = time; t >= 0; t -= Time.deltaTime)
         {
-            secondFade.alpha = Mathf.Abs(1 - (t / time));
+            background.alpha = Mathf.Abs(1 - (t / time));
             yield return null;
         }
         transition = false;
-        DestroyImmediate(oldObj);
+    }
+    public void CloseEncounter()
+    {
+        canvas.SetActive(false);
     }
 }
