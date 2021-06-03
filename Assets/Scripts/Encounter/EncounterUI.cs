@@ -36,6 +36,7 @@ public class EncounterUI : MonoBehaviour
         }
     }
 
+    //Button option clicked
     public void ChooseOption(int index)
     {
         if (transition) return;

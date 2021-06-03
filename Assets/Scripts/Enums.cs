@@ -81,25 +81,6 @@ public static class EnumExtenstions
                 break;
         }
     }
-
-    public static List<Vector3> GetLocalPositions(this Formation formation)
-    {
-        switch (formation)
-        {
-            case Formation.Single:
-                return new List<Vector3>() { new Vector3(14, -0.8f, -2.8f) };
-            case Formation.Duo:
-                return new List<Vector3>() { new Vector3(7, -0.8f, -2.8f), new Vector3(16, -0.8f, -2.8f) };
-            case Formation.Trio:
-                return new List<Vector3>() { new Vector3(4, -0.8f, -2.8f), new Vector3(11, -0.8f, -2.8f), new Vector3(18, -0.8f, -2.8f) };
-            case Formation.AlternatingFive:
-                return new List<Vector3>() { new Vector3(2, -0.8f, -2.8f), new Vector3(6.5f, -2.6f, -2.8f), new Vector3(11, -0.8f, -2.8f), new Vector3(15.5f, -2.6f, -2.8f),new Vector3(20, -0.8f, -2.8f) };
-            default:
-                return new List<Vector3>() { new Vector3(14, -0.8f, -2.8f) };
-        }
-    }
-
-
 }
 
 
@@ -282,7 +263,7 @@ public enum EnemyType
     Elite,
     Boss
 }
-public enum Formation
+public enum FormationType
 {
     Single,
     Duo,

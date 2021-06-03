@@ -6,7 +6,7 @@ using UnityEngine;
 public class EncounterDataCombat : EncounterData
 {
     public CombatEncounterType type;
-    public Formation formation;
+    public FormationType formation;
 
     public List<EnemyData> enemyData = new List<EnemyData>();
   
