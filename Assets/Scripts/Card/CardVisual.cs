@@ -24,6 +24,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
     readonly static string colorCodeBad = "#a16658";
 
 
+
     public void BindCardVisualData()
     {
         nameText.text = cardName;
@@ -105,7 +106,7 @@ public abstract class CardVisual : Card, IPointerClickHandler
 
     void SetBorderColor()
     {
-        int index = (int)cardData.characterClass;
+        int index = (int)classType;
         border.color = Helpers.borderColors[index];
     }
 

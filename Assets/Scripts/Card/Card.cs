@@ -25,6 +25,8 @@ public class Card : MonoBehaviour
     public CombatActor owner;
     public Material material;
 
+    public CharacterClassType classType = CharacterClassType.None;
+
     public void BindCardData()
     {
         name            = cardData.cardName;
@@ -37,6 +39,7 @@ public class Card : MonoBehaviour
         Effects         = cardData.inEffects;
         activities      = cardData.inActivities;
         animationPrefab = cardData.animationPrefab;
+        classType       = cardData.characterClass;
     }
 
 

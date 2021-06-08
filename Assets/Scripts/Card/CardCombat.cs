@@ -106,6 +106,7 @@ public class CardCombat : CardVisual, IToolTipable
         card.combatController = combatController;
         card.GetComponent<BezierFollow>().route = combatController.discardPath.transform;
         SpliceCards(card, a, b);
+        card.classType = a.classType;
         card.BindCardVisualData();
         card.owner = combatController.ActiveActor;
         card.SetToolTips();
