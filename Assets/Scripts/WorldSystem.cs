@@ -33,6 +33,7 @@ public class WorldSystem : MonoBehaviour
     public int act;
     public int saveAmount;
     public int loadAmount;
+    public bool debugMode;
 
     void Awake()
     {
@@ -94,21 +95,11 @@ public class WorldSystem : MonoBehaviour
         Debug.Log("Amount loaded: " + loadAmount);
     }
 
-    public void EndCombat(bool endAct = false)
+    public void BossDefeated()
     {
-        if (endAct)
-        {
-            SaveProgression();
-            GoToTown();
-            return;
-        }
-    }
-
-    private void GoToTown()
-    {
-        worldState = WorldState.Town;
+        SaveProgression();
         encounterManager.UpdateAllTownEncounters(act);
-        //cameraManager.CameraGoto(WorldState.Town, true);
+        Debug.Log("Go to town!");
     }
     private void UpdateStartScene()
     {

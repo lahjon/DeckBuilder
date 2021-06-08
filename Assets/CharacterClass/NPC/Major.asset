@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70ed98c1f68c1d64eb01de0372957c35, type: 3}
-  m_Name: Shopkeeper
+  m_Name: Major
   m_EditorClassIdentifier: 
-  characterName: Mr. Shopkeep
-  artwork: {fileID: 21300000, guid: 90485fe2cb21d034f8f3e4889ca72094, type: 3}
-  dialogueParticipant: 6
-  description: I am the shopkeeper.
+  characterName: Major
+  artwork: {fileID: 21300000, guid: 48146108efe6b4847b717fe340e2079f, type: 3}
+  dialogueParticipant: 7
+  description: I am the major.

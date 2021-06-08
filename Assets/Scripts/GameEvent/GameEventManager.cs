@@ -7,24 +7,22 @@ public class GameEventManager : Manager
 {
     public GameEvent currentGameEvent;
     public GameObject gameEventObject;
-    private List<string> allGameEvents = new List<string>();
+    List<string> allGameEvents = new List<string>();
     protected override void Awake()
     {
         base.Awake();
         world.gameEventManager = this;
     }
-    private void CreateEvent(string eventName)
+    void CreateEvent(string eventName)
     {
-        
         currentGameEvent = (GameEvent)gameObject.AddComponent(System.Type.GetType(eventName));
     }
     public void StartEvent(string eventName)
     {
-        if (currentGameEvent != null)
-        {
-            DestroyImmediate(currentGameEvent);
-        }
+        if (currentGameEvent != null) Destroy(currentGameEvent);
+        if (string.IsNullOrEmpty(eventName)) return;
+
         CreateEvent(eventName);
-        currentGameEvent.StartEvent();
+        currentGameEvent.StartGameEvent();
     }
 }

@@ -57,9 +57,10 @@ public class Dialogue : MonoBehaviour
         sentenceDone = true;
     }
 
-    public void SetUI(Sprite aSprite, string aName, bool player)
+    public void SetUI(Sprite aSprite, string aName, DialogueParticipant participant)
     {
-        if (player)
+        int index = (int)participant;
+        if (index <= 6)
         {
             playerImage.gameObject.SetActive(true);
             participantImage.gameObject.SetActive(false);

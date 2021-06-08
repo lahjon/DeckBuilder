@@ -73,7 +73,10 @@ public class EncounterHex : Encounter
         tile.encounters.Remove(this);
         //tile.encountersExits.Remove(this);
 
-        if (WorldSystem.instance.encounterManager.currentEncounterHex != null && encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is EncounterHex encEntry)
+        Debug.Log("ENTERING!");
+        Debug.Log(encounterType);
+        Debug.Log(WorldSystem.instance.gridManager.GetEntry(tile).Item2);
+        if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is EncounterHex encEntry)
             WorldSystem.instance.encounterManager.DrawRoad(encEntry, this, true);
 
         WorldSystem.instance.encounterManager.currentEncounterHex?.SetLeaving(this);
@@ -91,23 +94,28 @@ public class EncounterHex : Encounter
         
         WorldSystem.instance.encounterManager.currentEncounterHex = this;
 
-        encounterType.Invoke();
+        if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
+            encounterType.Invoke();
 
         yield return null;
 
+        if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
+            VisitAction();
+    }
 
-
-        VisitAction();
+    public int ExitDirection()
+    {
+        return HexTile.positionsExit.IndexOf(coordinates);
     }
 
     public void UpdateEntry()
     {
-        Debug.Log(HexTile.positionsExit[tile.encountersExits[this]]);
-        Debug.Log(tile.entryDir);
-        if (tile.entryDir == tile.encountersExits[this])
+        //Debug.Log(HexTile.positionsExit[tile.encountersExits[this]]);
+        //Debug.Log(tile.entryDir);
+        if (tile.encountersExits.IndexOf(this) >= 0 && tile.entryDir == ExitDirection())
         {
             AnimateEncounter();
-            tile.encounterEntry = (this, tile.entryDir);
+            tile.encounterEntry = this;
             encounterType = OverworldEncounterType.Start;
         }
         else

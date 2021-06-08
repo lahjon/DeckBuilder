@@ -46,6 +46,10 @@ public class WorldStateAnimator : StateMachineBehaviour
                 case TransitionType.EnterAct:
                     worldStateSystem.transitionScreen.EnterActTransitionStart();
                     break;
+
+                case TransitionType.Town:
+                    worldStateSystem.transitionScreen.EnterTownTransition();
+                    break;
                 
                 default:
                     break;

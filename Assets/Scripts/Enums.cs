@@ -108,7 +108,6 @@ public enum TileState
     Placement,
     InactiveHighlight,
     Current,
-    Special,
     Active,
     Completed,
     Animation
@@ -117,6 +116,7 @@ public enum TileState
 public enum GridState
 {
     Creating,
+    Animating,
     Placement,
     Play,
     Panning,
@@ -146,6 +146,7 @@ public enum CharacterClassType
 public enum DialogueParticipant
 {
     None,
+    Player,
     Brute,
     Rogue,
     Splicer,
@@ -224,6 +225,7 @@ public enum OverlayState
 {
     None,
     Transition,
+    Dialogue,
     DeathScreen,
     EscapeMenu,
     Display,
@@ -251,6 +253,7 @@ public enum TransitionType
 {
     None,
     Normal,
+    Town,
     DeathScreen,
     EnterAct
 

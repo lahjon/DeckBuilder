@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class TownManager : Manager, ISaveableWorld
 {
@@ -13,6 +14,7 @@ public class TownManager : Manager, ISaveableWorld
     public BuildingBarracks buildingBarracks;
     public Canvas townMapCanvas;
     public Transform encounters;
+    public Button worldMapButton;
     protected override void Awake()
     {
         base.Awake();

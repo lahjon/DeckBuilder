@@ -65,6 +65,7 @@ public class EncounterManager : Manager
     }
     public void GenerateMap(int newMinWidth = 0, int newMaxWidth = 0, int newLength = 0)
     {
+        // DEPRECATED
         if(newMinWidth > 0 && newMaxWidth > 0 && newLength > 0)
         {
             minWidth = newMinWidth;
@@ -246,11 +247,14 @@ public class EncounterManager : Manager
 
     IEnumerator AnimateRoad(GameObject parent)
     {
+        GridState state = world.gridManager.gridState;
+        world.gridManager.animator.SetBool("IsAnimating", true);
         for (int i = 0; i < parent.transform.childCount; i++)
         {
             parent.transform.GetChild(i).gameObject.SetActive(true);
-            yield return new WaitForSeconds(.3f);
+            yield return new WaitForSeconds(.15f);
         }
+        world.gridManager.animator.SetBool("IsAnimating", false);
     }
 
     public void GenerateInitialHex(HexTile tile)
@@ -283,7 +287,7 @@ public class EncounterManager : Manager
 
         EncounterHex middleEnc = tile.posToEncounter[Vector3Int.zero];
 
-        foreach(EncounterHex enc in tile.encountersExits.Keys)
+        foreach(EncounterHex enc in tile.encountersExits)
         {
             enc.hexNeighboors.Add(middleEnc);
             middleEnc.hexNeighboors.Add(enc);
@@ -292,7 +296,7 @@ public class EncounterManager : Manager
         tile.OffsetRotation(true);
     }
 
-    public void GenerateHexEncounter(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null)
+    public void GenerateHexEncounter(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null, int additional = -1)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
@@ -313,6 +317,8 @@ public class EncounterManager : Manager
         mandatoryInnerSlots?.ForEach(x => { chosenEncountersSlots.Add(x); EncounterSlots.Remove(x);});
 
         int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count*2);
+        if(additional >= 0)
+            nrAdditional = additional;
         //int nrAdditional = 100;
 
         for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
@@ -338,7 +344,7 @@ public class EncounterManager : Manager
 
         HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
         // Create initital non-crossing Paths. Taking copy since arguments is destructive
-        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits.Keys.ToList());
+        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
 
         // Time to check if all nodes are connected to the same graph
         List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(tile.encounters));
@@ -353,7 +359,7 @@ public class EncounterManager : Manager
 
             foreach(EncounterHex neigh in n.hexNeighboors)
             {
-                if (!CanReachExitNode(neigh, tile.encountersExits.Keys.ToList(), subGraphLoop))
+                if (!CanReachExitNode(neigh, tile.encountersExits, subGraphLoop))
                 {
                     Connect2Graphs(subGraphLoop, tile.encounters.Except(subGraphLoop).ToList(), edges, occupiedSpaces, n);
                     subGraphLoop.Clear();

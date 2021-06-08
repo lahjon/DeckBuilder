@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: LeaveTown
   m_EditorClassIdentifier: 
-  name: Defend the church.
+  name: Nono
   tier: 1
-  events: 050000000000000000000000
-  description: Nunting!
-  choice1: Defend it!
-  choice2: 
-  choice3: 
-  newEncounterData:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  cardData: []
+  FindInRandom: 1
+  description: You are not prepared. Kill seth nielsen first!
+  choices:
+  - label: You are not prepared.
+    outcome: 1
+    newEncounter: {fileID: 0}
+    cardRewards: []
+  chosenOption:
+    label: 
+    outcome: 0
+    newEncounter: {fileID: 0}
+    cardRewards: []

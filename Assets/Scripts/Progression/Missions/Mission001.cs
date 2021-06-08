@@ -8,7 +8,8 @@ public class Mission001 : Mission
     {
         missionId = "Mission001";
         progressName = "Explore the town";
-        endEvent = "Event001";
+        startEvent = "Event001";
+        endEvent = "Event002";
         nextMission = "Mission002";
         completed = true;
         AddGoal(new EnterBuildingGoal(this, BuildingType.TownHall, 1));

@@ -125,13 +125,21 @@ public class WorldStateSystem : MonoBehaviour
         {
             if (!overlayAnimator.GetBool("InDisplay"))
             {
-                overlayAnimator.SetBool("InDisplay", true);
+                //overlayAnimator.SetBool("InDisplay", true);
             }
             else
             {
                 overlayAnimator.SetTrigger("Clear");
             }
         }
+    }
+    public static void SetInDialogue(bool aBool)
+    {
+        if (aBool)
+            overlayAnimator.SetBool("InDialogue", aBool);
+        else
+            overlayAnimator.SetTrigger("Clear");
+
     }
     public static void SetInEscapeMenu(bool aBool)
     {
@@ -179,6 +187,12 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void TriggerClear()
     {
+        // overlayAnimator.SetBool("InCharacterSheet", false);
+        // overlayAnimator.SetBool("InEscapeMenu", false);
+        // overlayAnimator.SetBool("InDialogue", false);
+        // overlayAnimator.SetBool("InDisplay", false);
+        // overlayAnimator.SetBool("InDeathScreen", false);
+        // overlayAnimator.SetBool("InTransition", false);
         overlayAnimator.SetTrigger("Clear");
     }
 }

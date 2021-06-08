@@ -130,7 +130,9 @@ public class DebugUI : MonoBehaviour
 
     public void DebugGenerateWorld()
     {
-        world.encounterManager.GenerateMap();
+        WorldStateSystem.SetInTown(false);
+        WorldStateSystem.SetInOverworld(true);
+        world.gridManager.ButtonCreateMap();
     }
 
     public void DebugWinCombat()
@@ -143,10 +145,12 @@ public class DebugUI : MonoBehaviour
         if(canvas.activeSelf)
         {
             canvas.SetActive(false);
+            world.debugMode = false;
         }
         else
         {
             canvas.SetActive(true);
+            world.debugMode = true;
         }
     }
 

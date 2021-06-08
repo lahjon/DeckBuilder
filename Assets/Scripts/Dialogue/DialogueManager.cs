@@ -1,54 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class DialogueManager : Manager
+public class DialogueManager : Manager, ISaveableWorld
 {
     public List<CharacterData> characterDatas = new List<CharacterData>();
+
+    public List<DialogueData> allDialogueData = new List<DialogueData>();
+    public int currentDialogue;
     public DialogueData dialogueData;
     [HideInInspector]
     public Sprite currentArtwork;
     [HideInInspector]
     public string currentSentence;
     public Dialogue dialogue;
-    int index;
+    public int index;
     public bool activeDialogue;
-    List<DialogueParticipant> players = new List<DialogueParticipant>();
     protected override void Awake()
     {
         base.Awake();
         world.dialogueManager = this;
-
-        players.Add(DialogueParticipant.Beastmaster);
-        players.Add(DialogueParticipant.Brute);
-        players.Add(DialogueParticipant.Rogue);
-        players.Add(DialogueParticipant.Splicer);
     }
 
     protected override void Start()
     {
         base.Start();
-    }
-
-    void Update()
-    {
-        if (activeDialogue && dialogue.sentenceDone && Input.GetMouseButtonDown(0))
-        {
-            NextSentence();
-        }
-        else if (activeDialogue && !dialogue.sentenceDone && Input.GetMouseButtonDown(0))
-        {
-            FinishSentence();
-        }
+        if(currentDialogue == 0)
+            dialogueData = allDialogueData[0];
     }
 
     CharacterData GetParticipantData(DialogueParticipant aParticipant)
     {
-        for (int i = 0; i < characterDatas.Count; i++)
+        int idx = (int)aParticipant;
+        if (idx <= 6)
+            return world.characterManager.character.characterData;
+        
+        else
         {
-            if (characterDatas[i].dialogueParticipant == aParticipant)
+            for (int i = 0; i < characterDatas.Count; i++)
             {
-                return characterDatas[i];
+                if (characterDatas[i].dialogueParticipant == aParticipant)
+                    return characterDatas[i];
+
             }
         }
         return null;
@@ -59,9 +53,9 @@ public class DialogueManager : Manager
         if (index < dialogueData.sentences.Count)
         {
             CharacterData aCharacterData = GetParticipantData(dialogueData.sentences[index].dialogueParticipant);
-            Debug.Log(aCharacterData.name);
+            Debug.Log(aCharacterData);
             currentSentence = dialogueData.sentences[index].sentence;
-            dialogue.SetUI(aCharacterData.artwork, aCharacterData.characterName, players.Contains(aCharacterData.dialogueParticipant));
+            dialogue.SetUI(aCharacterData.artwork, aCharacterData.characterName, dialogueData.sentences[index].dialogueParticipant);
             dialogue.DisplaySentence(currentSentence);
             index++;
         }
@@ -75,10 +69,21 @@ public class DialogueManager : Manager
     {
         dialogue.EndSentence();
     }
+
+    public void SetDataFromString(string dialogueName)
+    {
+        Debug.Log(allDialogueData[0].name);
+        Debug.Log(allDialogueData[1].name);
+        DialogueData data = allDialogueData.Where(x => x.name == dialogueName).FirstOrDefault();
+        if (data != null) dialogueData = data;
+    }
+
     public void StartDialogue()
     {
         if (dialogueData != null && dialogueData.sentences.Count > 0 && !activeDialogue)
         {
+            WorldStateSystem.SetInDialogue(true);
+            dialogue.gameObject.SetActive(true);
             activeDialogue = true;
             NextSentence();
         }
@@ -93,6 +98,20 @@ public class DialogueManager : Manager
         index = 0;
         activeDialogue = false;
         dialogue.gameObject.SetActive(false);
+        currentDialogue++;
+        WorldStateSystem.SetInDialogue(false);
+        if (!string.IsNullOrEmpty(dialogueData.anEvent))
+            WorldSystem.instance.gameEventManager.StartEvent(dialogueData.anEvent);
+        dialogueData = null;
     }
 
+    public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
+    {
+        a_SaveData.completedDialogue = currentDialogue;
+    }
+
+    public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
+    {
+        currentDialogue = a_SaveData.completedDialogue;
+    }
 }

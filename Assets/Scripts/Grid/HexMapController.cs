@@ -7,10 +7,10 @@ using DG.Tweening;
 public class HexMapController : MonoBehaviour
 {
     float zoomIn, zoomOut;
-    [SerializeField] Camera cam;
+    public Camera cam;
     Vector3 dragStartPosition;
     Vector3 cameraOrigin;
-    [SerializeField] Vector3 newPosition;
+    public Vector3 newPosition;
     Vector3 dragCurrentPosition;
     public float minX, minY, maxX, maxY;
     public float panSpeed;
@@ -22,21 +22,21 @@ public class HexMapController : MonoBehaviour
     public int zoomStep = 1;
     public bool disableZoom;
 
-    void Update()
-    {
-        if (!disablePanning)
-        {
-            PanCamera();
-        }
-        if(!disableZoom)
-        {
-            ZoomCamera();
-        }
-        if (cam.transform.position != newPosition)
-        {
-            MoveCamera();
-        }
-    }
+    // void Update()
+    // {
+    //     if (!disablePanning)
+    //     {
+    //         PanCamera();
+    //     }
+    //     if(!disableZoom)
+    //     {
+    //         ZoomCamera();
+    //     }
+    //     if (cam.transform.position != newPosition)
+    //     {
+    //         MoveCamera();
+    //     }
+    // }
 
 
     void Start()
@@ -131,7 +131,7 @@ public class HexMapController : MonoBehaviour
         gridManager.animator.SetBool("IsPanning", false);
     }
 
-    void ZoomCamera()
+    public void ZoomCamera()
     {
         if(Input.mouseScrollDelta.y > 0) // zoom in
         {
@@ -173,10 +173,12 @@ public class HexMapController : MonoBehaviour
         }
     }
 
-    void PanCamera()
+    public void PanCamera()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if(gridManager.animator.GetBool("IsPanning")) gridManager.animator.SetBool("IsPanning", false);
+
             Vector3? ray = GetMousePosition();
             dragStartPosition = ray != null ? (Vector3)ray : dragStartPosition;
             timer = 0;
@@ -202,7 +204,7 @@ public class HexMapController : MonoBehaviour
         }
     }
 
-    void MoveCamera()
+    public void MoveCamera()
     {
         cameraPosition = Vector3.Lerp(cam.transform.position, newPosition, Time.deltaTime * panSpeed);
 

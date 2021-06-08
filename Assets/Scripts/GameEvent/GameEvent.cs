@@ -7,12 +7,12 @@ public abstract class GameEvent : MonoBehaviour
     GameEventStatus gameEventStatus;
     GameEvent nextGameEvent;
 
-    protected WorldSystem world;
-    protected virtual void Start()
+    protected static WorldSystem world;
+    protected virtual void Awake()
     {
         world = WorldSystem.instance;
     }
-    public virtual void StartEvent()
+    public virtual void StartGameEvent()
     {
         
     }

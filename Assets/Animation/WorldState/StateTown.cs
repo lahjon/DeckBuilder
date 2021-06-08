@@ -6,7 +6,7 @@ public class StateTown : WorldStateAnimator
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Init(TransitionType.Normal, WorldState.Town);
+        Init(TransitionType.Town, WorldState.Town);
         WorldSystem.instance.townManager.EnterTown();
     }
 

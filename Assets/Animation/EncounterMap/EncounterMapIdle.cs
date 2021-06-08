@@ -5,14 +5,26 @@ using System.Linq;
 
 public class EncounterMapIdle : EncounterMapAnimator
 {
-    bool highlightedEntries;
+    bool _highlightedEntries;
+
+    public bool highlightedEntries
+    {
+        get => _highlightedEntries;
+        set 
+        {
+            _highlightedEntries = value;
+            Debug.Log("doing this now ?");
+        }
+    }
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.Init();
         gridManager.gridState = GridState.Placement;
 
+        //Debug.Log(highlightedEntries);
         if (!highlightedEntries)
         {
+            //Debug.Log("Start Highlight!");
             gridManager.HighlightEntries(); 
             highlightedEntries = true;
         }
@@ -20,9 +32,10 @@ public class EncounterMapIdle : EncounterMapAnimator
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!animator.GetBool("IsPanning"))
+        if (!animator.GetBool("IsPanning") || animator.GetBool("IsPlacing"))
         {
             highlightedEntries = false;
+            //Debug.Log("REMOVING!");
         }
     }
 

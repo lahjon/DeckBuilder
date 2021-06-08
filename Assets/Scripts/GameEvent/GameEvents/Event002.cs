@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Event002 : GameEvent
 {
-    public override void StartEvent()
+    public override void StartGameEvent()
     {
-        base.StartEvent();
-        Debug.Log("Start Event02!");
+        base.StartGameEvent();
+        world.dialogueManager.SetDataFromString("DemoStart02");
+        world.townManager.worldMapButton.interactable = true;
+        Debug.Log("Start Event002!");
     }  
 }

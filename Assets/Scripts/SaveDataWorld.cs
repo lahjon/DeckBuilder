@@ -11,6 +11,7 @@ public class SaveDataWorld
     // character
     public int shard;
     public CharacterClassType classType;
+    public int completedDialogue;
 
     // token
     public List<string> unlockedTokens = new List<string>();

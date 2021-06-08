@@ -7,7 +7,7 @@ public class Mission002 : Mission
     protected override void Start()
     {
         missionId = "Mission002";
-        progressName = "Defend the church district!";
+        progressName = "Kill Seth Nielsen!";
         endEvent = "Event002";
         //nextMission = "Mission002";
         overrideMissionGoal = "Kill the boss";

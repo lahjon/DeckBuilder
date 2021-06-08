@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Event001 : GameEvent
 {
-    public override void StartEvent()
+    public override void StartGameEvent()
     {
-        Debug.Log("Start Event01!");
-        base.StartEvent();
+        Debug.Log("Start Event001!");
+        world.townManager.worldMapButton.interactable = false;
     }
 }

@@ -6,4 +6,5 @@ using UnityEngine;
 public class DialogueData : ScriptableObject
 {
     public List<Sentence> sentences = new List<Sentence>();
+    public string anEvent;
 }

@@ -29,7 +29,8 @@ public class GridManager : Manager
     public HexMapController hexMapController;
     public int currentTurn;
     int _bossCounter;
-    int tilesUntilBoss;
+    public int tilesUntilBoss;
+    public bool bossStarted;
     float hexScale = 0.3765092f;
     public bool initialized;
     int furthestRowReached;
@@ -53,6 +54,7 @@ public class GridManager : Manager
             LeanTween.scale(bossCounterText.gameObject, new Vector3(textScale, textScale, textScale), 0.2f).setEaseInBounce().setLoopPingPong(2);
             if (_bossCounter >= tilesUntilBoss)
             {
+                bossStarted = true;
                 StartBoss();
             }
         }
@@ -101,7 +103,6 @@ public class GridManager : Manager
         world.gridManager = this;
         animator = GetComponent<Animator>();
         hexMapController = GetComponent<HexMapController>();
-        tilesUntilBoss = 10;
     }
     protected override void Start()
     {
@@ -114,9 +115,6 @@ public class GridManager : Manager
         if (!initialized)
         {
             InitializeMap();
-            //DEBUG F�R ATT KUNNA TESTA: 
-            WorldStateSystem.SetInTown(false);
-            WorldStateSystem.SetInOverworld(true);
             StartCoroutine(CreateMap());
         }
     }
@@ -205,7 +203,8 @@ public class GridManager : Manager
         for (int i = 0; i < 4; i++)
         {
             HexTile tile = GetRandomTile(3);
-            tile.tileState = TileState.Special;
+            tile.tileState = TileState.Inactive;
+            tile.specialTile = true;
             timer = tile.BeginFlipUpNewTile() +.2f;
             yield return new WaitForSeconds(timer * timeMultiplier); 
         }
@@ -238,6 +237,7 @@ public class GridManager : Manager
     {
         if (currentTile != null)
         {
+            bossCounter++;
             List<int> tileList = new List<int>();
             VectorToArray(currentTile.coord).ToList().ForEach(x => tileList.Add(Mathf.Abs(x)));
             currentTile.CloseExists();
@@ -262,10 +262,11 @@ public class GridManager : Manager
 
     public void AddRandomExit()
     {
-        HexTile tile = GetRandomCompletedTile(furthestRowReached);
-        // ADD TO TAKE A ECNOUTER AND COMPLETE IT INSTEAD
+        //HexTile tile = GetRandomCompletedTile(furthestRowReached);
+        // ADD LOGIC HERE TO FIX THE BROKEN ENTRIES
+        Debug.Log("stranger danger!");
 
-        HighlightEntries();
+        //HighlightEntries();
         
     }
 
@@ -279,14 +280,40 @@ public class GridManager : Manager
             {
                 openSlots.UnionWith(CheckOpenNeighbours(tile));
             }
-            foreach (Vector3Int coord in openSlots)
+            if (openSlots.Count > 0)
             {
-                if (GetTile(coord) is HexTile tile)
+                foreach (Vector3Int coord in openSlots)
                 {
-                    highlightedTiles.Add(tile);
-                    tile.tileState = TileState.InactiveHighlight;
+                    if (GetTile(coord) is HexTile tile)
+                    {
+                        if (bossStarted) 
+                            tile.spriteRenderer.sprite = inactiveTilesSprite[inactiveTilesSprite.Count - 1];
+                        
+                        highlightedTiles.Add(tile);
+                        tile.tileState = TileState.InactiveHighlight;
+                    }
                 }
             }
+            else
+            {
+                AddRandomExit();
+            }
+        }
+    }
+
+    public void UpdateIcons()
+    {
+        foreach (HexTile tile in tiles.Values.ToList())
+        {
+            if (tile.specialTile)
+            {
+                tile.SetSpecialImage();
+            }
+            else if (tile.tileState == TileState.Inactive)
+            {
+                tile.spriteRenderer.sprite = inactiveTilesSprite[0];
+            }
+
         }
     }
 
@@ -364,15 +391,15 @@ public class GridManager : Manager
             return;
         }
 
-        if (activeTile.encounterEntry.Item1 != null)
-            activeTile.encounterEntry.Item1.CancelAnimation();
+        if (activeTile.encounterEntry != null)
+            activeTile.encounterEntry.CancelAnimation();
 
         int sign = clockwise ? 1 : -1;
         for (int i = 0; i < activeTile.availableDirections.Count; i++)
             activeTile.availableDirections[i] = (activeTile.availableDirections[i] + sign + 6) % 6;
 
         for (int i = 0; i < activeTile.encountersExits.Count; i++)
-            activeTile.encountersExits[activeTile.encountersExits.ElementAt(i).Key] = (activeTile.encountersExits[activeTile.encountersExits.ElementAt(i).Key] + sign + 6) % 6;
+            activeTile.encountersExits[i].coordinates = HexTile.positionsExit[(activeTile.encountersExits[i].ExitDirection() + sign + 6) % 6];
 
         rotationAmount += sign*60;
 
@@ -392,7 +419,7 @@ public class GridManager : Manager
                 buttonRotateRight.enabled = true;
                 rotationAmount = 0;
                 rotateCounter = 0;
-                activeTile.encountersExits.Keys.ToList().ForEach(x => x.UpdateEntry());
+                activeTile.encountersExits.ForEach(x => x.UpdateEntry());
                 activeTile.MatchRotation();
             });
         }
@@ -494,6 +521,8 @@ public class GridManager : Manager
         List<HexTile> neighbours = GetNeighbours(tile);
         neighbours = neighbours.Intersect(completedTiles).ToList();
 
+       // neighbours.ForEach(x => Debug.Log("NEIGHBOYURS: " + x));
+
         HexTile entryTile = null;
         EncounterHex entryHex = null;
         int turn = -1;
@@ -503,12 +532,19 @@ public class GridManager : Manager
         {
             if (aTile.turnCompleted > turn)
             {
-                foreach (EncounterHex hex in aTile.encountersExits.Keys)
+                //Debug.Log("TURN OK");
+                foreach (EncounterHex hex in aTile.encountersExits)
                 {
+                   // Debug.Log("tile.coord: " + tile.coord);
+                    //Debug.Log("aTile.coord: " + aTile.coord);
                     dir = tileDirections.IndexOf(tile.coord - aTile.coord);
+                  //  Debug.Log("DIR: " + dir);
                     Vector3Int coord = HexTile.positionsExit[dir];
-                    if (hex.coordinates == coord)
+                   // Debug.Log("COORD: " + coord + " = " + "HEXCORD: " + hex.coordinates);
+                    
+                    if (hex.ExitDirection() == dir && hex.status == EncounterHexStatus.Visited)
                     {
+                       // Debug.Log("YES");
                         turn = aTile.turnCompleted;
                         entryHex = hex;
                         entryTile = aTile;
@@ -516,8 +552,15 @@ public class GridManager : Manager
                 }
             }
         }
+        if (entryTile == null)
+        {
+           // Debug.Log("NO ENTRY!");
+            return (0, null);
+        }
 
-        Debug.Log("EntryDir: " + tileDirections.IndexOf(entryTile.coord - tile.coord));
+        //Debug.Log("EntryDir: " + tileDirections.IndexOf(entryTile.coord - tile.coord));
+        //Debug.Log(tileDirections.IndexOf(entryTile.coord - tile.coord));
+        //Debug.Log(entryHex);
 
         return (tileDirections.IndexOf(entryTile.coord - tile.coord), entryHex);
     }

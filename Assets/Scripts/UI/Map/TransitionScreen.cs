@@ -28,7 +28,8 @@ public class TransitionScreen : MonoBehaviour
     }
     public void EnterActTransitionMidSwap()
     {
-        WorldSystem.instance.encounterManager.GenerateMap(2,2,4);
+        // Triggers when enter act transition is done
+        WorldSystem.instance.gridManager.ButtonCreateMap();
     }
     public void NormalTransitionStart() 
     {
@@ -36,8 +37,24 @@ public class TransitionScreen : MonoBehaviour
         transition.Play("NormalTransition");
     }
 
+    public void EnterTownTransition() 
+    {
+        WorldStateSystem.SetInTransition(true);
+        transition.Play("TownTransition");
+    }
+
     void TriggerCallback()
     {
+        // called from animator when transition completes
         WorldStateSystem.TriggerClear();
+    }
+
+    void EnterTownCallback()
+    {
+        // called from animator when transition completes
+
+        WorldStateSystem.TriggerClear();
+        WorldSystem.instance.dialogueManager.StartDialogue();
+        
     }
 }

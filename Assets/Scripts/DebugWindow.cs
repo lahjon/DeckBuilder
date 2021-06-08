@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.IO;
 
 public class DebugWindow : EditorWindow
 {
@@ -31,6 +32,23 @@ public class DebugWindow : EditorWindow
         if(GUILayout.Button("Toggle Combat Visiblity"))
         {
             ToggleActiveObject("--------------COMBAT--------------", "CombatScene");
+        }
+
+        // resets all saved data
+        if(GUILayout.Button("Reset Game Data"))
+        {
+            ResetAllData();
+        }
+    }
+
+    void ResetAllData()
+    {
+        Directory.GetFiles(Application.persistentDataPath);
+        DirectoryInfo dirInfo = new DirectoryInfo(Application.persistentDataPath);
+        foreach (FileInfo file in dirInfo.GetFiles())
+        {
+            Debug.Log(file + " removed");
+            file.Delete(); 
         }
     }
 

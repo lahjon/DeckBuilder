@@ -7,7 +7,7 @@ public class OverlayStateDisplay : OverlayStateAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(OverlayState.Display);
-
+        Debug.Log("IN DISPLAY");
         world.deckDisplayManager.deckDisplay.SetActive(true);
         world.deckDisplayManager.UpdateAllCards();    
     }

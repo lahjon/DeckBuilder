@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class Enemy : MonoBehaviour
@@ -21,5 +22,16 @@ public class Enemy : MonoBehaviour
                 spriteRenderer.material = material;
             }
         }
+    }
+    public static Action EnemyKilledCallback(EnemyData enemy)
+    {
+        if(enemy == null) 
+            return null;
+
+        if (enemy.enemyId.Substring(0) == "2")
+            return () => WorldSystem.instance.BossDefeated();
+        
+        return null;
+    
     }
 }

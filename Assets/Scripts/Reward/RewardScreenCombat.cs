@@ -115,10 +115,5 @@ public class RewardScreenCombat : MonoBehaviour
         {
             Destroy(content.transform.GetChild(i).gameObject);
         }
-
-        if(encounterData.type == CombatEncounterType.Boss)
-            WorldSystem.instance.EndCombat(true);
-        else
-            WorldSystem.instance.EndCombat();
     }
 }

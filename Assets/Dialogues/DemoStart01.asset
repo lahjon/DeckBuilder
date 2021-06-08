@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d31bce648fddcd64c9608d80db47b8ad, type: 3}
-  m_Name: FirstConvo
+  m_Name: DemoStart01
   m_EditorClassIdentifier: 
   sentences:
+  - dialogueParticipant: 7
+    sentence: Hello there! Im the major. Explore the town before you leave. When
+      you are done, ill give you more stuff to do.
+  - dialogueParticipant: 7
+    sentence: Now go one, stop slacking.
   - dialogueParticipant: 1
-    sentence: 'Hello there, i am mr brute. I am a Player
-
-'
-  - dialogueParticipant: 5
-    sentence: 'I am shoperkeepr. not a player. An NPC. Awesome!
-
-      Right?'
-  - dialogueParticipant: 1
-    sentence: Yes. That is cool.
+    sentence: Alright, back to work.
+  - dialogueParticipant: 7
+    sentence: Thats right, walk away.
+  anEvent: Event004

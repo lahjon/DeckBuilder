@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Event003 : GameEvent
+public class Event004 : GameEvent
 {
     public override void StartGameEvent()
     {
         base.StartGameEvent();
-        Debug.Log("I think you just finished your fist objective!");
+        Debug.Log("Did you just finish you first conversation?!");
     }  
 }
