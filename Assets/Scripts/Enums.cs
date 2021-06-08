@@ -77,6 +77,8 @@ public static class EnumExtenstions
             case OverworldEncounterType.Exit:
                 WorldSystem.instance.gridManager.CompleteCurrentTile();
                 break;
+            case OverworldEncounterType.Bonfire:
+                break;
             default:
                 break;
         }
@@ -294,7 +296,8 @@ public enum OverworldEncounterType
     Shop,
     CombatNormal = 4,
     CombatElite = 5,
-    CombatBoss = 6
+    CombatBoss = 6,
+    Bonfire
 }
 
 public enum CombatEncounterType
