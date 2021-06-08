@@ -359,7 +359,7 @@ public class EncounterManager : Manager
             List<EncounterHex> neighs = new List<EncounterHex>(n.hexNeighboors);
             foreach(EncounterHex neigh in neighs)
             {
-                if (!CanReachExitNode(neigh, tile.encountersExits.Keys.ToList(), foundSubGraph))
+                if (!CanReachExitNode(neigh, tile.encountersExits.ToList(), foundSubGraph))
                 {
                     Debug.Log("Subgraph size, first element:" + foundSubGraph.Count + "," + foundSubGraph[0].coordinates);
                     Connect2Graphs(foundSubGraph, tile.encounters.Except(foundSubGraph).ToList(), edges, occupiedSpaces);
