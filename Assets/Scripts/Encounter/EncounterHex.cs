@@ -77,9 +77,17 @@ public class EncounterHex : Encounter
         Debug.Log(encounterType);
         Debug.Log(WorldSystem.instance.gridManager.GetEntry(tile).Item2);
         if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is EncounterHex encEntry)
-            WorldSystem.instance.encounterManager.DrawRoad(encEntry, this, true);
+            WorldSystem.instance.encounterManager.AddRoad(encEntry, this, true);
 
-        WorldSystem.instance.encounterManager.currentEncounterHex?.SetLeaving(this);
+        EncounterHex previous = WorldSystem.instance.encounterManager.currentEncounterHex;
+        if (previous != null)
+        {
+            previous.SetLeaving(this);
+            foreach (EncounterRoad road in roads)
+                if ((road.fromEnc == this && road.toEnc == previous) || (road.fromEnc == previous && road.toEnc == this))
+                    road.status = EncounterRoadStatus.Traversed;
+        }
+        
 
         HashSet<EncounterHex> reachable = WorldSystem.instance.encounterManager.FindAllReachableNodes(this);
 
@@ -88,9 +96,25 @@ public class EncounterHex : Encounter
             if (reachable.Contains(enc))
                 enc.status = hexNeighboors.Contains(enc) ? EncounterHexStatus.Selectable : EncounterHexStatus.Idle;
             else if (enc.status == EncounterHexStatus.Idle)
+            {
                 enc.status = EncounterHexStatus.Unreachable;
+                foreach (EncounterRoad road in enc.roads)
+                    road.status = EncounterRoadStatus.Unreachable;
+            }
         }
 
+        foreach(EncounterHex enc in reachable)
+        {
+            foreach (EncounterRoad road in enc.roads)
+            {
+                EncounterHex otherEnc = road.OtherEnd(enc);
+                if(road.OtherEnd(enc).status == EncounterHexStatus.Visited 
+                    && enc.status != EncounterHexStatus.Selectable 
+                    && road.status != EncounterRoadStatus.Traversed) {
+                    road.status = EncounterRoadStatus.Unreachable;
+                }
+            }
+        }
         
         WorldSystem.instance.encounterManager.currentEncounterHex = this;
 

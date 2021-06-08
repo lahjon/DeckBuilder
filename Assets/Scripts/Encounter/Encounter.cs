@@ -8,10 +8,10 @@ public abstract class Encounter : MonoBehaviour
 {
     [HideInInspector]
     public List<Encounter> neighbourEncounters;
+    public List<EncounterRoad> roads = new List<EncounterRoad>();
     public OverworldEncounterType _encounterType;
     public OverworldEncounterType encounterType { get { return _encounterType; } set { _encounterType = value; GetComponent<SpriteRenderer>().sprite = encounterType.GetIcon(); } }
     public bool selectable = false;
-    public Dictionary<GameObject, List<Encounter>> roads = new Dictionary<GameObject, List<Encounter>>();
     protected delegate void VisitAction();
     private EncounterManager encounterManager;
 

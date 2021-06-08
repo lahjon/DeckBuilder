@@ -15583,7 +15583,7 @@ MonoBehaviour:
   currentEncounterHex: {fileID: 0}
   encounterTier: 1
   ActTemplate: {fileID: 0}
-  RoadTemplate: {fileID: 8916605011419603288, guid: cd786f346ac9b4f4c9645e1e51a0de7e, type: 3}
+  RoadTemplate: {fileID: 3358915619704755654, guid: 990a8fe1d3b58a34db6e3c0541f9ce21, type: 3}
   overWorldEncounterTemplate: {fileID: 8443101174515678486, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
   maxWidth: 3
   minWidth: 2
@@ -15592,7 +15592,7 @@ MonoBehaviour:
   branshProb: 0.25
   templateHexEncounter: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
   encounterParent: {fileID: 0}
-  roadParent: {fileID: 0}
+  roadParent: {fileID: 1113844811}
   roadImage: {fileID: 8916605011419603288, guid: cd786f346ac9b4f4c9645e1e51a0de7e, type: 3}
   roadMaterial: {fileID: 2100000, guid: 20f8e8ac9fc949041bfb9cf7f1acdbd3, type: 2}
 --- !u!4 &1867544623 stripped

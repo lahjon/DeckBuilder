@@ -208,7 +208,14 @@ public enum EncounterOutcomeType
     CardChoose,
     CompanionSpecified,
     CompanionChoose
-};
+}
+
+public enum EncounterRoadStatus
+{
+    Idle,
+    Traversed,
+    Unreachable
+} 
 
 public enum EffectType
 {

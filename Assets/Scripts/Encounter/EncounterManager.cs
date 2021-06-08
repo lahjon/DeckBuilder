@@ -27,15 +27,10 @@ public class EncounterManager : Manager
 
     public GameObject templateHexEncounter; 
 
-    Encounter[][] encounters;
-
     [HideInInspector]
     public GameObject encounterParent; 
-    [HideInInspector]
-    public GameObject roadParent; 
-    public GameObject roadImage;
+    public Transform roadParent; 
 
-    public Material roadMaterial;
 
     public Vector3 GetStartPositionEncounter()
     {
@@ -63,129 +58,7 @@ public class EncounterManager : Manager
             e.UpdateEncounter();
         }
     }
-    public void GenerateMap(int newMinWidth = 0, int newMaxWidth = 0, int newLength = 0)
-    {
-        // DEPRECATED
-        if(newMinWidth > 0 && newMaxWidth > 0 && newLength > 0)
-        {
-            minWidth = newMinWidth;
-            maxWidth = newMaxWidth;
-            length = newLength;
-        }
-
-        canvas.gameObject.SetActive(true);
-        encounters = new Encounter[length][];
-
-        //Setup first
-        encounters[0] = new Encounter[1];
-
-        //SetupLast
-        encounters[length - 1] = new Encounter[1];
-
-
-        for (int i = 1; i < length - 1; i++)
-            encounters[i] = new Encounter[Random.Range(minWidth, maxWidth + 1)];
-
-        float vSpacing = 20.0f;
-        float hSpacing = 20.0f;
-
-        //Randomize out encounters
-        for (int i = 0; i < encounters.Length; i++)
-        {
-            for (int j = 0; j < encounters[i].Length; j++)
-            {
-                GameObject newEnc = Instantiate(UIPrefab, encounterParent.transform, false);
-                newEnc.name = string.Format("encounter_{0}_{1}", i, j);
-
-                Vector3 pos = startPos.transform.position;
-
-                Vector3 noise = getPositionNoise(placementNoise);
-                if(i == 0 && j == 0)
-                    noise = Vector3.zero;
-
-                newEnc.transform.position = new Vector3(i * hSpacing, j * vSpacing - (encounters[i].Length - 1) * hSpacing / 2.0f ,0.04f)  + noise + pos;
-                encounters[i][j] = newEnc.GetComponent<Encounter>();
-                overworldEncounters.Add(encounters[i][j]);
-            }
-        }
-        
-        for (int i = 0; i < encounters.Length; i++)
-        {
-            for (int j = 0; j < encounters[i].Length; j++)
-            {
-                //encounters[i][j].encounterData = (i == encounters.Length - 1 ? DatabaseSystem.instance.GetRandomEncounterBoss() : DatabaseSystem.instance.GetRandomEncounter());
-                encounters[i][j].UpdateEncounter();
-            }
-        }
-
-
-
-        for (int i = 0; i < encounters.Length-1; i++)
-        {
-            AssignNeighbours(i, 0, encounters[i].Length - 1, 0, encounters[i+1].Length-1);
-        }
-
-        StartAddRoads(encounters[0][0]);
-        StartCoroutine(encounters[0][0].Entering(() => { }));
-    }
-
-    public void AssignNeighbours(int floor, int unassigned_lb, int unassigned_ub, int lb, int ub)
-    {
-        //Debug.Log("Enter assign neightbors with: " + floor + "," + unassigned_lb + "," + unassigned_ub + "," + lb + "," + ub);
-        if (unassigned_lb == unassigned_ub)
-        {
-            for (int i = lb; i <= ub; i++)
-                encounters[floor][unassigned_lb].neighbourEncounters.Add(encounters[floor + 1][i]);
-            return;
-        }
-
-        int chosenNode = Random.Range(unassigned_lb, unassigned_ub + 1);
-        double placement = 1.0*(chosenNode - unassigned_lb) / (unassigned_ub - unassigned_lb);
-        //Debug.Log("chosenNode is: " + chosenNode + ", and relative placement is:" + placement);
-
-        int target = 0;
-        int bonusLeft = 0;
-        int bonusRight = 0;
-
-        for(int i = lb; i <= ub; i++)
-        {
-            if(1.0 * (i - lb) / (ub - lb) >= placement)
-            {
-                target = i;
-                break;
-            }
-        }
-
-        encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][target]);
-
-        //time to see if we get some bonus connections 
-        for(int i = target-1; i >= lb; i--)
-        {
-            if (Random.Range(0, 1f) < branshProb)
-            {
-                encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][i]);
-                //Debug.Log("RandomLeft!");
-                bonusLeft--;
-            }
-            else
-                break;
-        }
-
-        for (int i = target + 1; i <= ub; i++)
-        {
-            if (Random.Range(0, 1f) < branshProb)
-            {
-                encounters[floor][chosenNode].neighbourEncounters.Add(encounters[floor + 1][i]);
-                //Debug.Log("RandomRight!");
-                bonusRight++;
-            }
-            else
-                break;
-        }
-
-        if(chosenNode != unassigned_lb) AssignNeighbours(floor, unassigned_lb, chosenNode - 1, lb, target + bonusLeft);
-        if(chosenNode != unassigned_ub) AssignNeighbours(floor, chosenNode + 1, unassigned_ub, target + bonusRight, ub);
-    }
+   
 
     private Vector3 getPositionNoise(float amplitude)
     {
@@ -193,56 +66,15 @@ public class EncounterManager : Manager
     }
 
 
-    // Function to add and place roads between all encounters that are connected. Assumes all encounters can be reached from the first.
-
-    private void StartAddRoads(Encounter root)
+    public EncounterRoad AddRoad(EncounterHex fromEnc, EncounterHex toEnc, bool animate = false)
     {
-        for (int i = 0; i < encounters.Length; i ++) 
-        {
-            for (int j = 0; j < encounters[i].Length; j++) 
-            {
-                //Debug.Log(encounters[i][j]);
-                foreach(Encounter enc in encounters[i][j].neighbourEncounters)
-                {
-                    DrawRoad(encounters[i][j], enc);
-                }
-            }
-        }
-    }
+        GameObject roadObj = Instantiate(RoadTemplate, roadParent);
+        EncounterRoad road = roadObj.GetComponent<EncounterRoad>();
 
-    public void DrawRoad(Encounter fromEnc, Encounter toEnc, bool animate = false)
-    {
-        Vector3 from = fromEnc.transform.position;
-        Vector3 to = toEnc.transform.position;
-        float dist = Vector3.Distance(from, to);
-        float width = 0.1f;
-
-        float gap = 0.05f;
-        float break_gap = 0.05f;
-        float dist_t = break_gap + width;
-        Vector3 dir = Vector3.Normalize(to - from);
-
-        GameObject newRoadParent = new GameObject();
-        newRoadParent.name = string.Format("road_{0}_to_{1}", fromEnc.gameObject.name, toEnc.gameObject.name);
-        newRoadParent.transform.SetParent(fromEnc.transform.parent.parent.GetChild(2));
-        List<Encounter> roads = new List<Encounter>();
-        roads.Add(fromEnc);
-        roads.Add(toEnc);
-        toEnc.roads.Add(newRoadParent, roads);
-        int count = 0;
-
-        while (dist_t < dist - break_gap)
-        {
-            GameObject newRoad = Instantiate(roadImage, newRoadParent.transform);
-            newRoad.transform.position = from + dir * dist_t;
-            float angle = Vector3.Angle(to-from, newRoad.transform.up);
-            newRoad.transform.rotation = Quaternion.LookRotation(from, to);
-            dist_t += gap + width;
-            count++;
-            if (animate) newRoad.SetActive(false);
-        }
-
-        if (animate) StartCoroutine(AnimateRoad(newRoadParent));
+        road.DrawRoad(fromEnc, toEnc, animate);
+        fromEnc.roads.Add(road);
+        toEnc.roads.Add(road);
+        return road;
     }
 
     IEnumerator AnimateRoad(GameObject parent)
@@ -291,7 +123,7 @@ public class EncounterManager : Manager
         {
             enc.hexNeighboors.Add(middleEnc);
             middleEnc.hexNeighboors.Add(enc);
-            DrawRoad(enc, middleEnc);
+            AddRoad(enc, middleEnc);
         }
         tile.OffsetRotation(true);
     }
@@ -372,7 +204,7 @@ public class EncounterManager : Manager
 
         foreach (EdgeEncounter e in edges)
         {
-            DrawRoad(e.n1, e.n2);
+            AddRoad(e.n1, e.n2);
         }
         tile.OffsetRotation(true);
     }
