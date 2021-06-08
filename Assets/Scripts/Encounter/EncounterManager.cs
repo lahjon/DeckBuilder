@@ -352,17 +352,18 @@ public class EncounterManager : Manager
 
         //Finally, time to see if it is possible to back into a corner
         
-        List<EncounterHex> subGraphLoop = new List<EncounterHex>(); 
+        List<EncounterHex> foundSubGraph = new List<EncounterHex>(); 
         foreach(EncounterHex n in tile.encounters)
         {
             n.status = EncounterHexStatus.Visited;
-
-            foreach(EncounterHex neigh in n.hexNeighboors)
+            List<EncounterHex> neighs = new List<EncounterHex>(n.hexNeighboors);
+            foreach(EncounterHex neigh in neighs)
             {
-                if (!CanReachExitNode(neigh, tile.encountersExits, subGraphLoop))
+                if (!CanReachExitNode(neigh, tile.encountersExits.Keys.ToList(), foundSubGraph))
                 {
-                    Connect2Graphs(subGraphLoop, tile.encounters.Except(subGraphLoop).ToList(), edges, occupiedSpaces, n);
-                    subGraphLoop.Clear();
+                    Debug.Log("Subgraph size, first element:" + foundSubGraph.Count + "," + foundSubGraph[0].coordinates);
+                    Connect2Graphs(foundSubGraph, tile.encounters.Except(foundSubGraph).ToList(), edges, occupiedSpaces);
+                    foundSubGraph.Clear();
                 }
             }
 
@@ -474,13 +475,13 @@ public class EncounterManager : Manager
         frontier.Add(node);
         while(frontier.Count != 0)
         {
-            List<EncounterHex> newFrontier = new List<EncounterHex>();
             visited.AddRange(frontier);
+            List<EncounterHex> newFrontier = new List<EncounterHex>();
             foreach(EncounterHex f in frontier)
             {
-                if (f.status == EncounterHexStatus.Unreachable || f.status == EncounterHexStatus.Visited) continue;
                 if (doorNodes.Contains(f)) return true;
-                newFrontier.AddRange(f.hexNeighboors.Except(visited).Except(newFrontier));
+                newFrontier.AddRange(f.hexNeighboors.Except(visited).Except(newFrontier).
+                    Where(n => n.status != EncounterHexStatus.Unreachable && n.status != EncounterHexStatus.Visited));
             }
             frontier = newFrontier;
         }
@@ -490,7 +491,7 @@ public class EncounterManager : Manager
         return false;
     }
 
-    private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges,HashSet<Vector3Int> coordsEncounters, EncounterHex exceptEnc = null)
+    private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges,HashSet<Vector3Int> coordsEncounters)
     {
         int limit = 10;
         while (graphs.Count > 1 && --limit > 0)
@@ -500,7 +501,7 @@ public class EncounterManager : Manager
             {
                 List<EncounterHex> g1 = new List<EncounterHex>(graphs[0]);
                 List<EncounterHex> g2 = new List<EncounterHex>(graphs[i]);
-                if(Connect2Graphs(g1,g2, currentEdges, coordsEncounters, exceptEnc))
+                if(Connect2Graphs(g1,g2, currentEdges, coordsEncounters))
                 {
                     graphs[0].AddRange(graphs[i]);
                     graphs.RemoveAt(i);
@@ -510,7 +511,7 @@ public class EncounterManager : Manager
         }
     }
 
-    private bool Connect2Graphs(List<EncounterHex> g1, List<EncounterHex> g2, List<EdgeEncounter> currentEdges, HashSet<Vector3Int> coordsEncounters, EncounterHex exceptEnc = null)
+    private bool Connect2Graphs(List<EncounterHex> g1, List<EncounterHex> g2, List<EdgeEncounter> currentEdges, HashSet<Vector3Int> coordsEncounters)
     {
         Shuffle(g1);
         Shuffle(g2);
@@ -519,12 +520,13 @@ public class EncounterManager : Manager
             foreach (EncounterHex g2n in g2) 
             {
                 Debug.Log("checking possible conn between:" + g1n.name + "," + g2n.name);
-                if (g1n == exceptEnc || g2n == exceptEnc) continue;
+                //if (g1n == exceptEnc || g2n == exceptEnc) continue;
                 EdgeEncounter potentialEdge = new EdgeEncounter(g1n, g2n);
-            
+                if (currentEdges.Count(e => e.Equals(potentialEdge)) > 0) continue;
+                Debug.Log("edge didnt already exist");
                 if (NodeExistsBetween(g1n.coordinates, g2n.coordinates, coordsEncounters))
                     continue;
-
+                Debug.Log("Node didnt exist between");
 
                 bool crosses = false;
                 foreach (EdgeEncounter edge in currentEdges)
@@ -532,9 +534,11 @@ public class EncounterManager : Manager
                     if (PathCrosses(potentialEdge.GetNodePos(), edge.GetNodePos()))
                     {
                         crosses = true;
+                        Debug.Log("crosses edge: " + edge.n1.coordinates + "," + edge.n2.coordinates);
                         break;
                     }
                 }
+                
 
                 if (!crosses)
                 {
@@ -588,19 +592,20 @@ public class EncounterManager : Manager
             end =       posA.x < posB.x ? posB : posA;
             for (int i = 1; i < end.x - starting.x; i++)
             {
-                if (occupied.Contains(new Vector3Int(starting.x + i,    starting.y -1,      starting.z)))
+                if (occupied.Contains(new Vector3Int(starting.x + i,    starting.y -i,      starting.z)))
                     return true;
             }
         }
 
         LinearLineAxisType crossLine = HexCoordsOnLine(posA, posB);
+        Debug.Log(crossLine);
         if (crossLine == LinearLineAxisType.Z)
         {
             starting = posA.x < posB.x ? posA : posB;
             end = posA.x < posB.x ? posB : posA;
             for (int i = 1; i < end.x - starting.x; i++)
             {
-                if (occupied.Contains(new Vector3Int(starting.x + i, starting.y + i, starting.z - 2 * i)))
+                if (occupied.Contains(new Vector3Int(starting.x + 1 * i, starting.y + 1 * i, starting.z - 2 * i)))
                     return true;
             }
         }
@@ -609,7 +614,7 @@ public class EncounterManager : Manager
         {
             starting = posA.x < posB.x ? posA : posB;
             end = posA.x < posB.x ? posB : posA;
-            for (int i = 1; i < end.x - starting.x; i++)
+            for (int i = 1; i < (end.x - starting.x)/2; i++)
             {
                 if (occupied.Contains(new Vector3Int(starting.x + 2 * i, starting.y - 1 * i, starting.z - 1 * i)))
                     return true;
@@ -620,7 +625,7 @@ public class EncounterManager : Manager
         {
             starting = posA.y < posB.y ? posA : posB;
             end = posA.y < posB.y ? posB : posA;
-            for (int i = 1; i < end.y - starting.y; i++)
+            for (int i = 1; i < (end.y - starting.y)/2; i++)
             {
                 if (occupied.Contains(new Vector3Int(starting.x - 1 * i, starting.y + 2 * i, starting.z - 1 * i)))
                     return true;
