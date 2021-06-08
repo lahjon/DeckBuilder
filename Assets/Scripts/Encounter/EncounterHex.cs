@@ -108,8 +108,8 @@ public class EncounterHex : Encounter
             foreach (EncounterRoad road in enc.roads)
             {
                 EncounterHex otherEnc = road.OtherEnd(enc);
-                if(road.OtherEnd(enc).status == EncounterHexStatus.Visited 
-                    && enc.status != EncounterHexStatus.Selectable 
+                if( otherEnc.status == EncounterHexStatus.Visited 
+                    && otherEnc != this
                     && road.status != EncounterRoadStatus.Traversed) {
                     road.status = EncounterRoadStatus.Unreachable;
                 }
