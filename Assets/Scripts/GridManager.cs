@@ -31,7 +31,7 @@ public class GridManager : Manager
     int _bossCounter;
     public int tilesUntilBoss;
     public bool bossStarted;
-    float hexScale = 0.3765092f;
+    public float hexScale = 0.3765092f;
     public bool initialized;
     int furthestRowReached;
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();

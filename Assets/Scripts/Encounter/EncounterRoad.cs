@@ -24,6 +24,18 @@ public class EncounterRoad : MonoBehaviour
 
     List<SpriteRenderer> roadSprites = new List<SpriteRenderer>();
 
+    public IEnumerator AnimateTraverseRoad(EncounterHex hex)
+    {
+        if (hex != toEnc) roadSprites.Reverse();
+        foreach (SpriteRenderer r in roadSprites)
+        {
+            r.color = new Color32(255, 255, 255, 255);
+            yield return new WaitForSeconds(0.15f);
+        }
+        _status = EncounterRoadStatus.Traversed;
+        yield return null;
+    }
+
     public void DrawRoad(EncounterHex fromEnc, EncounterHex toEnc, bool animate = false)
     {
         this.fromEnc = fromEnc;
@@ -41,6 +53,7 @@ public class EncounterRoad : MonoBehaviour
         while (dist_t < dist - break_gap)
         {
             GameObject roadSegment = Instantiate(roadSegmentTemplate, this.transform);
+            roadSegment.transform.localScale = roadSegment.transform.localScale * WorldSystem.instance.encounterManager.tileSizeInverse;
             roadSprites.Add(roadSegment.GetComponent<SpriteRenderer>());
             roadSegment.transform.position = from + dir * dist_t;
             roadSegment.transform.rotation = Quaternion.LookRotation(from, to);

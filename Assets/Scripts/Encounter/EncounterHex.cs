@@ -18,6 +18,34 @@ public class EncounterHex : Encounter
     SpriteRenderer spriteRenderer;
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
+    bool _highlighted;
+    public bool highlighted
+    {
+        get
+        {
+            return _highlighted;
+        }
+        set
+        {
+            _highlighted = value;
+            if (_highlighted)
+            {
+                CancelAnimation();
+                if (_status == EncounterHexStatus.Selectable)
+                    AnimateEncounterHighlight();
+                else
+                    transform.localScale = startingScale * 1.35f;
+            }
+            else
+            {
+                CancelAnimation();
+                if (_status == EncounterHexStatus.Selectable)
+                    AnimateEncounter();
+                else
+                    transform.localScale = startingScale;
+            }
+        }
+    }
     public EncounterHexStatus status
     {
         get
@@ -56,13 +84,20 @@ public class EncounterHex : Encounter
         //tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         transform.localScale *= 1.3f;
         tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
+        tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = new Color(.8f, .8f, .8f, 1f));
+    }
+
+    public void AnimateEncounterHighlight()
+    {
+        transform.localScale *= 1.5f;
+        tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
         tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
     }
 
     public void CancelAnimation()
     {
-        tweenAction1.Kill();
-        tweenAction2.Kill();
+        tweenAction1?.Kill();
+        tweenAction2?.Kill();
     }
 
     public override IEnumerator Entering(System.Action VisitAction)
@@ -85,7 +120,8 @@ public class EncounterHex : Encounter
             previous.SetLeaving(this);
             foreach (EncounterRoad road in roads)
                 if ((road.fromEnc == this && road.toEnc == previous) || (road.fromEnc == previous && road.toEnc == this))
-                    road.status = EncounterRoadStatus.Traversed;
+                    yield return StartCoroutine(road.AnimateTraverseRoad(this));
+                
         }
         
 
@@ -168,10 +204,17 @@ public class EncounterHex : Encounter
         StartCoroutine(Entering(() => { } ));
     }
 
-    private void OnMouseEnter()
+    void OnMouseEnter()
     {
-        //Debug.Log("Collider works");
+        highlighted = true;
+
     }
+
+    void OnMouseExit()
+    {
+        highlighted = false;
+    }
+
 
     public bool CheckConnection(EncounterHex target)
     {

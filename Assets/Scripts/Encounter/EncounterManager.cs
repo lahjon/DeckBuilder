@@ -24,12 +24,13 @@ public class EncounterManager : Manager
     public int length = 7;
     public float placementNoise = 3.0f;
     public double branshProb = 0.25;
+    public float tileSizeInverse;
 
     public GameObject templateHexEncounter; 
 
     [HideInInspector]
     public GameObject encounterParent; 
-    public Transform roadParent; 
+    //public Transform roadParent; 
 
 
     public Vector3 GetStartPositionEncounter()
@@ -45,6 +46,7 @@ public class EncounterManager : Manager
     protected override void Start()
     {
         base.Start();
+        tileSizeInverse = 1 / world.gridManager.hexScale;
         //encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
         //roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
     }
@@ -68,7 +70,7 @@ public class EncounterManager : Manager
 
     public EncounterRoad AddRoad(EncounterHex fromEnc, EncounterHex toEnc, bool animate = false)
     {
-        GameObject roadObj = Instantiate(RoadTemplate, roadParent);
+        GameObject roadObj = Instantiate(RoadTemplate, fromEnc.tile.roadParent);
         EncounterRoad road = roadObj.GetComponent<EncounterRoad>();
 
         road.DrawRoad(fromEnc, toEnc, animate);
