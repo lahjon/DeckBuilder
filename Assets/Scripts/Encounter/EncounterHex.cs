@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Animations;
 
-public class EncounterHex : Encounter
+public class EncounterHex : MonoBehaviour
 {
     public List<EncounterHex> hexNeighboors;
     public Vector3Int coordinates;
@@ -16,6 +16,10 @@ public class EncounterHex : Encounter
     public HexTile tile;
     public static Color highlightColor = new Color(.5f, .5f, .5f, 1f);
     SpriteRenderer spriteRenderer;
+
+    public List<EncounterRoad> roads = new List<EncounterRoad>();
+
+    public OverworldEncounterType encounterType;
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     bool _highlighted;
@@ -73,10 +77,6 @@ public class EncounterHex : Encounter
     {
         startingScale = transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        //RotationConstraint rotCon = GetComponent<RotationConstraint>();
-        
-        //rotCon.AddSource(WorldSystem.instance.gridManager.gameObject);
     }
 
     public void AnimateEncounter()
@@ -100,24 +100,26 @@ public class EncounterHex : Encounter
         tweenAction2?.Kill();
     }
 
-    public override IEnumerator Entering(System.Action VisitAction)
+    public IEnumerator Entering()
     {
         transform.localScale = startingScale*1.5f;
         status = EncounterHexStatus.Visited;
 
         tile.encounters.Remove(this);
-        //tile.encountersExits.Remove(this);
 
         Debug.Log("ENTERING!");
         Debug.Log(encounterType);
         Debug.Log(WorldSystem.instance.gridManager.GetEntry(tile).Item2);
         if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is EncounterHex encEntry)
-            WorldSystem.instance.encounterManager.AddRoad(encEntry, this, true);
+        {
+            EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(encEntry, this, true);
+            yield return StartCoroutine(intraHexRoad.AnimateTraverseRoad(this));
+        }
 
         EncounterHex previous = WorldSystem.instance.encounterManager.currentEncounterHex;
         if (previous != null)
         {
-            previous.SetLeaving(this);
+            previous.SetLeaving();
             foreach (EncounterRoad road in roads)
                 if ((road.fromEnc == this && road.toEnc == previous) || (road.fromEnc == previous && road.toEnc == this))
                     yield return StartCoroutine(road.AnimateTraverseRoad(this));
@@ -156,11 +158,6 @@ public class EncounterHex : Encounter
 
         if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
             encounterType.Invoke();
-
-        yield return null;
-
-        if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
-            VisitAction();
     }
 
     public int ExitDirection()
@@ -186,7 +183,7 @@ public class EncounterHex : Encounter
     }
 
 
-    public override void SetLeaving(Encounter nextEnc)
+    public void SetLeaving()
     {
         transform.localScale = startingScale;
         foreach (EncounterHex e in hexNeighboors)
@@ -201,7 +198,7 @@ public class EncounterHex : Encounter
     {
         if (status != EncounterHexStatus.Selectable) return;
         //Debug.Log("starting click");
-        StartCoroutine(Entering(() => { } ));
+        StartCoroutine(Entering());
     }
 
     void OnMouseEnter()

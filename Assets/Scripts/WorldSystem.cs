@@ -98,7 +98,6 @@ public class WorldSystem : MonoBehaviour
     public void BossDefeated()
     {
         SaveProgression();
-        encounterManager.UpdateAllTownEncounters(act);
         Debug.Log("Go to town!");
     }
     private void UpdateStartScene()

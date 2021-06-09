@@ -400,7 +400,7 @@ public class HexTile : MonoBehaviour
             Debug.LogError("No valid Entry!");
             return;
         }
-        StartCoroutine(encounterEntry.Entering(() => { }));
+        StartCoroutine(encounterEntry.Entering());
     }
 
     public void CloseExists()

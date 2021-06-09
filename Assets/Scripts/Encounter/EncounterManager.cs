@@ -9,9 +9,9 @@ public class EncounterManager : Manager
     public GameObject startPos;
     public GameObject UIPrefab;
     public Canvas canvas;
-    public List<Encounter> overworldEncounters;
+    public List<EncounterHex> overworldEncounters;
     public GameObject townEncounter;
-    public Encounter currentEncounter;
+    public EncounterHex currentEncounter;
     public EncounterHex currentEncounterHex;
     public int encounterTier;
 
@@ -50,18 +50,7 @@ public class EncounterManager : Manager
         //encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
         //roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
     }
-    public void UpdateAllTownEncounters(int act)
-    {
-        encounterTier = act;
-        Transform t = townEncounter.transform;
-        for (int i = 0; i < t.childCount; i++)
-        {   
-            Encounter e = t.GetChild(i).gameObject.GetComponent<Encounter>();
-            e.UpdateEncounter();
-        }
-    }
    
-
     private Vector3 getPositionNoise(float amplitude)
     {
         return new Vector3(Random.Range(0, amplitude), Random.Range(0, amplitude), 0);
@@ -125,7 +114,8 @@ public class EncounterManager : Manager
         {
             enc.hexNeighboors.Add(middleEnc);
             middleEnc.hexNeighboors.Add(enc);
-            AddRoad(enc, middleEnc);
+            EncounterRoad road = AddRoad(enc, middleEnc);
+            road.status = EncounterRoadStatus.Traversed;
         }
         tile.OffsetRotation(true);
     }
