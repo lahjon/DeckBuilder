@@ -19,12 +19,12 @@ public class EncounterRoad : MonoBehaviour
     static float gap = 0.05f;
     static float break_gap = 0.05f;
 
-    public EncounterHex fromEnc;
-    public EncounterHex toEnc;
+    public Encounter fromEnc;
+    public Encounter toEnc;
 
     List<SpriteRenderer> roadSprites = new List<SpriteRenderer>();
 
-    public IEnumerator AnimateTraverseRoad(EncounterHex hex)
+    public IEnumerator AnimateTraverseRoad(Encounter hex)
     {
         if (hex != toEnc) roadSprites.Reverse();
         foreach (SpriteRenderer r in roadSprites)
@@ -36,7 +36,7 @@ public class EncounterRoad : MonoBehaviour
         yield return null;
     }
 
-    public void DrawRoad(EncounterHex fromEnc, EncounterHex toEnc, bool animate = false)
+    public void DrawRoad(Encounter fromEnc, Encounter toEnc, bool animate = false)
     {
         this.fromEnc = fromEnc;
         this.toEnc = toEnc;
@@ -76,7 +76,7 @@ public class EncounterRoad : MonoBehaviour
         WorldSystem.instance.gridManager.animator.SetBool("IsAnimating", false);
     }
 
-    public EncounterHex OtherEnd(EncounterHex OneEnd)
+    public Encounter OtherEnd(Encounter OneEnd)
     {
         if (fromEnc != OneEnd && toEnc != OneEnd)
             return null;

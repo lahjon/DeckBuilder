@@ -33,8 +33,8 @@ public class HexTile : MonoBehaviour
     public TileBiome tileBiome;
     public bool completed;
 
-    public Dictionary<Vector3Int, EncounterHex> posToEncounter = new Dictionary<Vector3Int, EncounterHex>();
-    public Dictionary<Vector3Int, EncounterHex> posToEncountersExit = new Dictionary<Vector3Int, EncounterHex>();
+    public Dictionary<Vector3Int, Encounter> posToEncounter = new Dictionary<Vector3Int, Encounter>();
+    public Dictionary<Vector3Int, Encounter> posToEncountersExit = new Dictionary<Vector3Int, Encounter>();
     public static List<Vector3Int> positionsExit = new List<Vector3Int>()
     {
         new Vector3Int(1, -2, 1),
@@ -53,9 +53,9 @@ public class HexTile : MonoBehaviour
     private int gridWidth = 2;
     Color tempColor;
 
-    public List<EncounterHex> encounters;
-    public EncounterHex encounterEntry;
-    public List<EncounterHex> encountersExits = new List<EncounterHex>();
+    public List<Encounter> encounters;
+    public Encounter encounterEntry;
+    public List<Encounter> encountersExits = new List<Encounter>();
 
     public bool highlightedPrimary
     {
@@ -488,7 +488,7 @@ public class HexTile : MonoBehaviour
         
     }
 
-    public static void EncountersInitializePositions(Dictionary<Vector3Int, EncounterHex> encPos, int gridWidth)
+    public static void EncountersInitializePositions(Dictionary<Vector3Int, Encounter> encPos, int gridWidth)
     {
         if (positionsInner.Count != 0) return; 
         for (int q = -gridWidth; q <= gridWidth; q++)
@@ -522,7 +522,7 @@ public class HexTile : MonoBehaviour
         return positionsExit[dir];
     }
 
-    public void AddEncounter(Vector3Int pos, EncounterHex enc, bool exit = false)
+    public void AddEncounter(Vector3Int pos, Encounter enc, bool exit = false)
     {
         if (exit)
         {

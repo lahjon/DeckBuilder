@@ -9,10 +9,10 @@ public class EncounterManager : Manager
     public GameObject startPos;
     public GameObject UIPrefab;
     public Canvas canvas;
-    public List<EncounterHex> overworldEncounters;
+    public List<Encounter> overworldEncounters;
     public GameObject townEncounter;
-    public EncounterHex currentEncounter;
-    public EncounterHex currentEncounterHex;
+    public Encounter currentEncounter;
+    public Encounter currentEncounterHex;
     public int encounterTier;
 
     public GameObject ActTemplate;
@@ -57,7 +57,7 @@ public class EncounterManager : Manager
     }
 
 
-    public EncounterRoad AddRoad(EncounterHex fromEnc, EncounterHex toEnc, bool animate = false)
+    public EncounterRoad AddRoad(Encounter fromEnc, Encounter toEnc, bool animate = false)
     {
         GameObject roadObj = Instantiate(RoadTemplate, fromEnc.tile.roadParent);
         EncounterRoad road = roadObj.GetComponent<EncounterRoad>();
@@ -98,7 +98,7 @@ public class EncounterManager : Manager
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
         {
             GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
-            EncounterHex enc = obj.GetComponent<EncounterHex>();
+            Encounter enc = obj.GetComponent<Encounter>();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit :OverworldEncounterType.Start;
@@ -108,12 +108,12 @@ public class EncounterManager : Manager
             tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
         }
 
-        EncounterHex middleEnc = tile.posToEncounter[Vector3Int.zero];
+        Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
 
-        foreach(EncounterHex enc in tile.encountersExits)
+        foreach(Encounter enc in tile.encountersExits)
         {
-            enc.hexNeighboors.Add(middleEnc);
-            middleEnc.hexNeighboors.Add(enc);
+            enc.neighboors.Add(middleEnc);
+            middleEnc.neighboors.Add(enc);
             EncounterRoad road = AddRoad(enc, middleEnc);
             road.status = EncounterRoadStatus.Traversed;
         }
@@ -124,7 +124,7 @@ public class EncounterManager : Manager
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
-        List<EdgeEncounter> edges;
+        List<EncounterEdge> edges;
 
         Debug.Log("Starting Hex generate for tile " + tile.name + ", nr directions " + tile.availableDirections.Count);
         for (int i = 0; i < 6; i++)
@@ -155,7 +155,7 @@ public class EncounterManager : Manager
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
         {
             GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent) as GameObject;
-            EncounterHex enc = obj.GetComponent<EncounterHex>();
+            Encounter enc = obj.GetComponent<Encounter>();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : (OverworldEncounterType)Random.Range(2, 6);
@@ -171,17 +171,17 @@ public class EncounterManager : Manager
         edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
 
         // Time to check if all nodes are connected to the same graph
-        List<List<EncounterHex>> graphs = FindBiGraphs(new List<EncounterHex>(tile.encounters));
+        List<List<Encounter>> graphs = FindBiGraphs(new List<Encounter>(tile.encounters));
         if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, occupiedSpaces);
 
         //Finally, time to see if it is possible to back into a corner
         
-        List<EncounterHex> foundSubGraph = new List<EncounterHex>(); 
-        foreach(EncounterHex n in tile.encounters)
+        List<Encounter> foundSubGraph = new List<Encounter>(); 
+        foreach(Encounter n in tile.encounters)
         {
             n.status = EncounterHexStatus.Visited;
-            List<EncounterHex> neighs = new List<EncounterHex>(n.hexNeighboors);
-            foreach(EncounterHex neigh in neighs)
+            List<Encounter> neighs = new List<Encounter>(n.neighboors);
+            foreach(Encounter neigh in neighs)
             {
                 if (!CanReachExitNode(neigh, tile.encountersExits.ToList(), foundSubGraph))
                 {
@@ -194,38 +194,38 @@ public class EncounterManager : Manager
             n.status = EncounterHexStatus.Idle;
         }
 
-        foreach (EdgeEncounter e in edges)
+        foreach (EncounterEdge e in edges)
         {
             AddRoad(e.n1, e.n2);
         }
         tile.OffsetRotation(true);
     }
 
-    private List<EdgeEncounter> AssignNonCrossingEdges(Dictionary<Vector3Int, EncounterHex> nodes, List<EncounterHex> doorNodes)
+    private List<EncounterEdge> AssignNonCrossingEdges(Dictionary<Vector3Int, Encounter> nodes, List<Encounter> doorNodes)
     {
         Debug.Log("assign non crossing edges");
-        List<EdgeEncounter> edges = new List<EdgeEncounter>();
+        List<EncounterEdge> edges = new List<EncounterEdge>();
         int nrNodes = nodes.Count;
-        List<EncounterHex> allNodes = new List<EncounterHex>(nodes.Values);
-        List<EncounterHex> allNodesNeigh = new List<EncounterHex>(allNodes);
+        List<Encounter> allNodes = new List<Encounter>(nodes.Values);
+        List<Encounter> allNodesNeigh = new List<Encounter>(allNodes);
 
         HashSet<Vector3Int> occupiedCoords = new HashSet<Vector3Int>(nodes.Keys);
 
         Shuffle(allNodes);
-        foreach(EncounterHex enc in allNodes)
+        foreach(Encounter enc in allNodes)
         {
             Shuffle(allNodesNeigh);
-            foreach(EncounterHex neigh in allNodesNeigh)
+            foreach(Encounter neigh in allNodesNeigh)
             {
                 if (neigh == enc || (doorNodes.Contains(enc) && doorNodes.Contains(neigh))) continue;
-                EdgeEncounter potentialEdge = new EdgeEncounter(enc, neigh);
+                EncounterEdge potentialEdge = new EncounterEdge(enc, neigh);
                 if (edges.Contains(potentialEdge)) continue;
 
                 if (NodeExistsBetween(enc.coordinates, neigh.coordinates, occupiedCoords))
                     continue;
 
                 bool crosses = false;
-                foreach (EdgeEncounter edge in edges)
+                foreach (EncounterEdge edge in edges)
                 {
                     if (PathCrosses(edge.GetNodePos(), potentialEdge.GetNodePos()))
                     {
@@ -235,27 +235,27 @@ public class EncounterManager : Manager
                 }
                 if (crosses) continue;
                 edges.Add(potentialEdge);
-                enc.hexNeighboors.Add(neigh);
-                neigh.hexNeighboors.Add(enc);
+                enc.neighboors.Add(neigh);
+                neigh.neighboors.Add(enc);
                 break;
             }
         }
         return edges;
     }
 
-    public bool IsCompleteGraph(List<EncounterHex> nodes)
+    public bool IsCompleteGraph(List<Encounter> nodes)
     {
-        List<EncounterHex> frontier = new List<EncounterHex>(nodes[0].hexNeighboors);
-        List<EncounterHex> visited = new List<EncounterHex>();
+        List<Encounter> frontier = new List<Encounter>(nodes[0].neighboors);
+        List<Encounter> visited = new List<Encounter>();
         visited.Add(nodes[0]);
         nodes.RemoveAt(0);
         while(frontier.Count != 0)
         {
-            List<EncounterHex> newFrontier = new List<EncounterHex>();
+            List<Encounter> newFrontier = new List<Encounter>();
             frontier.ForEach(x =>
             {
                 visited.Add(x);
-                newFrontier.AddRange(x.hexNeighboors.Except(visited).Except(newFrontier));
+                newFrontier.AddRange(x.neighboors.Except(visited).Except(newFrontier));
                 nodes.Remove(x);
             });
             frontier = newFrontier;
@@ -264,23 +264,23 @@ public class EncounterManager : Manager
         return nodes.Count == 0;
     }
 
-    public List<List<EncounterHex>> FindBiGraphs(List<EncounterHex> nodes)
+    public List<List<Encounter>> FindBiGraphs(List<Encounter> nodes)
     {
         int gCount = 0;
-        List<List<EncounterHex>> graphs = new List<List<EncounterHex>>();
+        List<List<Encounter>> graphs = new List<List<Encounter>>();
         while(nodes.Count > 0)
         {
-            EncounterHex cEntry = nodes[0];
+            Encounter cEntry = nodes[0];
             nodes.RemoveAt(0);
-            graphs.Add(new List<EncounterHex>());
+            graphs.Add(new List<Encounter>());
             graphs[gCount].Add(cEntry);
-            List<EncounterHex> frontier = new List<EncounterHex>(cEntry.hexNeighboors);
+            List<Encounter> frontier = new List<Encounter>(cEntry.neighboors);
             while(frontier.Count != 0)
             {
                 graphs[gCount].AddRange(frontier);
-                List<EncounterHex> newFrontier = new List<EncounterHex>();
+                List<Encounter> newFrontier = new List<Encounter>();
                 frontier.ForEach(x => {
-                    newFrontier.AddRange(x.hexNeighboors.Except(graphs[gCount]).Except(newFrontier));
+                    newFrontier.AddRange(x.neighboors.Except(graphs[gCount]).Except(newFrontier));
                     nodes.Remove(x);
                 });
                 frontier = newFrontier;
@@ -290,21 +290,21 @@ public class EncounterManager : Manager
         return graphs;
     }
 
-    public bool CanReachExitNode(EncounterHex node, List<EncounterHex> doorNodes, List<EncounterHex> foundSubGraph = null)
+    public bool CanReachExitNode(Encounter node, List<Encounter> doorNodes, List<Encounter> foundSubGraph = null)
     {
         if (doorNodes.Contains(node)) return true;
 
-        List<EncounterHex> frontier = new List<EncounterHex>();
-        List<EncounterHex> visited = new List<EncounterHex>();
+        List<Encounter> frontier = new List<Encounter>();
+        List<Encounter> visited = new List<Encounter>();
         frontier.Add(node);
         while(frontier.Count != 0)
         {
             visited.AddRange(frontier);
-            List<EncounterHex> newFrontier = new List<EncounterHex>();
-            foreach(EncounterHex f in frontier)
+            List<Encounter> newFrontier = new List<Encounter>();
+            foreach(Encounter f in frontier)
             {
                 if (doorNodes.Contains(f)) return true;
-                newFrontier.AddRange(f.hexNeighboors.Except(visited).Except(newFrontier).
+                newFrontier.AddRange(f.neighboors.Except(visited).Except(newFrontier).
                     Where(n => n.status != EncounterHexStatus.Unreachable && n.status != EncounterHexStatus.Visited));
             }
             frontier = newFrontier;
@@ -315,7 +315,7 @@ public class EncounterManager : Manager
         return false;
     }
 
-    private void ConnectBiGraphsNoCrosses(List<List<EncounterHex>> graphs, List<EdgeEncounter> currentEdges,HashSet<Vector3Int> coordsEncounters)
+    private void ConnectBiGraphsNoCrosses(List<List<Encounter>> graphs, List<EncounterEdge> currentEdges,HashSet<Vector3Int> coordsEncounters)
     {
         int limit = 10;
         while (graphs.Count > 1 && --limit > 0)
@@ -323,8 +323,8 @@ public class EncounterManager : Manager
             int gCount = graphs.Count;
             for(int i = 1; i < gCount; i++)
             {
-                List<EncounterHex> g1 = new List<EncounterHex>(graphs[0]);
-                List<EncounterHex> g2 = new List<EncounterHex>(graphs[i]);
+                List<Encounter> g1 = new List<Encounter>(graphs[0]);
+                List<Encounter> g2 = new List<Encounter>(graphs[i]);
                 if(Connect2Graphs(g1,g2, currentEdges, coordsEncounters))
                 {
                     graphs[0].AddRange(graphs[i]);
@@ -335,17 +335,17 @@ public class EncounterManager : Manager
         }
     }
 
-    private bool Connect2Graphs(List<EncounterHex> g1, List<EncounterHex> g2, List<EdgeEncounter> currentEdges, HashSet<Vector3Int> coordsEncounters)
+    private bool Connect2Graphs(List<Encounter> g1, List<Encounter> g2, List<EncounterEdge> currentEdges, HashSet<Vector3Int> coordsEncounters)
     {
         Shuffle(g1);
         Shuffle(g2);
-        foreach (EncounterHex g1n in g1)
+        foreach (Encounter g1n in g1)
         {
-            foreach (EncounterHex g2n in g2) 
+            foreach (Encounter g2n in g2) 
             {
                 Debug.Log("checking possible conn between:" + g1n.name + "," + g2n.name);
                 //if (g1n == exceptEnc || g2n == exceptEnc) continue;
-                EdgeEncounter potentialEdge = new EdgeEncounter(g1n, g2n);
+                EncounterEdge potentialEdge = new EncounterEdge(g1n, g2n);
                 if (currentEdges.Count(e => e.Equals(potentialEdge)) > 0) continue;
                 Debug.Log("edge didnt already exist");
                 if (NodeExistsBetween(g1n.coordinates, g2n.coordinates, coordsEncounters))
@@ -353,7 +353,7 @@ public class EncounterManager : Manager
                 Debug.Log("Node didnt exist between");
 
                 bool crosses = false;
-                foreach (EdgeEncounter edge in currentEdges)
+                foreach (EncounterEdge edge in currentEdges)
                 {
                     if (PathCrosses(potentialEdge.GetNodePos(), edge.GetNodePos()))
                     {
@@ -366,8 +366,8 @@ public class EncounterManager : Manager
 
                 if (!crosses)
                 {
-                    g1n.hexNeighboors.Add(g2n);
-                    g2n.hexNeighboors.Add(g1n);
+                    g1n.neighboors.Add(g2n);
+                    g2n.neighboors.Add(g1n);
                     currentEdges.Add(potentialEdge);
                     return true;
                 }
@@ -459,9 +459,9 @@ public class EncounterManager : Manager
         return false;
     }
 
-    public HashSet<EncounterHex> FindAllReachableNodes(EncounterHex enc)
+    public HashSet<Encounter> FindAllReachableNodes(Encounter enc)
     {
-        HashSet<EncounterHex> hs = new HashSet<EncounterHex>();
+        HashSet<Encounter> hs = new HashSet<Encounter>();
 
         if(enc.encounterType == OverworldEncounterType.Exit)
         {
@@ -469,8 +469,8 @@ public class EncounterManager : Manager
             return hs;
         }
 
-        List<EncounterHex> neighs = enc.hexNeighboors.Where(e => e.status == EncounterHexStatus.Idle || e.status == EncounterHexStatus.Selectable).ToList();
-        foreach (EncounterHex neigh in neighs)
+        List<Encounter> neighs = enc.neighboors.Where(e => e.status == EncounterHexStatus.Idle || e.status == EncounterHexStatus.Selectable).ToList();
+        foreach (Encounter neigh in neighs)
         {
             EncounterHexStatus originalStatus = neigh.status;
             //avoiding animationtriggers
@@ -486,8 +486,8 @@ public class EncounterManager : Manager
 
     public void Testie()
     {
-        HashSet<EncounterHex> hs = new HashSet<EncounterHex>();
-        List<EncounterHex> list = new List<EncounterHex>();
+        HashSet<Encounter> hs = new HashSet<Encounter>();
+        List<Encounter> list = new List<Encounter>();
         hs.UnionWith(list);
         hs.UnionWith(list);
         hs.UnionWith(list);

@@ -516,7 +516,7 @@ public class GridManager : Manager
         return false;
     }
 
-    public (int, EncounterHex) GetEntry(HexTile tile)
+    public (int, Encounter) GetEntry(HexTile tile)
     {
         List<HexTile> neighbours = GetNeighbours(tile);
         neighbours = neighbours.Intersect(completedTiles).ToList();
@@ -524,7 +524,7 @@ public class GridManager : Manager
        // neighbours.ForEach(x => Debug.Log("NEIGHBOYURS: " + x));
 
         HexTile entryTile = null;
-        EncounterHex entryHex = null;
+        Encounter entryHex = null;
         int turn = -1;
         int dir;
 
@@ -533,7 +533,7 @@ public class GridManager : Manager
             if (aTile.turnCompleted > turn)
             {
                 //Debug.Log("TURN OK");
-                foreach (EncounterHex hex in aTile.encountersExits)
+                foreach (Encounter hex in aTile.encountersExits)
                 {
                    // Debug.Log("tile.coord: " + tile.coord);
                     //Debug.Log("aTile.coord: " + aTile.coord);

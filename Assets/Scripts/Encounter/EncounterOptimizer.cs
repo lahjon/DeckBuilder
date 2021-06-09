@@ -7,5 +7,11 @@ using System.Threading.Tasks;
 
 public class EncounterOptimizer
 {
+    List<Encounter> encounters;
+
+    public void SetEncounters(List<Encounter> encounters)
+    {
+        this.encounters = encounters;
+    }
 
 }
