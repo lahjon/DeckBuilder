@@ -2,23 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateTown : WorldStateAnimator
+public class StateBonfire : WorldStateAnimator
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Init(TransitionType.Town, WorldState.Town);
-        WorldSystem.instance.townManager.EnterTown();
+        Init(TransitionType.Normal, WorldState.Bonfire);
+        world.bonfireManager.EnterBonfire();
+        //WorldSystem.instance.uiManager.encounterUI.StartEncounter();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log(world);
-        Debug.Log(world.townManager);
-        world.townManager.ExitTown();
+        world.bonfireManager.LeaveBonfire();
+        //WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
+        //WorldStateSystem.SetInBonfire(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
     }
+
 }

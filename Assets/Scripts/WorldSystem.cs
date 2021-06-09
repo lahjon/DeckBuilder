@@ -24,6 +24,7 @@ public class WorldSystem : MonoBehaviour
     public MissionManager missionManager;
     public TokenManager tokenManager;
     public ArtifactManager artifactManager;
+    public BonfireManager bonfireManager;
     public WorldMapManager worldMapManager;
     public DialogueManager dialogueManager;
     public RewardManager rewardManager;

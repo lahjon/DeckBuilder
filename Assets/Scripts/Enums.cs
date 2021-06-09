@@ -78,6 +78,7 @@ public static class EnumExtenstions
                 WorldSystem.instance.gridManager.CompleteCurrentTile();
                 break;
             case OverworldEncounterType.Bonfire:
+                WorldStateSystem.SetInBonfire(true);
                 break;
             default:
                 break;
@@ -245,6 +246,7 @@ public enum WorldState
 {
     MainMenu,
     Event,
+    Bonfire,
     Reward,
     Shop,
     Combat,

@@ -11,7 +11,7 @@ public class Encounter : MonoBehaviour
     public HexTile tile;
     public List<Encounter> neighboors;
     public List<EncounterRoad> roads = new List<EncounterRoad>();
-    public OverworldEncounterType encounterType;
+    public OverworldEncounterType _encounterType;
 
     public Vector3Int coordinates;
     public Vector3 startingScale;
@@ -25,6 +25,18 @@ public class Encounter : MonoBehaviour
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     bool _highlighted;
+    public OverworldEncounterType encounterType
+    {
+        get
+        {
+            return _encounterType;
+        }
+        set
+        {
+            _encounterType = value;
+            spriteRenderer.sprite = _encounterType.GetIcon();
+        }
+    }
     public bool highlighted
     {
         get
@@ -86,7 +98,8 @@ public class Encounter : MonoBehaviour
         //tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         transform.localScale *= 1.3f;
         tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
-        tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = new Color(.8f, .8f, .8f, 1f));
+        //tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = new Color(.8f, .8f, .8f, 1f));
+        tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
     }
 
     public void AnimateEncounterHighlight()
