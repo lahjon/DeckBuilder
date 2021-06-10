@@ -80,18 +80,11 @@ public class EncounterManager : Manager
         world.gridManager.animator.SetBool("IsAnimating", false);
     }
 
-    public void GenerateInitialHex(HexTile tile)
+    public void GenerateInitialHexEncounters(HexTile tile)
     {
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
 
-        for (int i = 0; i < 6; i++)
-        {
-            if (tile.availableDirections.Contains(i))
-            {
-                Vector3Int v = HexTile.DirectionToDoorEncounter(i);
-                chosenEncountersSlots.Add(v);
-            }
-        }
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
 
         chosenEncountersSlots.Add(Vector3Int.zero);
 
@@ -120,7 +113,7 @@ public class EncounterManager : Manager
         tile.OffsetRotation(true);
     }
 
-    public void GenerateHexEncounter(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null, int additional = -1)
+    public void GenerateHexEncounters(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null, int additional = -1)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
@@ -202,6 +195,37 @@ public class EncounterManager : Manager
         EncounterOptimizer optimizer = new EncounterOptimizer();
         optimizer.SetEncounters(tile.encounters.Except(tile.encountersExits).ToList());
         optimizer.Run();
+        tile.OffsetRotation(true);
+    }
+
+    public void GenerateBossHexEncounter(HexTile tile)
+    {
+        List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
+
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
+
+        chosenEncountersSlots.Add(Vector3Int.zero);
+
+        for (int i = 0; i < chosenEncountersSlots.Count; i++)
+        {
+            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
+            Encounter enc = obj.GetComponent<Encounter>();
+            enc.coordinates = chosenEncountersSlots[i];
+            enc.name = chosenEncountersSlots[i].ToString();
+            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatBoss;
+            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
+            enc.tile = tile;
+            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
+        }
+
+        Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
+
+        foreach (Encounter enc in tile.encountersExits)
+        {
+            enc.neighboors.Add(middleEnc);
+            middleEnc.neighboors.Add(enc);
+            EncounterRoad road = AddRoad(enc, middleEnc);
+        }
         tile.OffsetRotation(true);
     }
 

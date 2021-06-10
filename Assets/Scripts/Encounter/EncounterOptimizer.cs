@@ -61,7 +61,7 @@ public class EncounterOptimizer
             foreach(OverworldEncounterType type in types)
             {
                 int probeScore = Probe(chosenEnc, type);
-                Debug.Log(string.Format("{0}: {1} --> {2}, score {3} --> {4}", chosenEnc.name, chosenEnc.encounterType, type, maxScore, probeScore));
+                //Debug.Log(string.Format("{0}: {1} --> {2}, score {3} --> {4}", chosenEnc.name, chosenEnc.encounterType, type, maxScore, probeScore));
                 if(probeScore > maxScore)
                 {
                     maxScore = probeScore;

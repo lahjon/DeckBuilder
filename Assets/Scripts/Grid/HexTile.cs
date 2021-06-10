@@ -309,9 +309,9 @@ public class HexTile : MonoBehaviour
             }
 
             if (gridManager.bossStarted)
-                WorldSystem.instance.encounterManager.GenerateHexEncounter(this, new List<Vector3Int>() { Vector3Int.zero}, 0);
+                WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero}, 0);
             else
-                WorldSystem.instance.encounterManager.GenerateHexEncounter(this, new List<Vector3Int>() { Vector3Int.zero});
+                WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
 
             encounterParent.gameObject.SetActive(false);
             roadParent.gameObject.SetActive(false);
