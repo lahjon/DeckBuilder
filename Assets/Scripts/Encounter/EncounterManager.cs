@@ -192,7 +192,7 @@ public class EncounterManager : Manager
             AddRoad(e.n1, e.n2);
         }
 
-        EncounterOptimizer optimizer = new EncounterOptimizer();
+        HexOptimizer optimizer = new HexOptimizer();
         optimizer.SetEncounters(tile.encounters.Except(tile.encountersExits).ToList());
         optimizer.Run();
         tile.OffsetRotation(true);

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class EncounterOptimizer
+public class HexOptimizer
 {
     List<Encounter> encounters;
     public int cScore;
@@ -22,17 +22,14 @@ public class EncounterOptimizer
         OverworldEncounterType.Shop
     };
 
-    public Dictionary<OverworldEncounterType, int[]> targets = new Dictionary<OverworldEncounterType, int[]>() {
-        { OverworldEncounterType.RandomEvent,new int[]{1,2} },
-        { OverworldEncounterType.CombatNormal,new int[]{0,100} },
-        { OverworldEncounterType.CombatElite,new int[]{1,2} },
-        { OverworldEncounterType.Bonfire,new int[]{1,1} },
-        { OverworldEncounterType.Shop,new int[]{0,1} },
-         };
-
+    Dictionary<OverworldEncounterType, int> targets = new Dictionary<OverworldEncounterType, int>();
     Dictionary<OverworldEncounterType, int> typeCounter = new Dictionary<OverworldEncounterType, int>();
 
-    public HashSet<OverworldEncounterType> InARowOK = new HashSet<OverworldEncounterType>() { OverworldEncounterType.CombatNormal };
+
+    HashSet<OverworldEncounterType> Commons = new HashSet<OverworldEncounterType>() { 
+        OverworldEncounterType.CombatNormal, 
+        OverworldEncounterType.RandomEvent 
+    };
 
     public void SetEncounters(List<Encounter> encounters)
     {
@@ -42,6 +39,19 @@ public class EncounterOptimizer
 
         foreach (Encounter enc in encounters)
             typeCounter[enc.encounterType]++;
+
+        int uncommons = (int)(Random.Range(0.4f, 0.5f) * encounters.Count);
+        int commons = encounters.Count - uncommons;
+        targets[OverworldEncounterType.CombatNormal] = Random.Range(0,encounters.Count - uncommons);
+        targets[OverworldEncounterType.RandomEvent] = commons - targets[OverworldEncounterType.CombatNormal];
+
+        targets[OverworldEncounterType.CombatElite] = Random.Range(0, uncommons + 1);
+        uncommons -= targets[OverworldEncounterType.CombatElite];
+        targets[OverworldEncounterType.Bonfire] = Random.Range(0, uncommons + 1);
+        uncommons -= targets[OverworldEncounterType.Bonfire];
+        targets[OverworldEncounterType.Shop] = uncommons;
+
+
 
         cScore = ScoreFull();
         iteration = 0;
@@ -113,8 +123,8 @@ public class EncounterOptimizer
         {
             List<Encounter> neighs = enc.neighboors.Except(visited).ToList();
             foreach(Encounter neigh in neighs)
-                if (!InARowOK.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
-                    retScore--;
+                if (!Commons.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
+                    retScore-=10;
 
             visited.Add(enc);
         }
@@ -127,8 +137,7 @@ public class EncounterOptimizer
 
     private int subScoreType(OverworldEncounterType type, int modifier = 0)
     {
-        return      +Mathf.Min(0, targets[type][1] - (typeCounter[type] + modifier))
-                    +Mathf.Min(0, (typeCounter[type] + modifier) - targets[type][0]);
+        return -Mathf.Abs(targets[type] - (typeCounter[type] + modifier));
     }
 
     private void ShuffleTypes()
