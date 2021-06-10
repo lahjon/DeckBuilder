@@ -7,11 +7,11 @@ public class DatabaseSystem : MonoBehaviour
 {
     public CardDatabase cardDatabase;
     public CardDatabase StartingCardsBrute;
-    public IconDatabase iconDatabase;
     public static DatabaseSystem instance;
 
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
+    public List<Sprite> allOverworldIcons = new List<Sprite>();
 
     private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
 
@@ -81,6 +81,11 @@ public class DatabaseSystem : MonoBehaviour
             idx = Random.Range(0, classCards.Count);
             return classCards[idx];
         }
+    }
+
+    public Sprite GetOverWorldIcon(OverworldEncounterType type)
+    {
+        return allOverworldIcons.Where(x => x.name == "Overworld" + type.ToString()).First();
     }
 
     public List<CardData> GetStartingDeck(string Character = "Brute")

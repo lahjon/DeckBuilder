@@ -34,7 +34,7 @@ public class Encounter : MonoBehaviour
         set
         {
             _encounterType = value;
-            spriteRenderer.sprite = _encounterType.GetIcon();
+            spriteRenderer.sprite = DatabaseSystem.instance.GetOverWorldIcon(value);
         }
     }
     public bool highlighted

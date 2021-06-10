@@ -12918,7 +12918,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardDatabase: {fileID: 11400000, guid: 43b85aa678371cd4083ef7a57bf1470d, type: 2}
   StartingCardsBrute: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}
-  iconDatabase: {fileID: 11400000, guid: 9252a63c9b449bc42b31f46678527cbe, type: 2}
   encountersCombat:
   - {fileID: 11400000, guid: 566232c36ab50154382e041699a0eea7, type: 2}
   - {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
@@ -12929,6 +12928,16 @@ MonoBehaviour:
   encounterEvent:
   - {fileID: 11400000, guid: d8e2e8bbb901b8341a5699524d56a81c, type: 2}
   - {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
+  allOverworldIcons:
+  - {fileID: 21300000, guid: 3bf70c908aa73124a8d2f14af72ce739, type: 3}
+  - {fileID: 21300000, guid: dde104ad52dfd5e4b904381dba1072c1, type: 3}
+  - {fileID: 21300000, guid: 4eaafd3ae080ba4439426a120c04307f, type: 3}
+  - {fileID: 21300000, guid: c61f26cb082ded248afdd661e572dc97, type: 3}
+  - {fileID: 21300000, guid: 4237ee1fd9fc306428afdaee3d79b966, type: 3}
+  - {fileID: 21300000, guid: 6bc807a07d7b3df45b587e6056c0303e, type: 3}
+  - {fileID: 21300000, guid: 95cef0022ecf95743bd6cfe4b9f87329, type: 3}
+  - {fileID: 21300000, guid: c9f35536b1209a847ba8fd2481607ecf, type: 3}
+  - {fileID: 21300000, guid: c5702040bc543e34f846e7924b52784b, type: 3}
 --- !u!4 &1500454268
 Transform:
   m_ObjectHideFlags: 0
