@@ -23,11 +23,11 @@ public class EncounterOptimizer
     };
 
     public Dictionary<OverworldEncounterType, int[]> targets = new Dictionary<OverworldEncounterType, int[]>() {
-        { OverworldEncounterType.RandomEvent,new int[]{0,2} },
+        { OverworldEncounterType.RandomEvent,new int[]{1,2} },
         { OverworldEncounterType.CombatNormal,new int[]{0,100} },
         { OverworldEncounterType.CombatElite,new int[]{1,2} },
         { OverworldEncounterType.Bonfire,new int[]{1,1} },
-        { OverworldEncounterType.Shop,new int[]{0,2} },
+        { OverworldEncounterType.Shop,new int[]{0,1} },
          };
 
     Dictionary<OverworldEncounterType, int> typeCounter = new Dictionary<OverworldEncounterType, int>();
@@ -61,6 +61,7 @@ public class EncounterOptimizer
             foreach(OverworldEncounterType type in types)
             {
                 int probeScore = Probe(chosenEnc, type);
+                Debug.Log(string.Format("{0}: {1} --> {2}, score {3} --> {4}", chosenEnc.name, chosenEnc.encounterType, type, maxScore, probeScore));
                 if(probeScore > maxScore)
                 {
                     maxScore = probeScore;
@@ -68,7 +69,10 @@ public class EncounterOptimizer
                 }
             }
 
+            typeCounter[chosenEnc.encounterType]--;
+            typeCounter[bestType]++;
             chosenEnc.encounterType = bestType;
+
         }
     }
 
@@ -90,7 +94,9 @@ public class EncounterOptimizer
                 retScore--;
         }
 
+        //Remove old partial subscore
         retScore += subScoreType(enc.encounterType, -1) - subScoreType(enc.encounterType);
+        //Calculate new
         retScore += subScoreType(testType, 1) - subScoreType(testType);
 
         return retScore;
@@ -121,8 +127,8 @@ public class EncounterOptimizer
 
     private int subScoreType(OverworldEncounterType type, int modifier = 0)
     {
-        return      -Mathf.Min(0, (targets[type][0] + modifier) - typeCounter[type])
-                    -Mathf.Min(0, typeCounter[type] - (targets[type][1] + modifier));
+        return      +Mathf.Min(0, targets[type][1] - (typeCounter[type] + modifier))
+                    +Mathf.Min(0, (typeCounter[type] + modifier) - targets[type][0]);
     }
 
     private void ShuffleTypes()

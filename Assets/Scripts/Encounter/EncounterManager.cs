@@ -158,7 +158,7 @@ public class EncounterManager : Manager
             Encounter enc = obj.GetComponent<Encounter>();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : (OverworldEncounterType)Random.Range(2, 6);
+            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatNormal;
             enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
@@ -198,6 +198,10 @@ public class EncounterManager : Manager
         {
             AddRoad(e.n1, e.n2);
         }
+
+        EncounterOptimizer optimizer = new EncounterOptimizer();
+        optimizer.SetEncounters(tile.encounters.Except(tile.encountersExits).ToList());
+        optimizer.Run();
         tile.OffsetRotation(true);
     }
 
