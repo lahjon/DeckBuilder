@@ -457,7 +457,7 @@ public class HexTile : MonoBehaviour
     void OnMouseUp()
     {
         //Debug.Log(entryDir);
-        encountersExits.ForEach(x => Debug.Log(x));
+        //encountersExits.ForEach(x => Debug.Log(x));
         //availableDirections.ForEach(x => Debug.Log(x));
         if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement)
             BeginFlipUpNewTile(true);

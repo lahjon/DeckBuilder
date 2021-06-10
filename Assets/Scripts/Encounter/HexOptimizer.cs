@@ -10,7 +10,7 @@ public class HexOptimizer
     List<Encounter> encounters;
     public int cScore;
 
-    public int iterationLimit = 300;
+    public int iterationLimit = 50;
     private int iteration;
     public int targetScore = 0;
 
@@ -42,7 +42,7 @@ public class HexOptimizer
 
         int uncommons = (int)(Random.Range(0.4f, 0.5f) * encounters.Count);
         int commons = encounters.Count - uncommons;
-        targets[OverworldEncounterType.CombatNormal] = Random.Range(0,encounters.Count - uncommons);
+        targets[OverworldEncounterType.CombatNormal] = Random.Range(0,commons);
         targets[OverworldEncounterType.RandomEvent] = commons - targets[OverworldEncounterType.CombatNormal];
 
         targets[OverworldEncounterType.CombatElite] = Random.Range(0, uncommons + 1);
@@ -51,9 +51,12 @@ public class HexOptimizer
         uncommons -= targets[OverworldEncounterType.Bonfire];
         targets[OverworldEncounterType.Shop] = uncommons;
 
+        foreach (OverworldEncounterType type in types)
+            Debug.Log(targets[type]);
 
 
         cScore = ScoreFull();
+        Debug.Log("score: " + cScore);
         iteration = 0;
     }
 
@@ -67,11 +70,12 @@ public class HexOptimizer
             int maxScore = cScore;
             OverworldEncounterType bestType = chosenEnc.encounterType;
 
+            OverworldEncounterType original = chosenEnc.encounterType;
             ShuffleTypes();
             foreach(OverworldEncounterType type in types)
             {
                 int probeScore = Probe(chosenEnc, type);
-                //Debug.Log(string.Format("{0}: {1} --> {2}, score {3} --> {4}", chosenEnc.name, chosenEnc.encounterType, type, maxScore, probeScore));
+                //Debug.Log(string.Format("{0},{1}: {2} --> {3}, score {4} --> {5}", iteration, chosenEnc.name, original, type, cScore, probeScore));
                 if(probeScore > maxScore)
                 {
                     maxScore = probeScore;
@@ -79,10 +83,10 @@ public class HexOptimizer
                 }
             }
 
-            typeCounter[chosenEnc.encounterType]--;
-            typeCounter[bestType]++;
+            typeCounter[original] -= 1;
+            typeCounter[bestType] += 1;
+            cScore = maxScore;
             chosenEnc.encounterType = bestType;
-
         }
     }
 
@@ -98,10 +102,10 @@ public class HexOptimizer
         
         foreach(Encounter neigh in enc.neighboors)
         {
-            if (enc.encounterType == neigh.encounterType)
-                retScore++;
-            if (testType == neigh.encounterType)
-                retScore--;
+            if (!Commons.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
+                retScore+=10;
+            if (!Commons.Contains(testType) &&  testType == neigh.encounterType)
+                retScore-=10;
         }
 
         //Remove old partial subscore
@@ -117,12 +121,9 @@ public class HexOptimizer
     {
         int retScore = 0;
         List<Encounter> visited = new List<Encounter>();
-        
-
-        foreach(Encounter enc in encounters)
+        foreach (Encounter enc in encounters)
         {
-            List<Encounter> neighs = enc.neighboors.Except(visited).ToList();
-            foreach(Encounter neigh in neighs)
+            foreach (Encounter neigh in enc.neighboors.Except(visited))
                 if (!Commons.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
                     retScore-=10;
 

@@ -122,7 +122,6 @@ public class Encounter : MonoBehaviour
 
         tile.encounters.Remove(this);
 
-        Debug.Log("ENTERING!");
         Debug.Log(encounterType);
         Debug.Log(WorldSystem.instance.gridManager.GetEntry(tile).Item2);
         if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is Encounter encEntry)
