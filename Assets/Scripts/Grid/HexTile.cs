@@ -299,19 +299,31 @@ public class HexTile : MonoBehaviour
             entryDir = gridManager.GetEntry(this).Item1;
             tileState = TileState.Animation;
 
-            List<int> requiredExits = gridManager.GetNewExits(this);
-            foreach (int dir in requiredExits)
-            {
-                if(!availableDirections.Contains(dir))
-                {
-                    availableDirections[requiredExits.IndexOf(dir)] = dir;
-                }
-            }
-
+            List<int> requiredExits = new List<int>();
             if (gridManager.bossStarted)
-                WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero}, 0);
+            {
+                requiredExits = gridManager.GetNewExits(this);
+                foreach (int dir in requiredExits)
+                {
+                    if(!availableDirections.Contains(dir))
+                    {
+                        availableDirections[requiredExits.IndexOf(dir)] = dir;
+                    }
+                }
+                WorldSystem.instance.encounterManager.GenerateBossHexEncounter(this);
+            }
             else
+            {
+                requiredExits = gridManager.GetNewExits(this);
+                foreach (int dir in requiredExits)
+                {
+                    if(!availableDirections.Contains(dir))
+                    {
+                        availableDirections[requiredExits.IndexOf(dir)] = dir;
+                    }
+                }
                 WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
+            }
 
             encounterParent.gameObject.SetActive(false);
             roadParent.gameObject.SetActive(false);

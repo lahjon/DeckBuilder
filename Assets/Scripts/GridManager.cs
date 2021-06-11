@@ -280,14 +280,42 @@ public class GridManager : Manager
             {
                 openSlots.UnionWith(CheckOpenNeighbours(tile));
             }
-            if (openSlots.Count > 0)
+            if (bossStarted) 
+            {
+                // try getting the latest completed tile and get any open paths
+                int itemMaxHeight = completedTiles.Max(x => x.turnCompleted);
+                HexTile tile = completedTiles.Where(x => x.turnCompleted == itemMaxHeight).FirstOrDefault();
+                openSlots = CheckOpenNeighbours(tile);
+
+                // set tile if OK, else get all open
+                if(openSlots.Count > 0 && GetTile(openSlots.ToList()[0]) is HexTile t) 
+                    tile = t;
+                else
+                {
+                    List<HexTile> allOpen = new List<HexTile>();
+                    foreach (Vector3Int coord in openSlots)
+                    {
+                        if (GetTile(coord) is HexTile t1)
+                            allOpen.Add(t1);
+                    }
+                    // if all are special tiles, pick a special, else prioritize normal tiles
+                    if (allOpen.All(x => x.specialTile == true))
+                        tile = allOpen[Random.Range(0, allOpen.Count)];
+                    else
+                        tile = allOpen.Except(allOpen.Where(x => x.specialTile == true)).ToList()[Random.Range(0, allOpen.Count)];
+                }
+                
+                tile.spriteRenderer.sprite = inactiveTilesSprite[inactiveTilesSprite.Count - 1];
+                highlightedTiles.Add(tile);
+                tile.tileState = TileState.InactiveHighlight;
+                
+            }
+            else if (openSlots.Count > 0)
             {
                 foreach (Vector3Int coord in openSlots)
                 {
                     if (GetTile(coord) is HexTile tile)
                     {
-                        if (bossStarted) 
-                            tile.spriteRenderer.sprite = inactiveTilesSprite[inactiveTilesSprite.Count - 1];
                         
                         highlightedTiles.Add(tile);
                         tile.tileState = TileState.InactiveHighlight;
