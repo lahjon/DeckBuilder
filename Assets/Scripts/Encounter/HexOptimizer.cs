@@ -31,11 +31,20 @@ public class HexOptimizer
         OverworldEncounterType.RandomEvent 
     };
 
+    public Dictionary<OverworldEncounterType, float> uncommonWeights = new Dictionary<OverworldEncounterType, float>() {
+        {OverworldEncounterType.CombatElite, 1f},
+        {OverworldEncounterType.Shop, 1f},
+        {OverworldEncounterType.Bonfire, 1f}
+    };
+
     public void SetEncounters(List<Encounter> encounters)
     {
         this.encounters = encounters;
         foreach (OverworldEncounterType type in types)
+        {
             typeCounter[type] = 0;
+            targets[type] = 0;
+        }
 
         foreach (Encounter enc in encounters)
             typeCounter[enc.encounterType]++;
@@ -45,18 +54,37 @@ public class HexOptimizer
         targets[OverworldEncounterType.CombatNormal] = Random.Range(0,commons);
         targets[OverworldEncounterType.RandomEvent] = commons - targets[OverworldEncounterType.CombatNormal];
 
-        targets[OverworldEncounterType.CombatElite] = Random.Range(0, uncommons + 1);
-        uncommons -= targets[OverworldEncounterType.CombatElite];
-        targets[OverworldEncounterType.Bonfire] = Random.Range(0, uncommons + 1);
-        uncommons -= targets[OverworldEncounterType.Bonfire];
-        targets[OverworldEncounterType.Shop] = uncommons;
+        List<OverworldEncounterType> uncommonTypes = uncommonWeights.Keys.ToList();
+        float[] uncommonRands = new float[uncommonTypes.Count];
+        for(int i = 0; i < uncommonTypes.Count; i++)
+            uncommonRands[i] = Random.Range(0f, 1f) * uncommonWeights[uncommonTypes[i]];
+
+        InPlaceNormalize(uncommonRands);
+
+        float[] uncommonCurrentWeights = new float[uncommonTypes.Count];
+        for(int i = 0; i < uncommons; i++)
+        {
+            float maxDistance = float.MinValue;
+            int maxIndex = 0;
+            for(int j = 0; j < uncommonTypes.Count; j++)
+            {
+                if(uncommonRands[j] - uncommonCurrentWeights[j] > maxDistance)
+                {
+                    maxDistance = uncommonRands[j] - uncommonCurrentWeights[j];
+                    maxIndex = j;
+                }
+            }
+            targets[uncommonTypes[maxIndex]]++;
+            
+            for(int j = 0; j< uncommonTypes.Count; j++)
+                uncommonCurrentWeights[j] = targets[uncommonTypes[j]]/(i+1);
+        }
+
 
         foreach (OverworldEncounterType type in types)
-            Debug.Log(targets[type]);
-
+            Debug.Log(type + ":" + targets[type]);
 
         cScore = ScoreFull();
-        Debug.Log("score: " + cScore);
         iteration = 0;
     }
 
@@ -150,5 +178,14 @@ public class HexOptimizer
             types[i] = types[index];
             types[index] = temp;
         }
+    }
+
+    private void InPlaceNormalize(float[] vector)
+    {
+        float sum = 0;
+        for (int i = 0; i < vector.Length; i++)
+            sum += vector[i];
+        for (int i = 0; i < vector.Length; i++)
+            vector[i] /= sum;
     }
 }
