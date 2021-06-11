@@ -26,12 +26,12 @@ public class HexOptimizer
     Dictionary<OverworldEncounterType, int> typeCounter = new Dictionary<OverworldEncounterType, int>();
 
 
-    HashSet<OverworldEncounterType> Commons = new HashSet<OverworldEncounterType>() { 
-        OverworldEncounterType.CombatNormal, 
-        OverworldEncounterType.RandomEvent 
+    public Dictionary<OverworldEncounterType, float> commons = new Dictionary<OverworldEncounterType, float>() {
+        {OverworldEncounterType.CombatNormal, 1f},
+        {OverworldEncounterType.RandomEvent, 1f},
     };
 
-    public Dictionary<OverworldEncounterType, float> uncommonWeights = new Dictionary<OverworldEncounterType, float>() {
+    public Dictionary<OverworldEncounterType, float> uncommons = new Dictionary<OverworldEncounterType, float>() {
         {OverworldEncounterType.CombatElite, 1f},
         {OverworldEncounterType.Shop, 1f},
         {OverworldEncounterType.Bonfire, 1f}
@@ -39,50 +39,24 @@ public class HexOptimizer
 
     public void SetEncounters(List<Encounter> encounters)
     {
-        this.encounters = encounters;
+        this.encounters = new List<Encounter>(encounters);
         foreach (OverworldEncounterType type in types)
-        {
-            typeCounter[type] = 0;
             targets[type] = 0;
-        }
+        
+        DrawTargets();
 
-        foreach (Encounter enc in encounters)
-            typeCounter[enc.encounterType]++;
-
-        int uncommons = (int)(Random.Range(0.4f, 0.5f) * encounters.Count);
-        int commons = encounters.Count - uncommons;
-        targets[OverworldEncounterType.CombatNormal] = Random.Range(0,commons);
-        targets[OverworldEncounterType.RandomEvent] = commons - targets[OverworldEncounterType.CombatNormal];
-
-        List<OverworldEncounterType> uncommonTypes = uncommonWeights.Keys.ToList();
-        float[] uncommonRands = new float[uncommonTypes.Count];
-        for(int i = 0; i < uncommonTypes.Count; i++)
-            uncommonRands[i] = Random.Range(0f, 1f) * uncommonWeights[uncommonTypes[i]];
-
-        InPlaceNormalize(uncommonRands);
-
-        float[] uncommonCurrentWeights = new float[uncommonTypes.Count];
-        for(int i = 0; i < uncommons; i++)
-        {
-            float maxDistance = float.MinValue;
-            int maxIndex = 0;
-            for(int j = 0; j < uncommonTypes.Count; j++)
-            {
-                if(uncommonRands[j] - uncommonCurrentWeights[j] > maxDistance)
-                {
-                    maxDistance = uncommonRands[j] - uncommonCurrentWeights[j];
-                    maxIndex = j;
-                }
-            }
-            targets[uncommonTypes[maxIndex]]++;
-            
-            for(int j = 0; j< uncommonTypes.Count; j++)
-                uncommonCurrentWeights[j] = targets[uncommonTypes[j]]/(i+1);
-        }
-
+        //init with correct targets
+        ShuffleEncounters();
+        int cursor = 0;
+        foreach(OverworldEncounterType type in types)
+            for(int i = 0; i < targets[type]; i++)
+                this.encounters[cursor++].encounterType = type;
 
         foreach (OverworldEncounterType type in types)
+        {
+            typeCounter[type] = targets[type];
             Debug.Log(type + ":" + targets[type]);
+        }
 
         cScore = ScoreFull();
         iteration = 0;
@@ -90,7 +64,9 @@ public class HexOptimizer
 
     public void Run()
     {
-        while(cScore != 0 && iteration++ < iterationLimit)
+        int resetLimit = 10;
+        int resetCount = 0;
+        while (cScore != 0 && iteration++ < iterationLimit)
         {
             int idEnc = Random.Range(0, encounters.Count);
             Encounter chosenEnc = encounters[idEnc];
@@ -100,11 +76,11 @@ public class HexOptimizer
 
             OverworldEncounterType original = chosenEnc.encounterType;
             ShuffleTypes();
-            foreach(OverworldEncounterType type in types)
+            foreach (OverworldEncounterType type in types)
             {
                 int probeScore = Probe(chosenEnc, type);
                 //Debug.Log(string.Format("{0},{1}: {2} --> {3}, score {4} --> {5}", iteration, chosenEnc.name, original, type, cScore, probeScore));
-                if(probeScore > maxScore)
+                if (probeScore > maxScore)
                 {
                     maxScore = probeScore;
                     bestType = type;
@@ -113,8 +89,17 @@ public class HexOptimizer
 
             typeCounter[original] -= 1;
             typeCounter[bestType] += 1;
+            resetCount = cScore == maxScore ? resetCount + 1 : 0;
+
             cScore = maxScore;
             chosenEnc.encounterType = bestType;
+
+            if (resetCount == resetLimit)
+            {
+                Debug.Log("restarting hexOptimizer");
+                resetCount = 0;
+                SetEncounters(encounters);
+            }
         }
     }
 
@@ -127,13 +112,13 @@ public class HexOptimizer
     {
         int retScore = 0;
         if (enc.encounterType == testType) return retScore;
-        
-        foreach(Encounter neigh in enc.neighboors)
+
+        foreach (Encounter neigh in enc.neighboors)
         {
-            if (!Commons.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
-                retScore+=10;
-            if (!Commons.Contains(testType) &&  testType == neigh.encounterType)
-                retScore-=10;
+            if (!commons.Keys.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
+                retScore += 10;
+            if (!commons.Keys.Contains(testType) && testType == neigh.encounterType)
+                retScore -= 10;
         }
 
         //Remove old partial subscore
@@ -152,8 +137,8 @@ public class HexOptimizer
         foreach (Encounter enc in encounters)
         {
             foreach (Encounter neigh in enc.neighboors.Except(visited))
-                if (!Commons.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
-                    retScore-=10;
+                if (!commons.Keys.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
+                    retScore -= 10;
 
             visited.Add(enc);
         }
@@ -171,7 +156,7 @@ public class HexOptimizer
 
     private void ShuffleTypes()
     {
-        for(int i = 0; i < types.Length-1; i++)
+        for (int i = 0; i < types.Length - 1; i++)
         {
             OverworldEncounterType temp = types[i];
             int index = Random.Range(i, types.Length);
@@ -180,12 +165,55 @@ public class HexOptimizer
         }
     }
 
-    private void InPlaceNormalize(float[] vector)
+    private void ShuffleEncounters()
     {
-        float sum = 0;
-        for (int i = 0; i < vector.Length; i++)
-            sum += vector[i];
-        for (int i = 0; i < vector.Length; i++)
-            vector[i] /= sum;
+        for (int i = 0; i < encounters.Count - 1; i++)
+        {
+            Encounter temp = encounters[i];
+            int index = Random.Range(i, encounters.Count);
+            encounters[i] = encounters[index];
+            encounters[index] = temp;
+        }
     }
+
+    private void DrawTargets()
+    {
+        int slotsUncommon   = (int)(Random.Range(0.4f, 0.5f) * encounters.Count);
+        int slotsCommon     = encounters.Count - slotsUncommon;
+
+        InitTargetGroup(commons, slotsCommon);
+        InitTargetGroup(uncommons, slotsUncommon);
+       
+    }
+
+    private void InitTargetGroup(Dictionary<OverworldEncounterType,float> group, int slots)
+    {
+        List<OverworldEncounterType> types = group.Keys.ToList();
+        float[] rands = new float[types.Count];
+        float sum = 0;
+        for (int i = 0; i < group.Keys.Count; i++)
+            sum += (rands[i] = Random.Range(0f, 1f) * group[types[i]]);
+        for (int i = 0; i < types.Count; i++)
+            rands[i] /= sum;
+
+        float[] currentWeights = new float[types.Count];
+        for (int i = 0; i < slots; i++)
+        {
+            float maxDistance = float.MinValue;
+            int maxIndex = 0;
+            for (int j = 0; j < types.Count; j++)
+            {
+                if (rands[j] - currentWeights[j] > maxDistance)
+                {
+                    maxDistance = rands[j] - currentWeights[j];
+                    maxIndex = j;
+                }
+            }
+            targets[types[maxIndex]]++;
+
+            for (int j = 0; j < types.Count; j++)
+                currentWeights[j] = targets[types[j]] / (i + 1);
+        }
+    }
+
 }
