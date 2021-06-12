@@ -287,29 +287,27 @@ public class HexTile : MonoBehaviour
         lockedDirections = directions;
     }
 
-    public float BeginFlipUpNewTile(bool enterPlacement = false)
+    public float BeginFlipUpNewTile(bool enterPlacement = false, bool emptyTile = false)
     {
         spriteRenderer.color = Color.white;
         if (enterPlacement)
         {
             Activate(false);
-            Debug.Log(transform.localScale);
-            gridManager.animator.SetBool("IsPlacing", true);
-            hexMapController.FocusTile(this, ZoomState.Inner, true);
-            entryDir = gridManager.GetEntry(this).Item1;
+            if(!emptyTile)
+            {
+                gridManager.animator.SetBool("IsPlacing", true);
+                hexMapController.FocusTile(this, ZoomState.Inner, true);
+                entryDir = gridManager.GetEntry(this).Item1;
+            }
             tileState = TileState.Animation;
 
             List<int> requiredExits = new List<int>();
-            if (gridManager.bossStarted)
+            if (gridManager.bossStarted || emptyTile)
             {
                 requiredExits = gridManager.GetNewExits(this);
-                foreach (int dir in requiredExits)
-                {
-                    if(!availableDirections.Contains(dir))
-                    {
-                        availableDirections[requiredExits.IndexOf(dir)] = dir;
-                    }
-                }
+                availableDirections = requiredExits;
+                availableDirections.Add((requiredExits[0] + 2 + 6) % 6);
+                availableDirections.Add((requiredExits[0] + 4 + 6) % 6);
                 WorldSystem.instance.encounterManager.GenerateBossHexEncounter(this);
             }
             else
@@ -349,7 +347,6 @@ public class HexTile : MonoBehaviour
         roadParent.gameObject.SetActive(true);
 
         if (gridManager.bossStarted) gridManager.UpdateIcons();
-        //availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
         if (enterPlacement)
         {
             spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];

@@ -262,12 +262,24 @@ public class GridManager : Manager
 
     public void AddRandomExit()
     {
-        //HexTile tile = GetRandomCompletedTile(furthestRowReached);
+        
+
+        StartCoroutine(AnimateRandomExit());
+        
+
         // ADD LOGIC HERE TO FIX THE BROKEN ENTRIES
         Debug.Log("stranger danger!");
 
         //HighlightEntries();
         
+    }
+
+    IEnumerator AnimateRandomExit()
+    {
+        HexTile tile = GetRandomTile(furthestRowReached);
+        yield return new WaitForSeconds(tile.BeginFlipUpNewTile(true, false));
+        tile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
+        HighlightEntries();
     }
 
     public void HighlightEntries()
@@ -285,10 +297,10 @@ public class GridManager : Manager
                 // try getting the latest completed tile and get any open paths
                 int itemMaxHeight = completedTiles.Max(x => x.turnCompleted);
                 HexTile tile = completedTiles.Where(x => x.turnCompleted == itemMaxHeight).FirstOrDefault();
-                openSlots = CheckOpenNeighbours(tile);
+                HashSet<Vector3Int> prioSlot = CheckOpenNeighbours(tile);
 
                 // set tile if OK, else get all open
-                if(openSlots.Count > 0 && GetTile(openSlots.ToList()[0]) is HexTile t) 
+                if(prioSlot.Count > 0 && GetTile(prioSlot.ToList()[0]) is HexTile t) 
                     tile = t;
                 else
                 {
@@ -658,7 +670,7 @@ public class GridManager : Manager
             return GetTile(Vector3Int.zero);
         }
 
-        foreach (Vector3Int tile in tiles.Keys.Except(specialTiles.ConvertAll(x => x.coord)))
+        foreach (Vector3Int tile in tiles.Keys.Except(specialTiles.ConvertAll(x => x.coord)).Except(completedTiles.ConvertAll(x => x.coord)))
         {
             HashSet<int> tileList = VectorToArray(tile);
 
