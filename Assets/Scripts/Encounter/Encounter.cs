@@ -73,13 +73,14 @@ public class Encounter : MonoBehaviour
         set
         {
             _status = value;
-            tweenAction1?.Kill();
-            tweenAction2?.Kill();
+            CancelAnimation();
 
             if (_status == EncounterHexStatus.Selectable)
                 AnimateEncounter();
             if(_status == EncounterHexStatus.Visited)
+            {
                 spriteRenderer.color = new Color32(50, 50, 50,255);
+            }
             else if(_status == EncounterHexStatus.Unreachable)
                 spriteRenderer.color = new Color32(200, 200, 200, 255);
             else
@@ -89,21 +90,26 @@ public class Encounter : MonoBehaviour
 
     public void Awake()
     {
+        
+    }
+
+    public void Init()
+    {
         startingScale = transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void AnimateEncounter()
     {
-        //tweenAction = DOTween.To(() => transform.localScale, x => transform.localScale = x, startingScale * 1.2f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        Debug.Log("Start animation " + this);
         transform.localScale *= 1.3f;
         tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
-        //tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = new Color(.8f, .8f, .8f, 1f));
         tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
     }
 
     public void AnimateEncounterHighlight()
     {
+        Debug.Log("Start animation " + this);
         transform.localScale *= 1.5f;
         tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
         tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
@@ -113,17 +119,16 @@ public class Encounter : MonoBehaviour
     {
         tweenAction1?.Kill();
         tweenAction2?.Kill();
+        Debug.Log("Cancel animation " + this);
     }
 
     public IEnumerator Entering()
     {
         transform.localScale = startingScale*1.5f;
         status = EncounterHexStatus.Visited;
+        Debug.Log("STATUS: " + this);
 
         tile.encounters.Remove(this);
-
-        Debug.Log(encounterType);
-        Debug.Log(WorldSystem.instance.gridManager.GetEntry(tile).Item2);
         if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is Encounter encEntry)
         {
             EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(encEntry, this, true);

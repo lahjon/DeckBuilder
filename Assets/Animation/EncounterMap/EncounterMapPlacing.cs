@@ -8,7 +8,6 @@ public class EncounterMapPlacing : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Placement;
-        animator.SetBool("IsRotating", true);
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

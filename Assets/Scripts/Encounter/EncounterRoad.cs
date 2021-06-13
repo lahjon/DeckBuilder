@@ -30,7 +30,7 @@ public class EncounterRoad : MonoBehaviour
         foreach (SpriteRenderer r in roadSprites)
         {
             r.color = new Color32(255, 255, 255, 255);
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.10f);
         }
         _status = EncounterRoadStatus.Traversed;
         yield return null;

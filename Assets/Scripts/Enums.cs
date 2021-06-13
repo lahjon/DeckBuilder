@@ -297,6 +297,7 @@ public enum OverworldEncounterType
     CombatNormal = 4,
     CombatElite = 5,
     CombatBoss = 6,
+    Cave,
     Bonfire
 }
 

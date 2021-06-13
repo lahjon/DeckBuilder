@@ -17,10 +17,17 @@ public static class DatabaseUpdateOnStart
         UpdateAllArtifacts();
         UpdateAllCharacters();
         UpdateUImanager();
+        UpdateAllEncounterIcons();
 
         EditorApplication.isPlaying = startPlaying;
         Debug.Log("Updated Database");
     }
+
+    private static void UpdateAllEncounterIcons()
+    {
+        //DatabaseSystem.instance.allOverworldIcons;
+    }
+
     static void UpdateAllCards()
     {
         List<CardData> cards = new List<CardData>();

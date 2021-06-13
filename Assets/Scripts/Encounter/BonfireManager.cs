@@ -41,6 +41,11 @@ public class BonfireManager : Manager
         WorldStateSystem.SetInBonfire(false);
     }
 
+    // IEnumerator Rest()
+    // {
+
+    // }
+
     public void ButtonRest()
     {
         Rest();

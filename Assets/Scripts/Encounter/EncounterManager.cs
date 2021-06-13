@@ -28,15 +28,7 @@ public class EncounterManager : Manager
 
     public GameObject templateHexEncounter; 
 
-    [HideInInspector]
-    public GameObject encounterParent; 
-    //public Transform roadParent; 
-
-
-    public Vector3 GetStartPositionEncounter()
-    {
-        return overworldEncounters[0].transform.position;
-    }
+    [HideInInspector] public GameObject encounterParent; 
 
     protected override void Awake()
     {
@@ -92,6 +84,7 @@ public class EncounterManager : Manager
         {
             GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
             Encounter enc = obj.GetComponent<Encounter>();
+            enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit :OverworldEncounterType.Start;
@@ -102,7 +95,6 @@ public class EncounterManager : Manager
         }
 
         Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
-
         foreach(Encounter enc in tile.encountersExits)
         {
             enc.neighboors.Add(middleEnc);
@@ -149,6 +141,7 @@ public class EncounterManager : Manager
         {
             GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent) as GameObject;
             Encounter enc = obj.GetComponent<Encounter>();
+            enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatNormal;
@@ -210,6 +203,7 @@ public class EncounterManager : Manager
         {
             GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
             Encounter enc = obj.GetComponent<Encounter>();
+            enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatBoss;

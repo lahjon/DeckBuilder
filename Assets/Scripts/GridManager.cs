@@ -93,9 +93,9 @@ public class GridManager : Manager
                                                             };
 
     List<int> nrDirections = new List<int>() { 0, 1, 2, 3, 4, 5 };
-    int rotateCounter;
-    float rotationAmount;
-    [SerializeField] Button buttonRotateLeft, buttonRotateRight; 
+    public int rotateCounter;
+    public float rotationAmount;
+    public Button buttonRotateLeft, buttonRotateRight, buttonRotateConfirm; 
 
     protected override void Awake()
     {
@@ -171,8 +171,6 @@ public class GridManager : Manager
         // create a 0,0,0 start tile and activate it
         HexTile firstTile = GetTile(Vector3Int.zero);
         firstTile.gameObject.SetActive(true);
-        //world.encounterManager.GenerateHexEncounters(firstTile);
-        firstTile.Activate();
         firstTile.spriteRenderer.sprite = activeTilesSprite[(int)firstTile.tileBiome];
         firstTile.LockDirections();
 
@@ -181,7 +179,6 @@ public class GridManager : Manager
         firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
         yield return new WaitForSeconds(timer);
 
-        WorldSystem.instance.encounterManager.GenerateInitialHexEncounters(firstTile);
         yield return StartCoroutine(firstTile.AnimateVisible());
 
         hexMapController.Zoom(ZoomState.Outer, null, true);
@@ -233,6 +230,24 @@ public class GridManager : Manager
         world.uiManager.UIWarningController.CreateWarning("Starting Boss fight!");
     }
 
+    public void CompleteEmptyTile(HexTile tile)
+    {
+        if (tile != null)
+        {
+            List<int> tileList = new List<int>();
+            VectorToArray(tile.coord).ToList().ForEach(x => tileList.Add(Mathf.Abs(x)));
+            tile.CloseExists();
+            tileList.Sort();
+
+            if (tileList[tileList.Count - 1] > furthestRowReached)
+            {
+                furthestRowReached = tileList[tileList.Count - 1];
+            }
+
+            tile.tileState = TileState.Completed;
+        }
+    }
+
     public void CompleteCurrentTile()
     {
         if (currentTile != null)
@@ -252,36 +267,17 @@ public class GridManager : Manager
             animator.SetBool("IsPlaying", false);
         }
     }
-
-    public void CreateBossTile()
+    public void AddRandomExit(int row)
     {
-        HexTile tile = highlightedTiles.ToArray().Except(specialTiles).ToArray()[Random.Range(0, highlightedTiles.Count)];
-        Debug.Log(tile);
-        tile.BeginFlipUpNewTile();
-    }
-
-    public void AddRandomExit()
-    {
-        
-
-        StartCoroutine(AnimateRandomExit());
-        
-
-        // ADD LOGIC HERE TO FIX THE BROKEN ENTRIES
         Debug.Log("stranger danger!");
+        if (row == 0) return;
 
-        //HighlightEntries();
-        
+        HexTile tile = GetRandomTile(row);
+        if (tile == null) 
+            AddRandomExit(row + 1);
+        else 
+            tile.FlipEmptyTile();
     }
-
-    IEnumerator AnimateRandomExit()
-    {
-        HexTile tile = GetRandomTile(furthestRowReached);
-        yield return new WaitForSeconds(tile.BeginFlipUpNewTile(true, false));
-        tile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
-        HighlightEntries();
-    }
-
     public void HighlightEntries()
     {
         highlightedTiles.Clear();
@@ -336,7 +332,7 @@ public class GridManager : Manager
             }
             else
             {
-                AddRandomExit();
+                AddRandomExit(furthestRowReached);
             }
         }
     }
@@ -381,7 +377,6 @@ public class GridManager : Manager
             for (int r = r1; r <= r2; r++)
             {
                 tile = AddTile(new Vector3Int(q, r, -q-r));
-                //WorldSystem.instance.encounterManager.GenerateHexEncounters(tile);
                 tile.transform.localScale = Vector3.zero;
                 tile.tileState = TileState.Inactive;
                 tile.gameObject.SetActive(false);
@@ -420,51 +415,11 @@ public class GridManager : Manager
             return Vector3Int.zero;
         }
     }
+
     public void ButtonRotate(bool clockwise)
     {
-        if (activeTile is null) return;
-
-        if (rotateCounter > 6)
-        {
-            Debug.Log("Shouldnt Happen");
-            rotateCounter = 0;
-            return;
-        }
-
-        if (activeTile.encounterEntry != null)
-            activeTile.encounterEntry.CancelAnimation();
-
-        int sign = clockwise ? 1 : -1;
-        for (int i = 0; i < activeTile.availableDirections.Count; i++)
-            activeTile.availableDirections[i] = (activeTile.availableDirections[i] + sign + 6) % 6;
-
-        for (int i = 0; i < activeTile.encountersExits.Count; i++)
-            activeTile.encountersExits[i].coordinates = HexTile.positionsExit[(activeTile.encountersExits[i].ExitDirection() + sign + 6) % 6];
-
-        rotationAmount += sign*60;
-
-        if (!TilePlacementValid(activeTile))
-        {
-            ButtonRotate(clockwise);
-            rotateCounter++;
-        }
-        else
-        {
-            buttonRotateLeft.enabled = false;
-            buttonRotateRight.enabled = false;
-            activeTile.OffsetRotation();
-            
-            activeTile.transform.DORotate(new Vector3(0, 0, activeTile.transform.localRotation.eulerAngles.z + rotationAmount), 0.5f, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
-                buttonRotateLeft.enabled = true;
-                buttonRotateRight.enabled = true;
-                rotationAmount = 0;
-                rotateCounter = 0;
-                activeTile.encountersExits.ForEach(x => x.UpdateEntry());
-                activeTile.MatchRotation();
-            });
-        }
-
-            
+        if (activeTile != null) activeTile.RotateTile(clockwise);
+        
     }
 
     public int InvertDirection(int direction) => (direction - 3 + 6) % 6;
@@ -841,6 +796,15 @@ public class GridManager : Manager
         {
             tiles.Add(coord, tile);
         }
+
+        tile.Init();
+        if (coord != Vector3.zero)
+            world.encounterManager.GenerateHexEncounters(tile, new List<Vector3Int>() { Vector3Int.zero});
+        else
+            world.encounterManager.GenerateInitialHexEncounters(tile);
+    
+        tile.ContentVisible(false);
+        
         return tile;
     }
 }

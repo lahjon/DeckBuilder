@@ -12937,6 +12937,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6bc807a07d7b3df45b587e6056c0303e, type: 3}
   - {fileID: 21300000, guid: 95cef0022ecf95743bd6cfe4b9f87329, type: 3}
   - {fileID: 21300000, guid: c9f35536b1209a847ba8fd2481607ecf, type: 3}
+  - {fileID: 21300000, guid: fb5a2231fcc976f4492c4d6de3813048, type: 3}
   - {fileID: 21300000, guid: c5702040bc543e34f846e7924b52784b, type: 3}
 --- !u!4 &1500454268
 Transform:
@@ -15527,11 +15528,11 @@ MonoBehaviour:
       - m_Target: {fileID: 1848971789}
         m_TargetAssemblyTypeName: GridManager, Assembly-CSharp
         m_MethodName: AddRandomExit
-        m_Mode: 1
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -16270,15 +16271,18 @@ MonoBehaviour:
   content: {fileID: 1380248318}
   hexMapController: {fileID: 0}
   currentTurn: 0
-  tilesUntilBoss: 2
+  tilesUntilBoss: 5
   bossStarted: 0
   hexScale: 0.3765092
   initialized: 0
   tileParent: {fileID: 624123282}
   roadParent: {fileID: 0}
   subAct: 0
+  rotateCounter: 0
+  rotationAmount: 0
   buttonRotateLeft: {fileID: 2037849953}
   buttonRotateRight: {fileID: 180596911}
+  buttonRotateConfirm: {fileID: 1261620419}
 --- !u!224 &1848971790
 RectTransform:
   m_ObjectHideFlags: 0

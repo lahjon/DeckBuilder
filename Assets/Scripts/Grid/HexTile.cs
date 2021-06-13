@@ -179,6 +179,7 @@ public class HexTile : MonoBehaviour
     public IEnumerator AnimateVisible()
     {
         float timer = 0.1f * Helpers.timeMultiplier * .5f;
+        ContentVisible(true);
         for (int i = 0; i < encounterParent.childCount; i++)
         {
             // turn off nodes
@@ -227,17 +228,12 @@ public class HexTile : MonoBehaviour
         colorTween?.Kill();
         spriteRenderer.color = normalColor;
     }
-
     public void Init()
     {
         gridManager = WorldSystem.instance.gridManager;
         hexMapController = gridManager.GetComponent<HexMapController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         EncountersInitializePositions(posToEncounter, gridWidth);
-    }
-
-    public void Activate(bool activeDebug = true)
-    {
         if (coord == Vector3.zero)
         {
             if(Random.Range(0,2) == 0)
@@ -249,23 +245,9 @@ public class HexTile : MonoBehaviour
         {
             availableDirections = gridManager.AddNeighbours();
         }
-        if (activeDebug)
-        {
-            availableDirections.ForEach(x => exits[x].gameObject.SetActive(true));
-        }
 
-        spriteRenderer.sprite = gridManager.activeTilesSprite[0];
+        //spriteRenderer.sprite = gridManager.activeTilesSprite[0];
     }
-
-    // public void CloseExits(List<int> openExists)
-    // {
-    //     // close all exists not connecting to the placed hex
-    //     List<int> closedDirections = availableDirections.Except(lockedDirections).Except(openExists).ToList();
-    //     availableDirections = availableDirections.Except(closedDirections).ToList();
-
-    //     // debug to display exists that are no longer available
-    //     closedDirections.ForEach(x => exits[x].GetComponent<SpriteRenderer>().color = Color.red);
-    // }
 
     public void CloseExits(int dir)
     {
@@ -275,6 +257,12 @@ public class HexTile : MonoBehaviour
 
         // debug to display exists that are no longer available
         closedDirections.ForEach(x => exits[x].GetComponent<SpriteRenderer>().color = Color.red);
+    }
+
+    public void ContentVisible(bool visibility)
+    {
+        encounterParent.gameObject.SetActive(visibility);
+        roadParent.gameObject.SetActive(visibility);
     }
 
     public void LockDirections(List<int> directions = null)
@@ -287,97 +275,180 @@ public class HexTile : MonoBehaviour
         lockedDirections = directions;
     }
 
-    public float BeginFlipUpNewTile(bool enterPlacement = false, bool emptyTile = false)
+    void DeleteAllContent()
     {
+        for (int i = 0; i < encounterParent.childCount; i++)
+        {
+            Destroy(encounterParent.GetChild(i).gameObject);
+        }
+        for (int i = 0; i < roadParent.childCount; i++)
+        {
+            Destroy(roadParent.GetChild(i).gameObject);
+        }
+        encounterEntry = null;
+        encountersExits.Clear();
+        encounters.Clear();
+        availableDirections.Clear();
+    }
+
+    public void FlipEmptyTile()
+    {
+        // start flip
+        DeleteAllContent();
         spriteRenderer.color = Color.white;
+        if(Random.Range(0,2) == 0)
+            availableDirections = new List<int>{0,2,4};
+        else
+            availableDirections = new List<int>{1,3,5};
+            
+        WorldSystem.instance.encounterManager.GenerateInitialHexEncounters(this);
+        posToEncounter[Vector3Int.zero].encounterType = OverworldEncounterType.Cave;
+
+        encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
+
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.4f).setEaseInCubic().setOnComplete(() => 
+        {
+            // mid flip
+            ContentVisible(true);
+            spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
+
+            LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.2f).setEaseOutCubic().setOnComplete(() => 
+            {
+                //end flip
+                gridManager.CompleteEmptyTile(this);
+                gridManager.HighlightEntries();
+
+            }
+        );
+        });
+    }
+    
+
+    public float BeginFlipUpNewTile(bool enterPlacement = false)
+    {
         if (enterPlacement)
         {
-            Activate(false);
-            if(!emptyTile)
-            {
-                gridManager.animator.SetBool("IsPlacing", true);
-                hexMapController.FocusTile(this, ZoomState.Inner, true);
-                entryDir = gridManager.GetEntry(this).Item1;
-            }
+            if (specialTile || gridManager.bossStarted)
+                spriteRenderer.sprite = gridManager.inactiveTilesSprite[0];
+
+            spriteRenderer.color = Color.white;
+            gridManager.animator.SetBool("IsPlacing", true);
+            hexMapController.FocusTile(this, ZoomState.Inner, true);
+            entryDir = gridManager.GetEntry(this).Item1;
             tileState = TileState.Animation;
 
             List<int> requiredExits = new List<int>();
-            if (gridManager.bossStarted || emptyTile)
+            if (gridManager.bossStarted)
             {
+                DeleteAllContent();
                 requiredExits = gridManager.GetNewExits(this);
                 availableDirections = requiredExits;
                 availableDirections.Add((requiredExits[0] + 2 + 6) % 6);
                 availableDirections.Add((requiredExits[0] + 4 + 6) % 6);
                 WorldSystem.instance.encounterManager.GenerateBossHexEncounter(this);
+                RotateTile(true, true);
             }
             else
-            {
-                requiredExits = gridManager.GetNewExits(this);
-                foreach (int dir in requiredExits)
-                {
-                    if(!availableDirections.Contains(dir))
-                    {
-                        availableDirections[requiredExits.IndexOf(dir)] = dir;
-                    }
-                }
-                WorldSystem.instance.encounterManager.GenerateHexEncounters(this, new List<Vector3Int>() { Vector3Int.zero});
-            }
-
-            encounterParent.gameObject.SetActive(false);
-            roadParent.gameObject.SetActive(false);
+                RotateTile(true, true);
         }
         else
         {
             SetSpecialImage();
         }
 
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.5f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile(enterPlacement));
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.4f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile(enterPlacement));
         return 1f;
     }
 
     public void SetSpecialImage()
     {
         spriteRenderer.sprite = gridManager.inactiveTilesSprite[(int)tileBiome];
-        spriteRenderer.color = completedColor;
+        //spriteRenderer.color = completedColor;
     }
 
     public void EndFlipUpNewTile(bool enterPlacement)
     {
-        encounterParent.gameObject.SetActive(true);
-        roadParent.gameObject.SetActive(true);
-
         if (gridManager.bossStarted) gridManager.UpdateIcons();
         if (enterPlacement)
         {
+            ContentVisible(true);
             spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
             gridManager.currentTurn++;
             turnCompleted = gridManager.currentTurn;
-            hexMapController.disableZoom = false;
             encountersExits.ForEach(x => x.UpdateEntry());
         }
         
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.5f).setEaseOutCubic().setOnComplete(
-            () => CompleteFlip()
+        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.2f).setEaseOutCubic().setOnComplete(
+            () => CompleteFlip(enterPlacement)
         );
     }
 
-    void CompleteFlip()
+    void CompleteFlip(bool enterPlacement)
     {
-        if (gridManager.initialized)
+        if (enterPlacement)
         {
+            hexMapController.disableZoom = false;
             tileState = TileState.Placement;
-            StartPlacement();
+            startPosition = transform.position;
+            gridManager.activeTile = this;
+            gridManager.animator.SetBool("IsRotating", true);
+        }
+    }
+    public void RotateTile(bool clockwise, bool instant = false)
+    {
+        if (gridManager.rotateCounter > 6)
+        {
+            Debug.Log("Shouldnt Happen");
+            gridManager.rotateCounter = 0;
+            return;
         }
 
-        //WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
-    }
+        if (encounterEntry != null)
+            encounterEntry.CancelAnimation();
 
+        int sign = clockwise ? 1 : -1;
+        for (int i = 0; i < availableDirections.Count; i++)
+            availableDirections[i] = (availableDirections[i] + sign + 6) % 6;
 
-    void StartPlacement()
-    {
-        startPosition = transform.position;
-        //spriteRenderer.sortingOrder += 1;
-        gridManager.activeTile = this;
+        for (int i = 0; i < encountersExits.Count; i++)
+            encountersExits[i].coordinates = HexTile.positionsExit[(encountersExits[i].ExitDirection() + sign + 6) % 6];
+
+        gridManager.rotationAmount += sign*60;
+
+        if (!gridManager.TilePlacementValid(this))
+        {
+            RotateTile(clockwise, instant);
+            gridManager.rotateCounter++;
+        }
+        else
+        {
+            if (instant)
+            {
+                //OffsetRotation(true);
+                transform.Rotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + gridManager.rotationAmount));
+                gridManager.rotationAmount = 0;
+                gridManager.rotateCounter = 0;
+                //encountersExits.ForEach(x => x.UpdateEntry());
+                MatchRotation();
+            }
+            else
+            {
+                gridManager.buttonRotateConfirm.interactable = false;
+                gridManager.buttonRotateLeft.interactable = false;
+                gridManager.buttonRotateRight.interactable = false;
+                OffsetRotation();
+                float timer = 0.5f;
+                transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + gridManager.rotationAmount), timer, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
+                    gridManager.buttonRotateLeft.interactable = true;
+                    gridManager.buttonRotateRight.interactable = true;
+                    gridManager.buttonRotateConfirm.interactable = true;
+                    gridManager.rotationAmount = 0;
+                    gridManager.rotateCounter = 0;
+                    encountersExits.ForEach(x => x.UpdateEntry());
+                    MatchRotation();
+                });
+            }
+        }
     }
 
     public void OffsetRotation(bool instant = false)
