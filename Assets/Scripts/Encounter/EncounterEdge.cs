@@ -18,6 +18,12 @@ public class EncounterEdge
 
     public (Vector2 v1, Vector2 v2) GetNodePos() => (n1.transform.localPosition, n2.transform.localPosition);
 
+    public override int GetHashCode()
+    {
+        // added so it stop showing the warning
+        return base.GetHashCode();
+    }
+
     public override bool Equals(object obj)
     {
         //Check for null and compare run-time types.
