@@ -109,6 +109,11 @@ public class RewardScreenCombat : MonoBehaviour
     {
         canvas.SetActive(false);
         canvasCard.SetActive(false);
+        if (WorldSystem.instance.gridManager.bossStarted)
+        {
+            WorldStateSystem.SetInOverworld(false);
+            WorldStateSystem.SetInTown(true);
+        }
         WorldStateSystem.SetInReward(false);
 
         for (int i = 0; i < content.transform.childCount; i++)

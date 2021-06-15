@@ -19,21 +19,21 @@ public class RewardGold : Reward
 
     void OnEnable()
     {
-        goldAmount = GetGold(WorldSystem.instance.encounterManager.encounterTier, WorldSystem.instance.encounterManager.currentEncounter.encounterType);
+        goldAmount = GetGold(WorldSystem.instance.combatManager.combatController.encounterData.tier, WorldSystem.instance.combatManager.combatController.encounterData.type);
         text.text = "Gold: " + goldAmount.ToString();
     }
 
-    private int GetGold(int tier, OverworldEncounterType encounterType)
+    private int GetGold(int tier, CombatEncounterType encounterType)
     {
         float multiplier = tier * tierMultiplier;
 
         switch (encounterType)
         {
-            case OverworldEncounterType.CombatElite:
+            case CombatEncounterType.Elite:
                 multiplier += eliteMultiplier;
                 break;
 
-            case OverworldEncounterType.CombatBoss:
+            case CombatEncounterType.Boss:
                 multiplier += bossMultiplier;
                 break;
             

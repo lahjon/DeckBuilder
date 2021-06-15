@@ -16271,7 +16271,7 @@ MonoBehaviour:
   content: {fileID: 1380248318}
   hexMapController: {fileID: 0}
   currentTurn: 0
-  tilesUntilBoss: 5
+  tilesUntilBoss: 1
   bossStarted: 0
   hexScale: 0.3765092
   initialized: 0

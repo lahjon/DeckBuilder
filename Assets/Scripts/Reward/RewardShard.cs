@@ -19,21 +19,21 @@ public class RewardShard : Reward
 
     void OnEnable()
     {
-        shardAmount = GetShards(WorldSystem.instance.encounterManager.encounterTier, WorldSystem.instance.encounterManager.currentEncounter.encounterType);
+        shardAmount = GetShards(WorldSystem.instance.combatManager.combatController.encounterData.tier, WorldSystem.instance.combatManager.combatController.encounterData.type);
         text.text = "Shards: " + shardAmount.ToString();
     }
 
-    private int GetShards(int tier, OverworldEncounterType encounterType)
+    private int GetShards(int tier, CombatEncounterType encounterType)
     {
         float multiplier = tier * tierMultiplier;
 
         switch (encounterType)
         {
-            case OverworldEncounterType.CombatElite:
+            case CombatEncounterType.Elite:
                 multiplier += eliteMultiplier;
                 break;
 
-            case OverworldEncounterType.CombatBoss:
+            case CombatEncounterType.Boss:
                 multiplier += bossMultiplier;
                 break;
             
