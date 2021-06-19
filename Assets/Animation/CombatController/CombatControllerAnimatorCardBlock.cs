@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 {
-    CardEffect block;
-    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
+    CardEffectInfo block;
+    (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -14,7 +14,7 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 
         if (card.Damage.Value != 0)
             nextState = "Attack";
-        else if (card.Effects.Count != 0)
+        else if (card.effectsOnPlay.Count != 0)
             nextState = "Effects";
         else
             nextState = "Activities & Discard";

@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CardEffect
+public class CardEffectInfo
 {
     public EffectType Type;
     public int Value;
     public int Times;
     public CardTargetType Target;
 
-    public CardEffect() { }
+    public CardEffectInfo() { }
 
-    public CardEffect(EffectType type, int value, int times, CardTargetType cardTargetType = CardTargetType.EnemySingle)
+    public CardEffectInfo(EffectType type, int value, int times, CardTargetType cardTargetType = CardTargetType.EnemySingle)
     {
         Type = type;
         Value = value;
@@ -20,12 +20,12 @@ public class CardEffect
         Target = cardTargetType;
     }
 
-    public CardEffect Clone()
+    public CardEffectInfo Clone()
     {
-        return new CardEffect(Type, Value, Times, Target);
+        return new CardEffectInfo(Type, Value, Times, Target);
     }
 
-    public static CardEffect operator+(CardEffect a, CardEffect b)
+    public static CardEffectInfo operator+(CardEffectInfo a, CardEffectInfo b)
     {
         if (a == null)
             return b;
@@ -45,7 +45,7 @@ public class CardEffect
             return null;
         }
 
-        CardEffect effect = new CardEffect(a.Type, a.Value*a.Times + b.Value*b.Times, 1, a.Target); 
+        CardEffectInfo effect = new CardEffectInfo(a.Type, a.Value*a.Times + b.Value*b.Times, 1, a.Target); 
 
         return effect;
     }

@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuleEffectThorns : RuleEffect
+public class CardEffectBarricade : CardEffect
 {
+    Func<IEnumerator> stolenFunction;
     public override bool isBuff { get { return true; } }
+    public override bool stackable { get { return false; } }
+
     public override void AddFunctionToRules()
     {
-        actor.onAttackRecieved.Add(ThornIt);
+        stolenFunction = actor.RemoveAllBlock;
+        actor.actionsNewTurn.Remove(actor.RemoveAllBlock);
     }
 
     public override void RemoveFunctionFromRules()
     {
-        actor.onAttackRecieved.Remove(ThornIt);
+        actor.actionsNewTurn.Add(stolenFunction);
     }
 
     public override void OnNewTurn()
@@ -21,9 +25,5 @@ public class RuleEffectThorns : RuleEffect
         
     }
 
-    public IEnumerator ThornIt(CombatActor source)
-    {
-        source.TakeDamage(nrStacked);
-        yield return new WaitForSeconds(0.2f);
-    }
+
 }

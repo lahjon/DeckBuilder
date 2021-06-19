@@ -20,15 +20,19 @@ public class CombatActorHero : CombatActor
 
     public override void CardResolved(Card card)
     {
-        ((CardCombat)card).animator.SetTrigger("Resolved");
-        base.DiscardCard(card);
+        if (card.exhaust) Destroy(card.gameObject);
+        else
+        {
+            ((CardCombat)card).animator.SetTrigger("Resolved");
+            base.DiscardCard(card);
+        }
     }
 
     public void ClearAllEffects()
     {
-        List<RuleEffect> effects = effectTypeToRule.Values.ToList();
+        List<CardEffect> effects = effectTypeToRule.Values.ToList();
 
-        foreach(RuleEffect effect in effects)
+        foreach(CardEffect effect in effects)
         {
             Destroy(healthEffectsUI.effectToDisplay[effect.type].gameObject);
             effect.Dismantle();

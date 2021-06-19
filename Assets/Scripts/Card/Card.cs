@@ -15,17 +15,23 @@ public class Card : MonoBehaviour
 
     public bool exhaust;
 
-    public CardEffect Damage;
-    public CardEffect Block;
+    public CardEffectInfo Damage;
+    public CardEffectInfo Block;
 
-    public List<CardEffect> Effects = new List<CardEffect>();
-    public List<CardActivitySetting> activities = new List<CardActivitySetting>();
+    public List<CardEffectInfo> effectsOnPlay = new List<CardEffectInfo>();
+    public List<CardEffectInfo> effectsOnDraw = new List<CardEffectInfo>();
+    public List<CardActivitySetting> activitiesOnPlay = new List<CardActivitySetting>();
+    public List<CardActivitySetting> activitiesOnDraw = new List<CardActivitySetting>();
 
     public GameObject animationPrefab;
     public CombatActor owner;
     public Material material;
 
-    public CharacterClassType classType = CharacterClassType.None;
+    public CardClassType classType = CardClassType.None;
+
+    public bool visibleCost = true;
+    public bool unplayable;
+    public bool unstable;
 
     public void BindCardData()
     {
@@ -36,10 +42,15 @@ public class Card : MonoBehaviour
         exhaust         = cardData.exhaust;
         Damage          = cardData.Damage;
         Block           = cardData.Block;
-        Effects         = cardData.inEffects;
-        activities      = cardData.inActivities;
+        effectsOnPlay   = cardData.effectsOnPlay;
+        effectsOnDraw   = cardData.effectsOnDraw;
+        activitiesOnPlay= cardData.activitiesOnPlay;
+        activitiesOnDraw= cardData.activitiesOnDraw;
         animationPrefab = cardData.animationPrefab;
-        classType       = cardData.characterClass;
+        classType       = cardData.cardClass;
+        visibleCost     = cardData.visibleCost;
+        unplayable      = cardData.unplayable;
+        unstable        = cardData.unstable;
     }
 
 
@@ -48,7 +59,7 @@ public class Card : MonoBehaviour
     {
         get
         {
-            if (Effects.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
+            if (effectsOnPlay.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
                 return false;
             else
                 return true;
@@ -70,14 +81,14 @@ public class Card : MonoBehaviour
         // }
     }
 
-    public List<CardEffect> allEffects
+    public List<CardEffectInfo> allEffects
     {
         get
         {
-            List<CardEffect> tempList = new List<CardEffect>();
+            List<CardEffectInfo> tempList = new List<CardEffectInfo>();
             tempList.Add(Damage);
             tempList.Add(Block);
-            tempList.AddRange(Effects);
+            tempList.AddRange(effectsOnPlay);
             return tempList;
         }
     }
@@ -89,19 +100,19 @@ public class Card : MonoBehaviour
             HashSet<CardTargetType> tempSet = new HashSet<CardTargetType>();
             if (Damage.Value != 0) tempSet.Add(Damage.Target);
             if (Block.Value != 0) tempSet.Add(Block.Target);
-            Effects.ForEach(x => tempSet.Add(x.Target));
+            effectsOnPlay.ForEach(x => tempSet.Add(x.Target));
             return tempSet;
         }
     }
 
-    public List<CardEffect> GetEffectsByType(EffectType type)
+    public List<CardEffectInfo> GetEffectsByType(EffectType type)
     {
-        return Effects.Where(x => x.Type == type).ToList();
+        return effectsOnPlay.Where(x => x.Type == type).ToList();
     }
 
     public CardActivitySetting GetactivityByType(CardActivityType type)
     {
-        return activities.Where(x => x.type == type).FirstOrDefault();
+        return activitiesOnPlay.Where(x => x.type == type).FirstOrDefault();
     }
 
     public static void SpliceCards(Card Target, Card a, Card b)
@@ -131,18 +142,18 @@ public class Card : MonoBehaviour
         Target.Damage = a.Damage + b.Damage;
         Target.Block = a.Block + b.Block;
 
-        a.Effects.ForEach(e => effectTypes.Add(e.Type));
-        b.Effects.ForEach(e => effectTypes.Add(e.Type));
+        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type));
+        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type));
 
         foreach(EffectType type in effectTypes)
         {
-            List<CardEffect> aE = a.GetEffectsByType(type);
-            List<CardEffect> bE = b.GetEffectsByType(type);
+            List<CardEffectInfo> aE = a.GetEffectsByType(type);
+            List<CardEffectInfo> bE = b.GetEffectsByType(type);
 
             if (aE.Count == 0)
-                Target.Effects.AddRange(bE);
+                Target.effectsOnPlay.AddRange(bE);
             else if(bE.Count == 0)
-                Target.Effects.AddRange(aE);
+                Target.effectsOnPlay.AddRange(aE);
             else
             {
                 HashSet<CardTargetType> targetTypes = new HashSet<CardTargetType>();
@@ -150,27 +161,27 @@ public class Card : MonoBehaviour
                 aE.ForEach(x => targetTypes.Add(x.Target));
 
                 foreach(CardTargetType targetType in targetTypes)
-                    Target.Effects.Add(bE.Where(x => x.Target == targetType).FirstOrDefault() + aE.Where(x => x.Target == targetType).FirstOrDefault());
+                    Target.effectsOnPlay.Add(bE.Where(x => x.Target == targetType).FirstOrDefault() + aE.Where(x => x.Target == targetType).FirstOrDefault());
             }
         }
 
-        a.activities.ForEach(x => activityTypes.Add(x.type));
-        b.activities.ForEach(x => activityTypes.Add(x.type));
+        a.activitiesOnPlay.ForEach(x => activityTypes.Add(x.type));
+        b.activitiesOnPlay.ForEach(x => activityTypes.Add(x.type));
         List<CardActivityType> activityTypesList = activityTypes.OrderBy(x => x).ToList();
 
         foreach(CardActivityType type in activityTypesList)
         {
             if(type != CardActivityType.Splice)
             {
-                Target.activities.AddRange(a.activities.Where(x => x.type == type));
-                Target.activities.AddRange(b.activities.Where(x => x.type == type));
+                Target.activitiesOnPlay.AddRange(a.activitiesOnPlay.Where(x => x.type == type));
+                Target.activitiesOnPlay.AddRange(b.activitiesOnPlay.Where(x => x.type == type));
             }
             else
             {
                 int aParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
                 int bParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
 
-                Target.activities.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = Mathf.Max(aParam, bParam).ToString() });
+                Target.activitiesOnPlay.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = Mathf.Max(aParam, bParam).ToString() });
             }
         }
     }

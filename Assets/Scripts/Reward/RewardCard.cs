@@ -18,7 +18,7 @@ public class RewardCard : Reward
 
         for (int i = 0; i < amount; i++)
         {
-            cardReward.Add(DatabaseSystem.instance.GetRandomCard(characterClass));
+            cardReward.Add(DatabaseSystem.instance.GetRandomCard((CardClassType)characterClass));
         }
 
         return cardReward;

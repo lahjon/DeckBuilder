@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Can only be One
   artwork: {fileID: 21300000, guid: 9d450ee1853cd134f83a3ae83d996d10, type: 3}
-  cost: 2
-  goldValue: 20
+  cost: 1
+  visibleCost: 1
   exhaust: 1
   Damage:
     Type: 0
@@ -27,13 +27,18 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  inEffects:
+  effectsOnPlay:
   - Type: 8
     Value: 1
     Times: 1
     Target: 1
-  inActivities: []
+  activitiesOnPlay: []
+  effectsOnDraw: []
+  activitiesOnDraw: []
   cardRarity: 1
-  characterClass: 1
+  cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
+  goldValue: 20
+  unplayable: 0
+  unstable: 0

@@ -117,8 +117,10 @@ public class CardCombat : CardVisual, IToolTipable
     private void SetToolTips()
     {
         toolTipTextBits.Clear();
+        if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
+        if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
         allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
-        activities.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+        activitiesOnPlay.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
     }
 
     public override void OnMouseEnter()

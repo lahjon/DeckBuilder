@@ -13,7 +13,7 @@ public class IntentDisplay : MonoBehaviour
     public TMP_Text lblIntent;
     public GameObject cAnchorIntent;
 
-    public void RecieveIntent(CardEffect block, CardEffect Damage, List<CardEffect> Effects)
+    public void RecieveIntent(CardEffectInfo block, CardEffectInfo Damage, List<CardEffectInfo> Effects)
     {
         attackSprite.SetActive(false);
         defendSprite.SetActive(false);

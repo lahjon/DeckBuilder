@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: SpliceAtt
   artwork: {fileID: 21300000, guid: 6e642a283aa73f940acac9e9524bf83a, type: 3}
   cost: 1
-  goldValue: 10
+  visibleCost: 1
   exhaust: 0
   Damage:
     Type: 0
@@ -27,11 +27,16 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  inEffects: []
-  inActivities:
+  effectsOnPlay: []
+  activitiesOnPlay:
   - type: 2
     parameter: 2
+  effectsOnDraw: []
+  activitiesOnDraw: []
   cardRarity: 1
-  characterClass: 1
+  cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
+  goldValue: 10
+  unplayable: 0
+  unstable: 0

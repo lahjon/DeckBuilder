@@ -10,22 +10,28 @@ public class CardData : ScriptableObject
 
     public Sprite artwork;
     public int cost;
-    public int goldValue;
+    public bool visibleCost = true;
 
     public bool exhaust = false;
 
-    public CardEffect Damage;
-    public CardEffect Block;
+    public CardEffectInfo Damage;
+    public CardEffectInfo Block;
 
-    public List<CardEffect> inEffects = new List<CardEffect>();
+    public List<CardEffectInfo>         effectsOnPlay = new List<CardEffectInfo>();
+    public List<CardActivitySetting>    activitiesOnPlay = new List<CardActivitySetting>();
 
-    public List<CardActivitySetting> inActivities = new List<CardActivitySetting>();
+    public List<CardEffectInfo>         effectsOnDraw = new List<CardEffectInfo>();
+    public List<CardActivitySetting>    activitiesOnDraw = new List<CardActivitySetting>();
 
     public Rarity cardRarity;
 
-    public CharacterClassType characterClass;
+    public CardClassType cardClass;
     public GameObject animationPrefab;
     public AudioClip audio;
 
+    
+    public int goldValue;
 
+    public bool unplayable = false;
+    public bool unstable = false;
 }

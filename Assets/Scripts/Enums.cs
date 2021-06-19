@@ -20,29 +20,35 @@ public static class EnumExtenstions
                 return $"<b>Challenge</b>\nChallanged actors deal double damage against eachother";
             case EffectType.Poison:
                 return $"<b>Poison</b>\nLoose life at the end of the turn";
+            case EffectType.StrengthEOT:
+                return $"<b>StrengthEOT</b>\nTemporarily changes strength for the remainder of the turn.";
             default:
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
     }
 
-    public static RuleEffect GetRuleEffect(this EffectType type)
+    public static CardEffect GetRuleEffect(this EffectType type)
     {
         switch (type)
         {
             case EffectType.Barricade:
-                return new RuleEffectBarricade();
+                return new CardEffectBarricade();
             case EffectType.Weak:
-                return new RuleEffectWeak();
+                return new CardEffectWeak();
             case EffectType.Vulnerable:
-                return new RuleEffectVulnerable();
+                return new CardEffectVulnerable();
             case EffectType.Thorns:
-                return new RuleEffectThorns();
+                return new CardEffectThorns();
             case EffectType.Splice:
-                return new RuleEffectSplice();
+                return new CardEffectSplice();
             case EffectType.Poison:
-                return new RuleEffectPoison();
+                return new CardEffectPoison();
             case EffectType.Challenge:
-                return new RuleEffectChallenge();
+                return new CardEffectChallenge();
+            case EffectType.Strength:
+                return new CardEffectStrength();
+            case EffectType.StrengthEOT:
+                return new CardEffectStrengthEOT();
             default:
                 return null;
         }
@@ -137,6 +143,18 @@ public enum CharacterClassType
     Beastmaster,
 };
 
+public enum CardClassType
+{
+    None,
+    Brute,
+    Rogue,
+    Splicer,
+    Beastmaster,
+    Burden,
+    Torment,
+    Enemy
+}
+
 public enum DialogueParticipant
 {
     None,
@@ -219,7 +237,9 @@ public enum EffectType
     Barricade,
     Thorns,
     Splice,
-    Challenge
+    Challenge,
+    Strength,
+    StrengthEOT
 }
 
 public enum OverlayState
@@ -342,5 +362,7 @@ public enum CardActivityType
     DrawCard,
     AddCardToDeck,
     Splice,
-    ExhaustDiscard
+    ExhaustDiscard,
+    CombatCostChange,
+    SetRandomBroken
 }

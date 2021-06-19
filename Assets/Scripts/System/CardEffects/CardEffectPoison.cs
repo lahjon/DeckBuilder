@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuleEffectPoison : RuleEffect
+public class CardEffectPoison : CardEffect
 {
     public override bool isBuff { get { return false; } }
 

@@ -12920,6 +12920,7 @@ MonoBehaviour:
   StartingCardsBrute: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}
   encountersCombat:
   - {fileID: 11400000, guid: 566232c36ab50154382e041699a0eea7, type: 2}
+  - {fileID: 11400000, guid: 1f10bc2789ff2454fa79eadd94e84cad, type: 2}
   - {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
   - {fileID: 11400000, guid: ed75e13bc7d0f68488809f7aa7d39431, type: 2}
   - {fileID: 11400000, guid: 9ac2c72e268018a468d66b70dacf2be4, type: 2}
@@ -17881,6 +17882,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   acceptEndTurn: 1
   acceptActions: 1
+  acceptProcess: 0
   canvas: {fileID: 265525352006420601}
   encounterData: {fileID: 0}
   animator: {fileID: 4721787840318485329}

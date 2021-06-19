@@ -19,8 +19,6 @@ public class DatabaseGoogle
     readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
     readonly string ApplicationName = "Dieathlon";
     Dictionary<string, string> SpreadSheetIDs = new Dictionary<string, string>();
-    readonly string strFilePathBase = @"Assets\";
-    static char[] separators = { '+', '-' };
 
     readonly string CardPath = @"Assets\Cards";
     readonly string EnemyPath = @"Assets\CharacterClass\Enemies";
@@ -97,12 +95,7 @@ public class DatabaseGoogle
                 AssetDatabase.CreateAsset(data, CardPath + @"\" + databaseName + ".asset");
             }
 
-            string Charclass = (string) gt[i, "Class"];
-            if (Charclass == "Enemy")
-                data.characterClass = CharacterClassType.None;
-            else
-                Enum.TryParse(Charclass, out data.characterClass);
-
+            Enum.TryParse((string)gt[i, "Class"], out data.cardClass);
             Enum.TryParse((string)gt[i, "Rarity"], out data.cardRarity);
 
             data.name = (string)gt[i, "DatabaseName"];
@@ -119,11 +112,16 @@ public class DatabaseGoogle
             data.Block.Target = CardTargetType.Self;
 
             data.exhaust = (string)gt[i, "Exhaust"] == "TRUE";
+            data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
+            data.unplayable = (string)gt[i, "Unplayable"] == "TRUE";
+            data.unstable = (string)gt[i, "Unstable"] == "TRUE";
 
             data.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
 
-            data.inEffects.Clear();
-            data.inActivities.Clear();
+            data.effectsOnPlay.Clear();
+            data.effectsOnDraw.Clear();
+            data.activitiesOnPlay.Clear();
+            data.activitiesOnDraw.Clear();
 
 
             BindArt(data, databaseName);
@@ -146,15 +144,19 @@ public class DatabaseGoogle
                 break;
 
             CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { CardPath });
-            CardEffect cardEffect = new CardEffect();
+            CardEffectInfo cardEffect = new CardEffectInfo();
             Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
 
             cardEffect.Type = effectType;
-            data.inEffects.Add(cardEffect);
-
             cardEffect.Value = Int32.Parse((string)gt[i, "Value"]);
             cardEffect.Times = Int32.Parse((string)gt[i, "Times"]);
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
+
+            if(((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
+                data.effectsOnPlay.Add(cardEffect);
+            else
+                data.effectsOnDraw.Add(cardEffect);
+
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -179,7 +181,11 @@ public class DatabaseGoogle
 
             activitySetting.type = cardActivityType;
             activitySetting.parameter = (string)gt[i, "Parameter"];
-            data.inActivities.Add(activitySetting);
+
+            if (((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
+                data.activitiesOnPlay.Add(activitySetting);
+            else
+                data.activitiesOnDraw.Add(activitySetting);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -222,7 +228,7 @@ public class DatabaseGoogle
             string lAssetPathCard = AssetDatabase.GUIDToAssetPath(ID);
             CardData cardData = (CardData)AssetDatabase.LoadAssetAtPath<CardData>(lAssetPathCard);
 
-            cDataCard.Add(cardData.characterClass.ToString());
+            cDataCard.Add(cardData.cardClass.ToString());
             cDataCard.Add(cardData.name);
             cDataCard.Add(cardData.cardName);
             cDataCard.Add(cardData.cost);
@@ -234,9 +240,9 @@ public class DatabaseGoogle
 
             InputDataCard.Add(cDataCard);
 
-            if (cardData.inEffects.Count != 0)
+            if (cardData.effectsOnPlay.Count != 0)
             {
-                foreach (CardEffect effect in cardData.inEffects)
+                foreach (CardEffectInfo effect in cardData.effectsOnPlay)
                 {
                     List<object> cDataCardEffect = new List<object>();
                     cDataCardEffect.Add(cardData.name);
@@ -249,9 +255,9 @@ public class DatabaseGoogle
                 }
             }
 
-            if (cardData.inActivities.Count != 0)
+            if (cardData.activitiesOnPlay.Count != 0)
             {
-                foreach (CardActivitySetting caSetting in cardData.inActivities)
+                foreach (CardActivitySetting caSetting in cardData.activitiesOnPlay)
                 {
                     List<object> cDataCardActivity = new List<object>();
                     cDataCardActivity.Add(cardData.name);
@@ -359,7 +365,7 @@ public class DatabaseGoogle
                 continue;
             }
 
-            CardEffect cardEffect = new CardEffect();
+            CardEffectInfo cardEffect = new CardEffectInfo();
             cardEffect.Target = CardTargetType.Self;
             Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
             cardEffect.Value = int.Parse((string)gt[i, "Value"]);
@@ -462,7 +468,7 @@ public class DatabaseGoogle
                 continue;
             }
 
-            CardEffect cardEffect = new CardEffect();
+            CardEffectInfo cardEffect = new CardEffectInfo();
             Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
             cardEffect.Value = int.Parse((string)gt[i, "Value"]);
             cardEffect.Times = int.Parse((string)gt[i, "Times"]);

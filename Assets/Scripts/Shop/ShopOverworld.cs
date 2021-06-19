@@ -29,7 +29,7 @@ public class ShopOverworld : MonoBehaviour
     {
         foreach (CardVisual card in cardsInStock)
         {
-            card.cardData = DatabaseSystem.instance.GetRandomCard(WorldSystem.instance.characterManager.character.classType);
+            card.cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.character.classType);
             card.BindCardData();
             card.BindCardVisualData();
         }

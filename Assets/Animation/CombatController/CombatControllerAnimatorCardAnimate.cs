@@ -27,7 +27,7 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             nextState = "Block";
         else if (card.Damage.Value != 0)
             nextState = "Attack";
-        else if (card.Effects.Count != 0)
+        else if (card.effectsOnPlay.Count != 0)
             nextState = "Effects";
         else
             nextState = "Activities & Discard";

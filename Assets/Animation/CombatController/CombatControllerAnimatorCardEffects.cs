@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 {
-    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
+    (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
 
     CardTargetType? lastTargetType;
 
@@ -19,7 +19,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
     {
         //Debug.Log("Starting effets transmittion");
 
-        foreach(CardEffect e in card.Effects)
+        foreach(CardEffectInfo e in card.effectsOnPlay)
         {
             effectAndTarget = combatController.GetTargets(combatController.ActiveActor, e, suppliedTarget);
 

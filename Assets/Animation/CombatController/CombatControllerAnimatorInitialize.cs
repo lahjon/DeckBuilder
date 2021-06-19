@@ -5,7 +5,7 @@ using System;
 
 public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 {
-    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
+    (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -26,11 +26,11 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         yield return new WaitForSeconds(0.5f);
 
         EncounterDataCombat encounterData = combatController.encounterData;
-        List<CardEffect>    startingEffects = encounterData.startingEffects;
+        List<CardEffectInfo>    startingEffects = encounterData.startingEffects;
         List<int>           startingTargets = encounterData.startEffectsTargets;
         int counter = 0;
 
-        foreach (CardEffect e in startingEffects)
+        foreach (CardEffectInfo e in startingEffects)
         {
             effectAndTarget = combatController.GetTargets(combatController.Hero, e, combatController.EnemiesInScene[startingTargets[counter++]]);
 
@@ -40,7 +40,7 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         }
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
-            foreach (CardEffect e in encounterData.enemyData[i].startingEffects)
+            foreach (CardEffectInfo e in encounterData.enemyData[i].startingEffects)
                 combatController.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e);
 
         combatController.animator.SetTrigger("SetupComplete");

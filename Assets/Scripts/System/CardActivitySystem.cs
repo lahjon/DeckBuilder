@@ -26,6 +26,8 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
         ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();
         ActivityTypeToAction[CardActivityType.ExhaustDiscard] = new CardActivityExhaustDiscard();
+        ActivityTypeToAction[CardActivityType.CombatCostChange] = new CardActivityCombatCostChange();
+        ActivityTypeToAction[CardActivityType.SetRandomBroken] = new CardActivitySetRandomBroken();
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)

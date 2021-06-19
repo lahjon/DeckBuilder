@@ -8,7 +8,8 @@ using System.Linq;
 [ExecuteInEditMode]
 public static class DatabaseUpdateOnStart
 {
-    [MenuItem("Edit/Play-Unplay, Update Database %0")]
+
+    [MenuItem("Edit/PlayUnplay Update Database %0")]
     public static void UpdateDatabase(bool startPlaying = true)
     {
         UpdateAllCards();

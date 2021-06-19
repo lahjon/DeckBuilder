@@ -67,17 +67,18 @@ public class DatabaseSystem : MonoBehaviour
         return result;
     }
 
-    public CardData GetRandomCard(CharacterClassType characterClass = CharacterClassType.None)
+    public CardData GetRandomCard(CardClassType cardClass = CardClassType.None)
     {
         int idx;
-        if(characterClass == CharacterClassType.None)
+
+        if(cardClass == CardClassType.None)
         {
             idx = Random.Range(0,allCards.Count);
             return allCards[idx];
         }
         else
         {
-            List<CardData> classCards = allCards.Where(x => x.characterClass == characterClass).ToList();
+            List<CardData> classCards = allCards.Where(x => x.cardClass == cardClass).ToList();
             idx = Random.Range(0, classCards.Count);
             return classCards[idx];
         }
@@ -96,6 +97,7 @@ public class DatabaseSystem : MonoBehaviour
 
     public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
     {
+        if (type == OverworldEncounterType.CombatBoss) return encountersCombat.Where(e => e.name == "BossJesterRat").First();
         List<EncounterDataCombat> encounters = encountersCombat.Where(e => (int)e.type == (int)type).ToList();
         int id = Random.Range(0, encounters.Count);
         return encounters[id];

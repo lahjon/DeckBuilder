@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Jab
   artwork: {fileID: 21300000, guid: 5bb90fbb156088c4a9d16617bdf7a689, type: 3}
   cost: 0
-  goldValue: 10
+  visibleCost: 1
   exhaust: 0
   Damage:
     Type: 0
@@ -27,11 +27,16 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  inEffects: []
-  inActivities:
+  effectsOnPlay: []
+  activitiesOnPlay:
   - type: 2
     parameter: 1
+  effectsOnDraw: []
+  activitiesOnDraw: []
   cardRarity: 1
-  characterClass: 3
+  cardClass: 3
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
+  goldValue: 10
+  unplayable: 0
+  unstable: 0

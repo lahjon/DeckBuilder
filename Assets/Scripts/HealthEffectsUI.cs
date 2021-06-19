@@ -35,7 +35,7 @@ public class HealthEffectsUI : MonoBehaviour
     public Transform AnchorHealthNotifications;
 
 
-    private Queue<RuleEffect> queuedEffectsAnimation = new Queue<RuleEffect>();
+    private Queue<CardEffect> queuedEffectsAnimation = new Queue<CardEffect>();
     private IEnumerator coroutineEffectAdder;
 
     private Color32 lifeRed = new Color32(255, 0, 0, 255);
@@ -89,7 +89,7 @@ public class HealthEffectsUI : MonoBehaviour
     }
 
 
-    public void ModifyEffectUI(RuleEffect effect)
+    public void ModifyEffectUI(CardEffect effect)
     {
         queuedEffectsAnimation.Enqueue(effect);
         if(coroutineEffectAdder is null)
@@ -103,7 +103,7 @@ public class HealthEffectsUI : MonoBehaviour
     {
         while(queuedEffectsAnimation.Count != 0)
         {
-            RuleEffect current = queuedEffectsAnimation.Dequeue();
+            CardEffect current = queuedEffectsAnimation.Dequeue();
             UpdateEffectUI(current);
             yield return new WaitForSeconds(0.3f);
         }
@@ -112,7 +112,7 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public void UpdateEffectUI(RuleEffect effect)
+    public void UpdateEffectUI(CardEffect effect)
     {
         EffectType effectType = effect.type;
 

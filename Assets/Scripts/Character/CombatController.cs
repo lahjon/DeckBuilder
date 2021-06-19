@@ -39,6 +39,7 @@ public class CombatController : MonoBehaviour
     public AnimationCurve transitionCurve;
     public bool acceptEndTurn = true;
     public bool acceptActions = true;
+    public bool acceptProcess = false;
     public Canvas canvas;
     private CombatActorEnemy _activeEnemy;
 
@@ -48,7 +49,8 @@ public class CombatController : MonoBehaviour
 
     public List<Formation> formations = new List<Formation>();
     public List<Vector3> formationPositions;
-    
+
+    Queue<object> drawnEffectsAndActivities = new Queue<object>();
 
 
     KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
@@ -193,6 +195,8 @@ public class CombatController : MonoBehaviour
 
     public void EndTurn()
     {
+        Hand.Where(c => c.unstable).ToList().ForEach(c => { Hand.Remove(c); Destroy(c.gameObject); });
+
         foreach (CardCombat card in Hand)
         {
             card.MouseReact = false;
@@ -238,7 +242,7 @@ public class CombatController : MonoBehaviour
         return EnemiesInScene[id];
     }
 
-    public (CardEffect effect, List<CombatActor> targets) GetTargets(CombatActor source, CardEffect effect, CombatActor suppliedTarget)
+    public (CardEffectInfo effect, List<CombatActor> targets) GetTargets(CombatActor source, CardEffectInfo effect, CombatActor suppliedTarget)
     {
         List<CombatActor> targets = new List<CombatActor>();
 
@@ -256,7 +260,7 @@ public class CombatController : MonoBehaviour
             targets.AddRange(EnemiesInScene);
         }
 
-        CardEffect returnEffect;
+        CardEffectInfo returnEffect;
 
         if (effect.Target == CardTargetType.EnemyRandom)
         {
@@ -290,9 +294,9 @@ public class CombatController : MonoBehaviour
 
         int baseVal = card.Damage.Value;
         int calcDamage = enemy is null ? PreviewCalcDamageAllEnemies(baseVal) : PreviewCalcDamageEnemy(baseVal, enemy);
-        if(calcDamage != card.calcDamage)
+        if(calcDamage != card.displayDamage)
         {
-            card.calcDamage = calcDamage;
+            card.displayDamage = calcDamage;
             card.RefreshDescriptionText();
         }
     }
@@ -406,7 +410,8 @@ public class CombatController : MonoBehaviour
 
     #region Draw and Discard Cards, Deck Management
 
-    public IEnumerator DrawCards(int CardsToDraw) { 
+    public IEnumerator DrawCards(int CardsToDraw) {
+        acceptProcess = false;
         for(int i = 0; i < CardsToDraw; i++)
         {
             if (Hand.Count == HandSize)
@@ -431,16 +436,43 @@ public class CombatController : MonoBehaviour
             DrawSingleCard();
             yield return new WaitForSeconds(0.14f);
         }
+
+        yield return StartCoroutine(ResolveDrawnEffects());
+
+        acceptProcess = true;
     }
 
-    public void DrawSingleCard()
+    private void DrawSingleCard()
     {
         CardCombat card = (CardCombat)Hero.deck[0];
         Hero.deck.RemoveAt(0);
         Hand.Add(card);
+        card.effectsOnDraw.ForEach(e => drawnEffectsAndActivities.Enqueue(e));
+        card.activitiesOnDraw.ForEach(e => drawnEffectsAndActivities.Enqueue(e));
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
     }
+
+    IEnumerator ResolveDrawnEffects()
+    {
+        while(drawnEffectsAndActivities.Count != 0)
+        {
+            object obj = drawnEffectsAndActivities.Dequeue();
+            if(obj is CardEffectInfo cardEffect)
+            {
+                (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget = GetTargets(Hero, cardEffect, null);
+
+                for (int i = 0; i < effectAndTarget.effect.Times; i++)
+                    foreach (CombatActor actor in effectAndTarget.targets)
+                        actor.RecieveEffectNonDamageNonBlock(effectAndTarget.effect);
+            }
+            else if(obj is CardActivitySetting a)
+            {
+                yield return StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
+            }
+        }
+    }
+
     public void ReturnCardFromDiscard(CardCombat discardCard = null)
     {
         CardCombat card;

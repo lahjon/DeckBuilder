@@ -6,7 +6,7 @@ using System.Linq;
 
 public class CardActivitySplice : CardActivity
 {
-    CardEffect cardEffect = new CardEffect() { Type = EffectType.Splice, Times = 1};
+    CardEffectInfo cardEffect = new CardEffectInfo() { Type = EffectType.Splice, Times = 1};
     public override IEnumerator Execute(string input)
     {
         CombatActor hero = combatController.Hero;
@@ -20,7 +20,7 @@ public class CardActivitySplice : CardActivity
             CardCombat discardedCard = null;
             for(int i = 0; i < hero.discard.Count; i++)
             {
-                if(hero.discard[i].activities.Count(x => x.type == CardActivityType.Splice) != 0)
+                if(hero.discard[i].activitiesOnPlay.Count(x => x.type == CardActivityType.Splice) != 0)
                 {
                     discardedCard = (CardCombat)hero.discard[i];
                     break;

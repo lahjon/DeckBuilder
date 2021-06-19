@@ -1,6 +1,6 @@
 using System;
 
-public abstract class RuleEffect
+public abstract class CardEffect
 {
     public CombatActor actor;
     public CombatController combatController { get { return actor.combatController; } }
@@ -21,22 +21,31 @@ public abstract class RuleEffect
 
     public int nrStacked;
 
-    public virtual void RecieveInput(CardEffect effect)
+    public virtual void RecieveInput(CardEffectInfo effect)
     {
         if (effect.Times == 0 || effect.Value == 0) return;
 
+        RecieveInput(effect.Times * effect.Value);
+    }
+
+    public virtual void RecieveInput(int stackUpdate)
+    {
+        if (stackUpdate == 0) return;
+
         int nrStackedPre = nrStacked;
 
-        nrStacked += effect.Times * effect.Value;
+        nrStacked += stackUpdate;
 
         actor.healthEffectsUI.UpdateEffectUI(this);
+
+        RespondStackUpdate(stackUpdate);
 
         if (nrStackedPre == 0 && nrStacked != 0)
         {
             AddFunctionToRules();
             if (triggerRecalcDamage) combatController.RecalcAllCardsDamage();
         }
- 
+
         if (nrStacked == 0) Dismantle();
     }
 
@@ -48,12 +57,13 @@ public abstract class RuleEffect
     {
     }
 
+    public virtual void RespondStackUpdate(int update)
+    {
+    }
+
     public virtual void OnNewTurn()
     {
-        nrStacked--;
-        actor.healthEffectsUI.ModifyEffectUI(this);
-
-        if (nrStacked == 0) Dismantle();
+        RecieveInput(-1);
     }
 
     public virtual void OnEndTurn()
@@ -75,7 +85,7 @@ public abstract class RuleEffect
     {
         RemoveFunctionFromRules();
         if (triggerRecalcDamage) combatController.RecalcAllCardsDamage();
-        actor.effectTypeToRule.Remove(this.type);
+        actor.effectTypeToRule.Remove(type);
     }
 
 

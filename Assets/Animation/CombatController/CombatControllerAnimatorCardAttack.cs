@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 {
-    CardEffect attack;
-    (CardEffect effect, List<CombatActor> targets) effectAndTarget;
+    CardEffectInfo attack;
+    (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
 
     CombatActor activeActor { get { return combatController.ActiveActor; } }
 
@@ -13,7 +13,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
     {
         SetRefs(animator);
 
-        if(card.Effects.Count != 0)
+        if(card.effectsOnPlay.Count != 0)
             nextState = "Effects";
         else
             nextState = "Activities & Discard";

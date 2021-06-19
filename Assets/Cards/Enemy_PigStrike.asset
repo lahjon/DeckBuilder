@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: PigStrike
   artwork: {fileID: 21300000, guid: 12c056a1ee0c1dd469c83d549d056759, type: 3}
   cost: 1
-  goldValue: 20
+  visibleCost: 1
   exhaust: 0
   Damage:
     Type: 0
@@ -27,9 +27,14 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  inEffects: []
-  inActivities: []
+  effectsOnPlay: []
+  activitiesOnPlay: []
+  effectsOnDraw: []
+  activitiesOnDraw: []
   cardRarity: 0
-  characterClass: 0
+  cardClass: 7
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
+  goldValue: 20
+  unplayable: 0
+  unstable: 0

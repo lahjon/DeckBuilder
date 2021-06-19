@@ -13,14 +13,15 @@ using System.Text;
 
 public static class Helpers
 {
-    public static List<Color> borderColors = new List<Color>
-                                            {
-                                                Color.white,    // neutral
-                                                Color.red,      // brute
-                                                Color.blue,     // rogue
-                                                Color.green,    // splicer
-                                                Color.magenta   // beastmaster
-                                            }; 
+    public static Dictionary<CardClassType,Color> borderColors = new Dictionary<CardClassType, Color>{
+        {CardClassType.Brute, Color.red }, 
+        {CardClassType.Rogue, Color.blue }, 
+        {CardClassType.Splicer, Color.green }, 
+        {CardClassType.Beastmaster, Color.magenta }, 
+        {CardClassType.Enemy, Color.white }, 
+        {CardClassType.Burden, Color.white }, 
+        {CardClassType.Torment, Color.black }
+     }; 
 
     public static Color attackColor = new Color(190,83,83);
     public static Color neutralColor = Color.white;

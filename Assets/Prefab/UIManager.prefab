@@ -5744,6 +5744,10 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 7d5d02684ea1a8f44ad4047d6cc4ade6, type: 3}
   - name: Splice
     sprite: {fileID: 21300000, guid: 0e7a1753883b6da47a523712e5ac11ea, type: 3}
+  - name: Strength
+    sprite: {fileID: 21300000, guid: 6f021c04763616b4e98b5e9f5851b899, type: 3}
+  - name: StrengthEOT
+    sprite: {fileID: 21300000, guid: 2c1494bf3f99da44d9fd3acf03af151a, type: 3}
   - name: Thorns
     sprite: {fileID: 21300000, guid: a6236c64064ece542af152759e418864, type: 3}
   - name: Vulnerable

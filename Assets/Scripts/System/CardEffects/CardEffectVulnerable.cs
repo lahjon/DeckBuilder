@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuleEffectWeak : RuleEffect
+public class CardEffectVulnerable : CardEffect
 {
     public override bool isBuff { get { return false; } }
     public override bool triggerRecalcDamage { get { return true; } }
+
+
     public override void AddFunctionToRules()
     {
-        actor.dealAttackMods.Add(WeakDamage);
+        actor.takeAttackMult.Add(VurnerableDamage);
     }
 
     public override void RemoveFunctionFromRules()
     {
-        actor.dealAttackMods.Remove(WeakDamage);
+        actor.takeAttackMult.Remove(VurnerableDamage);
     }
 
-    public static float WeakDamage(float x)
+    public static float VurnerableDamage()
     {
-        return x * 0.75f;
+        return 1.5f;
     }
+
+
 }

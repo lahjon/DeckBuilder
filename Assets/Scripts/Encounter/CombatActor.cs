@@ -27,13 +27,15 @@ public class CombatActor : MonoBehaviour, IToolTipable
 
     public HealthEffectsUI healthEffectsUI;
 
-    public Dictionary<EffectType, RuleEffect> effectTypeToRule = new Dictionary<EffectType, RuleEffect>();
+    public Dictionary<EffectType, CardEffect> effectTypeToRule = new Dictionary<EffectType, CardEffect>();
 
 
-    public List<Func<float, float>> dealAttackMods = new List<Func<float, float>>();
-    public List<Func<float, float>> takeAttackMods = new List<Func<float, float>>();
+    public List<Func<float>> dealAttackMult = new List<Func<float>>();
+    public List<Func<float>> takeAttackMult = new List<Func<float>>();
 
-    public Dictionary<CombatActor, List<Func<float, float>>> dealAttackActorMods = new Dictionary<CombatActor, List<Func<float, float>>>();
+    public List<Func<int>> dealAttackLinear = new List<Func<int>>();
+
+    public Dictionary<CombatActor, List<Func<float>>> dealAttackActorMods = new Dictionary<CombatActor, List<Func<float>>>();
 
     public List<Func<IEnumerator>> actionsNewTurn = new List<Func<IEnumerator>>();
     public List<Func<IEnumerator>> actionsEndTurn = new List<Func<IEnumerator>>();
@@ -45,6 +47,8 @@ public class CombatActor : MonoBehaviour, IToolTipable
     public List<Card> deck = new List<Card>();
     public List<Card> discard = new List<Card>();
 
+    public int strengthCombat = 0;
+
     
 
     public void InitializeCombat()
@@ -54,8 +58,10 @@ public class CombatActor : MonoBehaviour, IToolTipable
         actionsNewTurn.Add(RemoveAllBlock);
         healthEffectsUI.UpdateShield(shield);
 
+        dealAttackLinear.Add(ApplyCombatStrength);
+
         foreach (CombatActor actor in combatController.ActorsInScene)
-            dealAttackActorMods[actor] = new List<Func<float, float>>();
+            dealAttackActorMods[actor] = new List<Func<float>>(); //technically includes oneself but who cares?
     }
 
     public void ShuffleDeck()
@@ -121,7 +127,7 @@ public class CombatActor : MonoBehaviour, IToolTipable
     }
 
 
-    public void RecieveEffectNonDamageNonBlock(CardEffect effect)
+    public void RecieveEffectNonDamageNonBlock(CardEffectInfo effect)
     {
         if (effectTypeToRule.ContainsKey(effect.Type))
             effectTypeToRule[effect.Type].RecieveInput(effect);
@@ -144,15 +150,7 @@ public class CombatActor : MonoBehaviour, IToolTipable
     {
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
-        {
-            effectTypeToRule[effect].OnEndTurn();
-            healthEffectsUI.ModifyEffectUI(effectTypeToRule[effect]);
-            if (effectTypeToRule[effect].nrStacked <= 0)
-            {
-                effectTypeToRule[effect].RemoveFunctionFromRules();
-                effectTypeToRule.Remove(effect);
-            }
-        }
+            if(effectTypeToRule.ContainsKey(effect)) effectTypeToRule[effect].OnEndTurn();
     }
 
     public IEnumerator ChangeBlock(int change)
@@ -168,6 +166,11 @@ public class CombatActor : MonoBehaviour, IToolTipable
         yield return StartCoroutine(ChangeBlock(-shield));
     }
 
+    public int ApplyCombatStrength()
+    {
+        return strengthCombat;
+    }
+
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
@@ -176,5 +179,7 @@ public class CombatActor : MonoBehaviour, IToolTipable
         return (toolTipTextBits, AnchorToolTip.position);
     }
 
+    public void ModifyStrength(int x) => strengthCombat += x;
+    
 
 }

@@ -53,7 +53,7 @@ public class RewardScreenCardSelection : MonoBehaviour
     {
         foreach (GameObject card in cards)
         {
-            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard(WorldSystem.instance.characterManager.character.classType);
+            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.character.classType);
             card.GetComponent<CardDisplay>().BindCardData();
             card.GetComponent<CardDisplay>().BindCardVisualData();
         }

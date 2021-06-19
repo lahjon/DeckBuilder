@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Apprentice Wither
   artwork: {fileID: 21300000, guid: 3fa9391d58b9cec408df3f66ee9a988d, type: 3}
   cost: 1
-  goldValue: 0
+  visibleCost: 1
   exhaust: 0
   Damage:
     Type: 0
@@ -27,11 +27,16 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  inEffects: []
-  inActivities:
+  effectsOnPlay: []
+  activitiesOnPlay:
   - type: 3
     parameter: 1
+  effectsOnDraw: []
+  activitiesOnDraw: []
   cardRarity: 0
-  characterClass: 0
+  cardClass: 7
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
+  goldValue: 0
+  unplayable: 0
+  unstable: 0

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuleEffectChallenge : RuleEffect
+public class CardEffectChallenge : CardEffect
 {
     public override bool isBuff { get { return false; } }
     public override bool triggerRecalcDamage { get { return true; } }
@@ -21,7 +21,7 @@ public class RuleEffectChallenge : RuleEffect
       
     }
 
-    public override void RecieveInput(CardEffect effect)
+    public override void RecieveInput(CardEffectInfo effect)
     {
         CombatActor challenger = combatController.ActiveActor;
         if (challengedActors.Contains(challenger))
@@ -35,8 +35,8 @@ public class RuleEffectChallenge : RuleEffect
         actor.dealAttackActorMods[challenger].Add(AttackEffect);
         challengedActors.Add(challenger);
 
-        challenger.RecieveEffectNonDamageNonBlock(new CardEffect() { Type = EffectType.Challenge, Times = 1, Value = 1 });
-        ((RuleEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
+        challenger.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = 1, Value = 1 });
+        ((CardEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
         challenger.dealAttackActorMods[actor].Add(AttackEffect);
     }
 
@@ -44,14 +44,14 @@ public class RuleEffectChallenge : RuleEffect
     {
         foreach(CombatActor actor in challengedActors)
         {
-            ((RuleEffectChallenge)actor.effectTypeToRule[EffectType.Challenge]).challengedActors.Remove(actor);
-            actor.RecieveEffectNonDamageNonBlock(new CardEffect() { Type = EffectType.Challenge, Times = -1, Value = 1 });
+            ((CardEffectChallenge)actor.effectTypeToRule[EffectType.Challenge]).challengedActors.Remove(actor);
+            actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = -1, Value = 1 });
         }
     }
 
-    private float AttackEffect(float x)
+    private float AttackEffect()
     {
-        return x * 2f;
+        return 2f;
     }
 
 

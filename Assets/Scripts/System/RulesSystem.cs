@@ -64,14 +64,15 @@ public class RulesSystem : MonoBehaviour
     public int CalculateDamage(int startingValue, CombatActor source, CombatActor target){
 
         float x = startingValue;
-        foreach (Func<float, float> func in source.dealAttackMods)
-            x = func(x);
+        x += source.strengthCombat;
+        foreach (Func<float> func in source.dealAttackMult)
+            x = x * func();
 
-        foreach (Func<float, float> func in source.dealAttackActorMods[target])
-            x = func(x);
+        foreach (Func<float> func in source.dealAttackActorMods[target])
+            x = x * func();
 
-        foreach (Func<float, float> func in target.takeAttackMods)
-            x = func(x);
+        foreach (Func<float> func in target.takeAttackMult)
+            x = x * func();
 
         return (int)x;
     }

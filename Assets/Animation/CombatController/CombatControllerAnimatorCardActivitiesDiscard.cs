@@ -14,18 +14,14 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
 
     IEnumerator ActivitiesDiscard()
     {
-        foreach(CardActivitySetting a in card.activities)
+        foreach(CardActivitySetting a in card.activitiesOnPlay)
         {
             yield return combatController.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
         }
 
-        if (card.exhaust)
-            Destroy(card.gameObject);
-        else
-            card.owner.CardResolved(card);
+        card.owner.CardResolved(card);
            
         combatController.animator.SetTrigger("CardFinished");
-        
     }
         
 

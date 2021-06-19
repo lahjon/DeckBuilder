@@ -116,7 +116,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
 
     public void UpdateMoveDisplay(Card card)
     {
-        intentDisplay.RecieveIntent(card.Block, card.Damage, card.Effects);   
+        intentDisplay.RecieveIntent(card.Block, card.Damage, card.effectsOnPlay);   
     }
 
     public void ShowMoveDisplay(bool enabled)
@@ -134,7 +134,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
                 ShuffleDeck();
             }
             else
-                for (int i = discard.Count - 1; i >= 0; i++)
+                for (int i = discard.Count - 1; i >= 0; i--)
                     deck.Add(discard[i]);
 
             discard.Clear();
@@ -148,7 +148,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
 
     public void OnDeath()
     {
-        foreach (RuleEffect re in effectTypeToRule.Values)
+        foreach (CardEffect re in effectTypeToRule.Values)
             re.OnActorDeath();
 
         if(hand != null) Destroy(hand.gameObject);
