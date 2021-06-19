@@ -566,7 +566,7 @@ public class CombatController : MonoBehaviour
 
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.cost <= cEnergy && card.selectable;
+        bool selectable = card.cost <= cEnergy && card.selectable && !card.unplayable;
         if (!silentCheck && card.cost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
