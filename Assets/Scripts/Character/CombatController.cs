@@ -571,7 +571,7 @@ public class CombatController : MonoBehaviour
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
-
+             
         return selectable;
     }
 
