@@ -7,9 +7,14 @@ public class CardEffectSplice : CardEffect
 {
     public override bool isBuff { get { return true; } }
 
-    public override void OnEndTurn()
+    public CardEffectSplice() : base()
     {
-        nrStacked = 0;
+        OnEndTurn = _OnEndTurn;
+    }
+
+    public override IEnumerator _OnEndTurn()
+    {
+        yield return combatController.StartCoroutine(RecieveInput(-nrStacked));
     }
 
 }

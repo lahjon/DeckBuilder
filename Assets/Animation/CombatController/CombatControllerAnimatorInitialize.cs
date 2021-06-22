@@ -5,8 +5,6 @@ using System;
 
 public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 {
-    (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
-
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
@@ -27,21 +25,20 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 
         EncounterDataCombat encounterData = combatController.encounterData;
         List<CardEffectInfo>    startingEffects = encounterData.startingEffects;
-        List<int>           startingTargets = encounterData.startEffectsTargets;
+        List<int>               startingTargets = encounterData.startEffectsTargets;
         int counter = 0;
 
         foreach (CardEffectInfo e in startingEffects)
         {
-            effectAndTarget = combatController.GetTargets(combatController.Hero, e, combatController.EnemiesInScene[startingTargets[counter++]]);
-
-            for (int i = 0; i < effectAndTarget.effect.Times; i++)
-                foreach (CombatActor actor in effectAndTarget.targets)
-                    actor.RecieveEffectNonDamageNonBlock(effectAndTarget.effect);
+            List<CombatActor> targets = combatController.GetTargets(combatController.Hero, e, combatController.EnemiesInScene[startingTargets[counter++]]);
+            for (int i = 0; i < e.Times; i++)
+                foreach (CombatActor actor in targets)
+                    yield return combatController.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(e));
         }
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
             foreach (CardEffectInfo e in encounterData.enemyData[i].startingEffects)
-                combatController.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e);
+                yield return combatController.StartCoroutine(combatController.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e));
 
         combatController.animator.SetTrigger("SetupComplete");
     }

@@ -7,7 +7,6 @@ public class CardEffectVulnerable : CardEffect
     public override bool isBuff { get { return false; } }
     public override bool triggerRecalcDamage { get { return true; } }
 
-
     public override void AddFunctionToRules()
     {
         actor.takeAttackMult.Add(VurnerableDamage);

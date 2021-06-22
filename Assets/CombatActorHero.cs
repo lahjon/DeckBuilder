@@ -31,11 +31,16 @@ public class CombatActorHero : CombatActor
     public void ClearAllEffects()
     {
         List<CardEffect> effects = effectTypeToRule.Values.ToList();
+        effectTypeToRule.Clear();
 
         foreach(CardEffect effect in effects)
         {
-            Destroy(healthEffectsUI.effectToDisplay[effect.type].gameObject);
+            if (healthEffectsUI.effectToDisplay[effect.type].gameObject != null)
+                Destroy(healthEffectsUI.effectToDisplay[effect.type].gameObject);
+
             effect.Dismantle();
         }
+
+        healthEffectsUI.effectToDisplay.Clear();
     }
 }

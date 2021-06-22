@@ -101,7 +101,7 @@ public class Encounter : MonoBehaviour
 
     public void AnimateEncounter()
     {
-        Debug.Log("Start animation " + this);
+        //Debug.Log("Start animation " + this);
         transform.localScale *= 1.3f;
         tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
         tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
@@ -109,7 +109,7 @@ public class Encounter : MonoBehaviour
 
     public void AnimateEncounterHighlight()
     {
-        Debug.Log("Start animation " + this);
+        //Debug.Log("Start animation " + this);
         transform.localScale *= 1.5f;
         tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
         tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
@@ -119,7 +119,7 @@ public class Encounter : MonoBehaviour
     {
         tweenAction1?.Kill();
         tweenAction2?.Kill();
-        Debug.Log("Cancel animation " + this);
+        //Debug.Log("Cancel animation " + this);
     }
 
     public IEnumerator Entering()

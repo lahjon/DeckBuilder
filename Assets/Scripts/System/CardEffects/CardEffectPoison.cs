@@ -6,6 +6,13 @@ public class CardEffectPoison : CardEffect
 {
     public override bool isBuff { get { return false; } }
 
+    private float poisonAnimationTime = 0.7f;
+
+    public CardEffectPoison() : base()
+    {
+        OnNewTurn = null;
+    }
+
     public override void AddFunctionToRules()
     {
         actor.actionsEndTurn.Add(PoisonDamage);
@@ -20,11 +27,7 @@ public class CardEffectPoison : CardEffect
     {
         actor.LooseLife(nrStacked--);
         if (nrStacked == 0) Dismantle();
-        yield return null;
-    }
-
-    public override void OnNewTurn()
-    {
+        yield return new WaitForSeconds(poisonAnimationTime);
     }
 
 }

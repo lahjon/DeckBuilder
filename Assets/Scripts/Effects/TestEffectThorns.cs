@@ -20,8 +20,8 @@ public class TestEffectThorns : Effect
 
     IEnumerator ApplyThorns()
     {
-
-        combatController.Hero.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Thorns, Times = 1, Value = 3 });
-        yield return null;
+        yield return combatController.StartCoroutine(
+            combatController.Hero.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Thorns, Times = 1, Value = 3 })
+            );
     }
 }

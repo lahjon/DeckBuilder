@@ -5,25 +5,17 @@ using UnityEngine;
 public class CardEffectStrength : CardEffect
 {
     public override bool isBuff { get { return true; } }
-    public override bool triggerRecalcDamage { get { return true; } }
-    
-    
-    public override void RecieveInput(CardEffectInfo effect)
+    public override bool triggerRecalcDamage { get { return false; } } //manual call of recalc in code
+
+    public CardEffectStrength() : base()
     {
-        if (effect.Times == 0 || effect.Value == 0) return;
+        OnNewTurn = null;
+    }
 
-        nrStacked += effect.Times * effect.Value;
-
-        actor.healthEffectsUI.UpdateEffectUI(this);
-
+    public override void RespondStackUpdate(int update)
+    {
         actor.strengthCombat = nrStacked;
-
         combatController.RecalcAllCardsDamage();
-
-        if (nrStacked == 0) Dismantle();
     }
 
-    public override void OnNewTurn()
-    {
-    }
 }

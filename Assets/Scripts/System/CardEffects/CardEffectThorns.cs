@@ -6,6 +6,11 @@ using UnityEngine;
 public class CardEffectThorns : CardEffect
 {
     public override bool isBuff { get { return true; } }
+
+    public CardEffectThorns() : base()
+    {
+        OnNewTurn = null;
+    }
     public override void AddFunctionToRules()
     {
         actor.onAttackRecieved.Add(ThornIt);
@@ -14,11 +19,6 @@ public class CardEffectThorns : CardEffect
     public override void RemoveFunctionFromRules()
     {
         actor.onAttackRecieved.Remove(ThornIt);
-    }
-
-    public override void OnNewTurn()
-    {
-        
     }
 
     public IEnumerator ThornIt(CombatActor source)

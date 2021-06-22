@@ -13,7 +13,7 @@ public class CardActivitySplice : CardActivity
 
         if (!hero.effectTypeToRule.ContainsKey(EffectType.Splice)) {
             cardEffect.Value = Int32.Parse(input);
-            hero.RecieveEffectNonDamageNonBlock(cardEffect);
+            yield return combatController.StartCoroutine(hero.RecieveEffectNonDamageNonBlock(cardEffect));
         }
         else
         {
@@ -30,7 +30,7 @@ public class CardActivitySplice : CardActivity
             if (discardedCard != null)
             {
                 cardEffect.Value = -1;
-                combatController.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect);
+                yield return combatController.StartCoroutine(combatController.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
                 CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)combatController.InProcessCard, discardedCard);
                 hero.deck.Add(splicedCard);
                 combatController.InProcessCard.exhaust = true;

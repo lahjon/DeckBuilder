@@ -242,7 +242,7 @@ public class CombatController : MonoBehaviour
         return EnemiesInScene[id];
     }
 
-    public (CardEffectInfo effect, List<CombatActor> targets) GetTargets(CombatActor source, CardEffectInfo effect, CombatActor suppliedTarget)
+    public List<CombatActor> GetTargets(CombatActor source, CardEffectInfo effect, CombatActor suppliedTarget)
     {
         List<CombatActor> targets = new List<CombatActor>();
 
@@ -260,17 +260,7 @@ public class CombatController : MonoBehaviour
             targets.AddRange(EnemiesInScene);
         }
 
-        CardEffectInfo returnEffect;
-
-        if (effect.Target == CardTargetType.EnemyRandom)
-        {
-            returnEffect = effect.Clone();
-            returnEffect.Times = 1;
-        }
-        else
-            returnEffect = effect;
-
-        return (returnEffect, targets);
+        return targets;
     }
 
     public int PreviewCalcDamageAllEnemies(int value)
@@ -460,11 +450,10 @@ public class CombatController : MonoBehaviour
             object obj = drawnEffectsAndActivities.Dequeue();
             if(obj is CardEffectInfo cardEffect)
             {
-                (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget = GetTargets(Hero, cardEffect, null);
-
-                for (int i = 0; i < effectAndTarget.effect.Times; i++)
-                    foreach (CombatActor actor in effectAndTarget.targets)
-                        actor.RecieveEffectNonDamageNonBlock(effectAndTarget.effect);
+                List<CombatActor> targets = GetTargets(Hero, cardEffect, null);
+                for (int i = 0; i < cardEffect.Times; i++)
+                    foreach (CombatActor actor in targets)
+                        yield return StartCoroutine(actor.RecieveEffectNonDamageNonBlock(cardEffect));
             }
             else if(obj is CardActivitySetting a)
             {

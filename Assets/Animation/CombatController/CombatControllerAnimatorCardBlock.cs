@@ -5,7 +5,6 @@ using UnityEngine;
 public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 {
     CardEffectInfo block;
-    (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -23,20 +22,19 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
         if (block.Value == 0)
             combatController.animator.Play(nextLayerState);
         else
-        {
-            effectAndTarget = combatController.GetTargets(combatController.ActiveActor, block, suppliedTarget);
-            combatController.StartCoroutine(GetBlock());
-        }
+            combatController.StartCoroutine(ApplyBlock());
     }
 
-    IEnumerator GetBlock()
+    IEnumerator ApplyBlock()
     {
-        for (int i = 0; i < effectAndTarget.effect.Times; i++)
+        List<CombatActor> targets = combatController.GetTargets(combatController.ActiveActor, block, suppliedTarget);
+        for (int i = 0; i < block.Times; i++)
         {
-            foreach (CombatActor actor in effectAndTarget.targets)
-            {
-                yield return combatController.StartCoroutine(actor.ChangeBlock(effectAndTarget.effect.Value));
-            }
+            foreach (CombatActor actor in targets)
+                yield return combatController.StartCoroutine(actor.ChangeBlock(block.Value));
+
+            if(block.Target == CardTargetType.EnemyRandom && i != block.Times -1) // redraw if random, though doubt it ever will be
+                targets = combatController.GetTargets(combatController.ActiveActor, block, suppliedTarget);
         }
 
         combatController.animator.Play(nextLayerState);

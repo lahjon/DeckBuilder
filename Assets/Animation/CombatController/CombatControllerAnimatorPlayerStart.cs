@@ -10,8 +10,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     {
         SetRefs(animator);
         //Debug.Log("Entered Player Start");
-        combatController.ActiveActor = combatController.Hero;
-        hero = combatController.Hero;
+        hero = combatController.ActiveActor = combatController.Hero;
         combatController.StartCoroutine(StartPlayerTurn());
         combatController.combatOverlay.AnimatePlayerTurn();
     }
@@ -20,12 +19,9 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     public IEnumerator StartPlayerTurn()
     {
         yield return combatController.StartCoroutine(RulesSystem.instance.StartTurn());
+        
         for(int i = 0; i < hero.actionsNewTurn.Count; i++)
             yield return combatController.StartCoroutine(hero.actionsNewTurn[i].Invoke());
-
-
-
-        hero.EffectsOnNewTurnBehavior();
 
         combatController.acceptEndTurn = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
