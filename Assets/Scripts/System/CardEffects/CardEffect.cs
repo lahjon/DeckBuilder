@@ -11,7 +11,7 @@ public abstract class CardEffect
     public virtual bool triggerRecalcDamage { get { return false; } }
     public virtual bool stackable { get { return true; } }
 
-    public float applyEffectWait = 0.3f;
+    public float applyEffectWait = 0.1f;
 
     public Func<IEnumerator> OnNewTurn;
     public Func<IEnumerator> OnEndTurn;
