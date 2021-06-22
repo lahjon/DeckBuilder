@@ -147,11 +147,12 @@ public class CombatActor : MonoBehaviour, IToolTipable
                 yield return StartCoroutine(effectTypeToRule[effect].OnNewTurn());
     }
 
-    public void EffectsOnEndTurnBehavior()
+    public IEnumerator EffectsOnEndTurnBehavior()
     {
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
-            if(effectTypeToRule.ContainsKey(effect)) effectTypeToRule[effect].OnEndTurn();
+            if(effectTypeToRule.ContainsKey(effect) && effectTypeToRule[effect].OnEndTurn != null)
+                yield return StartCoroutine(effectTypeToRule[effect].OnEndTurn());
     }
 
     public IEnumerator ChangeBlock(int change)
