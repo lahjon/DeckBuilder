@@ -12,7 +12,8 @@ public class CombatController : MonoBehaviour
 {
     public CombatOverlay combatOverlay;
     public GameObject TemplateCard;
-    public BezierPath discardPath;
+    public BezierPath pathDiscard;
+    public BezierPath pathDeck;
     public SelectionPath selectionPath;
     public GameObject TemplateEnemy;
     public List<EnemyData> enemyDatas = new List<EnemyData>();
@@ -21,6 +22,8 @@ public class CombatController : MonoBehaviour
     public GameObject content;
     public Transform cardPanel;
     public Transform cardHoldPos;
+
+    public CombatCardPresenter cardPresenter;
 
     public CombatActorHero Hero;
 

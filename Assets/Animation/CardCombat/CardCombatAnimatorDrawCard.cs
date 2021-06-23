@@ -19,20 +19,15 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
     {
         SetRefs(animator);
         //Initiate
-        card.MouseReact = false;
-        card.selectable = true;
         card.transform.SetAsLastSibling();
         time = 0;
         curve = card.transitionCurveDraw;
-        card.transform.position = combatController.txtDeck.transform.position;
-        card.transform.localScale = Vector3.zero;
-        card.transform.localEulerAngles = Vector3.zero;
         speed = 3.5f;
 
+        animator.SetBool("ToCardPileDiscard", true);
         //Reset any modified values from previous buffs
         combatController.SetCardCalcDamage(card);
 
-        //Called every frame since we might draw more cards. 
         (Vector3, Vector3) tempTransInfo = combatController.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);
 
@@ -44,11 +39,10 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
     {
         time += speed * Time.deltaTime;
 
-
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
         if(Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < breakTolerance || time > 1){
-            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, time);
+            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1);
             animator.SetTrigger("DoneDrawing");
         }
         combatController.RefreshHandPositions(card);

@@ -61,7 +61,7 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
-                    CardActivityAddCardToDeck addIt = new CardActivityAddCardToDeck();
+                    CardActivityAddCardToCombat addIt = new CardActivityAddCardToCombat();
                     StartCoroutine(addIt.Execute(x));
                 }
             }

@@ -83,13 +83,23 @@ public class CombatActor : MonoBehaviour, IToolTipable
 
     public virtual void CardResolved(Card card)
     {
-        discard.Insert(0, card);
+        if (card.exhaust)
+            Destroy(card.gameObject);
+        else
+            DiscardCard(card);
     }
 
     public virtual void AddToDeck(Card card)
     {
         deck.Insert(0, card);
     }
+
+    public virtual void AddToDeckSemiRandom(Card card)
+    {
+        int index = UnityEngine.Random.Range(0, deck.Count + 1);
+        deck.Insert(index, card);
+    }
+
 
     public IEnumerator GetAttacked(int damage, CombatActor sourceActor)
     {

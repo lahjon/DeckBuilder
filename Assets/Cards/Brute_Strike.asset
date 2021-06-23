@@ -30,7 +30,7 @@ MonoBehaviour:
   effectsOnPlay: []
   activitiesOnPlay:
   - type: 1
-    parameter: Brute_Strike
+    parameter: Brute_Strike,Deck
   effectsOnDraw: []
   activitiesOnDraw: []
   cardRarity: 1
