@@ -10,10 +10,9 @@ public class EncounterMapIdle : EncounterMapAnimator
     public bool highlightedEntries
     {
         get => _highlightedEntries;
-        set 
+        set
         {
             _highlightedEntries = value;
-            Debug.Log("doing this now ?");
         }
     }
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -25,10 +24,10 @@ public class EncounterMapIdle : EncounterMapAnimator
         if (!highlightedEntries)
         {
             //Debug.Log("Start Highlight!");
-            gridManager.HighlightEntries(); 
+            gridManager.HighlightEntries();
             highlightedEntries = true;
         }
-        
+
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

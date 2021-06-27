@@ -547,7 +547,7 @@ public class CombatSystem : MonoBehaviour
 
     public void DetectCanvasClick()
     {
-        Debug.Log("Canvas detected click");
+        //Debug.Log("Canvas detected click");
         if (ActiveCard != null)
         {
             if (Input.GetMouseButton(0))

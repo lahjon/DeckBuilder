@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Character : MonoBehaviour, ISaveableCharacter
 {
-    public int                      level;
-    public int                      experience;
-    public CharacterClassType       classType;
-    public PlayableCharacterData    characterData;
-    public bool                     unlocked;
-    public List<string>             selectedTokens = new List<string>();
+    public int level;
+    public int experience;
+    public CharacterClassType classType;
+    public PlayableCharacterData characterData;
+    public bool unlocked;
+    public List<string> selectedTokens = new List<string>();
     CharacterStats characterStats;
     bool initialized;
 
