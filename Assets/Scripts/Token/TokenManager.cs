@@ -57,7 +57,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
             token.unlocked = true;
         }
 
-        Effect.GetEffect(aToken, tokenData.tokenName);
+        Effect.GetEffect(aToken, tokenData.name);
 
         allTokens.Add(aToken);
         token.Init();

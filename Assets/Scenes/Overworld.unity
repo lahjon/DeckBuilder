@@ -274,8 +274,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7123768}
+  - component: {fileID: 7123770}
+  - component: {fileID: 7123769}
   m_Layer: 0
-  m_Name: CombatScene
+  m_Name: CombatSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -302,9 +304,87 @@ Transform:
   - {fileID: 1971020837}
   - {fileID: 682875867}
   - {fileID: 1823196868}
+  - {fileID: 2143486279}
   m_Father: {fileID: 1204896295}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &7123769
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7123767}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7123770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7123767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5dc60178a088742b3f02ae6d91e9d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatOverlay: {fileID: 0}
+  TemplateCard: {fileID: 0}
+  pathDiscard: {fileID: 0}
+  pathDeck: {fileID: 0}
+  selectionPath: {fileID: 0}
+  TemplateEnemy: {fileID: 0}
+  enemyDatas: []
+  lblEnergy: {fileID: 0}
+  CombatCamera: {fileID: 0}
+  cardPanel: {fileID: 0}
+  cardHoldPos: {fileID: 0}
+  cardPresenter: {fileID: 0}
+  Hero: {fileID: 0}
+  content: {fileID: 0}
+  txtDeck: {fileID: 0}
+  txtDiscard: {fileID: 0}
+  HandSize: 10
+  drawCount: 0
+  offset: 50
+  handDistance: 150
+  handHeight: 75
+  energyTurn: 0
+  origoCardRot: 1000
+  origoCardPos: 1000
+  handDegreeBetweenCards: 10
+  acceptEndTurn: 1
+  acceptActions: 1
+  acceptProcess: 0
+  encounterData: {fileID: 0}
+  animator: {fileID: 7123769}
+  formations:
+  - {fileID: 1961633096}
+  - {fileID: 1557065688}
+  - {fileID: 1074241189}
+  - {fileID: 1586522419}
+  formationPositions: []
+  backingEnergy: 0
+  Hand: []
+  createdCards: []
+  EnemiesInScene: []
+  mouseInsidePanel: 0
+  DeadEnemiesInScene: []
+  InProcessCard: {fileID: 0}
+  InProcessTarget: {fileID: 0}
+  ActiveActor: {fileID: 0}
+  _activeCard: {fileID: 0}
 --- !u!1 &31300479
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,17 +881,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4296724836048231568, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
   m_PrefabInstance: {fileID: 2050377785490571098}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &73432731 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 588112463819086078, guid: 87ad015fe61c7ee4696dc6db1c8dfe38, type: 3}
-  m_PrefabInstance: {fileID: 2050377785490571098}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c69956eb71be01542bd42101216f9b59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &84106021
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5100,7 +5169,6 @@ MonoBehaviour:
   shopManager: {fileID: 0}
   cameraManager: {fileID: 0}
   deckDisplayManager: {fileID: 0}
-  combatManager: {fileID: 0}
   townManager: {fileID: 0}
   uiManager: {fileID: 0}
   gameEventManager: {fileID: 0}
@@ -15461,7 +15529,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2026472337}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
           m_MethodName: DetectCanvasClick
           m_Mode: 1
@@ -15784,7 +15852,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0c5211dd72bbb34ca14efc705d5ce35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatController: {fileID: 0}
 --- !u!1 &1661226961
 GameObject:
   m_ObjectHideFlags: 0
@@ -17234,7 +17301,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 730814e8b1004624d8ac6f27b6739b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatController: {fileID: 2026472337}
 --- !u!1 &1787706197
 GameObject:
   m_ObjectHideFlags: 0
@@ -17527,7 +17593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e396c53153f0213488474a1b3e40e28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatController: {fileID: 2026472337}
   cardHeight: 550
   waitDelay: 1.5
 --- !u!1 &1830690201
@@ -19381,71 +19446,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2026472337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265525353095416289}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a7db156525ac2b4eb07dc35d3daf718, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  combatOverlay: {fileID: 1971020838}
-  TemplateCard: {fileID: 130489016394698252, guid: 994341c14f3b6054bbc8df555635a89a, type: 3}
-  pathDiscard: {fileID: 1062460996032059035}
-  pathDeck: {fileID: 1441038859}
-  selectionPath: {fileID: 682875868}
-  TemplateEnemy: {fileID: 4296724836048231570, guid: cf7991e7e8a24f147b194b89f71f7179, type: 3}
-  enemyDatas: []
-  lblEnergy: {fileID: 265525353417678854}
-  CombatCamera: {fileID: 0}
-  content: {fileID: 7123767}
-  cardPanel: {fileID: 265525351910376764}
-  cardHoldPos: {fileID: 1867544623}
-  cardPresenter: {fileID: 1823196869}
-  Hero: {fileID: 73432731}
-  txtDeck: {fileID: 265525353116329690}
-  txtDiscard: {fileID: 265525353030631678}
-  HandSize: 10
-  drawCount: 5
-  offset: 50
-  handDistance: 170
-  handHeight: 75
-  energyTurn: 3
-  origoCardRot: 2000
-  origoCardPos: 1000
-  handDegreeBetweenCards: 10
-  transitionCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  acceptEndTurn: 1
-  acceptActions: 1
-  acceptProcess: 0
-  canvas: {fileID: 265525352006420601}
-  encounterData: {fileID: 0}
-  animator: {fileID: 4721787840318485329}
-  formations:
-  - {fileID: 1961633096}
-  - {fileID: 1557065688}
-  - {fileID: 1074241189}
-  - {fileID: 1586522419}
-  formationPositions: []
-  backingEnergy: 0
-  Hand: []
-  createdCards: []
-  EnemiesInScene: []
-  mouseInsidePanel: 0
-  DeadEnemiesInScene: []
-  InProcessCard: {fileID: 0}
-  InProcessTarget: {fileID: 0}
-  ActiveActor: {fileID: 0}
-  _activeCard: {fileID: 0}
 --- !u!1 &2037849951
 GameObject:
   m_ObjectHideFlags: 0
@@ -20362,6 +20362,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2143486278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2143486279}
+  m_Layer: 0
+  m_Name: Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2143486279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143486278}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7123768}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2146135031
 GameObject:
   m_ObjectHideFlags: 0
@@ -20777,7 +20807,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2026472337}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
         m_MethodName: PlayerInputEndTurn
         m_Mode: 1
@@ -21154,8 +21184,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 265525353095416290}
-  - component: {fileID: 2026472337}
-  - component: {fileID: 4721787840318485329}
   m_Layer: 0
   m_Name: CombatController
   m_TagString: Untagged
@@ -21476,6 +21504,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1673503173}
     m_Modifications:
+    - target: {fileID: 1127413753, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 1754717110, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 347953518285321966, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_Camera
       value: 
@@ -22231,25 +22267,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!95 &4721787840318485329
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 265525353095416289}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bdd54ada91356914cae36aee0852fcc7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &4734503540515021280
 Transform:
   m_ObjectHideFlags: 0

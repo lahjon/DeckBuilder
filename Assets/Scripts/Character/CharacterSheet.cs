@@ -48,7 +48,7 @@ public class CharacterSheet : MonoBehaviour
             GameObject reward = levelUpPanel.GetChild(i).gameObject;
             LevelReward data = levelManager.GetLevelReward(i + 1);
             reward.GetComponent<Image>().sprite = data.artwork;
-            Effect.GetEffect(reward, data.effectName, true);
+            Effect.GetEffect(reward, data.name, true);
             EnableReward(reward);
         }
     }
@@ -73,7 +73,7 @@ public class CharacterSheet : MonoBehaviour
         }
 
         GameObject newReward = levelUpPanel.GetChild(index).gameObject;
-        Effect.GetEffect(newReward, rewardData.effectName, true);
+        Effect.GetEffect(newReward, rewardData.name, true);
         newReward.GetComponent<Image>().sprite = rewardData.artwork;
         reward.transform.SetParent(levelUpPanel);
         reward.transform.localPosition = Vector3.zero;

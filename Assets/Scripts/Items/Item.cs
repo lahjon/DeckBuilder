@@ -39,7 +39,7 @@ public class Item : MonoBehaviour, IToolTipable, IEvents, IPointerEnterHandler
         image = GetComponent<Image>();
         button = GetComponent<Button>();
         image.sprite = itemData.artwork;
-        effect = Effect.GetEffect(gameObject, itemData.itemName, false);
+        effect = Effect.GetEffect(gameObject, itemData.name, false);
         itemCondition = ItemCondition.GetItemCondition(itemData.itemCondition, this);
         charges = 1;
         Subscribe();
