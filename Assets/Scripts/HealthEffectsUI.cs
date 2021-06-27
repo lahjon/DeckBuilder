@@ -34,10 +34,6 @@ public class HealthEffectsUI : MonoBehaviour
     public Transform AnchorEffectNotifications;
     public Transform AnchorHealthNotifications;
 
-
-    private Queue<CardEffect> queuedEffectsAnimation = new Queue<CardEffect>();
-    private IEnumerator coroutineEffectAdder;
-
     private Color32 lifeRed = new Color32(255, 0, 0, 255);
     private Color32 generealWhite = new Color32(0, 0, 0, 255);
 
@@ -85,30 +81,6 @@ public class HealthEffectsUI : MonoBehaviour
             sldShield.value = sldHealth.value;
             txtShield.text = shield.ToString();
         }
-        yield return null;
-    }
-
-
-    public void ModifyEffectUI(CardEffect effect)
-    {
-        queuedEffectsAnimation.Enqueue(effect);
-        if(coroutineEffectAdder is null)
-        {
-            coroutineEffectAdder = EffectDequeuer();
-            if(gameObject.activeSelf) StartCoroutine(coroutineEffectAdder);
-        }
-    }
-
-    public IEnumerator EffectDequeuer()
-    {
-        while(queuedEffectsAnimation.Count != 0)
-        {
-            CardEffect current = queuedEffectsAnimation.Dequeue();
-            UpdateEffectUI(current);
-            yield return new WaitForSeconds(0.3f);
-        }
-
-        coroutineEffectAdder = null;
         yield return null;
     }
 

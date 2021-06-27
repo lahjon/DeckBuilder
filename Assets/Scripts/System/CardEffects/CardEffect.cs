@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using UnityEngine;
 
 public abstract class CardEffect
 {
@@ -7,6 +9,11 @@ public abstract class CardEffect
     public abstract bool isBuff { get; }
     public virtual bool triggerRecalcDamage { get { return false; } }
     public virtual bool stackable { get { return true; } }
+
+    public float applyEffectWait = 0.1f;
+
+    public Func<IEnumerator> OnNewTurn;
+    public Func<IEnumerator> OnEndTurn;
 
     public EffectType type
     {
@@ -20,32 +27,36 @@ public abstract class CardEffect
 
     public int nrStacked;
 
-    public virtual void RecieveInput(CardEffectInfo effect)
+    public CardEffect()
     {
-        if (effect.Times == 0 || effect.Value == 0) return;
-
-        RecieveInput(effect.Times * effect.Value);
+        OnNewTurn = _OnNewTurn;
+        OnEndTurn = null;
     }
 
-    public virtual void RecieveInput(int stackUpdate)
+    public virtual IEnumerator RecieveInput(int stackUpdate)
     {
-        if (stackUpdate == 0) return;
-
-        int nrStackedPre = nrStacked;
-
-        nrStacked += stackUpdate;
-
-        actor.healthEffectsUI.UpdateEffectUI(this);
-
-        RespondStackUpdate(stackUpdate);
-
-        if (nrStackedPre == 0 && nrStacked != 0)
+        if (stackUpdate != 0)
         {
-            AddFunctionToRules();
-            if (triggerRecalcDamage) CombatSystem.instance.RecalcAllCardsDamage();
-        }
+            int nrStackedPre = nrStacked;
 
-        if (nrStacked == 0) Dismantle();
+            nrStacked += stackUpdate;
+
+            actor.healthEffectsUI.UpdateEffectUI(this);
+
+            RespondStackUpdate(stackUpdate);
+
+            if (nrStackedPre == 0 && nrStacked != 0)
+            {
+                AddFunctionToRules();
+                if (triggerRecalcDamage) CombatSystem.instance.RecalcAllCardsDamage();
+            }
+
+            if (nrStacked == 0) Dismantle();
+            yield return new WaitForSeconds(applyEffectWait);
+        }
+    }
+    public virtual void RespondStackUpdate(int update)
+    {
     }
 
     public virtual void AddFunctionToRules()
@@ -56,17 +67,15 @@ public abstract class CardEffect
     {
     }
 
-    public virtual void RespondStackUpdate(int update)
+
+    internal virtual IEnumerator _OnNewTurn()
     {
+        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-1));
     }
 
-    public virtual void OnNewTurn()
+    public virtual IEnumerator _OnEndTurn()
     {
-        RecieveInput(-1);
-    }
-
-    public virtual void OnEndTurn()
-    {
+        yield return null; //this method is always meant to be overwritten if used 
     }
 
     public virtual void OnActorDeath()

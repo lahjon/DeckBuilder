@@ -30,7 +30,7 @@ MonoBehaviour:
   effectsOnPlay: []
   activitiesOnPlay:
   - type: 1
-    parameter: Burden_CheapScare
+    parameter: Burden_CheapScare,Deck
   effectsOnDraw: []
   activitiesOnDraw: []
   cardRarity: 3

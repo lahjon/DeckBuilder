@@ -53,9 +53,10 @@ public class CombatActor : MonoBehaviour, IToolTipable
     public void InitializeCombat()
     {
         AnchorToolTip.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.9f);
+        healthEffectsUI.UpdateShield(shield);
 
         actionsNewTurn.Add(RemoveAllBlock);
-        healthEffectsUI.UpdateShield(shield);
+        actionsNewTurn.Add(EffectsOnNewTurnBehavior);
 
         dealAttackLinear.Add(ApplyCombatStrength);
 
@@ -81,13 +82,23 @@ public class CombatActor : MonoBehaviour, IToolTipable
 
     public virtual void CardResolved(Card card)
     {
-        discard.Insert(0, card);
+        if (card.exhaust)
+            Destroy(card.gameObject);
+        else
+            DiscardCard(card);
     }
 
     public virtual void AddToDeck(Card card)
     {
         deck.Insert(0, card);
     }
+
+    public virtual void AddToDeckSemiRandom(Card card)
+    {
+        int index = UnityEngine.Random.Range(0, deck.Count + 1);
+        deck.Insert(index, card);
+    }
+
 
     public IEnumerator GetAttacked(int damage, CombatActor sourceActor)
     {
@@ -126,30 +137,31 @@ public class CombatActor : MonoBehaviour, IToolTipable
     }
 
 
-    public void RecieveEffectNonDamageNonBlock(CardEffectInfo effect)
+    public IEnumerator RecieveEffectNonDamageNonBlock(CardEffectInfo effectInfo)
     {
-        if (effectTypeToRule.ContainsKey(effect.Type))
-            effectTypeToRule[effect.Type].RecieveInput(effect);
-        else
+        if (!effectTypeToRule.ContainsKey(effectInfo.Type))
         {
-            effectTypeToRule[effect.Type] = effect.Type.GetRuleEffect();
-            effectTypeToRule[effect.Type].actor = this;
-            effectTypeToRule[effect.Type].RecieveInput(effect);
+            effectTypeToRule[effectInfo.Type] = effectInfo.Type.GetRuleEffect();
+            effectTypeToRule[effectInfo.Type].actor = this;
         }
+
+        yield return StartCoroutine(effectTypeToRule[effectInfo.Type].RecieveInput(effectInfo.Value));
     }
 
-    public void EffectsOnNewTurnBehavior()
+    public IEnumerator EffectsOnNewTurnBehavior()
     {
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
-            effectTypeToRule[effect].OnNewTurn();
+            if (effectTypeToRule[effect].OnNewTurn != null)
+                yield return StartCoroutine(effectTypeToRule[effect].OnNewTurn());
     }
 
-    public void EffectsOnEndTurnBehavior()
+    public IEnumerator EffectsOnEndTurnBehavior()
     {
         List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
         foreach (EffectType effect in effects)
-            if(effectTypeToRule.ContainsKey(effect)) effectTypeToRule[effect].OnEndTurn();
+            if(effectTypeToRule.ContainsKey(effect) && effectTypeToRule[effect].OnEndTurn != null)
+                yield return StartCoroutine(effectTypeToRule[effect].OnEndTurn());
     }
 
     public IEnumerator ChangeBlock(int change)

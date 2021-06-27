@@ -9,6 +9,11 @@ public class CardEffectBarricade : CardEffect
     public override bool isBuff { get { return true; } }
     public override bool stackable { get { return false; } }
 
+    public CardEffectBarricade() : base()
+    {
+        OnNewTurn = null;
+    }
+
     public override void AddFunctionToRules()
     {
         stolenFunction = actor.RemoveAllBlock;
@@ -19,11 +24,5 @@ public class CardEffectBarricade : CardEffect
     {
         actor.actionsNewTurn.Add(stolenFunction);
     }
-
-    public override void OnNewTurn()
-    {
-        
-    }
-
 
 }

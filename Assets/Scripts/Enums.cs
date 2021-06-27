@@ -53,7 +53,7 @@ public static class EnumExtenstions
             default:
                 return null;
         }
-    }
+    } 
 
     public static void Invoke(this OverworldEncounterType type)
     {
@@ -111,6 +111,15 @@ public enum ZoomState
     Inner, 
     Mid, 
     Outer
+}
+
+public enum CardLocation
+{
+    Deck,
+    Hand,
+    Discard,
+    Exhaust,
+    InProcess
 }
 
 public enum TileState
@@ -373,7 +382,7 @@ public enum EnemyBehavior
 public enum CardActivityType
 {
     DrawCard,
-    AddCardToDeck,
+    AddCardToCombat,
     Splice,
     ExhaustDiscard,
     CombatCostChange,

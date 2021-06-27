@@ -25,7 +25,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
         if (
             (cardWaiting.card.targetRequired && !CombatSystem.instance.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
             ||
-            (CombatSystem.instance.cEnergy < cardWaiting.card.cost))
+            (CombatSystem.instance.cEnergy < cardWaiting.card.displayCost))
         {
             CombatSystem.instance.Hand.Add(cardWaiting.card);
             CombatSystem.instance.RefreshHandPositions();
@@ -35,7 +35,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
         {
             CombatSystem.instance.InProcessCard = cardWaiting.card;
             CombatSystem.instance.InProcessTarget = cardWaiting.suppliedTarget;
-            CombatSystem.instance.cEnergy -= cardWaiting.card.cost;
+            CombatSystem.instance.cEnergy -= cardWaiting.card.displayCost;
             cardWaiting.card.animator.SetTrigger("CanPlay");
             animator.SetTrigger("CardCanProcess");
         }

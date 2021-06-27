@@ -19,10 +19,6 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         CombatSystem.instance.StartCoroutine(EnemyTurn());
     }
 
-    /*
-            foreach (CombatActorEnemy enemy in CombatSystem.instance.EnemiesInScene)
-            yield return StartCoroutine(EnemyStartTurn(enemy))
-    */
 
     public IEnumerator EnemyTurn()
     {
@@ -31,7 +27,6 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
             yield return CombatSystem.instance.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 
-        enemy.EffectsOnNewTurnBehavior();
         CombatSystem.instance.animator.SetTrigger("EnemyPlayCard");
     }
  

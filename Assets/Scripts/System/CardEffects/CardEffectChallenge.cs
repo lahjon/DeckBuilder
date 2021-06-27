@@ -10,34 +10,31 @@ public class CardEffectChallenge : CardEffect
 
     public List<CombatActor> challengedActors = new List<CombatActor>();
 
-
-    public override void OnEndTurn()
+    public CardEffectChallenge() : base()
     {
-        
+        OnNewTurn = null;
     }
 
-    public override void OnNewTurn()
-    {
-      
-    }
-
-    public override void RecieveInput(CardEffectInfo effect)
+    public override IEnumerator RecieveInput(int stackUpdate)
     {
         CombatActor challenger = CombatSystem.instance.ActiveActor;
-        if (challengedActors.Contains(challenger))
-            return;
+        if (!challengedActors.Contains(challenger))
+        {
+            //update the numbers
+            yield return CombatSystem.instance.StartCoroutine(base.RecieveInput(stackUpdate));
 
-        //update the numbers
-        base.RecieveInput(effect);
+            if (!(stackUpdate < 1 || challenger == actor))
+            {
+                actor.dealAttackActorMods[challenger].Add(AttackEffect);
+                challengedActors.Add(challenger);
 
-        if (effect.Value < 1 || challenger == actor) return;
-             
-        actor.dealAttackActorMods[challenger].Add(AttackEffect);
-        challengedActors.Add(challenger);
-
-        challenger.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = 1, Value = 1 });
-        ((CardEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
-        challenger.dealAttackActorMods[actor].Add(AttackEffect);
+                yield return CombatSystem.instance.StartCoroutine(
+                    challenger.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = 1, Value = 1 })
+                    );
+                ((CardEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
+                challenger.dealAttackActorMods[actor].Add(AttackEffect);
+            }
+        }
     }
 
     public override void OnActorDeath()
@@ -45,7 +42,7 @@ public class CardEffectChallenge : CardEffect
         foreach(CombatActor actor in challengedActors)
         {
             ((CardEffectChallenge)actor.effectTypeToRule[EffectType.Challenge]).challengedActors.Remove(actor);
-            actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = -1, Value = 1 });
+            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = -1, Value = 1 }));
         }
     }
 

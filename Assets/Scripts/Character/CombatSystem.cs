@@ -13,7 +13,8 @@ public class CombatSystem : MonoBehaviour
     public static CombatSystem instance;
     public CombatOverlay combatOverlay;
     public GameObject TemplateCard;
-    public BezierPath discardPath;
+    public BezierPath pathDiscard;
+    public BezierPath pathDeck;
     public SelectionPath selectionPath;
     public GameObject TemplateEnemy;
     public List<EnemyData> enemyDatas = new List<EnemyData>();
@@ -21,6 +22,8 @@ public class CombatSystem : MonoBehaviour
     public Camera CombatCamera;
     public Transform cardPanel;
     public Transform cardHoldPos;
+
+    public CombatCardPresenter cardPresenter;
 
     public CombatActorHero Hero;
     public GameObject content;
@@ -249,7 +252,7 @@ public class CombatSystem : MonoBehaviour
         return EnemiesInScene[id];
     }
 
-    public (CardEffectInfo effect, List<CombatActor> targets) GetTargets(CombatActor source, CardEffectInfo effect, CombatActor suppliedTarget)
+    public List<CombatActor> GetTargets(CombatActor source, CardEffectInfo effect, CombatActor suppliedTarget)
     {
         List<CombatActor> targets = new List<CombatActor>();
 
@@ -267,17 +270,7 @@ public class CombatSystem : MonoBehaviour
             targets.AddRange(EnemiesInScene);
         }
 
-        CardEffectInfo returnEffect;
-
-        if (effect.Target == CardTargetType.EnemyRandom)
-        {
-            returnEffect = effect.Clone();
-            returnEffect.Times = 1;
-        }
-        else
-            returnEffect = effect;
-
-        return (returnEffect, targets);
+        return targets;
     }
 
     public int PreviewCalcDamageAllEnemies(int value)
@@ -467,11 +460,10 @@ public class CombatSystem : MonoBehaviour
             object obj = drawnEffectsAndActivities.Dequeue();
             if(obj is CardEffectInfo cardEffect)
             {
-                (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget = GetTargets(Hero, cardEffect, null);
-
-                for (int i = 0; i < effectAndTarget.effect.Times; i++)
-                    foreach (CombatActor actor in effectAndTarget.targets)
-                        actor.RecieveEffectNonDamageNonBlock(effectAndTarget.effect);
+                List<CombatActor> targets = GetTargets(Hero, cardEffect, null);
+                for (int i = 0; i < cardEffect.Times; i++)
+                    foreach (CombatActor actor in targets)
+                        yield return StartCoroutine(actor.RecieveEffectNonDamageNonBlock(cardEffect));
             }
             else if(obj is CardActivitySetting a)
             {
@@ -573,12 +565,12 @@ public class CombatSystem : MonoBehaviour
 
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.cost <= cEnergy && card.selectable && !card.unplayable;
-        if (!silentCheck && card.cost > cEnergy)
+        bool selectable = card.displayCost <= cEnergy && card.selectable && !card.unplayable;
+        if (!silentCheck && card.displayCost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }
-
+             
         return selectable;
     }
 

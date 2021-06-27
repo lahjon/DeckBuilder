@@ -30,11 +30,7 @@ MonoBehaviour:
   effectsOnPlay: []
   activitiesOnPlay:
   - type: 1
-    parameter: Burden_StickyGoo
-  - type: 1
-    parameter: Burden_CheapScare
-  - type: 1
-    parameter: Burden_Disarm
+    parameter: Burden_StickyGoo,Deck;Burden_CheapScare,Deck;Burden_Disarm,Deck
   effectsOnDraw: []
   activitiesOnDraw: []
   cardRarity: 4

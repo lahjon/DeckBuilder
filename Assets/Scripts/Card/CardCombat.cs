@@ -69,7 +69,6 @@ public class CardCombat : CardVisual, IToolTipable
 
     void Start()
     {
-        animator = GetComponent<Animator>();
         animator.SetBool("NeedTarget",targetRequired);
     }
 
@@ -85,9 +84,11 @@ public class CardCombat : CardVisual, IToolTipable
         card.BindCardVisualData();
 
         card.owner = CombatSystem.instance.Hero;
-        card.GetComponent<BezierFollow>().route = CombatSystem.instance.discardPath.transform;
+        card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
+        card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
+        card.animator = card.GetComponent<Animator>();
         card.SetToolTips();
 
         return card;
@@ -99,13 +100,14 @@ public class CardCombat : CardVisual, IToolTipable
         CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);
         CardObject.transform.localScale = Vector3.one;
         CardCombat card = CardObject.GetComponent<CardCombat>();
-        card.GetComponent<BezierFollow>().route = CombatSystem.instance.discardPath.transform;
+        card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
+        card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         SpliceCards(card, a, b);
         card.classType = a.classType;
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.ActiveActor;
+        card.animator = card.GetComponent<Animator>();
         card.SetToolTips();
-
         return card;
     }
 

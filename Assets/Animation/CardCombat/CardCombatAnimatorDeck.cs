@@ -7,7 +7,11 @@ public class CardCombatAnimatorDeck : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        card.transform.localPosition = new Vector3(-1000, -1000, 0);
+        card.transform.position = combatController.txtDeck.transform.position;
+        card.transform.localScale = Vector3.zero;
+        card.transform.localEulerAngles = Vector3.zero;
+        card.MouseReact = false;
+        card.selectable = false;
     }
 
 }

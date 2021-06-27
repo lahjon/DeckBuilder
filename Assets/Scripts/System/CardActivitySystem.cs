@@ -20,7 +20,7 @@ public class CardActivitySystem : MonoBehaviour
     {
         CardActivity.ActivitySystem = this;
         ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
-        ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
+        ActivityTypeToAction[CardActivityType.AddCardToCombat] = new CardActivityAddCardToCombat();
         ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();
         ActivityTypeToAction[CardActivityType.ExhaustDiscard] = new CardActivityExhaustDiscard();
         ActivityTypeToAction[CardActivityType.CombatCostChange] = new CardActivityCombatCostChange();
