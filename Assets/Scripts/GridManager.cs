@@ -229,7 +229,6 @@ public class GridManager : Manager
     {
         world.uiManager.UIWarningController.CreateWarning("Starting Boss fight!");
     }
-
     public void CompleteEmptyTile(HexTile tile)
     {
         if (tile != null)
@@ -265,8 +264,11 @@ public class GridManager : Manager
 
             currentTile.tileState = TileState.Completed;
             animator.SetBool("IsPlaying", false);
+
+            EventManager.CompleteTile();
         }
     }
+    
     public void AddRandomExit(int row)
     {
         Debug.Log("stranger danger!");

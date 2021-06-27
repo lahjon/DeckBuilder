@@ -9,7 +9,7 @@ public class CardActivitySplice : CardActivity
     CardEffectInfo cardEffect = new CardEffectInfo() { Type = EffectType.Splice, Times = 1};
     public override IEnumerator Execute(string input)
     {
-        CombatActor hero = combatController.Hero;
+        CombatActor hero = CombatSystem.instance.Hero;
 
         if (!hero.effectTypeToRule.ContainsKey(EffectType.Splice)) {
             cardEffect.Value = Int32.Parse(input);
@@ -30,13 +30,13 @@ public class CardActivitySplice : CardActivity
             if (discardedCard != null)
             {
                 cardEffect.Value = -1;
-                combatController.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect);
-                CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)combatController.InProcessCard, discardedCard);
+                CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect);
+                CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
                 hero.deck.Add(splicedCard);
-                combatController.InProcessCard.exhaust = true;
+                CombatSystem.instance.InProcessCard.exhaust = true;
                 hero.discard.Remove(discardedCard);
-                CombatController.Destroy(discardedCard.gameObject);
-                combatController.UpdateDeckTexts();
+                CombatSystem.Destroy(discardedCard.gameObject);
+                CombatSystem.instance.UpdateDeckTexts();
 
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Created spliced card!");
             }

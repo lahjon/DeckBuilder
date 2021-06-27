@@ -6,6 +6,9 @@ public class EventManager : Manager
     public delegate void EnterBuildingEvent(BuildingType building);
     public static event EnterBuildingEvent OnEnterBuildingEvent;
 
+    public delegate void CompleteTileEvent();
+    public static event CompleteTileEvent OnCompleteTileEvent;
+
     public delegate void EnemyKilledEvent(EnemyData enemy);
     public static event EnemyKilledEvent OnEnemyKilledEvent;
 
@@ -17,6 +20,13 @@ public class EventManager : Manager
 
     public delegate void LevelUpEvent(CharacterClassType classType, int level);
     public static event LevelUpEvent OnLevelUpEvent;
+
+    public delegate void NewWorldStateEvent(WorldState worldState);
+    public static event NewWorldStateEvent OnNewWorldStateEvent;
+    public delegate void NewOverlayStateEvent(OverlayState overlayState);
+    public static event NewOverlayStateEvent OnNewOverlayStateEvent;
+    public delegate void WinCombatEvent();
+    public static event WinCombatEvent OnWinCombatEvent;
 
     public static void EnterBuilding(BuildingType building)
     {
@@ -30,12 +40,23 @@ public class EventManager : Manager
             EventManager.OnEnemyKilledEvent(enemy);
     }
 
+    public static void NewWorldState(WorldState state)
+    {
+        if(OnNewWorldStateEvent != null)
+            EventManager.OnNewWorldStateEvent(state);
+    }
+
+    public static void NewOverlayState(OverlayState state)
+    {
+        if(OnNewOverlayStateEvent != null)
+            EventManager.OnNewOverlayStateEvent(state);
+    }
+
     public static void StatsTrackerUpdated()
     {
         if(OnStatsTrackerUpdatedEvent != null)
             EventManager.OnStatsTrackerUpdatedEvent();
     }
-
     public static void CompleteSpecialEvent(string eventName)
     {
         if(OnCompleteSpecialEventEvent != null)
@@ -45,6 +66,18 @@ public class EventManager : Manager
     {
         if(OnLevelUpEvent != null)
             EventManager.OnLevelUpEvent(classType, level);
+    }
+    public static void WinCombat()
+    {
+        Debug.Log("Winning Combat!");
+        if(OnWinCombatEvent != null)
+            EventManager.OnWinCombatEvent();
+    }
+
+    public static void CompleteTile()
+    {
+        if(OnCompleteTileEvent != null)
+            EventManager.OnCompleteTileEvent();
     }
 }
 

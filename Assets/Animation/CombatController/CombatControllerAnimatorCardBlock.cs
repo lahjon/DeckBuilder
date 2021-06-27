@@ -21,11 +21,11 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 
 
         if (block.Value == 0)
-            combatController.animator.Play(nextLayerState);
+            CombatSystem.instance.animator.Play(nextLayerState);
         else
         {
-            effectAndTarget = combatController.GetTargets(combatController.ActiveActor, block, suppliedTarget);
-            combatController.StartCoroutine(GetBlock());
+            effectAndTarget = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block, suppliedTarget);
+            CombatSystem.instance.StartCoroutine(GetBlock());
         }
     }
 
@@ -35,11 +35,11 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
         {
             foreach (CombatActor actor in effectAndTarget.targets)
             {
-                yield return combatController.StartCoroutine(actor.ChangeBlock(effectAndTarget.effect.Value));
+                yield return CombatSystem.instance.StartCoroutine(actor.ChangeBlock(effectAndTarget.effect.Value));
             }
         }
 
-        combatController.animator.Play(nextLayerState);
+        CombatSystem.instance.animator.Play(nextLayerState);
     }
         
 

@@ -7,11 +7,13 @@ public class CameraManager : Manager
     public Camera mainCamera;
     public Camera combatCamera;
     public List<Canvas> swapCanvas = new List<Canvas>();
+    public Camera currentCamera;
 
     protected override void Awake()
     {
         base.Awake(); 
         world.cameraManager = this;
+        currentCamera = mainCamera;
     }
 
     public void SwapToMain()
@@ -22,6 +24,7 @@ public class CameraManager : Manager
         }
         world.cameraManager.combatCamera.gameObject.SetActive(false);
         world.cameraManager.mainCamera.gameObject.SetActive(true);
+        currentCamera = mainCamera;
     }
     public void SwapToCombat()
     {
@@ -31,5 +34,6 @@ public class CameraManager : Manager
         }
         world.cameraManager.combatCamera.gameObject.SetActive(true);
         world.cameraManager.mainCamera.gameObject.SetActive(false);
+        currentCamera = combatCamera;
     }
 }

@@ -50,11 +50,11 @@ MonoBehaviour:
   maxHitPoints: 0
   spriteRenderer: {fileID: 3325311820606967415}
   collision: {fileID: 0}
-  combatController: {fileID: 0}
   AnchorToolTip: {fileID: 1539946949016117159}
   healthEffectsUI: {fileID: 58403642600554845}
   deck: []
   discard: []
+  strengthCombat: 0
 --- !u!212 &3325311820606967415
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1986668130604296943, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4431592953039501985, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_IsActive
@@ -286,16 +286,20 @@ PrefabInstance:
       value: -735.5
       objectReference: {fileID: 0}
     - target: {fileID: 7926990767946250738, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7926990767946250738, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
     - target: {fileID: 7926990768876797513, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.161
       objectReference: {fileID: 0}
     - target: {fileID: 7926990768876797513, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}

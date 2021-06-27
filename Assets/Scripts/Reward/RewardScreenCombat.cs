@@ -18,7 +18,7 @@ public class RewardScreenCombat : MonoBehaviour
     public GameObject cardDisplayPrefab;
     int[] keys = new int[] { 1,2,3,4,5};
 
-    void Update()
+    void Update() // BRYT UT!!! DEBUG
     {
         for(int i = 0; i < keys.Length && i < content.transform.childCount; i++)
         {
@@ -49,7 +49,7 @@ public class RewardScreenCombat : MonoBehaviour
             Destroy(content.transform.GetChild(0).gameObject);
         }
 
-        encounterData = WorldSystem.instance.combatManager.combatController.encounterData;
+        encounterData = CombatSystem.instance.encounterData;
 
         switch (encounterData.type)
         {
@@ -99,9 +99,10 @@ public class RewardScreenCombat : MonoBehaviour
     {
         foreach (GameObject reward in rewards)
         {
-            GameObject newObject = Instantiate(reward, new Vector3(0, 0, 0), Quaternion.identity);
-            newObject.transform.SetParent(content.transform);
-            newObject.transform.localScale =  new Vector3(1, 1, 1);
+            GameObject newObject = Instantiate(reward, content.transform);
+            // newObject.transform.SetParent(content.transform);
+            // newObject.transform.localPosition = new Vector3(newObject.transform.localPosition.x, newObject.transform.localPosition.y, 0);
+            // newObject.transform.localScale =  Vector3.one;
         }
     }
 
@@ -109,11 +110,12 @@ public class RewardScreenCombat : MonoBehaviour
     {
         canvas.SetActive(false);
         canvasCard.SetActive(false);
+
         if (WorldSystem.instance.gridManager.bossStarted)
         {
-            WorldStateSystem.SetInOverworld(false);
-            WorldStateSystem.SetInTown(true);
+            WorldSystem.instance.BossDefeated();
         }
+
         WorldStateSystem.SetInReward(false);
 
         for (int i = 0; i < content.transform.childCount; i++)

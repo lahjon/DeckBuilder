@@ -18,5 +18,5 @@ MonoBehaviour:
   - dialogueParticipant: 1
     sentence: Ooooh reeearry?
   - dialogueParticipant: 7
-    sentence: Yes. Go to the woods. Bring me his head!
-  anEvent: Event004
+    sentence: Yes. And take this artifact! May it help you!
+  anEvent: Event005

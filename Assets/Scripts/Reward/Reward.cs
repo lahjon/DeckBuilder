@@ -18,7 +18,7 @@ public abstract class Reward : MonoBehaviour
     public virtual void RemoveReward()
     {
         DestroyImmediate(this.gameObject);
-        if(WorldSystem.instance.rewardManager.rewardScreen.content.transform.childCount == 0)
-            WorldSystem.instance.rewardManager.rewardScreen.RemoveRewardScreen();
+        if(WorldSystem.instance.rewardManager.rewardScreenCombat.content.transform.childCount == 0)
+            WorldSystem.instance.rewardManager.rewardScreenCombat.RemoveRewardScreen();
     }
 }

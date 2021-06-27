@@ -11,8 +11,6 @@ public class RulesSystem : MonoBehaviour
 
     List<Func<IEnumerator>> actionsStartTurnEnum = new List<Func<IEnumerator>>();
 
-    CombatController combatController;
-
     void Awake()
     {
         if (instance == null)
@@ -30,7 +28,6 @@ public class RulesSystem : MonoBehaviour
 
     public void Start()
     {
-        combatController = WorldSystem.instance.combatManager.combatController;
         actionsStartTurnEnum.Add(ResetRemainingEnergy);
         actionsStartTurnEnum.Add(DrawCardsNewTurn);
 
@@ -50,14 +47,14 @@ public class RulesSystem : MonoBehaviour
     public IEnumerator ResetRemainingEnergy()
     {
         //Debug.Log("Start Energy Reset");
-        combatController.cEnergy = combatController.energyTurn;
+        CombatSystem.instance.cEnergy = CombatSystem.instance.energyTurn;
         yield return new WaitForSeconds(1);
         //Debug.Log("Leaving Energy Reset");
     }
 
     public IEnumerator DrawCardsNewTurn()
     {
-        yield return StartCoroutine(combatController.DrawCards(combatController.drawCount));
+        yield return StartCoroutine(CombatSystem.instance.DrawCards(CombatSystem.instance.drawCount));
     }
 
 

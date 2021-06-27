@@ -10,29 +10,29 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     {
         SetRefs(animator);
         //Debug.Log("Entered Player Start");
-        combatController.ActiveActor = combatController.Hero;
-        hero = combatController.Hero;
-        combatController.StartCoroutine(StartPlayerTurn());
-        combatController.combatOverlay.AnimatePlayerTurn();
+        CombatSystem.instance.ActiveActor = CombatSystem.instance.Hero;
+        hero = CombatSystem.instance.Hero;
+        CombatSystem.instance.StartCoroutine(StartPlayerTurn());
+        CombatSystem.instance.combatOverlay.AnimatePlayerTurn();
     }
 
 
     public IEnumerator StartPlayerTurn()
     {
-        yield return combatController.StartCoroutine(RulesSystem.instance.StartTurn());
+        yield return CombatSystem.instance.StartCoroutine(RulesSystem.instance.StartTurn());
         for(int i = 0; i < hero.actionsNewTurn.Count; i++)
-            yield return combatController.StartCoroutine(hero.actionsNewTurn[i].Invoke());
+            yield return CombatSystem.instance.StartCoroutine(hero.actionsNewTurn[i].Invoke());
 
 
 
         hero.EffectsOnNewTurnBehavior();
 
-        combatController.acceptEndTurn = true;
+        CombatSystem.instance.acceptEndTurn = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
-        combatController.EnemiesInScene.ForEach(x => x.DrawCard());
-        combatController.EnemiesInScene.ForEach(x => x.ShowMoveDisplay(true));
+        CombatSystem.instance.EnemiesInScene.ForEach(x => x.DrawCard());
+        CombatSystem.instance.EnemiesInScene.ForEach(x => x.ShowMoveDisplay(true));
 
-        combatController.animator.SetTrigger("PlayerTurnStarted");
+        CombatSystem.instance.animator.SetTrigger("PlayerTurnStarted");
         yield return null;
     }
 

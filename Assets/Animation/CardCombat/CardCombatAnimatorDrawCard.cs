@@ -24,16 +24,16 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         card.transform.SetAsLastSibling();
         time = 0;
         curve = card.transitionCurveDraw;
-        card.transform.position = combatController.txtDeck.transform.position;
+        card.transform.position = CombatSystem.instance.txtDeck.transform.position;
         card.transform.localScale = Vector3.zero;
         card.transform.localEulerAngles = Vector3.zero;
         speed = 3.5f;
 
         //Reset any modified values from previous buffs
-        combatController.SetCardCalcDamage(card);
+        CombatSystem.instance.SetCardCalcDamage(card);
 
         //Called every frame since we might draw more cards. 
-        (Vector3, Vector3) tempTransInfo = combatController.GetPositionInHand(card);
+        (Vector3, Vector3) tempTransInfo = CombatSystem.instance.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);
 
         StartTransInfo = TransSnapshot();
@@ -51,7 +51,7 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
             if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, time);
             animator.SetTrigger("DoneDrawing");
         }
-        combatController.RefreshHandPositions(card);
+        CombatSystem.instance.RefreshHandPositions(card);
     }
 
 

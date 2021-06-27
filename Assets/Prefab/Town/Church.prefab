@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Church
+  encounterData: {fileID: 11400000, guid: c4f732494b905f744b3463135cc6236f, type: 2}
   buildingType: 2
   building: {fileID: 0}

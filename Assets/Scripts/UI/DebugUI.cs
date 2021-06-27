@@ -40,6 +40,11 @@ public class DebugUI : MonoBehaviour
     {
         world.uiManager.UIWarningController.CreateWarning("This is a debug warning!");
     }
+
+    public void DebugCreateNewItem()
+    {
+        world.itemManager.EquipRandomItem();
+    }
     public void DebugTakeDamage(int amount)
     {
         world.characterManager.TakeDamage(amount);
@@ -80,7 +85,6 @@ public class DebugUI : MonoBehaviour
 
     public void DebugStartCombat()
     {
-        //world.combatManager.combatController.enemyDatas = enemyData;
         WorldStateSystem.SetInOverworld(true);
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInCombat(true);
@@ -111,6 +115,10 @@ public class DebugUI : MonoBehaviour
     {
         world.characterManager.shard += 5;
     }
+    public void DebugInRewardScreen()
+    {
+        world.rewardManager.rewardScreen.GetArtifactReward(world.artifactManager.GetRandomAvailableArtifact());
+    }
 
     public void DebugResetAllData()
     {
@@ -125,7 +133,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugTriggerDeathScreen()
     {
-        WorldStateSystem.SetInDeathScreen(true);
+        WorldStateSystem.SetInDeathScreen();
     }
 
     public void DebugGenerateWorld()
@@ -138,7 +146,7 @@ public class DebugUI : MonoBehaviour
     public void DebugWinCombat()
     {
         if(WorldStateSystem.instance.currentWorldState == WorldState.Combat)
-            world.combatManager.combatController.animator.SetTrigger("Win");
+            CombatSystem.instance.WinCombat();
     }
     public void ToggleDebugMenu()
     {

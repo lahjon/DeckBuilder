@@ -9,33 +9,33 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        cardWaiting = combatController.CardQueue.Dequeue();
+        cardWaiting = CombatSystem.instance.CardQueue.Dequeue();
 
-        if(combatController.acceptProcess) CheckCardProcess(animator);
+        if(CombatSystem.instance.acceptProcess) CheckCardProcess(animator);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (combatController.acceptProcess)  CheckCardProcess(animator);
+        if (CombatSystem.instance.acceptProcess)  CheckCardProcess(animator);
     }
 
     public void CheckCardProcess(Animator animator)
     {
-        animator.SetBool("CardsQueued", combatController.CardQueue.Count != 0);
+        animator.SetBool("CardsQueued", CombatSystem.instance.CardQueue.Count != 0);
         if (
-            (cardWaiting.card.targetRequired && !combatController.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
+            (cardWaiting.card.targetRequired && !CombatSystem.instance.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
             ||
-            (combatController.cEnergy < cardWaiting.card.cost))
+            (CombatSystem.instance.cEnergy < cardWaiting.card.cost))
         {
-            combatController.Hand.Add(cardWaiting.card);
-            combatController.RefreshHandPositions();
+            CombatSystem.instance.Hand.Add(cardWaiting.card);
+            CombatSystem.instance.RefreshHandPositions();
             cardWaiting.card.animator.SetTrigger("Unplayable");
         }
         else
         {
-            combatController.InProcessCard = cardWaiting.card;
-            combatController.InProcessTarget = cardWaiting.suppliedTarget;
-            combatController.cEnergy -= cardWaiting.card.cost;
+            CombatSystem.instance.InProcessCard = cardWaiting.card;
+            CombatSystem.instance.InProcessTarget = cardWaiting.suppliedTarget;
+            CombatSystem.instance.cEnergy -= cardWaiting.card.cost;
             cardWaiting.card.animator.SetTrigger("CanPlay");
             animator.SetTrigger("CardCanProcess");
         }

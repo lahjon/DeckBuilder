@@ -19,7 +19,7 @@ public class RewardShard : Reward
 
     void OnEnable()
     {
-        shardAmount = GetShards(WorldSystem.instance.combatManager.combatController.encounterData.tier, WorldSystem.instance.combatManager.combatController.encounterData.type);
+        shardAmount = GetShards(CombatSystem.instance.encounterData.tier, CombatSystem.instance.encounterData.type);
         text.text = "Shards: " + shardAmount.ToString();
     }
 

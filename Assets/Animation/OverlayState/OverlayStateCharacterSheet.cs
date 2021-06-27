@@ -14,7 +14,6 @@ public class OverlayStateCharacterSheet : OverlayStateAnimator
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
         world.characterManager.characterSheet.CloseCharacterSheet();
-        animator.SetBool("InCharacterSheet", false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

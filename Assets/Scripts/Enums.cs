@@ -26,6 +26,7 @@ public static class EnumExtenstions
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
     }
+    
 
     public static CardEffect GetRuleEffect(this EffectType type)
     {
@@ -61,7 +62,8 @@ public static class EnumExtenstions
             case OverworldEncounterType.CombatNormal:
             case OverworldEncounterType.CombatElite:
             case OverworldEncounterType.CombatBoss:
-                WorldSystem.instance.combatManager.combatController.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(type);
+                Debug.Log(CombatSystem.instance);
+                CombatSystem.instance.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(type);
                 WorldStateSystem.SetInCombat(true);
                 break;
             case OverworldEncounterType.Shop:
@@ -81,6 +83,16 @@ public static class EnumExtenstions
                 break;
         }
     }
+    
+}
+
+
+
+public enum ItemRefreshConditionType
+{
+    KillEnemy,
+    ClearTile,
+    WinCombat
 }
 
 
@@ -250,6 +262,7 @@ public enum OverlayState
     DeathScreen,
     EscapeMenu,
     Display,
+    RewardScreen,
     CharacterSheet
 }
 

@@ -56,7 +56,7 @@ public class BezierFollow : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        WorldSystem.instance.combatManager.combatController.UpdateDeckTexts();
+        CombatSystem.instance.UpdateDeckTexts();
         attachedCard.animator.SetTrigger("DoneDiscarding");
         tParam = 0f;
         attachedCard.GetComponent<Image>().raycastTarget = true;

@@ -7,7 +7,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
     CardEffectInfo attack;
     (CardEffectInfo effect, List<CombatActor> targets) effectAndTarget;
 
-    CombatActor activeActor { get { return combatController.ActiveActor; } }
+    CombatActor activeActor { get { return CombatSystem.instance.ActiveActor; } }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -21,11 +21,11 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 
         attack = card.Damage;
         if (attack.Value == 0)
-            combatController.animator.Play(nextLayerState);
+            CombatSystem.instance.animator.Play(nextLayerState);
         else
         {
-            effectAndTarget = combatController.GetTargets(activeActor, attack, suppliedTarget);
-            combatController.StartCoroutine(PerformAttack());
+            effectAndTarget = CombatSystem.instance.GetTargets(activeActor, attack, suppliedTarget);
+            CombatSystem.instance.StartCoroutine(PerformAttack());
         }
     }
 
@@ -38,11 +38,11 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
             foreach (CombatActor actor in effectAndTarget.targets)
             {
                 int damage = RulesSystem.instance.CalculateDamage(effectAndTarget.effect.Value, activeActor, actor);
-                yield return combatController.StartCoroutine(actor.GetAttacked(damage, activeActor));
+                yield return CombatSystem.instance.StartCoroutine(actor.GetAttacked(damage, activeActor));
             }
         }
 
-        combatController.animator.Play(nextLayerState);
+        CombatSystem.instance.animator.Play(nextLayerState);
     }
         
 

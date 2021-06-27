@@ -8,73 +8,54 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class ToolTipScanner : MonoBehaviour
+public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 { 
     private static LTDescr delayAction;
     public float timeDelay = 0.5f;
     private Tween _delayTween;
     private float dummy; 
 
-    /*
-    /* Verkar inte beh�vas fattar fan noll???
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        delayAction = LeanTween.delayedCall(timeDelay, () =>
-        {
-            Debug.Log("TooltipScanner sending");
-            (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos));
-        }
-        );
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        LeanTween.cancel(delayAction.uniqueId);
-        WorldSystem.instance.toolTipManager.DisableTips();
-    }
-    */
-
     Coroutine _delayAction;
 
-    public void OnMouseEnter()
-    {
-        /*
-        delayAction = LeanTween.delayedCall(timeDelay, () => {
-            (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos), this);
-        }
-        );
-        */
-        //_delayAction = StartCoroutine(DelayAction());
+    // BRYT UT TILL COLLISION VS UI
 
+    public void EnterAction()
+    {
         (_delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
             (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.combatCamera.WorldToScreenPoint(tipInfo.worldPos), this);
+            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, tipInfo.worldPos, this);
         }); 
+    }
+
+    public void ExitAction()
+    {
+        _delayTween.Kill();
+        WorldSystem.instance.toolTipManager.DisableTips(this);
+        
+    }
+    public void OnMouseEnter()
+    {
+        EnterAction();
     }
 
     public void OnMouseExit()
     {
-        //StopCoroutine(_delayAction);
-        //LeanTween.cancel(delayAction.uniqueId);
-        _delayTween.Kill();
-        WorldSystem.instance.toolTipManager.DisableTips(this);
-
+        ExitAction();
     }
 
-    /* Beh�vs ej l�ngre? On destroy verkar trigga att mouse exit
-    private void OnDestroy()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        LeanTween.cancel(delayAction.uniqueId);
-        WorldSystem.instance.toolTipManager.DisableTips(this);
+        EnterAction();
     }
-    */
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ExitAction();
+    }
 
     IEnumerator DelayAction()
     {
         yield return new WaitForSeconds(timeDelay);
         (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-        WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.mainCamera.WorldToScreenPoint(tipInfo.worldPos), this);
+        WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tipInfo.worldPos), this);
     }
 }

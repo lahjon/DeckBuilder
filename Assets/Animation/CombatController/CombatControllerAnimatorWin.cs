@@ -12,8 +12,8 @@ public class CombatControllerAnimatorWin : CombatControllerAnimator
     {
         SetRefs(animator);
         DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => WorldStateSystem.SetInReward(true) );
-        combatController.combatOverlay.AnimateVictorious();
-        combatController.EndTurn();
+        CombatSystem.instance.combatOverlay.AnimateVictorious();
+        CombatSystem.instance.EndTurn();
         
     }
 

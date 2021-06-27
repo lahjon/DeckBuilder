@@ -27,20 +27,12 @@ public class ArtifactMenu : MonoBehaviour
         }
     }
 
-    void BindArtifactData(Artifact artifact, ArtifactData artifactData)
-    {
-        artifact.name = artifactData.artifactName;
-        artifact.rarity = artifactData.rarity;
-        artifact.tooltip = artifactData.description;
-    }
-
     public GameObject AddUIArtifact(ArtifactData artifactData)
     {
-        GameObject newArtifact = Instantiate(artifactUIPrefab);   
-        BindArtifactData(newArtifact.GetComponent<Artifact>(), artifactData);
-        newArtifact.transform.SetParent(artifactContent);
+        GameObject newArtifact = Instantiate(artifactUIPrefab, artifactContent);   
+        newArtifact.GetComponent<Artifact>().BindArtifactData(artifactData);
+        //newArtifact.transform.SetParent(artifactContent);
         newArtifact.name = artifactData.artifactName;
-        newArtifact.GetComponent<Image>().sprite = artifactData.artwork;
         allUIArtifacts.Add(newArtifact);
         return newArtifact;
     }

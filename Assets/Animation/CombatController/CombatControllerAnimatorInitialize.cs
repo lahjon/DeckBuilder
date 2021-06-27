@@ -10,29 +10,29 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        combatController.StartCoroutine(SetupCombat());
-        combatController.combatOverlay.AnimateCombatStart();
+        CombatSystem.instance.StartCoroutine(SetupCombat());
+        CombatSystem.instance.combatOverlay.AnimateCombatStart();
     }
 
     public IEnumerator SetupCombat()
     {
-        combatController.BindCharacterData();
-        foreach (CombatActor actor in combatController.ActorsInScene)
+        CombatSystem.instance.BindCharacterData();
+        foreach (CombatActor actor in CombatSystem.instance.ActorsInScene)
             actor.InitializeCombat();
 
-        foreach (Func<IEnumerator> func in combatController.Hero.actionsStartCombat)
-            yield return combatController.StartCoroutine(func.Invoke());
+        foreach (Func<IEnumerator> func in CombatSystem.instance.Hero.actionsStartCombat)
+            yield return CombatSystem.instance.StartCoroutine(func.Invoke());
 
         yield return new WaitForSeconds(0.5f);
 
-        EncounterDataCombat encounterData = combatController.encounterData;
+        EncounterDataCombat encounterData = CombatSystem.instance.encounterData;
         List<CardEffectInfo>    startingEffects = encounterData.startingEffects;
         List<int>           startingTargets = encounterData.startEffectsTargets;
         int counter = 0;
 
         foreach (CardEffectInfo e in startingEffects)
         {
-            effectAndTarget = combatController.GetTargets(combatController.Hero, e, combatController.EnemiesInScene[startingTargets[counter++]]);
+            effectAndTarget = CombatSystem.instance.GetTargets(CombatSystem.instance.Hero, e, CombatSystem.instance.EnemiesInScene[startingTargets[counter++]]);
 
             for (int i = 0; i < effectAndTarget.effect.Times; i++)
                 foreach (CombatActor actor in effectAndTarget.targets)
@@ -41,9 +41,9 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
             foreach (CardEffectInfo e in encounterData.enemyData[i].startingEffects)
-                combatController.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e);
+                CombatSystem.instance.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e);
 
-        combatController.animator.SetTrigger("SetupComplete");
+        CombatSystem.instance.animator.SetTrigger("SetupComplete");
     }
 
 

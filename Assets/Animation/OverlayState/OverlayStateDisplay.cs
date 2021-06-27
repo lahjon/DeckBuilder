@@ -16,7 +16,6 @@ public class OverlayStateDisplay : OverlayStateAnimator
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
         world.deckDisplayManager.CloseDeckDisplay();
-        animator.SetBool("InDisplay", false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class CombatControllerAnimator : StateMachineBehaviour
 {
-    public static CombatController combatController;
-
     public virtual void SetRefs(Animator animator)
     {
-        if (combatController is null)
-        {
-            combatController = animator.GetComponent<CombatController>();
-        }
+        
     }
 
 }

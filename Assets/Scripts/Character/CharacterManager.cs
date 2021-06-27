@@ -99,6 +99,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public void Heal(int amount)
     {
         currentHealth += amount;
+        Debug.Log("healing for: " + amount);
 
         if (currentHealth > characterStats.GetStat(StatType.Health))
         {
@@ -140,7 +141,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void KillCharacter()
     {
-        WorldStateSystem.SetInDeathScreen(true);
+        WorldStateSystem.SetInDeathScreen();
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)

@@ -191,11 +191,11 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
             toolTipShowing = true;
             //WorldSystem.instance.toolTipManager.Tips(new List<string>() { "blueee" }, canvasIntent.worldCamera.WorldToScreenPoint(AnchorToolTip.position));
         }
-        if (combatController.ActiveCard != null  && combatController.ActiveCard.targetRequired)
+        if (CombatSystem.instance.ActiveCard != null  && CombatSystem.instance.ActiveCard.targetRequired)
             SetTarget(true);
         
 
-        if (combatController.TargetedEnemy is null) combatController.TargetedEnemy = this;
+        if (CombatSystem.instance.TargetedEnemy is null) CombatSystem.instance.TargetedEnemy = this;
     }
 
 
@@ -205,7 +205,7 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         toolTipShowing = false;
         //WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
-        if (combatController.TargetedEnemy == this) combatController.TargetedEnemy = null;
+        if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

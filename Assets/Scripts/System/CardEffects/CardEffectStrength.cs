@@ -18,7 +18,7 @@ public class CardEffectStrength : CardEffect
 
         actor.strengthCombat = nrStacked;
 
-        combatController.RecalcAllCardsDamage();
+        CombatSystem.instance.RecalcAllCardsDamage();
 
         if (nrStacked == 0) Dismantle();
     }

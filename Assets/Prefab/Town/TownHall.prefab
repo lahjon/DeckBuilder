@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Town Hall
+  encounterData: {fileID: 0}
   buildingType: 3
   building: {fileID: 0}

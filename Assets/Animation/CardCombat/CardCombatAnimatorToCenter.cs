@@ -17,14 +17,14 @@ public class CardCombatAnimatorToCenter : CardCombatAnimator
     {
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
-        combatController.ResetSiblingIndexes();
+        CombatSystem.instance.ResetSiblingIndexes();
         curve = card.transitionCurveReturn;
         StartTransInfo = TransSnapshot();
         time = 0;
         speed = 3.5f;
         reached = false;
         card.GetComponent<Image>().raycastTarget = false;
-        TargetTransInfo = (combatController.cardHoldPos.localPosition, StartTransInfo.scale, Vector3.one);
+        TargetTransInfo = (CombatSystem.instance.cardHoldPos.localPosition, StartTransInfo.scale, Vector3.one);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

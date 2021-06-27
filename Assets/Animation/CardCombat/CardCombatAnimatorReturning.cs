@@ -14,7 +14,7 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
     {
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
-        combatController.ResetSiblingIndexes();
+        CombatSystem.instance.ResetSiblingIndexes();
         curve = card.transitionCurveReturn;
         StartTransInfo = TransSnapshot();
         time = 0;
@@ -26,7 +26,7 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
         time += speed * Time.deltaTime;
 
         //Moving this here as card drawing makes this vulnerable to lock down;
-        (Vector3 pos, Vector3 angles) tempTransInfo = combatController.GetPositionInHand(card);
+        (Vector3 pos, Vector3 angles) tempTransInfo = CombatSystem.instance.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.pos, Vector3.one, tempTransInfo.angles);
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
@@ -39,6 +39,6 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (combatController.ActiveCard is null) animator.SetBool("AllowMouseOver", true);
+        if (CombatSystem.instance.ActiveCard is null) animator.SetBool("AllowMouseOver", true);
     }
 }

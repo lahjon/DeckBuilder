@@ -14,8 +14,8 @@ public class CombatControllerAnimatorCard : CombatControllerAnimator
     public override void SetRefs(Animator animator)
     {
         base.SetRefs(animator);
-        card = combatController.InProcessCard;
-        suppliedTarget = combatController.InProcessTarget;
+        card = CombatSystem.instance.InProcessCard;
+        suppliedTarget = CombatSystem.instance.InProcessTarget;
     }
 
 }

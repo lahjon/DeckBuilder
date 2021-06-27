@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3688955a3b671304c965fe2c0bd5cd83, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b9012c6f972770049bdbbd191952270a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Tavern
+  encounterData: {fileID: 0}
   buildingType: 1
   building: {fileID: 0}

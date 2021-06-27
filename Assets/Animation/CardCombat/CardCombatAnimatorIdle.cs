@@ -11,13 +11,13 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
     {
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);        
-        card.fanDegreeCurrent = combatController.GetCurrentDegree(card);
+        card.fanDegreeCurrent = CombatSystem.instance.GetCurrentDegree(card);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Moving this here as card drawing makes this vulnerable to lock down;
-        card.fanDegreeTarget = combatController.GetTargetDegree(card);
+        card.fanDegreeTarget = CombatSystem.instance.GetTargetDegree(card);
         
         if(Mathf.Abs(card.fanDegreeTarget-card.fanDegreeCurrent) > limit)
         {
@@ -26,18 +26,18 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
             else
                 card.fanDegreeCurrent = Mathf.Clamp(card.fanDegreeCurrent - speed*Time.deltaTime, card.fanDegreeTarget, 200);
 
-            combatController.SetCardTransFromDegree(card, card.fanDegreeCurrent);
+            CombatSystem.instance.SetCardTransFromDegree(card, card.fanDegreeCurrent);
         }
         else {
             card.fanDegreeCurrent = card.fanDegreeTarget;
-            combatController.SetCardTransFromDegree(card, card.fanDegreeTarget);
+            CombatSystem.instance.SetCardTransFromDegree(card, card.fanDegreeTarget);
             animator.SetBool("NeedFan", false);
         }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if(combatController.ActiveCard is null) animator.SetBool("AllowMouseOver", true);
+        if(CombatSystem.instance.ActiveCard is null) animator.SetBool("AllowMouseOver", true);
     }
 }
 

@@ -9,7 +9,7 @@ public class CardActivityDrawCard : CardActivity
     public override IEnumerator Execute(string input)
     {
         int x = Int32.Parse(input);
-        yield return ActivitySystem.StartCoroutine(combatController.DrawCards(x));
+        yield return ActivitySystem.StartCoroutine(CombatSystem.instance.DrawCards(x));
     }
 
     public override string GetDescription(string input)

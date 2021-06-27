@@ -59,7 +59,7 @@ public class CardDisplay : CardVisual
         }
         else
         {
-            WorldSystem.instance.rewardManager.rewardScreen.ResetCurrentReward();
+            WorldSystem.instance.rewardManager.rewardScreenCombat.ResetCurrentReward();
             WorldSystem.instance.rewardManager.rewardScreenCardSelection.canvas.SetActive(false);
         }
     }
@@ -120,7 +120,7 @@ public class CardDisplay : CardVisual
 
         if(callRewardScreen == true)
         {
-            WorldSystem.instance.rewardManager.rewardScreen.currentReward.OnClick();
+            WorldSystem.instance.rewardManager.rewardScreenCombat.currentReward.OnClick();
         }
     }
 

@@ -26,7 +26,7 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         card.highlight.SetActive(true);
         WorldSystem.instance.toolTipManager.canShow = false;
 
-        selectionPath = combatController.selectionPath;
+        selectionPath = CombatSystem.instance.selectionPath;
         DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => selectionPath.StartFollow());
     }
 

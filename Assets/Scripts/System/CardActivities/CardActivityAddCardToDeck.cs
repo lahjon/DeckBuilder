@@ -17,10 +17,10 @@ public class CardActivityAddCardToDeck : CardActivity
         else
         {
             CardCombat card = CardCombat.CreateCardCombatFromData(cd);
-            int rndIndex = Random.Range(0,combatController.Hero.deck.Count+1);
-            combatController.Hero.deck.Insert(rndIndex, card);
+            int rndIndex = Random.Range(0,CombatSystem.instance.Hero.deck.Count+1);
+            CombatSystem.instance.Hero.deck.Insert(rndIndex, card);
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning($"Added card {card.cardName} to Deck!");
-            combatController.UpdateDeckTexts();
+            CombatSystem.instance.UpdateDeckTexts();
         }
         yield return null;
     }

@@ -10,17 +10,17 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         //Debug.Log("Entered enemy start state");
         SetRefs(animator);
 
-        combatController.combatOverlay.AnimateEnemyTurn();
+        CombatSystem.instance.combatOverlay.AnimateEnemyTurn();
 
-        enemy = combatController.enemiesWaiting.Dequeue();
-        combatController.ActiveActor = enemy;
-        combatController.InProcessCard = enemy.hand;
-        combatController.InProcessTarget = combatController.Hero;
-        combatController.StartCoroutine(EnemyTurn());
+        enemy = CombatSystem.instance.enemiesWaiting.Dequeue();
+        CombatSystem.instance.ActiveActor = enemy;
+        CombatSystem.instance.InProcessCard = enemy.hand;
+        CombatSystem.instance.InProcessTarget = CombatSystem.instance.Hero;
+        CombatSystem.instance.StartCoroutine(EnemyTurn());
     }
 
     /*
-            foreach (CombatActorEnemy enemy in combatController.EnemiesInScene)
+            foreach (CombatActorEnemy enemy in CombatSystem.instance.EnemiesInScene)
             yield return StartCoroutine(EnemyStartTurn(enemy))
     */
 
@@ -29,10 +29,10 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         enemy.ShowMoveDisplay(false);
         for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
-            yield return combatController.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
+            yield return CombatSystem.instance.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 
         enemy.EffectsOnNewTurnBehavior();
-        combatController.animator.SetTrigger("EnemyPlayCard");
+        CombatSystem.instance.animator.SetTrigger("EnemyPlayCard");
     }
  
 

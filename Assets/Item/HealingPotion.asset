@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b51c08fcab16c4f47b2eb9acb90fb489, type: 3}
+  m_Name: HealingPotion
+  m_EditorClassIdentifier: 
+  itemName: HealingPotion
+  itemId: 1
+  artwork: {fileID: 21300000, guid: caf28dde35d70e8429fce88379950caf, type: 3}
+  description: '<b>Healing Potion</b>
+
+    Super cool item heals +10!'
+  rarity: 2
+  itemCondition:
+    itemConditionType: 1
+    value: 1
+  itemUseCondition: 050000000a00000007000000

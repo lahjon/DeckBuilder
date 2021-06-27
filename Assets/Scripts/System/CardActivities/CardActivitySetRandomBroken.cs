@@ -8,7 +8,7 @@ public class CardActivitySetRandomBroken : CardActivity
 {
     public override IEnumerator Execute(string input)
     {
-        List<CardCombat> eligibleCards = combatController.Hand.Where(c => c.classType != CardClassType.Burden && c.classType != CardClassType.Enemy && c.classType != CardClassType.Torment).ToList();
+        List<CardCombat> eligibleCards = CombatSystem.instance.Hand.Where(c => c.classType != CardClassType.Burden && c.classType != CardClassType.Enemy && c.classType != CardClassType.Torment).ToList();
         int index = Random.Range(0, eligibleCards.Count);
         eligibleCards[index].isBroken = true;
         yield return null;

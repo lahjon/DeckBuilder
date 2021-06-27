@@ -146,5 +146,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Shop
+  encounterData: {fileID: 0}
   buildingType: 0
   building: {fileID: 0}

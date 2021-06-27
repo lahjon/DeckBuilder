@@ -23,7 +23,7 @@ public class CardEffectChallenge : CardEffect
 
     public override void RecieveInput(CardEffectInfo effect)
     {
-        CombatActor challenger = combatController.ActiveActor;
+        CombatActor challenger = CombatSystem.instance.ActiveActor;
         if (challengedActors.Contains(challenger))
             return;
 

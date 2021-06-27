@@ -88,9 +88,18 @@ TagManager:
   - name: Card
     uniqueID: 1299891345
     locked: 0
+  - name: RewardScreenCombat
+    uniqueID: 3331185467
+    locked: 0
   - name: CardDisplay
     uniqueID: 1106051305
     locked: 0
+  - name: CharacterHUD
+    uniqueID: 2794340007
+    locked: 0
   - name: SelectionPath
     uniqueID: 223154637
+    locked: 0
+  - name: Tooltip
+    uniqueID: 1996930289
     locked: 0

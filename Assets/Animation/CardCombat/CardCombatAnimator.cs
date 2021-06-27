@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class CardCombatAnimator : StateMachineBehaviour
 {
-    public static CombatController combatController;
     public CardCombat card;
-
     public void SetRefs(Animator animator)
     {
-        if (combatController is null) 
-            combatController = WorldSystem.instance.combatManager.combatController;
         if(card is null)
             card = animator.GetComponent<CardCombat>();
     }

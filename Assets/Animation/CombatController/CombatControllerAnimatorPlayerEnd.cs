@@ -8,24 +8,24 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
     {
         //Debug.Log("Entered Turn End");
         SetRefs(animator);
-        combatController.StartCoroutine(EndPlayerturn());
+        CombatSystem.instance.StartCoroutine(EndPlayerturn());
     }
 
 
     public IEnumerator EndPlayerturn()
     {
-        combatController.acceptEndTurn = false;
-        combatController.ActiveActor.EffectsOnEndTurnBehavior();
-        for (int i = 0; i < combatController.Hero.actionsEndTurn.Count; i++)
-            yield return combatController.StartCoroutine(combatController.Hero.actionsEndTurn[i].Invoke());
+        CombatSystem.instance.acceptEndTurn = false;
+        CombatSystem.instance.ActiveActor.EffectsOnEndTurnBehavior();
+        for (int i = 0; i < CombatSystem.instance.Hero.actionsEndTurn.Count; i++)
+            yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.actionsEndTurn[i].Invoke());
 
-        combatController.EndTurn();
+        CombatSystem.instance.EndTurn();
         yield return new WaitForSeconds(0.05f);
 
 
-        combatController.enemiesWaiting.Clear();
-        combatController.EnemiesInScene.ForEach(x => combatController.enemiesWaiting.Enqueue(x));
-        combatController.animator.SetTrigger("PlayerTurnEnded");
+        CombatSystem.instance.enemiesWaiting.Clear();
+        CombatSystem.instance.EnemiesInScene.ForEach(x => CombatSystem.instance.enemiesWaiting.Enqueue(x));
+        CombatSystem.instance.animator.SetTrigger("PlayerTurnEnded");
         yield return null;
     }
 

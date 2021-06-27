@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using DG.Tweening;
 
 
 public static class Helpers
@@ -46,7 +47,10 @@ public static class Helpers
         }
     }
 
-
+    public static void DelayForSeconds(float timeDelay, Action callback = null)
+    {
+        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete(() => callback?.Invoke()); 
+    }
 
     public static void SetListsFromDictionary<T1, T2>(this Dictionary<T1, T2> dict, ref List<T1> keys, ref List<T2> values)
     {

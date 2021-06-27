@@ -10,12 +10,10 @@ public class SelectionPath : MonoBehaviour
     public GameObject pathIconEnd;
     List<GameObject> pathIcons = new List<GameObject>();
     public bool enableDebug;
-    CombatController combatController;
 
     void Start()
     {
         CreatePath();
-        combatController = WorldSystem.instance.combatManager.combatController;
     }
 
     void OnDrawGizmos()

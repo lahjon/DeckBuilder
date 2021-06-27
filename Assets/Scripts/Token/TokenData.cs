@@ -14,5 +14,4 @@ public class TokenData : ScriptableObject
     public string description;
     public Rarity rarity;
     public Sprite artwork;
-    public string effectName;
 }

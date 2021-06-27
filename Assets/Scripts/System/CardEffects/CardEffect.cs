@@ -3,7 +3,6 @@ using System;
 public abstract class CardEffect
 {
     public CombatActor actor;
-    public CombatController combatController { get { return actor.combatController; } }
     public string effectName { get { return GetType().ToString().Substring(10); } }
     public abstract bool isBuff { get; }
     public virtual bool triggerRecalcDamage { get { return false; } }
@@ -43,7 +42,7 @@ public abstract class CardEffect
         if (nrStackedPre == 0 && nrStacked != 0)
         {
             AddFunctionToRules();
-            if (triggerRecalcDamage) combatController.RecalcAllCardsDamage();
+            if (triggerRecalcDamage) CombatSystem.instance.RecalcAllCardsDamage();
         }
 
         if (nrStacked == 0) Dismantle();
@@ -84,7 +83,7 @@ public abstract class CardEffect
     public virtual void Dismantle()
     {
         RemoveFunctionFromRules();
-        if (triggerRecalcDamage) combatController.RecalcAllCardsDamage();
+        if (triggerRecalcDamage) CombatSystem.instance.RecalcAllCardsDamage();
         actor.effectTypeToRule.Remove(type);
     }
 

@@ -13,7 +13,7 @@ public class RewardScreenCardSelection : MonoBehaviour
         cards.Clear();
         WorldStateSystem.SetInReward(true);
 
-        foreach (Transform card in WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCardContent.transform)
+        foreach (Transform card in WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform)
         {
             cards.Add(card.gameObject);
         }
@@ -26,8 +26,8 @@ public class RewardScreenCardSelection : MonoBehaviour
 
         if(cards.Count < maxCardReward)
         {
-            GameObject newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreen.cardDisplayPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
-            newCard.transform.SetParent(WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCardContent.transform);
+            GameObject newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreenCombat.cardDisplayPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
+            newCard.transform.SetParent(WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform);
             cards.Add(newCard);
         }
         else if (cards.Count > maxCardReward)
@@ -39,7 +39,7 @@ public class RewardScreenCardSelection : MonoBehaviour
             }
         }
 
-        WorldSystem.instance.rewardManager.rewardScreen.canvasCard.SetActive(true);
+        WorldSystem.instance.rewardManager.rewardScreenCombat.canvasCard.SetActive(true);
         if(rewardCards != null && rewardCards.Count > 0)
         {
             SetSpecificCard(rewardCards);

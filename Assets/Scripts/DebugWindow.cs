@@ -31,7 +31,7 @@ public class DebugWindow : EditorWindow
         // toggle combat visibility
         if(GUILayout.Button("Toggle Combat Visiblity"))
         {
-            ToggleActiveObject("--------------COMBAT--------------", "CombatScene");
+            ToggleActiveObject("--------------COMBAT--------------", "CombatSystem", "Content");
         }
 
         // resets all saved data
@@ -66,6 +66,27 @@ public class DebugWindow : EditorWindow
             else
             {
                 foundObject.gameObject.SetActive(true);
+            }
+        }
+    }
+    void ToggleActiveObject(string parent, string child1, string child2)
+    {
+        foundObject = GameObject.Find(parent);
+
+        if (foundObject != null)
+        {
+            foundObject = foundObject.transform.Find(child1).gameObject;
+            if (foundObject != null)
+            {
+                foundObject = foundObject.transform.Find(child2).gameObject;
+                if (foundObject.activeSelf)
+                {
+                    foundObject.gameObject.SetActive(false);
+                }
+                else
+                {
+                    foundObject.gameObject.SetActive(true);
+                }
             }
         }
     }

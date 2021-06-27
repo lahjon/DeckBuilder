@@ -30,7 +30,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
         // ugly but dont know what else todo
         card.transform.SetAsLastSibling();
 
-        TargetTransInfo = (new Vector3(combatController.GetPositionInHand(card).Position.x, 200, 0), new Vector3(1.1f, 1.1f, 1.1f), new Vector3(0, 0, 0));
+        TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), new Vector3(1.1f, 1.1f, 1.1f), new Vector3(0, 0, 0));
         if (time* enlargementSpeed < 1)
             CardLerp(StartTransInfo, TargetTransInfo, 1f); //fucking time.Deltatime??? messed up.
     }
@@ -38,7 +38,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Debug.Log("MouseOver StateExit: Sending Refresh idle trigger" + Time.frameCount);
-        combatController.ResetSiblingIndexes();
+        CombatSystem.instance.ResetSiblingIndexes();
         card.highlight.SetActive(false);
     }
 

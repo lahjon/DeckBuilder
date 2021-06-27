@@ -16,7 +16,6 @@ public class WorldSystem : MonoBehaviour
     public ShopManager shopManager;
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
-    public CombatManager combatManager;
     public TownManager townManager;
     public UIManager uiManager;
     public GameEventManager gameEventManager;
@@ -30,6 +29,7 @@ public class WorldSystem : MonoBehaviour
     public RewardManager rewardManager;
     public LevelManager levelManager;
     public GridManager gridManager;
+    public ItemManager itemManager;
     public ToolTipManager toolTipManager;
     public int act;
     public int saveAmount;
@@ -98,8 +98,10 @@ public class WorldSystem : MonoBehaviour
 
     public void BossDefeated()
     {
+        gridManager.currentTile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
+        WorldStateSystem.SetInOverworld(false);
+        WorldStateSystem.SetInTown(true);
         SaveProgression();
-        Debug.Log("Go to town!");
     }
     private void UpdateStartScene()
     {

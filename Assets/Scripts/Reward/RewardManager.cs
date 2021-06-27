@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class RewardManager : Manager, IEvents
 {
-    public RewardScreenCombat rewardScreen;
+    public RewardScreenCombat rewardScreenCombat;
+    public RewardScreen rewardScreen;
     public System.Action callback;
     public RewardScreenCardSelection rewardScreenCardSelection;
     public int draftAmount = 0;
+    public System.Action rewardCallback;
     protected override void Awake()
     {
         base.Awake();
@@ -18,7 +20,7 @@ public class RewardManager : Manager, IEvents
 
     public void OpenRewardScreen()
     {
-        rewardScreen.SetupRewards();
+        rewardScreenCombat.SetupRewards();
     }
 
     public void CloseRewardScreen()
@@ -29,7 +31,7 @@ public class RewardManager : Manager, IEvents
             callback = null;
         }
         rewardScreenCardSelection.canvas.SetActive(false);
-        rewardScreen.canvas.SetActive(false);
+        rewardScreenCombat.canvas.SetActive(false);
     }
 
     public void EnemyKilled(EnemyData enemyData)

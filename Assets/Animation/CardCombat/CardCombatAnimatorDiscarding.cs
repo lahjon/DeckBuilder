@@ -12,7 +12,7 @@ public class CardCombatAnimatorDiscarding : CardCombatAnimator
     {
         SetRefs(animator);
 
-        combatController.DiscardCard(card);
+        CombatSystem.instance.DiscardCard(card);
         card.animator.SetBool("HasTarget", false);
         card.GetComponent<BezierFollow>().StartAnimation();
     }

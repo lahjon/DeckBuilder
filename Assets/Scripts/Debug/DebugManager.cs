@@ -70,10 +70,10 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
-                    List<Card> cards = world.combatManager.combatController.Hero.deck;
+                    List<Card> cards = CombatSystem.instance.Hero.deck;
                     Card card = cards.Where(c => c.name == x).FirstOrDefault();
                     if(card != null)
-                        world.combatManager.combatController.Hero.deck.Remove(card);
+                        CombatSystem.instance.Hero.deck.Remove(card);
                     Debug.Log("Remove Card: " + x);
                 }
             }
@@ -82,7 +82,7 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
-                    world.combatManager.combatController.cEnergy += x;
+                    CombatSystem.instance.cEnergy += x;
                     Debug.Log("added energy: " + x);
                 }
             }

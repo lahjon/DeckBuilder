@@ -19,7 +19,7 @@ public class RewardGold : Reward
 
     void OnEnable()
     {
-        goldAmount = GetGold(WorldSystem.instance.combatManager.combatController.encounterData.tier, WorldSystem.instance.combatManager.combatController.encounterData.type);
+        goldAmount = GetGold(CombatSystem.instance.encounterData.tier, CombatSystem.instance.encounterData.type);
         text.text = "Gold: " + goldAmount.ToString();
     }
 

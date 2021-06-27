@@ -14,7 +14,6 @@ public class OverlayStateEscapeMenu : OverlayStateAnimator
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
         world.uiManager.escapeMenu.Deactivate();
-        animator.SetBool("InEscapeMenu", false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

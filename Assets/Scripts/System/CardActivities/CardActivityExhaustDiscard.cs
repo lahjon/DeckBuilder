@@ -10,17 +10,17 @@ public class CardActivityExhaustDiscard : CardActivity
     {
         int x = Int32.Parse(input);
 
-        CombatActor target = combatController.InProcessTarget;
+        CombatActor target = CombatSystem.instance.InProcessTarget;
         
         for(int i = 0; i < x && target.discard.Count >= 0; i++)
         {
             Card card = target.discard[0];
             target.discard.RemoveAt(0);
             CombatActor.Destroy(card.gameObject);
-            if(target == combatController.Hero)
+            if(target == CombatSystem.instance.Hero)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Top in discard was exhausted!");
-                combatController.UpdateDeckTexts();
+                CombatSystem.instance.UpdateDeckTexts();
             }
         }
 

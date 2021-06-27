@@ -7,7 +7,6 @@ using System.Linq;
 public class CardActivitySystem : MonoBehaviour
 {
     public static CardActivitySystem instance = null;
-    public CombatController combatController;
     public Dictionary<CardActivityType, CardActivity> ActivityTypeToAction = new Dictionary<CardActivityType, CardActivity>();
 
 
@@ -19,9 +18,7 @@ public class CardActivitySystem : MonoBehaviour
 
     public void Start()
     {
-        combatController = WorldSystem.instance.combatManager.combatController;
         CardActivity.ActivitySystem = this;
-        CardActivity.combatController = combatController;
         ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
         ActivityTypeToAction[CardActivityType.AddCardToDeck] = new CardActivityAddCardToDeck();
         ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();

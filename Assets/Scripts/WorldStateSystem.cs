@@ -6,9 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class WorldStateSystem : MonoBehaviour
 {
-    [SerializeField]
-    List<WorldState> stateStack = new List<WorldState>();
-
     public static Animator worldAnimator;
     public static Animator overlayAnimator;
     public TransitionType overrideTransitionType;
@@ -27,6 +24,7 @@ public class WorldStateSystem : MonoBehaviour
         set
         {
             _currentWorldState = value;
+            EventManager.NewWorldState(_currentWorldState);
             WorldSystem.instance.uiManager?.debugUI.UpdateCharacterDebugHUD();
         }
     }
@@ -39,6 +37,7 @@ public class WorldStateSystem : MonoBehaviour
         set
         {
             _currentOverlayState = value;
+            EventManager.NewOverlayState(_currentOverlayState);
             WorldSystem.instance.uiManager?.debugUI.UpdateCharacterDebugHUD();
         }
     }
@@ -127,51 +126,42 @@ public class WorldStateSystem : MonoBehaviour
     {
         if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.Display)
         {
-            if (!overlayAnimator.GetBool("InDisplay"))
-            {
-                //overlayAnimator.SetBool("InDisplay", true);
-            }
-            else
-            {
-                overlayAnimator.SetTrigger("Clear");
-            }
-        }
-    }
-    public static void SetInDialogue(bool aBool)
-    {
-        if (aBool)
-            overlayAnimator.SetBool("InDialogue", aBool);
-        else
             overlayAnimator.SetTrigger("Clear");
-
+        }
+        else
+        {
+            overlayAnimator.SetTrigger("InDisplay");
+        }
     }
-    public static void SetInEscapeMenu(bool aBool)
+    public static void SetInDialogue()
+    {
+        overlayAnimator.SetTrigger("InDialogue");
+    }
+    public static void SetInRewardScreen()
+    {
+        overlayAnimator.SetTrigger("InRewardScreen");
+    }
+    public static void SetInEscapeMenu()
     {
         if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
         {
-            if (!overlayAnimator.GetBool("InEscapeMenu"))
-            {
-                overlayAnimator.SetBool("InEscapeMenu", true);
-            }
-            else
-            {
-                overlayAnimator.SetTrigger("Clear");
-            }
+            overlayAnimator.SetTrigger("Clear");
+        }
+        else
+        {
+            overlayAnimator.SetTrigger("InEscapeMenu");
         }
     }
 
-    public static void SetInDeathScreen(bool buttoaBool)
+    public static void SetInDeathScreen()
     {
         if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
         {
-            if (!overlayAnimator.GetBool("InDeathScreen"))
-            {
-                overlayAnimator.SetBool("InDeathScreen", true);
-            }
-            else
-            {
-                overlayAnimator.SetTrigger("Clear");
-            }
+            overlayAnimator.SetTrigger("InDeathScreen");
+        }
+        else
+        {
+            overlayAnimator.SetTrigger("Clear");
         }
     }
 
@@ -191,12 +181,6 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void TriggerClear()
     {
-        // overlayAnimator.SetBool("InCharacterSheet", false);
-        // overlayAnimator.SetBool("InEscapeMenu", false);
-        // overlayAnimator.SetBool("InDialogue", false);
-        // overlayAnimator.SetBool("InDisplay", false);
-        // overlayAnimator.SetBool("InDeathScreen", false);
-        // overlayAnimator.SetBool("InTransition", false);
         overlayAnimator.SetTrigger("Clear");
     }
 }

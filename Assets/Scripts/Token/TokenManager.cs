@@ -16,7 +16,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
     public int tokenPoints;
     public int availableTokenPoints;
     public List<string> tokensRequireUpdate = new List<string>();
-    int startingPoints = 3;
+    int startingPoints = 1;
 
     protected override void Awake()
     {
@@ -57,7 +57,8 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
             token.unlocked = true;
         }
 
-        Effect.GetEffect(aToken, tokenData.effectName);
+        Effect.GetEffect(aToken, tokenData.tokenName);
+
         allTokens.Add(aToken);
         token.Init();
     }
@@ -108,15 +109,10 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
             tokenMenu.UnselectToken(token.name);
         }
     }
-
-
-
-
+    
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
         a_SaveData.selectedTokens = selectedTokens;
-        //a_SaveData.selectedTokens.ForEach(x => Debug.Log(x));
-        //selectedTokens.ForEach(x => Debug.Log(x));
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

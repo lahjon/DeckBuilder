@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 
 public class CardCombat : CardVisual, IToolTipable
 {
-    [HideInInspector] public CombatController combatController;
     public RectTransform cardPanel;
     public AnimationCurve transitionCurveDraw;
     public AnimationCurve transitionCurveReturn;
@@ -76,20 +75,18 @@ public class CardCombat : CardVisual, IToolTipable
 
     public static CardCombat CreateCardCombatFromData(CardData cardData)
     {
-        CombatController combatController = WorldSystem.instance.combatManager.combatController;
-        GameObject CardObject = Instantiate(combatController.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(combatController.cardPanel, false);
+        GameObject CardObject = Instantiate(CombatSystem.instance.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+        CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);
         CardObject.transform.localScale = Vector3.one;
         CardCombat card = CardObject.GetComponent<CardCombat>();
         card.cardData = cardData;
-        card.cardPanel = combatController.cardPanel.GetComponent<RectTransform>();
+        card.cardPanel = CombatSystem.instance.cardPanel.GetComponent<RectTransform>();
         card.BindCardData();
         card.BindCardVisualData();
 
-        card.combatController = combatController;
-        card.owner = combatController.Hero;
-        card.GetComponent<BezierFollow>().route = combatController.discardPath.transform;
-        combatController.createdCards.Add(card);
+        card.owner = CombatSystem.instance.Hero;
+        card.GetComponent<BezierFollow>().route = CombatSystem.instance.discardPath.transform;
+        CombatSystem.instance.createdCards.Add(card);
 
         card.SetToolTips();
 
@@ -98,17 +95,15 @@ public class CardCombat : CardVisual, IToolTipable
 
     public static CardCombat CreateCardCombined(CardCombat a, CardCombat b)
     {
-        CombatController combatController = WorldSystem.instance.combatManager.combatController;
-        GameObject CardObject = Instantiate(combatController.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(combatController.cardPanel, false);
+        GameObject CardObject = Instantiate(CombatSystem.instance.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+        CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);
         CardObject.transform.localScale = Vector3.one;
         CardCombat card = CardObject.GetComponent<CardCombat>();
-        card.combatController = combatController;
-        card.GetComponent<BezierFollow>().route = combatController.discardPath.transform;
+        card.GetComponent<BezierFollow>().route = CombatSystem.instance.discardPath.transform;
         SpliceCards(card, a, b);
         card.classType = a.classType;
         card.BindCardVisualData();
-        card.owner = combatController.ActiveActor;
+        card.owner = CombatSystem.instance.ActiveActor;
         card.SetToolTips();
 
         return card;
@@ -135,39 +130,39 @@ public class CardCombat : CardVisual, IToolTipable
 
     public void SelectCard()
     {
-        if (combatController.ActiveCard != null) combatController.ActiveCard.DeselectCard();
+        if (CombatSystem.instance.ActiveCard != null) CombatSystem.instance.ActiveCard.DeselectCard();
         selected = true;
-        combatController.ActiveCard = this;
+        CombatSystem.instance.ActiveCard = this;
         animator.SetBool("Selected", true);
     }
     public override void  OnMouseRightClick(bool allowDisplay = true)
     {
-        //Debug.Log("OnMouseRighclick called");
-        if (combatController.ActiveCard == this)
+        Debug.Log("OnMouseRighclick called");
+        if (CombatSystem.instance.ActiveCard == this)
         {
             DeselectCard();
-            //Debug.Log("Deselect");
+            Debug.Log("Deselect");
         }
-        else if(!selected && allowDisplay && combatController.ActiveCard == null)
+        else if(!selected && allowDisplay && CombatSystem.instance.ActiveCard == null)
         {
             DisplayCard();
-            //Debug.Log("Display");
+            Debug.Log("Display");
         }
     }
 
     public override void OnMouseClick()
     {
         //Debug.Log("Cardclicked: " + cardName);
-        if(combatController.ActiveCard == this)
-            combatController.SelectedCardTriggered();
-        else if(combatController.CardisSelectable(this,false))
+        if(CombatSystem.instance.ActiveCard == this)
+            CombatSystem.instance.SelectedCardTriggered();
+        else if(CombatSystem.instance.CardisSelectable(this,false))
             SelectCard();  
     }
 
     public void DeselectCard()
     {
         selected = false;
-        combatController.CancelCardSelection();
+        CombatSystem.instance.CancelCardSelection();
     }
 
     public override void ResetScale()
@@ -185,6 +180,6 @@ public class CardCombat : CardVisual, IToolTipable
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
-        return (toolTipTextBits, TooltipAnchor.position);
+        return (toolTipTextBits, WorldSystem.instance.cameraManager.combatCamera.WorldToScreenPoint(TooltipAnchor.position));
     }
 }

@@ -11,7 +11,6 @@ public class CombatActor : MonoBehaviour, IToolTipable
     [HideInInspector] public int maxHitPoints;
     [HideInInspector] public SpriteRenderer spriteRenderer;
     [HideInInspector] public BoxCollider2D collision;
-    [HideInInspector] public CombatController combatController;
     int _hitPoints;
 
     public int hitPoints { get { return _hitPoints; } set
@@ -60,7 +59,7 @@ public class CombatActor : MonoBehaviour, IToolTipable
 
         dealAttackLinear.Add(ApplyCombatStrength);
 
-        foreach (CombatActor actor in combatController.ActorsInScene)
+        foreach (CombatActor actor in CombatSystem.instance.ActorsInScene)
             dealAttackActorMods[actor] = new List<Func<float>>(); //technically includes oneself but who cares?
     }
 
@@ -111,7 +110,7 @@ public class CombatActor : MonoBehaviour, IToolTipable
         LooseLife(Mathf.Min(damage));
 
         if (hitPoints == 0)
-            WorldSystem.instance.combatManager.combatController.ReportDeath(this);
+            CombatSystem.instance.ReportDeath(this);
     }
 
     public void LooseLife(int lifeToLose)
@@ -119,7 +118,7 @@ public class CombatActor : MonoBehaviour, IToolTipable
         if (lifeToLose == 0) return;
 
         hitPoints -= Mathf.Min(lifeToLose, hitPoints);
-        if (this == combatController.Hero)
+        if (this == CombatSystem.instance.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
         //Debug.Log("Starting LifeLoss");

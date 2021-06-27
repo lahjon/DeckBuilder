@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class ToolTipManager : Manager
 {
-    Canvas canvas;
+    public Canvas canvas;
 
     public GameObject templateTooltip;
     public RectTransform TipLocation; 
@@ -38,10 +38,9 @@ public class ToolTipManager : Manager
 
     protected override void Start()
     {
-        canvas.worldCamera = WorldSystem.instance.cameraManager.combatCamera;
+        canvas.worldCamera = WorldSystem.instance.cameraManager.mainCamera;
         canvas.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
-
 
     public void Tips(List<string> tips, Vector3 screenPoint, ToolTipScanner scanner)
     {

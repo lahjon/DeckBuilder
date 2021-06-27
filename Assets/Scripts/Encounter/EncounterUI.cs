@@ -47,14 +47,14 @@ public class EncounterUI : MonoBehaviour
                 StartCoroutine(FadeToNextEvent());
                 return;
             case EncounterEventChoiceOutcome.Combat:
-                WorldSystem.instance.combatManager.combatController.encounterData = (EncounterDataCombat)encounterData.choices[index - 1].newEncounter;
+                CombatSystem.instance.encounterData = (EncounterDataCombat)encounterData.choices[index - 1].newEncounter;
                 WorldStateSystem.SetInCombat(true);
                 break;
             case EncounterEventChoiceOutcome.CardRandom:
-                WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
+                WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
                 break;
             case EncounterEventChoiceOutcome.CardSpecific:
-                WorldSystem.instance.rewardManager.rewardScreen.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.chosenOption.cardRewards);
+                WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.chosenOption.cardRewards);
                 break;
             default:
                 WorldStateSystem.SetInEvent(false);

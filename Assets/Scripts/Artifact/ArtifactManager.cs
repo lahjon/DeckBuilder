@@ -61,7 +61,7 @@ public class ArtifactManager : Manager, ISaveableTemp
             GameObject newArtifact = artifactMenu.AddUIArtifact(artifactData);
             allActiveArtifactsNames.Add(artifactName);
 
-            Effect.GetEffect(newArtifact, artifactData.effectName, true);
+            Effect.GetEffect(newArtifact, artifactData.artifactName, true);
 
             if (save)
             {

@@ -8,7 +8,7 @@ public class CardActivityCombatCostChange : CardActivity
 {
     public override IEnumerator Execute(string input)
     {
-        List<CardCombat> eligibleCards = combatController.Hand.Where(c => c.classType != CardClassType.Burden && c.classType != CardClassType.Enemy && c.classType != CardClassType.Torment).ToList();
+        List<CardCombat> eligibleCards = CombatSystem.instance.Hand.Where(c => c.classType != CardClassType.Burden && c.classType != CardClassType.Enemy && c.classType != CardClassType.Torment).ToList();
         if(eligibleCards.Count != 0)
         {
             eligibleCards[UnityEngine.Random.Range(0,eligibleCards.Count)].displayCost++;

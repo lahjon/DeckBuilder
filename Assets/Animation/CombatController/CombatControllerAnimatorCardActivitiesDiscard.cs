@@ -9,19 +9,19 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
     {
         SetRefs(animator);
         //Debug.Log("Entered activities & discard");
-        combatController.StartCoroutine(ActivitiesDiscard());
+        CombatSystem.instance.StartCoroutine(ActivitiesDiscard());
     }
 
     IEnumerator ActivitiesDiscard()
     {
         foreach(CardActivitySetting a in card.activitiesOnPlay)
         {
-            yield return combatController.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
+            yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
         }
 
         card.owner.CardResolved(card);
            
-        combatController.animator.SetTrigger("CardFinished");
+        CombatSystem.instance.animator.SetTrigger("CardFinished");
     }
         
 

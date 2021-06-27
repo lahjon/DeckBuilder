@@ -35,7 +35,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -166.54907, y: 428.1776}
+  m_AnchoredPosition: {x: -166.54901, y: 428.1776}
   m_SizeDelta: {x: -564.3958, y: -984.6996}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8242332177089374107
@@ -148,16 +148,16 @@ Canvas:
   m_GameObject: {fileID: 8242332177656918992}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1500627289
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &8242332177656918997
@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allArtifacts:
   - {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
+  - {fileID: 11400000, guid: 84ec7dad53ad7e542a93ed3f63d8ad1d, type: 2}
   - {fileID: 11400000, guid: 173c177d050afff4587662a691f4677f, type: 2}
   allActiveArtifactsNames: []
   artifactMenu: {fileID: 8242332177682655122}
