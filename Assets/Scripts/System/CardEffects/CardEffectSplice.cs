@@ -14,7 +14,7 @@ public class CardEffectSplice : CardEffect
 
     public override IEnumerator _OnEndTurn()
     {
-        yield return combatController.StartCoroutine(RecieveInput(-nrStacked));
+        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-nrStacked));
     }
 
 }

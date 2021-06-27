@@ -8,7 +8,7 @@ public class CardCombatAnimatorForeshadowed : CardCombatAnimator
     {
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);        
-        card.fanDegreeCurrent = combatController.GetCurrentDegree(card);
+        card.fanDegreeCurrent = CombatSystem.instance.GetCurrentDegree(card);
     }
 }
 

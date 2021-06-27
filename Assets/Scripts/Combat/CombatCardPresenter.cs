@@ -5,7 +5,6 @@ using System.Linq;
 
 public class CombatCardPresenter : MonoBehaviour
 {
-    public CombatController combatController;
     public float cardHeight = 550;
     public float waitDelay = 0.1f;
 
@@ -34,22 +33,22 @@ public class CombatCardPresenter : MonoBehaviour
         if(cardsToHand.Count > 0)
         {
             cardsToHand.ForEach(c => {
-                combatController.Hand.Add(c.card);
-                (c.card.transform.localPosition, c.card.transform.localEulerAngles) = combatController.GetPositionInHand(c.card);
+                CombatSystem.instance.Hand.Add(c.card);
+                (c.card.transform.localPosition, c.card.transform.localEulerAngles) = CombatSystem.instance.GetPositionInHand(c.card);
                 c.card.animator.SetTrigger("GotoHand");
                 cardsLocale.Remove(c);
             });
 
-            combatController.RefreshHandPositions();
+            CombatSystem.instance.RefreshHandPositions();
         }
 
         cardsLocale.ForEach(c => {
             c.card.transform.localEulerAngles = Vector3.one;
             c.card.animator.SetBool("ToCardPileDiscard", c.targetLocale == CardLocation.Discard);
             if (c.targetLocale == CardLocation.Discard)
-                combatController.Hero.discard.Add(c.card);
+                CombatSystem.instance.Hero.discard.Add(c.card);
             else
-                combatController.Hero.AddToDeckSemiRandom(c.card);
+                CombatSystem.instance.Hero.AddToDeckSemiRandom(c.card);
             });
 
         int nrToDeck = cardsLocale.Count(c => c.targetLocale == CardLocation.Deck);

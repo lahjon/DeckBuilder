@@ -14,12 +14,12 @@ public class CardEffectStrengthEOT : CardEffect
 
     public override void RespondStackUpdate(int update)
     {
-       combatController.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo(EffectType.Strength, update, 1)));
+       CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo(EffectType.Strength, update, 1)));
     }
 
     
     public override IEnumerator _OnEndTurn()
     {
-        yield return combatController.StartCoroutine(RecieveInput(-nrStacked));
+        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-nrStacked));
     }
 }

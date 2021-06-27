@@ -28,7 +28,7 @@ public class CardActivityAddCardToCombat : CardActivity
         cardNames.ForEach(c => cd.Add(DatabaseSystem.instance.cardDatabase.allCards.Where(x => c == x.name).First()));
 
         cd.ForEach(d => cards.Add(CardCombat.CreateCardCombatFromData(d)));
-        combatController.cardPresenter.DisplayCards(cards, targetLocations);
+        CombatSystem.instance.cardPresenter.DisplayCards(cards, targetLocations);
 
         yield return null;
     }
