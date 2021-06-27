@@ -14,7 +14,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public CharacterVariablesUI characterVariablesUI;
     public Character character;
-    public GameObject characterPrefab;
     public List<CardData> playerCardsData = new List<CardData>();
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
@@ -111,7 +110,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     void SetupCharacterData()
     {
-        character = Instantiate(characterPrefab).GetComponent<Character>();
+        character = GetComponent<Character>();
         character.SetCharacterData((int)selectedCharacterClassType);
 
         character.name = character.characterData.classType.ToString();
