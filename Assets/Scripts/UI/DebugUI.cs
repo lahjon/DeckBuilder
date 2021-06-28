@@ -43,7 +43,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugCreateNewItem()
     {
-        world.itemManager.EquipRandomItem();
+        world.useItemManager.EquipRandomItem();
     }
     public void DebugTakeDamage(int amount)
     {
@@ -95,7 +95,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugAddRandomArtifact()
     {
-        world.artifactManager.AddArifact(world.artifactManager.GetRandomAvailableArtifact()?.artifactName);
+        world.artifactManager.AddArifact(world.artifactManager.GetRandomAvailableArtifact()?.itemName);
     }
 
     public void DebugRemoveRandomArtifact()

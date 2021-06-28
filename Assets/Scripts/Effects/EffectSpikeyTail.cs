@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EffectThorns : Effect
+public class EffectSpikeyTail : Effect
 {
     public override void AddEffect()
     {

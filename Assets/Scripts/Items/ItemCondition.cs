@@ -6,7 +6,7 @@ public abstract class ItemCondition
 {
     int _currentAmount;
     public int requiredAmount;
-    public Item item;
+    public UseItem item;
     public string value;
     public int currentAmount
     {
@@ -17,7 +17,7 @@ public abstract class ItemCondition
                 _currentAmount = value;
         }
     }
-    public ItemCondition(string aValue, Item anItem)
+    public ItemCondition(string aValue, UseItem anItem)
     {
         item = anItem;
         value = aValue;
@@ -53,7 +53,7 @@ public abstract class ItemCondition
         item.counterText.text = (requiredAmount - currentAmount).ToString();
     }
 
-    public static ItemCondition GetItemCondition(ItemConditionStruct type, Item item) => type.itemConditionType switch
+    public static ItemCondition GetItemCondition(ItemConditionStruct type, UseItem item) => type.itemConditionType switch
     {
         ItemRefreshConditionType.KillEnemy => new ItemConditionKillEnemy(type.value, item),
         ItemRefreshConditionType.ClearTile => new ItemConditionCompleteTile(type.value, item),

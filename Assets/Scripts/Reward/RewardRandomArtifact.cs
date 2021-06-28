@@ -14,12 +14,12 @@ public class RewardRandomArtifact : Reward
     {
         artifactData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
         icon.sprite = artifactData.artwork;
-        text.text = artifactData.artifactName;
-        icon?.GetComponent<Artifact>().BindArtifactData(artifactData);
+        text.text = artifactData.itemName;
+        icon.GetComponent<Artifact>().itemData = artifactData;
     }
 
     protected override void CollectCombatReward()
     {
-        WorldSystem.instance.artifactManager.AddArifact(artifactData.artifactName);
+        WorldSystem.instance.artifactManager.AddArifact(artifactData.itemName);
     }
 }

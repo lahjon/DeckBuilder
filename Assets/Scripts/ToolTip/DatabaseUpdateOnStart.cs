@@ -10,7 +10,13 @@ public static class DatabaseUpdateOnStart
 {
 
     [MenuItem("Edit/PlayUnplay Update Database %0")]
-    public static void UpdateDatabase(bool startPlaying = true)
+    public static void StartGameAndUpdate()
+    {
+        UpdateDatabase();
+        EditorApplication.isPlaying = true;
+    }
+
+    public static void UpdateDatabase()
     {
         UpdateAllCards();
         UpdateAllTokens();
@@ -20,7 +26,6 @@ public static class DatabaseUpdateOnStart
         UpdateUImanager();
         UpdateAllEncounterIcons();
 
-        EditorApplication.isPlaying = startPlaying;
         Debug.Log("Updated Database");
     }
 

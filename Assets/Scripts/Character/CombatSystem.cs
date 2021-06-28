@@ -17,11 +17,13 @@ public class CombatSystem : MonoBehaviour
     public BezierPath pathDeck;
     public SelectionPath selectionPath;
     public GameObject TemplateEnemy;
-    public List<EnemyData> enemyDatas = new List<EnemyData>();
     public TMP_Text lblEnergy;
     public Camera CombatCamera;
     public Transform cardPanel;
     public Transform cardHoldPos;
+    public Transform environmentAnchor;
+    public GameObject[] environmentPrefabs;
+    GameObject currentEnvironment;
 
     public CombatCardPresenter cardPresenter;
 
@@ -42,7 +44,7 @@ public class CombatSystem : MonoBehaviour
     public bool acceptEndTurn = true;
     public bool acceptActions = true;
     public bool acceptProcess = false;
-    private CombatActorEnemy _activeEnemy;
+    public List<EnemyData> enemyDatas = new List<EnemyData>();
 
     public EncounterDataCombat encounterData;
 
@@ -53,17 +55,13 @@ public class CombatSystem : MonoBehaviour
 
     Queue<object> drawnEffectsAndActivities = new Queue<object>();
 
-
-    KeyCode[] AlphaNumSelectCards = new KeyCode[] { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5, KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0 };
-
-    [HideInInspector]
-    public int backingEnergy;
-    [HideInInspector]
-    public int cEnergy
+    [HideInInspector] public int backingEnergy;
+    [HideInInspector] public int cEnergy
     {
         get { return backingEnergy; }
         set { backingEnergy = value; lblEnergy.text = backingEnergy.ToString(); }
     }
+    private CombatActorEnemy _activeEnemy;
 
     private List<CardData> DeckData;
     public List<CardCombat> Hand = new List<CardCombat>();
@@ -187,9 +185,35 @@ public class CombatSystem : MonoBehaviour
         animator.SetTrigger("StartSetup");
     }
 
+    void CreateEnvironment()
+    {
+        if (currentEnvironment != null) Destroy(currentEnvironment);
+
+        GameObject env = null;
+        TileBiome biome = TileBiome.None;
+        
+        if (WorldSystem.instance.gridManager.currentTile != null)
+            biome = WorldSystem.instance.gridManager.currentTile.tileBiome;
+
+        if (biome != TileBiome.None)
+        {
+            GameObject[] envs = environmentPrefabs.Where(x => x.name.Contains(biome.ToString())).ToArray();
+            Debug.Log(environmentPrefabs[0].name);
+            Debug.Log(biome.ToString());
+            Debug.Log(environmentPrefabs[0].name.Contains(biome.ToString()));
+            env = envs[UnityEngine.Random.Range(0, envs.Count())];
+        }
+
+        if (env == null)
+            env = environmentPrefabs[UnityEngine.Random.Range(0, environmentPrefabs.Count())];
+
+        currentEnvironment = Instantiate(env, environmentAnchor);
+    }
+
     public void StartCombat()
     {
         content.SetActive(true);
+        CreateEnvironment();
         SetUpEncounter();
     }
 
@@ -525,25 +549,6 @@ public class CombatSystem : MonoBehaviour
     #endregion
 
     #region CardUsage logic, user input
-    void Update()
-    {
-        for (int i = 0; i < AlphaNumSelectCards.Length && i < Hand.Count; i++)
-        {
-            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldStateSystem.instance.currentWorldState == WorldState.Combat)
-            {
-                if (ActiveCard == Hand[i])
-                    ActiveCard.OnMouseRightClick(false);
-                else
-                    Hand[i].OnMouseClick();
-
-                break;
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && acceptEndTurn == true)
-        {
-            PlayerInputEndTurn();
-        }
-    }
 
     public void DetectCanvasClick()
     {

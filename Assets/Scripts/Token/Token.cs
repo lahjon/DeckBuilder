@@ -21,7 +21,7 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     [HideInInspector] public string description;
     Vector3 position = new Vector3();
-    bool inAnimation = false;
+    //bool inAnimation = false;
     TokenManager tokenManager;
 
     public virtual void Init(bool isActive = false)

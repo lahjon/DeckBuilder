@@ -30,9 +30,9 @@ public class ArtifactMenu : MonoBehaviour
     public GameObject AddUIArtifact(ArtifactData artifactData)
     {
         GameObject newArtifact = Instantiate(artifactUIPrefab, artifactContent);   
-        newArtifact.GetComponent<Artifact>().BindArtifactData(artifactData);
-        //newArtifact.transform.SetParent(artifactContent);
-        newArtifact.name = artifactData.artifactName;
+        Artifact artifact = newArtifact.GetComponent<Artifact>();
+        artifact.itemData = artifactData;
+        newArtifact.name = artifactData.itemName;
         allUIArtifacts.Add(newArtifact);
         return newArtifact;
     }

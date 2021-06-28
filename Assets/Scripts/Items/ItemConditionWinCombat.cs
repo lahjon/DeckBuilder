@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemConditionWinCombat : ItemCondition, IEvents
 {
-    public ItemConditionWinCombat(string aValue, Item anItem) : base(aValue, anItem)
+    public ItemConditionWinCombat(string aValue, UseItem anItem) : base(aValue, anItem)
     {
         //requiredAmount = int.Parse(aValue);
     }

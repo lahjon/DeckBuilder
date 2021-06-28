@@ -11,7 +11,7 @@ public class OverlayStateRewardScreen : OverlayStateAnimator
     {
         Init(OverlayState.RewardScreen);
         world.rewardManager.rewardScreen.OpenScreen();
-        Helpers.DelayForSeconds(.5f, () => canExit = true);
+        Helpers.DelayForSeconds(timeDelay, () => canExit = true);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

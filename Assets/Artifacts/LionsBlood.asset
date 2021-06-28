@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af4f463819841664b9c993d594b0265d, type: 3}
-  m_Name: ArtifactSpikeyTale
+  m_Name: LionsBlood
   m_EditorClassIdentifier: 
-  artifactName: Spikey Tale
-  artifactId: 1
-  description: '<b>Spikey Tale</b>
-
-    Enemies takes 3 damage when attacking.'
+  itemName: Lions Blood
+  itemId: 0
+  artwork: {fileID: 21300000, guid: 3307443d4cbb74644aa469e48e5da657, type: 3}
+  description: +7 Health
   rarity: 3
-  artwork: {fileID: 21300000, guid: 58fa32a0f85cd4b458193246741a54f6, type: 3}
-  effectName: EffectThorns

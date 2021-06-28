@@ -39,11 +39,7 @@ public class GridManager : Manager
     public int subAct;
     public int bossCounter
     {
-        get
-        {
-            return _bossCounter;
-        }
-
+        get => _bossCounter;
         set 
         {
             _bossCounter = value;

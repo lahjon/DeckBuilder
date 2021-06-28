@@ -9,17 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b51c08fcab16c4f47b2eb9acb90fb489, type: 3}
+  m_Script: {fileID: 11500000, guid: 07d46dbda0117ec48847c40a9764669b, type: 3}
   m_Name: HealingPotion
   m_EditorClassIdentifier: 
-  itemName: HealingPotion
-  itemId: 1
+  itemName: Healing Potion
+  itemId: 0
   artwork: {fileID: 21300000, guid: caf28dde35d70e8429fce88379950caf, type: 3}
-  description: '<b>Healing Potion</b>
-
-    Super cool item heals +10!'
-  rarity: 2
+  description: A healing potion that heals +7!
+  rarity: 1
   itemCondition:
     itemConditionType: 1
-    value: 1
-  itemUseCondition: 050000000a00000007000000
+    value: 2
+  itemUseCondition: 0a0000000500000007000000

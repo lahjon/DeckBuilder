@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemConditionCompleteTile : ItemCondition, IEvents
 {
-    public ItemConditionCompleteTile(string aValue, Item anItem) : base(aValue, anItem)
+    public ItemConditionCompleteTile(string aValue, UseItem anItem) : base(aValue, anItem)
     {
         //requiredAmount = int.Parse(aValue);
     }

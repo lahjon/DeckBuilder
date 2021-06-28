@@ -3,35 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class ItemManager : Manager
+public class UseItemManager : Manager
 {
     public GameObject itemPrefab;
     public Canvas canvas;
     public Transform content;
-    public List<ItemData> allItems = new List<ItemData>(); 
-    public List<ItemData> equippedItems = new List<ItemData>(); 
+    public List<UseItemData> allItems = new List<UseItemData>(); 
+    public List<UseItemData> equippedItems = new List<UseItemData>(); 
     public int maxItemSlots;
     public int usedItemSlots;
     protected override void Awake()
     {
         base.Awake();
-        world.itemManager = this;
+        world.useItemManager = this;
     }
     protected override void Start()
     {
         base.Start();
     }
 
-    ItemData GetRandomItemData()
+    UseItemData GetRandomItemData()
     {
-        ItemData[] items = allItems.Except(equippedItems).ToArray();
+        UseItemData[] items = allItems.Except(equippedItems).ToArray();
         if (items.Count() > 0)
             return items[Random.Range(0, items.Count())];
 
         return null;
     }
 
-    public void RemoveItem(Item item)
+    public void RemoveItem(UseItem item)
     {
         if (equippedItems.Contains(item.itemData))
         {
@@ -48,10 +48,10 @@ public class ItemManager : Manager
             return;
         }
 
-        ItemData data = GetRandomItemData();
+        UseItemData data = GetRandomItemData();
         usedItemSlots++;
         equippedItems.Add(data);
-        Item newItem = Instantiate(itemPrefab, content).GetComponent<Item>();
+        UseItem newItem = Instantiate(itemPrefab, content).GetComponent<UseItem>();
         newItem.itemData = data;
         newItem.AddItem();
     }

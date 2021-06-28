@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 108230817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa991c339ab5999439dead4fe7fbda31, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fcd609a1b6bc554191f77d7f64e253c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 1192229189984560938, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
@@ -5183,7 +5183,7 @@ MonoBehaviour:
   rewardManager: {fileID: 0}
   levelManager: {fileID: 0}
   gridManager: {fileID: 0}
-  itemManager: {fileID: 0}
+  useItemManager: {fileID: 0}
   toolTipManager: {fileID: 0}
   act: 1
   saveAmount: 0

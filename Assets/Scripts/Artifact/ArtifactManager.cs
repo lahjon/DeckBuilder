@@ -26,7 +26,7 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public void Init()
     {
-        allArtifacts.ForEach(x => allArtifactsNames.Add(x.artifactName));
+        allArtifacts.ForEach(x => allArtifactsNames.Add(x.itemName));
         allActiveArtifactsNames.ForEach(x => AddArifact(x));
     }
 
@@ -39,9 +39,9 @@ public class ArtifactManager : Manager, ISaveableTemp
             return null;
         }
 
-        string artifactName = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
+        string itemName = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
 
-        return allArtifacts[allArtifactsNames.IndexOf(artifactName)];
+        return allArtifacts[allArtifactsNames.IndexOf(itemName)];
     }
 
     public string GetRandomActiveArtifact()
