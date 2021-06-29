@@ -94,6 +94,9 @@ TagManager:
   - name: CardDisplay
     uniqueID: 1106051305
     locked: 0
+  - name: GridHUD
+    uniqueID: 2555414131
+    locked: 0
   - name: CharacterHUD
     uniqueID: 2794340007
     locked: 0

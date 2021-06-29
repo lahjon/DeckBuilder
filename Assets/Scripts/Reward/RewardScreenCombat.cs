@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 public class RewardScreenCombat : MonoBehaviour
 {
@@ -11,83 +12,46 @@ public class RewardScreenCombat : MonoBehaviour
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
     public GameObject canvasCard;
-    public Reward currentReward;
-    public List<GameObject> combatRewardNormal;
-    public List<GameObject> combatRewardElite;
-    public List<GameObject> combatRewardBoss;
+    public RewardType[] combatRewardNormal;
+    public RewardType[] combatRewardElite;
+    public RewardType[] combatRewardBoss;
     public GameObject cardDisplayPrefab;
-    int[] keys = new int[] { 1,2,3,4,5};
-
-    void Update() // BRYT UT!!! DEBUG
-    {
-        for(int i = 0; i < keys.Length && i < content.transform.childCount; i++)
-        {
-            if (Input.GetKeyDown(keys[i].ToString()) && WorldStateSystem.instance.currentWorldState == WorldState.Reward && currentReward == null)
-            {
-                Reward currentReward = content.transform.GetChild(keys[i] - 1).GetComponent<Reward>();
-                if(currentReward is RewardCard)
-                {
-                    currentReward.OnClick(false);
-                }
-                else if (currentReward is RewardGold)
-                {
-                    currentReward.OnClick();
-                }
-                break;
-            }
-        }
-        if(Input.GetKeyDown(KeyCode.Space ) && WorldStateSystem.instance.currentWorldState == WorldState.Reward)
-            RemoveRewardScreen();
-    }
-
     public void SetupRewards()
     {
         canvas.SetActive(true);
 
         while (content.transform.childCount > 0)
-        {
             Destroy(content.transform.GetChild(0).gameObject);
-        }
 
-        encounterData = CombatSystem.instance.encounterData;
-
-        switch (encounterData.type)
+        switch (CombatSystem.instance.encounterData.type)
         {
-            case CombatEncounterType.Elite:
-                CreateRewards(combatRewardElite);
-                break;
-
-            case CombatEncounterType.Boss:
-                CreateRewards(combatRewardBoss);
-                break;
-
             case CombatEncounterType.Normal:
                 CreateRewards(combatRewardNormal);
                 break;
-
+            case CombatEncounterType.Elite:
+                CreateRewards(combatRewardElite);
+                break;
+            case CombatEncounterType.Boss:
+                CreateRewards(combatRewardBoss);
+                break;
             default:
-                Debug.Log("No default rewards!");
                 break;
         }
 
         CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
-        canvasGroup.interactable = false;
-        canvasGroup.alpha = 0;
+        // canvasGroup.interactable = false;
+        // canvasGroup.alpha = 0;
+        canvasGroup.interactable = true;
+        canvasGroup.alpha = 1;
 
-        DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, 1.5f).OnComplete( () => canvasGroup.interactable = true );
+        // DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, 1.5f).OnComplete( () => canvasGroup.interactable = true );
     }
 
-    public void ResetCurrentReward()
+    public void ResetReward()
     {
-        if (currentReward != null)
-        {
-            currentReward.RemoveReward();
-            currentReward = null;
-        }
-        else
-        {
+        Debug.Log("Amount = " + content.transform.childCount);
+        if (content.transform.childCount < 1 )
             WorldStateSystem.SetInReward(false);
-        }
     }
 
     public void ResetCurrentRewardEvent()
@@ -95,14 +59,13 @@ public class RewardScreenCombat : MonoBehaviour
         WorldStateSystem.SetInReward(false);
     }
 
-    private void CreateRewards(List<GameObject> rewards)
+    private void CreateRewards(RewardType[] rewards)
     {
-        foreach (GameObject reward in rewards)
+        foreach (RewardType reward in rewards)
         {
-            GameObject newObject = Instantiate(reward, content.transform);
-            // newObject.transform.SetParent(content.transform);
-            // newObject.transform.localPosition = new Vector3(newObject.transform.localPosition.x, newObject.transform.localPosition.y, 0);
-            // newObject.transform.localScale =  Vector3.one;
+            Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, content.transform).GetComponent<Reward>();
+            newReward.rewardType = reward;
+            newReward.SetupReward();
         }
     }
 

@@ -51,7 +51,7 @@ public class CardDisplay : CardVisual
 
     void RewardCallback()
     {
-        AddCardToDeck(this.cardData);
+        WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
         if (WorldSystem.instance.rewardManager.draftAmount > 0)
         {
             WorldSystem.instance.rewardManager.draftAmount--;
@@ -59,7 +59,7 @@ public class CardDisplay : CardVisual
         }
         else
         {
-            WorldSystem.instance.rewardManager.rewardScreenCombat.ResetCurrentReward();
+            WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
             WorldSystem.instance.rewardManager.rewardScreenCardSelection.canvas.SetActive(false);
         }
     }
@@ -116,12 +116,7 @@ public class CardDisplay : CardVisual
 
     public void AddCardToDeck(CardData cardData, bool callRewardScreen = false)
     {
-        WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
-
-        if(callRewardScreen == true)
-        {
-            WorldSystem.instance.rewardManager.rewardScreenCombat.currentReward.OnClick();
-        }
+        
     }
 
     public void OnMouseBeginDrag()

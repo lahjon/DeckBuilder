@@ -339,7 +339,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileState: 0
-  artwork: {fileID: 0}
   coord: {x: 0, y: 0, z: 0}
   availableDirections: 
   lockedDirections: 
@@ -350,12 +349,16 @@ MonoBehaviour:
   - {fileID: 8007286444005158950}
   - {fileID: 3305091518935174113}
   - {fileID: 2595203540615779284}
-  entryPosition: {x: 0, y: 0, z: 0}
+  entryDir: 0
+  turnCompleted: 0
   spriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1022666182270178936}
   roadParent: {fileID: 6047280407079951247}
-  tileType: 0
+  tileEncounterType: 0
+  tileBiome: 0
+  completed: 0
   encounters: []
+  encounterEntry: {fileID: 0}
   encountersExits: []
 --- !u!1 &4928128889099951435
 GameObject:

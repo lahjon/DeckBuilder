@@ -30,6 +30,11 @@ public class ArtifactManager : Manager, ISaveableTemp
         allActiveArtifactsNames.ForEach(x => AddArifact(x));
     }
 
+    public ArtifactData GetSpecficArtifact(string artifactName)
+    {
+        return allArtifacts[allArtifactsNames.IndexOf(artifactName)];
+    }
+
     public ArtifactData GetRandomAvailableArtifact()
     {
         List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).ToList();

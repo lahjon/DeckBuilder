@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class RewardManager : Manager, IEvents
 {
+    public GameObject rewardPrefab;
+    public Sprite[] icons;
     public RewardScreenCombat rewardScreenCombat;
     public RewardScreen rewardScreen;
     public System.Action callback;

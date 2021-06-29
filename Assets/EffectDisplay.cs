@@ -44,6 +44,7 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
-        return (new List<string>() { backingType.GetDescription()}, transform.position);
+        Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
+        return (new List<string>() { backingType.GetDescription()}, pos);
     }
 }

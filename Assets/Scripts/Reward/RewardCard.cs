@@ -1,26 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
 
-public class RewardCard : Reward
-{
-    protected override void CollectCombatReward()
-    {
+// public class RewardCard : Reward
+// {
+//     protected override void CollectCombatReward()
+//     {
         
-        WorldSystem.instance.rewardManager.rewardScreenCombat.currentReward = this.GetComponent<RewardCard>();
-        WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
-    }
+//         WorldSystem.instance.rewardManager.rewardScreenCombat.currentReward = this.GetComponent<RewardCard>();
+//         WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
+//     }
     
 
-    public List<CardData> ChooseCard(CharacterClassType characterClass, int amount = 3, bool random = true, CardData cardData = null)
-    {
-        List<CardData> cardReward = new List<CardData>(); 
+//     public List<CardData> ChooseCard(CharacterClassType characterClass, int amount = 3, bool random = true, CardData cardData = null)
+//     {
+//         List<CardData> cardReward = new List<CardData>(); 
 
-        for (int i = 0; i < amount; i++)
-        {
-            cardReward.Add(DatabaseSystem.instance.GetRandomCard((CardClassType)characterClass));
-        }
+//         for (int i = 0; i < amount; i++)
+//         {
+//             cardReward.Add(DatabaseSystem.instance.GetRandomCard((CardClassType)characterClass));
+//         }
 
-        return cardReward;
-    }
-}
+//         return cardReward;
+//     }
+// }

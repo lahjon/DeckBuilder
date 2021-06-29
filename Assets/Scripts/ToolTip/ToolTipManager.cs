@@ -63,7 +63,6 @@ public class ToolTipManager : Manager
         LayoutRebuilder.ForceRebuildLayoutImmediate(TipLocation);
     }
 
-
     public void DisableTips(ToolTipScanner scanner)
     {
         if (currentScanner is null || scanner == currentScanner)

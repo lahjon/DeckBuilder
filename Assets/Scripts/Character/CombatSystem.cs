@@ -191,17 +191,15 @@ public class CombatSystem : MonoBehaviour
 
         GameObject env = null;
         TileBiome biome = TileBiome.None;
-        
+
         if (WorldSystem.instance.gridManager.currentTile != null)
             biome = WorldSystem.instance.gridManager.currentTile.tileBiome;
 
         if (biome != TileBiome.None)
         {
             GameObject[] envs = environmentPrefabs.Where(x => x.name.Contains(biome.ToString())).ToArray();
-            Debug.Log(environmentPrefabs[0].name);
-            Debug.Log(biome.ToString());
-            Debug.Log(environmentPrefabs[0].name.Contains(biome.ToString()));
-            env = envs[UnityEngine.Random.Range(0, envs.Count())];
+            if (envs.Count() > 0)
+                env = envs[UnityEngine.Random.Range(0, envs.Count())];
         }
 
         if (env == null)

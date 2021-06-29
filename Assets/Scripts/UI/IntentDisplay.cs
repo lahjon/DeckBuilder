@@ -13,6 +13,7 @@ public class IntentDisplay : MonoBehaviour
     public TMP_Text lblIntent;
     public GameObject cAnchorIntent;
 
+
     public void RecieveIntent(CardEffectInfo block, CardEffectInfo Damage, List<CardEffectInfo> Effects)
     {
         attackSprite.SetActive(false);
@@ -27,19 +28,23 @@ public class IntentDisplay : MonoBehaviour
             if (Effects.Count <= 0)
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[0];
+                attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to attack!");
             }
             else
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[1];
+                attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to attack and use an unknown effect!");
             }
         }
         else if(Effects.Count > 0)
         {
             otherSprite.gameObject.SetActive(true);
+            otherSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to use an unknown effect!");
         }
         else if(block.Value != 0)
         {
             defendSprite.gameObject.SetActive(true);
+            defendSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to block!");
         }
 
     }
@@ -62,6 +67,5 @@ public class IntentDisplay : MonoBehaviour
 
         gameObject.SetActive(enabled);
     }
-
 
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StateReward : WorldStateAnimator
 {
+    int[] keys = new int[] { 1,2,3,4,5};
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(TransitionType.None, WorldState.Reward);
@@ -24,11 +25,22 @@ public class StateReward : WorldStateAnimator
         world.rewardManager.draftAmount = 0;
         world.rewardManager.CloseRewardScreen();
         world.cameraManager.SwapToMain();
+        CombatSystem.instance.animator.SetTrigger("Reset");
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
+        for(int i = 0; i < keys.Length && i < WorldSystem.instance.rewardManager.rewardScreenCombat.content.transform.childCount; i++)
+        {
+            if (Input.GetKeyDown(keys[i].ToString()) && WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+            {
+                WorldSystem.instance.rewardManager.rewardScreenCombat.content.transform.GetChild(keys[i] - 1).GetComponent<Reward>().OnClick();
+                break;
+            }
+        }
+        if(Input.GetKeyDown(KeyCode.Space ) && WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+            WorldSystem.instance.rewardManager.rewardScreenCombat.RemoveRewardScreen();
     }
 
 }

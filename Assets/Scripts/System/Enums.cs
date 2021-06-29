@@ -176,6 +176,17 @@ public enum CardClassType
     Enemy
 }
 
+public enum RewardType
+{
+    None,
+    Gold,
+    Shard,
+    Card,
+    Heal,
+    Item = 10,
+    Artifact = 11
+}
+
 public enum DialogueParticipant
 {
     None,
@@ -227,18 +238,6 @@ public enum StatType
     Endurance,  // block
     Wit,        // draw cards amount
     Energy
-}
-
-public enum EncounterOutcomeType
-{
-    Stat,
-    Health,
-    Gold,
-    Artifact,
-    CardSpecified,
-    CardChoose,
-    CompanionSpecified,
-    CompanionChoose
 }
 
 public enum EncounterRoadStatus

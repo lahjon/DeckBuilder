@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class Intent : MonoBehaviour
+public class Intent : MonoBehaviour, IToolTipable
 {
     public Image image;
+    [HideInInspector]public string tooltipDescription;
     RectTransform rect;
     Tween myTween;
     static float offset;
@@ -14,7 +15,6 @@ public class Intent : MonoBehaviour
 
     void Awake()
     {
-        //Debug.Log("Awake---------------------------");
         rect = image.GetComponent<RectTransform>();
         offset = 20;
         startOffset = 0;
@@ -27,7 +27,6 @@ public class Intent : MonoBehaviour
 
     private void OnDisable()
     {
-        //Debug.Log("Disable-----------------------------");
         myTween?.Kill();
         rect.anchoredPosition = new Vector2(0, startOffset);
     }
@@ -39,5 +38,10 @@ public class Intent : MonoBehaviour
         myTween = null;
         rect.anchoredPosition = new Vector2(0, startOffset);
         */
+    }
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
+        return (new List<string>() { tooltipDescription}, pos);
     }
 }
