@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ce4133762811b1489d5ff3fd69cc6fb, type: 3}
   m_Name: PoisonSnake
   m_EditorClassIdentifier: 
-  tokenName: PoisonSnake
-  tokenId: 1
-  cost: 1
-  description: 'A Token
-
-'
-  rarity: 1
+  itemName: Mr. Sneeko
+  itemId: 0
   artwork: {fileID: 21300000, guid: d35185e850365c141b9014a3515aac2f, type: 3}
+  description: A poison snake?
+  rarity: 1
+  cost: 1
