@@ -3529,12 +3529,12 @@ GameObject:
   - component: {fileID: 309282866}
   - component: {fileID: 309282865}
   m_Layer: 0
-  m_Name: DisplayCard
+  m_Name: DisplayCardCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &309282864
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5577,10 +5577,6 @@ PrefabInstance:
     - target: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
       propertyPath: m_Name
       value: CardDisplay
-      objectReference: {fileID: 0}
-    - target: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
       propertyPath: m_Pivot.x
@@ -12932,7 +12928,6 @@ MonoBehaviour:
   - {fileID: 575819858}
   - {fileID: 789297799}
   - {fileID: 309282867}
-  - {fileID: 0}
   - {fileID: 1552755416}
   - {fileID: 1021928202}
   currentCamera: {fileID: 0}
@@ -17282,7 +17277,7 @@ MonoBehaviour:
   cardPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
   content: {fileID: 290228078}
   canvas: {fileID: 309282867}
-  deckDisplay: {fileID: 2139546816}
+  deckDisplay: {fileID: 309282863}
   allDisplayedCards: []
   selectedCard: {fileID: 0}
   scroller: {fileID: 859126613}
@@ -18240,6 +18235,10 @@ PrefabInstance:
     - target: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
       propertyPath: m_Name
       value: CardDisplay
+      objectReference: {fileID: 0}
+    - target: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5402730520789720186, guid: 248babe840a04174b92feffd40320a2f, type: 3}
       propertyPath: m_Pivot.x
@@ -21017,7 +21016,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2139546817
 RectTransform:
   m_ObjectHideFlags: 0
@@ -22181,6 +22180,10 @@ PrefabInstance:
     - target: {fileID: 347953518285321966, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_RenderMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518285321966, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 382336445
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: encounterUI

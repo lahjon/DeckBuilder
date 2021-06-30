@@ -208,6 +208,7 @@ public class GridManager : Manager
         hexMapController.disableZoom = false;
         initialized = true;
         HighlightEntries(); 
+        world.uiManager.UIWarningController.CreateWarning(string.Format(tilesUntilBoss - _bossCounter + " tiles left until boss appears!"), 3f);
     }
 
     public void ExpandMap()

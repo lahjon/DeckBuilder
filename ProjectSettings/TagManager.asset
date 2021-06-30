@@ -109,3 +109,6 @@ TagManager:
   - name: Tooltip
     uniqueID: 1996930289
     locked: 0
+  - name: Warning
+    uniqueID: 382336445
+    locked: 0
