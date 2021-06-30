@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5402730520789720186
 RectTransform:
   m_ObjectHideFlags: 0
@@ -132,11 +132,17 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  Effects: []
-  activities: []
+  effectsOnPlay: []
+  effectsOnDraw: []
+  activitiesOnPlay: []
+  activitiesOnDraw: []
   animationPrefab: {fileID: 6703861643799209601}
   owner: {fileID: 0}
   material: {fileID: 2100000, guid: 2d3d4743c13f4034c80822f0466a0e54, type: 2}
+  classType: 0
+  visibleCost: 1
+  unplayable: 0
+  unstable: 0
   nameText: {fileID: 669835656910243549}
   descriptionText: {fileID: 6805669008975766311}
   artworkImage: {fileID: 5282765989145436325}
@@ -144,8 +150,9 @@ MonoBehaviour:
   border: {fileID: 7695902140003894457}
   costText: {fileID: 6468055499818804120}
   previousState: 0
-  calcDamage: -1
-  calcBlock: -1
+  displayDamage: -1
+  displayBlock: -1
+  isBroken: 0
   disable: 0
 --- !u!114 &7363127447020558273
 MonoBehaviour:

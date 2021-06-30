@@ -18,6 +18,6 @@ MonoBehaviour:
   description: A super sword! +3 strength in combat!
   rarity: 1
   itemCondition:
-    itemConditionType: 0
+    itemConditionType: 2
     value: 2
   itemUseCondition: 05000000

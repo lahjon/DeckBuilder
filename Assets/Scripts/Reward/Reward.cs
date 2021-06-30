@@ -19,7 +19,7 @@ public class Reward : MonoBehaviour, IToolTipable
     public void OnClick()
     {
         CollectCombatReward();
-        GetComponent<ToolTipScanner>().ExitAction();
+        WorldSystem.instance.toolTipManager.DisableTips();
         DestroyImmediate(gameObject);
 
         if(reset)
@@ -89,7 +89,7 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = itemData.artwork;
         reset = true;
 
-        callback = () => WorldSystem.instance.artifactManager.AddArifact(itemData.itemName);
+        callback = () => WorldSystem.instance.artifactManager.AddArtifact(itemData.itemName);
     }
     public void RewardItem(string value)
     {

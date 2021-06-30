@@ -42,9 +42,10 @@ public class Character : MonoBehaviour, ISaveableCharacter
         a_SaveData.level = level;
     }
 
-    public void CreateStartingCharacter(PlayableCharacterData aCharacterData)
+    public static void CreateStartingCharacter(PlayableCharacterData aCharacterData)
     {
-        this.classType = aCharacterData.classType;
-        this.characterData = aCharacterData;
+
+        WorldSystem.instance.characterManager.character.classType = aCharacterData.classType;
+        WorldSystem.instance.characterManager.character.characterData = aCharacterData;
     }
 }

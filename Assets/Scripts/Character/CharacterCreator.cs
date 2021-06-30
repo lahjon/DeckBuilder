@@ -7,18 +7,15 @@ using TMPro;
 
 public class CharacterCreator : MonoBehaviour
 {
-    public List<PlayableCharacterData> allCharacterData;
     public Image artwork;
     public List<GameObject> characterButtons;
     public TMP_Text decriptionText;
     private int selectionIndex = 0;
-    PlayableCharacterData selectedCharacterData;
+    public PlayableCharacterData selectedCharacterData;
     GameObject currentButton;
     Color selectedColor = new Color(1.0f, 1.0f, 1.0f);
     Color unselectedColor = new Color(0.3f, 0.3f, 0.3f);
     Color disabledColor = new Color(0.0f, 0.0f, 0.0f);
-    public Character selectedCharacter;
-    public List<Character> allCharacters;
     public StatsController statsController;  
     public GameObject warningPanel;
     WorldSystem world;
@@ -29,9 +26,9 @@ public class CharacterCreator : MonoBehaviour
     {
         world = WorldSystem.instance;
 
-        for (int i = 0; i < allCharacterData.Count; i++)
+        for (int i = 0; i < world.characterManager.allCharacterData.Count; i++)
         {
-            characterButtons[i].GetComponent<Image>().sprite = allCharacterData[i].artwork;
+            characterButtons[i].GetComponent<Image>().sprite = world.characterManager.allCharacterData[i].artwork;
         }
 
         LoadCharacters();
@@ -42,21 +39,21 @@ public class CharacterCreator : MonoBehaviour
 
     public void LoadCharacters()
     {
-        for (int i = 0; i < allCharacters.Count; i++)
+        for (int i = 0; i < world.characterManager.allCharacterData.Count; i++)
         {
-            if (allCharacterData[i].unlocked && !world.characterManager.unlockedCharacters.Contains(allCharacterData[i].classType))
+            if (world.characterManager.allCharacterData[i].unlocked && !world.characterManager.unlockedCharacters.Contains(world.characterManager.allCharacterData[i].classType))
             {
                 //Debug.Log("Create New");
-                allCharacters[i].CreateStartingCharacter(allCharacterData[i]);
-                allCharacters[i].unlocked = true;
+                Character.CreateStartingCharacter(world.characterManager.allCharacterData[i]);
+                world.characterManager.allCharacterData[i].unlocked = true;
             }
-            else if (world.characterManager.unlockedCharacters.Contains(allCharacterData[i].classType))
+            else if (world.characterManager.unlockedCharacters.Contains(world.characterManager.allCharacterData[i].classType))
             {
-                SaveDataManager.LoadJsonData(allCharacters[i].GetComponents<ISaveableCharacter>(), i + 1);
-                allCharacters[i].unlocked = true;
+                SaveDataManager.LoadJsonData(world.characterManager.character.GetComponents<ISaveableCharacter>(), i + 1);
+                world.characterManager.allCharacterData[i].unlocked = true;
             }
 
-            if (!allCharacters[i].unlocked)
+            if (!world.characterManager.allCharacterData[i].unlocked)
             {
                 characterButtons[i].GetComponent<Button>().enabled = false;
                 characterButtons[i].GetComponent<Image>().color = disabledColor;
@@ -71,11 +68,9 @@ public class CharacterCreator : MonoBehaviour
             cameraShake.ShakeCamera();
         }
         currentButton = characterButtons[index];
-        selectedCharacterData = allCharacterData[index];
+        selectedCharacterData = world.characterManager.allCharacterData[index];
         decriptionText.text = selectedCharacterData.description;
-        selectedCharacter = allCharacters[index];
-        world.characterManager.character = selectedCharacter;
-        selectedCharacter.SetCharacterData(index + 1);
+        world.characterManager.character.SetCharacterData(index + 1);
         selectionIndex = index;
         statsController.UpdateStats();
         UpdateButtons();
@@ -83,9 +78,9 @@ public class CharacterCreator : MonoBehaviour
 
     void UpdateButtons()
     {
-        for (int i = 0; i < allCharacters.Count; i++)
+        for (int i = 0; i < world.characterManager.allCharacterData.Count; i++)
         {
-            if (allCharacters[i].unlocked)
+            if (world.characterManager.allCharacterData[i].unlocked)
             {
                 characterButtons[i].GetComponent<Image>().color = unselectedColor;
             }
@@ -98,14 +93,13 @@ public class CharacterCreator : MonoBehaviour
         {
             FileManager.ResetTempData();
         }
-        world.characterManager.selectedCharacterClassType = selectedCharacter.classType;
-        world.characterManager.character = selectedCharacter;
+        world.characterManager.selectedCharacterClassType = world.characterManager.character.classType;
         LevelLoader.instance.LoadNewLevel();
     }
 
     public void Confirm()
     {
-        if (world.characterManager.selectedCharacterClassType == selectedCharacter.classType || world.characterManager.selectedCharacterClassType == CharacterClassType.None)
+        if (world.characterManager.selectedCharacterClassType == selectedCharacterData.classType || world.characterManager.selectedCharacterClassType == CharacterClassType.None)
         {
             StartGame(false);
         }

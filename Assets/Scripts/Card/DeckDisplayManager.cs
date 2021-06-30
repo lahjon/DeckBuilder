@@ -35,6 +35,9 @@ public class DeckDisplayManager : Manager
 
         allCardsData = WorldSystem.instance.characterManager.playerCardsData;
 
+        Debug.Log(allCardsData.Count);
+        Debug.Log(allDisplayedCards.Count);
+
         if(allCardsData.Count > allDisplayedCards.Count)
         {
             while (allCardsData.Count > allDisplayedCards.Count)

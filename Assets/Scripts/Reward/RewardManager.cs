@@ -51,6 +51,15 @@ public class RewardManager : Manager, IEvents
     {
         EventManager.OnEnemyKilledEvent += EnemyKilled;
     }
+    public void CreateRewards(RewardType[] rewards, Transform parent)
+    {
+        foreach (RewardType reward in rewards)
+        {
+            Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, parent).GetComponent<Reward>();
+            newReward.rewardType = reward;
+            newReward.SetupReward();
+        }
+    }
 
     public void Unsubscribe()
     {

@@ -124,7 +124,7 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void SetInDisplay()
     {
-        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.Display)
+        if (_currentOverlayState == OverlayState.Display)
         {
             overlayAnimator.SetTrigger("Clear");
         }
@@ -143,7 +143,7 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void SetInEscapeMenu()
     {
-        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
+        if (_currentOverlayState == OverlayState.EscapeMenu)
         {
             overlayAnimator.SetTrigger("Clear");
         }
@@ -155,7 +155,7 @@ public class WorldStateSystem : MonoBehaviour
 
     public static void SetInDeathScreen()
     {
-        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.EscapeMenu)
+        if (_currentOverlayState == OverlayState.EscapeMenu)
         {
             overlayAnimator.SetTrigger("InDeathScreen");
         }
@@ -167,7 +167,7 @@ public class WorldStateSystem : MonoBehaviour
 
     public static void SetInCharacterSheet()
     {
-        if (_currentOverlayState == OverlayState.None || _currentOverlayState == OverlayState.CharacterSheet)
+        if (_currentOverlayState == OverlayState.CharacterSheet)
         {
             if (!overlayAnimator.GetBool("InCharacterSheet"))
             {

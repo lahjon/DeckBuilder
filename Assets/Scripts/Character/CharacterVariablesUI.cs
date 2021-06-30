@@ -13,7 +13,7 @@ public class CharacterVariablesUI : MonoBehaviour
     public Image levelUpImage;
     public GameObject leftBar;
     Vector3 startPos;
-    Vector3 offset = new Vector3(-50,0,0);
+    Vector3 offset = new Vector3(-0.4f,0,0);
     float moveSpeed = 0.2f;
     bool active;
     public GameObject content;

@@ -27,7 +27,7 @@ public class ArtifactManager : Manager, ISaveableTemp
     public void Init()
     {
         allArtifacts.ForEach(x => allArtifactsNames.Add(x.itemName));
-        allActiveArtifactsNames.ForEach(x => AddArifact(x));
+        allActiveArtifactsNames.ForEach(x => AddArtifact(x));
     }
 
     public ArtifactData GetSpecficArtifact(string artifactName)
@@ -58,7 +58,7 @@ public class ArtifactManager : Manager, ISaveableTemp
         }
         return null;
     }
-    public void AddArifact(string artifactName, bool save = false)
+    public void AddArtifact(string artifactName, bool save = false)
     {
         if (artifactName != null && artifactName.Length > 0 && !allActiveArtifactsNames.Contains(artifactName))
         {

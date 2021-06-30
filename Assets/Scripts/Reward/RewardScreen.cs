@@ -14,7 +14,7 @@ public class RewardScreen : MonoBehaviour
     {
         tempObj = Instantiate(artifactPrefab, anchor);   
         tempObj.GetComponent<Artifact>().itemData = artifactData;
-        callback = () => WorldSystem.instance.artifactManager.AddArifact(artifactData.itemName);
+        callback = () => WorldSystem.instance.artifactManager.AddArtifact(artifactData.itemName);
         WorldStateSystem.SetInRewardScreen();
     }
 

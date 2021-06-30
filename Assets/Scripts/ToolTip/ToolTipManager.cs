@@ -70,4 +70,10 @@ public class ToolTipManager : Manager
                 text.transform.parent.gameObject.SetActive(false);
     }
 
+    public void DisableTips()
+    {
+        foreach (TMP_Text text in txt_tips)
+            text.transform.parent.gameObject.SetActive(false);
+    }
+
 }

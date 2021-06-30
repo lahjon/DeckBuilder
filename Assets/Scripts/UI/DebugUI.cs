@@ -72,7 +72,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugAddSpecficArtifact()
     {
-        world.artifactManager.AddArifact(artifactReward);
+        world.artifactManager.AddArtifact(artifactReward);
     }
     public void DebugAddExperience(int amount)
     {
@@ -95,7 +95,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugAddRandomArtifact()
     {
-        world.artifactManager.AddArifact(world.artifactManager.GetRandomAvailableArtifact()?.itemName);
+        world.artifactManager.AddArtifact(world.artifactManager.GetRandomAvailableArtifact()?.itemName);
     }
 
     public void DebugRemoveRandomArtifact()
