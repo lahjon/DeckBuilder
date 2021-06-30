@@ -26,8 +26,7 @@ public class RewardScreenCardSelection : MonoBehaviour
 
         if(cards.Count < maxCardReward)
         {
-            GameObject newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreenCombat.cardDisplayPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)) as GameObject;
-            newCard.transform.SetParent(WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform);
+            GameObject newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreenCombat.cardDisplayPrefab, WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform);
             cards.Add(newCard);
         }
         else if (cards.Count > maxCardReward)
@@ -56,6 +55,7 @@ public class RewardScreenCardSelection : MonoBehaviour
             card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.character.classType);
             card.GetComponent<CardDisplay>().BindCardData();
             card.GetComponent<CardDisplay>().BindCardVisualData();
+            card.SetActive(true);
         }
     }
     private void SetSpecificCard(List<CardData> rCards)
@@ -65,6 +65,7 @@ public class RewardScreenCardSelection : MonoBehaviour
             cards[i].GetComponent<CardDisplay>().cardData = rCards[i];
             cards[i].GetComponent<CardDisplay>().BindCardData();
             cards[i].GetComponent<CardDisplay>().BindCardVisualData();
+            cards[i].gameObject.SetActive(true);
         }
     }
     

@@ -61,6 +61,9 @@ TagManager:
   - name: GridEnvironment
     uniqueID: 2678275619
     locked: 0
+  - name: Shop
+    uniqueID: 3803983533
+    locked: 0
   - name: Background
     uniqueID: 4018418663
     locked: 0
@@ -73,23 +76,23 @@ TagManager:
   - name: HealthEffects
     uniqueID: 2034861665
     locked: 0
-  - name: VFX
-    uniqueID: 3078801465
-    locked: 0
   - name: Foreground
     uniqueID: 120520623
-    locked: 0
-  - name: CombatOverlay
-    uniqueID: 3957876583
-    locked: 0
-  - name: Shop
-    uniqueID: 3803983533
     locked: 0
   - name: CardCanvas
     uniqueID: 4061878109
     locked: 0
   - name: Card
     uniqueID: 1299891345
+    locked: 0
+  - name: VFX
+    uniqueID: 3078801465
+    locked: 0
+  - name: CombatOverlay
+    uniqueID: 3957876583
+    locked: 0
+  - name: Intent
+    uniqueID: 888314667
     locked: 0
   - name: RewardScreenCombat
     uniqueID: 3331185467

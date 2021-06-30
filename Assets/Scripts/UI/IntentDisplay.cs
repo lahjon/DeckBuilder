@@ -59,9 +59,9 @@ public class IntentDisplay : MonoBehaviour
     {
         if(enabled == false)
         {
-            attackSprite.GetComponent<Intent>().DisableTween();
-            defendSprite.GetComponent<Intent>().DisableTween();
-            otherSprite.GetComponent<Intent>().DisableTween();
+            // attackSprite.GetComponent<Intent>().DisableTween();
+            // defendSprite.GetComponent<Intent>().DisableTween();
+            // otherSprite.GetComponent<Intent>().DisableTween();
 
         }
 

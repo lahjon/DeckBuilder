@@ -7,6 +7,7 @@ using System.Linq;
 public class RewardScreenCombat : MonoBehaviour
 {
     public GameObject content;
+    public int rewardCount;
     public EncounterDataCombat encounterData;
     public GameObject rewardScreenCard;
     public GameObject rewardScreenCardContent;
@@ -39,18 +40,15 @@ public class RewardScreenCombat : MonoBehaviour
         }
 
         CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
-        // canvasGroup.interactable = false;
-        // canvasGroup.alpha = 0;
-        canvasGroup.interactable = true;
-        canvasGroup.alpha = 1;
+        canvasGroup.interactable = false;
+        canvasGroup.alpha = 0;
 
-        // DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, 1.5f).OnComplete( () => canvasGroup.interactable = true );
+        DOTween.To(() => canvasGroup.alpha, x => canvasGroup.alpha = x, 1, 1.5f).OnComplete( () => canvasGroup.interactable = true );
     }
 
     public void ResetReward()
     {
-        Debug.Log("Amount = " + content.transform.childCount);
-        if (content.transform.childCount < 1 )
+        if (rewardCount < 1 )
             WorldStateSystem.SetInReward(false);
     }
 
@@ -66,6 +64,7 @@ public class RewardScreenCombat : MonoBehaviour
             Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, content.transform).GetComponent<Reward>();
             newReward.rewardType = reward;
             newReward.SetupReward();
+            rewardCount++;
         }
     }
 
@@ -73,6 +72,7 @@ public class RewardScreenCombat : MonoBehaviour
     {
         canvas.SetActive(false);
         canvasCard.SetActive(false);
+        rewardCount = 0;
 
         if (WorldSystem.instance.gridManager.bossStarted)
         {

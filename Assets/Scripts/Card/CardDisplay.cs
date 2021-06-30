@@ -98,7 +98,7 @@ public class CardDisplay : CardVisual
 
     public override void OnMouseRightClick(bool allowDisplay = true)
     {
-        if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState != WorldState.Combat)
+        if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState == WorldState.Reward)
         {
             DisplayCard();
         }

@@ -7,7 +7,8 @@ using DG.Tweening;
 public class Intent : MonoBehaviour, IToolTipable
 {
     public Image image;
-    [HideInInspector]public string tooltipDescription;
+    public string tooltipDescription;
+    public Transform toolTipAnchor;
     RectTransform rect;
     Tween myTween;
     static float offset;
@@ -30,18 +31,9 @@ public class Intent : MonoBehaviour, IToolTipable
         myTween?.Kill();
         rect.anchoredPosition = new Vector2(0, startOffset);
     }
-    public void DisableTween()
-    {
-        /*
-        Debug.Log("Disable-----------------------------");
-        myTween?.Kill();
-        myTween = null;
-        rect.anchoredPosition = new Vector2(0, startOffset);
-        */
-    }
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
-        Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
-        return (new List<string>() { tooltipDescription}, pos);
+        Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(toolTipAnchor.position);
+        return (new List<string>() {tooltipDescription}, pos);
     }
 }

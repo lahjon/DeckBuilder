@@ -12,7 +12,7 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 { 
     private static LTDescr delayAction;
     public float timeDelay = 0.5f;
-    private Tween _delayTween;
+    public Tween delayTween;
     private float dummy; 
 
     Coroutine _delayAction;
@@ -21,7 +21,8 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void EnterAction()
     {
-        (_delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
+        
+        (delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
             (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
             WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, tipInfo.worldPos, this);
         }); 
@@ -29,7 +30,7 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void ExitAction()
     {
-        _delayTween.Kill();
+        delayTween.Kill();
         WorldSystem.instance.toolTipManager.DisableTips(this);
         
     }

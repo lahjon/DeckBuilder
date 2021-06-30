@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 
 
-public class CombatActorEnemy : CombatActor, IPointerEnterHandler
+public class CombatActorEnemy : CombatActor
 {
     public IntentDisplay intentDisplay;
     public GameObject test;
@@ -206,11 +206,6 @@ public class CombatActorEnemy : CombatActor, IPointerEnterHandler
         //WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
         if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("Dummy");
     }
 
 }

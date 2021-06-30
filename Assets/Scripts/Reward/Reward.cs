@@ -19,8 +19,9 @@ public class Reward : MonoBehaviour, IToolTipable
     public void OnClick()
     {
         CollectCombatReward();
-        WorldSystem.instance.toolTipManager.DisableTips();
-        DestroyImmediate(gameObject);
+        GetComponent<ToolTipScanner>().ExitAction();
+        Destroy(gameObject);
+        WorldSystem.instance.rewardManager.rewardScreenCombat.rewardCount--;
 
         if(reset)
             WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
