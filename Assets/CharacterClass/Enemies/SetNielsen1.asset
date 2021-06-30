@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SetNielsen1
   m_EditorClassIdentifier: 
   StartingHP: 15
-  enemyId: 0001
+  enemyId: 
   enemyName: SetNielsen1
   artwork: {fileID: 0}
   characterArt: {fileID: 8674257438334899846, guid: 7a2dc14cdcea4b044be7a3ef5cfe5226, type: 3}
