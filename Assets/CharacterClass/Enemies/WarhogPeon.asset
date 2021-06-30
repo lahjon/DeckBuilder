@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
-  m_Name: RathyenScout
+  m_Name: WarhogPeon
   m_EditorClassIdentifier: 
-  StartingHP: 15
+  StartingHP: 92
   enemyId: 
-  enemyName: Scout
-  artwork: {fileID: 21300000, guid: 946b409c6f6337c44a811feeabf6fb71, type: 3}
+  enemyName: Warhog Peon
+  artwork: {fileID: 21300000, guid: 47f7fae5c3e6dc54387686ae8a0ff5ef, type: 3}
   characterArt: {fileID: 0}
   tier: 1
-  experience: 0
+  experience: 10
   deck:
-  - {fileID: 11400000, guid: 5fa75ec339a5f9a4ea4bbb6eec1ccb10, type: 2}
-  - {fileID: 11400000, guid: f59adc2b20688454d913a381a22e03b8, type: 2}
+  - {fileID: 11400000, guid: a74d11b5d560db043a78d3a9e5f75980, type: 2}
+  - {fileID: 11400000, guid: bf24d2e51db4ca549bd0b5dfca6e3c6d, type: 2}
+  - {fileID: 11400000, guid: 3db49b4d52e9b114dace3ea3a3afcef1, type: 2}
   startingEffects: []
   shuffleInit: 1
   stochasticReshuffle: 1

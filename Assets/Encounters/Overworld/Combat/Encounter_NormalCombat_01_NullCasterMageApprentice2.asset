@@ -18,6 +18,5 @@ MonoBehaviour:
   formation: 1
   enemyData:
   - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
-  - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
   startingEffects: []
   startEffectsTargets: 

@@ -550,14 +550,12 @@ public class DatabaseGoogle
     {
         T data;
         string[] result = AssetDatabase.FindAssets(name, foldersToLookIn);
-
+  
         if (result.Length > 1)
             Debug.LogError("More than 1 Asset found for name:" + name);
 
         if (result.Length == 0)
-        {
             return default(T);
-        }
         else
         {
             string path = AssetDatabase.GUIDToAssetPath(result[0]);

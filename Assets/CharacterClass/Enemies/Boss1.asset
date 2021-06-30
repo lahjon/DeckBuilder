@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Boss1
   m_EditorClassIdentifier: 
   StartingHP: 40
-  enemyId: 2001
+  enemyId: 
   enemyName: Boss1
-  artwork: {fileID: 21300000, guid: 70141d51621e24facbca9196bbde84b4, type: 3}
-  characterArt: {fileID: 4399961221871102342, guid: 2a133b27818b15542ac30a81e856d43e, type: 3}
+  artwork: {fileID: 0}
+  characterArt: {fileID: 0}
   tier: 1
   experience: 0
   deck:

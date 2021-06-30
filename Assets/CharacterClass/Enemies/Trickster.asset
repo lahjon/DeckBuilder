@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
-  m_Name: RathyenScout
+  m_Name: Trickster
   m_EditorClassIdentifier: 
-  StartingHP: 15
+  StartingHP: 35
   enemyId: 
-  enemyName: Scout
-  artwork: {fileID: 21300000, guid: 946b409c6f6337c44a811feeabf6fb71, type: 3}
+  enemyName: Trickster
+  artwork: {fileID: 21300000, guid: 2f0cdf1593fd364408442dd4a77827de, type: 3}
   characterArt: {fileID: 0}
   tier: 1
-  experience: 0
+  experience: 10
   deck:
-  - {fileID: 11400000, guid: 5fa75ec339a5f9a4ea4bbb6eec1ccb10, type: 2}
-  - {fileID: 11400000, guid: f59adc2b20688454d913a381a22e03b8, type: 2}
+  - {fileID: 11400000, guid: 31a906c99c11d2047bd148bfbd6f0f40, type: 2}
+  - {fileID: 11400000, guid: 0ae26a72e09daf245a049eebdd0e686b, type: 2}
+  - {fileID: 11400000, guid: 46647c10ab841c64995ccd4016bebec4, type: 2}
   startingEffects: []
-  shuffleInit: 1
-  stochasticReshuffle: 1
+  shuffleInit: 0
+  stochasticReshuffle: 0
