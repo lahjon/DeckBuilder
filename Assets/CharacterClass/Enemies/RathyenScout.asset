@@ -15,8 +15,8 @@ MonoBehaviour:
   StartingHP: 15
   enemyId: 
   enemyName: Scout
-  artwork: {fileID: 21300000, guid: 946b409c6f6337c44a811feeabf6fb71, type: 3}
-  characterArt: {fileID: 0}
+  artwork: {fileID: 0}
+  characterArt: {fileID: 3702401803890722722, guid: 5a63968063cbd854aaffdd762d1ecf81, type: 3}
   tier: 1
   experience: 0
   deck:

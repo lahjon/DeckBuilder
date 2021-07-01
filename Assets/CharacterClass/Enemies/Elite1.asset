@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyId: 
   enemyName: Elite1
   artwork: {fileID: 0}
-  characterArt: {fileID: 4399961221871102342, guid: 2a133b27818b15542ac30a81e856d43e, type: 3}
+  characterArt: {fileID: 3954587266090507931, guid: 36e774003f4cd864c82714970f7f5235, type: 3}
   tier: 1
   experience: 0
   deck:

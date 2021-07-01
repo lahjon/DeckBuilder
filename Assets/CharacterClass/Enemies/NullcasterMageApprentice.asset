@@ -15,8 +15,8 @@ MonoBehaviour:
   StartingHP: 28
   enemyId: 
   enemyName: Mage Apprentice
-  artwork: {fileID: 21300000, guid: 1fdebb2b2b2c37e408333b8d77fed775, type: 3}
-  characterArt: {fileID: 0}
+  artwork: {fileID: 0}
+  characterArt: {fileID: 7908035891764426735, guid: 9b6934dcc74555c4fadcec6f0828dd5f, type: 3}
   tier: 1
   experience: 0
   deck:

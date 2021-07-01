@@ -15,8 +15,8 @@ MonoBehaviour:
   StartingHP: 64
   enemyId: 
   enemyName: Warhog Brute
-  artwork: {fileID: 21300000, guid: ab5d5674523087c469eff34ae32fd2d4, type: 3}
-  characterArt: {fileID: 0}
+  artwork: {fileID: 0}
+  characterArt: {fileID: 6800447553058185354, guid: 789b1361eb98dd942a8ad7a086e51d18, type: 3}
   tier: 1
   experience: 10
   deck:

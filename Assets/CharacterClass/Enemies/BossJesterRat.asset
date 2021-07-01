@@ -15,8 +15,8 @@ MonoBehaviour:
   StartingHP: 92
   enemyId: 
   enemyName: Jester Rat
-  artwork: {fileID: 21300000, guid: 50b9864086ecbae44a93f40556c05cca, type: 3}
-  characterArt: {fileID: 0}
+  artwork: {fileID: 0}
+  characterArt: {fileID: 7705115383787346044, guid: 662f6b8bdf8095643a7fb063d68125c0, type: 3}
   tier: 1
   experience: 100
   deck:

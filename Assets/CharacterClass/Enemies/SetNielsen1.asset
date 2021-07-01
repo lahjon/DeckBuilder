@@ -16,7 +16,7 @@ MonoBehaviour:
   enemyId: 
   enemyName: SetNielsen1
   artwork: {fileID: 0}
-  characterArt: {fileID: 8674257438334899846, guid: 7a2dc14cdcea4b044be7a3ef5cfe5226, type: 3}
+  characterArt: {fileID: 3954587266090507931, guid: 36e774003f4cd864c82714970f7f5235, type: 3}
   tier: 1
   experience: 0
   deck:
