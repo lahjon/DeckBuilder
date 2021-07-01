@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.IO;
+using UnityEngine.UI;
+using System.Linq;
 
 public class DebugUI : MonoBehaviour
 {
@@ -13,7 +15,8 @@ public class DebugUI : MonoBehaviour
     public TMP_Text worldState;
     public TMP_Text overlayState;
     public TMP_Text worldTier;
-    public EncounterData encounterData;
+    public TMP_Dropdown dropdown;
+
     WorldSystem world;
 
     void Update()
@@ -27,6 +30,9 @@ public class DebugUI : MonoBehaviour
     void Start()
     {
         world = WorldSystem.instance;
+        List<string> options = new List<string>();
+        DatabaseSystem.instance.encountersCombat.ForEach(x => options.Add(x.name));
+        dropdown.AddOptions(options);
     }
 
     public void UpdateCharacterDebugHUD()
@@ -85,6 +91,15 @@ public class DebugUI : MonoBehaviour
 
     public void DebugStartCombat()
     {
+        EncounterDataCombat data = DatabaseSystem.instance.encountersCombat.FirstOrDefault(x => x.name == dropdown.options[dropdown.value].text); 
+        Debug.Log(data);
+        Debug.Log(dropdown.options[dropdown.value].text);
+        if (data == null) 
+        {
+            Debug.Log("No valid encounter data!");
+            return;
+        }
+        CombatSystem.instance.encounterData = data;
         WorldStateSystem.SetInOverworld(true);
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInCombat(true);

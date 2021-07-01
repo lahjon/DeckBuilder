@@ -123,7 +123,7 @@ public static class DatabaseUpdateOnStart
 
     static void UpdateAllCharacters()
     {
-        GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefab/CharacterManager.prefab", typeof(GameObject));
+        GameObject prefab = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefab/Actors/CharacterManager.prefab", typeof(GameObject));
         List<PlayableCharacterData> data = prefab.GetComponent<CharacterManager>().allCharacterData;
         data.Clear();
 

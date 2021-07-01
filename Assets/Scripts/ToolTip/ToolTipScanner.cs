@@ -14,6 +14,8 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public float timeDelay = 0.5f;
     public Tween delayTween;
     private float dummy; 
+    public bool disableCollider;
+    public bool disableUI;
 
     Coroutine _delayAction;
 
@@ -36,21 +38,21 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnMouseEnter()
     {
-        EnterAction();
+        if (!disableCollider) EnterAction();
     }
 
     public void OnMouseExit()
     {
-        ExitAction();
+        if (!disableCollider) ExitAction();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        EnterAction();
+        if (!disableUI) EnterAction();
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        ExitAction();
+        if (!disableUI) ExitAction();
     }
 
     IEnumerator DelayAction()

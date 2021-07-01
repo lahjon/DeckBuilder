@@ -5,14 +5,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
-public abstract class CardVisual : Card, IPointerClickHandler
+public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPointerEnterHandler, IPointerExitHandler
 {
     public TMP_Text nameText;
     public TMP_Text descriptionText;
     public Image artworkImage;
     public GameObject highlight;
     public Image border;
+    public RectTransform TooltipAnchor; 
+    public List<string> toolTipTextBits = new List<string>();
 
     public TMP_Text costText;
     public WorldState previousState;
@@ -136,6 +139,15 @@ public abstract class CardVisual : Card, IPointerClickHandler
             return "";
     }
 
+    protected void SetToolTips()
+    {
+        toolTipTextBits.Clear();
+        if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
+        if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
+        allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
+        activitiesOnPlay.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+    }
+
     void SetBorderColor()
     {
         border.color = Helpers.borderColors[classType];
@@ -161,47 +173,44 @@ public abstract class CardVisual : Card, IPointerClickHandler
             OnMouseRightClick();
     }
     
-    public void DisplayCard()
-    {
-        if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
-        {
-            //Debug.Log("Display");
-            WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-            WorldSystem.instance.deckDisplayManager.selectedCard = this;
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardData();
-            WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardVisualData();
-            WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
-            WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
-            WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-            transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-        }
-        else
-        {
-            //Debug.Log("RESET!");
-            ResetCardPosition();
-        }
-    }
-    public void ResetCardPosition()
-    {
-        //Debug.Log("RESET2");
-        WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
-        WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
-        WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
-        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-        WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-        WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    }
-    public void ResetCardPositionNext()
-    {
-        WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-        WorldSystem.instance.deckDisplayManager.previousPosition = Vector3.zero;
-        WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    }
+    // public void DisplayCard()
+    // {
+    // if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
+    // {
+    //     WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
+    //     WorldSystem.instance.deckDisplayManager.selectedCard = this;
+    //     WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
+    //     WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardData();
+    //     WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardVisualData();
+    //     WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
+    //     WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
+    //     WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
+    //     transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+    // }
+    // else
+    // {
+    //     ResetCardPosition();
+    // }
+    // }
+    // public void ResetCardPosition()
+    // {
+    //     WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
+    //     WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
+    //     WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
+    //     WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
+    //     WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
+    //     WorldSystem.instance.deckDisplayManager.selectedCard = null;
+    // }
+    // public void ResetCardPositionNext()
+    // {
+    //     WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
+    //     WorldSystem.instance.deckDisplayManager.previousPosition = Vector3.zero;
+    //     WorldSystem.instance.deckDisplayManager.selectedCard = null;
+    // }
 
     public virtual void OnMouseClick()
     {
-        //Debug.Log("Clicky");
+        WorldSystem.instance.toolTipManager.DisableTips();
         return;
     }
 
@@ -210,5 +219,19 @@ public abstract class CardVisual : Card, IPointerClickHandler
         return;
     }
 
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        activitiesOnPlay.ForEach(x => Debug.Log(x));
+        return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(TooltipAnchor.position));
+    }
 
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        return;
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+        return;
+    }
 }

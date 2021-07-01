@@ -24,7 +24,7 @@ public class OverlayStateDisplay : OverlayStateAnimator
         {
             if (world.deckDisplayManager.selectedCard != null)
             {
-                world.deckDisplayManager.selectedCard.ResetCardPosition();
+                world.deckDisplayManager.ResetCardPosition();
             }
             else
             {

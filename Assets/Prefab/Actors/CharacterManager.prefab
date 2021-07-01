@@ -1747,10 +1747,10 @@ MonoBehaviour:
   playerCardsData: []
   selectedCharacterClassType: 0
   allCharacterData:
-  - {fileID: 11400000, guid: 0ebe5ae71004f0541a635f613b0348b5, type: 2}
   - {fileID: 11400000, guid: 22875865049eea346b4e5fd9c094be69, type: 2}
   - {fileID: 11400000, guid: 380d21352f1d09d46ba0cdac2e056954, type: 2}
   - {fileID: 11400000, guid: 4a610dd7ab62585478dda1d9be9a21ae, type: 2}
+  - {fileID: 11400000, guid: 0ebe5ae71004f0541a635f613b0348b5, type: 2}
   unlockedCharacters: 
   characterSheet: {fileID: 1230108495922096121}
   characterStats: {fileID: 0}

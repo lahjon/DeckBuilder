@@ -2,22 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class CardDisplay : CardVisual
 {
     private float startDragPos;
-    public bool disable;
     bool dragging;
 
-    public override void OnMouseEnter()
+    void Start()
     {
+        SetToolTips();
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+        
     }
     
 
-    public override void OnMouseExit()
+    public override void OnPointerExit(PointerEventData eventData)
     {
+
         transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+        
     }
 
     public override void ResetScale()
@@ -26,26 +35,24 @@ public class CardDisplay : CardVisual
     }
     public override void OnMouseClick()
     {
-        if (!disable)
+        base.OnMouseClick();
+        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
         {
-            if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
-            {
-                DisplayCard();
-            }
-            else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
-            {
-                bool success = WorldSystem.instance.shopManager.shop.PurchaseCard(this);
+            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
+        }
+        else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
+        {
+            bool success = WorldSystem.instance.shopManager.shop.PurchaseCard(this);
 
-                if (success)
-                {
-                    WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-                }
-            }
-            else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+            if (success)
             {
                 WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-                RewardCallback();
             }
+        }
+        else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+        {
+            WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
+            RewardCallback();
         }
     }
 
@@ -100,7 +107,7 @@ public class CardDisplay : CardVisual
     {
         if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState == WorldState.Reward)
         {
-            DisplayCard();
+            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
         }
     }
 
@@ -149,9 +156,6 @@ public class CardDisplay : CardVisual
                 direction = 1;
             else
                 direction = 0;
-
-            //Debug.Log(currentPos);
-            //Debug.Log(startDragPos);
 
             Vector2 scrollPos = new Vector2(0, direction * sensitivity * 5.0f * -1);
             WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;

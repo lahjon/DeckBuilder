@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3612975311330287893}
   - component: {fileID: 6057283121657397141}
   - component: {fileID: 7363127447020558273}
+  - component: {fileID: 7652459339360859076}
   m_Layer: 0
   m_Name: CardDisplay
   m_TagString: Untagged
@@ -56,7 +57,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130489016394698252}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -148,6 +149,8 @@ MonoBehaviour:
   artworkImage: {fileID: 5282765989145436325}
   highlight: {fileID: 7842814478568713348}
   border: {fileID: 7695902140003894457}
+  TooltipAnchor: {fileID: 5262464430781879494}
+  toolTipTextBits: []
   costText: {fileID: 6468055499818804120}
   previousState: 0
   displayDamage: -1
@@ -215,6 +218,21 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &7652459339360859076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130489016394698252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97338f21000cccb46aa75e715796a449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeDelay: 0.5
+  disableCollider: 0
+  disableUI: 0
 --- !u!1001 &6680579575582242689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -388,5 +406,10 @@ MonoBehaviour:
 --- !u!1 &6703861643799209601 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 125758978592051456, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+  m_PrefabInstance: {fileID: 6680579575582242689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &5262464430781879494 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1566733967387714375, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}

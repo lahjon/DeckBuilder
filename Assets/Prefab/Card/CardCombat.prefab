@@ -125,12 +125,13 @@ MonoBehaviour:
   artworkImage: {fileID: 5282765989145436325}
   highlight: {fileID: 7842814478568713348}
   border: {fileID: 7695902140003894457}
+  TooltipAnchor: {fileID: 5262464430781879494}
+  toolTipTextBits: []
   costText: {fileID: 6468055499818804120}
   previousState: 0
   displayDamage: -1
   displayBlock: -1
   isBroken: 0
-  combatController: {fileID: 0}
   cardPanel: {fileID: 0}
   transitionCurveDraw:
     serializedVersion: 2
@@ -190,10 +191,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   animator: {fileID: 0}
-  TooltipAnchor: {fileID: 5262464430781879494}
   fanDegreeCurrent: 0
   fanDegreeTarget: 0
-  toolTipTextBits: []
 --- !u!114 &1252811712759400481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,7 +295,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a48b3fc37740afd4ea0e25a15ffe8b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  route: {fileID: 0}
+  routeDiscard: {fileID: 0}
+  routeDeck: {fileID: 0}
 --- !u!114 &2844651702644537897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeDelay: 0.5
+  disableCollider: 1
+  disableUI: 0
 --- !u!1001 &6680579575582242689
 PrefabInstance:
   m_ObjectHideFlags: 0

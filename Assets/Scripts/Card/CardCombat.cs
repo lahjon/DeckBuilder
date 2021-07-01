@@ -5,15 +5,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class CardCombat : CardVisual, IToolTipable
+public class CardCombat : CardVisual
 {
     public RectTransform cardPanel;
     public AnimationCurve transitionCurveDraw;
     public AnimationCurve transitionCurveReturn;
 
     public Animator animator;
-
-    public RectTransform TooltipAnchor; 
 
     private bool _selected = false;
     private bool _selectable = false;
@@ -22,7 +20,7 @@ public class CardCombat : CardVisual, IToolTipable
     public float fanDegreeCurrent;
     public float fanDegreeTarget;
 
-    public List<string> toolTipTextBits = new List<string>();
+    
 
     public bool MouseReact
     {
@@ -111,15 +109,6 @@ public class CardCombat : CardVisual, IToolTipable
         return card;
     }
 
-    private void SetToolTips()
-    {
-        toolTipTextBits.Clear();
-        if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
-        if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
-        allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
-        activitiesOnPlay.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
-    }
-
     public override void OnMouseEnter()
     {
         animator.SetBool("MouseIsOver", true);
@@ -147,14 +136,14 @@ public class CardCombat : CardVisual, IToolTipable
         }
         else if(!selected && allowDisplay && CombatSystem.instance.ActiveCard == null)
         {
-            DisplayCard();
+            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
             Debug.Log("Display");
         }
     }
 
     public override void OnMouseClick()
     {
-        //Debug.Log("Cardclicked: " + cardName);
+        base.OnMouseClick();
         if(CombatSystem.instance.ActiveCard == this)
             CombatSystem.instance.SelectedCardTriggered();
         else if(CombatSystem.instance.CardisSelectable(this,false))
@@ -178,10 +167,5 @@ public class CardCombat : CardVisual, IToolTipable
         float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
         float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
         return new Vector3(xLerp, yLerp, zLerp);
-    }
-
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
-    {
-        return (toolTipTextBits, WorldSystem.instance.cameraManager.combatCamera.WorldToScreenPoint(TooltipAnchor.position));
     }
 }

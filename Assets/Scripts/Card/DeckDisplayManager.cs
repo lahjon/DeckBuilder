@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class DeckDisplayManager : Manager
 {
@@ -10,11 +11,11 @@ public class DeckDisplayManager : Manager
     public RectTransform content;
     public Canvas canvas;
     public GameObject deckDisplay;
-    public List<GameObject> allDisplayedCards;
+    public List<CardDisplay> allDisplayedCards;
     public CardVisual selectedCard;
-    public GameObject scroller;
+    public ScrollRect scroller;
     public Vector3 previousPosition;
-    public GameObject placeholderCard;
+    public CardDisplay placeholderCard;
     public GameObject clickableArea;
     public GameObject backgroundPanel;
     public Transform deckDisplayPos;
@@ -35,18 +36,13 @@ public class DeckDisplayManager : Manager
 
         allCardsData = WorldSystem.instance.characterManager.playerCardsData;
 
-        Debug.Log(allCardsData.Count);
-        Debug.Log(allDisplayedCards.Count);
-
         if(allCardsData.Count > allDisplayedCards.Count)
         {
             while (allCardsData.Count > allDisplayedCards.Count)
             {
-                GameObject newCard = Instantiate(cardPrefab,content.gameObject.transform);
+                CardDisplay newCard = Instantiate(cardPrefab,content.gameObject.transform).GetComponent<CardDisplay>();
                 newCard.transform.SetParent(content.gameObject.transform);
-                // newCard.transform.localPosition = Vector3.zero;
-                // newCard.transform.localScale = new Vector3(1, 1, 1);
-                newCard.SetActive(true);
+                newCard.gameObject.SetActive(true);
                 allDisplayedCards.Add(newCard);
                 newCard.GetComponent<CardVisual>().cardData = allCardsData[allDisplayedCards.Count - 1];
                 newCard.GetComponent<CardVisual>().BindCardData();
@@ -57,42 +53,55 @@ public class DeckDisplayManager : Manager
         {
             while (allCardsData.Count < allDisplayedCards.Count)
             {   
-                DestroyImmediate(allDisplayedCards[(allDisplayedCards.Count - 1)]);
+                Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)]);
                 allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
             }
         }
     }
 
-    public void RemoveCardAtIndex(int index)
+    public void DisplayCard(CardVisual aCard)
     {
-        DestroyImmediate(allDisplayedCards[index]);
-        allDisplayedCards.RemoveAt(index);
-        //Debug.Log(allDisplayedCards.Count);
-        //Debug.Log(index);
-    }
-
-    public void ResetCardDisplay()
-    {
-        // called from click in inspector
-        if (selectedCard != null)
+        if(selectedCard == null)
         {
-            selectedCard.ResetCardPosition();
-            selectedCard = null;
+            aCard.OnMouseExit();
+            previousPosition = aCard.transform.position;
+            selectedCard = aCard;
+            placeholderCard.cardData = selectedCard.cardData;
+            placeholderCard.BindCardData();
+            placeholderCard.BindCardVisualData();
+            backgroundPanel.SetActive(true);
+            clickableArea.SetActive(true);
+            scroller.enabled = false;
+            selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+            //allDisplayedCards.ForEach(x => x.disable = true);
+        }
+        else
+        {
+            ResetCardPosition();
         }
     }
-    // void UpdateDisplayArea()
-    // {
-    //     content.sizeDelta = new Vector2(0, height);
-    // }
+    public void ResetCardPosition()
+    {
+        backgroundPanel.SetActive(false);
+        clickableArea.SetActive(false);
+        scroller.enabled = true;
+        selectedCard.transform.position = previousPosition;
+        previousPosition = transform.position;
+        //allDisplayedCards.ForEach(x => x.disable = false);
+        selectedCard = null;
+    }
 
-    // void UpdateDeckDisplay()
+    public void RemoveCardAtIndex(int index)
+    {
+        Destroy(allDisplayedCards[index]);
+        allDisplayedCards.RemoveAt(index);
+    }
+
+    // public void ResetCardDisplay()
     // {
-    //     allCardsData = WorldSystem.instance.characterManager.playerCardsData;
-        
-    //     for (int i = 0; i < allDisplayedCards.Count; i++)
+    //     if (selectedCard != null)
     //     {
-    //         allDisplayedCards[i].GetComponent<Card>().cardData = allCardsData[i];
-    //         allDisplayedCards[i].GetComponent<Card>().BindCardData();
+    //         ResetCardPosition();
     //     }
     // }
 
