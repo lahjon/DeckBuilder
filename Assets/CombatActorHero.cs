@@ -6,6 +6,12 @@ using System.Linq;
 
 public class CombatActorHero : CombatActor
 {
+    public override void SetupAlliesEnemies()
+    {
+        allies.Add(this);
+        enemies.AddRange(CombatSystem.instance.EnemiesInScene);
+    }
+
     void OnEnable()
     {
         spriteRenderer.sprite = WorldSystem.instance.characterManager.character.characterData.artwork;

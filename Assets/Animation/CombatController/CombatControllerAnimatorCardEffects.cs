@@ -17,7 +17,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 
         foreach (CardEffectInfo e in card.effectsOnPlay)
         {
-            targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, e, suppliedTarget);
+            targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, e.Target, suppliedTarget);
 
             for (int i = 0; i < e.Times; i++)
             {
@@ -26,7 +26,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 
                 //Redraw enemy if random
                 if(e.Target == CardTargetType.EnemyRandom && i != e.Times-1)
-                    targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, e, suppliedTarget);
+                    targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, e.Target, suppliedTarget);
             }
         }
 

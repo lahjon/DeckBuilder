@@ -27,7 +27,11 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-  effectsOnPlay: []
+  effectsOnPlay:
+  - Type: 11
+    Value: 2
+    Times: 1
+    Target: 1
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []

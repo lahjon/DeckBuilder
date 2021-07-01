@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.UI;
 using System.Linq;
 
-public class CombatActor : MonoBehaviour, IToolTipable
+public abstract class CombatActor : MonoBehaviour, IToolTipable
 {
     [HideInInspector] public int maxHitPoints;
     [HideInInspector] public SpriteRenderer spriteRenderer;
@@ -46,9 +46,21 @@ public class CombatActor : MonoBehaviour, IToolTipable
     public List<Card> deck = new List<Card>();
     public List<Card> discard = new List<Card>();
 
+
+    public List<CombatActor> allies;
+    public List<CombatActor> enemies;
+
     public int strengthCombat = 0;
 
-    
+    public Dictionary<CardTargetType, CardTargetType> targetDistorter = new Dictionary<CardTargetType, CardTargetType>()
+    { {CardTargetType.All, CardTargetType.All},
+        {CardTargetType.EnemyAll, CardTargetType.All},
+        {CardTargetType.EnemyRandom, CardTargetType.EnemyRandom},
+        {CardTargetType.EnemySingle, CardTargetType.EnemySingle},
+        {CardTargetType.Self, CardTargetType.Self}
+    };
+
+
 
     public void InitializeCombat()
     {
@@ -62,7 +74,11 @@ public class CombatActor : MonoBehaviour, IToolTipable
 
         foreach (CombatActor actor in CombatSystem.instance.ActorsInScene)
             dealAttackActorMods[actor] = new List<Func<float>>(); //technically includes oneself but who cares?
+
+        SetupAlliesEnemies();
     }
+
+    public abstract void SetupAlliesEnemies();
 
     public void ShuffleDeck()
     {

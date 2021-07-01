@@ -27,14 +27,14 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 
     IEnumerator ApplyBlock()
     {
-        List<CombatActor> targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block, suppliedTarget);
+        List<CombatActor> targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block.Target, suppliedTarget);
         for (int i = 0; i < block.Times; i++)
         {
             foreach (CombatActor actor in targets)
                 yield return CombatSystem.instance.StartCoroutine(actor.ChangeBlock(block.Value));
 
             if(block.Target == CardTargetType.EnemyRandom && i != block.Times -1) // redraw if random, though doubt it ever will be
-                targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block, suppliedTarget);
+                targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block.Target, suppliedTarget);
         }
 
         CombatSystem.instance.animator.Play(nextLayerState);
