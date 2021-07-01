@@ -12,7 +12,7 @@ public class CombatActorHero : CombatActor
         enemies.AddRange(CombatSystem.instance.EnemiesInScene);
     }
 
-    void OnEnable()
+    void Start()
     {
         spriteRenderer.sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
         collision = gameObject.AddComponent<BoxCollider2D>();
