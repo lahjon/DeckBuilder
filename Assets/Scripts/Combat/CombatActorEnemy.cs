@@ -35,6 +35,11 @@ public class CombatActorEnemy : CombatActor
     [SerializeField] Enemy enemyScript;
 
 
+    public override void SetupAlliesEnemies(){
+        allies.AddRange(CombatSystem.instance.EnemiesInScene);
+        enemies.Add(CombatSystem.instance.Hero);
+    }
+
     public void SetTarget(bool set = false)
     {
         if(set && !target.activeSelf)
@@ -158,6 +163,11 @@ public class CombatActorEnemy : CombatActor
         discard.ForEach(x => Destroy(x.gameObject));
         discard.Clear();
         //Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
+        foreach (CombatActor actor in allies)
+            actor.allies.Remove(this);
+
+        foreach (CombatActor actor in enemies)
+            actor.enemies.Remove(this);
 
         StartDeathAnimation();
     

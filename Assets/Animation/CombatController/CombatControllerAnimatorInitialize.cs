@@ -30,11 +30,11 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
 
         foreach (CardEffectInfo e in startingEffects)
         {
-            List<CombatActor> targets = CombatSystem.instance.GetTargets(CombatSystem.instance.Hero, e, CombatSystem.instance.EnemiesInScene[startingTargets[counter++]]);
+            List<CombatActor> targets = CombatSystem.instance.GetTargets(CombatSystem.instance.Hero, e.Target, CombatSystem.instance.EnemiesInScene[startingTargets[counter++]]);
             for (int i = 0; i < e.Times; i++)
                 foreach (CombatActor actor in targets)
                     yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(e));
-        }
+        } 
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
             foreach (CardEffectInfo e in encounterData.enemyData[i].startingEffects)

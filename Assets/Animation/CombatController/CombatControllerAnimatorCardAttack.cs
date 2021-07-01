@@ -29,7 +29,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 
     IEnumerator PerformAttack()
     {
-        List<CombatActor> targets = CombatSystem.instance.GetTargets(activeActor, attack, suppliedTarget);
+        List<CombatActor> targets = CombatSystem.instance.GetTargets(activeActor, attack.Target, suppliedTarget);
 
         for(int i = 0; i < attack.Times; i++)
         {
@@ -40,7 +40,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
             }
 
             if (attack.Target == CardTargetType.EnemyRandom && i != attack.Times -1) // redraw enemy if target is random
-                targets = CombatSystem.instance.GetTargets(activeActor, attack, suppliedTarget);
+                targets = CombatSystem.instance.GetTargets(activeActor, attack.Target, suppliedTarget);
         }
 
         CombatSystem.instance.animator.Play(nextLayerState);

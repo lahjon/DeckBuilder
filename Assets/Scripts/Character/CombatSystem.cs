@@ -268,25 +268,23 @@ public class CombatSystem : MonoBehaviour
         DeadEnemiesInScene.Clear();
     }
 
-    public CombatActorEnemy GetRandomEnemy()
-    {
-        int id = UnityEngine.Random.Range(0, EnemiesInScene.Count);
-        return EnemiesInScene[id];
-    }
-
-    public List<CombatActor> GetTargets(CombatActor source, CardEffectInfo effect, CombatActor suppliedTarget)
+    public List<CombatActor> GetTargets(CombatActor source, CardTargetType targetType, CombatActor suppliedTarget)
     {
         List<CombatActor> targets = new List<CombatActor>();
+        targetType = source.targetDistorter[targetType];
 
-        if (effect.Target == CardTargetType.Self)
+        if (targetType == CardTargetType.Self)
             targets.Add(source);
-        else if (effect.Target == CardTargetType.EnemyAll)
-            targets.AddRange(EnemiesInScene);
-        else if (effect.Target == CardTargetType.EnemySingle)
+        else if (targetType == CardTargetType.EnemyAll)
+            targets.AddRange(source.enemies);
+        else if (targetType == CardTargetType.EnemySingle)
             targets.Add(suppliedTarget);
-        else if (effect.Target == CardTargetType.EnemyRandom)
-            targets.Add(GetRandomEnemy());
-        else if(effect.Target == CardTargetType.All)
+        else if (targetType == CardTargetType.EnemyRandom)
+        {
+            int id = UnityEngine.Random.Range(0, source.enemies.Count);
+            targets.Add(source.enemies[id]);
+        }
+        else if(targetType == CardTargetType.All)
         {
             targets.Add(Hero);
             targets.AddRange(EnemiesInScene);
@@ -482,7 +480,7 @@ public class CombatSystem : MonoBehaviour
             object obj = drawnEffectsAndActivities.Dequeue();
             if(obj is CardEffectInfo cardEffect)
             {
-                List<CombatActor> targets = GetTargets(Hero, cardEffect, null);
+                List<CombatActor> targets = GetTargets(Hero, cardEffect.Target, null);
                 for (int i = 0; i < cardEffect.Times; i++)
                     foreach (CombatActor actor in targets)
                         yield return StartCoroutine(actor.RecieveEffectNonDamageNonBlock(cardEffect));

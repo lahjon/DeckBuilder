@@ -50,6 +50,8 @@ public static class EnumExtenstions
                 return new CardEffectStrength();
             case EffectType.StrengthEOT:
                 return new CardEffectStrengthEOT();
+            case EffectType.Confused:
+                return new CardEffectConfused();
             default:
                 return null;
         }
@@ -259,7 +261,8 @@ public enum EffectType
     Splice,
     Challenge,
     Strength,
-    StrengthEOT
+    StrengthEOT,
+    Confused
 }
 
 public enum OverlayState
