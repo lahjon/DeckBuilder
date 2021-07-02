@@ -1335,6 +1335,8 @@ GameObject:
   - component: {fileID: 121436506}
   - component: {fileID: 121436508}
   - component: {fileID: 121436507}
+  - component: {fileID: 121436510}
+  - component: {fileID: 121436509}
   m_Layer: 0
   m_Name: BossCounter
   m_TagString: Untagged
@@ -1400,6 +1402,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121436505}
   m_CullTransparentMesh: 1
+--- !u!114 &121436509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121436505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97338f21000cccb46aa75e715796a449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeDelay: 0.5
+  disableCollider: 0
+  disableUI: 0
+--- !u!114 &121436510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121436505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e047c671183330747be217b65505e462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossCounterText: {fileID: 240440558}
+  tilesUntilBoss: 4
 --- !u!1 &143123243
 GameObject:
   m_ObjectHideFlags: 0
@@ -2153,13 +2184,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 180596909}
-  m_LocalRotation: {x: -0, y: -0, z: 0.6944588, w: -0.71953255}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1318472402}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 272.03198}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 164, y: 29.999994}
@@ -2241,7 +2272,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3a462ba8d65d03d4481fe77328d17cbb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2152dd3ed78936942ae50695a8bc467d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18317,17 +18348,17 @@ MonoBehaviour:
   completedTiles: []
   specialTiles: []
   gridState: 0
-  bossCounterText: {fileID: 240440558}
+  bossCounter: {fileID: 121436510}
   content: {fileID: 1380248318}
   hexMapController: {fileID: 0}
   currentTurn: 0
-  tilesUntilBoss: 3
   bossStarted: 0
   hexScale: 0.3765092
   initialized: 0
   tileParent: {fileID: 624123282}
   roadParent: {fileID: 0}
   subAct: 0
+  tilesUntilBoss: 5
   rotateCounter: 0
   rotationAmount: 0
   buttonRotateLeft: {fileID: 2037849953}
@@ -19986,13 +20017,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037849951}
-  m_LocalRotation: {x: -0, y: -0, z: 0.70794886, w: 0.7062637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1318472402}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.137}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -173, y: 30.999994}
@@ -20074,7 +20105,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3a462ba8d65d03d4481fe77328d17cbb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e2538745f44c77e4eb05d7e4714b5b72, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

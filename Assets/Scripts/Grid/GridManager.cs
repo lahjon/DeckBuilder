@@ -23,12 +23,10 @@ public class GridManager : Manager
     public List<HexTile> completedTiles = new List<HexTile>();
     public List<HexTile> specialTiles = new List<HexTile>();
     public GridState gridState;
-    public TMP_Text bossCounterText;
+    public BossCounter bossCounter;
     public GameObject content;
     public HexMapController hexMapController;
     public int currentTurn;
-    int _bossCounter;
-    public int tilesUntilBoss;
     public bool bossStarted;
     public float hexScale = 0.3765092f;
     public bool initialized;
@@ -36,24 +34,8 @@ public class GridManager : Manager
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public Transform tileParent, roadParent;
     public int subAct;
-    public int bossCounter
-    {
-        get => _bossCounter;
-        set 
-        {
-            _bossCounter = value;
-            bossCounterText.text = (tilesUntilBoss - _bossCounter).ToString();
-            float a = (float)_bossCounter;
-            float b = (float)tilesUntilBoss;
-            float textScale = 1.0f + (a / b) * 0.5f;
-            LeanTween.scale(bossCounterText.gameObject, new Vector3(textScale, textScale, textScale), 0.2f).setEaseInBounce().setLoopPingPong(2);
-            if (_bossCounter >= tilesUntilBoss)
-            {
-                bossStarted = true;
-                StartBoss();
-            }
-        }
-    }
+    public int tilesUntilBoss;
+    
 
     TileEncounterType GetRandomEncounterType()
     {
@@ -141,7 +123,7 @@ public class GridManager : Manager
         specialTiles.Clear();
         highlightedTiles.Clear();
         gridState = GridState.Creating;
-        _bossCounter = tilesUntilBoss;
+        bossCounter.ResetCounter();
         furthestRowReached = 0;
         subAct = 0;
         for (int i = 0; i < tileParent.childCount; i++)
@@ -208,7 +190,9 @@ public class GridManager : Manager
         hexMapController.disableZoom = false;
         initialized = true;
         HighlightEntries(); 
-        world.uiManager.UIWarningController.CreateWarning(string.Format(tilesUntilBoss - _bossCounter + " tiles left until boss appears!"), 3f);
+        bossCounter.tilesUntilBoss = tilesUntilBoss;
+        bossCounter.counter = tilesUntilBoss;
+        world.uiManager.UIWarningController.CreateWarning(bossCounter.tilesLeftUntilBoss, 3f);
     }
 
     public void ExpandMap()
@@ -221,8 +205,9 @@ public class GridManager : Manager
         );
     }
 
-    void StartBoss()
+    public void StartBoss()
     {
+        bossStarted = true;
         world.uiManager.UIWarningController.CreateWarning("Starting Boss fight!");
     }
     public void CompleteEmptyTile(HexTile tile)
@@ -247,7 +232,7 @@ public class GridManager : Manager
     {
         if (currentTile != null)
         {
-            bossCounter++;
+            bossCounter.counter--;
             List<int> tileList = new List<int>();
             VectorToArray(currentTile.coord).ToList().ForEach(x => tileList.Add(Mathf.Abs(x)));
             currentTile.CloseExists();
@@ -364,7 +349,6 @@ public class GridManager : Manager
         // create a hex shaped map och inactive tiles
         subAct = 1;
         gridWidth = 3;
-        bossCounter = 0;
 
         HexTile tile;
         for (int q = -gridWidth; q <= gridWidth; q++)
