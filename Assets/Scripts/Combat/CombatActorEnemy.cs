@@ -36,7 +36,7 @@ public class CombatActorEnemy : CombatActor
 
 
     public override void SetupAlliesEnemies(){
-        allies.AddRange(CombatSystem.instance.EnemiesInScene);
+        allies.AddRange(CombatSystem.instance.EnemiesInScene.Where(x=> x != this));
         enemies.Add(CombatSystem.instance.Hero);
     }
 

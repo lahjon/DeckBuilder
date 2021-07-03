@@ -36,20 +36,20 @@ public static class DatabaseUpdateOnStart
 
     static void UpdateAllCards()
     {
-        List<CardData> cards = new List<CardData>();
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.cards.Clear();
 
         string[] lGuids = AssetDatabase.FindAssets("t:CardData", new string[] { "Assets/Cards" });
 
         for (int i = 0; i < lGuids.Length; i++)
         {
             string lAssetPathCard = AssetDatabase.GUIDToAssetPath(lGuids[i]);
-            cards.Add(AssetDatabase.LoadAssetAtPath<CardData>(lAssetPathCard));
+            dbs.cards.Add(AssetDatabase.LoadAssetAtPath<CardData>(lAssetPathCard));
         }
         string[] guids1 = AssetDatabase.FindAssets("l:CardDatabase", null);
-        CardDatabase cardDatabase = (CardDatabase)AssetDatabase.LoadAssetAtPath("Assets/Database/CardDatabase.asset", typeof(CardDatabase));
-        cardDatabase.UpdateDatabase(cards);
 
-        EditorUtility.SetDirty(cardDatabase);
+        EditorUtility.SetDirty(dbs);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
@@ -197,5 +197,14 @@ public static class DatabaseUpdateOnStart
         google.PrintCardData();
 
         Debug.Log("Uploaded the cards bro!");
+    }
+
+    [MenuItem("Edit/Download GoogleArtifacts %#A")]
+    static void UpdateFromGoogleArtifacts()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.ReadEntriesArtifacts();
+
+        Debug.Log("Googled the artifacts bro!");
     }
 }

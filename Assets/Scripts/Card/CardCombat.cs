@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 
 public class CardCombat : CardVisual
@@ -20,6 +21,8 @@ public class CardCombat : CardVisual
     public float fanDegreeCurrent;
     public float fanDegreeTarget;
 
+    public BoxCollider2D boxCollider2D;
+    public Image image;
     
 
     public bool MouseReact
@@ -68,6 +71,8 @@ public class CardCombat : CardVisual
     void Start()
     {
         animator.SetBool("NeedTarget",targetRequired);
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        image = GetComponent<Image>();
     }
 
     public static CardCombat CreateCardCombatFromData(CardData cardData)

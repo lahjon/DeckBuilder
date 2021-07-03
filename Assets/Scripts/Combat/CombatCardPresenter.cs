@@ -68,12 +68,13 @@ public class CombatCardPresenter : MonoBehaviour
                                                         cardHeight);        
         }
 
-        StartCoroutine(DelaySendToCardPile(cardsLocale.Select(c => c.card).ToList()));
+        float addWait = CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero ? 0 : 1f;
+        StartCoroutine(DelaySendToCardPile(cardsLocale.Select(c => c.card).ToList(), addWait));
     }
 
-    IEnumerator DelaySendToCardPile(List<CardCombat> cards)
+    IEnumerator DelaySendToCardPile(List<CardCombat> cards,float addWait)
     {
-        yield return new WaitForSeconds(waitDelay);
+        yield return new WaitForSeconds(waitDelay + addWait);
 
         foreach (CardCombat c in cards)
             if (c.animator.GetCurrentAnimatorStateInfo(0).IsName("Foreshadowed")) c.animator.SetTrigger("Discarded");

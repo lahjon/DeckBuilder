@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
   m_Name: SetNielsen1
   m_EditorClassIdentifier: 
-  StartingHP: 15
+  StartingHP: 45
   enemyId: 
   enemyName: SetNielsen1
   artwork: {fileID: 0}

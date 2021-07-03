@@ -19,7 +19,7 @@ MonoBehaviour:
   choices:
   - label: Ready your weapons
     outcome: 2
-    newEncounter: {fileID: 11400000, guid: 566232c36ab50154382e041699a0eea7, type: 2}
+    newEncounter: {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
     cardRewards: []
   chosenOption:
     label: 

@@ -23,7 +23,7 @@ public class CardData : ScriptableObject
     public List<CardEffectInfo>         effectsOnDraw = new List<CardEffectInfo>();
     public List<CardActivitySetting>    activitiesOnDraw = new List<CardActivitySetting>();
 
-    public Rarity cardRarity;
+    public Rarity rarity;
 
     public CardClassType cardClass;
     public GameObject animationPrefab;

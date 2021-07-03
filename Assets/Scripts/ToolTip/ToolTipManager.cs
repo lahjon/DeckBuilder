@@ -52,11 +52,10 @@ public class ToolTipManager : Manager
             if (i == txt_tips.Count)
             {
                 GameObject go = Instantiate (templateTooltip,TipLocation);
-                TMP_Text text = go.GetComponentInChildren<TMP_Text>();
-                txt_tips.Add(text);
+                txt_tips.Add(go.GetComponentInChildren<TMP_Text>());
             }
-            vlg.enabled = false;
-            vlg.enabled = true;
+            //vlg.enabled = false;
+            //vlg.enabled = true;
             txt_tips[i].transform.parent.gameObject.SetActive(true);
             txt_tips[i].text = tips[i];
         }

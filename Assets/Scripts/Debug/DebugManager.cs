@@ -117,7 +117,7 @@ public class DebugManager : MonoBehaviour
     List<string> GetAllCards()
     {
         List<string> allCards = new List<string>();
-        DatabaseSystem.instance.cardDatabase.allCards.ForEach(x => allCards.Add(x.name));
+        DatabaseSystem.instance.cards.ForEach(x => allCards.Add(x.name));
         return allCards;
     }
 

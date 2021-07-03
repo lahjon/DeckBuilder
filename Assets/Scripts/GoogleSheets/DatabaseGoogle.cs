@@ -23,6 +23,7 @@ public class DatabaseGoogle
     readonly string CardPath = @"Assets\Cards";
     readonly string EnemyPath = @"Assets\CharacterClass\Enemies";
     readonly string EncounterPath = @"Assets\Encounters\Overworld\Combat";
+    readonly string ArtifactPath = @"Assets\Artifacts";
 
     SheetsService service;
 
@@ -96,7 +97,7 @@ public class DatabaseGoogle
             }
 
             Enum.TryParse((string)gt[i, "Class"], out data.cardClass);
-            Enum.TryParse((string)gt[i, "Rarity"], out data.cardRarity);
+            Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
 
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
@@ -488,6 +489,43 @@ public class DatabaseGoogle
 
 
     #endregion
+
+
+    public void ReadEntriesArtifacts()
+    {
+        string sheetName = "Artifact";
+        string lastCol = "H";
+        string sheet = "Main";
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            ArtifactData data = TDataNameToAsset<ArtifactData>(databaseName, new string[] { ArtifactPath });
+            if (data is null)
+            {
+                data = ScriptableObject.CreateInstance<ArtifactData>();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.CreateAsset(data, ArtifactPath + @"\" + databaseName + ".asset");
+            }
+
+            data.name = (string)gt[i, "DatabaseName"];
+            data.itemName = (string)gt[i, "ItemName"];
+            Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
+            data.description = (string)gt[i, "Description"];
+
+            //BindArt(data, databaseName);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
 
     GoogleTable getGoogleTable(string sheetName, string lastCol, string sheet)
     {

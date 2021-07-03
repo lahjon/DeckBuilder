@@ -39,12 +39,13 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
     {
         time += speed * Time.deltaTime;
 
-        CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
-
         if(Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < breakTolerance || time > 1){
-            if(time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1);
+            CardLerp(StartTransInfo, TargetTransInfo, 1);
             animator.SetTrigger("DoneDrawing");
         }
+        else
+            CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
+
         CombatSystem.instance.RefreshHandPositions(card);
     }
 

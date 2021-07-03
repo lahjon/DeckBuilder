@@ -18,7 +18,6 @@ public class EffectSpikeyTail : Effect
 
     IEnumerator ApplyThorns()
     {
-
         CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Thorns, Times = 1, Value = 3 });
         yield return null;
     }

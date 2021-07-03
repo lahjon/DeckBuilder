@@ -55,10 +55,4 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (!disableUI) ExitAction();
     }
 
-    IEnumerator DelayAction()
-    {
-        yield return new WaitForSeconds(timeDelay);
-        (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-        WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tipInfo.worldPos), this);
-    }
 }

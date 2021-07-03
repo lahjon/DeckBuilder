@@ -136,8 +136,6 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
         LooseLife(Mathf.Min(damage));
 
-        if (hitPoints == 0)
-            CombatSystem.instance.ReportDeath(this);
     }
 
     public void LooseLife(int lifeToLose)
@@ -150,6 +148,9 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
         //Debug.Log("Starting LifeLoss");
         healthEffectsUI.StartLifeLossNotification(lifeToLose);
+
+        if (hitPoints == 0)
+            CombatSystem.instance.ReportDeath(this);
     }
 
 

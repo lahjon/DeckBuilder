@@ -19,8 +19,6 @@ public class PlayableCharacterData : CharacterData
     public bool unlocked;
 
 
-    public CardDatabase startingDeck;
-
     void Init()
     {
         

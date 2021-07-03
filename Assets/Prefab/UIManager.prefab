@@ -11844,7 +11844,6 @@ MonoBehaviour:
   worldState: {fileID: 347953518552015521}
   overlayState: {fileID: 347953519505108215}
   worldTier: {fileID: 347953519010918151}
-  encounterData: {fileID: 11400000, guid: ed75e13bc7d0f68488809f7aa7d39431, type: 2}
   dropdown: {fileID: 6977852329633606744}
 --- !u!1 &347953519886253001
 GameObject:

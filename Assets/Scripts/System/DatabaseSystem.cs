@@ -5,19 +5,16 @@ using System.Linq;
 
 public class DatabaseSystem : MonoBehaviour
 {
-    public CardDatabase cardDatabase;
-    public CardDatabase StartingCardsBrute;
     public static DatabaseSystem instance;
+
+    public List<CardData> cards = new List<CardData>();
 
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
     public List<Sprite> allOverworldIcons = new List<Sprite>();
 
-    private Dictionary<string, CardDatabase> StartingCards = new Dictionary<string, CardDatabase>();
+    public List<ArtifactData> artifacts = new List<ArtifactData>();
 
-    private List<CardData> allCards { get { return cardDatabase.allCards; } }
-
-    public HashSet<EffectType> effectsStackable = new HashSet<EffectType>();
 
     private void Awake()
     {
@@ -30,42 +27,10 @@ public class DatabaseSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        StartingCards["Brute"] = StartingCardsBrute;
-
     }
 
 
-    public void FetchCards(List<CardData> allCards)
-    {
-        foreach(CardData card in allCards)
-        {
-            Debug.Log(card);
-        }
-        cardDatabase.UpdateDatabase(allCards);
-    }
-    public List<CardData> GetCardsByName(List<string> cardNames)
-    {
-        if (cardNames.Count < 1)
-        {
-            return null;
-        }
-        
-        List<CardData> result = new List<CardData>();
-        List<string> tempList = new List<string>();
-        allCards.ForEach(x => tempList.Add(x.name));
-
-        for (int i = 0; i < cardNames.Count; i++)
-        {
-            result?.Add(allCards[tempList.IndexOf(cardNames[i])]);
-            // if (tempList.Contains(cardNames[i]))
-            // {
-            //     result.Add(allCards[tempList.IndexOf(cardNames[i])]);
-            // }
-        }
-
-        return result;
-    }
+    public List<CardData> GetCardsByName(List<string> cardNames) => cards.Where(c => cardNames.Contains(c.name)).ToList();
 
     public CardData GetRandomCard(CardClassType cardClass = CardClassType.None)
     {
@@ -73,12 +38,12 @@ public class DatabaseSystem : MonoBehaviour
 
         if(cardClass == CardClassType.None)
         {
-            idx = Random.Range(0,allCards.Count);
-            return allCards[idx];
+            idx = Random.Range(0,cards.Count);
+            return cards[idx];
         }
         else
         {
-            List<CardData> classCards = allCards.Where(x => x.cardClass == cardClass).ToList();
+            List<CardData> classCards = cards.Where(x => x.cardClass == cardClass).ToList();
             idx = Random.Range(0, classCards.Count);
             return classCards[idx];
         }
@@ -89,10 +54,9 @@ public class DatabaseSystem : MonoBehaviour
         return allOverworldIcons.Where(x => x.name == "Overworld" + type.ToString()).First();
     }
 
-    public List<CardData> GetStartingDeck(string Character = "Brute")
+    public List<CardData> GetStartingDeck(CharacterClassType character)
     {
-        //Denn ska v�lja bara kort f�r relevant gubbe sen
-        return StartingCards[Character].allCards;
+        return cards.Where(c => (CharacterClassType)c.cardClass == character && c.rarity == Rarity.Starting).ToList();
     }
 
     public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)

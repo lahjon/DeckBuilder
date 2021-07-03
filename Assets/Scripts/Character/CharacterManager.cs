@@ -115,9 +115,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         character.name = character.characterData.classType.ToString();
 
         if (playerCardsData == null || playerCardsData.Count == 0)
-        {
-            character.characterData.startingDeck.allCards.ForEach(x => playerCardsData.Add(x));
-        }
+            playerCardsData.AddRange(DatabaseSystem.instance.GetStartingDeck(selectedCharacterClassType));
     }
 
     public void AddCardDataToDeck(CardData newCardData)
@@ -172,10 +170,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
+        a_SaveData.playerCardsDataNames.ForEach(x => Debug.Log(x));
+
         if (a_SaveData.playerCardsDataNames != null && a_SaveData.playerCardsDataNames.Count > 0 && SceneManager.GetActiveScene().buildIndex != 0)
-        {
             playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
-        }
 
 
         selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
