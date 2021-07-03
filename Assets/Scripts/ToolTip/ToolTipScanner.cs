@@ -13,17 +13,9 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private static LTDescr delayAction;
     public float timeDelay = 0.5f;
     public Tween delayTween;
-    private float dummy; 
-    public bool disableCollider;
-    public bool disableUI;
-
-    Coroutine _delayAction;
-
-    // BRYT UT TILL COLLISION VS UI
 
     public void EnterAction()
     {
-        
         (delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
             (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
             WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, tipInfo.worldPos, this);
@@ -38,21 +30,21 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnMouseEnter()
     {
-        if (!disableCollider) EnterAction();
+        EnterAction();
     }
 
     public void OnMouseExit()
     {
-        if (!disableCollider) ExitAction();
+        ExitAction();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!disableUI) EnterAction();
+        EnterAction();
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!disableUI) ExitAction();
+        ExitAction();
     }
 
 }
