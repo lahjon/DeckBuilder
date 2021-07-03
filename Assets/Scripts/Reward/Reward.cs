@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class Reward : MonoBehaviour, IToolTipable
 {
@@ -13,7 +14,6 @@ public class Reward : MonoBehaviour, IToolTipable
     public TMP_Text rewardText;
     public Image image; 
     public RewardType rewardType;
-    string value;
     bool reset;
     Action callback;
     public void OnClick()
@@ -31,22 +31,22 @@ public class Reward : MonoBehaviour, IToolTipable
         switch (rewardType)
         {
             case RewardType.Gold:
-                RewardGold(value);
+                RewardGold(aValue);
                 break;
             case RewardType.Shard:
-                RewardShard(value);
+                RewardShard(aValue);
                 break;
             case RewardType.Artifact:
-                RewardArtifact(value);
+                RewardArtifact(aValue);
                 break;
             case RewardType.Card:
-                RewardCard(value);
+                RewardCard(aValue);
                 break;
             case RewardType.Item:
-                RewardItem(value);
+                RewardItem(aValue);
                 break;
             case RewardType.Heal:
-                RewardHeal(value);
+                RewardHeal(aValue);
                 break;
             default:
                 break;
@@ -56,11 +56,10 @@ public class Reward : MonoBehaviour, IToolTipable
     #region RewardTypes
     public void RewardGold(string value)
     {
-        //CombatSystem.instance.encounterData.type
         float startRange = 15;
         float endRange = 25;
 
-        int amount = (int)UnityEngine.Random.Range(startRange, endRange);
+        int amount = string.IsNullOrEmpty(value) ? (int)UnityEngine.Random.Range(startRange, endRange) : int.Parse(value);
         rewardText.text = string.Format("Gold: " + amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[0];
         reset = true;
@@ -71,8 +70,7 @@ public class Reward : MonoBehaviour, IToolTipable
     {
         float startRange = 3;
         float endRange = 5;
-
-        int amount = (int)UnityEngine.Random.Range(startRange, endRange);
+        int amount = string.IsNullOrEmpty(value) ? (int)UnityEngine.Random.Range(startRange, endRange) : int.Parse(value);
         rewardText.text = string.Format("Shard: " + amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[1];
         reset = true;
@@ -81,10 +79,13 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     public void RewardArtifact(string value)
     {
-        if (string.IsNullOrEmpty(value))
-            itemData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
-        else
-            itemData = WorldSystem.instance.artifactManager.GetSpecficArtifact(value);
+        itemData = string.IsNullOrEmpty(value) ? WorldSystem.instance.artifactManager.GetRandomAvailableArtifact() : WorldSystem.instance.artifactManager.GetSpecficArtifact(value);
+
+        if (itemData == null)
+        {
+            Debug.Log("No artifact found!");
+            return;
+        }
 
         rewardText.text = itemData.itemName;
         image.sprite = itemData.artwork;
@@ -104,7 +105,14 @@ public class Reward : MonoBehaviour, IToolTipable
     {
         rewardText.text = "Card";
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
-        callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
+        if (!string.IsNullOrEmpty(value))
+        {
+            string[] cardNames = value.Split(';');
+            List<CardData> cardDatas = DatabaseSystem.instance.GetCardsByName(cardNames.ToList());
+            callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(cardDatas);
+        }
+        else
+            callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
     }
     #endregion
 
@@ -132,4 +140,10 @@ public class Reward : MonoBehaviour, IToolTipable
             return (new List<string>{} , Vector3.zero);
         
     }
+}
+
+[System.Serializable] public class RewardStruct
+{
+    public RewardType type;
+    public string value;
 }

@@ -13,9 +13,9 @@ public class RewardScreenCombat : MonoBehaviour
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
     public GameObject canvasCard;
-    public RewardType[] combatRewardNormal;
-    public RewardType[] combatRewardElite;
-    public RewardType[] combatRewardBoss;
+    public RewardStruct[] combatRewardNormal;
+    public RewardStruct[] combatRewardElite;
+    public RewardStruct[] combatRewardBoss;
     public GameObject cardDisplayPrefab;
     public void SetupRewards()
     {
@@ -57,13 +57,13 @@ public class RewardScreenCombat : MonoBehaviour
         WorldStateSystem.SetInReward(false);
     }
 
-    private void CreateRewards(RewardType[] rewards)
+    private void CreateRewards(RewardStruct[] rewards)
     {
-        foreach (RewardType reward in rewards)
+        foreach (RewardStruct reward in rewards)
         {
             Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, content.transform).GetComponent<Reward>();
-            newReward.rewardType = reward;
-            newReward.SetupReward();
+            newReward.rewardType = reward.type;
+            newReward.SetupReward(reward.value);
             rewardCount++;
         }
     }

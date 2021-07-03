@@ -32,7 +32,7 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public ArtifactData GetSpecficArtifact(string artifactName)
     {
-        return allArtifacts[allArtifactsNames.IndexOf(artifactName)];
+        return allArtifacts[allArtifactsNames.IndexOf(allArtifacts.FirstOrDefault(x => x.name == artifactName).itemName)];
     }
 
     public ArtifactData GetRandomAvailableArtifact()
