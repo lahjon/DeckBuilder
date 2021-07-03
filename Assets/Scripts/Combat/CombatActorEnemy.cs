@@ -162,7 +162,7 @@ public class CombatActorEnemy : CombatActor
         deck.Clear();
         discard.ForEach(x => Destroy(x.gameObject));
         discard.Clear();
-        //Debug.Log(string.Format("Enemy {0} died.", enemyData.enemyName));
+
         foreach (CombatActor actor in allies)
             actor.allies.Remove(this);
 

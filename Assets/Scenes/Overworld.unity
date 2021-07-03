@@ -17610,9 +17610,27 @@ MonoBehaviour:
   rewardScreenCardContent: {fileID: 687562893}
   canvas: {fileID: 1252009456}
   canvasCard: {fileID: 358462543}
-  combatRewardNormal: 0100000003000000
-  combatRewardElite: 01000000030000000b000000
-  combatRewardBoss: 0100000002000000030000000b000000
+  combatRewardNormal:
+  - type: 1
+    value: 
+  - type: 3
+    value: 
+  combatRewardElite:
+  - type: 1
+    value: 
+  - type: 3
+    value: 
+  - type: 11
+    value: 
+  combatRewardBoss:
+  - type: 1
+    value: 221
+  - type: 3
+    value: Brute_Bash;Brute_Bash
+  - type: 2
+    value: 111
+  - type: 11
+    value: LionsBlood
   cardDisplayPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
 --- !u!1 &1767147678
 GameObject:
