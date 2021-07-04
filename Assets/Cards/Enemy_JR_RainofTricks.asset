@@ -33,7 +33,7 @@ MonoBehaviour:
     parameter: Burden_StickyGoo,Deck;Burden_CheapScare,Deck;Burden_Disarm,Deck
   effectsOnDraw: []
   activitiesOnDraw: []
-  cardRarity: 4
+  rarity: 1
   cardClass: 7
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

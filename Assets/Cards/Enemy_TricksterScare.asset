@@ -33,7 +33,7 @@ MonoBehaviour:
     parameter: Burden_CheapScare,Deck
   effectsOnDraw: []
   activitiesOnDraw: []
-  cardRarity: 2
+  rarity: 1
   cardClass: 7
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

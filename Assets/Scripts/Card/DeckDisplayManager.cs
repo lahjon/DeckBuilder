@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using TMPro;
 
 public class DeckDisplayManager : Manager
 {
@@ -20,6 +21,7 @@ public class DeckDisplayManager : Manager
     public GameObject backgroundPanel;
     public Transform deckDisplayPos;
     public CardDisplay animatedCard;
+    public TMP_Text titleText;
 
     protected override void Awake()
     {
@@ -31,10 +33,25 @@ public class DeckDisplayManager : Manager
         deckDisplay.SetActive(false);
     }
 
-    public void UpdateAllCards()
+    public void UpdateAllCards(DeckType deckType)
     {
+        allCardsData.Clear();
 
-        allCardsData = WorldSystem.instance.characterManager.playerCardsData;
+        if (deckType == DeckType.Display)
+        {
+            WorldSystem.instance.characterManager.playerCardsData.ForEach(x => allCardsData.Add(x));
+            titleText.text = "All Cards";
+        }
+        else if (deckType == DeckType.CombatDeck)
+        {
+            CombatSystem.instance.Hero.deck.ForEach(x => allCardsData.Add(x.cardData));
+            titleText.text = "Deck";
+        }
+        else if (deckType == DeckType.CombatDiscard)
+        {
+            CombatSystem.instance.Hero.discard.ForEach(x => allCardsData.Add(x.cardData));
+            titleText.text = "Discard";
+        }
 
         if(allCardsData.Count > allDisplayedCards.Count)
         {
@@ -44,18 +61,21 @@ public class DeckDisplayManager : Manager
                 newCard.transform.SetParent(content.gameObject.transform);
                 newCard.gameObject.SetActive(true);
                 allDisplayedCards.Add(newCard);
-                newCard.GetComponent<CardVisual>().cardData = allCardsData[allDisplayedCards.Count - 1];
-                newCard.GetComponent<CardVisual>().BindCardData();
-                newCard.GetComponent<CardVisual>().BindCardVisualData();
             }
         }
         else if(allCardsData.Count < allDisplayedCards.Count)
         {
             while (allCardsData.Count < allDisplayedCards.Count)
             {   
-                Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)]);
+                Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)].gameObject);
                 allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
             }
+        }
+
+        for (int i = 0; i < allCardsData.Count(); i++)
+        {
+            allDisplayedCards[i].cardData = allCardsData[i];
+            allDisplayedCards[i].BindCardVisualData();
         }
     }
 
@@ -72,8 +92,7 @@ public class DeckDisplayManager : Manager
             backgroundPanel.SetActive(true);
             clickableArea.SetActive(true);
             scroller.enabled = false;
-            selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-            //allDisplayedCards.ForEach(x => x.disable = true);
+            selectedCard.transform.position = new Vector3(Screen.width * -0.5f, Screen.height * -0.5f, 0.1f);
         }
         else
         {
@@ -87,7 +106,6 @@ public class DeckDisplayManager : Manager
         scroller.enabled = true;
         selectedCard.transform.position = previousPosition;
         previousPosition = transform.position;
-        //allDisplayedCards.ForEach(x => x.disable = false);
         selectedCard = null;
     }
 

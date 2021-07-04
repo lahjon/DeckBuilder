@@ -91,18 +91,27 @@ public class DebugUI : MonoBehaviour
 
     public void DebugStartCombat()
     {
+        StartCoroutine(StartCombat());
+    }
+
+    IEnumerator StartCombat()
+    {
         EncounterDataCombat data = DatabaseSystem.instance.encountersCombat.FirstOrDefault(x => x.name == dropdown.options[dropdown.value].text); 
         Debug.Log(data);
         Debug.Log(dropdown.options[dropdown.value].text);
-        if (data == null) 
+        if (data != null) 
+        {
+            CombatSystem.instance.encounterData = data;
+            WorldStateSystem.SetInOverworld(true);
+            yield return new WaitForSeconds(1f);
+            WorldStateSystem.SetInTown(false);
+            yield return new WaitForSeconds(1f);
+            WorldStateSystem.SetInCombat(true);
+        }
+        else
         {
             Debug.Log("No valid encounter data!");
-            return;
         }
-        CombatSystem.instance.encounterData = data;
-        WorldStateSystem.SetInOverworld(true);
-        WorldStateSystem.SetInTown(false);
-        WorldStateSystem.SetInCombat(true);
     }
     public void DebugRemoveSpecificArtifact()
     {

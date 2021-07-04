@@ -44,6 +44,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void BindCardVisualData()
     {
+        base.BindCardData();
         nameText.text = cardName;
         artworkImage.sprite = artwork;
 

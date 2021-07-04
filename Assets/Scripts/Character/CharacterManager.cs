@@ -121,7 +121,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public void AddCardDataToDeck(CardData newCardData)
     {
         playerCardsData.Add(newCardData); 
-        WorldSystem.instance.deckDisplayManager.UpdateAllCards();
+        //WorldSystem.instance.deckDisplayManager.UpdateAllCards();
     }
     public void RemoveCardDataFromDeck(string aCardName)
     {

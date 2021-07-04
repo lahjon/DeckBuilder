@@ -189,6 +189,13 @@ public enum RewardType
     Artifact = 11
 }
 
+public enum DeckType
+{
+    Display,
+    CombatDeck,
+    CombatDiscard
+}
+
 public enum DialogueParticipant
 {
     None,

@@ -33,7 +33,7 @@ MonoBehaviour:
     parameter: Brute_Strike,Deck
   effectsOnDraw: []
   activitiesOnDraw: []
-  cardRarity: 1
+  rarity: 1
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

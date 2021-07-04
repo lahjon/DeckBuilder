@@ -63,7 +63,7 @@ public class CombatSystem : MonoBehaviour
     }
     private CombatActorEnemy _activeEnemy;
 
-    private List<CardData> DeckData;
+    public List<CardData> deckData;
     public List<CardCombat> Hand = new List<CardCombat>();
     public List<CardCombat> createdCards = new List<CardCombat>();
 
@@ -94,7 +94,7 @@ public class CombatSystem : MonoBehaviour
 
     //[HideInInspector]
     public CardCombat _activeCard;
-    
+    public Button openDeck, discardDeck;
 
     public CombatActorEnemy TargetedEnemy
     {
@@ -161,9 +161,9 @@ public class CombatSystem : MonoBehaviour
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
 
-        DeckData = WorldSystem.instance.characterManager.playerCardsData;
+        deckData = WorldSystem.instance.characterManager.playerCardsData;
 
-        foreach(CardData cd in DeckData)
+        foreach(CardData cd in deckData)
         {
             CardCombat card = CardCombat.CreateCardCombatFromData(cd);
             Hero.deck.Add(card);
@@ -589,6 +589,20 @@ public class CombatSystem : MonoBehaviour
 
         //Debug.Log("False");
         return false;
+    }
+
+    public void ButtonOpenDeck()
+    {
+        WorldStateSystem.SetInDisplay();
+        WorldSystem.instance.deckDisplayManager.UpdateAllCards(DeckType.CombatDeck);
+        Debug.Log("Open");
+    }
+
+    public void ButtonOpenDiscard()
+    {
+        WorldStateSystem.SetInDisplay();
+        WorldSystem.instance.deckDisplayManager.UpdateAllCards(DeckType.CombatDiscard);
+        Debug.Log("Open");
     }
 
     public void SelectedCardTriggered()

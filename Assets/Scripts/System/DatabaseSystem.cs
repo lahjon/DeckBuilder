@@ -56,6 +56,7 @@ public class DatabaseSystem : MonoBehaviour
 
     public List<CardData> GetStartingDeck(CharacterClassType character)
     {
+        Debug.Log("Hej");
         return cards.Where(c => (CharacterClassType)c.cardClass == character && c.rarity == Rarity.Starting).ToList();
     }
 
