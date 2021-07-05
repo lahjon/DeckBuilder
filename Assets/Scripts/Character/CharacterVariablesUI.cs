@@ -103,7 +103,7 @@ public class CharacterVariablesUI : MonoBehaviour
         if (active)
         {
             WorldStateSystem.SetInDisplay();
-            WorldSystem.instance.deckDisplayManager.UpdateAllCards(DeckType.Display);
+            WorldSystem.instance.deckDisplayManager.UpdateAllCards();
         }
     }
 

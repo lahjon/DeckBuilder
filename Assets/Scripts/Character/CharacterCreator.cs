@@ -12,6 +12,7 @@ public class CharacterCreator : MonoBehaviour
     public TMP_Text decriptionText;
     private int selectionIndex = 0;
     public PlayableCharacterData selectedCharacterData;
+    public CharacterClassType selectedClassType;
     GameObject currentButton;
     Color selectedColor = new Color(1.0f, 1.0f, 1.0f);
     Color unselectedColor = new Color(0.3f, 0.3f, 0.3f);
@@ -44,12 +45,12 @@ public class CharacterCreator : MonoBehaviour
             if (world.characterManager.allCharacterData[i].unlocked && !world.characterManager.unlockedCharacters.Contains(world.characterManager.allCharacterData[i].classType))
             {
                 //Debug.Log("Create New");
-                Character.CreateStartingCharacter(world.characterManager.allCharacterData[i]);
+                //Character.CreateStartingCharacter(world.characterManager.allCharacterData[i]);
                 world.characterManager.allCharacterData[i].unlocked = true;
             }
             else if (world.characterManager.unlockedCharacters.Contains(world.characterManager.allCharacterData[i].classType))
             {
-                SaveDataManager.LoadJsonData(world.characterManager.character.GetComponents<ISaveableCharacter>(), i + 1);
+                //SaveDataManager.LoadJsonData(world.characterManager.character.GetComponents<ISaveableCharacter>(), i + 1);
                 world.characterManager.allCharacterData[i].unlocked = true;
             }
 
@@ -70,7 +71,7 @@ public class CharacterCreator : MonoBehaviour
         currentButton = characterButtons[index];
         selectedCharacterData = world.characterManager.allCharacterData[index];
         decriptionText.text = selectedCharacterData.description;
-        world.characterManager.character.SetCharacterData(index + 1);
+        selectedClassType = (CharacterClassType)index + 1;
         selectionIndex = index;
         statsController.UpdateStats();
         UpdateButtons();
@@ -93,13 +94,13 @@ public class CharacterCreator : MonoBehaviour
         {
             FileManager.ResetTempData();
         }
-        world.characterManager.selectedCharacterClassType = world.characterManager.character.classType;
+        world.characterManager.selectedCharacterClassType = selectedClassType;
         LevelLoader.instance.LoadNewLevel();
     }
 
     public void Confirm()
     {
-        if (world.characterManager.selectedCharacterClassType == selectedCharacterData.classType || world.characterManager.selectedCharacterClassType == CharacterClassType.None)
+        if (world.characterManager.selectedCharacterClassType == selectedClassType || world.characterManager.selectedCharacterClassType == CharacterClassType.None)
         {
             StartGame(false);
         }

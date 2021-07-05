@@ -11,7 +11,7 @@ public class LevelLoader : MonoBehaviour
     WorldSystem world;
     public int currentScene = 0;
 
-    CharacterClassType selectedCharacterClassType;
+    public CharacterClassType selectedCharacterClassType;
     List<string> selectedTokens = new List<string>();
     
     void Awake()
@@ -53,8 +53,6 @@ public class LevelLoader : MonoBehaviour
 
     public void StartNewLevel(int index = 1)
     {
-        world.LoadProgression();
-
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
             if (world.missionManager != null && world.missionManager.mission == null)
@@ -66,6 +64,8 @@ public class LevelLoader : MonoBehaviour
             world.characterManager.selectedCharacterClassType = selectedCharacterClassType;
             world.tokenManager.selectedTokens = selectedTokens;
         }
+
+        world.LoadProgression();
     }
 
     IEnumerator LoadLevel(float time, int index)

@@ -22,6 +22,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterStats characterStats;
     public int currentHealth;
 
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,9 +38,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         {
             
             if (selectedCharacterClassType == CharacterClassType.None)
-            {
                 selectedCharacterClassType = CharacterClassType.Brute;
-            }
+
 
             SetupCharacterData();
 
@@ -109,9 +109,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     void SetupCharacterData()
     {
-        character = GetComponent<Character>();
         character.SetCharacterData((int)selectedCharacterClassType);
 
+        Debug.Log((int)selectedCharacterClassType);
+        Debug.Log(character.characterData);
         character.name = character.characterData.classType.ToString();
 
         if (playerCardsData == null || playerCardsData.Count == 0)
@@ -170,18 +171,16 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.playerCardsDataNames.ForEach(x => Debug.Log(x));
-
         if (a_SaveData.playerCardsDataNames != null && a_SaveData.playerCardsDataNames.Count > 0 && SceneManager.GetActiveScene().buildIndex != 0)
             playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
 
 
-        selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
-        //Debug.Log(selectedCharacterClassType);
-        gold = a_SaveData.gold;
+        if (a_SaveData.selectedCharacterClassType != CharacterClassType.None)
+            selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
+
+        _gold = a_SaveData.gold;
 
         currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
-
     }
 }
 

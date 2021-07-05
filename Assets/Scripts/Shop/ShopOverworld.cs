@@ -5,33 +5,38 @@ using TMPro;
 
 public class ShopOverworld : MonoBehaviour
 {
-    public CardDisplay currentCard;
-    public List<CardVisual> cardsInStock;
+    public List<CardDisplay> cardsInStock;
+    public List<Artifact> artifactsInStock;
     public List<TMP_Text> cardsPrices;
-    public Canvas canvas;
-
-    void OnEnable()
-    {
-        canvas.worldCamera = Camera.main;
-    }
-
-    void UpdateCardPrices()
-    {
-        for (int i = 0; i < cardsInStock.Count; i++)
-        {
-            if(cardsInStock[i].gameObject.activeSelf)
-                cardsPrices[i].text = cardsInStock[i].cardData.goldValue.ToString() + " g";
-            else
-                cardsPrices[i].text = "Out of Stock!";
-        }
-    }
+    public List<TMP_Text> artifactPrices;
     void GetNewCards()
     {
-        foreach (CardVisual card in cardsInStock)
+        foreach (CardDisplay card in cardsInStock)
         {
-            card.cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.character.classType);
+            CardClassType classType = (CardClassType)System.Enum.Parse(typeof(CardClassType), WorldSystem.instance.characterManager.selectedCharacterClassType.ToString());
+            card.cardData = DatabaseSystem.instance.GetRandomCard(classType);
+            cardsPrices[cardsInStock.IndexOf(card)].text = cardsInStock[cardsInStock.IndexOf(card)].cardData.goldValue.ToString() + " g";
             card.BindCardData();
             card.BindCardVisualData();
+        }
+    }
+
+    void GetNewArtifacts()
+    {
+        foreach (Artifact a in artifactsInStock)
+        {
+            a.itemData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact(true);
+            if (a.itemData == null)
+            {
+                a.gameObject.SetActive(false);
+                artifactPrices[artifactsInStock.IndexOf(a)].text = "Out of stock!";
+                continue;
+            }
+            artifactPrices[artifactsInStock.IndexOf(a)].text = artifactsInStock[artifactsInStock.IndexOf(a)].itemData.goldValue.ToString() + " g";
+            a.button.interactable = true;
+            a.button.onClick.RemoveAllListeners();
+            a.button.onClick.AddListener(() => PurchaseArtifact(a));
+            a.BindData();
         }
     }
     public void RestockShop()
@@ -41,14 +46,33 @@ public class ShopOverworld : MonoBehaviour
             card.gameObject.SetActive(true);
         }
         GetNewCards();
-        UpdateCardPrices();
+        GetNewArtifacts();
     }
     void InsufficientGold()
     {
+        WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough Gold!");
         Debug.Log("Not enough Gold!");
-        // add animatino or something
     }
-    public bool PurchaseCard(CardVisual clickedCard)
+
+    public bool PurchaseArtifact(Artifact artifact)
+    {
+        int characterGold = WorldSystem.instance.characterManager.gold;
+        int goldCost = artifact.itemData.goldValue;
+        if (characterGold >= goldCost)
+        {
+            WorldSystem.instance.characterManager.gold -= goldCost;
+            WorldSystem.instance.artifactManager.AddArtifact(artifact.itemData.itemName);
+            artifact.gameObject.SetActive(false);
+            artifactPrices[artifactsInStock.IndexOf(artifact)].text = "Out of stock!";
+            return true;
+        }
+        else
+        {
+            InsufficientGold();
+            return false;
+        }
+    }
+    public bool PurchaseCard(CardDisplay clickedCard)
     {
         int characterGold = WorldSystem.instance.characterManager.gold;
         int goldCost = clickedCard.cardData.goldValue;
@@ -58,7 +82,7 @@ public class ShopOverworld : MonoBehaviour
             WorldSystem.instance.characterManager.AddCardDataToDeck(clickedCard.cardData);
             clickedCard.gameObject.SetActive(false);
             clickedCard.ResetScale();
-            UpdateCardPrices();
+            cardsPrices[cardsInStock.IndexOf(clickedCard)].text = "Out of stock!";
             return true;
         }
         else

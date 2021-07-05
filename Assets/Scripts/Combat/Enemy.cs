@@ -25,11 +25,12 @@ public class Enemy : MonoBehaviour
     }
     public static Action EnemyKilledCallback(EnemyData enemy)
     {
+        Debug.Log("enemy killed");
         if(enemy == null) 
             return null;
 
-        if (enemy.enemyId.Substring(0) == "2")
-            return () => WorldSystem.instance.BossDefeated();
+        //if (enemy.enemyId.Substring(0) == "2")
+            //return () => WorldSystem.instance.BossDefeated();
         
         return null;
     

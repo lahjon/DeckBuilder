@@ -13,6 +13,7 @@ public class RewardScreenCombat : MonoBehaviour
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
     public GameObject canvasCard;
+    public System.Action callback;
     public RewardStruct[] combatRewardNormal;
     public RewardStruct[] combatRewardElite;
     public RewardStruct[] combatRewardBoss;
@@ -62,8 +63,7 @@ public class RewardScreenCombat : MonoBehaviour
         foreach (RewardStruct reward in rewards)
         {
             Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, content.transform).GetComponent<Reward>();
-            newReward.rewardType = reward.type;
-            newReward.SetupReward(reward.value);
+            newReward.SetupReward(reward.type, reward.value);
             rewardCount++;
         }
     }
@@ -74,6 +74,14 @@ public class RewardScreenCombat : MonoBehaviour
         canvasCard.SetActive(false);
         rewardCount = 0;
 
+        if (callback != null)
+        {
+            callback.Invoke();
+            callback = null;
+        }
+
+
+        Debug.Log("vaA="  + WorldSystem.instance.gridManager.bossStarted);
         if (WorldSystem.instance.gridManager.bossStarted)
         {
             WorldSystem.instance.BossDefeated();

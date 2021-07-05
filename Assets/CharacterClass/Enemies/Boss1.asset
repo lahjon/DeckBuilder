@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Boss1
   m_EditorClassIdentifier: 
   StartingHP: 40
-  enemyId: 
+  enemyId: 201
   enemyName: Boss1
   artwork: {fileID: 0}
   characterArt: {fileID: 1124974458796065111, guid: 4773c588612df2d42aa59fd7d1bd10c7, type: 3}

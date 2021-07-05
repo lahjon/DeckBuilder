@@ -52,7 +52,7 @@ public class RewardScreenCardSelection : MonoBehaviour
     {
         foreach (GameObject card in cards)
         {
-            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.character.classType);
+            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)System.Enum.Parse(typeof(CardClassType), WorldSystem.instance.characterManager.selectedCharacterClassType.ToString()));
             card.GetComponent<CardDisplay>().BindCardData();
             card.GetComponent<CardDisplay>().BindCardVisualData();
             card.SetActive(true);

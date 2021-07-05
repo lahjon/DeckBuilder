@@ -141,7 +141,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugInRewardScreen()
     {
-        world.rewardManager.rewardScreen.GetArtifactReward(world.artifactManager.GetRandomAvailableArtifact());
+        world.rewardManager.rewardScreen.GetReward(RewardType.Artifact);
     }
 
     public void DebugResetAllData()

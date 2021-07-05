@@ -48,6 +48,7 @@ public class DatabaseSystem : MonoBehaviour
             return classCards[idx];
         }
     }
+    
 
     public Sprite GetOverWorldIcon(OverworldEncounterType type)
     {

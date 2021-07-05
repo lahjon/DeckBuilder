@@ -1,20 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RewardScreen : MonoBehaviour
 {
-    public GameObject artifactPrefab;
+    public Reward rewardPrefab;
     public Transform anchor;
     public Canvas canvas;
-    public GameObject tempObj;
-    public System.Action callback;
+    public Reward reward;
 
-    public void GetArtifactReward(ArtifactData artifactData)
+    public void GetReward(RewardType rewardType, string value = "")
     {
-        tempObj = Instantiate(artifactPrefab, anchor);   
-        tempObj.GetComponent<Artifact>().itemData = artifactData;
-        callback = () => WorldSystem.instance.artifactManager.AddArtifact(artifactData.itemName);
+        reward = Instantiate(rewardPrefab, anchor).GetComponent<Reward>();   
+        reward.SetupReward(rewardType);
+        Destroy(reward.rewardText.gameObject);
+        reward.transform.localScale = Vector3.one * 2;
+        reward.GetComponent<Button>().onClick.RemoveAllListeners();
+        reward.GetComponent<Button>().onClick.AddListener(() => {
+            reward.CollectCombatReward();
+            reward.GetComponent<ToolTipScanner>().ExitAction();
+            ClearScreen();
+        });
         WorldStateSystem.SetInRewardScreen();
     }
 
@@ -25,14 +32,9 @@ public class RewardScreen : MonoBehaviour
 
     public void ClearScreen()
     {
-        if (tempObj != null)
-            Destroy(tempObj);
+        if (reward != null)
+            Destroy(reward);
             
-        if (callback != null)
-        {
-            callback.Invoke();
-            callback = null;
-        }
         canvas.gameObject.SetActive(false);
     }
 }

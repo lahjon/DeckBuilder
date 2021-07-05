@@ -10,7 +10,6 @@ public class RewardManager : Manager, IEvents
     public Sprite[] icons;
     public RewardScreenCombat rewardScreenCombat;
     public RewardScreen rewardScreen;
-    public System.Action callback;
     public RewardScreenCardSelection rewardScreenCardSelection;
     public int draftAmount = 0;
     public System.Action rewardCallback;
@@ -21,25 +20,14 @@ public class RewardManager : Manager, IEvents
     }
 
 
+
     public void OpenRewardScreen()
     {
         rewardScreenCombat.SetupRewards();
     }
-
-    public void CloseRewardScreen()
-    {
-        if (callback != null)
-        {
-            callback.Invoke();
-            callback = null;
-        }
-        rewardScreenCardSelection.canvas.SetActive(false);
-        rewardScreenCombat.canvas.SetActive(false);
-    }
-
     public void EnemyKilled(EnemyData enemyData)
     {
-        callback = () => Enemy.EnemyKilledCallback(enemyData);
+        rewardScreenCombat.callback = () => Enemy.EnemyKilledCallback(enemyData);
     }
 
     public void OpenDraftMode()
@@ -56,8 +44,7 @@ public class RewardManager : Manager, IEvents
         foreach (RewardType reward in rewards)
         {
             Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, parent).GetComponent<Reward>();
-            newReward.rewardType = reward;
-            newReward.SetupReward();
+            newReward.SetupReward(reward);
         }
     }
 

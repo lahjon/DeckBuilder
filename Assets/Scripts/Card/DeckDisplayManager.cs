@@ -33,25 +33,10 @@ public class DeckDisplayManager : Manager
         deckDisplay.SetActive(false);
     }
 
-    public void UpdateAllCards(DeckType deckType)
+    public void UpdateAllCards()
     {
         allCardsData.Clear();
-
-        if (deckType == DeckType.Display)
-        {
-            WorldSystem.instance.characterManager.playerCardsData.ForEach(x => allCardsData.Add(x));
-            titleText.text = "All Cards";
-        }
-        else if (deckType == DeckType.CombatDeck)
-        {
-            CombatSystem.instance.Hero.deck.ForEach(x => allCardsData.Add(x.cardData));
-            titleText.text = "Deck";
-        }
-        else if (deckType == DeckType.CombatDiscard)
-        {
-            CombatSystem.instance.Hero.discard.ForEach(x => allCardsData.Add(x.cardData));
-            titleText.text = "Discard";
-        }
+        WorldSystem.instance.characterManager.playerCardsData.ForEach(x => allCardsData.Add(x));
 
         if(allCardsData.Count > allDisplayedCards.Count)
         {
@@ -72,7 +57,7 @@ public class DeckDisplayManager : Manager
             }
         }
 
-        for (int i = 0; i < allCardsData.Count(); i++)
+        for (int i = 0; i < allCardsData.Count; i++)
         {
             allDisplayedCards[i].cardData = allCardsData[i];
             allDisplayedCards[i].BindCardVisualData();
@@ -92,7 +77,7 @@ public class DeckDisplayManager : Manager
             backgroundPanel.SetActive(true);
             clickableArea.SetActive(true);
             scroller.enabled = false;
-            selectedCard.transform.position = new Vector3(Screen.width * -0.5f, Screen.height * -0.5f, 0.1f);
+            selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
         }
         else
         {

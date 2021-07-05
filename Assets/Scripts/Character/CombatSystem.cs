@@ -69,6 +69,7 @@ public class CombatSystem : MonoBehaviour
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
     public bool mouseInsidePanel = false;
+    public CombatDeckDisplay combatDeckDisplay;
 
     // we could remove enemies from list but having another list will 
     // make it easier to reference previous enemies for resurection etc
@@ -593,15 +594,13 @@ public class CombatSystem : MonoBehaviour
 
     public void ButtonOpenDeck()
     {
-        WorldStateSystem.SetInDisplay();
-        WorldSystem.instance.deckDisplayManager.UpdateAllCards(DeckType.CombatDeck);
+        combatDeckDisplay.OpenDeck();
         Debug.Log("Open");
     }
 
     public void ButtonOpenDiscard()
     {
-        WorldStateSystem.SetInDisplay();
-        WorldSystem.instance.deckDisplayManager.UpdateAllCards(DeckType.CombatDiscard);
+        combatDeckDisplay.OpenDiscard();
         Debug.Log("Open");
     }
 

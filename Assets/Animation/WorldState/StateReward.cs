@@ -23,7 +23,7 @@ public class StateReward : WorldStateAnimator
         CombatSystem.instance.CleanUp();
         CombatSystem.instance.content.SetActive(false);
         world.rewardManager.draftAmount = 0;
-        world.rewardManager.CloseRewardScreen();
+        world.rewardManager.rewardScreenCombat.RemoveRewardScreen();
         world.cameraManager.SwapToMain();
         CombatSystem.instance.animator.SetTrigger("Reset");
     }

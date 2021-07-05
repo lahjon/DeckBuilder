@@ -8,6 +8,7 @@ public class ArtifactManager : Manager, ISaveableTemp
     public List<ArtifactData> allArtifacts = new List<ArtifactData>();
     List<string> allArtifactsNames = new List<string>();
     public List<string> allActiveArtifactsNames = new List<string>();
+    public List<string> allUnavailableArtifactsNames = new List<string>();
 
     public ArtifactMenu artifactMenu;
 
@@ -35,9 +36,9 @@ public class ArtifactManager : Manager, ISaveableTemp
         return allArtifacts[allArtifactsNames.IndexOf(allArtifacts.FirstOrDefault(x => x.name == artifactName).itemName)];
     }
 
-    public ArtifactData GetRandomAvailableArtifact()
+    public ArtifactData GetRandomAvailableArtifact(bool makeUnvailable = false)
     {
-        List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).ToList();
+        List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).Except(allUnavailableArtifactsNames).ToList();
 
         if (availbleArtifacts.Count <= 0)
         {
@@ -45,6 +46,11 @@ public class ArtifactManager : Manager, ISaveableTemp
         }
 
         string itemName = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
+
+        if (makeUnvailable)
+            allUnavailableArtifactsNames.Add(itemName);
+
+        Debug.Log(allArtifacts[allArtifactsNames.IndexOf(itemName)]);
 
         return allArtifacts[allArtifactsNames.IndexOf(itemName)];
     }

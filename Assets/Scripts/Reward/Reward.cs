@@ -26,8 +26,10 @@ public class Reward : MonoBehaviour, IToolTipable
         if(reset)
             WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
     }
-    public void SetupReward(string aValue = "")
+    public void SetupReward(RewardType aRewardType, string aValue = "")
     {
+        rewardType = aRewardType;
+        GetComponent<Button>().onClick.AddListener(OnClick);
         switch (rewardType)
         {
             case RewardType.Gold:
@@ -116,7 +118,7 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     #endregion
 
-    void CollectCombatReward()
+    public void CollectCombatReward()
     {
         if (callback != null)
         {

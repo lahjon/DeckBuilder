@@ -29,5 +29,4 @@ MonoBehaviour:
   - value: 4
     type: 4
   classType: 1
-  unlocked: 0
-  startingDeck: {fileID: 11400000, guid: 4935eb9b684dbb645b9df36a0fdac2a6, type: 2}
+  unlocked: 1

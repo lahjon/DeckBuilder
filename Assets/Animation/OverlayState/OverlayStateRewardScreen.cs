@@ -24,8 +24,8 @@ public class OverlayStateRewardScreen : OverlayStateAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (canExit && Input.GetMouseButtonDown(0))
-            WorldStateSystem.TriggerClear();
+        // if (canExit && Input.GetMouseButtonDown(0))
+        //     WorldStateSystem.TriggerClear();
         
     }
 

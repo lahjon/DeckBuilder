@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public abstract class Item : MonoBehaviour, IToolTipable
 {
     protected Image image;
-    protected Button button;
+    public Button button;
     protected ItemData _itemData;
     public Transform tooltipAnchor;
     public virtual ItemData itemData
@@ -37,6 +37,9 @@ public abstract class Item : MonoBehaviour, IToolTipable
     public abstract void OnClick();
     public virtual void BindData()
     {
-        image.sprite = itemData.artwork;
+        if (itemData != null)
+        {
+            image.sprite = itemData.artwork;
+        }
     }
 }

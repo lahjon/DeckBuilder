@@ -12,7 +12,7 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
         SetRefs(animator);        
         card.fanDegreeCurrent = CombatSystem.instance.GetCurrentDegree(card);
-        card.boxCollider2D.enabled = true;
+        //card.boxCollider2D.enabled = true;
         card.image.raycastTarget = true;
     }
 

@@ -18,9 +18,8 @@ public class Character : MonoBehaviour, ISaveableCharacter
     {
         if (!initialized)
         {
-
             SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), index);
-            characterData = WorldSystem.instance.characterManager.allCharacterData[index - 1];
+            characterData = WorldSystem.instance.characterManager.allCharacterData[index];
 
             if (level == 0)
             {

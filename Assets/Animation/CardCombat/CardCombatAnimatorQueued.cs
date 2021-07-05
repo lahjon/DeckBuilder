@@ -10,7 +10,7 @@ public class CardCombatAnimatorQueued : CardCombatAnimator
         SetRefs(animator);
         CombatSystem.instance.Hand.Remove(card);
         card.selectable = false;
-        card.boxCollider2D.enabled = false;
+        //card.boxCollider2D.enabled = false;
         card.image.raycastTarget = false;
         CombatSystem.instance.RefreshHandPositions();
         card.transform.localEulerAngles = Vector3.zero;
