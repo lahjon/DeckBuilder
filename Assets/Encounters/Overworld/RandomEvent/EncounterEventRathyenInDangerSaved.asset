@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encounterName: Rathyen Saved
   tier: 0
-  FindInRandom: 1
+  FindInRandom: 0
   description: 'You took a beating, but the Ratyhen <i>is</i> saved.
 
     He rummages

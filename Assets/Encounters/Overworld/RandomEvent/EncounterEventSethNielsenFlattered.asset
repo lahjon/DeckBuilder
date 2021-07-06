@@ -10,25 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
-  m_Name: EncounterEventSethNielsen
+  m_Name: EncounterEventSethNielsenFlattered
   m_EditorClassIdentifier: 
-  encounterName: A Handsome man
+  encounterName: Seth Nielsen Flattered
   tier: 0
-  FindInRandom: 1
-  description: A handsome man enters! Its Seth Nielsen
+  FindInRandom: 0
+  description: Blushing, Seth Nielsen searches his pockets and hands you a salve.
   choices:
-  - label: Compliment him, boost ego further!
+  - label: Take it (Get a card)
     outcome: 1
     newEncounter: {fileID: 0}
-    effects: []
-  - label: Avoid the creepy man
-    outcome: 1
-    newEncounter: {fileID: 0}
-    effects: []
-  - label: Tell him he is not the prettiest
-    outcome: 3
-    newEncounter: {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
-    effects: []
+    effects:
+    - effect: 0
+      parameter: Colorless_Healingsalve
   chosenOption:
     label: 
     outcome: 0
