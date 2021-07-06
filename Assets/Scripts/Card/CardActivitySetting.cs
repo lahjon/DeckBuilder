@@ -9,3 +9,6 @@ public struct CardActivitySetting
     public CardActivityType type;
     public string parameter;
 }
+
+
+

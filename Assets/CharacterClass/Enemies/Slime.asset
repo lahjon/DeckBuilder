@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   StartingHP: 15
-  enemyId: 
+  enemyId: 00009
   enemyName: Slime
   artwork: {fileID: 0}
   characterArt: {fileID: 6630824432419820787, guid: 9c48eafa09a487a4d9a6ebe0aae11916, type: 3}

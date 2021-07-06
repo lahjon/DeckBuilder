@@ -47,8 +47,25 @@ public class DatabaseSystem : MonoBehaviour
             idx = Random.Range(0, classCards.Count);
             return classCards[idx];
         }
+
     }
-    
+
+    public CardData GetRandomCard(CardFilter cardFilter)
+    {
+        int idx;
+
+        if (cardFilter == null)
+        {
+            idx = Random.Range(0, cards.Count);
+            return cards[idx];
+        }
+        else
+        {
+            List<CardData> classCards = cards.Where(x => CardFilter.Filterer(x, cardFilter)).ToList();
+            idx = Random.Range(0, classCards.Count);
+            return classCards[idx];
+        }
+    }
 
     public Sprite GetOverWorldIcon(OverworldEncounterType type)
     {

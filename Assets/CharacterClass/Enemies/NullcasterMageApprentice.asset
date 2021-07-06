@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NullcasterMageApprentice
   m_EditorClassIdentifier: 
   StartingHP: 28
-  enemyId: 
+  enemyId: 00001
   enemyName: Mage Apprentice
   artwork: {fileID: 0}
   characterArt: {fileID: 7908035891764426735, guid: 9b6934dcc74555c4fadcec6f0828dd5f, type: 3}
