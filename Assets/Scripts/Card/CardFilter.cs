@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class CardFilter
 {
+    #nullable enable
     public string? name;
     public Rarity? rarity;
     public int? cost;
-
-
+    #nullable disable
 
     public static bool Filterer(CardData cd, CardFilter cf)
     {

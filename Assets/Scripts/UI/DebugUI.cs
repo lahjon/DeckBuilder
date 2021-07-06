@@ -122,7 +122,13 @@ public class DebugUI : MonoBehaviour
 
     public void DebugStartRandomEncounterEvent()
     {
-        EncounterDataRandomEvent data = DatabaseSystem.instance.encounterEvent.FirstOrDefault(x => x.name == dropdownEnemies.options[dropdownEnemies.value].text); 
+        EncounterDataRandomEvent data = DatabaseSystem.instance.encounterEvent.FirstOrDefault(x => x.name == dropdownEncounter.options[dropdownEncounter.value].text); 
+
+        if (data == null)
+        {   
+            Debug.Log("No encounter named: " + data);
+            return;
+        }
         WorldSystem.instance.uiManager.encounterUI.encounterData = data;
         WorldStateSystem.SetInEvent(true);
         WorldSystem.instance.uiManager.encounterUI.StartEncounter();
