@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Trickster
   m_EditorClassIdentifier: 
   StartingHP: 35
-  enemyId: 
+  enemyId: 00008
   enemyName: Trickster
   artwork: {fileID: 0}
   characterArt: {fileID: 1745482506004258007, guid: 2012445eeff1b0b42b8910f2900a35a9, type: 3}

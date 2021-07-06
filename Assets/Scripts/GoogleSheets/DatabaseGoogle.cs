@@ -222,7 +222,7 @@ public class DatabaseGoogle
         if (artWork is null)
         {
             Debug.Log("GoogleImport: CharacterArt not found for: " + name);
-            artWork = (Sprite)AssetDatabase.LoadAssetAtPath<Sprite>(folder + @"Placeholder/Placeholder_Complete.prefab");
+            artWork = AssetDatabase.LoadAssetAtPath<GameObject>(folder + @"Placeholder/Placeholder_Complete.prefab");
         }
 
         enemyData.characterArt = artWork;

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: WarhogBrute
   m_EditorClassIdentifier: 
   StartingHP: 64
-  enemyId: 
+  enemyId: 00006
   enemyName: Warhog Brute
   artwork: {fileID: 0}
-  characterArt: {fileID: 6800447553058185354, guid: 789b1361eb98dd942a8ad7a086e51d18, type: 3}
+  characterArt: {fileID: 1124974458796065111, guid: 4773c588612df2d42aa59fd7d1bd10c7, type: 3}
   tier: 1
   experience: 10
   deck:
