@@ -94,7 +94,7 @@ public class EncounterUI : MonoBehaviour
             case EncounterEventChoiceEffect.LifeCurrent:
                 x = int.Parse(effectStruct.parameter);
                 if (x > 0)      WorldSystem.instance.characterManager.Heal(x);
-                else            WorldSystem.instance.characterManager.TakeDamage(x);
+                else            WorldSystem.instance.characterManager.TakeDamage(-x);
                 break;
             case EncounterEventChoiceEffect.LifeMax:
                 x = int.Parse(effectStruct.parameter);

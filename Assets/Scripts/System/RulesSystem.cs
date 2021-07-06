@@ -62,14 +62,18 @@ public class RulesSystem : MonoBehaviour
 
         float x = startingValue;
         x += source.strengthCombat;
+        x = Mathf.Max(x, 0f);
+
+        if (x == 0f) return 0;
+
         foreach (Func<float> func in source.dealAttackMult)
-            x = x * func();
+            x *= func();
 
         foreach (Func<float> func in source.dealAttackActorMods[target])
-            x = x * func();
+            x *= func();
 
         foreach (Func<float> func in target.takeAttackMult)
-            x = x * func();
+            x *= func();
 
         return (int)x;
     }

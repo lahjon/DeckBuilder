@@ -7,7 +7,8 @@ public class EffectSuperSword : Effect
     public override void AddEffect()
     {
         Debug.Log(string.Format("Adding effect {0}!", this.GetType().Name));
-        CombatSystem.instance.StartCoroutine(AddStrength());
+        CombatSystem.instance.StartCoroutine(
+            CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Strength, Times = 1, Value = 3 }));
     }
 
     public override void RemoveEffect()
@@ -15,9 +16,5 @@ public class EffectSuperSword : Effect
         Debug.Log(string.Format("Removing effect {0}!", this.GetType().Name));
     }
 
-    IEnumerator AddStrength()
-    {
-        CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Strength, Times = 1, Value = 3 });
-        yield return null;
-    }
+  
 }

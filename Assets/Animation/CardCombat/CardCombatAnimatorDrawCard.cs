@@ -19,7 +19,7 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
     {
         SetRefs(animator);
         //Initiate
-        card.transform.SetAsLastSibling();
+        CombatSystem.instance.ResetSiblingIndexes();
         time = 0;
         curve = card.transitionCurveDraw;
         speed = 3.5f;

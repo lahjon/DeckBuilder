@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventArena
   m_EditorClassIdentifier: 
-  name: Arena
+  encounterName: Colosseum
   tier: 0
   FindInRandom: 1
-  description: "-You there! \nA man in armour shouts outside of a coloseum. \n-You
+  description: "-You there! \nA man in armour shouts outside of a colosseum. \n-You
     are <i>invited</i> to participate in our Arena.\n\nIt doesn't really feel voluntary."
   choices:
   - label: A worthy challange!

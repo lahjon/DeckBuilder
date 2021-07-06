@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventSethNielsen
   m_EditorClassIdentifier: 
-  encounterName: Set
+  encounterName: A Handsome man
   tier: 0
   FindInRandom: 1
   description: A handsome man enters! Its Seth Nielsen
   choices:
   - label: Compliment him, boost ego further!
-    outcome: 3
+    outcome: 1
     newEncounter: {fileID: 0}
-    effects: []
+    effects:
+    - effect: 0
+      parameter: 
   - label: Avoid the creepy man
     outcome: 1
     newEncounter: {fileID: 0}

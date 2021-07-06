@@ -20,8 +20,16 @@ public static class EnumExtenstions
                 return $"<b>Challenge</b>\nChallanged actors deal double damage against eachother";
             case EffectType.Poison:
                 return $"<b>Poison</b>\nLoose life at the end of the turn";
-            case EffectType.StrengthEOT:
-                return $"<b>StrengthEOT</b>\nTemporarily changes strength for the remainder of the turn.";
+            case EffectType.Strength:
+                return $"<b>Strength</b>\nIncreases the value of all attacks";
+            case EffectType.StrengthTemp:
+                return $"<b>StrengthEOT</b>\nTemporarily changes strength during your turn";
+            case EffectType.Block:
+                return $"<b>Block</b>\nBlock negates incoming attack damage until the end of the round";
+            case EffectType.Confused:
+                return $"<b>Confused</b>\nAttacks will land on a random enemy";
+            case EffectType.Splice:
+                return $"<b>Splice</b>\n.The next splice card you play will meld with the top splice card in discard";
             default:
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
@@ -48,7 +56,7 @@ public static class EnumExtenstions
                 return new CardEffectChallenge();
             case EffectType.Strength:
                 return new CardEffectStrength();
-            case EffectType.StrengthEOT:
+            case EffectType.StrengthTemp:
                 return new CardEffectStrengthEOT();
             case EffectType.Confused:
                 return new CardEffectConfused();
@@ -274,7 +282,7 @@ public enum EffectType
     Splice,
     Challenge,
     Strength,
-    StrengthEOT,
+    StrengthTemp,
     Confused
 }
 

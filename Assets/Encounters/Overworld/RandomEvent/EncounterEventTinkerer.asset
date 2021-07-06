@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventTinkerer
   m_EditorClassIdentifier: 
-  name: 
+  encounterName: The Tinkerer
   tier: 0
   FindInRandom: 1
-  description: 'You find a small tent with lots of metallic debrees spread around
+  description: 'You find a small tent with lots of metallic debris spread around
     it. A small goblin with big classes looks up at you.
 
     "Ah, you must be here

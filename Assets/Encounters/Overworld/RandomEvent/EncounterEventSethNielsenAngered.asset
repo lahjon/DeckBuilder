@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventSethNielsenAngered
   m_EditorClassIdentifier: 
-  encounterName: Suuuuuuur
+  encounterName: An angry man
   tier: 0
   FindInRandom: 0
   description: You've done it now!
@@ -20,9 +20,9 @@ MonoBehaviour:
   - label: Ready your weapons
     outcome: 2
     newEncounter: {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
-    cardRewards: []
+    effects: []
   chosenOption:
     label: 
     outcome: 0
     newEncounter: {fileID: 0}
-    cardRewards: []
+    effects: []

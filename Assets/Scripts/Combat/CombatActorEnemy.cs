@@ -107,7 +107,6 @@ public class CombatActorEnemy : CombatActor
         maxHitPoints = enemyData.StartingHP;
         hitPoints = enemyData.StartingHP;
         if(enemyData.shuffleInit) ShuffleDeck();
-        UpdateMoveDisplay(deck[0]);
     }
 
     public void SetupCamera()
@@ -121,7 +120,9 @@ public class CombatActorEnemy : CombatActor
 
     public void UpdateMoveDisplay(Card card)
     {
-        intentDisplay.RecieveIntent(card.Block, card.Damage, card.effectsOnPlay);   
+        int displayDamage = 0;
+        if (card.Damage.Value != 0) displayDamage = RulesSystem.instance.CalculateDamage(card.Damage.Value, this, CombatSystem.instance.Hero);
+        intentDisplay.RecieveIntent(card, displayDamage);   
     }
 
     public void ShowMoveDisplay(bool enabled)
