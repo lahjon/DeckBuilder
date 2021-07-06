@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventUnluckyClover
   m_EditorClassIdentifier: 
-  name: Unlucky Clover
+  encounterName: 
   tier: 0
   FindInRandom: 1
   description: 'On the rainy road, you come upon an unlucky clover.
@@ -20,18 +20,18 @@ MonoBehaviour:
     On top of
     it, a gloomy gnome asks you what you fear most in life:'
   choices:
-  - label: Growing old
+  - label: Growing old (-5 Max HP)
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
     - effect: 2
       parameter: -5
-  - label: Being injured
+  - label: Being injured (-15 HP)
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
     - effect: 1
-      parameter: -20
+      parameter: -15
   chosenOption:
     label: 
     outcome: 0

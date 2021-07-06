@@ -108,6 +108,10 @@ public class EncounterUI : MonoBehaviour
                 CardClassType cardClassType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
                 WorldSystem.instance.characterManager.AddCardDataToDeck(DatabaseSystem.instance.GetRandomCard(cardClassType));
                 break;
+            case EncounterEventChoiceEffect.Gold:
+                x = int.Parse(effectStruct.parameter);
+                WorldSystem.instance.characterManager.gold += x;
+                break;
         }
     }
 }
