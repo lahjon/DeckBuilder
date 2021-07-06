@@ -61,6 +61,9 @@ TagManager:
   - name: GridEnvironment
     uniqueID: 2678275619
     locked: 0
+  - name: RandomEvent
+    uniqueID: 1834156519
+    locked: 0
   - name: Shop
     uniqueID: 3803983533
     locked: 0
