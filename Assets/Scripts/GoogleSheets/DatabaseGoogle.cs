@@ -213,6 +213,21 @@ public class DatabaseGoogle
 
     }
 
+    public void BindCharacterModel(EnemyData enemyData)
+    {
+        string folder = @"Assets/Artwork/Enemies/";
+        string name = enemyData.name;
+        GameObject artWork = AssetDatabase.LoadAssetAtPath<GameObject>(folder + name + @"/" + name + "_Complete.prefab");
+
+        if (artWork is null)
+        {
+            Debug.Log("GoogleImport: CharacterArt not found for: " + name);
+            artWork = (Sprite)AssetDatabase.LoadAssetAtPath<Sprite>(folder + @"Placeholder/Placeholder_Complete.prefab");
+        }
+
+        enemyData.characterArt = artWork;
+
+    }
 
 
     public void PrintCardData()
@@ -298,6 +313,7 @@ public class DatabaseGoogle
 
 
             data.enemyName      = (string)gt[i, "Name"];
+            data.enemyId        = (string)gt[i, "EnemyID"];
             data.StartingHP     = int.Parse((string)gt[i, "HP"]);
             data.tier           = int.Parse((string)gt[i, "Tier"]);
             data.experience     = int.Parse((string)gt[i, "Experience"]);
@@ -307,6 +323,8 @@ public class DatabaseGoogle
             
             data.deck.Clear();
             data.startingEffects.Clear();
+
+            BindCharacterModel(data);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
