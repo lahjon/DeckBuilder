@@ -10,25 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
-  m_Name: EncounterEventSethNielsen
+  m_Name: EncounterEventArena
   m_EditorClassIdentifier: 
-  encounterName: Set
+  name: Arena
   tier: 0
   FindInRandom: 1
-  description: A handsome man enters! Its Seth Nielsen
+  description: "-You there! \nA man in armour shouts outside of a coloseum. \n-You
+    are <i>invited</i> to participate in our Arena.\n\nIt doesn't really feel voluntary."
   choices:
-  - label: Compliment him, boost ego further!
-    outcome: 3
-    newEncounter: {fileID: 0}
+  - label: A worthy challange!
+    outcome: 2
+    newEncounter: {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
     effects: []
-  - label: Avoid the creepy man
+  - label: Fight of the Guard (-5 HP)
     outcome: 1
     newEncounter: {fileID: 0}
-    effects: []
-  - label: Tell him he is not the prettiest
-    outcome: 6
-    newEncounter: {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
-    effects: []
+    effects:
+    - effect: 1
+      parameter: -5
   chosenOption:
     label: 
     outcome: 0

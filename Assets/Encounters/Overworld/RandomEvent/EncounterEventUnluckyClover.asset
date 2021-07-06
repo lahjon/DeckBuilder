@@ -10,25 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
-  m_Name: EncounterEventSethNielsen
+  m_Name: EncounterEventUnluckyClover
   m_EditorClassIdentifier: 
-  encounterName: Set
+  name: Unlucky Clover
   tier: 0
   FindInRandom: 1
-  description: A handsome man enters! Its Seth Nielsen
+  description: 'On the rainy road, you come upon an unlucky clover.
+
+    On top of
+    it, a gloomy gnome asks you what you fear most in life:'
   choices:
-  - label: Compliment him, boost ego further!
-    outcome: 3
-    newEncounter: {fileID: 0}
-    effects: []
-  - label: Avoid the creepy man
+  - label: Growing old
     outcome: 1
     newEncounter: {fileID: 0}
-    effects: []
-  - label: Tell him he is not the prettiest
-    outcome: 6
-    newEncounter: {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
-    effects: []
+    effects:
+    - effect: 2
+      parameter: -5
+  - label: Being injured
+    outcome: 1
+    newEncounter: {fileID: 0}
+    effects:
+    - effect: 1
+      parameter: -20
   chosenOption:
     label: 
     outcome: 0

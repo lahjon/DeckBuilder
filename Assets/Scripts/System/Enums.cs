@@ -213,10 +213,16 @@ public enum EncounterEventChoiceOutcome
     None,
     Leave,
     Combat,
-    CardSpecific,
-    CardRandom,
-    NewMap,
     NewEvent
+}
+
+public enum EncounterEventChoiceEffect
+{
+    Card,
+    LifeCurrent,
+    LifeMax,
+    Artifact,
+    Gold
 }
 
 public enum EncounterHexStatus

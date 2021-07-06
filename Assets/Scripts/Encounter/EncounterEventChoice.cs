@@ -8,6 +8,5 @@ public class EncounterEventChoice
     public string label;
     public EncounterEventChoiceOutcome outcome;
     public EncounterData newEncounter;
-    [SerializeField]
-    public List<CardData> cardRewards = new List<CardData>();
+    public List<EncounterEventEffectStruct> effects = new List<EncounterEventEffectStruct>();
 }
