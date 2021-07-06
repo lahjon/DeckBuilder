@@ -25,9 +25,9 @@ public class CardEffectPoison : CardEffect
 
     IEnumerator PoisonDamage()
     {
-        actor.LooseLife(nrStacked--);
-        if (nrStacked == 0) Dismantle();
+        actor.LooseLife(nrStacked);
         yield return new WaitForSeconds(poisonAnimationTime);
+        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-1));
     }
 
 }

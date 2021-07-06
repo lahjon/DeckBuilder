@@ -14,34 +14,34 @@ public class IntentDisplay : MonoBehaviour
     public GameObject cAnchorIntent;
 
 
-    public void RecieveIntent(CardEffectInfo block, CardEffectInfo Damage, List<CardEffectInfo> Effects)
+    public void RecieveIntent(Card card, int displayDamage)
     {
         attackSprite.SetActive(false);
         defendSprite.SetActive(false);
         otherSprite.SetActive(false);
         lblIntent.text = "";
 
-        if(Damage.Value != 0)
+        if(card.Damage.Value != 0)
         {
             attackSprite.SetActive(true);
-            lblIntent.text = Damage.Value.ToString() + (Damage.Times != 1 ? "x" + Damage.Times.ToString() : "");
-            if (Effects.Count <= 0)
+            lblIntent.text = displayDamage.ToString() + (card.Damage.Times != 1 ? "x" + card.Damage.Times.ToString() : "");
+            if (card.effectsOnPlay.Count <= 0)
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[0];
-                attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to attack!");
+                attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to attack!");
             }
             else
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[1];
-                attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to attack and use an unknown effect!");
+                attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to attack and use an unknown effect!");
             }
         }
-        else if(Effects.Count > 0)
+        else if(card.effectsOnPlay.Count > 0 || card.activitiesOnPlay.Count > 0)
         {
             otherSprite.gameObject.SetActive(true);
-            otherSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to use an unknown effect!");
+            otherSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to use an unknown effect!");
         }
-        else if(block.Value != 0)
+        else if(card.Block.Value != 0)
         {
             defendSprite.gameObject.SetActive(true);
             defendSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to block!");

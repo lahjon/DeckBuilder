@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventUnluckyClover
   m_EditorClassIdentifier: 
-  encounterName: 
+  encounterName: Unlucky Clover
   tier: 0
   FindInRandom: 1
   description: 'On the rainy road, you come upon an unlucky clover.

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventRathyenInDanger
   m_EditorClassIdentifier: 
-  name: 
+  encounterName: Rathyen in Danger
   tier: 0
   FindInRandom: 1
   description: "There is some commotion ahead, and you see a band of Warhogs bully
