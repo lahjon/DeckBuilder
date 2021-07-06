@@ -27734,6 +27734,10 @@ PrefabInstance:
       propertyPath: m_PlaneDistance
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8331481743372473502, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1834156519
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
 --- !u!114 &8553040326199859164
