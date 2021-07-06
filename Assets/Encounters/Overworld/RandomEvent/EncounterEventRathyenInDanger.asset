@@ -23,7 +23,7 @@ MonoBehaviour:
     outcome: 3
     newEncounter: {fileID: 11400000, guid: 8826f34a627aa994d9d6bda84df1a1ae, type: 2}
     effects:
-    - effect: 1
+    - effect: 2
       parameter: -10
   - label: This isn't your fight.
     outcome: 1

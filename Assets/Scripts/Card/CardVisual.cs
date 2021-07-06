@@ -44,7 +44,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void BindCardVisualData()
     {
-        base.BindCardData();
         nameText.text = cardName;
         artworkImage.sprite = artwork;
 
@@ -117,6 +116,12 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             descText += CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnPlay[i]);
         }
 
+        if (exhaust)
+        {
+            if (descText != "") descText += "\n";
+            descText += "<b>Exhaust</b>";
+        }
+
         descriptionText.text = descText;
     }
 
@@ -147,6 +152,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
         allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
         activitiesOnPlay.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+        if (exhaust) toolTipTextBits.Add("<b>Exhaust</b>\nThis disappears when used.");
     }
 
     void SetBorderColor()

@@ -23,7 +23,7 @@ public static class EnumExtenstions
             case EffectType.Strength:
                 return $"<b>Strength</b>\nIncreases the value of all attacks";
             case EffectType.StrengthTemp:
-                return $"<b>StrengthEOT</b>\nTemporarily changes strength during your turn";
+                return $"<b>StrengthTemp</b>\nTemporarily changes strength during your turn";
             case EffectType.Block:
                 return $"<b>Block</b>\nBlock negates incoming attack damage until the end of the round";
             case EffectType.Confused:
@@ -57,7 +57,7 @@ public static class EnumExtenstions
             case EffectType.Strength:
                 return new CardEffectStrength();
             case EffectType.StrengthTemp:
-                return new CardEffectStrengthEOT();
+                return new CardEffectStrengthTemp();
             case EffectType.Confused:
                 return new CardEffectConfused();
             default:
@@ -181,6 +181,7 @@ public enum CardClassType
     Rogue = 2,
     Splicer = 3,
     Beastmaster = 4,
+    Colorless,
     Burden,
     Torment,
     Enemy
@@ -226,7 +227,8 @@ public enum EncounterEventChoiceOutcome
 
 public enum EncounterEventChoiceEffect
 {
-    Card,
+    GetCards,
+    SelectionCards,
     LifeCurrent,
     LifeMax,
     Artifact,
@@ -409,5 +411,6 @@ public enum CardActivityType
     Splice,
     ExhaustDiscard,
     CombatCostChange,
-    SetRandomBroken
+    SetRandomBroken,
+    Heal
 }

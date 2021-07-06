@@ -141,9 +141,8 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public void LooseLife(int lifeToLose)
     {
         if (lifeToLose == 0) return;
-
-        hitPoints -= Mathf.Min(lifeToLose, hitPoints);
-        Debug.Log(hitPoints);
+        lifeToLose = Mathf.Min(lifeToLose, hitPoints);
+        hitPoints -= lifeToLose;
         if (this == CombatSystem.instance.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
@@ -152,6 +151,16 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
         if (hitPoints <= 0)
             CombatSystem.instance.ReportDeath(this);
+    }
+
+    public void HealLife(int x)
+    {
+        Debug.Log("Starting heal of:" + x + ". Life/Max: " + hitPoints + "," + maxHitPoints);
+        if (x == 0) return;
+        x = Mathf.Min(x, maxHitPoints - hitPoints);
+        hitPoints += x;
+        if (this == CombatSystem.instance.Hero)
+            WorldSystem.instance.characterManager.Heal(x);
     }
 
 

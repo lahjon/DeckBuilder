@@ -34,7 +34,7 @@ MonoBehaviour:
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 2
-  cardClass: 7
+  cardClass: 8
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 0

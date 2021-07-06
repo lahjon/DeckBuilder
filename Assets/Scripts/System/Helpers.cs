@@ -19,6 +19,7 @@ public static class Helpers
         {CardClassType.Rogue, Color.blue }, 
         {CardClassType.Splicer, Color.green }, 
         {CardClassType.Beastmaster, Color.magenta }, 
+        {CardClassType.Colorless, Color.white }, 
         {CardClassType.Enemy, Color.white }, 
         {CardClassType.Burden, Color.white }, 
         {CardClassType.Torment, Color.black }

@@ -10,33 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_JR_AttackStrength
+  m_Name: Colorless_Grenade
   m_EditorClassIdentifier: 
-  cardName: JR_AttackStrength
-  artwork: {fileID: 21300000, guid: f0f7db97af9e7f345b9fb9ad1e5deff4, type: 3}
-  cost: 2
+  cardName: Grenade
+  artwork: {fileID: 21300000, guid: 1cb3309af9a9f874289600db90901e33, type: 3}
+  cost: 1
   visibleCost: 1
-  exhaust: 0
+  exhaust: 1
   Damage:
     Type: 0
-    Value: 4
-    Times: 2
-    Target: 1
+    Value: 15
+    Times: 1
+    Target: 2
   Block:
     Type: 2
     Value: 0
     Times: 0
     Target: 0
-  effectsOnPlay:
-  - Type: 9
-    Value: 2
-    Times: 1
-    Target: 0
+  effectsOnPlay: []
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 3
-  cardClass: 8
+  cardClass: 5
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 0

@@ -222,7 +222,7 @@ public class CombatSystem : MonoBehaviour
         energyTurn = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Energy);
         drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Wit);
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
-        Hero.maxHitPoints = WorldSystem.instance.characterManager.currentHealth;
+        Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
     }
 
     public void EndTurn()

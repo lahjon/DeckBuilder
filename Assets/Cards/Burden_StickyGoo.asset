@@ -34,7 +34,7 @@ MonoBehaviour:
   - type: 4
     parameter: 1
   rarity: 2
-  cardClass: 5
+  cardClass: 6
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 0

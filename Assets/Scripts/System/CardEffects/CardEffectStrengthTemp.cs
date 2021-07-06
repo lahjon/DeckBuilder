@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardEffectStrengthEOT : CardEffect
+public class CardEffectStrengthTemp : CardEffect
 {
     public override bool isBuff { get { return true; } }
 
-    public CardEffectStrengthEOT() : base()
+    public CardEffectStrengthTemp() : base()
     {
         OnNewTurn = null;
         OnEndTurn = _OnEndTurn;

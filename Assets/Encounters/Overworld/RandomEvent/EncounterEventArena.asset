@@ -26,7 +26,7 @@ MonoBehaviour:
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
-    - effect: 1
+    - effect: 2
       parameter: -5
   chosenOption:
     label: 

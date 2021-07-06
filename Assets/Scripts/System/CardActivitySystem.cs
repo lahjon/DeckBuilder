@@ -25,6 +25,7 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.ExhaustDiscard] = new CardActivityExhaustDiscard();
         ActivityTypeToAction[CardActivityType.CombatCostChange] = new CardActivityCombatCostChange();
         ActivityTypeToAction[CardActivityType.SetRandomBroken] = new CardActivitySetRandomBroken();
+        ActivityTypeToAction[CardActivityType.Heal] = new CardActivityHeal();
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)

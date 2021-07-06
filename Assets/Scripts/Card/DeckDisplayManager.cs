@@ -58,6 +58,7 @@ public class DeckDisplayManager : Manager
         for (int i = 0; i < allCardsData.Count; i++)
         {
             allDisplayedCards[i].cardData = allCardsData[i];
+            allDisplayedCards[i].BindCardData();
             allDisplayedCards[i].BindCardVisualData();
         }
     }
