@@ -8,7 +8,6 @@ public class RewardScreenCombat : MonoBehaviour
 {
     public GameObject content;
     public int rewardCount;
-    public EncounterDataCombat encounterData;
     public GameObject rewardScreenCard;
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
@@ -21,11 +20,16 @@ public class RewardScreenCombat : MonoBehaviour
     public void SetupRewards()
     {
         canvas.SetActive(true);
+        CombatEncounterType type;
+        if (CombatSystem.instance.encounterData != null)
+            type = CombatSystem.instance.encounterData.type;
+        else
+            type = CombatEncounterType.Normal;
 
         while (content.transform.childCount > 0)
             Destroy(content.transform.GetChild(0).gameObject);
 
-        switch (CombatSystem.instance.encounterData.type)
+        switch (type)
         {
             case CombatEncounterType.Normal:
                 CreateRewards(combatRewardNormal);
@@ -80,8 +84,6 @@ public class RewardScreenCombat : MonoBehaviour
             callback = null;
         }
 
-
-        Debug.Log("vaA="  + WorldSystem.instance.gridManager.bossStarted);
         if (WorldSystem.instance.gridManager.bossStarted)
         {
             WorldSystem.instance.BossDefeated();

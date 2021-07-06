@@ -83,7 +83,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void TakeDamage(int amount)
     {
-        currentHealth -= amount;
+        currentHealth -= Mathf.Abs(amount);
 
         if (currentHealth <= 0)
         {
