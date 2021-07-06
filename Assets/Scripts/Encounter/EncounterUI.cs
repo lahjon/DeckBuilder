@@ -40,6 +40,10 @@ public class EncounterUI : MonoBehaviour
     public void ChooseOption(int index)
     {
         if (transition) return;
+
+        foreach(EncounterEventEffectStruct effectStruct in encounterData.choices[index - 1].effects)
+            ExecuteEffect(effectStruct);
+
         switch (encounterData.choices[index - 1].outcome)
         {
             case EncounterEventChoiceOutcome.NewEvent:
@@ -49,12 +53,6 @@ public class EncounterUI : MonoBehaviour
             case EncounterEventChoiceOutcome.Combat:
                 CombatSystem.instance.encounterData = (EncounterDataCombat)encounterData.choices[index - 1].newEncounter;
                 WorldStateSystem.SetInCombat(true);
-                break;
-            case EncounterEventChoiceOutcome.CardRandom:
-                WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
-                break;
-            case EncounterEventChoiceOutcome.CardSpecific:
-                WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(WorldSystem.instance.uiManager.encounterUI.encounterData.chosenOption.cardRewards);
                 break;
             default:
                 WorldStateSystem.SetInEvent(false);
@@ -87,5 +85,29 @@ public class EncounterUI : MonoBehaviour
     public void CloseEncounter()
     {
         canvas.SetActive(false);
+    }
+
+    public void ExecuteEffect(EncounterEventEffectStruct effectStruct)
+    {
+        int x;
+        switch (effectStruct.effect){
+            case EncounterEventChoiceEffect.LifeCurrent:
+                x = int.Parse(effectStruct.parameter);
+                if (x > 0)      WorldSystem.instance.characterManager.Heal(x);
+                else            WorldSystem.instance.characterManager.TakeDamage(x);
+                break;
+            case EncounterEventChoiceEffect.LifeMax:
+                x = int.Parse(effectStruct.parameter);
+                WorldSystem.instance.characterManager.characterStats.ModifyHealth(x);
+                break;
+            case EncounterEventChoiceEffect.Artifact:
+                ArtifactManager artifactManager = WorldSystem.instance.artifactManager;
+                artifactManager.AddArtifact(artifactManager.GetRandomAvailableArtifact()?.name);
+                break;
+            case EncounterEventChoiceEffect.Card:
+                CardClassType cardClassType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
+                WorldSystem.instance.characterManager.AddCardDataToDeck(DatabaseSystem.instance.GetRandomCard(cardClassType));
+                break;
+        }
     }
 }

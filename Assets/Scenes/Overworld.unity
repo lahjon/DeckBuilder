@@ -16032,8 +16032,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df5c1d0277a6d0946aae6dd54d58396c, type: 2}
   - {fileID: 11400000, guid: d38573a6e5f820a4da530c75c6c18fe2, type: 2}
   encounterEvent:
+  - {fileID: 11400000, guid: 2e96d5d7c9dd18644a2be4c4a64df655, type: 2}
+  - {fileID: 11400000, guid: 5c1df954413f9f8438cbb8459d4fea9b, type: 2}
+  - {fileID: 11400000, guid: 2547f456881864046b73ed13c8f5fb2e, type: 2}
+  - {fileID: 11400000, guid: 8826f34a627aa994d9d6bda84df1a1ae, type: 2}
   - {fileID: 11400000, guid: d8e2e8bbb901b8341a5699524d56a81c, type: 2}
   - {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
+  - {fileID: 11400000, guid: 93b9c1a5ace9201488f728de8468f766, type: 2}
+  - {fileID: 11400000, guid: b7e17f8faf6fe9944bb6b4e02d8a9edf, type: 2}
   allOverworldIcons:
   - {fileID: 21300000, guid: 3bf70c908aa73124a8d2f14af72ce739, type: 3}
   - {fileID: 21300000, guid: dde104ad52dfd5e4b904381dba1072c1, type: 3}

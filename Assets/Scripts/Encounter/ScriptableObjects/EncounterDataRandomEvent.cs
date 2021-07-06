@@ -13,5 +13,6 @@ public class EncounterDataRandomEvent : EncounterData
     [SerializeField]
     public List<EncounterEventChoice> choices = new List<EncounterEventChoice>();
 
+    [HideInInspector]
     public EncounterEventChoice chosenOption;
 }
