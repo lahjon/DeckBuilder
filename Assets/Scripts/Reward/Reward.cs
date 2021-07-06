@@ -144,7 +144,7 @@ public class Reward : MonoBehaviour, IToolTipable
     }
 }
 
-[System.Serializable] public class RewardStruct
+[System.Serializable] public struct RewardStruct
 {
     public RewardType type;
     public string value;

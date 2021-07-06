@@ -159,20 +159,20 @@ public enum CardTargetType
 }
 public enum CharacterClassType
 {
-    None,
-    Brute,
-    Rogue,
-    Splicer,
-    Beastmaster,
+    None = 0,
+    Brute = 1,
+    Rogue = 2,
+    Splicer = 3,
+    Beastmaster = 4
 };
 
 public enum CardClassType
 {
-    None,
-    Brute,
-    Rogue,
-    Splicer,
-    Beastmaster,
+    None = 0,
+    Brute = 1,
+    Rogue = 2,
+    Splicer = 3,
+    Beastmaster = 4,
     Burden,
     Torment,
     Enemy

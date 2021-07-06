@@ -13,7 +13,7 @@ public class ShopOverworld : MonoBehaviour
     {
         foreach (CardDisplay card in cardsInStock)
         {
-            CardClassType classType = (CardClassType)System.Enum.Parse(typeof(CardClassType), WorldSystem.instance.characterManager.selectedCharacterClassType.ToString());
+            CardClassType classType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
             card.cardData = DatabaseSystem.instance.GetRandomCard(classType);
             cardsPrices[cardsInStock.IndexOf(card)].text = cardsInStock[cardsInStock.IndexOf(card)].cardData.goldValue.ToString() + " g";
             card.BindCardData();
