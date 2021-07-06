@@ -66,30 +66,30 @@ public static class Helpers
         return SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));
     }
 
-    public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
-    {
-        List<T> assets = new List<T>();
-        string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
-        for( int i = 0; i < guids.Length; i++ )
-        {
-            string assetPath = AssetDatabase.GUIDToAssetPath( guids[i] );
-            T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
-            if( asset != null )
-            {
-                assets.Add(asset);
-            }
-        }
-        return assets;
-    }
+    // public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+    // {
+    //     List<T> assets = new List<T>();
+    //     string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+    //     for( int i = 0; i < guids.Length; i++ )
+    //     {
+    //         string assetPath = AssetDatabase.GUIDToAssetPath( guids[i] );
+    //         T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
+    //         if( asset != null )
+    //         {
+    //             assets.Add(asset);
+    //         }
+    //     }
+    //     return assets;
+    // }
 
-    public static List<string> GetAllFilesInDirectory(string relativeAssetPath, string extension = "*.cs")
-    {
-        string path = Application.dataPath;
-        path = path.Replace("Assets", "");
-        path += relativeAssetPath;
-        List<string> allFiles = Directory.GetFiles(path, extension).Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
-        return allFiles;
-    }
+    // public static List<string> GetAllFilesInDirectory(string relativeAssetPath, string extension = "*.cs")
+    // {
+    //     string path = Application.dataPath;
+    //     path = path.Replace("Assets", "");
+    //     path += relativeAssetPath;
+    //     List<string> allFiles = Directory.GetFiles(path, extension).Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
+    //     return allFiles;
+    // }
 
     public static float Remap(this float value, float from1, float to1, float from2, float to2) 
     {

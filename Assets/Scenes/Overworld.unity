@@ -23294,9 +23294,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
-        m_MethodName: PlayerInputEndTurn
+      - m_Target: {fileID: 7123770}
+        m_TargetAssemblyTypeName: CombatSystem, Assembly-CSharp
+        m_MethodName: EndTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24597,7 +24597,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 347953519228129229, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 347953519228129265, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_Camera
@@ -26583,6 +26583,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1673503173}
     m_Modifications:
+    - target: {fileID: 8242332177089374102, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -166.54907
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332177656918996, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: m_Camera
       value: 
