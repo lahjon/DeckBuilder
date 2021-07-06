@@ -8,6 +8,7 @@ public class OverlayStateDeathscreen : OverlayStateAnimator
     {
         Init(OverlayState.DeathScreen);
         FileManager.ResetTempData();
+        Debug.Log("Dead");
         world.uiManager.deathScreen.GetComponent<Animation>().Play();
     }
 

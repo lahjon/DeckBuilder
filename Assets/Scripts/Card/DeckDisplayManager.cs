@@ -17,7 +17,6 @@ public class DeckDisplayManager : Manager
     public ScrollRect scroller;
     public Vector3 previousPosition;
     public CardDisplay placeholderCard;
-    public GameObject clickableArea;
     public GameObject backgroundPanel;
     public Transform deckDisplayPos;
     public CardDisplay animatedCard;
@@ -29,7 +28,6 @@ public class DeckDisplayManager : Manager
         world.deckDisplayManager = this;
         canvas.gameObject.SetActive(true);
         backgroundPanel.SetActive(false);
-        clickableArea.SetActive(false);
         deckDisplay.SetActive(false);
     }
 
@@ -75,7 +73,6 @@ public class DeckDisplayManager : Manager
             placeholderCard.BindCardData();
             placeholderCard.BindCardVisualData();
             backgroundPanel.SetActive(true);
-            clickableArea.SetActive(true);
             scroller.enabled = false;
             selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
         }
@@ -87,7 +84,6 @@ public class DeckDisplayManager : Manager
     public void ResetCardPosition()
     {
         backgroundPanel.SetActive(false);
-        clickableArea.SetActive(false);
         scroller.enabled = true;
         selectedCard.transform.position = previousPosition;
         previousPosition = transform.position;
@@ -110,15 +106,15 @@ public class DeckDisplayManager : Manager
 
     public void CloseDeckDisplay()
     {
+        WorldStateSystem.TriggerClear();
         backgroundPanel.SetActive(false);
-        clickableArea.SetActive(false);
         deckDisplay.SetActive(false);
         selectedCard = null;
     }
 
     public void ButtonClose()
     {
-        WorldStateSystem.TriggerClear();
+        world.deckDisplayManager.CloseDeckDisplay();
     }
     // public void DisplayNextCard(int direction)
     // {

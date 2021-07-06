@@ -419,13 +419,17 @@ public class CombatSystem : MonoBehaviour
     }
 
 
-    internal void ReportDeath(CombatActor combatActor)
+    public void ReportDeath(CombatActor combatActor)
     {
         if (combatActor != Hero)
+        {
             KillEnemy((CombatActorEnemy)combatActor);
+            if (EnemiesInScene.Count == 0)
+                WinCombat();
+        }
 
-        if (EnemiesInScene.Count == 0)
-            WinCombat();
+        // if(combatActor == Hero)
+        //     WorldSystem.instance.characterManager.KillCharacter();
     }
     #endregion
 

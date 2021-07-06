@@ -19,6 +19,7 @@ public class CombatDeckDisplay : MonoBehaviour
     {
         deckDisplay.gameObject.SetActive(true);
         UpdateAllCards(DeckType.CombatDiscard);
+        WorldStateSystem.SetInDisplay();
 
         // CombatSystem.instance.Hero.discard.ForEach(x => {
         //     GameObject card = Instantiate(x.gameObject, content);
@@ -34,6 +35,7 @@ public class CombatDeckDisplay : MonoBehaviour
     {
         deckDisplay.gameObject.SetActive(true);
         UpdateAllCards(DeckType.CombatDeck);
+        WorldStateSystem.SetInDisplay();
 
         // CombatSystem.instance.Hero.deck.ForEach(x => {
         //     GameObject card = Instantiate(x.gameObject, content);
@@ -85,7 +87,7 @@ public class CombatDeckDisplay : MonoBehaviour
         // {
         //     Destroy(content.GetChild(i).gameObject);
         // }
-
+        WorldStateSystem.TriggerClear();
         deckDisplay.gameObject.SetActive(false);
     }
 }

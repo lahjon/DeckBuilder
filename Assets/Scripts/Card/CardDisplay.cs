@@ -16,7 +16,7 @@ public class CardDisplay : CardVisual
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-
+        Debug.Log("Over");
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         
     }

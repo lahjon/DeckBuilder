@@ -149,7 +149,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugAddTokenPoints()
     {
-        world.tokenManager.AddTokenPoint();
+        DatabaseSystem.instance.GetRandomCard();
     }
     public void DebugAddTokenReward()
     {

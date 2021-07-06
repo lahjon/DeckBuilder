@@ -155,7 +155,7 @@ public class WorldStateSystem : MonoBehaviour
 
     public static void SetInDeathScreen()
     {
-        if (_currentOverlayState == OverlayState.EscapeMenu)
+        if (_currentOverlayState == OverlayState.None)
         {
             overlayAnimator.SetTrigger("InDeathScreen");
         }

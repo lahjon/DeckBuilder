@@ -73,14 +73,17 @@ TagManager:
   - name: Midground
     uniqueID: 4192651549
     locked: 0
+  - name: Foreground
+    uniqueID: 120520623
+    locked: 0
   - name: Character
     uniqueID: 3553680045
     locked: 0
   - name: HealthEffects
     uniqueID: 2034861665
     locked: 0
-  - name: Foreground
-    uniqueID: 120520623
+  - name: Intent
+    uniqueID: 888314667
     locked: 0
   - name: CardCanvas
     uniqueID: 4061878109
@@ -93,9 +96,6 @@ TagManager:
     locked: 0
   - name: CombatOverlay
     uniqueID: 3957876583
-    locked: 0
-  - name: Intent
-    uniqueID: 888314667
     locked: 0
   - name: RewardScreenCombat
     uniqueID: 3331185467
@@ -117,4 +117,7 @@ TagManager:
     locked: 0
   - name: Warning
     uniqueID: 382336445
+    locked: 0
+  - name: Deathscreen
+    uniqueID: 3655727027
     locked: 0

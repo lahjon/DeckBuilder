@@ -143,13 +143,14 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         if (lifeToLose == 0) return;
 
         hitPoints -= Mathf.Min(lifeToLose, hitPoints);
+        Debug.Log(hitPoints);
         if (this == CombatSystem.instance.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
         //Debug.Log("Starting LifeLoss");
         healthEffectsUI.StartLifeLossNotification(lifeToLose);
 
-        if (hitPoints == 0)
+        if (hitPoints <= 0)
             CombatSystem.instance.ReportDeath(this);
     }
 

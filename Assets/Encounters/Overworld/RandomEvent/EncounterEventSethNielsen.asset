@@ -26,7 +26,7 @@ MonoBehaviour:
     newEncounter: {fileID: 0}
     effects: []
   - label: Tell him he is not the prettiest
-    outcome: 6
+    outcome: 3
     newEncounter: {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
     effects: []
   chosenOption:
