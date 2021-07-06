@@ -79,6 +79,22 @@ public class Reward : MonoBehaviour, IToolTipable
 
         callback = () => WorldSystem.instance.characterManager.shard += amount;
     }
+    public void RewardItem(string value)
+    {
+        itemData = string.IsNullOrEmpty(value) ? WorldSystem.instance.useItemManager.GetItemData() : WorldSystem.instance.useItemManager.GetItemData(value);
+
+        if (itemData == null)
+        {
+            Debug.Log("No artifact found!");
+            return;
+        }
+
+        rewardText.text = itemData.itemName;
+        image.sprite = itemData.artwork;
+        reset = true;
+
+        callback = () => WorldSystem.instance.useItemManager.AddItem(itemData.name);
+    }
     public void RewardArtifact(string value)
     {
         itemData = string.IsNullOrEmpty(value) ? WorldSystem.instance.artifactManager.GetRandomAvailableArtifact() : WorldSystem.instance.artifactManager.GetSpecficArtifact(value);
@@ -93,11 +109,7 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = itemData.artwork;
         reset = true;
 
-        callback = () => WorldSystem.instance.artifactManager.AddArtifact(itemData.itemName);
-    }
-    public void RewardItem(string value)
-    {
-        callback = () => Debug.Log("No Reward Implemented!");
+        callback = () => WorldSystem.instance.artifactManager.AddArtifact(itemData.name);
     }
     public void RewardHeal(string value)
     {
@@ -131,7 +143,7 @@ public class Reward : MonoBehaviour, IToolTipable
     {
         Vector3 pos;
         string desc;
-        if((int)rewardType > 10)
+        if((int)rewardType >= 10)
         {
             // x > 10 has itemdata and can extract the description
             pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);

@@ -27,8 +27,8 @@ public class BuildingTownHall : Building
 
     private void AddToShop(GameObject item)
     {
-        GameObject newItem = Instantiate(item);
-        newItem.transform.SetParent(iventoryPanel);
+        GameObject newItem = Instantiate(item, iventoryPanel);
+        //newItem.transform.SetParent(iventoryPanel);
         inventory.Add(item);
     }
     private void UpdateInventory()

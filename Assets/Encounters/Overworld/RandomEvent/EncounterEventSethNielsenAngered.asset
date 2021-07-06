@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventSethNielsenAngered
   m_EditorClassIdentifier: 
-  name: 
+  encounterName: Suuuuuuur
   tier: 0
   FindInRandom: 0
   description: You've done it now!

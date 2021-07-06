@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
-    m_HighlightedColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
     m_SelectedColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
     m_DisabledColor: {r: 0.7921569, g: 0.7921569, b: 0.7921569, a: 1}
@@ -146,5 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Leave
+  encounterData: {fileID: 0}
   buildingType: 5
   building: {fileID: 0}
+  tooltipAnchor: {fileID: 0}

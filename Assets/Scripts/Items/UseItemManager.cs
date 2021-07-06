@@ -22,13 +22,18 @@ public class UseItemManager : Manager
         base.Start();
     }
 
-    UseItemData GetRandomItemData()
+    public UseItemData GetItemData(string value = "")
     {
-        UseItemData[] items = allItems.Except(equippedItems).ToArray();
-        if (items.Count() > 0)
-            return items[Random.Range(0, items.Count())];
+        if (!string.IsNullOrEmpty(value))
+            return allItems.Except(equippedItems).FirstOrDefault(x => x.name == value);
+        else
+        {
+            UseItemData[] items = allItems.Except(equippedItems).ToArray();
+            if (items.Count() > 0)
+                return items[Random.Range(0, items.Count())];
 
-        return null;
+            return null;
+        }
     }
 
     public void RemoveItem(UseItem item)
@@ -40,7 +45,7 @@ public class UseItemManager : Manager
         }
     }
 
-    public void EquipRandomItem()
+    public void AddItem(string itemName = "")
     {
         if (usedItemSlots >= maxItemSlots)
         {
@@ -48,7 +53,16 @@ public class UseItemManager : Manager
             return;
         }
 
-        UseItemData data = GetRandomItemData();
+        UseItemData data;
+
+        if (!string.IsNullOrEmpty(itemName))
+            data = allItems.Except(equippedItems).FirstOrDefault(x => x.name == itemName);
+        else
+            data = GetItemData();
+
+        if (data == null)
+            return;
+
         usedItemSlots++;
         equippedItems.Add(data);
         UseItem newItem = Instantiate(itemPrefab, content).GetComponent<UseItem>();

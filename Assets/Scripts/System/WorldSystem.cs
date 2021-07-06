@@ -54,8 +54,6 @@ public class WorldSystem : MonoBehaviour
         act = 1;
     }
 
-
-
     public void SaveProgression(bool saveTemp = true)
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)

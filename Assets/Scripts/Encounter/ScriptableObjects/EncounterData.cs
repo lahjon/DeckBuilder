@@ -4,6 +4,6 @@ using UnityEngine;
 
 public abstract class EncounterData : ScriptableObject
 {
-    public new string name;
+    public string encounterName;
     public int tier;
 }

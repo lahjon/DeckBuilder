@@ -23,7 +23,7 @@ public class EncounterUI : MonoBehaviour
 
     public void BindEncounterData()
     {
-        encounterTitle.text = encounterData.name;
+        encounterTitle.text = encounterData.encounterName;
         encounterDescription.text = encounterData.description;
 
         foreach (GameObject go in choices)

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class TownInteractable : MonoBehaviour
+public abstract class TownInteractable : MonoBehaviour, IToolTipable
 {
     public new string name;
     public EncounterDataRandomEvent encounterData;
     public BuildingType buildingType;
     public Building building;
+    //public string toolTipDescription;
+    public Transform tooltipAnchor;
 
     public virtual void StartEncounterEvent()
     {
@@ -24,5 +26,12 @@ public abstract class TownInteractable : MonoBehaviour
         {
             building.EnterBuilding();
         }
+        WorldSystem.instance.toolTipManager.DisableTips();
+    }
+
+    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
+        return (new List<string>{name} , pos);
     }
 }

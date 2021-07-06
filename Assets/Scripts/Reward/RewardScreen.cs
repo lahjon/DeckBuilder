@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RewardScreen : MonoBehaviour
 {
     public Reward rewardPrefab;
+    public GameObject content;
     public Transform anchor;
     public Canvas canvas;
     public Reward reward;
@@ -22,6 +23,12 @@ public class RewardScreen : MonoBehaviour
             reward.GetComponent<ToolTipScanner>().ExitAction();
             ClearScreen();
         });
+        content.GetComponent<Button>().onClick.RemoveAllListeners();
+        content.GetComponent<Button>().onClick.AddListener(() => {
+            reward.CollectCombatReward();
+            reward.GetComponent<ToolTipScanner>().ExitAction();
+            ClearScreen();
+        });
         WorldStateSystem.SetInRewardScreen();
     }
 
@@ -33,8 +40,9 @@ public class RewardScreen : MonoBehaviour
     public void ClearScreen()
     {
         if (reward != null)
-            Destroy(reward);
+            Destroy(reward.gameObject);
             
+        WorldStateSystem.TriggerClear();
         canvas.gameObject.SetActive(false);
     }
 }

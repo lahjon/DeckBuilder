@@ -15,7 +15,8 @@ public class DebugUI : MonoBehaviour
     public TMP_Text worldState;
     public TMP_Text overlayState;
     public TMP_Text worldTier;
-    public TMP_Dropdown dropdown;
+    public TMP_Dropdown dropdownEnemies;
+    public TMP_Dropdown dropdownEncounter;
 
     WorldSystem world;
 
@@ -30,9 +31,14 @@ public class DebugUI : MonoBehaviour
     void Start()
     {
         world = WorldSystem.instance;
-        List<string> options = new List<string>();
-        DatabaseSystem.instance.encountersCombat.ForEach(x => options.Add(x.name));
-        dropdown.AddOptions(options);
+        List<string> optionsEnemies = new List<string>();
+        DatabaseSystem.instance.encountersCombat.ForEach(x => optionsEnemies.Add(x.name));
+        dropdownEnemies.AddOptions(optionsEnemies);
+
+        List<string> optionsEncounters = new List<string>();
+        DatabaseSystem.instance.encounterEvent.ForEach(x => optionsEncounters.Add(x.name));
+        DatabaseSystem.instance.encounterEvent.ForEach(x => Debug.Log(x.name));
+        dropdownEncounter.AddOptions(optionsEncounters);
     }
 
     public void UpdateCharacterDebugHUD()
@@ -49,7 +55,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugCreateNewItem()
     {
-        world.useItemManager.EquipRandomItem();
+        world.useItemManager.AddItem();
     }
     public void DebugTakeDamage(int amount)
     {
@@ -96,9 +102,9 @@ public class DebugUI : MonoBehaviour
 
     IEnumerator StartCombat()
     {
-        EncounterDataCombat data = DatabaseSystem.instance.encountersCombat.FirstOrDefault(x => x.name == dropdown.options[dropdown.value].text); 
+        EncounterDataCombat data = DatabaseSystem.instance.encountersCombat.FirstOrDefault(x => x.name == dropdownEnemies.options[dropdownEnemies.value].text); 
         Debug.Log(data);
-        Debug.Log(dropdown.options[dropdown.value].text);
+        Debug.Log(dropdownEnemies.options[dropdownEnemies.value].text);
         if (data != null) 
         {
             CombatSystem.instance.encounterData = data;
@@ -113,13 +119,22 @@ public class DebugUI : MonoBehaviour
             Debug.Log("No valid encounter data!");
         }
     }
+
+    public void DebugStartRandomEncounterEvent()
+    {
+        EncounterDataRandomEvent data = DatabaseSystem.instance.encounterEvent.FirstOrDefault(x => x.name == dropdownEnemies.options[dropdownEnemies.value].text); 
+        WorldSystem.instance.uiManager.encounterUI.encounterData = data;
+        WorldStateSystem.SetInEvent(true);
+        WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+    }
+
     public void DebugRemoveSpecificArtifact()
     {
         world.artifactManager.RemoveArtifact(artifactReward);
     }
     public void DebugAddRandomArtifact()
     {
-        world.artifactManager.AddArtifact(world.artifactManager.GetRandomAvailableArtifact()?.itemName);
+        world.artifactManager.AddArtifact(world.artifactManager.GetRandomAvailableArtifact()?.name);
     }
 
     public void DebugRemoveRandomArtifact()

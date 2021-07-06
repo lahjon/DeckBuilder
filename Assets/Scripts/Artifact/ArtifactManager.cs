@@ -27,8 +27,8 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public void Init()
     {
-        allArtifacts.ForEach(x => allArtifactsNames.Add(x.itemName));
-        allActiveArtifactsNames.ForEach(x => AddArtifact(x));
+        allArtifacts.ForEach(x => allArtifactsNames.Add(x.name));
+        allActiveArtifactsNames.ForEach(x => AddArtifactFromLoad(x));
     }
 
     public ArtifactData GetSpecficArtifact(string artifactName)
@@ -78,6 +78,16 @@ public class ArtifactManager : Manager, ISaveableTemp
             {
                 world.SaveProgression();
             }
+        }
+    }
+
+    public void AddArtifactFromLoad(string artifactName)
+    {
+        if (artifactName != null && artifactName.Length > 0)
+        {
+            ArtifactData artifactData = GetArtifactFromName(artifactName);
+            GameObject newArtifact = artifactMenu.AddUIArtifact(artifactData);
+            Effect.GetEffect(newArtifact, artifactData.name, true);
         }
     }
 
