@@ -55,6 +55,26 @@ public class Card : MonoBehaviour
         unstable        = cardData.unstable;
     }
 
+    public void Mimic(Card card)
+    {
+        name = card.cardName;
+        rarity = card.rarity;
+        cardName = card.cardName;
+        artwork = card.artwork;
+        cost = card.cost;
+        exhaust = card.exhaust;
+        Damage = card.Damage;
+        Block = card.Block;
+        effectsOnPlay = card.effectsOnPlay;
+        effectsOnDraw = card.effectsOnDraw;
+        activitiesOnPlay = card.activitiesOnPlay;
+        activitiesOnDraw = card.activitiesOnDraw;
+        animationPrefab = card.animationPrefab;
+        classType = card.classType;
+        visibleCost = card.visibleCost;
+        unplayable = card.unplayable;
+        unstable = card.unstable;
+    }
 
     [HideInInspector]
     public bool targetRequired
@@ -123,6 +143,7 @@ public class Card : MonoBehaviour
         HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
 
         Target.classType = CardClassType.Splicer;
+        Target.rarity = (Rarity)Mathf.Max((int)a.rarity, (int)b.rarity);
 
         Target.artwork = a.artwork;
         Target.animationPrefab = a.animationPrefab;

@@ -15,14 +15,14 @@ using DG.Tweening;
 public static class Helpers
 {
     public static Dictionary<CardClassType,Color> borderColors = new Dictionary<CardClassType, Color>{
-        {CardClassType.Brute, Color.red }, 
-        {CardClassType.Rogue, Color.blue }, 
-        {CardClassType.Splicer, Color.green }, 
-        {CardClassType.Beastmaster, Color.magenta }, 
-        {CardClassType.Colorless, Color.white }, 
-        {CardClassType.Enemy, Color.white }, 
-        {CardClassType.Burden, Color.white }, 
-        {CardClassType.Torment, Color.black }
+        {CardClassType.Brute,               Color.red }, 
+        {CardClassType.Rogue,               Color.blue }, 
+        {CardClassType.Splicer,             Color.green }, 
+        {CardClassType.Beastmaster,         Color.magenta }, 
+        {CardClassType.Colorless,           Color.white }, 
+        {CardClassType.Enemy,               Color.white }, 
+        {CardClassType.Burden,              Color.white }, 
+        {CardClassType.Torment,             Color.black }
      }; 
 
      public static Dictionary<Rarity,Color> rarityBorderColors = new Dictionary<Rarity, Color>{

@@ -32,16 +32,15 @@ public class CardActivitySplice : CardActivity
                 cardEffect.Value = -1;
                 yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
                 CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
-                hero.deck.Add(splicedCard);
                 CombatSystem.instance.InProcessCard.exhaust = true;
-                hero.discard.Remove(discardedCard);
-                CombatSystem.Destroy(discardedCard.gameObject);
-                CombatSystem.instance.UpdateDeckTexts();
 
-                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Created spliced card!");
+                hero.discard.Remove(discardedCard);
+                UnityEngine.Object.Destroy(discardedCard.gameObject);
+
+                CombatSystem.instance.UpdateDeckTexts();
+                CombatSystem.instance.cardPresenter.DisplayCards(new List<CardCombat>() { splicedCard }, new List<CardLocation>() { CardLocation.Deck });
             }
         }
-        yield return null;
     }
 
     public override string GetDescription(string input)
