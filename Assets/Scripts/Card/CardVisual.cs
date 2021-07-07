@@ -74,7 +74,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         {
             descText += Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + ":";
             descText += ValueColorWrapper(Damage.Value, displayDamage);
-            if (Damage.Times != 1) descText += " " + Damage.Times + " times.";
+            if (Damage.Times != 1) descText += " " + Damage.Times + " times";
+            if (Damage.Target != CardTargetType.EnemySingle) descText += " " + Damage.Target.ToString();
         }
 
         //Special care for Damage on Block
@@ -83,6 +84,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             descText += Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + ":";
             descText += ValueColorWrapper(Block.Value, displayBlock);
             if (Block.Times != 1) descText += " " + Block.Times + " times.";
+            if (Block.Target != CardTargetType.Self) descText += " " + Block.Target.ToString();
         }
 
         //On draw non-modifiable descs
@@ -93,6 +95,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             if (descText != "") descText += "\n";
             descText += "On Draw: " + effectsOnDraw[i].Type.ToString() + EffectTypeToIconCode(effectsOnDraw[i].Type) + ":" + effectsOnDraw[i].Value;
             if (effectsOnDraw[i].Times != 1) descText += " " + effectsOnDraw[i].Times + " times.";
+            if (effectsOnDraw[i].Target != CardTargetType.EnemySingle) descText += " " + effectsOnDraw[i].Target.ToString();
         }
 
         for (int i = 0; i < activitiesOnDraw.Count; i++)
@@ -109,6 +112,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             if (descText != "") descText += "\n";
             descText += effectsOnPlay[i].Type.ToString() + EffectTypeToIconCode(effectsOnPlay[i].Type) + ":" + effectsOnPlay[i].Value;
             if (effectsOnPlay[i].Times != 1) descText += " " + effectsOnPlay[i].Times + " times.";
+            if (effectsOnPlay[i].Target != CardTargetType.EnemySingle) descText += " " + effectsOnPlay[i].Target.ToString();
         }
 
         for (int i = 0; i < activitiesOnPlay.Count; i++)

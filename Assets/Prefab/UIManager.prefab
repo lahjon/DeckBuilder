@@ -6688,8 +6688,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 0f54148581f0974478c5f762be97ab47, type: 3}
   - name: Weak
     sprite: {fileID: 21300000, guid: e6bfada06c20ed94d97a9f6652c6bbd3, type: 3}
-  - name: Confused
-    sprite: {fileID: 21300000, guid: bc24c488d02c2814aa8eb5f2a6f346ed, type: 3}
 --- !u!1 &347953518847618314
 GameObject:
   m_ObjectHideFlags: 0

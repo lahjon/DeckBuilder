@@ -122,6 +122,8 @@ public class Card : MonoBehaviour
         HashSet<EffectType> effectTypes = new HashSet<EffectType>();
         HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
 
+        Target.classType = CardClassType.Splicer;
+
         Target.artwork = a.artwork;
         Target.animationPrefab = a.animationPrefab;
         Target.cost = Mathf.Max(a.cost, b.cost);
@@ -158,12 +160,7 @@ public class Card : MonoBehaviour
                 Target.effectsOnPlay.AddRange(aE);
             else
             {
-                HashSet<CardTargetType> targetTypes = new HashSet<CardTargetType>();
-                bE.ForEach(x => targetTypes.Add(x.Target));
-                aE.ForEach(x => targetTypes.Add(x.Target));
-
-                foreach(CardTargetType targetType in targetTypes)
-                    Target.effectsOnPlay.Add(bE.Where(x => x.Target == targetType).FirstOrDefault() + aE.Where(x => x.Target == targetType).FirstOrDefault());
+                Target.effectsOnPlay.Add(aE[0] + bE[0]);
             }
         }
 

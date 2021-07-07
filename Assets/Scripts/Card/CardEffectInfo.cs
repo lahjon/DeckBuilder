@@ -38,15 +38,6 @@ public class CardEffectInfo
             return null;
         }
 
-
-        if(a.Target != b.Target)
-        {
-            Debug.LogError("Two different targetTypes attempted to be spliced");
-            return null;
-        }
-
-        CardEffectInfo effect = new CardEffectInfo(a.Type, a.Value*a.Times + b.Value*b.Times, 1, a.Target); 
-
-        return effect;
+        return new CardEffectInfo(a.Type, a.Value * a.Times + b.Value * b.Times, 1, (CardTargetType)Mathf.Max((int)a.Target, (int)b.Target)); ;
     }
 }

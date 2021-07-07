@@ -111,7 +111,7 @@ public class DatabaseGoogle
             data.Block.Type = EffectType.Block;
             data.Block.Value = Int32.Parse((string)gt[i, "BlockValue"]);
             data.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
-            data.Block.Target = CardTargetType.Self;
+            Enum.TryParse((string)gt[i, "BlockTarget"], out data.Block.Target);
 
             data.exhaust = (string)gt[i, "Exhaust"] == "TRUE";
             data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
