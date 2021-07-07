@@ -19078,7 +19078,8 @@ MonoBehaviour:
   - type: 1
     value: []
   - type: 3
-    value: []
+    value:
+    - rarity=.4;.3
   - type: 11
     value: []
   combatRewardBoss:
@@ -19086,8 +19087,7 @@ MonoBehaviour:
     value: []
   - type: 3
     value:
-    - notClassType=Splicer;Colorless;Burden;Enemy
-    - cost=0;1
+    - rarity=0;1
   - type: 2
     value: []
   - type: 11
