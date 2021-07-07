@@ -62,6 +62,7 @@ public class DatabaseSystem : MonoBehaviour
         else
         {
             List<CardData> classCards = cards.Where(x => CardFilter.Filterer(x, cardFilter)).ToList();
+            if (classCards.Count == 0) return null;
             idx = Random.Range(0, classCards.Count);
             return classCards[idx];
         }

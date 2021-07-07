@@ -17,6 +17,7 @@ public class DebugUI : MonoBehaviour
     public TMP_Text worldTier;
     public TMP_Dropdown dropdownEnemies;
     public TMP_Dropdown dropdownEncounter;
+    public TMP_Dropdown dropdownCard;
 
     WorldSystem world;
 
@@ -37,8 +38,12 @@ public class DebugUI : MonoBehaviour
 
         List<string> optionsEncounters = new List<string>();
         DatabaseSystem.instance.encounterEvent.ForEach(x => optionsEncounters.Add(x.name));
-        DatabaseSystem.instance.encounterEvent.ForEach(x => Debug.Log(x.name));
         dropdownEncounter.AddOptions(optionsEncounters);
+
+        List<string> optionsCard = new List<string>();
+        DatabaseSystem.instance.cards.ForEach(x => optionsCard.Add(x.name));
+        DatabaseSystem.instance.cards.ForEach(x => Debug.Log(x.name));
+        dropdownCard.AddOptions(optionsCard);
     }
 
     public void UpdateCharacterDebugHUD()
@@ -147,9 +152,27 @@ public class DebugUI : MonoBehaviour
     {
         world.artifactManager.RemoveArtifact(world.artifactManager.GetRandomActiveArtifact());
     }
-    public void DebugAddTokenPoints()
+    public void DebugAddCardFromFilter()
     {
-        DatabaseSystem.instance.GetRandomCard();
+        string text = dropdownCard.options[dropdownCard.value].text;
+
+        Debug.Log("card data: " + text);
+        CardData data = DatabaseSystem.instance.GetRandomCard(new CardFilter() {name = text});
+
+
+        // data = DatabaseSystem.instance.GetRandomCard(new CardFilter() {
+        //     costArr = new int[]{0},
+        //     classType = CardClassType.Splicer,
+        //     notClassTypeArr = new CardClassType[]{CardClassType.Burden}
+        //     });
+
+        if (data == null)
+        {
+            Debug.Log("No card named: " + data);
+            return;
+        }
+
+        world.characterManager.AddCardDataToDeck(data);
     }
     public void DebugAddTokenReward()
     {
