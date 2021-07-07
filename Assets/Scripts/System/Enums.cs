@@ -414,3 +414,8 @@ public enum CardActivityType
     SetRandomBroken,
     Heal
 }
+
+public enum Profession
+{
+    Base
+}

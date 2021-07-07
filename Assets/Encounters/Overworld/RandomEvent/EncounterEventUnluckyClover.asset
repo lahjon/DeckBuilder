@@ -15,10 +15,10 @@ MonoBehaviour:
   encounterName: Unlucky Clover
   tier: 0
   FindInRandom: 1
-  description: 'On the rainy road, you come upon an unlucky clover.
+  description: 'On a rainy road, you come upon an unlucky clover.
 
     On top of
-    it, a gloomy gnome asks you what you fear most in life:'
+    it, a gloomy gnome asks you what you fear most in life?'
   choices:
   - label: Growing old (-5 Max HP)
     outcome: 1

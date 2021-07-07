@@ -15,10 +15,10 @@ MonoBehaviour:
   encounterName: Lucky Clover
   tier: 0
   FindInRandom: 1
-  description: 'On the sunny road, you come upon a lucky clover.
+  description: 'On a sunny road, you come upon a lucky clover.
 
     On top of it,
-    a cheerful gnome asks you what is most important in life:'
+    a cheerful gnome asks you what is most important in life?'
   choices:
   - label: Wellbeing (heal 10hp)
     outcome: 1
