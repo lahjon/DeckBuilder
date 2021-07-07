@@ -7,6 +7,7 @@ using TMPro;
 
 public class Card : MonoBehaviour
 {
+    public Rarity rarity;
     public string cardName;
     public Sprite artwork;
 
@@ -36,6 +37,7 @@ public class Card : MonoBehaviour
     public void BindCardData()
     {
         name            = cardData.cardName;
+        rarity          = cardData.rarity;
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
         cost            = cardData.cost;

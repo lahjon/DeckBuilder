@@ -25,6 +25,14 @@ public static class Helpers
         {CardClassType.Torment, Color.black }
      }; 
 
+     public static Dictionary<Rarity,Color> rarityBorderColors = new Dictionary<Rarity, Color>{
+        {Rarity.None,       Color.white }, 
+        {Rarity.Starting,   Color.white }, 
+        {Rarity.Common,     Color.white }, 
+        {Rarity.Uncommon,   Color.green },
+        {Rarity.Rare,       Color.magenta }
+     }; 
+
     public static Color attackColor = new Color(190,83,83);
     public static Color neutralColor = Color.white;
     public static float timeMultiplier = 1.0f;

@@ -14,6 +14,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public Image artworkImage;
     public GameObject highlight;
     public Image border;
+    public Image rarityBorder;
     public RectTransform TooltipAnchor; 
     public List<string> toolTipTextBits = new List<string>();
 
@@ -158,6 +159,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     void SetBorderColor()
     {
         border.color = Helpers.borderColors[classType];
+        rarityBorder.color = Helpers.rarityBorderColors[rarity];
     }
 
     public virtual void OnMouseEnter()

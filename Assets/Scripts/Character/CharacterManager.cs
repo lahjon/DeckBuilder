@@ -107,7 +107,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         characterVariablesUI.UpdateCharacterHUD();
     }
-
     void SetupCharacterData()
     {
         character.SetCharacterData((int)selectedCharacterClassType);
