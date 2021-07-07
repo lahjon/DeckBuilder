@@ -93,6 +93,20 @@ public static class EnumExtenstions
                 break;
         }
     }
+
+    public static Rarity DrawRarity(float uncommon, float rare)
+    {
+        float[] probs = new float[] { 1 - uncommon - rare, uncommon, rare };
+
+        int index = 0;
+        float rand = Random.Range(0f, 1f);
+        float sum = 0;
+
+        while(sum < rand && index < probs.Length)
+            sum += probs[index++];
+
+        return (Rarity)(index + 10);
+    }
     
 }
 
@@ -109,11 +123,11 @@ public enum ItemRefreshConditionType
 
 public enum Rarity
 {
-    None,
-    Starting,
-    Common,
-    Uncommon,
-    Rare
+    None = 0,
+    Starting = 1,
+    Common= 11,
+    Uncommon = 12,
+    Rare = 13
 };
 
 public enum ZoomState
