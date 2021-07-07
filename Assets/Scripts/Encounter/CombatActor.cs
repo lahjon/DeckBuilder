@@ -53,11 +53,11 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public int strengthCombat = 0;
 
     public Dictionary<CardTargetType, CardTargetType> targetDistorter = new Dictionary<CardTargetType, CardTargetType>()
-    { {CardTargetType.All, CardTargetType.All},
-        {CardTargetType.EnemyAll, CardTargetType.All},
-        {CardTargetType.EnemyRandom, CardTargetType.EnemyRandom},
-        {CardTargetType.EnemySingle, CardTargetType.EnemySingle},
-        {CardTargetType.Self, CardTargetType.Self}
+    {   {CardTargetType.All,            CardTargetType.All},
+        {CardTargetType.EnemyAll,       CardTargetType.EnemyAll},
+        {CardTargetType.EnemyRandom,    CardTargetType.EnemyRandom},
+        {CardTargetType.EnemySingle,    CardTargetType.EnemySingle},
+        {CardTargetType.Self,           CardTargetType.Self}
     };
 
 

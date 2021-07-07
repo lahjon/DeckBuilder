@@ -286,10 +286,7 @@ public class CombatSystem : MonoBehaviour
             targets.Add(source.enemies[id]);
         }
         else if(targetType == CardTargetType.All)
-        {
-            targets.Add(Hero);
-            targets.AddRange(EnemiesInScene);
-        }
+            targets.AddRange(ActorsInScene);
 
         return targets;
     }

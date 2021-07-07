@@ -50,6 +50,7 @@ public class DatabaseGoogle
         ReadEntriesCard("Card", "Z", "Main");
         ReadEntriesCardEffects("CardEffects", "Z", "Main");
         ReadEntriesCardActivites("CardActivities", "E", "Main");
+        ReadEntriesCardStarting("CardsStarting", "E", "Main");
     }
 
     public void DownloadEnemies()
@@ -189,6 +190,42 @@ public class DatabaseGoogle
                 data.activitiesOnDraw.Add(activitySetting);
 
             EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+
+    public void ReadEntriesCardStarting(string sheetName, string lastCol, string sheet)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+
+        dbs.StartingCards.Clear(); 
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            CharacterClassType classType;
+            Enum.TryParse((string)gt[i, "CharacterClass"], out classType);
+            Profession profession;
+            Enum.TryParse((string)gt[i, "Profession"], out profession);
+
+            StartingCardSet scs = dbs.StartingCards.Where(x => x.characterClass == classType && x.profession == profession).FirstOrDefault();
+            if (scs is null)
+            {
+                scs = new StartingCardSet() { profession = profession, characterClass = classType, name = classType.ToString() + ", " + profession.ToString() };
+                dbs.StartingCards.Add(scs);
+            }
+            scs.startingCards.AddRange(dbs.GetCardsByName(new List<string>() { databaseName }));
+
+            EditorUtility.SetDirty(dbs);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

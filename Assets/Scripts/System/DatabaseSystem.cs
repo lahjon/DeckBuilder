@@ -7,6 +7,8 @@ public class DatabaseSystem : MonoBehaviour
 {
     public static DatabaseSystem instance;
 
+    public List<StartingCardSet> StartingCards = new List<StartingCardSet>();
+
     public List<CardData> cards = new List<CardData>();
 
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
@@ -73,15 +75,13 @@ public class DatabaseSystem : MonoBehaviour
         return allOverworldIcons.Where(x => x.name == "Overworld" + type.ToString()).First();
     }
 
-    public List<CardData> GetStartingDeck(CharacterClassType character)
+    public List<CardData> GetStartingDeck(CharacterClassType character, Profession profession = Profession.Base)
     {
-        Debug.Log("Hej");
-        return cards.Where(c => (CharacterClassType)c.cardClass == character && c.rarity == Rarity.Starting).ToList();
+        return StartingCards.Where(x => x.characterClass == character && x.profession == profession).Select(x => x.startingCards).FirstOrDefault();
     }
 
     public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
     {
-        if (type == OverworldEncounterType.CombatBoss) return encountersCombat.Where(e => e.name == "BossJesterRat").First();
         List<EncounterDataCombat> encounters = encountersCombat.Where(e => (int)e.type == (int)type).ToList();
         int id = Random.Range(0, encounters.Count);
         return encounters[id];
