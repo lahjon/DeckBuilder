@@ -9925,7 +9925,7 @@ MonoBehaviour:
   deckDisplay: {fileID: 2310169196979910638}
   cardParent: {fileID: 265525351910376764}
   titleText: {fileID: 2310169198745315515}
-  allCardsData: []
+  sourceCards: []
   allDisplayedCards: []
 --- !u!1 &1005829335
 GameObject:
