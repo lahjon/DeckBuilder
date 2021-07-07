@@ -10,31 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_TricksterScare
+  m_Name: Splicer_AreaMod
   m_EditorClassIdentifier: 
-  cardName: TricksterScare
-  artwork: {fileID: 21300000, guid: a552e15c1660ace4c9da083d629cdf4e, type: 3}
-  cost: 1
+  cardName: Area Mod
+  artwork: {fileID: 21300000, guid: 2f41278fdc04b3445a546373685baf3e, type: 3}
+  cost: 2
   visibleCost: 1
-  exhaust: 0
+  exhaust: 1
   Damage:
     Type: 0
-    Value: 0
-    Times: 0
-    Target: 1
+    Value: 6
+    Times: 1
+    Target: 2
   Block:
     Type: 2
     Value: 0
     Times: 0
     Target: 0
   effectsOnPlay: []
-  activitiesOnPlay:
-  - type: 1
-    parameter: Burden_CheapScare,Deck
+  activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 11
-  cardClass: 8
+  rarity: 12
+  cardClass: 3
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 0

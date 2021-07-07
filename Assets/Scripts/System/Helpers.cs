@@ -61,6 +61,20 @@ public static class Helpers
         DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete(() => callback?.Invoke()); 
     }
 
+        public static Rarity DrawRarity(float uncommon, float rare)
+    {
+        float[] probs = new float[] { 1 - uncommon - rare, uncommon, rare };
+
+        int index = 0;
+        float rand = UnityEngine.Random.Range(0f, 1f);
+        float sum = 0;
+
+        while(sum < rand && index < probs.Length)
+            sum += probs[index++];
+
+        return (Rarity)(index + 10);
+    }
+
     public static void SetListsFromDictionary<T1, T2>(this Dictionary<T1, T2> dict, ref List<T1> keys, ref List<T2> values)
     {
         keys = new List<T1>(dict.Keys);

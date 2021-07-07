@@ -121,32 +121,56 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
         List<CardData> cardDatas = new List<CardData>();
 
-        if (value != null && value.Count() == 0)
+        if (value != null && value.Count() > 0)
         {
             CardFilter cardFilter = new CardFilter();
             foreach (string item in value)
             {
-                string[] cardNames = item.Split(';');
-                if (cardNames.Contains("rarity"))
+                if (item.Contains("name"))
                 {
-                    //cardFilter.rarity = 
+                    cardDatas.Clear();
+                    string[] cardNames = item.Split('=')[1].Split(';');
+                    foreach (string card in cardNames)
+                    {
+                        cardFilter.name = card;
+                        cardDatas.Add(DatabaseSystem.instance.GetRandomCard(cardFilter));
+                    }
+                    break;
                 }
-                
+                else
+                {
+                    if (item.Contains("rarity"))
+                    {
+                        string[] rarity = item.Split('=')[1].Split(';');
+                        float x = float.Parse(rarity[0]);
+                        float y = float.Parse(rarity[1]);
+                        cardFilter.rarity = Helpers.DrawRarity(x, y);
+                    }
+                    else if (item.Contains("cost"))
+                    {
+                        cardFilter.costArr = Array.ConvertAll(item.Split('=')[1].Split(';'), x => int.Parse(x));
+                    }
+                    else if (item.Contains("notClassType"))
+                    {
+                        cardFilter.notClassTypeArr = Array.ConvertAll(item.Split('=')[1].Split(';'), x => (CardClassType)System.Enum.Parse(typeof(CardClassType), x));
+                    }
+                    else if (item.Contains("classType"))
+                        cardFilter.classTypeArr = Array.ConvertAll(item.Split('=')[1].Split(';'), x => (CardClassType)System.Enum.Parse(typeof(CardClassType), x));
+                }
             }
-            if (!value.Contains("rarity"))
+            if (cardDatas.Count == 0) 
             {
-                // foreach (string card in cardNames)
-                // {
-                //     cardDatas.Add(DatabaseSystem.instance.GetRandomCard(new CardFilter(){name = card}));
-                // }
+                if (cardFilter.classTypeArr == null)
+                    cardFilter.classType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
+                for (int i = 0; i < 3; i++)
+                {
+                    if (DatabaseSystem.instance.GetRandomCard(cardFilter) is CardData data && data != null)
+                        cardDatas.Add(data);
+                }
             }
-            else
-            {
-                
-            }
-        }
 
-        callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards();
+        }
+        callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(cardDatas);
     }
     #endregion
 

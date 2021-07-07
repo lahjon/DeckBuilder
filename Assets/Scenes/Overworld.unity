@@ -19071,25 +19071,27 @@ MonoBehaviour:
   canvasCard: {fileID: 358462543}
   combatRewardNormal:
   - type: 1
-    value: 
+    value: []
   - type: 3
-    value: 
+    value: []
   combatRewardElite:
   - type: 1
-    value: 
+    value: []
   - type: 3
-    value: 
+    value: []
   - type: 11
-    value: 
+    value: []
   combatRewardBoss:
   - type: 1
-    value: 
+    value: []
   - type: 3
-    value: 
+    value:
+    - notClassType=Splicer;Colorless;Burden;Enemy
+    - cost=0;1
   - type: 2
-    value: 
+    value: []
   - type: 11
-    value: 
+    value: []
   cardDisplayPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
 --- !u!1 &1767147678
 GameObject:
