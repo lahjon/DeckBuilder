@@ -102,9 +102,16 @@ public class CharacterVariablesUI : MonoBehaviour
     {
         if (active)
         {
-            WorldStateSystem.SetInDisplay();
-            WorldSystem.instance.deckDisplayManager.deckDisplay.SetActive(true);   
-            WorldSystem.instance.deckDisplayManager.UpdateAllCards();
+            if (WorldStateSystem.instance.currentOverlayState != OverlayState.Display)
+            {
+                WorldStateSystem.SetInDisplay();
+                WorldSystem.instance.deckDisplayManager.deckDisplay.SetActive(true);   
+                WorldSystem.instance.deckDisplayManager.UpdateAllCards();
+            }
+            else
+            {
+                WorldSystem.instance.deckDisplayManager.CloseDeckDisplay();
+            }
         }
     }
 
