@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Splicer_AreaMod
   m_EditorClassIdentifier: 
   cardName: Area Mod
-  artwork: {fileID: 21300000, guid: 2f41278fdc04b3445a546373685baf3e, type: 3}
+  artwork: {fileID: 21300000, guid: cef9718b81b1081498f300e34553e70c, type: 3}
   cost: 2
   visibleCost: 1
-  exhaust: 1
+  exhaust: 0
   Damage:
     Type: 0
     Value: 6
@@ -28,10 +28,12 @@ MonoBehaviour:
     Times: 0
     Target: 0
   effectsOnPlay: []
-  activitiesOnPlay: []
+  activitiesOnPlay:
+  - type: 2
+    parameter: 1
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 12
+  rarity: 13
   cardClass: 3
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

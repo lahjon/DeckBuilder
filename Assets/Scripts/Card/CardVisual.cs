@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using System.Text;
 
 public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPointerEnterHandler, IPointerExitHandler
 {
@@ -55,6 +56,19 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         RefreshDescriptionText();
     }
 
+    public void Mimic(CardVisual card)
+    {
+        base.Mimic(card);
+        nameText.text = card.cardName;
+        artworkImage.sprite = card.artwork;
+
+        displayCost = card.displayCost;
+
+        SetBorderColor();
+        ResetDamageBlockCalc();
+        RefreshDescriptionText();
+    }
+
     public void ResetDamageBlockCalc()
     {
 
@@ -64,25 +78,28 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void RefreshDescriptionText()
     {
-        string descText = "";
-
-        if (unplayable) descText += "<b>Unplayable</b>\n";
-        if(unstable)    descText += "<b>Unstable</b>\n";
+        StringBuilder descText = new StringBuilder(300);
         
-        //Special care for Damage on Block
-        if(Damage.Value != 0)
-        {
-            descText += Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + ":";
-            descText += ValueColorWrapper(Damage.Value, displayDamage);
-            if (Damage.Times != 1) descText += " " + Damage.Times + " times.";
-        }
+        if (unplayable) descText.AppendLine("<b>Unplayable</b>");
+        if(unstable)    descText.AppendLine("<b>Unstable</b>");
+
 
         //Special care for Damage on Block
         if (Block.Value != 0)
         {
-            descText += Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + ":";
-            descText += ValueColorWrapper(Block.Value, displayBlock);
-            if (Block.Times != 1) descText += " " + Block.Times + " times.";
+            descText.Append(Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + ":");
+            descText.Append(ValueColorWrapper(Block.Value, displayBlock));
+            if (Block.Times != 1) descText.Append(" " + Block.Times + " times ");
+            if (Block.Target != CardTargetType.Self) descText.Append(" " + Block.Target.ToString());
+        }
+        //Special care for Damage on Block
+        if(Damage.Value != 0)
+        {
+            if (descText.Length != 0) descText.AppendLine();
+            descText.Append(Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + ":");
+            descText.Append(ValueColorWrapper(Damage.Value, displayDamage));
+            if (Damage.Times != 1) descText.Append(" " + Damage.Times + " times ");
+            if (Damage.Target != CardTargetType.EnemySingle) descText.Append(" " + Damage.Target.ToString());
         }
 
         //On draw non-modifiable descs
@@ -90,15 +107,16 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         for (int i = 0; i < effectsOnDraw.Count; i++)
         {
             if (effectsOnDraw[i].Value == 0) continue;
-            if (descText != "") descText += "\n";
-            descText += "On Draw: " + effectsOnDraw[i].Type.ToString() + EffectTypeToIconCode(effectsOnDraw[i].Type) + ":" + effectsOnDraw[i].Value;
-            if (effectsOnDraw[i].Times != 1) descText += " " + effectsOnDraw[i].Times + " times.";
+            if (descText.Length != 0) descText.AppendLine();
+            descText.Append("On Draw: " + effectsOnDraw[i].Type.ToString() + EffectTypeToIconCode(effectsOnDraw[i].Type) + ":" + effectsOnDraw[i].Value);
+            if (effectsOnDraw[i].Times != 1) descText.Append(" " + effectsOnDraw[i].Times + " times");
+            if (effectsOnDraw[i].Target != CardTargetType.EnemySingle) descText.Append(" " + effectsOnDraw[i].Target.ToString());
         }
 
         for (int i = 0; i < activitiesOnDraw.Count; i++)
         {
-            if (descText != "") descText += "\n";
-            descText += "On Draw: " + CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnDraw[i]);
+            if (descText.Length != 0) descText.AppendLine();
+            descText.Append("On Draw: " + CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnDraw[i]));
         }
 
         //Generall non-modifiable descs
@@ -106,24 +124,24 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         for (int i = 0; i < effectsOnPlay.Count; i++)
         {
             if (effectsOnPlay[i].Value == 0) continue;
-            if (descText != "") descText += "\n";
-            descText += effectsOnPlay[i].Type.ToString() + EffectTypeToIconCode(effectsOnPlay[i].Type) + ":" + effectsOnPlay[i].Value;
-            if (effectsOnPlay[i].Times != 1) descText += " " + effectsOnPlay[i].Times + " times.";
+            if (descText.Length != 0) descText.AppendLine();
+            descText.Append(effectsOnPlay[i].Type.ToString() + EffectTypeToIconCode(effectsOnPlay[i].Type) + ":" + effectsOnPlay[i].Value);
+            if (effectsOnPlay[i].Times != 1) descText.Append(" " + effectsOnPlay[i].Times + " times");
+            if (effectsOnPlay[i].Target != CardTargetType.EnemySingle) descText.Append(" " + effectsOnPlay[i].Target.ToString());
         }
 
         for (int i = 0; i < activitiesOnPlay.Count; i++)
         {
-            if (descText != "") descText += "\n";
-            descText += CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnPlay[i]);
+            if (descText.Length != 0) descText.AppendLine();
+            descText.Append(CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnPlay[i]));
         }
-
         if (exhaust)
         {
-            if (descText != "") descText += "\n";
-            descText += "<b>Exhaust</b>";
+            if (descText.Length != 0) descText.AppendLine();
+            descText.Append("<b>Exhaust</b>");
         }
 
-        descriptionText.text = descText;
+        descriptionText.text = descText.ToString();
     }
 
     public string ValueColorWrapper(int originalVal, int currentVal, bool inverse = false)
@@ -181,6 +199,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         else if (eventData.button == PointerEventData.InputButton.Right)
             OnMouseRightClick();
     }
+
     
     // public void DisplayCard()
     // {

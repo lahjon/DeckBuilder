@@ -12,7 +12,7 @@ public class CombatDeckDisplay : MonoBehaviour
     public Transform cardParent;
 
     public TMP_Text titleText;
-    public List<CardData> allCardsData;
+    public List<CardVisual> sourceCards;
     public List<CardVisual> allDisplayedCards;
 
     public void OpenDiscard()
@@ -49,15 +49,15 @@ public class CombatDeckDisplay : MonoBehaviour
 
     public void UpdateAllCards(DeckType type)
     {
-        allCardsData.Clear();
+        sourceCards.Clear();
         if (type == DeckType.CombatDeck)
-            CombatSystem.instance.Hero.deck.ForEach(x => allCardsData.Add(x.cardData));
-        else    
-            CombatSystem.instance.Hero.discard.ForEach(x => allCardsData.Add(x.cardData));
+            CombatSystem.instance.Hero.deck.ForEach(c => sourceCards.Add((CardVisual)c));
+        else
+            CombatSystem.instance.Hero.discard.ForEach(c => sourceCards.Add((CardVisual)c));
 
-        if(allCardsData.Count > allDisplayedCards.Count)
+        if (sourceCards.Count > allDisplayedCards.Count)
         {
-            while (allCardsData.Count > allDisplayedCards.Count)
+            while (sourceCards.Count > allDisplayedCards.Count)
             {
                 CardDisplay newCard = Instantiate(cardPrefab,content.gameObject.transform).GetComponent<CardDisplay>();
                 newCard.transform.SetParent(content.gameObject.transform);
@@ -65,19 +65,18 @@ public class CombatDeckDisplay : MonoBehaviour
                 allDisplayedCards.Add(newCard);
             }
         }
-        else if(allCardsData.Count < allDisplayedCards.Count)
+        else if(sourceCards.Count < allDisplayedCards.Count)
         {
-            while (allCardsData.Count < allDisplayedCards.Count)
+            while (sourceCards.Count < allDisplayedCards.Count)
             {   
                 Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)].gameObject);
                 allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
             }
         }
 
-        for (int i = 0; i < allCardsData.Count; i++)
+        for (int i = 0; i < sourceCards.Count; i++)
         {
-            allDisplayedCards[i].cardData = allCardsData[i];
-            allDisplayedCards[i].BindCardVisualData();
+            allDisplayedCards[i].Mimic(sourceCards[i]);
         }
     }
 

@@ -55,6 +55,26 @@ public class Card : MonoBehaviour
         unstable        = cardData.unstable;
     }
 
+    public void Mimic(Card card)
+    {
+        name = card.cardName;
+        rarity = card.rarity;
+        cardName = card.cardName;
+        artwork = card.artwork;
+        cost = card.cost;
+        exhaust = card.exhaust;
+        Damage = card.Damage;
+        Block = card.Block;
+        effectsOnPlay = card.effectsOnPlay;
+        effectsOnDraw = card.effectsOnDraw;
+        activitiesOnPlay = card.activitiesOnPlay;
+        activitiesOnDraw = card.activitiesOnDraw;
+        animationPrefab = card.animationPrefab;
+        classType = card.classType;
+        visibleCost = card.visibleCost;
+        unplayable = card.unplayable;
+        unstable = card.unstable;
+    }
 
     [HideInInspector]
     public bool targetRequired
@@ -122,6 +142,9 @@ public class Card : MonoBehaviour
         HashSet<EffectType> effectTypes = new HashSet<EffectType>();
         HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
 
+        Target.classType = CardClassType.Splicer;
+        Target.rarity = (Rarity)Mathf.Max((int)a.rarity, (int)b.rarity);
+
         Target.artwork = a.artwork;
         Target.animationPrefab = a.animationPrefab;
         Target.cost = Mathf.Max(a.cost, b.cost);
@@ -158,12 +181,7 @@ public class Card : MonoBehaviour
                 Target.effectsOnPlay.AddRange(aE);
             else
             {
-                HashSet<CardTargetType> targetTypes = new HashSet<CardTargetType>();
-                bE.ForEach(x => targetTypes.Add(x.Target));
-                aE.ForEach(x => targetTypes.Add(x.Target));
-
-                foreach(CardTargetType targetType in targetTypes)
-                    Target.effectsOnPlay.Add(bE.Where(x => x.Target == targetType).FirstOrDefault() + aE.Where(x => x.Target == targetType).FirstOrDefault());
+                Target.effectsOnPlay.Add(aE[0] + bE[0]);
             }
         }
 
