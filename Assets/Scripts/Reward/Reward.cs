@@ -61,7 +61,7 @@ public class Reward : MonoBehaviour, IToolTipable
         float startRange = 15;
         float endRange = 25;
 
-        int amount = (value != null && value.Count() == 0) ? (int)UnityEngine.Random.Range(startRange, endRange) : int.Parse(value[0]);
+        int amount = (value != null && value.Count() > 0) ? int.Parse(value[0]) : (int)UnityEngine.Random.Range(startRange, endRange);
         rewardText.text = string.Format("Gold: " + amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[0];
         reset = true;
@@ -72,7 +72,7 @@ public class Reward : MonoBehaviour, IToolTipable
     {
         float startRange = 3;
         float endRange = 5;
-        int amount = (value != null && value.Count() == 0) ? (int)UnityEngine.Random.Range(startRange, endRange) : int.Parse(value[0]);
+        int amount = (value != null && value.Count() > 0) ? int.Parse(value[0]) : (int)UnityEngine.Random.Range(startRange, endRange);
         rewardText.text = string.Format("Shard: " + amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[1];
         reset = true;
@@ -81,7 +81,7 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     public void RewardItem(string[] value)
     {
-        itemData = (value != null && value.Count() == 0) ? WorldSystem.instance.useItemManager.GetItemData() : WorldSystem.instance.useItemManager.GetItemData(value[0]);
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.useItemManager.GetItemData(value[0]) : WorldSystem.instance.useItemManager.GetItemData();
 
         if (itemData == null)
         {
@@ -97,7 +97,7 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     public void RewardArtifact(string[] value)
     {
-        itemData = (value != null && value.Count() == 0) ? WorldSystem.instance.artifactManager.GetRandomAvailableArtifact() : WorldSystem.instance.artifactManager.GetSpecficArtifact(value[0]);
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.artifactManager.GetSpecficArtifact(value[0]) : WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
 
         if (itemData == null)
         {
