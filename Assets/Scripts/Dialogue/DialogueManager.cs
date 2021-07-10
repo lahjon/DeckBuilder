@@ -53,7 +53,6 @@ public class DialogueManager : Manager, ISaveableWorld
         if (index < dialogueData.sentences.Count)
         {
             CharacterData aCharacterData = GetParticipantData(dialogueData.sentences[index].dialogueParticipant);
-            Debug.Log(aCharacterData);
             currentSentence = dialogueData.sentences[index].sentence;
             dialogue.SetUI(aCharacterData.artwork, aCharacterData.characterName, dialogueData.sentences[index].dialogueParticipant);
             dialogue.DisplaySentence(currentSentence);
@@ -80,8 +79,12 @@ public class DialogueManager : Manager, ISaveableWorld
 
     public void StartDialogue()
     {
+        
         if (dialogueData != null && dialogueData.sentences.Count > 0 && !activeDialogue)
         {
+            if (!string.IsNullOrEmpty(dialogueData.startEvent))
+                WorldSystem.instance.gameEventManager.StartEvent(dialogueData.startEvent);
+
             WorldStateSystem.SetInDialogue();
             dialogue.gameObject.SetActive(true);
             activeDialogue = true;
@@ -100,8 +103,8 @@ public class DialogueManager : Manager, ISaveableWorld
         dialogue.gameObject.SetActive(false);
         currentDialogue++;
         WorldStateSystem.TriggerClear();
-        if (!string.IsNullOrEmpty(dialogueData.anEvent))
-            WorldSystem.instance.gameEventManager.StartEvent(dialogueData.anEvent);
+        if (!string.IsNullOrEmpty(dialogueData.endEvent))
+            WorldSystem.instance.gameEventManager.StartEvent(dialogueData.endEvent);
         dialogueData = null;
     }
 

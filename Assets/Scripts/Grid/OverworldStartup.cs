@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class OverworldStartup : MonoBehaviour
 {
-    // this class will always have its start function last
     void Start()
     {
-        //WorldSystem.instance.SaveProgression();
+        // if (WorldSystem.instance.missionManager != null && WorldSystem.instance.missionManager.mission == null)
+        // {
+        //     WorldSystem.instance.missionManager.NewMission("Mission001", false);
+        // }
     }
 }

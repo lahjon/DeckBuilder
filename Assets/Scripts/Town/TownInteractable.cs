@@ -1,37 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public abstract class TownInteractable : MonoBehaviour, IToolTipable
-{
-    public new string name;
-    public EncounterDataRandomEvent encounterData;
-    public BuildingType buildingType;
-    public Building building;
-    //public string toolTipDescription;
-    public Transform tooltipAnchor;
+using System.Linq;
+using UnityEngine.UI;
+using DG.Tweening;
 
-    public virtual void StartEncounterEvent()
+public class TownInteractable : MonoBehaviour, IToolTipable
+{
+    [HideInInspector] public string buildingName;
+    public string gameEvent;
+    public BuildingType buildingType;
+    public Transform tooltipAnchor;
+    Image highlightImage;
+    public Image artwork;
+    Button button;
+    Tween tween;
+    static Color color = Color.black;
+
+    void Awake()
     {
-        WorldSystem.instance.uiManager.encounterUI.encounterData = encounterData;
-        WorldStateSystem.SetInEvent(true);
-        WorldSystem.instance.uiManager.encounterUI.StartEncounter();
+        buildingName = buildingType.ToString();
+        button = GetComponent<Button>();
+        highlightImage = GetComponent<Image>();
+        highlightImage.sprite = artwork.sprite;
+        highlightImage.enabled = false;
     }
     public virtual void ButtonPress()
     {
-        if (encounterData != null)
+        if (!string.IsNullOrEmpty(gameEvent))
         {
-            StartEncounterEvent();
+            WorldSystem.instance.gameEventManager.StartEvent(gameEvent);
         }
-        if(building != null)
+        else
         {
-            building.EnterBuilding();
+            EnterBuilding();
         }
         WorldSystem.instance.toolTipManager.DisableTips();
+    }
+
+    void EnterBuilding()
+    {
+        if (WorldSystem.instance.townManager.buildings.FirstOrDefault(x => x.buildingType == buildingType) is BuildingStruct buildingStruct) buildingStruct.building.EnterBuilding();
+    }
+
+    public void DisableBuilding()
+    {
+        button.interactable = false;
+    }
+
+    public void EnableBuilding()
+    {
+        button.interactable = true;
+    }
+
+    public void HighlightBuilding()
+    {
+        highlightImage.enabled = true;
+        tween = highlightImage.DOColor(Color.blue, 1f).SetEase(Ease.OutSine).SetLoops(-1, LoopType.Yoyo);
+    }
+    public void UnhighlightBuilding()
+    {
+        tween.Kill();
+        highlightImage.color = color;
+        highlightImage.enabled = false;
     }
 
     public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-        return (new List<string>{name} , pos);
+        return (new List<string>{buildingName} , pos);
     }
 }

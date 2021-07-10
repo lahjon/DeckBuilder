@@ -18,23 +18,28 @@ public class Dialogue : MonoBehaviour
     public bool sentenceDone;
     public float timeBetweenLetter;
     float speed;
+    string sentence;
 
     public void DisplaySentence(string aSentence)
     {
-        StartCoroutine(TypeSentence(aSentence));
+        sentence = aSentence;
+        StartCoroutine(TypeSentence());
     }
 
     public void EndSentence()
     {
-        speed = 0;
+        //speed = 0;
+        StopAllCoroutines();
+        textField.text = sentence;
+        sentenceDone = true;
     }
 
-    IEnumerator TypeSentence(string aSentence)
+    IEnumerator TypeSentence()
     {
         speed = timeBetweenLetter;
         sentenceDone = false;
         textField.text = "";
-        foreach (char letter in aSentence)
+        foreach (char letter in sentence)
         {
             textField.text += letter;
             if (letter.ToString() == "\n")

@@ -55,11 +55,6 @@ public class LevelLoader : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            if (world.missionManager != null && world.missionManager.mission == null)
-            {
-                world.missionManager.NewMission("Mission001", false);
-            }
-
             // load start data to bring to overworld
             world.characterManager.selectedCharacterClassType = selectedCharacterClassType;
             world.tokenManager.selectedTokens = selectedTokens;

@@ -22,4 +22,5 @@ MonoBehaviour:
     sentence: Alright, back to work.
   - dialogueParticipant: 7
     sentence: Thats right, walk away.
-  anEvent: Event004
+  startEvent: Event003
+  endEvent: Event004

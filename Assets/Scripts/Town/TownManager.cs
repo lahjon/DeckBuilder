@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class TownManager : Manager, ISaveableWorld
 {
-    public List<TownInteractable> townEncounters;
+    [HideInInspector] public List<TownInteractable> townInteractables;
+    public List<BuildingStruct> buildings;
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
     public List<BuildingType> startingBuildings = new List<BuildingType>();
     public BuildingTownHall buildingTownHall;
@@ -32,7 +33,7 @@ public class TownManager : Manager, ISaveableWorld
         townMapCanvas.gameObject.SetActive(true);
         for (int i = 0; i < encounters.childCount ; i++)
         {
-            townEncounters.Add(encounters.GetChild(i).GetComponent<TownInteractable>());
+            townInteractables.Add(encounters.GetChild(i).GetComponent<TownInteractable>());
         }
     }
 
@@ -53,7 +54,7 @@ public class TownManager : Manager, ISaveableWorld
     {
         List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
 
-        foreach (TownInteractable townInt in townEncounters)
+        foreach (TownInteractable townInt in townInteractables)
         {
             if (allBuildings.Contains(townInt.buildingType))
             {
@@ -66,6 +67,17 @@ public class TownManager : Manager, ISaveableWorld
         }
 
         townMapCanvas.gameObject.SetActive(true);
+    }
+
+    public Building GetBuildingByType(BuildingType type)
+    {
+        if (buildings.FirstOrDefault(x => x.buildingType == type) is BuildingStruct building) return building.building;
+        return null;
+    }
+    public TownInteractable GetTownInteractableByType(BuildingType type)
+    {
+        if (townInteractables.FirstOrDefault(x => x.buildingType == type) is TownInteractable townInteractable) return townInteractable;
+        return null;
     }
 
     public void ExitTown()
@@ -93,4 +105,10 @@ public class TownManager : Manager, ISaveableWorld
         unlockedBuildings = a_SaveData.unlockedBuildings;
 
     }
+}
+
+[System.Serializable] public struct BuildingStruct
+{
+    public BuildingType buildingType;
+    public Building building;
 }

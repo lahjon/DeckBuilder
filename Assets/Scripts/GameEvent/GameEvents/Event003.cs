@@ -6,6 +6,11 @@ public class Event003 : GameEvent
     public override void StartGameEvent()
     {
         base.StartGameEvent();
-        Debug.Log("I think you just finished your fist objective!");
+        world.townManager.worldMapButton.interactable = false;
+        if (WorldSystem.instance.missionManager != null && WorldSystem.instance.missionManager.mission == null)
+        {
+            WorldSystem.instance.missionManager.NewMission("Mission001", false);
+        }
+        Debug.Log("Start event 003");
     }  
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Mission001 : Mission
 {
@@ -13,6 +14,8 @@ public class Mission001 : Mission
         nextMission = "Mission002";
         completed = true;
         AddGoal(new EnterBuildingGoal(this, BuildingType.TownHall, 1));
+        WorldSystem.instance.townManager.GetTownInteractableByType(BuildingType.TownHall)?.HighlightBuilding();
+
         base.Start();
     }
 }

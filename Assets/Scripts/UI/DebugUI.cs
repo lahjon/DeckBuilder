@@ -42,7 +42,6 @@ public class DebugUI : MonoBehaviour
 
         List<string> optionsCard = new List<string>();
         DatabaseSystem.instance.cards.ForEach(x => optionsCard.Add(x.name));
-        DatabaseSystem.instance.cards.ForEach(x => Debug.Log(x.name));
         dropdownCard.AddOptions(optionsCard);
     }
 

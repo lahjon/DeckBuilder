@@ -18,14 +18,15 @@ public class OverlayStateDialogue : OverlayStateAnimator
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         
-        if (world.dialogueManager.activeDialogue && world.dialogueManager.dialogue.sentenceDone && Input.GetMouseButtonDown(0))
+        if (world.dialogueManager.activeDialogue && world.dialogueManager.dialogue.sentenceDone && Input.GetMouseButtonUp(0))
         {
             world.dialogueManager.NextSentence();
         }
-        else if (world.dialogueManager.activeDialogue && !world.dialogueManager.dialogue.sentenceDone && Input.GetMouseButtonDown(0))
+        else if (world.dialogueManager.activeDialogue && !world.dialogueManager.dialogue.sentenceDone && Input.GetMouseButtonUp(0))
         {
             world.dialogueManager.FinishSentence();
         }
+        
     }
 
 }

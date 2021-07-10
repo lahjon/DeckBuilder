@@ -19,4 +19,5 @@ MonoBehaviour:
     sentence: Ooooh reeearry?
   - dialogueParticipant: 7
     sentence: Yes. And take this artifact! May it help you!
-  anEvent: Event005
+  startEvent: 
+  endEvent: Event005

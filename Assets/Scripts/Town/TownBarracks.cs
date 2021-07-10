@@ -1,12 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// using System.Collections;
+// using System.Collections.Generic;
+// using UnityEngine;
 
-public class TownBarracks : TownInteractable
-{
-    public override void ButtonPress()
-        {
-            base.ButtonPress();
-        }
-}
+// public class TownBarracks : TownInteractable
+// {
+//     public override void ButtonPress()
+//         {
+//             base.ButtonPress();
+//         }
+// }
 

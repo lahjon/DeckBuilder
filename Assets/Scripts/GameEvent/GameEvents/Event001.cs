@@ -6,6 +6,5 @@ public class Event001 : GameEvent
     public override void StartGameEvent()
     {
         Debug.Log("Start Event001!");
-        world.townManager.worldMapButton.interactable = false;
     }
 }

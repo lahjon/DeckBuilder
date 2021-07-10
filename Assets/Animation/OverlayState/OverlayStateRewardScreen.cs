@@ -5,13 +5,13 @@ using DG.Tweening;
 
 public class OverlayStateRewardScreen : OverlayStateAnimator
 {
-    float timeDelay = 0.5f;
-    bool canExit;
+    //float timeDelay = 0.5f;
+    //bool canExit;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(OverlayState.RewardScreen);
         world.rewardManager.rewardScreen.OpenScreen();
-        Helpers.DelayForSeconds(timeDelay, () => canExit = true);
+        //Helpers.DelayForSeconds(timeDelay, () => canExit = true);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
