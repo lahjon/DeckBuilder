@@ -32,6 +32,7 @@ public class WorldSystem : MonoBehaviour
     public UseItemManager useItemManager;
     public ToolTipManager toolTipManager;
     public int act;
+    public int subAct;
     public int saveAmount;
     public int loadAmount;
     public bool debugMode;
@@ -52,6 +53,7 @@ public class WorldSystem : MonoBehaviour
     void Start()
     {
         act = 1;
+        subAct = 1;
     }
 
     public void SaveProgression(bool saveTemp = true)
@@ -99,6 +101,15 @@ public class WorldSystem : MonoBehaviour
         gridManager.currentTile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
         WorldStateSystem.SetInOverworld(false);
         WorldStateSystem.SetInTown(true);
+
+        if (subAct < 3)
+            subAct++;
+        else
+        {
+            subAct = 1;
+            act++;
+        }
+
         SaveProgression();
     }
     private void UpdateStartScene()

@@ -17,6 +17,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: caf28dde35d70e8429fce88379950caf, type: 3}
   description: A healing potion that heals +7!
   rarity: 1
+  goldValue: 110
   itemCondition:
     itemConditionType: 1
     value: 2

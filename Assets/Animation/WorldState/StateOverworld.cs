@@ -10,6 +10,7 @@ public class StateOverworld : WorldStateAnimator
         Init(TransitionType.Normal, WorldState.Overworld);
         world.gridManager.content.SetActive(true);
         hexMapController = world.gridManager.hexMapController;
+        //add expand if subact
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
