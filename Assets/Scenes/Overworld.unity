@@ -6233,6 +6233,7 @@ MonoBehaviour:
   useItemManager: {fileID: 0}
   toolTipManager: {fileID: 0}
   act: 1
+  subAct: 0
   saveAmount: 0
   loadAmount: 0
   debugMode: 0
@@ -7739,7 +7740,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 838374070}
         m_TargetAssemblyTypeName: TownManager, Assembly-CSharp
         m_MethodName: OpenWorldMap
         m_Mode: 1
