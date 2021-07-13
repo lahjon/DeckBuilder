@@ -18,8 +18,8 @@ MonoBehaviour:
   description: A handsome man enters! Its Seth Nielsen
   choices:
   - label: Compliment him, boost ego further!
-    outcome: 1
-    newEncounter: {fileID: 0}
+    outcome: 3
+    newEncounter: {fileID: 11400000, guid: 81f410e56069985459a32aa6b4115c05, type: 2}
     effects: []
   - label: Avoid the creepy man
     outcome: 1

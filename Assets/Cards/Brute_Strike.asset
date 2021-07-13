@@ -28,12 +28,10 @@ MonoBehaviour:
     Times: 0
     Target: 0
   effectsOnPlay: []
-  activitiesOnPlay:
-  - type: 1
-    parameter: Brute_Strike,Deck
+  activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 13
+  rarity: 1
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
