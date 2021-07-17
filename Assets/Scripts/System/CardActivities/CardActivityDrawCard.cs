@@ -14,11 +14,11 @@ public class CardActivityDrawCard : CardActivity
 
     public override string GetDescription(string input)
     {
-        return "Draw" + input + " Cards.";
+        return "Draw " + (input.Equals("1") ? "a card." : input + " cards.");
     }
 
     public override string GetToolTip(string input)
     {
-        return $"When you play this card, draw " + (input == "1" ? "a card." : input + " cards.");
+        return $"When you play this card, draw " + (input.Equals("1") ? "a card." : input + " cards.");
     }
 }

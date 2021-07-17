@@ -142,27 +142,14 @@ public class Card : MonoBehaviour
         HashSet<EffectType> effectTypes = new HashSet<EffectType>();
         HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
 
-        Target.classType = CardClassType.Splicer;
-        Target.rarity = (Rarity)Mathf.Max((int)a.rarity, (int)b.rarity);
+        Target.classType = a.classType;
+        Target.rarity = a.rarity;
 
         Target.artwork = a.artwork;
         Target.animationPrefab = a.animationPrefab;
         Target.cost = Mathf.Max(a.cost, b.cost);
-        for (int i = 0; i < Mathf.Max(a.cardName.Length, b.cardName.Length); i++)
-        {
-            if (i == a.cardName.Length)
-            {
-                Target.cardName += b.cardName.Substring(i);
-                break;
-            }
-            else if (i == b.cardName.Length)
-            {
-                Target.cardName += a.cardName.Substring(i);
-                break;
-            }
 
-            Target.cardName += i % 2 == 0 ? a.cardName[i] : b.cardName[i];
-        }
+        Target.cardName = a.cardName + (a.cardName.Contains("Mod+") ? "+" : " Mod+");
 
         Target.Damage = a.Damage + b.Damage;
         Target.Block = a.Block + b.Block;
@@ -199,9 +186,8 @@ public class Card : MonoBehaviour
             else
             {
                 int aParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
-                int bParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
-
-                Target.activitiesOnPlay.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = Mathf.Max(aParam, bParam).ToString() });
+                if(aParam > 1)
+                    Target.activitiesOnPlay.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = (aParam-1).ToString()});
             }
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CardEffectSplice : CardEffect
 {
+    public override bool stackable { get { return false; } }
     public override bool isBuff { get { return true; } }
 
     public CardEffectSplice() : base()
