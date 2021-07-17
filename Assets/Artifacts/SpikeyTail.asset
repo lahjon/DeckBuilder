@@ -16,5 +16,5 @@ MonoBehaviour:
   itemId: 0
   artwork: {fileID: 21300000, guid: 58fa32a0f85cd4b458193246741a54f6, type: 3}
   description: Enemies take 3 damage when attacking
-  rarity: 3
-  goldValue: 66
+  rarity: 11
+  goldValue: 120

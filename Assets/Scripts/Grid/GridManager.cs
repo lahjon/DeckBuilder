@@ -138,6 +138,9 @@ public class GridManager : Manager
 
     IEnumerator CreateMap()
     {
+        bossCounter.tilesUntilBoss = tilesUntilBoss;
+        bossCounter.counter = tilesUntilBoss;
+        
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;
         hexMapController.disableZoom = true;
@@ -190,8 +193,7 @@ public class GridManager : Manager
         hexMapController.disableZoom = false;
         initialized = true;
         HighlightEntries(); 
-        bossCounter.tilesUntilBoss = tilesUntilBoss;
-        bossCounter.counter = tilesUntilBoss;
+        
         world.uiManager.UIWarningController.CreateWarning(bossCounter.tilesLeftUntilBoss, 3f);
     }
 

@@ -17,6 +17,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 668cb9c1f148a234cb6ae299b9671a36, type: 3}
   description: A super sword! +3 strength in combat!
   rarity: 1
+  goldValue: 110
   itemCondition:
     itemConditionType: 2
     value: 2
