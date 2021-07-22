@@ -38,7 +38,7 @@ public class CardActivitySplice : CardActivity
                 UnityEngine.Object.Destroy(discardedCard.gameObject);
 
                 CombatSystem.instance.UpdateDeckTexts();
-                CombatSystem.instance.cardPresenter.DisplayCards(new List<CardCombat>() { splicedCard }, new List<CardLocation>() { CardLocation.Deck });
+                CombatSystem.instance.cardPresenter.DisplayCards(new List<CardCombat>() { splicedCard }, new List<CardLocation>() { CardLocation.Discard });
             }
         }
     }
@@ -50,6 +50,8 @@ public class CardActivitySplice : CardActivity
 
     public override string GetToolTip(string input)
     {
-        return $"If you play this card while you have at leat one <b>Splice</b> status, combine this card with the top card having <b>Splice</b> in your discard pile. Otherwise, recieve the <b>Splice</b> status effect.";
+        return $"If you play this card while you have <b>Splice</b>, add the contents of the top card with <b>Splice</b> in your discard pile to this card. " +
+            $"/nOtherwise, recieve the <b>Splice</b> status effect. " +
+            $"/nThis card can merge " + input + " more time" + (input.Equals("1") ? "" : "s");
     }
 }
