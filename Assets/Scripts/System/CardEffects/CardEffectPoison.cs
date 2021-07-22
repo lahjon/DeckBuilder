@@ -11,6 +11,7 @@ public class CardEffectPoison : CardEffect
     public CardEffectPoison() : base()
     {
         OnNewTurn = null;
+        OnEndTurn = null;
     }
 
     public override void AddFunctionToRules()

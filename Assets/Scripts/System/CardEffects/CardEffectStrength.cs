@@ -9,7 +9,7 @@ public class CardEffectStrength : CardEffect
 
     public CardEffectStrength() : base()
     {
-        OnNewTurn = null;
+        OnEndTurn = null;
     }
 
     public override void RespondStackUpdate(int update)

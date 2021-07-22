@@ -29,8 +29,8 @@ public abstract class CardEffect
 
     public CardEffect()
     {
-        OnNewTurn = _OnNewTurn;
-        OnEndTurn = null;
+        OnNewTurn = null;
+        OnEndTurn = _OnEndTurn;
     }
 
     public virtual IEnumerator RecieveInput(int stackUpdate)
@@ -70,12 +70,12 @@ public abstract class CardEffect
 
     internal virtual IEnumerator _OnNewTurn()
     {
-        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-1));
+        yield return null; //this method is always meant to be overwritten if used 
     }
 
     public virtual IEnumerator _OnEndTurn()
     {
-        yield return null; //this method is always meant to be overwritten if used 
+        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-1));
     }
 
     public virtual void OnActorDeath()
