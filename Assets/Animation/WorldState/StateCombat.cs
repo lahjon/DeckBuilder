@@ -22,7 +22,6 @@ public class StateCombat : WorldStateAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
         base.OnStateUpdate(animator, stateInfo, layerIndex);
         for (int i = 0; i < AlphaNumSelectCards.Length && i < CombatSystem.instance.Hand.Count; i++)
         {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e07b25af5ccb63468eba3bc9e6c3443, type: 3}
   m_Name: Encounter_NormalCombat_01_NullCasterMageApprentice2
   m_EditorClassIdentifier: 
-  name: NullcasterMages
+  encounterName: 
   tier: 1
   type: 4
   formation: 1
