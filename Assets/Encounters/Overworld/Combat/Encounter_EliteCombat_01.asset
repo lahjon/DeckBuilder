@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e07b25af5ccb63468eba3bc9e6c3443, type: 3}
   m_Name: Encounter_EliteCombat_01
   m_EditorClassIdentifier: 
-  name: Start Act 1
+  encounterName: 
   tier: 1
   type: 5
   formation: 0
   enemyData:
-  - {fileID: 11400000, guid: 8f70ce79052b6514a9b2a93c341fd989, type: 2}
+  - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
   startingEffects: []
   startEffectsTargets: 

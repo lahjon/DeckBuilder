@@ -206,7 +206,7 @@ public class CombatActorEnemy : CombatActor
             SetTarget(true);
         
 
-        if (CombatSystem.instance.TargetedEnemy is null) CombatSystem.instance.TargetedEnemy = this;
+        CombatSystem.instance.TargetedEnemy = this;
     }
 
 
