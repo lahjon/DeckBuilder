@@ -21,7 +21,7 @@ MonoBehaviour:
     Type: 0
     Value: 15
     Times: 1
-    Target: 2
+    Target: 4
   Block:
     Type: 2
     Value: 0

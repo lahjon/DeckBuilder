@@ -60,6 +60,8 @@ public static class EnumExtenstions
                 return new CardEffectStrengthTemp();
             case EffectType.Confused:
                 return new CardEffectConfused();
+            case EffectType.Envenom:
+                return new CardEffectEnvenom();
             default:
                 return null;
         }
@@ -159,6 +161,8 @@ public enum GridState
 public enum CardTargetType
 {
     Self,
+    AlliesInclSelf,
+    AlliesExclSelf,
     EnemySingle,
     EnemyAll,
     EnemyRandom,
@@ -284,7 +288,8 @@ public enum EffectType
     Challenge,
     Strength,
     StrengthTemp,
-    Confused
+    Confused,
+    Envenom
 }
 
 public enum OverlayState
