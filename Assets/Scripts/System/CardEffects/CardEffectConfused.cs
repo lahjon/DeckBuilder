@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class CardEffectConfused : CardEffect
 {
-    Func<IEnumerator> stolenFunction;
-    public override bool isBuff { get { return true; } }
-    public override bool stackable { get { return false; } }
+    public override bool isBuff { get { return false; } }
 
 
     public override void AddFunctionToRules()

@@ -11,7 +11,7 @@ public class CardEffectBarricade : CardEffect
 
     public CardEffectBarricade() : base()
     {
-        OnNewTurn = null;
+        OnEndTurn = null;
     }
 
     public override void AddFunctionToRules()

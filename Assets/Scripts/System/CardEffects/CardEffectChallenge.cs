@@ -12,7 +12,7 @@ public class CardEffectChallenge : CardEffect
 
     public CardEffectChallenge() : base()
     {
-        OnNewTurn = null;
+        OnEndTurn = null;
     }
 
     public override IEnumerator RecieveInput(int stackUpdate)
