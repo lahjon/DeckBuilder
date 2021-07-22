@@ -32,7 +32,26 @@ public class DatabaseSystem : MonoBehaviour
     }
 
 
-    public List<CardData> GetCardsByName(List<string> cardNames) => cards.Where(c => cardNames.Contains(c.name)).ToList();
+    public List<CardData> GetCardsByName(List<string> cardNames)
+    {
+        List<CardData> retList = new List<CardData>();
+
+        Dictionary<string, int> counts = new Dictionary<string, int>();
+        foreach(string name in cardNames)
+        {
+            if (counts.ContainsKey(name))
+                counts[name]++;
+            else
+                counts[name] = 1;
+        }
+
+        foreach (CardData card in cards)
+            if (counts.ContainsKey(card.name))
+                for (int i = 0; i < counts[card.name];i++)
+                    retList.Add(card);
+
+        return retList;
+    }
 
     public CardData GetRandomCard(CardClassType cardClass = CardClassType.None)
     {

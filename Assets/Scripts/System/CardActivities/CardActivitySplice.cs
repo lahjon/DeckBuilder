@@ -51,7 +51,7 @@ public class CardActivitySplice : CardActivity
     public override string GetToolTip(string input)
     {
         return $"If you play this card while you have <b>Splice</b>, add the contents of the top card with <b>Splice</b> in your discard pile to this card. " +
-            $"/nOtherwise, recieve the <b>Splice</b> status effect. " +
-            $"/nThis card can merge " + input + " more time" + (input.Equals("1") ? "" : "s");
+            $"\nOtherwise, recieve the <b>Splice</b> status effect. " +
+            $"\nThis card can merge " + input + " more time" + (input.Equals("1") ? "" : "s");
     }
 }
