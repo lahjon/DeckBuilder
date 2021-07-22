@@ -21,7 +21,7 @@ MonoBehaviour:
     Type: 0
     Value: 4
     Times: 1
-    Target: 1
+    Target: 3
   Block:
     Type: 2
     Value: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
   - Type: 4
     Value: 2
     Times: 1
-    Target: 1
+    Target: 3
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []

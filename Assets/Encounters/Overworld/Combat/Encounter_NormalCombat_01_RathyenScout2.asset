@@ -23,5 +23,5 @@ MonoBehaviour:
   - Type: 4
     Value: 2
     Times: 1
-    Target: 2
+    Target: 3
   startEffectsTargets: 00000000

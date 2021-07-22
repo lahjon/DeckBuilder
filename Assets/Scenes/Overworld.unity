@@ -16594,6 +16594,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b0771f72572c0c4468a86027c28a58fa, type: 2}
   - {fileID: 11400000, guid: 9a35aafebcacd2e418ceaa0c0dff6314, type: 2}
   - {fileID: 11400000, guid: 7f5f74736bf2cb745a0735c150db6e6a, type: 2}
+  - {fileID: 11400000, guid: 3469e0e606e6f0444823c653d357a617, type: 2}
   - {fileID: 11400000, guid: a3d7ecbaf4896254a931a5c5fb6cb4a0, type: 2}
   - {fileID: 11400000, guid: 3cc950aa641163944be0c7d345d90096, type: 2}
   - {fileID: 11400000, guid: 2b3c8221c2281124eab03869d9835ec7, type: 2}
@@ -25086,7 +25087,7 @@ PrefabInstance:
       objectReference: {fileID: 1541008555}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.size
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.data[9].name
@@ -25097,9 +25098,17 @@ PrefabInstance:
       value: Confused
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[14].name
+      value: Envenom
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.data[13].sprite
       value: 
       objectReference: {fileID: 21300000, guid: bc24c488d02c2814aa8eb5f2a6f346ed, type: 3}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[14].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 86aa6f7c28398ea4ea93421f1b3f7868, type: 3}
     - target: {fileID: 347953518813682204, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_Name
       value: UIManager

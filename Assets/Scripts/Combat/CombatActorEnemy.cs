@@ -196,17 +196,17 @@ public class CombatActorEnemy : CombatActor
 
     public void OnMouseOver()
     {
+        Debug.Log("its over");
         toolTiptimer += Time.deltaTime;
         if(!toolTipShowing && toolTiptimer > toolTipDelay)
         {
             toolTipShowing = true;
-            //WorldSystem.instance.toolTipManager.Tips(new List<string>() { "blueee" }, canvasIntent.worldCamera.WorldToScreenPoint(AnchorToolTip.position));
         }
         if (CombatSystem.instance.ActiveCard != null  && CombatSystem.instance.ActiveCard.targetRequired)
             SetTarget(true);
         
 
-        CombatSystem.instance.TargetedEnemy = this;
+        if(CombatSystem.instance.TargetedEnemy != this) CombatSystem.instance.TargetedEnemy = this;
     }
 
 
@@ -214,7 +214,6 @@ public class CombatActorEnemy : CombatActor
     {
         toolTiptimer = 0;
         toolTipShowing = false;
-        //WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
         if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
     }

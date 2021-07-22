@@ -41,7 +41,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public List<Func<IEnumerator>> actionsStartCombat = new List<Func<IEnumerator>>();
 
     public List<Func<CombatActor, IEnumerator>> onAttackRecieved = new List<Func<CombatActor,IEnumerator>>();
-
+    public List<Func<CombatActor, IEnumerator>> onUnblockedDmgDealt = new List<Func<CombatActor, IEnumerator>>();
     
     public List<Card> deck = new List<Card>();
     public List<Card> discard = new List<Card>();
@@ -54,6 +54,8 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public Dictionary<CardTargetType, CardTargetType> targetDistorter = new Dictionary<CardTargetType, CardTargetType>()
     {   {CardTargetType.All,            CardTargetType.All},
+        {CardTargetType.AlliesExclSelf, CardTargetType.AlliesExclSelf},
+        {CardTargetType.AlliesInclSelf, CardTargetType.AlliesInclSelf},
         {CardTargetType.EnemyAll,       CardTargetType.EnemyAll},
         {CardTargetType.EnemyRandom,    CardTargetType.EnemyRandom},
         {CardTargetType.EnemySingle,    CardTargetType.EnemySingle},
@@ -118,14 +120,18 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public IEnumerator GetAttacked(int damage, CombatActor sourceActor)
     {
-        TakeDamage(damage);
+        int unblockedDamage = TakeDamage(damage);
 
         for (int i = 0; i < onAttackRecieved.Count; i++)
             yield return onAttackRecieved[i].Invoke(sourceActor);
+
+        if (unblockedDamage > 0)
+            for (int i = 0; i < sourceActor.onUnblockedDmgDealt.Count; i++)
+                yield return sourceActor.onUnblockedDmgDealt[i].Invoke(this);
     }
 
 
-    public void TakeDamage(int damage)
+    public int TakeDamage(int damage)
     {
         if (shield > 0)
         {
@@ -134,13 +140,13 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
             damage -= shieldDamage;
         }
 
-        LooseLife(Mathf.Min(damage));
-
+        int unblockedDamage = LooseLife(Mathf.Min(damage));
+        return unblockedDamage;
     }
 
-    public void LooseLife(int lifeToLose)
+    public int LooseLife(int lifeToLose)
     {
-        if (lifeToLose == 0) return;
+        if (lifeToLose == 0) return 0;
         lifeToLose = Mathf.Min(lifeToLose, hitPoints);
         hitPoints -= lifeToLose;
         if (this == CombatSystem.instance.Hero)
@@ -151,6 +157,8 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
         if (hitPoints <= 0)
             CombatSystem.instance.ReportDeath(this);
+
+        return lifeToLose;
     }
 
     public void HealLife(int x)
