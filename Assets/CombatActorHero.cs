@@ -49,4 +49,9 @@ public class CombatActorHero : CombatActor
 
         healthEffectsUI.effectToDisplay.Clear();
     }
+
+    public override void RecalcDamage()
+    {
+        CombatSystem.instance.RecalcAllCardsDamage();
+    }
 }

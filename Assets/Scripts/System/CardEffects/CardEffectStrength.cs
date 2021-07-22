@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardEffectStrength : CardEffect
 {
     public override bool isBuff { get { return true; } }
-    public override bool triggerRecalcDamage { get { return false; } } //manual call of recalc in code
+    public override bool triggerRecalcDamageSelf { get { return false; } } //manual call of recalc in code
 
     public CardEffectStrength() : base()
     {

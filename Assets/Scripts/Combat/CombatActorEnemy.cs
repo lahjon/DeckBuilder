@@ -118,7 +118,7 @@ public class CombatActorEnemy : CombatActor
         canvasEffects.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
-    public void UpdateMoveDisplay(Card card)
+    public void UpdateIntentDisplay(Card card)
     {
         int displayDamage = 0;
         if (card.Damage.Value != 0) displayDamage = RulesSystem.instance.CalculateDamage(card.Damage.Value, this, CombatSystem.instance.Hero);
@@ -149,7 +149,7 @@ public class CombatActorEnemy : CombatActor
         hand = deck[0];
         deck.RemoveAt(0);
 
-        UpdateMoveDisplay(hand);
+        UpdateIntentDisplay(hand);
     }
 
     public void OnDeath()
@@ -196,7 +196,6 @@ public class CombatActorEnemy : CombatActor
 
     public void OnMouseOver()
     {
-        Debug.Log("its over");
         toolTiptimer += Time.deltaTime;
         if(!toolTipShowing && toolTiptimer > toolTipDelay)
         {
@@ -218,4 +217,8 @@ public class CombatActorEnemy : CombatActor
         if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
     }
 
+    public override void RecalcDamage()
+    {
+        UpdateIntentDisplay(hand);
+    }
 }

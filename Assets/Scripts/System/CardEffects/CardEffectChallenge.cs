@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardEffectChallenge : CardEffect
 {
     public override bool isBuff { get { return false; } }
-    public override bool triggerRecalcDamage { get { return true; } }
+    public override bool triggerRecalcDamageSelf { get { return true; } }
 
     public List<CombatActor> challengedActors = new List<CombatActor>();
 
@@ -34,6 +34,8 @@ public class CardEffectChallenge : CardEffect
                 ((CardEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
                 challenger.dealAttackActorMods[actor].Add(AttackEffect);
             }
+
+            actor.RecalcDamage();
         }
     }
 

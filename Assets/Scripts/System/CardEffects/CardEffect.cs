@@ -7,7 +7,8 @@ public abstract class CardEffect
     public CombatActor actor;
     public string effectName { get { return GetType().ToString().Substring(10); } }
     public abstract bool isBuff { get; }
-    public virtual bool triggerRecalcDamage { get { return false; } }
+    public virtual bool triggerRecalcDamageSelf { get { return false; } }
+    public virtual bool triggerRecalcDamageEnemy { get { return false; } }
     public virtual bool stackable { get { return true; } }
 
     public float applyEffectWait = 0.1f;
@@ -35,6 +36,7 @@ public abstract class CardEffect
 
     public virtual IEnumerator RecieveInput(int stackUpdate)
     {
+        Debug.Log("Recieving input for effect with nr " + stackUpdate);
         if (stackUpdate != 0)
         {
             int nrStackedPre = nrStacked;
@@ -48,7 +50,10 @@ public abstract class CardEffect
             if (nrStackedPre == 0 && nrStacked != 0)
             {
                 AddFunctionToRules();
-                if (triggerRecalcDamage) CombatSystem.instance.RecalcAllCardsDamage();
+                if (triggerRecalcDamageSelf) actor.RecalcDamage();
+                if (triggerRecalcDamageEnemy)
+                    foreach (CombatActor enemy in actor.enemies)
+                        enemy.RecalcDamage();
             }
 
             if (nrStacked == 0) Dismantle();
@@ -92,7 +97,12 @@ public abstract class CardEffect
     public virtual void Dismantle()
     {
         RemoveFunctionFromRules();
-        if (triggerRecalcDamage) CombatSystem.instance.RecalcAllCardsDamage();
+        if (triggerRecalcDamageSelf) actor.RecalcDamage();
+        if (triggerRecalcDamageEnemy)
+            foreach (CombatActor enemy in actor.enemies)
+                enemy.RecalcDamage();
+
+
         actor.effectTypeToRule.Remove(type);
     }
 

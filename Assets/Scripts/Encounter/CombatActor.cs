@@ -92,6 +92,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
             deck[index] = temp;
         }
     }
+    public abstract void RecalcDamage();
 
     public virtual void DiscardCard(Card card)
     {
