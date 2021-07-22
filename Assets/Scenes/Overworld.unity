@@ -16616,10 +16616,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 018449a7efbd8cc4fb74ed53d193d649, type: 2}
   - {fileID: 11400000, guid: 31a906c99c11d2047bd148bfbd6f0f40, type: 2}
   - {fileID: 11400000, guid: 0ae26a72e09daf245a049eebdd0e686b, type: 2}
+  - {fileID: 11400000, guid: 74454d2c79577d3429dcd0a8effdf840, type: 2}
   - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
+  - {fileID: 11400000, guid: 149f32ec0b35a0c4987250591d702000, type: 2}
   - {fileID: 11400000, guid: 24525302aa4cd1449989ea32b8438ce4, type: 2}
   - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
   - {fileID: 11400000, guid: abf6324121e6a684fbd69370c7475c65, type: 2}
+  - {fileID: 11400000, guid: e842eb15837d1cb45bc8e8d72fc47df5, type: 2}
+  - {fileID: 11400000, guid: e01f2f62cb369874f97178dd9aa50024, type: 2}
+  - {fileID: 11400000, guid: 0dd9e1e9feae0ef4490640b591f09e5d, type: 2}
   - {fileID: 11400000, guid: 493759162ad8eb041885518c94087a0e, type: 2}
   encountersCombat:
   - {fileID: 11400000, guid: 1f10bc2789ff2454fa79eadd94e84cad, type: 2}
@@ -16637,6 +16642,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8826f34a627aa994d9d6bda84df1a1ae, type: 2}
   - {fileID: 11400000, guid: d8e2e8bbb901b8341a5699524d56a81c, type: 2}
   - {fileID: 11400000, guid: f4f5a65e5b4c91d4ba61188425c0e464, type: 2}
+  - {fileID: 11400000, guid: 81f410e56069985459a32aa6b4115c05, type: 2}
   - {fileID: 11400000, guid: 93b9c1a5ace9201488f728de8468f766, type: 2}
   - {fileID: 11400000, guid: b7e17f8faf6fe9944bb6b4e02d8a9edf, type: 2}
   allOverworldIcons:
@@ -20552,7 +20558,7 @@ MonoBehaviour:
   tileParent: {fileID: 624123282}
   roadParent: {fileID: 0}
   subAct: 0
-  tilesUntilBoss: 2
+  tilesUntilBoss: 5
   rotateCounter: 0
   rotationAmount: 0
   buttonRotateLeft: {fileID: 2037849953}
@@ -23585,7 +23591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2143486279
 Transform:
   m_ObjectHideFlags: 0

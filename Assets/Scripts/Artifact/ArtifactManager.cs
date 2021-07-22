@@ -38,7 +38,8 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public ArtifactData GetRandomAvailableArtifact(bool makeUnvailable = false)
     {
-        List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).Except(allUnavailableArtifactsNames).ToList();
+        //List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).Except(allUnavailableArtifactsNames).ToList();
+        List<string> availbleArtifacts = allArtifactsNames;
 
         if (availbleArtifacts.Count <= 0)
         {

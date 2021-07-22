@@ -12,5 +12,6 @@ public class OverworldStartup : MonoBehaviour
         // {
         //     WorldSystem.instance.missionManager.NewMission("Mission001", false);
         // }
+        WorldSystem.instance.characterManager.gold = 50;
     }
 }
