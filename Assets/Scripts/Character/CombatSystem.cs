@@ -276,6 +276,13 @@ public class CombatSystem : MonoBehaviour
 
         if (targetType == CardTargetType.Self)
             targets.Add(source);
+        else if (targetType == CardTargetType.AlliesExclSelf)
+            targets.AddRange(source.allies);
+        else if (targetType == CardTargetType.AlliesInclSelf)
+        {
+            targets.AddRange(source.allies);
+            targets.Add(source);
+        }
         else if (targetType == CardTargetType.EnemyAll)
             targets.AddRange(source.enemies);
         else if (targetType == CardTargetType.EnemySingle)
@@ -285,7 +292,7 @@ public class CombatSystem : MonoBehaviour
             int id = UnityEngine.Random.Range(0, source.enemies.Count);
             targets.Add(source.enemies[id]);
         }
-        else if(targetType == CardTargetType.All)
+        else if (targetType == CardTargetType.All)
             targets.AddRange(ActorsInScene);
 
         return targets;

@@ -9,7 +9,7 @@ public class CardEffectThorns : CardEffect
 
     public CardEffectThorns() : base()
     {
-        OnNewTurn = null;
+        OnEndTurn = null;
     }
     public override void AddFunctionToRules()
     {

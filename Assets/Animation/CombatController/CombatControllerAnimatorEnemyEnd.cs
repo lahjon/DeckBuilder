@@ -17,6 +17,8 @@ public class CombatControllerAnimatorEnemyEnd: CombatControllerAnimator
     {
         for (int i = 0; i < enemy.actionsEndTurn.Count; i++)
             yield return CombatSystem.instance.StartCoroutine(enemy.actionsEndTurn[i].Invoke());
+
+        yield return CombatSystem.instance.StartCoroutine(enemy.EffectsOnEndTurnBehavior());
         
         CombatSystem.instance.animator.SetBool("EnemyQueued", CombatSystem.instance.enemiesWaiting.Count != 0);
         CombatSystem.instance.animator.SetTrigger("EnemyFinished");

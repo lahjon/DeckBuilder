@@ -30,6 +30,8 @@ public static class EnumExtenstions
                 return $"<b>Confused</b>\nAttacks will land on a random enemy";
             case EffectType.Splice:
                 return $"<b>Splice</b>\n.The next splice card you play will meld with the top splice card in discard";
+            case EffectType.Envenom:
+                return $"<b>Envenom</b>\n.Unblocked damage will deal poison to the target.";
             default:
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
@@ -60,6 +62,8 @@ public static class EnumExtenstions
                 return new CardEffectStrengthTemp();
             case EffectType.Confused:
                 return new CardEffectConfused();
+            case EffectType.Envenom:
+                return new CardEffectEnvenom();
             default:
                 return null;
         }
@@ -159,6 +163,8 @@ public enum GridState
 public enum CardTargetType
 {
     Self,
+    AlliesInclSelf,
+    AlliesExclSelf,
     EnemySingle,
     EnemyAll,
     EnemyRandom,
@@ -284,7 +290,8 @@ public enum EffectType
     Challenge,
     Strength,
     StrengthTemp,
-    Confused
+    Confused,
+    Envenom
 }
 
 public enum OverlayState

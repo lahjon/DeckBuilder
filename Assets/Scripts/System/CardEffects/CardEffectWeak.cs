@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardEffectWeak : CardEffect
 {
     public override bool isBuff { get { return false; } }
-    public override bool triggerRecalcDamage { get { return true; } }
+    public override bool triggerRecalcDamageSelf { get { return true; } }
     public override void AddFunctionToRules()
     {
         actor.dealAttackMult.Add(WeakDamage);

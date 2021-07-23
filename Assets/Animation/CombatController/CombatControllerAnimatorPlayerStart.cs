@@ -23,6 +23,8 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
         for(int i = 0; i < hero.actionsNewTurn.Count; i++)
             yield return CombatSystem.instance.StartCoroutine(hero.actionsNewTurn[i].Invoke());
 
+
+
         CombatSystem.instance.acceptEndTurn = true;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         CombatSystem.instance.EnemiesInScene.ForEach(x => x.DrawCard());

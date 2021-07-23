@@ -118,7 +118,7 @@ public class CombatActorEnemy : CombatActor
         canvasEffects.planeDistance = WorldSystem.instance.uiManager.planeDistance;
     }
 
-    public void UpdateMoveDisplay(Card card)
+    public void UpdateIntentDisplay(Card card)
     {
         int displayDamage = 0;
         if (card.Damage.Value != 0) displayDamage = RulesSystem.instance.CalculateDamage(card.Damage.Value, this, CombatSystem.instance.Hero);
@@ -149,7 +149,7 @@ public class CombatActorEnemy : CombatActor
         hand = deck[0];
         deck.RemoveAt(0);
 
-        UpdateMoveDisplay(hand);
+        UpdateIntentDisplay(hand);
     }
 
     public void OnDeath()
@@ -200,13 +200,12 @@ public class CombatActorEnemy : CombatActor
         if(!toolTipShowing && toolTiptimer > toolTipDelay)
         {
             toolTipShowing = true;
-            //WorldSystem.instance.toolTipManager.Tips(new List<string>() { "blueee" }, canvasIntent.worldCamera.WorldToScreenPoint(AnchorToolTip.position));
         }
         if (CombatSystem.instance.ActiveCard != null  && CombatSystem.instance.ActiveCard.targetRequired)
             SetTarget(true);
         
 
-        if (CombatSystem.instance.TargetedEnemy is null) CombatSystem.instance.TargetedEnemy = this;
+        if(CombatSystem.instance.TargetedEnemy != this) CombatSystem.instance.TargetedEnemy = this;
     }
 
 
@@ -214,9 +213,12 @@ public class CombatActorEnemy : CombatActor
     {
         toolTiptimer = 0;
         toolTipShowing = false;
-        //WorldSystem.instance.toolTipManager.DisableTips();
         SetTarget(false);
         if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
     }
 
+    public override void RecalcDamage()
+    {
+        UpdateIntentDisplay(hand);
+    }
 }

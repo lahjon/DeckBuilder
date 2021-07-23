@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: SetNielsen1
   m_EditorClassIdentifier: 
   StartingHP: 45
-  enemyId: 00005
+  enemyId: 10001
   enemyName: SetNielsen1
   artwork: {fileID: 0}
   characterArt: {fileID: 3954587266090507931, guid: 36e774003f4cd864c82714970f7f5235, type: 3}
   tier: 1
   experience: 0
   deck:
+  - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
+  - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
   - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
-  - {fileID: 11400000, guid: 9072f4409a8c9b34b81a64f8f53d5fac, type: 2}
-  - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}
   - {fileID: 11400000, guid: 32eac73f20b3ef849ace4cc8932a5e18, type: 2}
   startingEffects: []
   shuffleInit: 1

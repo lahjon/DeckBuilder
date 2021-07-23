@@ -111,6 +111,8 @@ public class HealthEffectsUI : MonoBehaviour
             effectToDisplay[effectType].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(effect.effectName));
             effectToDisplay[effectType].SetLabel(effect.strStacked());
             effectToDisplay[effectType].backingType = effect.type;
+            effectToDisplay[effectType].image.color = effect.isBuff ? Color.green : Color.red; // REMOVE WHEN FINAL ICONS
+
             StartEffectNotification(effect.effectName);
         }
 

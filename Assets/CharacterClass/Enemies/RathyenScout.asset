@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
   m_Name: RathyenScout
   m_EditorClassIdentifier: 
-  StartingHP: 15
+  StartingHP: 22
   enemyId: 00004
-  enemyName: Scout
+  enemyName: Rathyen Scout
   artwork: {fileID: 0}
   characterArt: {fileID: 3702401803890722722, guid: 5a63968063cbd854aaffdd762d1ecf81, type: 3}
   tier: 1
   experience: 0
   deck:
   - {fileID: 11400000, guid: 5fa75ec339a5f9a4ea4bbb6eec1ccb10, type: 2}
-  - {fileID: 11400000, guid: f59adc2b20688454d913a381a22e03b8, type: 2}
+  - {fileID: 11400000, guid: e8a3579b4b6bfe044a6e6b47d769be53, type: 2}
   startingEffects: []
-  shuffleInit: 1
+  shuffleInit: 0
   stochasticReshuffle: 1
