@@ -101,19 +101,21 @@ public class EncounterUI : MonoBehaviour
                 WorldSystem.instance.characterManager.characterStats.ModifyHealth(x);
                 break;
             case EncounterEventChoiceEffect.Artifact:
-                ArtifactManager artifactManager = WorldSystem.instance.artifactManager;
-                artifactManager.AddArtifact(artifactManager.GetRandomAvailableArtifact()?.name);
+                // ArtifactManager artifactManager = WorldSystem.instance.artifactManager;
+                // artifactManager.AddArtifact(artifactManager.GetRandomAvailableArtifact()?.name);
+                WorldSystem.instance.rewardManager.GetReward(RewardType.Artifact);
                 break;
             case EncounterEventChoiceEffect.GetCards:
                 CardClassType cardClassType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
-                if(effectStruct.parameter.Equals(""))
-                    WorldSystem.instance.characterManager.AddCardDataToDeck(DatabaseSystem.instance.GetRandomCard(cardClassType));
-                else
-                {
-                    string[] names = effectStruct.parameter.Split(';');
-                    List<CardData> cardDatas = DatabaseSystem.instance.GetCardsByName(new List<string>(names));
-                    cardDatas.ForEach(c => WorldSystem.instance.characterManager.AddCardDataToDeck(c));
-                }
+                WorldSystem.instance.rewardManager.GetReward(RewardType.Card, new string[1]{effectStruct.parameter});
+                // if(effectStruct.parameter.Equals(""))
+                //     WorldSystem.instance.characterManager.AddCardDataToDeck(DatabaseSystem.instance.GetRandomCard(cardClassType));
+                // else
+                // {
+                //     string[] names = effectStruct.parameter.Split(';');
+                //     List<CardData> cardDatas = DatabaseSystem.instance.GetCardsByName(new List<string>(names));
+                //     cardDatas.ForEach(c => WorldSystem.instance.characterManager.AddCardDataToDeck(c));
+                // }
                 break;
             case EncounterEventChoiceEffect.Gold:
                 x = int.Parse(effectStruct.parameter);

@@ -184,7 +184,12 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugInRewardScreen()
     {
-        world.rewardManager.rewardScreen.GetReward(RewardType.Artifact);
+        world.rewardManager.GetReward(RewardType.Artifact);
+    }
+
+    public void DebugRewardGetCard()
+    {
+        world.rewardManager.GetReward(RewardType.Card, new string[1]{"name=Brute_CanonlybeOne"} );
     }
 
     public void DebugResetAllData()

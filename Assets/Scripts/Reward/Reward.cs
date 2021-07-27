@@ -119,6 +119,13 @@ public class Reward : MonoBehaviour, IToolTipable
     {
         rewardText.text = "Card";
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
+
+        callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(GetCardData(value));
+    }
+    #endregion
+
+    public static List<CardData> GetCardData(string[] value)
+    {
         List<CardData> cardDatas = new List<CardData>();
 
         if (value != null && value.Count() > 0)
@@ -170,9 +177,8 @@ public class Reward : MonoBehaviour, IToolTipable
             }
 
         }
-        callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(cardDatas);
+        return cardDatas;
     }
-    #endregion
 
     public void CollectCombatReward()
     {

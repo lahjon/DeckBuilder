@@ -25,7 +25,7 @@ MonoBehaviour:
     newEncounter: {fileID: 0}
     effects:
     - effect: 0
-      parameter: Colorless_Grenade
+      parameter: name=Colorless_Grenade
   chosenOption:
     label: 
     outcome: 0

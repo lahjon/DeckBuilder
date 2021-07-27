@@ -10,7 +10,7 @@ public class StateReward : WorldStateAnimator
         Init(TransitionType.None, WorldState.Reward);
         if (world.rewardManager.draftAmount <= 0)
         {
-            world.rewardManager.OpenRewardScreen();
+            world.rewardManager.OpenCombatRewardScreen();
         }
         else
         {

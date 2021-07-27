@@ -8,24 +8,30 @@ public class CardDisplay : CardVisual
 {
     private float startDragPos;
     bool dragging;
+    public System.Action clickCallback;
 
     void Start()
     {
         SetToolTips();
     }
 
+    void OnEnable()
+    {
+        transform.localScale = Vector3.one;
+    }
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Over");
-        transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-        
+        if (transform.localScale.x <= 1f)
+            transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
     }
     
 
     public override void OnPointerExit(PointerEventData eventData)
     {
 
-        transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+        if (transform.localScale.x >= 1f)
+            transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
         
     }
 
@@ -36,7 +42,12 @@ public class CardDisplay : CardVisual
     public override void OnMouseClick()
     {
         base.OnMouseClick();
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
+        if (clickCallback != null)
+        {
+            //WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
+            clickCallback.Invoke();
+        }
+        else if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
         {
             WorldSystem.instance.deckDisplayManager.DisplayCard(this);
         }
@@ -71,7 +82,7 @@ public class CardDisplay : CardVisual
         }
     }
 
-    IEnumerator AnimateCardToDeck()
+    public IEnumerator AnimateCardToDeck()
     {
         Vector3 posEnd = WorldSystem.instance.deckDisplayManager.deckDisplayPos.position;
         Vector3 posStart = transform.position;
@@ -86,7 +97,7 @@ public class CardDisplay : CardVisual
         Vector3 newScale = new Vector3(1.1f, 1.1f, 1.1f);
 
         float elapsedTime = 0.0f;
-        float waitTime = 0.3f;
+        float waitTime = 0.15f;
 
         while (elapsedTime < waitTime)
         {

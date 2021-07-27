@@ -6,6 +6,6 @@ public class Event005 : GameEvent
     public override void StartGameEvent()
     {
         base.StartGameEvent();
-        world.rewardManager.rewardScreen.GetReward(RewardType.Item);
+        world.rewardManager.GetReward(RewardType.Item);
     }  
 }

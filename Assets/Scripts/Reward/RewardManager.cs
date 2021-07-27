@@ -9,7 +9,7 @@ public class RewardManager : Manager, IEvents
     public GameObject rewardPrefab;
     public Sprite[] icons;
     public RewardScreenCombat rewardScreenCombat;
-    public RewardScreen rewardScreen;
+    [SerializeField] RewardScreen rewardScreen;
     public RewardScreenCardSelection rewardScreenCardSelection;
     public int draftAmount = 0;
     public System.Action rewardCallback;
@@ -21,7 +21,7 @@ public class RewardManager : Manager, IEvents
 
 
 
-    public void OpenRewardScreen()
+    public void OpenCombatRewardScreen()
     {
         rewardScreenCombat.SetupRewards();
     }
@@ -41,11 +41,31 @@ public class RewardManager : Manager, IEvents
     }
     public void CreateRewards(RewardType[] rewards, Transform parent)
     {
+        Debug.LogWarning("körs denna??? säg till om du ser");
         foreach (RewardType reward in rewards)
         {
             Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, parent).GetComponent<Reward>();
             newReward.SetupReward(reward);
         }
+    }
+
+    public void GetReward(RewardType type, string[] value = null)
+    {
+        rewardScreen.GetReward(type, value);
+    }
+
+    public void OpenRewardScreen()
+    {
+        rewardScreen.canvas.gameObject.SetActive(true);
+    }
+
+    public void ClearRewardScreen()
+    {
+        if (rewardScreen.reward != null)
+            Destroy(rewardScreen.reward.gameObject);
+            
+        WorldStateSystem.TriggerClear();
+        rewardScreen.canvas.gameObject.SetActive(false);
     }
 
     public void Unsubscribe()
