@@ -36,7 +36,6 @@ public abstract class CardEffect
 
     public virtual IEnumerator RecieveInput(int stackUpdate)
     {
-        Debug.Log("Recieving input for effect with nr " + stackUpdate);
         if (stackUpdate != 0)
         {
             int nrStackedPre = nrStacked;

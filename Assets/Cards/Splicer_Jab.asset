@@ -16,6 +16,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 5bb90fbb156088c4a9d16617bdf7a689, type: 3}
   cost: 0
   visibleCost: 1
+  immediate: 0
   exhaust: 0
   Damage:
     Type: 0

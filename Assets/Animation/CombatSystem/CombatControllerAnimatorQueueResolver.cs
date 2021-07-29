@@ -10,7 +10,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
     {
         SetRefs(animator);
         cardWaiting = CombatSystem.instance.CardQueue.Dequeue();
-
+        Debug.Log("Starting processing of card" + cardWaiting.card.cardName);
         if(CombatSystem.instance.acceptProcess) CheckCardProcess(animator);
     }
 

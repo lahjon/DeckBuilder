@@ -14,6 +14,7 @@ public class Card : MonoBehaviour
     public int cost;
     public CardData cardData;
 
+    public bool immediate;
     public bool exhaust;
 
     public CardEffectInfo Damage;
@@ -41,6 +42,7 @@ public class Card : MonoBehaviour
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
         cost            = cardData.cost;
+        immediate       = cardData.immediate;
         exhaust         = cardData.exhaust;
         Damage          = cardData.Damage;
         Block           = cardData.Block;
@@ -62,6 +64,7 @@ public class Card : MonoBehaviour
         cardName = card.cardName;
         artwork = card.artwork;
         cost = card.cost;
+        immediate = card.immediate;
         exhaust = card.exhaust;
         Damage = card.Damage;
         Block = card.Block;

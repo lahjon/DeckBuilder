@@ -113,6 +113,7 @@ public class DatabaseGoogle
             data.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
             Enum.TryParse((string)gt[i, "BlockTarget"], out data.Block.Target);
 
+            data.immediate = (string)gt[i, "Immediate"] == "TRUE";
             data.exhaust = (string)gt[i, "Exhaust"] == "TRUE";
             data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
             data.unplayable = (string)gt[i, "Unplayable"] == "TRUE";

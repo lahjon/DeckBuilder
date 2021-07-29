@@ -24,7 +24,7 @@ public class CardCombatAnimatorToCenter : CardCombatAnimator
         speed = 3.5f;
         reached = false;
         card.GetComponent<Image>().raycastTarget = false;
-        TargetTransInfo = (CombatSystem.instance.cardHoldPos.localPosition, StartTransInfo.scale, Vector3.one);
+        TargetTransInfo = (CombatSystem.instance.cardHoldPos.localPosition, new Vector3(1.1f, 1.1f, 1.1f), Vector3.one);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
