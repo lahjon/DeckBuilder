@@ -80,6 +80,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     {
         StringBuilder descText = new StringBuilder(300);
         
+        if(immediate)    descText.AppendLine("<b>Immediate</b>");
         if (unplayable) descText.AppendLine("<b>Unplayable</b>");
         if(unstable)    descText.AppendLine("<b>Unstable</b>");
 

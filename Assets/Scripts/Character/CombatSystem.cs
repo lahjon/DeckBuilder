@@ -53,7 +53,7 @@ public class CombatSystem : MonoBehaviour
     public List<Formation> formations = new List<Formation>();
     public List<Vector3> formationPositions;
 
-    Queue<object> drawnEffectsAndActivities = new Queue<object>();
+    Queue<object> drawnToResolve = new Queue<object>();
 
     [HideInInspector] public int backingEnergy;
     [HideInInspector] public int cEnergy
@@ -476,17 +476,19 @@ public class CombatSystem : MonoBehaviour
         CardCombat card = (CardCombat)Hero.deck[0];
         Hero.deck.RemoveAt(0);
         Hand.Add(card);
-        card.effectsOnDraw.ForEach(e => drawnEffectsAndActivities.Enqueue(e));
-        card.activitiesOnDraw.ForEach(e => drawnEffectsAndActivities.Enqueue(e));
+        card.effectsOnDraw.ForEach(e => drawnToResolve.Enqueue(e));
+        card.activitiesOnDraw.ForEach(e => drawnToResolve.Enqueue(e));
+        if (card.immediate) drawnToResolve.Enqueue(card);
+
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
     }
 
     IEnumerator ResolveDrawnEffects()
     {
-        while(drawnEffectsAndActivities.Count != 0)
+        while(drawnToResolve.Count != 0)
         {
-            object obj = drawnEffectsAndActivities.Dequeue();
+            object obj = drawnToResolve.Dequeue();
             if(obj is CardEffectInfo cardEffect)
             {
                 List<CombatActor> targets = GetTargets(Hero, cardEffect.Target, null);
@@ -497,6 +499,11 @@ public class CombatSystem : MonoBehaviour
             else if(obj is CardActivitySetting a)
             {
                 yield return StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
+            }
+            else if(obj is CardCombat card)
+            {
+                Debug.Log("Enqeueing immediate card");
+                card.animator.Play("Queued");
             }
         }
     }

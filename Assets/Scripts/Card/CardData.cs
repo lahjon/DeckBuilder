@@ -12,6 +12,8 @@ public class CardData : ScriptableObject
     public int cost;
     public bool visibleCost = true;
 
+    public bool immediate;
+
     public bool exhaust = false;
 
     public CardEffectInfo Damage;
