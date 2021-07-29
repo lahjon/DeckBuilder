@@ -6,31 +6,35 @@ using UnityEngine;
 public class WorldMapManager : Manager
 {
     public Canvas canvas;
-    public GameObject content;
-    public TransitionScreen newActTransition;
     public int actIndex;
     public List<string> actNames = new List<string>();
+    //public Sprite[] worldEncounterIcons;
+    public GameObject worldEncounterPrefab;
+    public Transform encounterParent;
+    public List<WorldEncounter> worldEncounters;
     protected override void Awake()
     {
         base.Awake();
         world.worldMapManager = this;
-
-        actNames.Add("Town of Nielgard");
-        actNames.Add("Barren Woods");
-        actNames.Add("Act2");
-        actNames.Add("Act3");
-        actNames.Add("Act4");
-
+        for (int i = 0; i < encounterParent.childCount; i++)
+        {
+            worldEncounters.Add(encounterParent.GetChild(i).GetComponent<WorldEncounter>());
+        }
     }
     public void OpenMap()
     {
         UpdateMap();
-        content.SetActive(true);
+        canvas.gameObject.SetActive(true);
     }
 
     public void CloseMap()
     {
-        content.SetActive(false);
+        canvas.gameObject.SetActive(false);
+    }
+
+    public void ButtonEnterTown()
+    {
+        WorldStateSystem.SetInWorldMap(false);
     }
     void UpdateMap()
     {

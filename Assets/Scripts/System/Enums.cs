@@ -230,6 +230,14 @@ public enum EncounterEventChoiceOutcome
     NewEvent
 }
 
+public enum WorldEncounterType
+{
+    None,
+    Main,
+    Repeatable,
+    Special
+}
+
 public enum EncounterEventChoiceEffect
 {
     GetCards,

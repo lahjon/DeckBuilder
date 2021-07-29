@@ -19,7 +19,13 @@ public class DebugWindow : EditorWindow
         // toggle town visibility
         if(GUILayout.Button("Toggle Town Visiblity"))
         {
-            ToggleActiveObject("--------------MAPS--------------", "TownManager");
+            ToggleActiveObject("--------------MAPS--------------", "TownManager", "TownMap");
+        }
+
+        // toggle world map visibility
+        if(GUILayout.Button("Toggle WorldMap Visiblity"))
+        {
+            ToggleActiveObject("--------------MAPS--------------", "WorldMapManager", "WorldMapCanvas");
         }
 
         // toggle grid visibility
