@@ -52,6 +52,9 @@ TagManager:
   - name: Building
     uniqueID: 3781357061
     locked: 0
+  - name: WorldMap
+    uniqueID: 2772411697
+    locked: 0
   - name: GridMap
     uniqueID: 1521960915
     locked: 0

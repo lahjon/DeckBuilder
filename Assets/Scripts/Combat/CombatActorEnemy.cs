@@ -154,6 +154,9 @@ public class CombatActorEnemy : CombatActor
 
     public void OnDeath()
     {
+        collision.enabled = false;
+        Debug.Log("Enemy Dead!");
+
         foreach (CardEffect re in effectTypeToRule.Values)
             re.OnActorDeath();
 
