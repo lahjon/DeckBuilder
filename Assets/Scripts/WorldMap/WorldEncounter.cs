@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class WorldEncounter : MonoBehaviour
+public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
@@ -18,7 +19,7 @@ public class WorldEncounter : MonoBehaviour
             {
                 case WorldEncounterType.Main:
                     GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
-                    GetComponent<Image>().color = Color.white;
+                    GetComponent<Image>().color = Color.red;
                     break;
                 case WorldEncounterType.Repeatable:
                     GetComponent<RectTransform>().sizeDelta = new Vector2(25, 25);
@@ -41,5 +42,15 @@ public class WorldEncounter : MonoBehaviour
 
     void Start()
     {
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Enter");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("Exit");
     }
 }

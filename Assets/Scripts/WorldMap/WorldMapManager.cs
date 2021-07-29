@@ -20,6 +20,7 @@ public class WorldMapManager : Manager
         {
             worldEncounters.Add(encounterParent.GetChild(i).GetComponent<WorldEncounter>());
         }
+        worldEncounters.ForEach(x => x.BindData());
     }
     public void OpenMap()
     {
