@@ -40,17 +40,14 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         worldEncounterType = worldEncounterData.type;
     }
 
-    void Start()
-    {
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Enter");
+        WorldSystem.instance.worldMapManager.worldEncounterTooltip.EnableTooltip(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Exit");
+        WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
     }
 }

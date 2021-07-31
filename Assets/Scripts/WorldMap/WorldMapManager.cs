@@ -12,6 +12,7 @@ public class WorldMapManager : Manager
     public GameObject worldEncounterPrefab;
     public Transform encounterParent;
     public List<WorldEncounter> worldEncounters;
+    public WorldEncounterTooltip worldEncounterTooltip;
     protected override void Awake()
     {
         base.Awake();
