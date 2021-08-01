@@ -643,7 +643,7 @@ public class DatabaseGoogle
     public T TDataNameToAsset<T>(string name, string[] foldersToLookIn)
     {
         T data;
-        string[] result = AssetDatabase.FindAssets(name, foldersToLookIn);
+        string[] result = AssetDatabase.FindAssets(name + " t:" + typeof(T).Name, foldersToLookIn);
   
         if (result.Length > 1)
             Debug.LogError("More than 1 Asset found for name:" + name);

@@ -17,7 +17,7 @@ MonoBehaviour:
   cost: 2
   visibleCost: 1
   immediate: 0
-  exhaust: 0
+  exhaust: 1
   Damage:
     Type: 0
     Value: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 11
+  rarity: 12
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

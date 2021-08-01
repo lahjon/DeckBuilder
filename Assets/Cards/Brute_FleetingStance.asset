@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Brute_ThornMeDaddy
+  m_Name: Brute_FleetingStance
   m_EditorClassIdentifier: 
-  cardName: Thorn Me Daddy!
-  artwork: {fileID: 21300000, guid: d33704697c53ba642ab4a012728e3eaf, type: 3}
+  cardName: Fleeting Stance
+  artwork: {fileID: 21300000, guid: b53c5b11d89fc0740a7831dee807f3c9, type: 3}
   cost: 1
   visibleCost: 1
   immediate: 0
@@ -22,24 +22,20 @@ MonoBehaviour:
     Type: 0
     Value: 0
     Times: 0
-    Target: 3
+    Target: 5
   Block:
     Type: 2
-    Value: 0
-    Times: 0
-    Target: 0
-  effectsOnPlay:
-  - Type: 6
-    Value: 3
+    Value: 10
     Times: 1
-    Target: 0
+    Target: 6
+  effectsOnPlay: []
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 12
+  rarity: 11
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
-  goldValue: 10
+  goldValue: 0
   unplayable: 0
-  unstable: 0
+  unstable: 1
