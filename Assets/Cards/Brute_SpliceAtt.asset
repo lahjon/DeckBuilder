@@ -36,6 +36,8 @@ MonoBehaviour:
     parameter: 2
   - type: 2
     parameter: 2
+  - type: 2
+    parameter: 2
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 11
