@@ -43,7 +43,7 @@ public class WorldStateAnimator : StateMachineBehaviour
                     worldStateSystem.transitionScreen.NormalTransitionStart();
                     break;
 
-                case TransitionType.EnterAct:
+                case TransitionType.EnterMap:
                     worldStateSystem.transitionScreen.EnterActTransitionStart();
                     break;
 

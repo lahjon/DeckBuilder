@@ -36,6 +36,7 @@ public class GridManager : Manager
     public int subAct;
     public int tilesUntilBoss;
     
+    
 
     TileEncounterType GetRandomEncounterType()
     {
@@ -86,9 +87,8 @@ public class GridManager : Manager
         base.Start();
     } 
 
-    public void ButtonCreateMap()
+    public void GenerateMap()
     {
-        
         if (!initialized)
         {
             InitializeMap();

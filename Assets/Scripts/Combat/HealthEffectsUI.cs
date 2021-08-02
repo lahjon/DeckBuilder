@@ -36,6 +36,7 @@ public class HealthEffectsUI : MonoBehaviour
 
     private Color32 lifeRed = new Color32(255, 0, 0, 255);
     private Color32 generealWhite = new Color32(0, 0, 0, 255);
+    public Image fillArea;
 
     public void Start()
     {

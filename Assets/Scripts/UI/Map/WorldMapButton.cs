@@ -63,7 +63,7 @@ public class WorldMapButton : MonoBehaviour
         }
         else
         {
-            WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterAct;
+            WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
             WorldStateSystem.SetInOverworld(true);
         }
     }

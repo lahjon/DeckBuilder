@@ -338,8 +338,17 @@ public enum TransitionType
     Normal,
     Town,
     DeathScreen,
-    EnterAct
+    EnterMap
 
+}
+
+public enum EncounterDifficulty
+{
+    None, 
+    Easy, 
+    Moderate,
+    Hard,
+    Impossible
 }
 
 public enum EnemyType

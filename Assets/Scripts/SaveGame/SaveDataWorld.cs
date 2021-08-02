@@ -14,13 +14,14 @@ public class SaveDataWorld
     public int completedDialogue;
 
     // token
-    public List<string> unlockedTokens = new List<string>();
+    public List<string> unlockedTokens;
 
     // world
     public int act;
+    public List<string> availableWorldEncounters;
 
     // town
-    public List<BuildingType> unlockedBuildings = new List<BuildingType>();
+    public List<BuildingType> unlockedBuildings;
 
     //progressions
     public string[] allClearedProgression;

@@ -14,8 +14,10 @@ public class Reward : MonoBehaviour, IToolTipable
     public TMP_Text rewardText;
     public Image image; 
     public RewardType rewardType;
+    public TMP_Text rewardCountText;
     bool reset;
     Action callback;
+    public int rewardAmount;
     public void OnClick()
     {
         CollectCombatReward();
@@ -26,7 +28,7 @@ public class Reward : MonoBehaviour, IToolTipable
         if(reset)
             WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
     }
-    public void SetupReward(RewardType aRewardType, string[] aValue = null)
+    public void SetupReward(RewardType aRewardType, string[] aValue = null, bool worldReward = false)
     {
         rewardType = aRewardType;
         GetComponent<Button>().onClick.AddListener(OnClick);
@@ -34,6 +36,11 @@ public class Reward : MonoBehaviour, IToolTipable
         {
             case RewardType.Gold:
                 RewardGold(aValue);
+                if (worldReward)
+                {
+                    rewardCountText.text = rewardAmount.ToString();
+                    rewardCountText.gameObject.SetActive(true);
+                }
                 break;
             case RewardType.Shard:
                 RewardShard(aValue);
@@ -53,6 +60,8 @@ public class Reward : MonoBehaviour, IToolTipable
             default:
                 break;
         }
+
+        if (worldReward) Destroy(rewardText.gameObject); 
     }
 
     #region RewardTypes
@@ -65,6 +74,7 @@ public class Reward : MonoBehaviour, IToolTipable
         rewardText.text = string.Format("Gold: " + amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[0];
         reset = true;
+        rewardAmount = amount;
         
         callback = () => WorldSystem.instance.characterManager.gold += amount;
     }

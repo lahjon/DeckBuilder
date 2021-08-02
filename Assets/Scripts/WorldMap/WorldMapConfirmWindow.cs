@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
-public class WorldEncounterTooltip : MonoBehaviour
+public class WorldMapConfirmWindow : MonoBehaviour
 {
-    public TMP_Text difficultyText;
     public TMP_Text encounterName;
-    GameObject encounterReward;
+    public TMP_Text difficultyText;
+    public GameObject encounterReward;
     public Transform rewardAnchor;
-    public void EnableTooltip(WorldEncounter worldEncounter)
+    public void OpenConfirmWindow(WorldEncounter worldEncounter)
     {
         gameObject.SetActive(true);
-        transform.position = worldEncounter.transform.position;
         if (encounterName.text != worldEncounter.worldEncounterData.worldEncounterName)
         {
             if (encounterReward != null) Destroy(encounterReward);
@@ -25,9 +24,21 @@ public class WorldEncounterTooltip : MonoBehaviour
             encounterReward.SetActive(true);
         }
     }
-
-    public void DisableTooltip()
+    public void CloseConfirmWindow()
     {
         gameObject.SetActive(false);
+    }
+
+    public void GenerateMap()
+    {
+        // use this to create the map
+        WorldSystem.instance.gridManager.GenerateMap();
+    }
+
+    public void ButtonOnClick()
+    {
+        WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
+        WorldStateSystem.instance.transitionScreen.midCallback = () => GenerateMap();
+        WorldStateSystem.SetInOverworld(true);
     }
 }
