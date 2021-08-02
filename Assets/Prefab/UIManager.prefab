@@ -6754,10 +6754,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: a6236c64064ece542af152759e418864, type: 3}
   - name: Vulnerable
     sprite: {fileID: 21300000, guid: 0f54148581f0974478c5f762be97ab47, type: 3}
-  - name: Confused
-    sprite: {fileID: 21300000, guid: bc24c488d02c2814aa8eb5f2a6f346ed, type: 3}
-  - name: Envenom
-    sprite: {fileID: 21300000, guid: 86aa6f7c28398ea4ea93421f1b3f7868, type: 3}
   - name: Weak
     sprite: {fileID: 21300000, guid: e6bfada06c20ed94d97a9f6652c6bbd3, type: 3}
 --- !u!1 &347953518847618314

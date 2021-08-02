@@ -9,7 +9,7 @@ public static class EnumExtenstions
         switch (type)
         {
             case EffectType.Barricade:
-                return $"<b>Barricade</b>\nBlock is not removed at the start of your turn";
+                return $"<b>Barricade</b>\nBlock is retained between turns";
             case EffectType.Vulnerable:
                 return $"<b>Vurnerable</b>\nRecieve 25% more attack damage";
             case EffectType.Thorns:
