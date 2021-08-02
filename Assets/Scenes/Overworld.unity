@@ -21163,11 +21163,8 @@ MonoBehaviour:
   encounterParent: {fileID: 1161349374}
   worldEncounters: []
   worldEncounterTooltip: {fileID: 2016413690}
-<<<<<<< HEAD
   worldMapConfirmWindow: {fileID: 922834138}
   currentWorldEncounter: {fileID: 0}
-=======
->>>>>>> 351f761e24e04cf9898d63e23fa913ff97150745
 --- !u!114 &1649883246
 MonoBehaviour:
   m_ObjectHideFlags: 0
