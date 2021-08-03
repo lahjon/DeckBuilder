@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class UseItemManager : Manager
+public class UseItemManager : Manager, ISaveableTemp
 {
     public GameObject itemPrefab;
     public Canvas canvas;
@@ -68,5 +68,15 @@ public class UseItemManager : Manager
         UseItem newItem = Instantiate(itemPrefab, content).GetComponent<UseItem>();
         newItem.itemData = data;
         newItem.AddItem();
+    }
+
+    public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        a_SaveData.selectedUseItems = equippedItems.Select(x => x.name).ToList();
+    }
+
+    public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
+    {
+        a_SaveData.selectedUseItems.ForEach(x => AddItem(x));
     }
 }

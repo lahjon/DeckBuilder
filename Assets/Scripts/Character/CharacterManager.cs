@@ -110,9 +110,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     void SetupCharacterData()
     {
         character.SetCharacterData((int)selectedCharacterClassType);
-
-        Debug.Log((int)selectedCharacterClassType);
-        Debug.Log(character.characterData);
         character.name = character.characterData.classType.ToString();
 
         if (playerCardsData == null || playerCardsData.Count == 0)

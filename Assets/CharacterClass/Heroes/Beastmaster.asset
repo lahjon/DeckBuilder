@@ -29,5 +29,5 @@ MonoBehaviour:
   - value: 3
     type: 4
   classType: 4
+  startingItem: HealingPotion
   unlocked: 0
-  startingDeck: {fileID: 11400000, guid: 7aca5eae9689281498f4f33f470181a5, type: 2}

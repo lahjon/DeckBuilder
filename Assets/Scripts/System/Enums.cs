@@ -36,6 +36,17 @@ public static class EnumExtenstions
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
     }
+
+    public static string GetDescription(this Profession type)
+    {
+        switch (type)
+        {
+            case Profession.Base:
+                return "<b>Base</b>\nThis is the base profession.";
+            default:
+                return string.Format("<b>{0}</b>\nMissing Description!", type.ToString());
+        }
+    }
     
 
     public static CardEffect GetRuleEffect(this EffectType type)
