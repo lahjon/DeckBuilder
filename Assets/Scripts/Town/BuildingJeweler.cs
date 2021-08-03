@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BuildingBarracks : Building
+public class BuildingJeweler : Building
 {
     public override void CloseBuilding()
     {

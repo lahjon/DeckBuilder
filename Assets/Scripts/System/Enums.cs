@@ -369,12 +369,13 @@ public enum FormationType
 
 public enum BuildingType
 {
-    Shop,
-    Tavern,
-    Church,
-    TownHall,
-    Barracks,
-    Leave,
+    Shop,           // buy stuff for permanent progress
+    Tavern,         // hopefully used for companions
+    Church,         // no idea, maybe remove
+    TownHall,       // manage town and upgrade town, adding new buildings, story stuff, quests etc
+    Scribe,         // manage the side deck, upgrade cards etc
+    Barracks,       // manage characters, swap proffession
+    Jeweler,        // manage tokens
     Any
 }
 

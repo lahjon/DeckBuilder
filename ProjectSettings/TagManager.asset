@@ -49,9 +49,6 @@ TagManager:
   - name: Town
     uniqueID: 447477707
     locked: 0
-  - name: Building
-    uniqueID: 3781357061
-    locked: 0
   - name: WorldMap
     uniqueID: 2772411697
     locked: 0
@@ -109,7 +106,13 @@ TagManager:
   - name: GridHUD
     uniqueID: 2555414131
     locked: 0
-  - name: CharacterHUD
+  - name: CharacterHUD1
+    uniqueID: 1528969913
+    locked: 0
+  - name: Building
+    uniqueID: 3781357061
+    locked: 0
+  - name: CharacterHUD2
     uniqueID: 2794340007
     locked: 0
   - name: SelectionPath

@@ -11,8 +11,6 @@ public class TownManager : Manager, ISaveableWorld
     public List<BuildingStruct> buildings;
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
     public List<BuildingType> startingBuildings = new List<BuildingType>();
-    public BuildingTownHall buildingTownHall;
-    public BuildingBarracks buildingBarracks;
     public Canvas townMapCanvas;
     public Transform encounters;
     public Button worldMapButton;

@@ -10,11 +10,6 @@ public class BuildingTownHall : Building
     public Transform iventoryPanel;
 
     private int inventorySpace = 3;
-
-    void Awake()
-    {
-        buildingType = BuildingType.TownHall;
-    }
     public override void CloseBuilding()
     {
         base.CloseBuilding();
