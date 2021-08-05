@@ -97,6 +97,8 @@ public class CombatSystem : MonoBehaviour
     public CardCombat _activeCard;
     public Button openDeck, discardDeck;
 
+    public List<CardCombat> cardsPlayedThisTurn = new List<CardCombat>();
+
     public CombatActorEnemy TargetedEnemy
     {
         get

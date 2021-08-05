@@ -53,14 +53,14 @@ public abstract class ItemCondition
         item.counterText.text = (requiredAmount - currentAmount).ToString();
     }
 
-    public static ItemCondition GetItemCondition(ItemConditionStruct type, UseItem item) => type.itemConditionType switch
+    public static ItemCondition GetItemCondition(ConditionStruct type, UseItem item) => type.type switch
     {
         ConditionType.KillEnemy => new ItemConditionKillEnemy(type.value, item),
         ConditionType.ClearTile => new ItemConditionCompleteTile(type.value, item),
         ConditionType.WinCombat => new ItemConditionWinCombat(type.value, item),
         _                           => null,
     };
-    public static string GetDescription(ItemConditionStruct type) => type.itemConditionType switch
+    public static string GetDescription(ConditionStruct type) => type.type switch
     {
         ConditionType.KillEnemy => string.Format("<b>Kill Enemies (" + int.Parse(type.value) + ")</b>"),
         ConditionType.ClearTile => string.Format("<b>Clear Tiles (" + int.Parse(type.value) + ")</b>"),

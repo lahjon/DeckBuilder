@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ItemConditionStruct
+public struct ConditionStruct
 {
-    public ConditionType itemConditionType;
+    public ConditionType type;
     public string value;
 }

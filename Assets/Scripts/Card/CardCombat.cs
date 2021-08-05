@@ -86,6 +86,8 @@ public class CardCombat : CardVisual
         card.BindCardData();
         card.BindCardVisualData();
 
+
+
         card.owner = CombatSystem.instance.Hero;
         card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
@@ -171,4 +173,33 @@ public class CardCombat : CardVisual
         float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
         return new Vector3(xLerp, yLerp, zLerp);
     }
+
+    //public void Subscribe()
+    //{
+    //    foreach (CardEffectInfo effectInfo in effectsOnPlay)
+    //        if (effectInfo.conditionStruct.type == ConditionType.CardsPlayedAbove)
+    //            EventManager.OnCardPlayEvent += CheckCardCount;
+    //}
+
+    //public void CheckCardCount()
+    //{
+    //    if(ConditionSystem.CheckCondition(effectsOnPlay[]))
+    //}
+
+    //public void CheckLifeLost()
+    //{
+    //    if(ConditionSystem.CheckCondition()
+    //}
+
+
+
+    public void Unsubscribe()
+    {
+        throw new NotImplementedException();
+    }
+
+
+
+
+
 }

@@ -114,6 +114,7 @@ public static class EnumExtenstions
 
 public enum ConditionType
 {
+    None,
     KillEnemy,
     ClearTile,
     WinCombat,
