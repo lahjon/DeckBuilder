@@ -112,11 +112,13 @@ public static class EnumExtenstions
 
 
 
-public enum ItemRefreshConditionType
+public enum ConditionType
 {
     KillEnemy,
     ClearTile,
-    WinCombat
+    WinCombat,
+    CardsPlayedAbove,
+    CardsPlayedBelow
 }
 
 

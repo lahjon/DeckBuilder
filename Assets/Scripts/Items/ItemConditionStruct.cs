@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class ItemConditionStruct
 {
-    public ItemRefreshConditionType itemConditionType;
+    public ConditionType itemConditionType;
     public string value;
 }
