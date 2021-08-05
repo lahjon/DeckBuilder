@@ -9,6 +9,9 @@ public class BuildingBarracks : Building
     public CharacterClassType characterClassType;
     public List<UseItemData> selectedItems;
     public List<UseItem> useItems = new List<UseItem>();
+    public GameObject barracks, characterSelection;
+    public List<GameObject> currentSelection = new List<GameObject>();
+    
     public override void CloseBuilding()
     {
         base.CloseBuilding();
@@ -16,6 +19,41 @@ public class BuildingBarracks : Building
     public override void EnterBuilding()
     {
         base.EnterBuilding();
+        StepInto(barracks);
+    }
+
+    void ButtonEnterCharacterSelection()
+    {
+        currentSelection.Add(characterSelection);
+        characterSelection.SetActive(true);
+    }
+    void ButtonStepBack()
+    {
+        characterSelection.SetActive(true);
+    }
+
+    void StepInto(GameObject room)
+    {
+        if (currentSelection.Count > 1)
+        {
+            
+        }
+        room.SetActive(true);
+        currentSelection.Add(room);
+    }
+
+    void StepBack()
+    {
+        if (currentSelection.Count > 1)
+        {
+            currentSelection[currentSelection.Count].SetActive(false);
+            currentSelection.RemoveAt(currentSelection.Count - 1);
+            currentSelection[currentSelection.Count].SetActive(true);
+        }
+        else
+        {
+            CloseBuilding();
+        }
     }
 
     void Start()

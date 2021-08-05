@@ -14,7 +14,15 @@ public class OverworldStartup : MonoBehaviour
         // }
 
         // DEBUG! fix
-        WorldSystem.instance.characterManager.gold = 50;
+        if (WorldSystem.instance.characterManager.gold == 0)
+        {
+            WorldSystem.instance.characterManager.gold = 50;
+        }
+
+        if (WorldSystem.instance.characterManager.shard == 0)
+        {
+            WorldSystem.instance.characterManager.shard = 5;
+        }
         WorldSystem.instance.worldMapManager.UpdateMap();
     }
 }

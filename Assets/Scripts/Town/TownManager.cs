@@ -50,6 +50,7 @@ public class TownManager : Manager, ISaveableWorld
     }
     public void EnterTown()
     {
+        Debug.Log("Entering Town!");
         List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
 
         foreach (TownInteractable townInt in townInteractables)
