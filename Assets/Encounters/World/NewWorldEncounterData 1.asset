@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: NewWorldEncounterData 1
   m_EditorClassIdentifier: 
   worldEncounterName: Test1
+  difficulty: 3
   rewardStruct:
     type: 10
     value: []

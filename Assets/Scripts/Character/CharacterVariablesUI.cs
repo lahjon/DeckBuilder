@@ -26,7 +26,8 @@ public class CharacterVariablesUI : MonoBehaviour
     void Start()
     {
         startPos = leftBar.transform.position;
-        HideBar();
+        active = true;
+        //HideBar();
     }
 
     public void UpdateCharacterHUD()

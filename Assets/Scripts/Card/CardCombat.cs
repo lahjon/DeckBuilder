@@ -92,7 +92,6 @@ public class CardCombat : CardVisual
         CombatSystem.instance.createdCards.Add(card);
 
         card.animator = card.GetComponent<Animator>();
-        card.SetToolTips();
 
         return card;
     }
@@ -110,7 +109,6 @@ public class CardCombat : CardVisual
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.ActiveActor;
         card.animator = card.GetComponent<Animator>();
-        card.SetToolTips();
         return card;
     }
 
