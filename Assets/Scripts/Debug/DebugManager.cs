@@ -10,7 +10,7 @@ public class DebugManager : MonoBehaviour
     bool showHelp;
     string input;
     public static DebugCommand SaveGame, LoadGame, Help;
-    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy;
+    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn;
     public static DebugCommand<string> AddCard, RemoveCard;
     public List<object> commandList;
     public string lastCommand;
@@ -78,6 +78,15 @@ public class DebugManager : MonoBehaviour
                 }
             }
         );
+        AddEnergyTurn = new DebugCommand<int>("add_energy_turn", "add energy per turn", "add_energy_turn <value>", (x) =>
+            {
+                if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+                {
+                    CombatSystem.instance.energyTurn += x;
+                    Debug.Log("Added energy per turn: " + x);
+                }
+            }
+        );
         AddEnergy = new DebugCommand<int>("add_energy", "add energy to player", "add_energy <amount>", (x) =>
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
@@ -98,7 +107,8 @@ public class DebugManager : MonoBehaviour
             Heal,
             AddCard,
             RemoveCard,
-            AddEnergy
+            AddEnergy,
+            AddEnergyTurn
         };
 
         for (int i = 0; i < commandList.Count; i++)

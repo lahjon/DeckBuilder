@@ -1,20 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class BuildingBarracks : Building
 {
-    public List<GameObject> inventoryAct1 = new List<GameObject>();
-    public List<GameObject> inventory = new List<GameObject>();
-    public Transform iventoryPanel;
-
-    private int inventorySpace = 3;
-
-    void Awake()
-    {
-        buildingType = BuildingType.Barracks;
-    }
+    public Sprite characterArtwork;
+    public CharacterClassType characterClassType;
+    public List<UseItemData> selectedItems;
+    public List<UseItem> useItems = new List<UseItem>();
+    public GameObject barracks, characterSelection;
+    public List<GameObject> currentSelection = new List<GameObject>();
+    
     public override void CloseBuilding()
     {
         base.CloseBuilding();
@@ -22,28 +19,60 @@ public class BuildingBarracks : Building
     public override void EnterBuilding()
     {
         base.EnterBuilding();
-        UpdateInventory();
+        StepInto(barracks);
     }
 
-    private void AddToShop(GameObject item)
+    void ButtonEnterCharacterSelection()
     {
-        GameObject newItem = Instantiate(item);
-        newItem.transform.SetParent(iventoryPanel);
-        inventory.Add(item);
+        currentSelection.Add(characterSelection);
+        characterSelection.SetActive(true);
     }
-    private void UpdateInventory()
+    void ButtonStepBack()
     {
-        foreach (GameObject item in inventoryAct1)
+        characterSelection.SetActive(true);
+    }
+
+    void StepInto(GameObject room)
+    {
+        if (currentSelection.Count > 1)
         {
-            if (!inventory.Contains(item) && !WorldSystem.instance.townManager.unlockedBuildings.Contains(item.GetComponent<ShopItem>().building))
-            {
-                AddToShop(item);
-            }
-
+            
         }
-        while (inventory.Count <= inventorySpace)
+        room.SetActive(true);
+        currentSelection.Add(room);
+    }
+
+    void StepBack()
+    {
+        if (currentSelection.Count > 1)
         {
-            AddToShop(WorldSystem.instance.shopManager.outOfStockPrefab);
+            currentSelection[currentSelection.Count].SetActive(false);
+            currentSelection.RemoveAt(currentSelection.Count - 1);
+            currentSelection[currentSelection.Count].SetActive(true);
+        }
+        else
+        {
+            CloseBuilding();
+        }
+    }
+
+    void Start()
+    {
+        UpdateBarracks();
+    }
+
+    void UpdateBarracks()
+    {
+        characterArtwork = WorldSystem.instance.characterManager.character.characterData.artwork;
+        characterClassType = WorldSystem.instance.characterManager.character.characterData.classType;
+        selectedItems = WorldSystem.instance.useItemManager.equippedItems;
+
+        useItems.ForEach(x => x.gameObject.SetActive(false));
+        for (int i = 0; i < selectedItems.Count; i++)
+        {
+            useItems[i].gameObject.SetActive(true);
+            useItems[i].itemData = selectedItems[i];
+            useItems[i].BindData();
         }
     }
 }

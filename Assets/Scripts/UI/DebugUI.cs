@@ -212,7 +212,7 @@ public class DebugUI : MonoBehaviour
     {
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInOverworld(true);
-        world.gridManager.ButtonCreateMap();
+        world.gridManager.GenerateMap();
     }
 
     public void DebugWinCombat()

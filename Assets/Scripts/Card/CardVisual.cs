@@ -54,6 +54,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         SetBorderColor();
         ResetDamageBlockCalc();
         RefreshDescriptionText();
+        SetToolTips();
     }
 
     public void Mimic(CardVisual card)

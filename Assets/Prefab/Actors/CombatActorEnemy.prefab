@@ -923,7 +923,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -741287251
-  m_SortingLayer: 10
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1206,7 +1206,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2034861665
-  m_SortingLayer: 11
+  m_SortingLayer: 13
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: e1e9cd707249e36429762a7d3545d4b7, type: 3}
   m_Color: {r: 0.9433962, g: 0, b: 0, a: 1}
@@ -1474,10 +1474,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4296724836048231568}
     m_Modifications:
+    - target: {fileID: 289256399861536826, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 289256399861536826, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 289256399861536826, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 825139172177056461, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 825139172177056461, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1986668130604296943, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4431592953039501985, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340714453211354999, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7926990767266708847, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: fillArea
+      value: 
+      objectReference: {fileID: 58403643136901754}
     - target: {fileID: 7926990767266708847, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
       propertyPath: intentDisplayAnchor
       value: 
@@ -1542,8 +1574,27 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7926990768876797514, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8246389954172334765, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+--- !u!114 &58403643136901754 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7926990768876797512, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}
+  m_PrefabInstance: {fileID: 7984083718437354546}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &58403642778381864 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 7926990767373210138, guid: 0bbb1a49e7aed47468de626f9b5c12b5, type: 3}

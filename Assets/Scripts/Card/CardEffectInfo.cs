@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CardEffectInfo
+public class CardEffectInfo : IEvents
 {
     public EffectType Type;
     public int Value;
@@ -25,6 +25,7 @@ public class CardEffectInfo
         return new CardEffectInfo(Type, Value, Times, Target);
     }
 
+
     public static CardEffectInfo operator+(CardEffectInfo a, CardEffectInfo b)
     {
         if (a == null)
@@ -40,4 +41,5 @@ public class CardEffectInfo
 
         return new CardEffectInfo(a.Type, a.Value * a.Times + b.Value * b.Times, 1, (CardTargetType)Mathf.Max((int)a.Target, (int)b.Target)); ;
     }
+
 }

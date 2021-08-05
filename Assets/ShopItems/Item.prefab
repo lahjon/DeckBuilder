@@ -435,7 +435,7 @@ MonoBehaviour:
   itemName: Barracks
   textName: {fileID: 1669461510389544509}
   textCost: {fileID: 1669461511877257611}
-  building: 12
+  building: 5
 --- !u!1 &1669461512350869113
 GameObject:
   m_ObjectHideFlags: 0

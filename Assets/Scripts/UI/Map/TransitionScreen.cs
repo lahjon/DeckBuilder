@@ -7,9 +7,10 @@ using TMPro;
 public class TransitionScreen : MonoBehaviour
 {
     public Canvas canvas;
-    public TMP_Text textAct;
-    public TMP_Text textActName;
+    public TMP_Text worldEncounter;
+    public TMP_Text worldEncounterNameText;
     public Animation transition;
+    public System.Action midCallback;
     void Awake()
     {
         WorldStateSystem.instance.transitionScreen = this;
@@ -18,18 +19,20 @@ public class TransitionScreen : MonoBehaviour
 
     public void EnterActTransitionStart()
     {
-        int index = WorldSystem.instance.worldMapManager.actIndex;
-        string actName = WorldSystem.instance.worldMapManager?.actNames[index];
+        string actName = WorldSystem.instance.worldMapManager.currentWorldEncounter != null ? WorldSystem.instance.worldMapManager.currentWorldEncounter.worldEncounterData.worldEncounterName : "Default Encounter";
 
         WorldStateSystem.SetInTransition(true);
-        textAct.text = string.Format("Act {0}", index);
-        textActName.text = string.Format("{0}", actName);
+        worldEncounterNameText.text = string.Format("{0}", actName);
         transition.Play("EnterActTransition");
     }
     public void EnterActTransitionMidSwap()
     {
         // Triggers when enter act transition is done
-        WorldSystem.instance.gridManager.ButtonCreateMap();
+        if (midCallback != null)
+        {
+            midCallback.Invoke();
+            midCallback = null;
+        }
     }
     public void NormalTransitionStart() 
     {

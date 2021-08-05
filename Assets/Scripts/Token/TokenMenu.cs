@@ -103,6 +103,8 @@ public class TokenMenu : MonoBehaviour
         GameObject activeToken = Instantiate(token);
         activeToken.name = token.name;
         activeToken.transform.SetParent(contentActive);
+        activeToken.transform.localScale = Vector3.one;
+        activeToken.transform.localPosition = Vector3.zero;
         activeToken.GetComponent<Token>().Init(true);
 
     }

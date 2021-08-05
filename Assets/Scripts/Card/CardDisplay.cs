@@ -10,11 +10,6 @@ public class CardDisplay : CardVisual
     bool dragging;
     public System.Action clickCallback;
 
-    void Start()
-    {
-        SetToolTips();
-    }
-
     void OnEnable()
     {
         transform.localScale = Vector3.one;

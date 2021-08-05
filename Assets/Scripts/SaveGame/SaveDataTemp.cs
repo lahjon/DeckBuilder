@@ -9,6 +9,7 @@ public class SaveDataTemp
     public CharacterClassType selectedCharacterClassType;
     public List<string> selectedTokens = new List<string>(); 
     public List<string> allActiveArtifactsNames = new List<string>();
+    public List<string> selectedUseItems = new List<string>(); 
     public int gold;
     public int currentHealth;
     public int addedHealth;

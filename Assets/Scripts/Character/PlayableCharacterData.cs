@@ -16,6 +16,7 @@ public class PlayableCharacterData : CharacterData
                                         new Stat(0, StatType.Health)
                                     };
     public CharacterClassType classType;
+    public string startingItem;
     public bool unlocked;
 
 

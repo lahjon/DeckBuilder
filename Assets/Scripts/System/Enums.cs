@@ -36,6 +36,17 @@ public static class EnumExtenstions
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
     }
+
+    public static string GetDescription(this Profession type)
+    {
+        switch (type)
+        {
+            case Profession.Base:
+                return "<b>Base</b>\nThis is the base profession.";
+            default:
+                return string.Format("<b>{0}</b>\nMissing Description!", type.ToString());
+        }
+    }
     
 
     public static CardEffect GetRuleEffect(this EffectType type)
@@ -101,11 +112,14 @@ public static class EnumExtenstions
 
 
 
-public enum ItemRefreshConditionType
+public enum ConditionType
 {
+    None,
     KillEnemy,
     ClearTile,
-    WinCombat
+    WinCombat,
+    CardsPlayedAbove,
+    CardsPlayedBelow
 }
 
 
@@ -338,8 +352,17 @@ public enum TransitionType
     Normal,
     Town,
     DeathScreen,
-    EnterAct
+    EnterMap
 
+}
+
+public enum EncounterDifficulty
+{
+    None, 
+    Easy, 
+    Moderate,
+    Hard,
+    Impossible
 }
 
 public enum EnemyType
@@ -360,12 +383,13 @@ public enum FormationType
 
 public enum BuildingType
 {
-    Shop,
-    Tavern,
-    Church,
-    TownHall,
-    Barracks,
-    Leave,
+    Shop,           // buy stuff for permanent progress
+    Tavern,         // hopefully used for companions
+    Church,         // no idea, maybe remove
+    TownHall,       // manage town and upgrade town, adding new buildings, story stuff, quests etc
+    Scribe,         // manage the side deck, upgrade cards etc
+    Barracks,       // manage characters, swap proffession
+    Jeweler,        // manage tokens
     Any
 }
 

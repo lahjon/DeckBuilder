@@ -8,6 +8,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
+    public GameObject encounterReward;
     public WorldEncounterType worldEncounterType
     {
         get => _worldEncounterType;
@@ -35,9 +36,22 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
+    public void ButtonOnClick()
+    {
+        WorldSystem.instance.worldMapManager.currentWorldEncounter = this;
+        WorldSystem.instance.worldMapManager.worldMapConfirmWindow.OpenConfirmWindow(this);
+        WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
+    }
+
     public void BindData()
     {
-        worldEncounterType = worldEncounterData.type;
+        if (worldEncounterType == WorldEncounterType.None)
+        {
+            worldEncounterType = worldEncounterData.type;
+            encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform);
+            encounterReward.GetComponent<Reward>().SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
+            encounterReward.SetActive(false);
+        }
     }
 
 
