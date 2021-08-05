@@ -26,7 +26,7 @@ public class EventManager : Manager
     public delegate void NewOverlayStateEvent(OverlayState overlayState);
     public static event NewOverlayStateEvent OnNewOverlayStateEvent;
     public delegate void WinCombatEvent();
-    public static event WinCombatEvent OnWinCombatEvent;
+    public static event WinCombatEvent OnWinCombatEvent;  
 
     public static void EnterBuilding(BuildingType building)
     {
@@ -54,7 +54,7 @@ public class EventManager : Manager
 
     public static void StatsTrackerUpdated()
     {
-        if(OnStatsTrackerUpdatedEvent != null)
+        if (OnStatsTrackerUpdatedEvent != null)
             EventManager.OnStatsTrackerUpdatedEvent();
     }
     public static void CompleteSpecialEvent(string eventName)
