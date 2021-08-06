@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CardEffectInfo : IEvents
+public class CardEffectInfo // : IEvents
 {
     public EffectType Type;
     public int Value;

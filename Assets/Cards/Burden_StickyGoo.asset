@@ -31,9 +31,7 @@ MonoBehaviour:
   effectsOnPlay: []
   activitiesOnPlay: []
   effectsOnDraw: []
-  activitiesOnDraw:
-  - type: 4
-    parameter: 1
+  activitiesOnDraw: []
   rarity: 11
   cardClass: 6
   animationPrefab: {fileID: 0}

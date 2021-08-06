@@ -107,13 +107,13 @@ TagManager:
     uniqueID: 2555414131
     locked: 0
   - name: CharacterHUD1
-    uniqueID: 1528969913
+    uniqueID: 2794340007
     locked: 0
   - name: Building
     uniqueID: 3781357061
     locked: 0
   - name: CharacterHUD2
-    uniqueID: 2794340007
+    uniqueID: 303328355
     locked: 0
   - name: SelectionPath
     uniqueID: 223154637

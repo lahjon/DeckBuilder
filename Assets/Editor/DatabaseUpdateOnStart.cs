@@ -163,7 +163,7 @@ public static class DatabaseUpdateOnStart
 
 
     [MenuItem("Edit/Download GoogleCards %#C")]
-    static void UpdateFromGoogle()
+    public static void UpdateFromGoogle()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadCards(); 
@@ -172,7 +172,7 @@ public static class DatabaseUpdateOnStart
     }
 
     [MenuItem("Edit/Download GoogleEnemies %#E")]
-    static void UpdateFromGoogleEnemies()
+    public static void UpdateFromGoogleEnemies()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadEnemies();
@@ -181,7 +181,7 @@ public static class DatabaseUpdateOnStart
     }
 
     [MenuItem("Edit/Download GoogleEncounters %#O")]
-    static void UpdateFromGoogleEncounters()
+    public static void UpdateFromGoogleEncounters()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadEncounters();
@@ -191,7 +191,7 @@ public static class DatabaseUpdateOnStart
 
 
     [MenuItem("Edit/Upload GoogleCards %H")]
-    static void UploadToGoogle()
+    public static void UploadToGoogle()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.PrintCardData();
@@ -200,7 +200,7 @@ public static class DatabaseUpdateOnStart
     }
 
     [MenuItem("Edit/Download GoogleArtifacts %#A")]
-    static void UpdateFromGoogleArtifacts()
+    public static void UpdateFromGoogleArtifacts()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.ReadEntriesArtifacts();

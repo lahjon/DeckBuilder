@@ -56,7 +56,7 @@ public class LevelManager : Manager
 
         switch (world.characterManager.character.classType)
         {
-            case CharacterClassType.Brute:
+            case CharacterClassType.Berserker:
                 return bruteLevelReward[index];
             case CharacterClassType.Rogue:
                 return rogueLevelReward[index];

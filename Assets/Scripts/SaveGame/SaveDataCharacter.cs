@@ -6,6 +6,7 @@ using System.Linq;
 public class SaveDataCharacter
 {   
     public int level;
+    public Profession profession;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

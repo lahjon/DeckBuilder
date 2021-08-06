@@ -1751,6 +1751,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4a610dd7ab62585478dda1d9be9a21ae, type: 2}
   - {fileID: 11400000, guid: 0ebe5ae71004f0541a635f613b0348b5, type: 2}
   unlockedCharacters: 
+  unlockedProfessions: 
   characterSheet: {fileID: 1230108495922096121}
   characterStats: {fileID: 1230108494971754154}
   currentHealth: 0

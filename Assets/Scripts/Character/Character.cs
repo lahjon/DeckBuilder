@@ -11,40 +11,31 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public PlayableCharacterData characterData;
     public bool unlocked;
     public List<string> selectedTokens = new List<string>();
+    public Profession profession;
     CharacterStats characterStats;
-    bool initialized;
 
     public void SetCharacterData(int index)
     {
-        if (!initialized)
+        SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), index);
+        characterData = WorldSystem.instance.characterManager.allCharacterData[index];
+
+        if (level == 0)
         {
-            SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), index);
-            characterData = WorldSystem.instance.characterManager.allCharacterData[index];
-
-            if (level == 0)
-            {
-                level = 1;
-            }
-
-            characterStats = gameObject.GetComponent<CharacterStats>();
-            initialized = true;
-            characterStats.Init();
+            level = 1;
         }
+
+        characterStats = gameObject.GetComponent<CharacterStats>();
+        characterStats.Init();
     }
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
         level = a_SaveData.level;
+        profession = a_SaveData.profession;
     }
     public void PopulateSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
         a_SaveData.level = level;
-    }
-
-    public static void CreateStartingCharacter(PlayableCharacterData aCharacterData)
-    {
-
-        WorldSystem.instance.characterManager.character.classType = aCharacterData.classType;
-        WorldSystem.instance.characterManager.character.characterData = aCharacterData;
+        a_SaveData.profession = profession;
     }
 }

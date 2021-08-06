@@ -35,6 +35,8 @@ public class SaveDataWorld
     public List<string> enemyId;
     public List<int> enemyAmountKilled;
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    public List<Profession> unlockedProfessions = new List<Profession>();
+    
     public int tokenPoints;
     public string ToJson()
     {

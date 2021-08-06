@@ -9,6 +9,7 @@ public abstract class Item : MonoBehaviour, IToolTipable
     public Button button;
     protected ItemData _itemData;
     public Transform tooltipAnchor;
+    bool initialized;
     public virtual ItemData itemData
     {
         get => _itemData;
@@ -20,9 +21,19 @@ public abstract class Item : MonoBehaviour, IToolTipable
     }
     protected void Awake()
     {
-        image = GetComponent<Image>();
-        button = GetComponent<Button>();
+        Initialize();
     }
+
+    protected void Initialize()
+    {
+        if (!initialized)
+        {
+            image = GetComponent<Image>();
+            button = GetComponent<Button>();
+            initialized = true;   
+        }
+    }
+
     protected void Start()
     {
         button.onClick.AddListener(OnClick);
@@ -36,7 +47,8 @@ public abstract class Item : MonoBehaviour, IToolTipable
     }
     public abstract void OnClick();
     public virtual void BindData()
-    {
+    {   
+        Initialize();
         if (itemData != null)
         {
             image.sprite = itemData.artwork;

@@ -18,6 +18,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
+    public List<Profession> unlockedProfessions = new List<Profession>();
     public CharacterSheet characterSheet;
     public CharacterStats characterStats;
     public int currentHealth;
@@ -34,26 +35,33 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     protected override void Start()
     {
         base.Start(); 
-        if (SceneManager.GetActiveScene().buildIndex != 0)
+        characterStats = character.GetComponent<CharacterStats>();
+
+        if (selectedCharacterClassType == CharacterClassType.None)
         {
-            
-            if (selectedCharacterClassType == CharacterClassType.None)
-                selectedCharacterClassType = CharacterClassType.Brute;
+            selectedCharacterClassType = CharacterClassType.Berserker;
+            character.profession = Profession.Berserker1;
+        }
 
+        SetupCharacterData();
 
-            SetupCharacterData();
-
-            characterStats = character.GetComponent<CharacterStats>();
-
-            // Check if health still below zero after health mods
-            if (currentHealth <= 0)
-            {
-                currentHealth = characterStats.GetStat(StatType.Health);
-            }
-
-            //Debug.Log("Health is:" + currentHealth);
+        if (currentHealth <= 0)
+        {
+            currentHealth = characterStats.GetStat(StatType.Health);
             characterVariablesUI.UpdateCharacterHUD();
-            //world.SaveProgression();
+        }
+
+        if (unlockedCharacters.Count == 0)
+        {
+            unlockedCharacters = allCharacterData.Where(x => x.unlocked == true).Select(x => x.classType).ToList();
+        }
+
+        if (unlockedProfessions.Count == 0)
+        {
+            unlockedProfessions.Add(Profession.Berserker1);
+            unlockedProfessions.Add(Profession.Splicer1);
+            unlockedProfessions.Add(Profession.Rogue1);
+            unlockedProfessions.Add(Profession.Beastmaster1);
         }
     }
     public int shard 
@@ -107,20 +115,28 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         characterVariablesUI.UpdateCharacterHUD();
     }
-    void SetupCharacterData()
+    public void SetupCharacterData(bool fromTown = false)
     {
         character.SetCharacterData((int)selectedCharacterClassType);
         character.name = character.characterData.classType.ToString();
 
-        if (playerCardsData == null || playerCardsData.Count == 0)
-            playerCardsData.AddRange(DatabaseSystem.instance.GetStartingDeck(selectedCharacterClassType));
+        if (playerCardsData == null || playerCardsData.Count == 0) 
+            playerCardsData.AddRange(DatabaseSystem.instance.GetStartingDeck(selectedCharacterClassType, character.profession));
+
+        if (fromTown)
+        {
+            playerCardsData.Clear();
+            playerCardsData.AddRange(DatabaseSystem.instance.GetStartingDeck(selectedCharacterClassType, character.profession));
+            currentHealth = characterStats.GetStat(StatType.Health);
+        }
+        characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void AddCardDataToDeck(CardData newCardData)
     {
         playerCardsData.Add(newCardData); 
-        //WorldSystem.instance.deckDisplayManager.UpdateAllCards();
     }
+
     public void RemoveCardDataFromDeck(string aCardName)
     {
         if(playerCardsData.Count > 1)
@@ -142,14 +158,14 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         a_SaveData.shard = _shard;
         a_SaveData.unlockedCharacters = unlockedCharacters;
-        Debug.Log("Saving Data");
+        a_SaveData.unlockedProfessions = unlockedProfessions;
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         _shard = a_SaveData.shard;
         unlockedCharacters = a_SaveData.unlockedCharacters;
-        Debug.Log("Loading Data");
+        unlockedProfessions = a_SaveData.unlockedProfessions;
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)

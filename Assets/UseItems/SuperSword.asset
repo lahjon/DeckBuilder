@@ -19,6 +19,6 @@ MonoBehaviour:
   rarity: 1
   goldValue: 110
   itemCondition:
-    itemConditionType: 2
+    type: 1
     value: 2
   itemUseCondition: 05000000

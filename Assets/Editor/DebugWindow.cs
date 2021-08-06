@@ -16,6 +16,8 @@ public class DebugWindow : EditorWindow
 
     void OnGUI()
     {
+        #region visibility
+
         // toggle town visibility
         if(GUILayout.Button("Toggle Town Visiblity"))
         {
@@ -40,11 +42,48 @@ public class DebugWindow : EditorWindow
             ToggleActiveObject("--------------COMBAT--------------", "CombatSystem", "Content");
         }
 
-        // resets all saved data
-        if(GUILayout.Button("Reset Game Data"))
+        DrawLine(Color.black, 2, 10);
+
+        #endregion
+
+        #region data
+
+            // resets all saved data
+            if(GUILayout.Button("Reset Game Data"))
+            {
+                ResetAllData();
+            }
+
+            DrawLine(Color.black, 2, 10);
+
+        #endregion
+
+        #region database
+        if(GUILayout.Button("Update Database"))
         {
-            ResetAllData();
+            DatabaseUpdateOnStart.UpdateDatabase();
         }
+
+        if(GUILayout.Button("Download from Google"))
+        {
+            DatabaseUpdateOnStart.UpdateFromGoogle();
+        }
+
+
+        #endregion
+
+
+
+
+    }
+    public void DrawLine(Color color, int thickness = 2, int padding = 10)
+    {
+        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding+thickness));
+        r.height = thickness;
+        r.y+=padding/2;
+        r.x-=2;
+        r.width +=6;
+        EditorGUI.DrawRect(r, color);
     }
 
     void ResetAllData()
