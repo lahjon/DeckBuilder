@@ -7,6 +7,10 @@ public class SelectableCharacter : MonoBehaviour
 {
     bool _unlocked;
     public CharacterClassType characterClassType;
+    Image image;
+    static Color colorDeselected = new Color(.5f, .5f, .5f, 1f);
+    static Color colorSelected = new Color(1f, 1f, 1f, 1f);
+    public static BuildingBarracks buildingBarracks;
     public bool unlocked
     {
         get => _unlocked;
@@ -18,9 +22,25 @@ public class SelectableCharacter : MonoBehaviour
         }
     }
 
+    void Awake()
+    {
+        image = GetComponent<Image>();
+    }
+
+    public void SelectCharacter()
+    {
+        image.color = colorSelected;
+    }
+
+    public void DeselectCharacter()
+    {
+        image.color = colorDeselected;
+    }
+
 
     public void ButtonSelectCharacter()
     {
-        Debug.Log("Selected Character");
+        buildingBarracks.SelectCharacter(characterClassType);
+        Debug.Log("Selected Character: " + characterClassType);
     }
 }

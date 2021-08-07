@@ -187,7 +187,7 @@ public enum CardTargetType
 public enum CharacterClassType
 {
     None = 0,
-    Brute = 1,
+    Berserker = 1,
     Rogue = 2,
     Splicer = 3,
     Beastmaster = 4
@@ -196,7 +196,7 @@ public enum CharacterClassType
 public enum CardClassType
 {
     None = 0,
-    Brute = 1,
+    Berserker = 1,
     Rogue = 2,
     Splicer = 3,
     Beastmaster = 4,
@@ -228,7 +228,7 @@ public enum DialogueParticipant
 {
     None,
     Player,
-    Brute,
+    Berserker,
     Rogue,
     Splicer,
     Beastmaster,
@@ -455,5 +455,18 @@ public enum CardActivityType
 
 public enum Profession
 {
-    Base
+    Base,
+    Berserker1 = 11,
+    Berserker2 = 12,
+    Berserker3 = 13,
+    Rogue1 = 21,
+    Rogue2 = 22,
+    Rogue3 = 23,
+    Splicer1 = 31,
+    Splicer2 = 32,
+    Splicer3 = 33,
+    Beastmaster1 = 41,
+    Beastmaster2 = 42,
+    Beastmaster3 = 43,
+    
 }

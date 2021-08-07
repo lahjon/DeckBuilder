@@ -42,6 +42,7 @@ public class UseItem : Item, IEvents
     public override void BindData()
     {
         if (itemData == null) return;
+        Initialize();
         
         image.sprite = itemData.artwork;
         effect = Effect.GetEffect(gameObject, itemData.name, false);

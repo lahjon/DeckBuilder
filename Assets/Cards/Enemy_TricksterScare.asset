@@ -29,9 +29,7 @@ MonoBehaviour:
     Times: 0
     Target: 0
   effectsOnPlay: []
-  activitiesOnPlay:
-  - type: 1
-    parameter: Burden_CheapScare,Deck
+  activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 11

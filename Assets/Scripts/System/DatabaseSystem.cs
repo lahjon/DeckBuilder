@@ -97,6 +97,7 @@ public class DatabaseSystem : MonoBehaviour
     public List<CardData> GetStartingDeck(CharacterClassType character, Profession profession = Profession.Base)
     {
         return StartingCards.Where(x => x.characterClass == character && x.profession == profession).Select(x => x.startingCards).FirstOrDefault();
+        //return StartingCards.Where(x => (x.characterClass == character && (x.profession == profession || x.profession == Profession.Base)).Select(x => x.startingCards).FirstOrDefault();
     }
 
     public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)

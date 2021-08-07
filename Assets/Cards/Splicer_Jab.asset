@@ -29,9 +29,7 @@ MonoBehaviour:
     Times: 0
     Target: 0
   effectsOnPlay: []
-  activitiesOnPlay:
-  - type: 2
-    parameter: 1
+  activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 11

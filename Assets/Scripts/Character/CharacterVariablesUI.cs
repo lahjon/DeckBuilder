@@ -41,6 +41,7 @@ public class CharacterVariablesUI : MonoBehaviour
             healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
             goldValue.text = gold.ToString();
             shardValue.text = shards.ToString();
+            
             SetStats();
         }
     }
