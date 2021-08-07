@@ -6,27 +6,31 @@ using System.Linq;
 public class Objective : Progression
 {
     [TextArea(5,5)]
-    public string objectiveId;
+    public string objectiveName;
     public string description;
-    public string completeEvent;
-    public AchivementData achivementData; 
-
-    public virtual void Init()
+    public string endEvent;
+    public void StartObjetive(ObjectiveData data)
     {
-        
-    }
+        goals.Clear();
+        goalsTrackAmount.Clear();
 
-    protected override void TriggerEvent()
-    {
-        WorldSystem.instance.gameEventManager.StartEvent(completeEvent);
+        objectiveName = data.aName;
+        id = data.id;
+        description = data.description;
+        endEvent = data.endEvent;
+
+        CreateGoals(data);
+
+        WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Starting Objective: " + objectiveName);
     }
 
     protected override void Complete()
     {
-        Debug.Log("progression Done");
+        Debug.Log("Progression Done");
+        WorldSystem.instance.gameEventManager.StartEvent(endEvent);
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning(description);
         WorldSystem.instance.progressionManager.AddCompleteObjective(this);
-        TriggerEvent();
+        Destroy(this);
     }
 
 }

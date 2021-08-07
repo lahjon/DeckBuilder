@@ -96,6 +96,8 @@ public class DatabaseSystem : MonoBehaviour
 
     public List<CardData> GetStartingDeck(CharacterClassType character, Profession profession = Profession.Base)
     {
+        Debug.Log(character + "  " +  profession);
+        Debug.Log(StartingCards.Where(x => x.characterClass == character && x.profession == profession).Select(x => x.startingCards).FirstOrDefault().Count());
         return StartingCards.Where(x => x.characterClass == character && x.profession == profession).Select(x => x.startingCards).FirstOrDefault();
         //return StartingCards.Where(x => (x.characterClass == character && (x.profession == profession || x.profession == Profession.Base)).Select(x => x.startingCards).FirstOrDefault();
     }

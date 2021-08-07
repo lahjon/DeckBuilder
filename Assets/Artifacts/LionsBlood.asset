@@ -16,5 +16,5 @@ MonoBehaviour:
   itemId: 0
   artwork: {fileID: 21300000, guid: 3307443d4cbb74644aa469e48e5da657, type: 3}
   description: +7 Health
-  rarity: 11
+  rarity: 12
   goldValue: 100

@@ -3,47 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class Mission : Progression
+public class Mission : Progression
 {
-    public string missionId;
     public string description;
     public string endEvent;
     public string startEvent;
     public string nextMission;
-    public string overrideMissionGoal;
 
-    // public abstract string missionId
-    // {
-    //     get; set;
-    // }
-    // public string description
-    // {
-    //     get => _description;
-    //     set => _description = value;
-    // }
-    // public string endEvent
-    // {
-    //     get => _endEvent;
-    //     set => _endEvent = value;
-    // }
-    // public string startEvent
-    // {
-    //     get => _startEvent;
-    //     set => _startEvent = value;
-    // }
-    // public string nextMission
-    // {
-    //     get => _nextMission;
-    //     set => _nextMission = value;
-    // }
-    // public string overrideMissionGoal
-    // {
-    //     get => _overrideMissionGoal;
-    //     set => _overrideMissionGoal = value;
-    // }
-
-    protected virtual void Start()
+    public void StartMission(MissionData data)
     {
+        goals.Clear();
+        goalsTrackAmount.Clear();
+
+        aName = data.aName;
+        id = data.id;
+        description = data.description;
+        endEvent = data.endEvent;
+        startEvent = data.startEvent;
+        nextMission = data.nextMission;
+
+        #region goals
+
+        // enter building
+        data?.goalEnterBuilding.ForEach(x => AddGoal(new EnterBuildingGoal(this, x.buildingType, x.requiredAmount)));
+
+        // kill enemy
+        data?.goalKillEnemy.ForEach(x => AddGoal(new KillEnemyGoal(this, x.enemyId, x.requiredAmount)));
+
+        #endregion
+
         WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
         WorldSystem.instance.gameEventManager.StartEvent(startEvent);
     }

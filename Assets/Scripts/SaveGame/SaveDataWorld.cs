@@ -24,8 +24,8 @@ public class SaveDataWorld
     public List<BuildingType> unlockedBuildings;
 
     //progressions
-    public string[] allClearedProgression;
-    public string missionId;
+    public List<string> allClearedProgression;
+    public string currentMissionId;
 
     // stats tracker
     public List<BuildingType> buildingTrackerKey;

@@ -5,13 +5,13 @@ using System.Linq;
 
 public abstract class Progression : MonoBehaviour
 {
-    public string progressName;
+    public string id;
+    public string aName;
     public List<ProgressionGoal> goals = new List<ProgressionGoal>();
     public List<int> goalsTrackAmount = new List<int>();
     public bool completed = false;
     public virtual void CheckGoals()
     {
-        //Debug.Log("checking goals");
         completed = goals.All(g => g.completed);
         WorldSystem.instance.missionManager.missionUI.UpdateUI(false);
 
@@ -24,6 +24,16 @@ public abstract class Progression : MonoBehaviour
     public void UpdateGoals(ProgressionGoal aGoal, int newAmount)
     {
         goalsTrackAmount[goals.IndexOf(aGoal)] = newAmount;
+    }
+
+    public void CreateGoals(ProgressionData data)
+    {
+        // enter building
+        data?.goalEnterBuilding.ForEach(x => AddGoal(new EnterBuildingGoal(this, x.buildingType, x.requiredAmount)));
+
+        // kill enemy
+        data?.goalKillEnemy.ForEach(x => AddGoal(new KillEnemyGoal(this, x.enemyId, x.requiredAmount)));
+
     }
 
     protected virtual void AddGoal(ProgressionGoal progressionGoal)

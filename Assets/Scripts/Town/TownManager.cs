@@ -101,8 +101,8 @@ public class TownManager : Manager, ISaveableWorld
     }
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        unlockedBuildings = a_SaveData.unlockedBuildings;
-
+        if (a_SaveData.unlockedBuildings == null) unlockedBuildings = new List<BuildingType>();
+        else unlockedBuildings = a_SaveData.unlockedBuildings;
     }
 }
 

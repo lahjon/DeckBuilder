@@ -6,10 +6,7 @@ using TMPro;
 
 public class CharacterVariablesUI : MonoBehaviour
 {
-    public TMP_Text healthValue;
-    public TMP_Text goldValue;
-    public TMP_Text shardValue;
-    public TMP_Text worldTier;
+    public TMP_Text healthValue, goldValue, shardValue, classValue;
     public Image levelUpImage;
     public GameObject leftBar;
     Vector3 startPos;
@@ -41,6 +38,7 @@ public class CharacterVariablesUI : MonoBehaviour
             healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
             goldValue.text = gold.ToString();
             shardValue.text = shards.ToString();
+            classValue.text = WorldSystem.instance.characterManager.selectedCharacterClassType.ToString();
             
             SetStats();
         }

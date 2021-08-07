@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class EnterBuildingGoal : ProgressionGoal, IEvents
+public class EnterBuildingGoal : ProgressionGoal
 {
     public BuildingType buildingGoal;
 
@@ -16,13 +16,15 @@ public class EnterBuildingGoal : ProgressionGoal, IEvents
         requiredAmount = aRequiredAmount;
         currentAmount = 0;
     }
-    public void Subscribe()
+    public override void Subscribe()
     {
+        base.Subscribe();
         EventManager.OnEnterBuildingEvent += EnterBuilding;
     }
-    public void Unsubscribe()
+    public override void Unsubscribe()
     {
-         EventManager.OnEnterBuildingEvent -= EnterBuilding;
+        base.Unsubscribe();
+        EventManager.OnEnterBuildingEvent -= EnterBuilding;
     }
     public override void End()
     {

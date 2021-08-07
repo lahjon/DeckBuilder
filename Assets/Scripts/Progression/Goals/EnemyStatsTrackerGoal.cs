@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class EnemyStatsTrackerGoal : ProgressionGoal, IEvents
+public class EnemyStatsTrackerGoal : ProgressionGoal
 {
     private string enemyId;
     public EnemyStatsTrackerGoal(Progression aProgression, string anEnemyId, int aRequiredAmount)
@@ -15,12 +15,14 @@ public class EnemyStatsTrackerGoal : ProgressionGoal, IEvents
         progression = aProgression;
     }
 
-    public void Subscribe()
+    public override void Subscribe()
     {
+        base.Subscribe();
         EventManager.OnStatsTrackerUpdatedEvent += StatsTrackedUpdated;
     }
-    public void Unsubscribe()
+    public override void Unsubscribe()
     {
+        base.Unsubscribe();
         EventManager.OnStatsTrackerUpdatedEvent -= StatsTrackedUpdated;
     }
     public override void End()

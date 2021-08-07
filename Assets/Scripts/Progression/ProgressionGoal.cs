@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-public abstract class ProgressionGoal
+public abstract class ProgressionGoal : IEvents
 {
     public string goalName;
     public bool completed = false;
@@ -29,4 +29,13 @@ public abstract class ProgressionGoal
         End();
     }
 
+    public virtual void Subscribe()
+    {
+        Debug.Log("Subscribe: " + this);
+    }
+
+    public virtual void Unsubscribe()
+    {
+        Debug.Log("Unsubscribe: " + this);
+    }
 }

@@ -36,6 +36,7 @@ public class BuildingBarracks : Building
     {
         characterArtwork.sprite = currentSelectedCharacter.GetComponent<Image>().sprite;
         UpdateCharacterManager();
+        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         StepBack();
     }
 
@@ -45,29 +46,31 @@ public class BuildingBarracks : Building
         WorldSystem.instance.characterManager.SetupCharacterData(true);
         currentProfession = WorldSystem.instance.characterManager.character.profession;
 
-        if (currentProfession == Profession.Base)
-        {
-            switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
-            {
-                case CharacterClassType.Berserker:
-                    currentProfession = Profession.Berserker1;
-                    break;
-                case CharacterClassType.Rogue:
-                    currentProfession = Profession.Rogue1;
-                    break;
-                case CharacterClassType.Splicer:
-                    currentProfession = Profession.Splicer1;
-                    break;
-                case CharacterClassType.Beastmaster:
-                    currentProfession = Profession.Beastmaster1;
-                    break;
+        // TODO: uncomment when we have professions integrated in DB
+
+        // if (currentProfession == Profession.Base)
+        // {
+        //     switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
+        //     {
+        //         case CharacterClassType.Berserker:
+        //             currentProfession = Profession.Berserker1;
+        //             break;
+        //         case CharacterClassType.Rogue:
+        //             currentProfession = Profession.Rogue1;
+        //             break;
+        //         case CharacterClassType.Splicer:
+        //             currentProfession = Profession.Splicer1;
+        //             break;
+        //         case CharacterClassType.Beastmaster:
+        //             currentProfession = Profession.Beastmaster1;
+        //             break;
                 
-                default:
-                    break;
-            }
+        //         default:
+        //             break;
+        //     }
             
-            WorldSystem.instance.characterManager.character.profession = currentProfession;
-        }
+        //     WorldSystem.instance.characterManager.character.profession = currentProfession;
+        // }
 
         Debug.Log("Update selected character");
     }

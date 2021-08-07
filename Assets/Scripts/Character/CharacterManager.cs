@@ -40,7 +40,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         if (selectedCharacterClassType == CharacterClassType.None)
         {
             selectedCharacterClassType = CharacterClassType.Berserker;
-            character.profession = Profession.Berserker1;
+            //character.profession = Profession.Berserker1;
         }
 
         SetupCharacterData();
@@ -55,6 +55,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         {
             unlockedCharacters = allCharacterData.Where(x => x.unlocked == true).Select(x => x.classType).ToList();
         }
+
+        // NOTE: uncomment when professions are in DB
 
         if (unlockedProfessions.Count == 0)
         {

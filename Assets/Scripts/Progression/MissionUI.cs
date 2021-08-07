@@ -11,13 +11,13 @@ public class MissionUI : MonoBehaviour
     public Dictionary<string, bool> goals = new Dictionary<string, bool>();
     public TMP_Text missionText;
     List<GameObject> goalObjs = new List<GameObject>();
-    public Transform parent;
     public GameObject goalPrefab;
+    public Transform panel;
     public void UpdateUI(bool newMission)
     {
         if (WorldSystem.instance.missionManager.mission != null)
         {
-            missionName = WorldSystem.instance.missionManager.mission.progressName;
+            missionName = WorldSystem.instance.missionManager.mission.aName;
             missionText.text = missionName;
 
             goals.Clear();
@@ -33,10 +33,6 @@ public class MissionUI : MonoBehaviour
                 if (goals.ElementAt(i).Value == true)
                 {
                     goalObjs[i].GetComponent<TMP_Text>().color = Color.green;
-                }
-                if(WorldSystem.instance.missionManager.mission.goals != null && WorldSystem.instance.missionManager.mission.overrideMissionGoal != "")
-                {
-                    goalObjs[i].GetComponent<TMP_Text>().text = WorldSystem.instance.missionManager.mission.overrideMissionGoal;
                 }
             }
         }
@@ -57,8 +53,7 @@ public class MissionUI : MonoBehaviour
     {
         foreach (string goal in goals.Keys)
         {
-            GameObject newGoal = Instantiate(goalPrefab);
-            newGoal.transform.SetParent(parent);
+            GameObject newGoal = Instantiate(goalPrefab, panel);
             newGoal.GetComponent<TMP_Text>().text = goal;
             goalObjs.Add(newGoal);
         }

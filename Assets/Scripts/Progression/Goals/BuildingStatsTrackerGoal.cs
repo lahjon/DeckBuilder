@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class BuildingStatsTrackerGoal : ProgressionGoal, IEvents
+public class BuildingStatsTrackerGoal : ProgressionGoal
 {
     public BuildingType buildingGoal;
     public BuildingStatsTrackerGoal(Progression aProgression, BuildingType aBuildingGoal, int aRequiredAmount)
@@ -16,12 +16,14 @@ public class BuildingStatsTrackerGoal : ProgressionGoal, IEvents
         currentAmount = 0;
     }
 
-    public void Subscribe()
+    public override void Subscribe()
     {
+        base.Subscribe();
         EventManager.OnStatsTrackerUpdatedEvent += StatsTrackedUpdated;
     }
-    public void Unsubscribe()
+    public override void Unsubscribe()
     {
+        base.Unsubscribe();
         EventManager.OnStatsTrackerUpdatedEvent -= StatsTrackedUpdated;
     }
     public override void End()

@@ -79,7 +79,7 @@ public class WorldMapManager : Manager, ISaveableWorld
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.availableWorldEncounters.ForEach(x => availableWorldEncounters.Add(x));
+        a_SaveData.availableWorldEncounters?.ForEach(x => availableWorldEncounters.Add(x));
         AddDefaultEncounters();
     }
 }

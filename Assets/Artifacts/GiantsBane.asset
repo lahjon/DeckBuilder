@@ -16,5 +16,5 @@ MonoBehaviour:
   itemId: 0
   artwork: {fileID: 21300000, guid: 9ed297e703f172647adc510e45c215bc, type: 3}
   description: +3 strength
-  rarity: 11
+  rarity: 12
   goldValue: 150
