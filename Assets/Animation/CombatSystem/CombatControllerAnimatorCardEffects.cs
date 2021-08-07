@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 {
@@ -15,7 +16,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
         //Debug.Log("Starting effets transmittion");
         List<CombatActor> targets;
 
-        foreach (CardEffectInfo e in card.effectsOnPlay)
+        foreach (CardEffectInfo e in card.effectsOnPlay.Where(x => x.cardCondition.value == true))
         {
             targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, e.Target, suppliedTarget);
 

@@ -12,6 +12,9 @@ public class EventManager : Manager
     public delegate void EnemyKilledEvent(EnemyData enemy);
     public static event EnemyKilledEvent OnEnemyKilledEvent;
 
+    public delegate void EnemyKilledNoArgEvent();
+    public static event EnemyKilledNoArgEvent OnEnemyKilledNoArgEvent;
+
     public delegate void StatsTrackerUpdatedEvent();
     public static event StatsTrackerUpdatedEvent OnStatsTrackerUpdatedEvent;
 
@@ -28,11 +31,11 @@ public class EventManager : Manager
     public delegate void WinCombatEvent();
     public static event WinCombatEvent OnWinCombatEvent;
 
-    public delegate void CardPlayEvent();
-    public static event CardPlayEvent OnCardPlayEvent;
+    public delegate void CardPlayNoArgEvent();
+    public static event CardPlayNoArgEvent OnCardPlayNoArgEvent;
 
-    public delegate void CardPlaySignEvent(Card card);
-    public static event CardPlaySignEvent OnCardPlaySignEvent;
+    public delegate void CardPlayEvent(Card card);
+    public static event CardPlayEvent OnCardPlayEvent;
 
     public static void EnterBuilding(BuildingType building)
     {
@@ -42,8 +45,8 @@ public class EventManager : Manager
 
     public static void EnemyKilled(EnemyData enemy)
     {
-        if(OnEnemyKilledEvent != null)
-            EventManager.OnEnemyKilledEvent(enemy);
+        OnEnemyKilledEvent?.Invoke(enemy);
+        OnEnemyKilledNoArgEvent?.Invoke();
     }
 
     public static void NewWorldState(WorldState state)
@@ -82,18 +85,13 @@ public class EventManager : Manager
 
     public static void CompleteTile()
     {
-        if(OnCompleteTileEvent != null)
-            EventManager.OnCompleteTileEvent();
+        OnCompleteTileEvent?.Invoke();
     }
 
     public static void CardPlay(Card card)
     {
-        if (OnCardPlayEvent != null)
-            EventManager.OnCardPlayEvent();
-
-        if (OnCardPlaySignEvent != null)
-            EventManager.OnCardPlaySignEvent(card);
-
+        OnCardPlayEvent?.Invoke(card);
+        OnCardPlayNoArgEvent?.Invoke();
     }
 }
 

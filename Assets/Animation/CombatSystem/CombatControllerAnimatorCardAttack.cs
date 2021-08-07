@@ -11,13 +11,11 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        EventManager.CardPlay(card);
 
         if(card.effectsOnPlay.Count != 0)
             nextState = "Effects";
         else
             nextState = "Activities & Discard";
-
 
         attack = card.Damage;
         if (attack.Value == 0)

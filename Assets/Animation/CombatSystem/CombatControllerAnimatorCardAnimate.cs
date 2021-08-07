@@ -21,6 +21,12 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             animationSystem = null;
         }
 
+        if(CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero)
+        {
+            CombatSystem.instance.NoteCardPlayed(card);
+            EventManager.CardPlay(card);
+        }
+
         layerName = CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero ? "Resolve Card" : "EnemyCard";
 
         if (card.Block.Value != 0)

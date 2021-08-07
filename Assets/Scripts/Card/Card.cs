@@ -110,9 +110,11 @@ public class Card : MonoBehaviour
     {
         get
         {
-            List<CardEffectInfo> tempList = new List<CardEffectInfo>();
-            tempList.Add(Damage);
-            tempList.Add(Block);
+            List<CardEffectInfo> tempList = new List<CardEffectInfo>
+            {
+                Damage,
+                Block
+            };
             tempList.AddRange(effectsOnPlay);
             return tempList;
         }
