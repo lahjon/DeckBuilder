@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CardEffectInfo : IEvents
+public class CardEffectInfo
 {
     public EffectType Type;
     public int Value;
     public int Times;
     public CardTargetType Target;
+
+    public CardCondition cardCondition;
 
     public CardEffectInfo() { }
 
@@ -19,7 +21,7 @@ public class CardEffectInfo : IEvents
         Times = times;
         Target = cardTargetType;
     }
-
+      
     public CardEffectInfo Clone()
     {
         return new CardEffectInfo(Type, Value, Times, Target);

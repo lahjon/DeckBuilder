@@ -9,6 +9,7 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
+
         block = card.Block;
 
         if (card.Damage.Value != 0)

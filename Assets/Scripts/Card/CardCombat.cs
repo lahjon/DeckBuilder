@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 
-public class CardCombat : CardVisual
+public class CardCombat : CardVisual, IEvents
 {
     public RectTransform cardPanel;
     public AnimationCurve transitionCurveDraw;
@@ -85,9 +86,6 @@ public class CardCombat : CardVisual
         card.cardPanel = CombatSystem.instance.cardPanel.GetComponent<RectTransform>();
         card.BindCardData();
         card.BindCardVisualData();
-
-
-
         card.owner = CombatSystem.instance.Hero;
         card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
@@ -174,32 +172,15 @@ public class CardCombat : CardVisual
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
-    //public void Subscribe()
-    //{
-    //    foreach (CardEffectInfo effectInfo in effectsOnPlay)
-    //        if (effectInfo.conditionStruct.type == ConditionType.CardsPlayedAbove)
-    //            EventManager.OnCardPlayEvent += CheckCardCount;
-    //}
-
-    //public void CheckCardCount()
-    //{
-    //    if(ConditionSystem.CheckCondition(effectsOnPlay[]))
-    //}
-
-    //public void CheckLifeLost()
-    //{
-    //    if(ConditionSystem.CheckCondition()
-    //}
-
-
-
     public void Unsubscribe()
     {
-        throw new NotImplementedException();
+        foreach (IEvents e in effectsOnPlay.Where(x=> x.cardCondition.conditionStruct.type != ConditionType.None).Select(x => x.cardCondition))
+            e.Unsubscribe();
     }
 
-
-
-
-
+    public void Subscribe()
+    {
+        foreach (IEvents e in effectsOnPlay.Where(x => x.cardCondition.conditionStruct.type != ConditionType.None).Select(x => x.cardCondition))
+            e.Subscribe();
+    }
 }

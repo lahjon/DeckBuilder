@@ -5,10 +5,9 @@ using System.Linq;
 
 public class CombatCardPresenter : MonoBehaviour
 {
-    public float cardHeight = 550;
+    public float displayHeight = 550;
     public float waitDelay = 0.1f;
 
-    Transform cardDisplayArea;
     float distanceBetweenCards; 
     float cardWidht;
     float dist { get { return distanceBetweenCards + cardWidht; } }
@@ -56,7 +55,7 @@ public class CombatCardPresenter : MonoBehaviour
         {
             float shiftX = cardsLocale.Count % 2 == 0 ? dist / 2f : 0f;
             for (int i = 0; i < cardsLocale.Count; i++)
-                cardsLocale[i].card.transform.localPosition = new Vector3(dist * (i - cardsLocale.Count / 2) + shiftX, cardHeight);
+                cardsLocale[i].card.transform.localPosition = new Vector3(dist * (i - cardsLocale.Count / 2) + shiftX, displayHeight);
         }
         else
         {
@@ -65,7 +64,7 @@ public class CombatCardPresenter : MonoBehaviour
             foreach ((CardCombat card, CardLocation target) c in cardsLocale)
                 c.card.transform.localPosition = new Vector3(
                                                         (c.target == CardLocation.Deck ? cursorDeck-- : cursorDiscard++)*dist,
-                                                        cardHeight);        
+                                                        displayHeight);        
         }
 
         float addWait = CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero ? 0 : 1f;

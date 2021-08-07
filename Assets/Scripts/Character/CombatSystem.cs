@@ -152,11 +152,11 @@ public class CombatSystem : MonoBehaviour
         }
     }
 
-
     #region Plumbing, Setup, Start/End turn
-    private void OnDisable()
+
+    public void NoteCardPlayed(Card card)
     {
-        Debug.Log("cc disabled");
+        cardsPlayedThisTurn.Add((CardCombat)card);
     }
 
     public void SetUpEncounter()
@@ -229,6 +229,7 @@ public class CombatSystem : MonoBehaviour
 
     public void EndTurn()
     {
+        cardsPlayedThisTurn.Clear();
         Hand.Where(c => c.unstable).ToList().ForEach(c => { Hand.Remove(c); Destroy(c.gameObject); });
 
         foreach (CardCombat card in Hand)
