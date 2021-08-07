@@ -27183,7 +27183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e396c53153f0213488474a1b3e40e28e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardHeight: 550
+  displayHeight: 550
   waitDelay: 0.2
 --- !u!1001 &1836240393
 PrefabInstance:
@@ -34596,6 +34596,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 951404445}
+    - target: {fileID: 8242332177656918996, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1500627289
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982482, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: m_RootOrder
       value: 12
