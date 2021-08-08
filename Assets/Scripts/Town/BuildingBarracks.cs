@@ -11,7 +11,7 @@ public class BuildingBarracks : Building
     public Profession currentProfession;
     public List<UseItemData> selectedItems;
     public List<UseItem> useItems = new List<UseItem>();
-    public GameObject barracks, characterSelection;
+    public GameObject barracks, characterSelection; // rooms
     List<SelectableCharacter> selectableCharacters = new List<SelectableCharacter>();
     public Transform characterParent;
     
@@ -32,7 +32,7 @@ public class BuildingBarracks : Building
         currentSelectedCharacter.SelectCharacter();
     }
 
-    public void ConfirmSelection()
+    public void ButtonConfirmCharacterSelection()
     {
         characterArtwork.sprite = currentSelectedCharacter.GetComponent<Image>().sprite;
         UpdateCharacterManager();

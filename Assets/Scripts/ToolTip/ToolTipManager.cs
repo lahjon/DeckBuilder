@@ -15,7 +15,7 @@ public class ToolTipManager : Manager
     public RectTransform TipLocation; 
     public List<TMP_Text> txt_tips = new List<TMP_Text>();
 
-    private ToolTipScanner currentScanner = null;
+    public ToolTipScanner currentScanner = null;
 
     private bool _canShow = true;
     public bool canShow { get { return _canShow; } 
@@ -67,13 +67,14 @@ public class ToolTipManager : Manager
         if (currentScanner is null || scanner == currentScanner)
             foreach (TMP_Text text in txt_tips)
                 text.transform.parent.gameObject.SetActive(false);
+            currentScanner = null;
     }
 
     public void DisableTips()
     {
         currentScanner?.ExitAction();
-        foreach (TMP_Text text in txt_tips)
-            text.transform.parent.gameObject.SetActive(false);
+        // foreach (TMP_Text text in txt_tips)
+        //     text.transform.parent.gameObject.SetActive(false);
     }
 
 }

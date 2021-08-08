@@ -189,7 +189,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugRewardGetCard()
     {
-        world.rewardManager.GetReward(RewardType.Card, new string[1]{"name=Brute_CanonlybeOne"} );
+        world.rewardManager.GetReward(RewardType.Card, new string[1]{"name=Berserker_CanonlybeOne"} );
     }
 
     public void DebugResetAllData()

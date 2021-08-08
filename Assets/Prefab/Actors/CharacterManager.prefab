@@ -4929,7 +4929,7 @@ MonoBehaviour:
   healthValue: {fileID: 1230108495834556331}
   goldValue: {fileID: 1230108494663133546}
   shardValue: {fileID: 1230108496387883088}
-  worldTier: {fileID: 0}
+  classValue: {fileID: 0}
   levelUpImage: {fileID: 1230108494852328096}
   leftBar: {fileID: 1230108496370119038}
   content: {fileID: 0}

@@ -8,8 +8,10 @@ using System.IO;
 public class DebugWindow : EditorWindow
 {
     GameObject foundObject;
-    
-    [MenuItem("Window/Debug")] public static void ShowWindow()
+    GameObject myTarget;
+
+    [MenuItem("Window/Debug")]
+    public static void ShowWindow()
     {
         GetWindow<DebugWindow>("Debug");
     }
@@ -19,25 +21,25 @@ public class DebugWindow : EditorWindow
         #region visibility
 
         // toggle town visibility
-        if(GUILayout.Button("Toggle Town Visiblity"))
+        if (GUILayout.Button("Toggle Town Visiblity"))
         {
             ToggleActiveObject("--------------MAPS--------------", "TownManager", "TownMap");
         }
 
         // toggle world map visibility
-        if(GUILayout.Button("Toggle WorldMap Visiblity"))
+        if (GUILayout.Button("Toggle WorldMap Visiblity"))
         {
             ToggleActiveObject("--------------MAPS--------------", "WorldMapManager", "WorldMapCanvas");
         }
 
         // toggle grid visibility
-        if(GUILayout.Button("Toggle Grid Visibility"))
+        if (GUILayout.Button("Toggle Grid Visibility"))
         {
             ToggleActiveObject("--------------MAPS--------------", "GridManager", "Content");
         }
 
         // toggle combat visibility
-        if(GUILayout.Button("Toggle Combat Visiblity"))
+        if (GUILayout.Button("Toggle Combat Visiblity"))
         {
             ToggleActiveObject("--------------COMBAT--------------", "CombatSystem", "Content");
         }
@@ -48,23 +50,23 @@ public class DebugWindow : EditorWindow
 
         #region data
 
-            // resets all saved data
-            if(GUILayout.Button("Reset Game Data"))
-            {
-                ResetAllData();
-            }
+        // resets all saved data
+        if (GUILayout.Button("Reset Game Data"))
+        {
+            ResetAllData();
+        }
 
-            DrawLine(Color.black, 2, 10);
+        DrawLine(Color.black, 2, 10);
 
         #endregion
 
         #region database
-        if(GUILayout.Button("Update Database"))
+        if (GUILayout.Button("Update Database"))
         {
             DatabaseUpdateOnStart.UpdateDatabase();
         }
 
-        if(GUILayout.Button("Download from Google"))
+        if (GUILayout.Button("Download from Google"))
         {
             DatabaseUpdateOnStart.UpdateFromGoogle();
         }
@@ -72,17 +74,48 @@ public class DebugWindow : EditorWindow
 
         #endregion
 
+        DrawLine(Color.black, 2, 10);
 
+        DrawDragAndDrop(1);
+
+        if (GUILayout.Button("Toggle GameObject"))
+        {
+            if (myTarget != null)
+            {
+                if (myTarget.activeSelf)
+                {
+                    myTarget.SetActive(false);
+                }
+                else
+                {
+                    myTarget.SetActive(true);
+                }
+            }
+        }
+
+        if (GUILayout.Button("Select GameObject"))
+        {
+            if (myTarget != null)
+            {
+                Selection.objects = new Object[] { myTarget };
+            }
+        }
+
+
+        if (GUILayout.Button("Reset"))
+        {
+            myTarget = null;
+        }
 
 
     }
     public void DrawLine(Color color, int thickness = 2, int padding = 10)
     {
-        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding+thickness));
+        Rect r = EditorGUILayout.GetControlRect(GUILayout.Height(padding + thickness));
         r.height = thickness;
-        r.y+=padding/2;
-        r.x-=2;
-        r.width +=6;
+        r.y += padding / 2;
+        r.x -= 2;
+        r.width += 6;
         EditorGUI.DrawRect(r, color);
     }
 
@@ -93,7 +126,7 @@ public class DebugWindow : EditorWindow
         foreach (FileInfo file in dirInfo.GetFiles())
         {
             Debug.Log(file + " removed");
-            file.Delete(); 
+            file.Delete();
         }
     }
 
@@ -132,6 +165,50 @@ public class DebugWindow : EditorWindow
                 {
                     foundObject.gameObject.SetActive(true);
                 }
+            }
+        }
+    }
+
+    void DrawDragAndDrop(int m)
+    {
+
+        Event evt = Event.current;
+
+        GUIStyle GuistyleBoxDND = new GUIStyle(GUI.skin.box);
+        GuistyleBoxDND.alignment = TextAnchor.MiddleCenter;
+        GuistyleBoxDND.fontStyle = FontStyle.Italic;
+        GuistyleBoxDND.fontSize = 12;
+        GUI.skin.box = GuistyleBoxDND;
+
+
+        Rect dadRect = new Rect();
+        dadRect = GUILayoutUtility.GetRect(0, 20, GUILayout.ExpandWidth(true));
+        if (myTarget == null)
+        {
+            GUI.Box(dadRect, "Drag and Drop gameobjects to this box!", GuistyleBoxDND);
+            //GuistyleBoxDND.normal.background = new Texture2D(2, 2);
+        }
+        else
+        {
+            GUI.Box(dadRect, myTarget.name, GuistyleBoxDND);
+            //GuistyleBoxDND.normal.background = new Texture2D(2, 2);
+        }
+
+        if (dadRect.Contains(Event.current.mousePosition))
+        {
+            if (Event.current.type == EventType.DragUpdated)
+            {
+                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
+                Event.current.Use();
+            }
+            else if (Event.current.type == EventType.DragPerform)
+            {
+                for (int i = 0; i < DragAndDrop.objectReferences.Length; i++)
+                {
+                    myTarget = DragAndDrop.objectReferences[i] as GameObject;
+                }
+
+                Event.current.Use();
             }
         }
     }

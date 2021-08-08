@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BuildingScribe : Building
 {
+    public GameObject scribe, deckManagement, cardUpgrade; // rooms
     public override void CloseBuilding()
     {
         base.CloseBuilding();
@@ -12,5 +13,14 @@ public class BuildingScribe : Building
     public override void EnterBuilding()
     {
         base.EnterBuilding();
+        StepInto(scribe);
+    }
+    public void ButtonEnterDeckManagement()
+    {
+        StepInto(deckManagement);
+    }
+    public void ButtonEnterCardUpgrade()
+    {
+        StepInto(cardUpgrade);
     }
 }
