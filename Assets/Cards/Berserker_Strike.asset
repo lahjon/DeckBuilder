@@ -41,8 +41,8 @@ MonoBehaviour:
     Times: 1
     Target: 3
     ConditionStruct:
-      type: 0
-      value: 1
+      type: 4
+      value: 2
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
