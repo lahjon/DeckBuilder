@@ -10,13 +10,28 @@ using UnityEngine;
 public class CardCondition : IEvents
 {
     public ConditionStruct conditionStruct;
-    private bool _value;
-    public bool value { get { return conditionStruct.type == ConditionType.None || _value == true; } }
+    public bool value;
+
+    public Func<string, bool> CheckConditionAction;
+
+    public CardCondition(ConditionStruct conditionStruct)
+    {
+        this.conditionStruct = conditionStruct;
+        if (conditionStruct.type != ConditionType.None)
+            CheckConditionAction = ConditionSystem.GetConditionChecker(conditionStruct.type);
+        else
+            value = true;
+    }
+
+    public CardCondition()
+    {
+        conditionStruct = new ConditionStruct() { type = ConditionType.None };
+        value = true;
+    }
 
     public void CheckCondition()
     {
-        Debug.Log("Checking Condition");
-        _value = ConditionSystem.CheckCondition(conditionStruct);
+        value = CheckConditionAction(conditionStruct.value);
     }
 
     public void Subscribe()
@@ -24,6 +39,8 @@ public class CardCondition : IEvents
         Debug.Log("Subbing");
         switch (conditionStruct.type)
         {
+            case ConditionType.None:
+                return;
             case ConditionType.CardsPlayedAbove:
             case ConditionType.CardsPlayedBelow:
                 EventManager.OnCardPlayNoArgEvent += CheckCondition;
@@ -32,12 +49,15 @@ public class CardCondition : IEvents
                 EventManager.OnEnemyKilledNoArgEvent += CheckCondition;
                 break;
         }
+        CheckCondition();
     }
 
     public void Unsubscribe()
     {
         switch (conditionStruct.type)
         {
+            case ConditionType.None:
+                return;
             case ConditionType.CardsPlayedAbove:
             case ConditionType.CardsPlayedBelow:
                 EventManager.OnCardPlayNoArgEvent -= CheckCondition;

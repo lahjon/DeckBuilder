@@ -23,19 +23,17 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 3
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   Block:
     Type: 2
     Value: 0
     Times: 0
     Target: 0
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   effectsOnPlay: []
   activitiesOnPlay:
   - type: 1

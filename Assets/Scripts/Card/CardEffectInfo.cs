@@ -9,8 +9,7 @@ public class CardEffectInfo
     public int Value;
     public int Times;
     public CardTargetType Target;
-
-    public CardCondition cardCondition;
+    public ConditionStruct ConditionStruct;
 
     public CardEffectInfo() { }
 
@@ -20,11 +19,21 @@ public class CardEffectInfo
         Value = value;
         Times = times;
         Target = cardTargetType;
+        ConditionStruct = new ConditionStruct() { type = ConditionType.None};
     }
-      
+
+    public CardEffectInfo(EffectType type, int value, int times, CardTargetType cardTargetType, ConditionStruct conditionStruct)
+    {
+        Type = type;
+        Value = value;
+        Times = times;
+        Target = cardTargetType;
+        ConditionStruct = conditionStruct;
+    }
+
     public CardEffectInfo Clone()
     {
-        return new CardEffectInfo(Type, Value, Times, Target);
+        return new CardEffectInfo(Type, Value, Times, Target, ConditionStruct);
     }
 
 
@@ -41,7 +50,11 @@ public class CardEffectInfo
             return null;
         }
 
-        return new CardEffectInfo(a.Type, a.Value * a.Times + b.Value * b.Times, 1, (CardTargetType)Mathf.Max((int)a.Target, (int)b.Target)); ;
+        return new CardEffectInfo(a.Type, 
+                                  a.Value * a.Times + b.Value * b.Times, 
+                                  1, 
+                                  (CardTargetType)Mathf.Max((int)a.Target, (int)b.Target),
+                                  new ConditionStruct() { type = ConditionType.None }); 
     }
 
 }

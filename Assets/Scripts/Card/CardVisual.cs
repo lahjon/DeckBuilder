@@ -26,6 +26,10 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public int displayBlock = -1;
 
     private int _displayCost;
+
+    const string strBlockCode = "_BLOCKINFO_";
+    const string strDamageCode = "_DAMAGEINFO_";
+
     public int displayCost
     {
         get { return _displayCost; }
@@ -41,6 +45,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     readonly static string colorCodeGood = "#2e590c";
     readonly static string colorCodeBad = "#a16658";
+
+    private string derivedText = "";
+    private string displayText;
 
     public bool isBroken = false;
 
@@ -79,30 +86,48 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void RefreshDescriptionText()
     {
-        StringBuilder descText = new StringBuilder(300);
-        
-        if(immediate)    descText.AppendLine("<b>Immediate</b>");
-        if (unplayable) descText.AppendLine("<b>Unplayable</b>");
-        if(unstable)    descText.AppendLine("<b>Unstable</b>");
+        if (derivedText.Equals("")) DeriveDescriptionText();
+        StringBuilder descText;
+        displayText = derivedText;
 
-
-        //Special care for Damage on Block
+        //Special care for Damage and Block
         if (Block.Value != 0)
         {
-            descText.Append(Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + ":");
+            descText = new StringBuilder(100);
+            descText.Append(Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + " ");
             descText.Append(ValueColorWrapper(Block.Value, displayBlock));
             if (Block.Times != 1) descText.Append(" " + Block.Times + " times ");
             if (Block.Target != CardTargetType.Self) descText.Append(" " + Block.Target.ToString());
+            displayText = displayText.Replace(strBlockCode, descText.ToString());
         }
-        //Special care for Damage on Block
-        if(Damage.Value != 0)
+        //Special care for Damage and Block
+        if (Damage.Value != 0)
         {
-            if (descText.Length != 0) descText.AppendLine();
-            descText.Append(Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + ":");
+            descText = new StringBuilder(100);
+            if (Block.Value != 0) descText.AppendLine();
+            descText.Append(Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + " ");
             descText.Append(ValueColorWrapper(Damage.Value, displayDamage));
             if (Damage.Times != 1) descText.Append(" " + Damage.Times + " times ");
             if (Damage.Target != CardTargetType.EnemySingle) descText.Append(" " + Damage.Target.ToString());
+            displayText = displayText.Replace(strDamageCode, descText.ToString());
         }
+
+        descriptionText.text = displayText;
+    }
+
+    public void DeriveDescriptionText()
+    {
+        StringBuilder descText = new StringBuilder(300);
+
+        if (immediate) descText.AppendLine("<b>Immediate</b>");
+        if (unplayable) descText.AppendLine("<b>Unplayable</b>");
+        if (unstable) descText.AppendLine("<b>Unstable</b>");
+
+
+        //Special care for Damage and Block
+        if (Block.Value != 0) descText.Append(strBlockCode);
+        //Special care for Damage and Block
+        if (Damage.Value != 0) descText.Append(strDamageCode);
 
         //On draw non-modifiable descs
 
@@ -110,9 +135,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         {
             if (effectsOnDraw[i].Value == 0) continue;
             if (descText.Length != 0) descText.AppendLine();
-            descText.Append("On Draw: " + effectsOnDraw[i].Type.ToString() + EffectTypeToIconCode(effectsOnDraw[i].Type) + ":" + effectsOnDraw[i].Value);
-            if (effectsOnDraw[i].Times != 1) descText.Append(" " + effectsOnDraw[i].Times + " times");
-            if (effectsOnDraw[i].Target != CardTargetType.EnemySingle) descText.Append(" " + effectsOnDraw[i].Target.ToString());
+            descText.Append("On Draw: " + EffectInfoToString(effectsOnPlay[i]));
         }
 
         for (int i = 0; i < activitiesOnDraw.Count; i++)
@@ -122,14 +145,11 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         }
 
         //Generall non-modifiable descs
-
         for (int i = 0; i < effectsOnPlay.Count; i++)
         {
             if (effectsOnPlay[i].Value == 0) continue;
             if (descText.Length != 0) descText.AppendLine();
-            descText.Append(effectsOnPlay[i].Type.ToString() + EffectTypeToIconCode(effectsOnPlay[i].Type) + ":" + effectsOnPlay[i].Value);
-            if (effectsOnPlay[i].Times != 1) descText.Append(" " + effectsOnPlay[i].Times + " times");
-            if (effectsOnPlay[i].Target != CardTargetType.EnemySingle) descText.Append(" " + effectsOnPlay[i].Target.ToString());
+            descText.Append(EffectInfoToString(effectsOnPlay[i]));
         }
 
         for (int i = 0; i < activitiesOnPlay.Count; i++)
@@ -143,7 +163,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             descText.Append("<b>Exhaust</b>");
         }
 
-        descriptionText.text = descText.ToString();
+        derivedText = descText.ToString();
     }
 
     public string ValueColorWrapper(int originalVal, int currentVal, bool inverse = false)
@@ -154,6 +174,18 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             return currentVal.ToString();
         else
             return "<color=" + colorCodeGood + ">" + currentVal.ToString() + "</color>";
+    }
+
+    private string EffectInfoToString(CardEffectInfo effectInfo)
+    {
+        string retString = "";
+        if (effectInfo.ConditionStruct.type != ConditionType.None) retString += "If " + effectInfo.ConditionStruct.type.ToString() + " " + effectInfo.ConditionStruct.value
+                 + " then: ";
+        retString += effectInfo.Type.ToString() + EffectTypeToIconCode(effectInfo.Type) + " " + effectInfo.Value;
+        if (effectInfo.Times != 1) retString += " " + effectInfo.Times + " times";
+        if (effectInfo.Target != CardTargetType.EnemySingle) retString += " " + effectInfo.Target.ToString();
+
+        return retString;
     }
 
     private string EffectTypeToIconCode(EffectType type)

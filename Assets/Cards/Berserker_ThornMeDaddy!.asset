@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_ThornMeDaddy!
   m_EditorClassIdentifier: 
   cardName: Thorn Me Daddy!
-  artwork: {fileID: 21300000, guid: efdd52bb3b5c7644bafcd79b00e26610, type: 3}
+  artwork: {fileID: 21300000, guid: 6f9fe871be21da84e872c716720905ec, type: 3}
   cost: 1
   visibleCost: 1
   immediate: 0
@@ -23,28 +23,25 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 3
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   Block:
     Type: 2
     Value: 0
     Times: 0
     Target: 0
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   effectsOnPlay:
   - Type: 6
     Value: 3
     Times: 1
     Target: 0
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 0
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []

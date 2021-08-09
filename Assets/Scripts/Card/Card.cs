@@ -35,6 +35,8 @@ public class Card : MonoBehaviour
     public bool unplayable;
     public bool unstable;
 
+    public Dictionary<CardEffectInfo, CardCondition> EffectToCondition = new Dictionary<CardEffectInfo, CardCondition>();
+
     public void BindCardData()
     {
         name            = cardData.cardName;
@@ -55,6 +57,8 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
         unplayable      = cardData.unplayable;
         unstable        = cardData.unstable;
+
+        effectsOnPlay.ForEach(e => EffectToCondition[e] = new CardCondition(e.ConditionStruct));
     }
 
     public void Mimic(Card card)
@@ -77,6 +81,8 @@ public class Card : MonoBehaviour
         visibleCost = card.visibleCost;
         unplayable = card.unplayable;
         unstable = card.unstable;
+
+        effectsOnPlay.ForEach(e => EffectToCondition[e] = new CardCondition(e.ConditionStruct));
     }
 
     [HideInInspector]

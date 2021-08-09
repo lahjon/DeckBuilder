@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: f11ef9b197633c740b0765fc5881864f
+<<<<<<< HEAD:Assets/AddressableAssetsData/AssetGroups/Built In Data.asset.meta
+guid: e7a7ca448f3928648a1b946092d659cf
+=======
+guid: 2627a78438244434493edd28635f07be
+>>>>>>> sync conditions on effects from google:Assets/Cards/Berserker_Defend.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

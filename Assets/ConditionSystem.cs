@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ConditionSystem : MonoBehaviour
 {
@@ -38,6 +39,28 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
+    public static Func<string, bool> GetConditionChecker(ConditionType type)
+    {
+        switch (type)
+        {
+            case ConditionType.CardsPlayedAbove:
+                return CheckCardsPlayedAbove;
+            case ConditionType.CardsPlayedBelow:
+                return CheckCardsPlayedBelow;
+            default:
+                return null;
+        }
+    }
+
+    public static bool CheckCardsPlayedAbove(string parameter)
+    {
+        return CombatSystem.instance.cardsPlayedThisTurn.Count > int.Parse(parameter);
+    }
+
+    public static bool CheckCardsPlayedBelow(string parameter)
+    {
+        return CombatSystem.instance.cardsPlayedThisTurn.Count < int.Parse(parameter);
+    }
 
 
 

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 8a75094360c27a44f988009f2f267381
+<<<<<<< HEAD:Assets/AddressableAssetsData/AddressableAssetSettings.asset.meta
+guid: a73ca93a69d1a784eb4b5f5b7be1a167
+=======
+guid: 29cbde068687fde488839fe67d39f125
+>>>>>>> sync conditions on effects from google:Assets/Cards/Berserker_Bash.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000
