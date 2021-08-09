@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_TestEnvenom
   m_EditorClassIdentifier: 
   cardName: TestEnvenom
+  cardType: 3
   artwork: {fileID: 21300000, guid: a716734a80488d54e9c47c487486249c, type: 3}
   cost: 1
   visibleCost: 1

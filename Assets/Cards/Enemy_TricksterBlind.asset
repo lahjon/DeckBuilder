@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_TricksterBlind
   m_EditorClassIdentifier: 
   cardName: TricksterBlind
+  cardType: 1
   artwork: {fileID: 21300000, guid: 5f78cb101ba365347998cbd0f8a90cbd, type: 3}
   cost: 1
   visibleCost: 1

@@ -88,7 +88,7 @@ public class EventManager : Manager
         OnCompleteTileEvent?.Invoke();
     }
 
-    public static void CardPlay(Card card)
+    public static void CardFinished(Card card)
     {
         OnCardPlayEvent?.Invoke(card);
         OnCardPlayNoArgEvent?.Invoke();

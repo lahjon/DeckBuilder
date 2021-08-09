@@ -9,6 +9,13 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
     {
         SetRefs(animator);
         //Debug.Log("Entered activities & discard");
+
+        if (CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero)
+        {
+            CombatSystem.instance.NoteCardFinished(card);
+            EventManager.CardFinished(card);
+        }
+
         CombatSystem.instance.StartCoroutine(ActivitiesDiscard());
     }
 

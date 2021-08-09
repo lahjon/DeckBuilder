@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Splicer_MiscalculatedBlast
   m_EditorClassIdentifier: 
   cardName: Miscalculated Blast
+  cardType: 0
   artwork: {fileID: 21300000, guid: de0a0675d65e8244bbb039769aa51c1b, type: 3}
   cost: 1
   visibleCost: 1

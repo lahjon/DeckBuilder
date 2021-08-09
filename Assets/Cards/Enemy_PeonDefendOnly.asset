@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_PeonDefendOnly
   m_EditorClassIdentifier: 
   cardName: PeonDefendOnly
+  cardType: 2
   artwork: {fileID: 21300000, guid: 2ff65efb7fee96c489f00a78eb226cf5, type: 3}
   cost: 1
   visibleCost: 1

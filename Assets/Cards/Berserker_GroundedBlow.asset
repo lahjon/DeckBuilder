@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_JR_AttackTrick
+  m_Name: Berserker_GroundedBlow
   m_EditorClassIdentifier: 
-  cardName: JR_AttackTrick
+  cardName: Grounded Blow
   cardType: 0
-  artwork: {fileID: 21300000, guid: 9add353d3b9a37346a29ecf530f3856a, type: 3}
-  cost: 2
+  artwork: {fileID: 21300000, guid: 6041b8f04bce8214a9b270b9b82d4321, type: 3}
+  cost: 1
   visibleCost: 1
   immediate: 0
   exhaust: 0
   Damage:
     Type: 0
-    Value: 6
+    Value: 7
     Times: 1
     Target: 3
     ConditionStruct:
@@ -31,18 +31,23 @@ MonoBehaviour:
     Type: 2
     Value: 0
     Times: 0
-    Target: 0
+    Target: 6
     ConditionStruct:
       type: 0
       value: 
-  effectsOnPlay: []
-  activitiesOnPlay:
-  - type: 1
-    parameter: Burden_CheapScare,Deck
+  effectsOnPlay:
+  - Type: 4
+    Value: 2
+    Times: 1
+    Target: 3
+    ConditionStruct:
+      type: 6
+      value: Order
+  activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 12
-  cardClass: 8
+  rarity: 11
+  cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 0

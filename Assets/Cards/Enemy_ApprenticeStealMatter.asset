@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_ApprenticeStealMatter
   m_EditorClassIdentifier: 
   cardName: Apprentice Steal Matter
+  cardType: 1
   artwork: {fileID: 21300000, guid: 8d39282e160d1404eb5aa92d80731c11, type: 3}
   cost: 2
   visibleCost: 1

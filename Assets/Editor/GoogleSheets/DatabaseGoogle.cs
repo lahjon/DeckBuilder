@@ -97,6 +97,7 @@ public class DatabaseGoogle
                 AssetDatabase.CreateAsset(data, CardPath + @"\" + databaseName + ".asset");
             }
 
+            Enum.TryParse((string)gt[i, "CardType"], out data.cardType);
             Enum.TryParse((string)gt[i, "Class"], out data.cardClass);
             Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_WeakeningScratch
   m_EditorClassIdentifier: 
   cardName: Weakening Scratch
+  cardType: 0
   artwork: {fileID: 21300000, guid: 3ef5bfa79cba62d4fafde967b7401a3d, type: 3}
   cost: 1
   visibleCost: 1

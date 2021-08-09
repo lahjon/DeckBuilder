@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_StrongerPunch
   m_EditorClassIdentifier: 
   cardName: Stronger Punch
+  cardType: 0
   artwork: {fileID: 21300000, guid: 3319dcfb7c247264c8d2eefd92d9be4b, type: 3}
   cost: 1
   visibleCost: 1

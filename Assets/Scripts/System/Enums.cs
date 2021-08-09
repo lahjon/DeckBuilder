@@ -119,7 +119,8 @@ public enum ConditionType
     ClearTile,
     WinCombat,
     CardsPlayedAbove,
-    CardsPlayedBelow
+    CardsPlayedBelow,
+    LastCardPlayedTurnType
 }
 
 
@@ -172,6 +173,16 @@ public enum GridState
     Dragging,
     Rotating,
     Complete
+}
+
+public enum CardType
+{
+    Attack,
+    Disorder,
+    Order,
+    Oath,
+    Burden,
+    Torment
 }
 
 public enum CardTargetType

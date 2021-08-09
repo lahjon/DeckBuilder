@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_FleetingStance
   m_EditorClassIdentifier: 
   cardName: Fleeting Stance
+  cardType: 2
   artwork: {fileID: 21300000, guid: adb159001981b514cbdc8dbb7a4158e9, type: 3}
   cost: 1
   visibleCost: 1
@@ -30,7 +31,7 @@ MonoBehaviour:
     Type: 2
     Value: 10
     Times: 1
-    Target: 6
+    Target: 0
     ConditionStruct:
       type: 0
       value: 

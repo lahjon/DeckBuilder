@@ -154,7 +154,7 @@ public class CombatSystem : MonoBehaviour
 
     #region Plumbing, Setup, Start/End turn
 
-    public void NoteCardPlayed(Card card)
+    public void NoteCardFinished(Card card)
     {
         cardsPlayedThisTurn.Add((CardCombat)card);
     }

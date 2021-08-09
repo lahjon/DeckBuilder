@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_DisplayofMight
   m_EditorClassIdentifier: 
   cardName: Display of Might
+  cardType: 0
   artwork: {fileID: 21300000, guid: c614a5d960c65244aa9ed2d60345efed, type: 3}
   cost: 2
   visibleCost: 1

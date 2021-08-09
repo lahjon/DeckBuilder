@@ -135,7 +135,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         {
             if (effectsOnDraw[i].Value == 0) continue;
             if (descText.Length != 0) descText.AppendLine();
-            descText.Append("On Draw: " + EffectInfoToString(effectsOnPlay[i]));
+            descText.Append("On Draw: " + EffectInfoToString(effectsOnDraw[i]));
         }
 
         for (int i = 0; i < activitiesOnDraw.Count; i++)

@@ -31,6 +31,7 @@ public class CardCondition : IEvents
 
     public void CheckCondition()
     {
+        Debug.Log("Checking condition type and val:" + conditionStruct.type + "," + conditionStruct.value);
         value = CheckConditionAction(conditionStruct.value);
     }
 
@@ -43,6 +44,7 @@ public class CardCondition : IEvents
                 return;
             case ConditionType.CardsPlayedAbove:
             case ConditionType.CardsPlayedBelow:
+            case ConditionType.LastCardPlayedTurnType:
                 EventManager.OnCardPlayNoArgEvent += CheckCondition;
                 break;
             case ConditionType.KillEnemy:
@@ -60,6 +62,7 @@ public class CardCondition : IEvents
                 return;
             case ConditionType.CardsPlayedAbove:
             case ConditionType.CardsPlayedBelow:
+            case ConditionType.LastCardPlayedTurnType:
                 EventManager.OnCardPlayNoArgEvent -= CheckCondition;
                 break;
             case ConditionType.KillEnemy:

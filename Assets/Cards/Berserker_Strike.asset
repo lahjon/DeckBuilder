@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_Strike
   m_EditorClassIdentifier: 
   cardName: Strike
+  cardType: 0
   artwork: {fileID: 21300000, guid: 8e94f3ac898ab6244af7281d20b52591, type: 3}
   cost: 1
   visibleCost: 1
@@ -40,7 +41,7 @@ MonoBehaviour:
     Times: 1
     Target: 3
     ConditionStruct:
-      type: 4
+      type: 0
       value: 1
   activitiesOnPlay: []
   effectsOnDraw: []

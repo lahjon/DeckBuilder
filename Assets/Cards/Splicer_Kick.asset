@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Splicer_Kick
   m_EditorClassIdentifier: 
   cardName: Kick
+  cardType: 0
   artwork: {fileID: 21300000, guid: 05a50ed78f70f434baec91486c918eae, type: 3}
   cost: 1
   visibleCost: 1

@@ -92,7 +92,6 @@ public class CardCombat : CardVisual, IEvents
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
-        card.animator = card.GetComponent<Animator>();
         return card;
     }
 
@@ -108,7 +107,6 @@ public class CardCombat : CardVisual, IEvents
         card.classType = a.classType;
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.ActiveActor;
-        card.animator = card.GetComponent<Animator>();
         return card;
     }
 

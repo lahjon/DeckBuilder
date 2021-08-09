@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_PeonStrike
   m_EditorClassIdentifier: 
   cardName: PeonStrike
+  cardType: 0
   artwork: {fileID: 21300000, guid: 275db63b1fafb3845a014c00e3d1c0c3, type: 3}
   cost: 1
   visibleCost: 1
