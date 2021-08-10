@@ -9,27 +9,19 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public GameObject scribe, deckManagement, cardUpgrade; // rooms
     public GameObject cardPrefab;
     public List<CardData> startingCardsBerserker = new List<CardData>();
+    public List<CardData> sideBoardCards = new List<CardData>();
     public List<string> unlockedCards = new List<string>();
     public List<string> currentCards = new List<string>();
     public List<string> sideCards = new List<string>();
-    public List<CardDisplay> allCards = new List<CardDisplay>();
+    public List<CardDisplay> allSideCards = new List<CardDisplay>();
+    public List<CardDisplay> allDeckCards = new List<CardDisplay>();
     public Transform deckParent, sideParent;
 
     void Start()
     {
         DatabaseSystem.instance.GetCardsByName(currentCards).ForEach(x => CreateCard(x, true));
         DatabaseSystem.instance.GetCardsByName(sideCards).ForEach(x => CreateCard(x, false));
-
-        // if (currentCards?.Any() == true)
-        // {
-        //     DatabaseSystem.instance.GetCardsByName(currentCards).ForEach(x => CreateCard(x, true));
-        //     DatabaseSystem.instance.GetCardsByName(sideCards).ForEach(x => CreateCard(x, false));
-        // }
-        // else
-        // {
-        //     // if first time starting game
-        //     DatabaseSystem.instance.GetCardsByName(startingCardsBerserker.Select(x => x.name).ToList()).ForEach(x => CreateCard(x, true));
-        // }
+        SortDeck();
     }
 
     public void UnlockCard(CardData data)
@@ -47,8 +39,43 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         display.cardData = data;
         display.BindCardData();
         display.BindCardVisualData();
-        allCards.Add(display);
+        if (inDeck)
+        {
+            allDeckCards.Add(display);
+        }
+        else
+        {
+            allSideCards.Add(display);
+        }
         display.clickCallback = () => MoveCard(display);
+    }
+    void SortDeck()
+    {
+        // sort deck
+        allDeckCards.OrderBy(x => x.name);
+        if (allDeckCards.Count == currentCards.Count)
+        {
+            for (int i = 0; i < currentCards.Count; i++)
+            {
+                if (allDeckCards[i].name == currentCards[i])
+                {
+                    allDeckCards[i].transform.SetSiblingIndex(currentCards.IndexOf(currentCards[i]));
+                }
+            }
+        }
+    
+        // sort side
+        allSideCards.OrderBy(x => x.name);
+        if (allSideCards.Count == currentCards.Count)
+        {
+            for (int i = 0; i < currentCards.Count; i++)
+            {
+                if (allSideCards[i].name == currentCards[i])
+                {
+                    allSideCards[i].transform.SetSiblingIndex(currentCards.IndexOf(currentCards[i]));
+                }
+            }
+        }
     }
 
     public void MoveCard(CardDisplay card)
@@ -68,45 +95,25 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         Debug.Log("To Deck!");
         card.transform.SetParent(deckParent);
         currentCards.Add(card.cardData.name);
+        currentCards.Sort();
+        if (currentCards.FirstOrDefault(x => x == card.cardData.name) is string c) card.transform.SetSiblingIndex(currentCards.IndexOf(c));
+
         sideCards.Remove(card.cardData.name);
     }
     void MoveToSide(CardDisplay card)
     {
         Debug.Log("To Side!");
         card.transform.SetParent(sideParent);
-        Debug.Log(card.name);
-        currentCards.Remove(card.cardData.name);
         sideCards.Add(card.cardData.name);
+        sideCards.Sort();
+        if (sideCards.FirstOrDefault(x => x == card.cardData.name) is string c) card.transform.SetSiblingIndex(sideCards.IndexOf(c));
+
+        currentCards.Remove(card.cardData.name);
     }
 
     void UpdateDeck()
     {
-        // if(allCardsData.Count > allDisplayedCards.Count)
-        // {
-        //     while (allCardsData.Count > allDisplayedCards.Count)
-        //     {
-        //         CardDisplay newCard = Instantiate(cardPrefab,content.gameObject.transform).GetComponent<CardDisplay>();
-        //         newCard.transform.SetParent(content.gameObject.transform);
-        //         newCard.gameObject.SetActive(true);
-        //         allDisplayedCards.Add(newCard);
-        //         newCard.clickCallback = () => DisplayCard(newCard);
-        //     }
-        // }
-        // else if(allCardsData.Count < allDisplayedCards.Count)
-        // {
-        //     while (allCardsData.Count < allDisplayedCards.Count)
-        //     {   
-        //         Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)].gameObject);
-        //         allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
-        //     }
-        // }
 
-        // for (int i = 0; i < allCardsData.Count; i++)
-        // {
-        //     allDisplayedCards[i].cardData = allCardsData[i];
-        //     allDisplayedCards[i].BindCardData();
-        //     allDisplayedCards[i].BindCardVisualData();
-        // }
     }
     public override void CloseBuilding()
     {

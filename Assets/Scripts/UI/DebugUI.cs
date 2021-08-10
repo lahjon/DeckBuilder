@@ -187,6 +187,11 @@ public class DebugUI : MonoBehaviour
         world.rewardManager.GetReward(RewardType.Artifact);
     }
 
+    public void DebugRemoveRandomItem()
+    {
+        world.useItemManager.RemoveItem();
+    }
+
     public void DebugUnlockCardInScribe()
     {
         if ((BuildingScribe)world.townManager.GetBuildingByType(BuildingType.Scribe) is BuildingScribe scribe)

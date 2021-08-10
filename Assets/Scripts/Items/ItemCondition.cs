@@ -25,11 +25,6 @@ public abstract class ItemCondition
         requiredAmount = int.Parse(aValue);
     }
 
-    ~ItemCondition()
-    {
-        Unsubscribe();
-    }
-
     public abstract void Subscribe();
     public abstract void Unsubscribe();
 

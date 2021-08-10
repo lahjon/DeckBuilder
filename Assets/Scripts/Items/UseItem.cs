@@ -50,15 +50,12 @@ public class UseItem : Item, IEvents
         charges = 1;
         Subscribe();
     }
-
-    public void AddItem()
-    {
-        
-    }
-
     public void RemoveItem()
     {
+        WorldSystem.instance.useItemManager.usedItemSlots--;
+        itemCondition.Unsubscribe();
         Unsubscribe();
+        Destroy(gameObject);
     }
 
     public void CheckItemUseCondition(WorldState state)

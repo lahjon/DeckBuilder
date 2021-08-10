@@ -9,7 +9,7 @@ public class BuildingBarracks : Building
     public Image characterArtwork;
     public SelectableCharacter currentSelectedCharacter;
     public Profession currentProfession;
-    public List<UseItemData> selectedItems;
+    public List<UseItem> selectedItems;
     public List<UseItem> useItems = new List<UseItem>();
     public GameObject barracks, characterSelection; // rooms
     List<SelectableCharacter> selectableCharacters = new List<SelectableCharacter>();
@@ -119,7 +119,7 @@ public class BuildingBarracks : Building
         {
             Debug.Log(selectedItems[i]);
             useItems[i].gameObject.SetActive(true);
-            useItems[i].itemData = selectedItems[i];
+            useItems[i] = selectedItems[i];
             useItems[i].BindData();
         }
     }

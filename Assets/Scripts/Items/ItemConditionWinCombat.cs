@@ -18,10 +18,12 @@ public class ItemConditionWinCombat : ItemCondition, IEvents
     public override void Subscribe()
     {
         EventManager.OnWinCombatEvent += WinCombat;
+        Debug.Log("Sub");
     }
 
     public override void Unsubscribe()
     {
         EventManager.OnWinCombatEvent -= WinCombat;
+        Debug.Log("Desub");
     }
 }

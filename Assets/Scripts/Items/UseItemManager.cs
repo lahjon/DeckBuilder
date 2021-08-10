@@ -9,7 +9,7 @@ public class UseItemManager : Manager, ISaveableTemp
     public Canvas canvas;
     public Transform content;
     public List<UseItemData> allItems = new List<UseItemData>(); 
-    public List<UseItemData> equippedItems = new List<UseItemData>(); 
+    public List<UseItem> equippedItems = new List<UseItem>(); 
     public int maxItemSlots;
     public int usedItemSlots;
     protected override void Awake()
@@ -25,10 +25,10 @@ public class UseItemManager : Manager, ISaveableTemp
     public UseItemData GetItemData(string value = "")
     {
         if (!string.IsNullOrEmpty(value))
-            return allItems.Except(equippedItems).FirstOrDefault(x => x.name == value);
+            return allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.name == value);
         else
         {
-            UseItemData[] items = allItems.Except(equippedItems).ToArray();
+            UseItemData[] items = allItems.Except(equippedItems.Select(x => x.itemData)).ToArray();
             if (items.Count() > 0)
                 return items[Random.Range(0, items.Count())];
 
@@ -38,10 +38,20 @@ public class UseItemManager : Manager, ISaveableTemp
 
     public void RemoveItem(UseItem item)
     {
-        if (equippedItems.Contains(item.itemData))
+        if (equippedItems.Contains(item))
         {
-            equippedItems.Remove(item.itemData);
-            Destroy(item);
+            equippedItems.Remove(item);
+            item.RemoveItem();
+        }
+    }
+
+    public void RemoveItem()
+    {
+        UseItem item = equippedItems[Random.Range(0, equippedItems.Count - 1)];
+        if (item != null)
+        {
+            equippedItems.Remove(item);
+            item.RemoveItem();
         }
     }
 
@@ -56,7 +66,7 @@ public class UseItemManager : Manager, ISaveableTemp
         UseItemData data;
 
         if (!string.IsNullOrEmpty(itemName))
-            data = allItems.Except(equippedItems).FirstOrDefault(x => x.name == itemName);
+            data = allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.name == itemName);
         else
             data = GetItemData();
 
@@ -64,15 +74,14 @@ public class UseItemManager : Manager, ISaveableTemp
             return;
 
         usedItemSlots++;
-        equippedItems.Add(data);
         UseItem newItem = Instantiate(itemPrefab, content).GetComponent<UseItem>();
+        equippedItems.Add(newItem);
         newItem.itemData = data;
-        newItem.AddItem();
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.selectedUseItems = equippedItems.Select(x => x.name).ToList();
+        a_SaveData.selectedUseItems = equippedItems.Select(x => x.itemData.name).ToList();
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
