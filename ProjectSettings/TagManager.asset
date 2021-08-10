@@ -103,6 +103,9 @@ TagManager:
   - name: CardDisplay
     uniqueID: 1106051305
     locked: 0
+  - name: CardInspect
+    uniqueID: 3089196295
+    locked: 0
   - name: GridHUD
     uniqueID: 2555414131
     locked: 0

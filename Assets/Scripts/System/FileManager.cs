@@ -30,12 +30,21 @@ public static class FileManager
             result = File.ReadAllText(fullPath);
             return true;
         }
-        catch (Exception e)
+        catch (Exception e1)
         {
-            Debug.Log($"Failed to read from {fullPath} with exception {e}. Writing new file");
+            Debug.Log($"Failed to read from {fullPath} with exception {e1}. Writing new file and trying to reload");
             result = "";
             WriteToFile(a_FileName, result);
-            return false;
+            try
+            {
+                result = File.ReadAllText(fullPath);
+                return true;
+            }
+            catch (Exception e2)
+            {
+                Debug.Log($"Failed to read from {fullPath} with exception {e2}. Cancel operation");
+                return false;
+            }
         }
     }
 

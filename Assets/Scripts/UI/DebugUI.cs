@@ -187,6 +187,14 @@ public class DebugUI : MonoBehaviour
         world.rewardManager.GetReward(RewardType.Artifact);
     }
 
+    public void DebugUnlockCardInScribe()
+    {
+        if ((BuildingScribe)world.townManager.GetBuildingByType(BuildingType.Scribe) is BuildingScribe scribe)
+        {
+            scribe.UnlockCard(DatabaseSystem.instance.GetRandomCard());
+        }
+    }
+
     public void DebugRewardGetCard()
     {
         world.rewardManager.GetReward(RewardType.Card, new string[1]{"name=Berserker_CanonlybeOne"} );

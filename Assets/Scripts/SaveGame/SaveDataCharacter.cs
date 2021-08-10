@@ -7,6 +7,8 @@ public class SaveDataCharacter
 {   
     public int level;
     public Profession profession;
+    public List<string> currentCards;
+    public List<string> sideCards;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);

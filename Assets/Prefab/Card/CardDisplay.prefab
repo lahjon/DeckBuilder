@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5402730520789720186}
   - component: {fileID: 6439972570343669351}
-  - component: {fileID: 7126495680530560642}
   - component: {fileID: 3612975311330287893}
   - component: {fileID: 6057283121657397141}
   - component: {fileID: 7652459339360859076}
@@ -49,32 +48,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130489016394698252}
   m_CullTransparentMesh: 1
---- !u!61 &7126495680530560642
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130489016394698252}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 281.4, y: 390.9}
-  m_EdgeRadius: 0
 --- !u!114 &3612975311330287893
 MonoBehaviour:
   m_ObjectHideFlags: 0

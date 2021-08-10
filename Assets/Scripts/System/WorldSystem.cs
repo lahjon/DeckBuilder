@@ -67,12 +67,10 @@ public class WorldSystem : MonoBehaviour
                 SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableTemp>()));
             }
 
-            int index = (int)characterManager.selectedCharacterClassType;
+            int index = (int)characterManager.selectedCharacterClassType == 0 ? 1 : (int)characterManager.selectedCharacterClassType;
 
-            if (index > 0)
-            {
-                SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);  
-            }
+            SaveDataManager.SaveJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);  
+            
         }
 
         saveAmount++;
@@ -85,11 +83,10 @@ public class WorldSystem : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            int index = (int)characterManager.selectedCharacterClassType;
-            if (index > 0)
-            {
-                SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);
-            }
+            int index = (int)characterManager.selectedCharacterClassType == 0 ? 1 : (int)characterManager.selectedCharacterClassType;
+
+            SaveDataManager.LoadJsonData((Helpers.FindInterfacesOfType<ISaveableCharacter>()), index);
+
         }
 
         loadAmount++;

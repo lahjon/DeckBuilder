@@ -105,6 +105,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         characterVariablesUI.UpdateCharacterHUD();
     }
 
+    public void UnlockCardInDeck()
+    {
+        
+    }
+
     public void Heal(int amount)
     {
         currentHealth += amount;

@@ -195,7 +195,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        //Debug.Log("Click");
+        Debug.Log("Click");
         if (eventData.button == PointerEventData.InputButton.Left)
             OnMouseClick();
         else if (eventData.button == PointerEventData.InputButton.Right)

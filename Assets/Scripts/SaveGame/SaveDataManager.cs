@@ -6,6 +6,25 @@ public static class SaveDataManager
     public static string saveFileName = "progression_data";
     public static string saveFileNameTemp = "run_data";
     public static string saveFileNameStart = "start_data";
+    public static List<string> saveFileCharacters = new List<string>()
+    {
+        "character_1",
+        "character_2",
+        "character_3",
+        "character_4",
+    };
+
+    public static void CreateSaveFiles()
+    {
+        if (true)
+        {
+            
+        }
+        saveFileCharacters.ForEach(x => FileManager.WriteToFile(x, ""));
+        FileManager.WriteToFile(saveFileName, "");
+        FileManager.WriteToFile(saveFileNameTemp, "");
+        FileManager.WriteToFile(saveFileNameStart, "");
+    }
 
 
     public static void SaveJsonData(IEnumerable<ISaveableWorld> a_Saveables)
@@ -73,6 +92,10 @@ public static class SaveDataManager
             }
             
             Debug.Log("Load complete");
+        }
+        else
+        {
+            Debug.Log("failed!");
         }
     }
 

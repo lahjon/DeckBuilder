@@ -38,33 +38,32 @@ public class CardDisplay : CardVisual
     {
         Debug.Log("Clicky");
         base.OnMouseClick();
-        if (clickCallback != null)
-        {
-            //WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
-            clickCallback.Invoke();
-        }
-        else if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
-        {
-            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
-        }
-        else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
-        {
-            bool success = WorldSystem.instance.shopManager.shop.PurchaseCard(this);
+        clickCallback?.Invoke();
 
-            if (success)
-            {
-                WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-            }
-        }
-        else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
-        {
-            WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-            RewardCallback();
-        }
+        // else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
+        // {
+        //     bool success = WorldSystem.instance.shopManager.shop.PurchaseCard(this);
+
+        //     if (success)
+        //     {
+        //         WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
+        //     }
+        // }
+        // else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+        // {
+        //     RewardCallback();
+        // }
+    }
+
+    void ShopCallback()
+    {
+        if (WorldSystem.instance.shopManager.shop.PurchaseCard(this)) WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
     }
 
     void RewardCallback()
     {
+        WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
+
         WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
         if (WorldSystem.instance.rewardManager.draftAmount > 0)
         {
@@ -118,54 +117,54 @@ public class CardDisplay : CardVisual
         }
     }
 
-    public void OnMouseScroll()
-    {
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
-        {
-            float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
-            Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * 7.0f * -1);
-            WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
-        }
-    }
+    // public void OnMouseScroll()
+    // {
+    //     if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
+    //     {
+    //         float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
+    //         Vector2 scrollPos = new Vector2(0, Input.mouseScrollDelta.y * sensitivity * 7.0f * -1);
+    //         WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+    //     }
+    // }
 
     public void AddCardToDeck(CardData cardData, bool callRewardScreen = false)
     {
         
     }
 
-    public void OnMouseBeginDrag()
-    {
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
-        {
-            startDragPos = Input.mousePosition.y;
-            dragging = true;
-        }
-    }
+    // public void OnMouseBeginDrag()
+    // {
+    //     if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
+    //     {
+    //         startDragPos = Input.mousePosition.y;
+    //         dragging = true;
+    //     }
+    // }
 
-    public void OnMouseEndDrag()
-    {
-        if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
-        {
-            dragging = false;
-        }
-    }
-    public void OnMouseDrag()
-    {
-        if(dragging && WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
-        {
-            float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
-            float currentPos = Input.mousePosition.y;
-            float direction;
+    // public void OnMouseEndDrag()
+    // {
+    //     if(WorldStateSystem.instance.currentOverlayState == OverlayState.Display)
+    //     {
+    //         dragging = false;
+    //     }
+    // }
+    // public void OnMouseDrag()
+    // {
+    //     if(dragging && WorldStateSystem.instance.currentOverlayState == OverlayState.Display && WorldSystem.instance.deckDisplayManager.selectedCard == null)
+    //     {
+    //         float sensitivity = WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().scrollSensitivity;
+    //         float currentPos = Input.mousePosition.y;
+    //         float direction;
 
-            if(currentPos > startDragPos)
-                direction = -1;
-            else if(currentPos < startDragPos)
-                direction = 1;
-            else
-                direction = 0;
+    //         if(currentPos > startDragPos)
+    //             direction = -1;
+    //         else if(currentPos < startDragPos)
+    //             direction = 1;
+    //         else
+    //             direction = 0;
 
-            Vector2 scrollPos = new Vector2(0, direction * sensitivity * 5.0f * -1);
-            WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
-        }
-    }
+    //         Vector2 scrollPos = new Vector2(0, direction * sensitivity * 5.0f * -1);
+    //         WorldSystem.instance.deckDisplayManager.content.GetComponent<RectTransform>().anchoredPosition += scrollPos;
+    //     }
+    // }
 }

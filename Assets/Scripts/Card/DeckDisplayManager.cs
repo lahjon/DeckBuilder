@@ -17,7 +17,7 @@ public class DeckDisplayManager : Manager
     public ScrollRect scroller;
     public Vector3 previousPosition;
     public CardDisplay placeholderCard;
-    public GameObject backgroundPanel;
+    public GameObject inspectCard;
     public Transform deckDisplayPos;
     public CardDisplay animatedCard;
     public TMP_Text titleText;
@@ -27,7 +27,7 @@ public class DeckDisplayManager : Manager
         base.Awake(); 
         world.deckDisplayManager = this;
         canvas.gameObject.SetActive(true);
-        backgroundPanel.SetActive(false);
+        inspectCard.SetActive(false);
         deckDisplay.SetActive(false);
     }
 
@@ -44,6 +44,7 @@ public class DeckDisplayManager : Manager
                 newCard.transform.SetParent(content.gameObject.transform);
                 newCard.gameObject.SetActive(true);
                 allDisplayedCards.Add(newCard);
+                newCard.clickCallback = () => DisplayCard(newCard);
             }
         }
         else if(allCardsData.Count < allDisplayedCards.Count)
@@ -73,7 +74,7 @@ public class DeckDisplayManager : Manager
             placeholderCard.cardData = selectedCard.cardData;
             placeholderCard.BindCardData();
             placeholderCard.BindCardVisualData();
-            backgroundPanel.SetActive(true);
+            inspectCard.SetActive(true);
             scroller.enabled = false;
             selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
         }
@@ -84,7 +85,7 @@ public class DeckDisplayManager : Manager
     }
     public void ResetCardPosition()
     {
-        backgroundPanel.SetActive(false);
+        inspectCard.SetActive(false);
         scroller.enabled = true;
         selectedCard.transform.position = previousPosition;
         previousPosition = transform.position;
@@ -108,7 +109,7 @@ public class DeckDisplayManager : Manager
     public void CloseDeckDisplay()
     {
         WorldStateSystem.TriggerClear();
-        backgroundPanel.SetActive(false);
+        inspectCard.SetActive(false);
         deckDisplay.SetActive(false);
         selectedCard = null;
     }
