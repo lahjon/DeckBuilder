@@ -23,7 +23,7 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         TargetTransInfo = (new Vector3(0, 150, 0), Vector3.one, Vector3.zero);
         time = 0;
 
-        card.highlight.SetActive(true);
+        card.cardHighlightType = CardHighlightType.Selected;
         WorldSystem.instance.toolTipManager.canShow = false;
 
         selectionPath = CombatSystem.instance.selectionPath;
@@ -45,7 +45,7 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         card.selected = false;
-        card.highlight.SetActive(false);
+        card.cardHighlightType = CardHighlightType.None;
         WorldSystem.instance.toolTipManager.canShow = true;
         selectionPath.StopFollow();
     }

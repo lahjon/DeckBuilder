@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using DG.Tweening;
 
 
 public class CardCombat : CardVisual, IEvents
@@ -24,7 +25,46 @@ public class CardCombat : CardVisual, IEvents
 
     public BoxCollider2D boxCollider2D;
     public Image image;
+    Tween highlightTween;
 
+    CardHighlightType _cardHighlightType;
+    public CardHighlightType cardHighlightType
+    {
+        get => _cardHighlightType;
+        set
+        {
+            _cardHighlightType = value;
+            highlightTween?.Kill();
+            switch (_cardHighlightType)
+            {
+                case CardHighlightType.Selected:
+
+                    highlightSelected.gameObject.SetActive(true);
+                    highlightSelected.color = Color.cyan;
+                    highlightTween = highlightSelected.DOColor(Color.blue, .2f).SetLoops(-1, LoopType.Yoyo).OnKill(() => {
+                        highlightSelected.gameObject.SetActive(false);
+                        Debug.Log("Kill");
+                    });
+                    break;
+                case CardHighlightType.Playable:
+                    highlightNormal.gameObject.SetActive(true);
+                    highlightNormal.color = Color.cyan;
+                    highlightTween = highlightNormal.DOColor(Color.blue, .5f).SetLoops(-1, LoopType.Yoyo).OnKill(() => {
+                        highlightNormal.gameObject.SetActive(false);
+                    });
+                    break;
+                case CardHighlightType.PlayableSpecial:
+                    hightlightSpecial.gameObject.SetActive(true);
+                    hightlightSpecial.color = Color.red;
+                    highlightTween = hightlightSpecial.DOColor(Color.magenta, .3f).SetLoops(-1, LoopType.Yoyo).OnKill(() => {
+                        hightlightSpecial.gameObject.SetActive(false);
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
 
     public bool MouseReact
@@ -118,6 +158,11 @@ public class CardCombat : CardVisual, IEvents
     public override void OnMouseExit()
     {
         animator.SetBool("MouseIsOver", false);
+    }
+
+    public void Highlight()
+    {
+
     }
 
     public void SelectCard()

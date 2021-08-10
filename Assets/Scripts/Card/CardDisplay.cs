@@ -36,7 +36,6 @@ public class CardDisplay : CardVisual
     }
     public override void OnMouseClick()
     {
-        Debug.Log("Clicky");
         base.OnMouseClick();
         clickCallback?.Invoke();
 

@@ -12,15 +12,16 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 {
     public TMP_Text nameText;
     public TMP_Text descriptionText;
+    public TMP_Text typeText;
     public Image artworkImage;
-    public GameObject highlight;
+    public Image highlightSelected, highlightNormal, hightlightSpecial;
     public Image border;
     public Image rarityBorder;
+    public Image energyColor;
     public RectTransform TooltipAnchor; 
     public List<string> toolTipTextBits = new List<string>();
 
     public TMP_Text costText;
-    public WorldState previousState;
 
     public int displayDamage = -1;
     public int displayBlock = -1;
@@ -55,6 +56,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     {
         nameText.text = cardName;
         artworkImage.sprite = artwork;
+        typeText.text = cardType.ToString();
 
         displayCost = cost;
 
@@ -212,6 +214,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     {
         border.color = Helpers.borderColors[classType];
         rarityBorder.color = Helpers.rarityBorderColors[rarity];
+        energyColor.color = Helpers.borderColors[classType];
     }
 
     public virtual void OnMouseEnter()
@@ -227,7 +230,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Click");
         if (eventData.button == PointerEventData.InputButton.Left)
             OnMouseClick();
         else if (eventData.button == PointerEventData.InputButton.Right)

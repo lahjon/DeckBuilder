@@ -10,7 +10,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
         //Debug.Log("Selected OnStateEnter:" + Time.frameCount);
         SetRefs(animator);
         //Debug.Log("Selected card " + card.name);
-        card.highlight.SetActive(true);
+        card.cardHighlightType = CardHighlightType.Selected;
         WorldSystem.instance.toolTipManager.canShow = false;
     }
 
@@ -26,7 +26,7 @@ public class CardCombatAnimatorSelectedNoTarget : CardCombatAnimator
     {
         card.selected = false;
         animator.SetBool("AllowMouseOver",false);
-        card.highlight.SetActive(false);
+        card.cardHighlightType = CardHighlightType.None;
         WorldSystem.instance.toolTipManager.canShow = true;
     }
 

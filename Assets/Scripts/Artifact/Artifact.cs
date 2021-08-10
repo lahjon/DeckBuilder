@@ -12,6 +12,5 @@ public class Artifact : Item
     }
     public override void OnClick()
     {
-        Debug.Log("Clicky");
     }
 }

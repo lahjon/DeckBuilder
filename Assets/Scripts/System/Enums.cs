@@ -453,6 +453,14 @@ public enum EnemyBehavior
     Sequential
 }
 
+public enum CardHighlightType
+{
+    None,
+    Selected,
+    Playable,
+    PlayableSpecial
+}
+
 public enum CardActivityType
 {
     DrawCard,

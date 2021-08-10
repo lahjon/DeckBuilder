@@ -14,10 +14,6 @@ public class CardActivitySystem : MonoBehaviour
     {
         if (instance != null) Destroy(gameObject);
         else instance = this;
-    }
-
-    public void Start()
-    {
         CardActivity.ActivitySystem = this;
         ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
         ActivityTypeToAction[CardActivityType.AddCardToCombat] = new CardActivityAddCardToCombat();
@@ -26,6 +22,10 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.CombatCostChange] = new CardActivityCombatCostChange();
         ActivityTypeToAction[CardActivityType.SetRandomBroken] = new CardActivitySetRandomBroken();
         ActivityTypeToAction[CardActivityType.Heal] = new CardActivityHeal();
+    }
+
+    public void Start()
+    {
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)
