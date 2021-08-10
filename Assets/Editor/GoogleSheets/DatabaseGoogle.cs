@@ -97,6 +97,7 @@ public class DatabaseGoogle
                 AssetDatabase.CreateAsset(data, CardPath + @"\" + databaseName + ".asset");
             }
 
+            Enum.TryParse((string)gt[i, "CardType"], out data.cardType);
             Enum.TryParse((string)gt[i, "Class"], out data.cardClass);
             Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
 
@@ -155,7 +156,11 @@ public class DatabaseGoogle
             cardEffect.Times = Int32.Parse((string)gt[i, "Times"]);
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
 
-            if(((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
+            cardEffect.ConditionStruct = new ConditionStruct();
+            Enum.TryParse((string)gt[i, "ConditionType"], out cardEffect.ConditionStruct.type);
+            cardEffect.ConditionStruct.value = (string)gt[i, "ConditionValue"];
+
+            if (((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
                 data.effectsOnPlay.Add(cardEffect);
             else
                 data.effectsOnDraw.Add(cardEffect);

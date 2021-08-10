@@ -97,19 +97,27 @@ MonoBehaviour:
   rarity: 0
   cardName: 
   artwork: {fileID: 0}
+  cardType: 0
   cost: 0
   cardData: {fileID: 0}
+  immediate: 0
   exhaust: 0
   Damage:
     Type: 0
     Value: 0
     Times: 0
     Target: 0
+    ConditionStruct:
+      type: 0
+      value: 
   Block:
     Type: 0
     Value: 0
     Times: 0
     Target: 0
+    ConditionStruct:
+      type: 0
+      value: 
   effectsOnPlay: []
   effectsOnDraw: []
   activitiesOnPlay: []
@@ -192,7 +200,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  animator: {fileID: 0}
+  animator: {fileID: 248037277262318977}
   fanDegreeCurrent: 0
   fanDegreeTarget: 0
   boxCollider2D: {fileID: 0}

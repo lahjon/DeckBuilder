@@ -8,6 +8,8 @@ public class CardData : ScriptableObject
 {
     public string cardName;
 
+    public CardType cardType;
+
     public Sprite artwork;
     public int cost;
     public bool visibleCost = true;

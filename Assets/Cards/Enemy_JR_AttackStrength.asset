@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_JR_AttackStrength
   m_EditorClassIdentifier: 
   cardName: JR_AttackStrength
+  cardType: 0
   artwork: {fileID: 21300000, guid: f0f7db97af9e7f345b9fb9ad1e5deff4, type: 3}
   cost: 2
   visibleCost: 1
@@ -23,28 +24,25 @@ MonoBehaviour:
     Value: 4
     Times: 2
     Target: 3
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   Block:
     Type: 2
     Value: 0
     Times: 0
     Target: 0
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   effectsOnPlay:
   - Type: 9
     Value: 2
     Times: 1
     Target: 0
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 0
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []

@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: b60e1a4b38bc03b4c9a3e1cae99a0e2b
+<<<<<<< HEAD:Assets/AddressableAssetsData/AssetGroupTemplates/Packed Assets.asset.meta
+guid: f81509807c06a0248b99048cdbb44879
+=======
+guid: 882037be39b1ae1469392e795eb4f7e3
+>>>>>>> sync conditions on effects from google:Assets/Cards/Berserker_CanonlybeOne.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

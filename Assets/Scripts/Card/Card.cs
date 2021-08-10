@@ -11,6 +11,8 @@ public class Card : MonoBehaviour
     public string cardName;
     public Sprite artwork;
 
+    public CardType cardType;
+
     public int cost;
     public CardData cardData;
 
@@ -35,9 +37,12 @@ public class Card : MonoBehaviour
     public bool unplayable;
     public bool unstable;
 
+    public Dictionary<CardEffectInfo, CardCondition> EffectToCondition = new Dictionary<CardEffectInfo, CardCondition>();
+
     public void BindCardData()
     {
         name            = cardData.cardName;
+        cardType        = cardData.cardType;
         rarity          = cardData.rarity;
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
@@ -55,11 +60,14 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
         unplayable      = cardData.unplayable;
         unstable        = cardData.unstable;
+
+        effectsOnPlay.ForEach(e => EffectToCondition[e] = new CardCondition(e.ConditionStruct));
     }
 
     public void Mimic(Card card)
     {
         name = card.cardName;
+        cardType = card.cardType;
         rarity = card.rarity;
         cardName = card.cardName;
         artwork = card.artwork;
@@ -77,6 +85,8 @@ public class Card : MonoBehaviour
         visibleCost = card.visibleCost;
         unplayable = card.unplayable;
         unstable = card.unstable;
+
+        //effectsOnPlay.ForEach(e => EffectToCondition[e] = new CardCondition(e.ConditionStruct));
     }
 
     [HideInInspector]
@@ -148,6 +158,7 @@ public class Card : MonoBehaviour
         HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
 
         Target.classType = a.classType;
+        Target.cardType = (CardType)Mathf.Min((int)a.cardType, (int)b.cardType);
         Target.rarity = a.rarity;
 
         Target.artwork = a.artwork;

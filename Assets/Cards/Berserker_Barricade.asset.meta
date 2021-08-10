@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 6761378189e88dc44982bb66d4aeb37c
+<<<<<<< HEAD:Assets/Achivements/Achivement_001.asset.meta
+guid: 04058f5b18706c644ad754b1871c6a11
+=======
+guid: bbf3b796ba6ed1a4ea11ca974e95a439
+>>>>>>> sync conditions on effects from google:Assets/Cards/Berserker_Barricade.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

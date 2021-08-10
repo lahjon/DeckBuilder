@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_PeonDefendAttack
   m_EditorClassIdentifier: 
   cardName: PeonDefendAttack
+  cardType: 0
   artwork: {fileID: 21300000, guid: 6a56c769e715e9f40b8fce0ad55713dd, type: 3}
   cost: 1
   visibleCost: 1
@@ -23,19 +24,17 @@ MonoBehaviour:
     Value: 4
     Times: 1
     Target: 3
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   Block:
     Type: 2
     Value: 4
     Times: 1
     Target: 0
-    cardCondition:
-      conditionStruct:
-        type: 0
-        value: 
+    ConditionStruct:
+      type: 0
+      value: 
   effectsOnPlay: []
   activitiesOnPlay: []
   effectsOnDraw: []

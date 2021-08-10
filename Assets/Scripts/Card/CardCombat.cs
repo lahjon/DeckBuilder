@@ -24,7 +24,8 @@ public class CardCombat : CardVisual, IEvents
 
     public BoxCollider2D boxCollider2D;
     public Image image;
-    
+
+
 
     public bool MouseReact
     {
@@ -91,8 +92,6 @@ public class CardCombat : CardVisual, IEvents
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
-        card.animator = card.GetComponent<Animator>();
-
         return card;
     }
 
@@ -108,7 +107,6 @@ public class CardCombat : CardVisual, IEvents
         card.classType = a.classType;
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.ActiveActor;
-        card.animator = card.GetComponent<Animator>();
         return card;
     }
 
@@ -174,13 +172,13 @@ public class CardCombat : CardVisual, IEvents
 
     public void Unsubscribe()
     {
-        foreach (IEvents e in effectsOnPlay.Where(x=> x.cardCondition.conditionStruct.type != ConditionType.None).Select(x => x.cardCondition))
+        foreach (IEvents e in EffectToCondition.Values)
             e.Unsubscribe();
     }
 
     public void Subscribe()
     {
-        foreach (IEvents e in effectsOnPlay.Where(x => x.cardCondition.conditionStruct.type != ConditionType.None).Select(x => x.cardCondition))
+        foreach (IEvents e in EffectToCondition.Values)
             e.Subscribe();
     }
 }
