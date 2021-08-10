@@ -46,31 +46,34 @@ public class BuildingBarracks : Building
         WorldSystem.instance.characterManager.SetupCharacterData(true);
         currentProfession = WorldSystem.instance.characterManager.character.profession;
 
-        // TODO: uncomment when we have professions integrated in DB
-
-        // if (currentProfession == Profession.Base)
-        // {
-        //     switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
-        //     {
-        //         case CharacterClassType.Berserker:
-        //             currentProfession = Profession.Berserker1;
-        //             break;
-        //         case CharacterClassType.Rogue:
-        //             currentProfession = Profession.Rogue1;
-        //             break;
-        //         case CharacterClassType.Splicer:
-        //             currentProfession = Profession.Splicer1;
-        //             break;
-        //         case CharacterClassType.Beastmaster:
-        //             currentProfession = Profession.Beastmaster1;
-        //             break;
+        if (currentProfession == Profession.Base)
+        {
+            switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
+            {
+                case CharacterClassType.Berserker:
+                    currentProfession = Profession.Berserker1;
+                    break;
+                case CharacterClassType.Rogue:
+                    currentProfession = Profession.Rogue1;
+                    break;
+                case CharacterClassType.Splicer:
+                    currentProfession = Profession.Splicer1;
+                    break;
+                case CharacterClassType.Beastmaster:
+                    currentProfession = Profession.Beastmaster1;
+                    break;
                 
-        //         default:
-        //             break;
-        //     }
+                default:
+                    break;
+            }
             
-        //     WorldSystem.instance.characterManager.character.profession = currentProfession;
-        // }
+            WorldSystem.instance.characterManager.character.profession = currentProfession;
+        }
+
+        if ((BuildingScribe)WorldSystem.instance.townManager.GetBuildingByType(BuildingType.Scribe) is BuildingScribe scribe)
+        {
+            scribe.UpdateScribe();
+        }
 
         Debug.Log("Update selected character");
     }

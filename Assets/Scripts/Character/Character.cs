@@ -31,7 +31,32 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
         level = a_SaveData.level;
-        profession = a_SaveData.profession;
+        
+        if (a_SaveData.profession != Profession.Base)
+        {
+            profession = a_SaveData.profession;
+        }
+        else
+        {
+            switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
+            {
+                case CharacterClassType.Berserker:
+                    profession = Profession.Berserker1;
+                    break;
+                case CharacterClassType.Rogue:
+                    profession = Profession.Rogue1;
+                    break;
+                case CharacterClassType.Splicer:
+                    profession = Profession.Splicer1;
+                    break;
+                case CharacterClassType.Beastmaster:
+                    profession = Profession.Beastmaster1;
+                    break;
+                
+                default:
+                    break;
+            }
+        }
     }
     public void PopulateSaveDataCharacter(SaveDataCharacter a_SaveData)
     {

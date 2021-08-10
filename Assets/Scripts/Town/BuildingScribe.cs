@@ -8,8 +8,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 {
     public GameObject scribe, deckManagement, cardUpgrade; // rooms
     public GameObject cardPrefab;
-    public List<CardData> startingCardsBerserker = new List<CardData>();
-    public List<CardData> sideBoardCards = new List<CardData>();
     public List<string> unlockedCards = new List<string>();
     public List<string> currentCards = new List<string>();
     public List<string> sideCards = new List<string>();
@@ -19,9 +17,20 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void Start()
     {
+        UpdateDeck();
+    }
+
+    void UpdateDeck()
+    {
         DatabaseSystem.instance.GetCardsByName(currentCards).ForEach(x => CreateCard(x, true));
         DatabaseSystem.instance.GetCardsByName(sideCards).ForEach(x => CreateCard(x, false));
         SortDeck();
+        WorldSystem.instance.characterManager.playerCardsData = DatabaseSystem.instance.GetStartingDeck(true).Concat(allDeckCards.Select(x => x.cardData)).ToList();
+    }
+
+    public List<CardData> GetStartDeck()
+    {
+        return DatabaseSystem.instance.GetStartingDeck(true).Concat(DatabaseSystem.instance.GetStartingDeck(false)).ToList();
     }
 
     public void UnlockCard(CardData data)
@@ -31,10 +40,14 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         CreateCard(data, false);
     }
 
-    void CreateCard(CardData data, bool inDeck)
+    void CreateCard(CardData data, bool inDeck, CardDisplay aDisplay = null)
     {
         Transform parent = inDeck ? deckParent : sideParent;
-        CardDisplay display = Instantiate(cardPrefab, parent).GetComponent<CardDisplay>();
+        CardDisplay display;
+        if (aDisplay == null) 
+            display = Instantiate(cardPrefab, parent).GetComponent<CardDisplay>();
+        else 
+            display = aDisplay;
         display.name = data.name;
         display.cardData = data;
         display.BindCardData();
@@ -95,9 +108,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         Debug.Log("To Deck!");
         card.transform.SetParent(deckParent);
         currentCards.Add(card.cardData.name);
+        allDeckCards.Add(card);
         currentCards.Sort();
         if (currentCards.FirstOrDefault(x => x == card.cardData.name) is string c) card.transform.SetSiblingIndex(currentCards.IndexOf(c));
 
+        allSideCards.Remove(card);
         sideCards.Remove(card.cardData.name);
     }
     void MoveToSide(CardDisplay card)
@@ -105,18 +120,35 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         Debug.Log("To Side!");
         card.transform.SetParent(sideParent);
         sideCards.Add(card.cardData.name);
+        allSideCards.Add(card);
         sideCards.Sort();
         if (sideCards.FirstOrDefault(x => x == card.cardData.name) is string c) card.transform.SetSiblingIndex(sideCards.IndexOf(c));
 
+        allDeckCards.Remove(card);
         currentCards.Remove(card.cardData.name);
     }
 
-    void UpdateDeck()
+    public void UpdateScribe()
     {
+        SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
+        var allCards = allSideCards.Concat(allDeckCards).ToList();
+        while (allCards.Count > 0)
+        {
+            Destroy(allCards[allCards.Count - 1].gameObject);
+            allCards.RemoveAt(allCards.Count - 1);
+        }
+        allSideCards.Clear();
+        allDeckCards.Clear();
+        UpdateDeck();
+    }
 
+    void ConfirmDeck()
+    {
+        WorldSystem.instance.characterManager.playerCardsData = DatabaseSystem.instance.GetStartingDeck(true).Concat(allDeckCards.Select(x => x.cardData)).ToList();
     }
     public override void CloseBuilding()
     {
+        ConfirmDeck();
         base.CloseBuilding();
     }
     public override void EnterBuilding()
@@ -126,7 +158,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     public void ButtonEnterDeckManagement()
     {
-        UpdateDeck();
         StepInto(deckManagement);
     }
     public void ButtonEnterCardUpgrade()
@@ -142,6 +173,9 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
+        Debug.Log("VAD I HELVETE");
+        Debug.Log("VAD I HELVETE");
+        Debug.Log("VAD I HELVETE");
         if (a_SaveData.currentCards?.Any() == true)
         {
             currentCards = a_SaveData.currentCards;
@@ -149,7 +183,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
         else
         {
-            currentCards = startingCardsBerserker.Select(x => x.name).ToList();
+            currentCards = DatabaseSystem.instance.GetStartingDeck(false).Select(x => x.name).ToList();
             Debug.Log("False: " + currentCards.Count);
         }
         sideCards = a_SaveData.sideCards?.Any() == true ? a_SaveData.sideCards : new List<string>();

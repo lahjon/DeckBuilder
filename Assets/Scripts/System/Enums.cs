@@ -123,8 +123,6 @@ public enum ConditionType
     LastCardPlayedTurnType
 }
 
-
-
 public enum Rarity
 {
     None = 0,
@@ -177,12 +175,12 @@ public enum GridState
 
 public enum CardType
 {
-    Attack,
-    Disorder,
-    Order,
-    Oath,
-    Burden,
-    Torment
+    Attack, // deal damage
+    Disorder, // do negative effect
+    Order, // do positive effect, best judgement
+    Oath, // do permanent effect, best judgement
+    Burden, // classless, only exists in combat
+    Torment // classless, permanent bad card
 }
 
 public enum CardTargetType

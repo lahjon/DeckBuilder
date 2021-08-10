@@ -9208,13 +9208,6 @@ MonoBehaviour:
   deckManagement: {fileID: 692563483}
   cardUpgrade: {fileID: 419186843}
   cardPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
-  startingCardsBerserker:
-  - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
-  - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
-  - {fileID: 11400000, guid: 04058f5b18706c644ad754b1871c6a11, type: 2}
-  - {fileID: 11400000, guid: 3f7f246cff2d4474b80fe1e765a1582b, type: 2}
-  - {fileID: 11400000, guid: 6b1a523fd2529ad48bf1552bc71e2a28, type: 2}
-  sideBoardCards: []
   unlockedCards: []
   currentCards: []
   sideCards: []
@@ -24852,31 +24845,64 @@ MonoBehaviour:
     startingCards:
     - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
     - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
-    - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
-    - {fileID: 11400000, guid: ceb8b4a1933ca4045888a5f1644d43ce, type: 2}
     - {fileID: 11400000, guid: ceb8b4a1933ca4045888a5f1644d43ce, type: 2}
     - {fileID: 11400000, guid: ceb8b4a1933ca4045888a5f1644d43ce, type: 2}
   - name: Berserker, Berserker1
     characterClass: 1
     profession: 11
     startingCards:
+    - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
     - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
-    - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
-    - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
+    - {fileID: 11400000, guid: 3f7f246cff2d4474b80fe1e765a1582b, type: 2}
+    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
+  - name: Berserker, Berserker2
+    characterClass: 1
+    profession: 12
+    startingCards:
+    - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
+    - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
+    - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
+    - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
+  - name: Berserker, Berserker3
+    characterClass: 1
+    profession: 13
+    startingCards:
+    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
+    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
+    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
+    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
   - name: Splicer, Base
     characterClass: 3
     profession: 0
     startingCards:
     - {fileID: 11400000, guid: 493759162ad8eb041885518c94087a0e, type: 2}
     - {fileID: 11400000, guid: 493759162ad8eb041885518c94087a0e, type: 2}
-    - {fileID: 11400000, guid: 493759162ad8eb041885518c94087a0e, type: 2}
-    - {fileID: 11400000, guid: 493759162ad8eb041885518c94087a0e, type: 2}
     - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
     - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
-    - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
-    - {fileID: 11400000, guid: f35720bc5a24d9f4f9ce80c37c68892d, type: 2}
+  - name: Splicer, Splicer1
+    characterClass: 3
+    profession: 31
+    startingCards:
+    - {fileID: 11400000, guid: 74454d2c79577d3429dcd0a8effdf840, type: 2}
     - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
-    - {fileID: 11400000, guid: 24525302aa4cd1449989ea32b8438ce4, type: 2}
+    - {fileID: 11400000, guid: abf6324121e6a684fbd69370c7475c65, type: 2}
+    - {fileID: 11400000, guid: 149f32ec0b35a0c4987250591d702000, type: 2}
+  - name: Splicer, Splicer2
+    characterClass: 3
+    profession: 32
+    startingCards:
+    - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
+    - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
+    - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
+    - {fileID: 11400000, guid: 1f6e3177d903a734486815577d457adf, type: 2}
+  - name: Splicer, Splicer3
+    characterClass: 3
+    profession: 33
+    startingCards:
+    - {fileID: 11400000, guid: abf6324121e6a684fbd69370c7475c65, type: 2}
+    - {fileID: 11400000, guid: abf6324121e6a684fbd69370c7475c65, type: 2}
+    - {fileID: 11400000, guid: abf6324121e6a684fbd69370c7475c65, type: 2}
+    - {fileID: 11400000, guid: abf6324121e6a684fbd69370c7475c65, type: 2}
   cards:
   - {fileID: 11400000, guid: 04058f5b18706c644ad754b1871c6a11, type: 2}
   - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}

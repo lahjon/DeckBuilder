@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Manager : MonoBehaviour
 {
-    protected WorldSystem world;
+    protected static WorldSystem world;
     protected virtual void Awake()
     {
         world = WorldSystem.instance;

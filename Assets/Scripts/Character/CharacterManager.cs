@@ -37,12 +37,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         base.Start(); 
         characterStats = character.GetComponent<CharacterStats>();
 
-        if (selectedCharacterClassType == CharacterClassType.None)
-        {
-            selectedCharacterClassType = CharacterClassType.Berserker;
-            //character.profession = Profession.Berserker1;
-        }
-
         SetupCharacterData();
 
         if (currentHealth <= 0)
@@ -55,8 +49,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         {
             unlockedCharacters = allCharacterData.Where(x => x.unlocked == true).Select(x => x.classType).ToList();
         }
-
-        // NOTE: uncomment when professions are in DB
 
         if (unlockedProfessions.Count == 0)
         {
@@ -127,15 +119,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         character.SetCharacterData((int)selectedCharacterClassType);
         character.name = character.characterData.classType.ToString();
 
-        if (playerCardsData == null || playerCardsData.Count == 0) 
-            playerCardsData.AddRange(DatabaseSystem.instance.GetStartingDeck(selectedCharacterClassType, character.profession));
+        if (fromTown) currentHealth = characterStats.GetStat(StatType.Health);
 
-        if (fromTown)
-        {
-            playerCardsData.Clear();
-            playerCardsData.AddRange(DatabaseSystem.instance.GetStartingDeck(selectedCharacterClassType, character.profession));
-            currentHealth = characterStats.GetStat(StatType.Health);
-        }
         characterVariablesUI.UpdateCharacterHUD();
     }
 
@@ -191,12 +176,13 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        if (a_SaveData.playerCardsDataNames != null && a_SaveData.playerCardsDataNames.Count > 0 && SceneManager.GetActiveScene().buildIndex != 0)
+        if (a_SaveData.playerCardsDataNames?.Any() == true)
             playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
-
 
         if (a_SaveData.selectedCharacterClassType != CharacterClassType.None)
             selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
+        else
+            selectedCharacterClassType = CharacterClassType.Berserker;
 
         _gold = a_SaveData.gold;
 
