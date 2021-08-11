@@ -105,7 +105,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void MoveToDeck(CardDisplay card)
     {
-        Debug.Log("To Deck!");
         card.transform.SetParent(deckParent);
         currentCards.Add(card.cardData.name);
         allDeckCards.Add(card);
@@ -117,7 +116,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     void MoveToSide(CardDisplay card)
     {
-        Debug.Log("To Side!");
         card.transform.SetParent(sideParent);
         sideCards.Add(card.cardData.name);
         allSideCards.Add(card);
@@ -173,18 +171,13 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
-        Debug.Log("VAD I HELVETE");
-        Debug.Log("VAD I HELVETE");
-        Debug.Log("VAD I HELVETE");
         if (a_SaveData.currentCards?.Any() == true)
         {
             currentCards = a_SaveData.currentCards;
-            Debug.Log("True: " + currentCards.Count);
         }
         else
         {
             currentCards = DatabaseSystem.instance.GetStartingDeck(false).Select(x => x.name).ToList();
-            Debug.Log("False: " + currentCards.Count);
         }
         sideCards = a_SaveData.sideCards?.Any() == true ? a_SaveData.sideCards : new List<string>();
     }

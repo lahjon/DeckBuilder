@@ -15,10 +15,10 @@ using DG.Tweening;
 public static class Helpers
 {
     public static Dictionary<CardClassType,Color> borderColors = new Dictionary<CardClassType, Color>{
-        {CardClassType.Berserker,               Color.red }, 
-        {CardClassType.Rogue,               Color.blue }, 
-        {CardClassType.Splicer,             Color.green }, 
-        {CardClassType.Beastmaster,         Color.magenta }, 
+        {CardClassType.Berserker,           new Color(.57f, .13f, .13f, 1f) }, 
+        {CardClassType.Rogue,               new Color(.32f, .63f, .41f, 1f) }, 
+        {CardClassType.Splicer,             new Color(.25f, .52f, .95f, 1f) }, 
+        {CardClassType.Beastmaster,         new Color(.95f, .80f, .24f, 1f) }, 
         {CardClassType.Colorless,           Color.white }, 
         {CardClassType.Enemy,               Color.white }, 
         {CardClassType.Burden,              Color.white }, 
@@ -26,11 +26,11 @@ public static class Helpers
      }; 
 
      public static Dictionary<Rarity,Color> rarityBorderColors = new Dictionary<Rarity, Color>{
-        {Rarity.None,       Color.white }, 
-        {Rarity.Starting,   Color.white }, 
-        {Rarity.Common,     Color.white }, 
-        {Rarity.Uncommon,   Color.green },
-        {Rarity.Rare,       Color.magenta }
+        {Rarity.None,       Color.gray }, 
+        {Rarity.Starting,   Color.gray }, 
+        {Rarity.Common,     Color.gray }, 
+        {Rarity.Uncommon,   new Color(.1f, .6f, .1f, 1f) },
+        {Rarity.Rare,       new Color(.67f, .16f, .55f, 1f) }
      }; 
 
     public static Color attackColor = new Color(190,83,83);

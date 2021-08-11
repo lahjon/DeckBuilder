@@ -129,7 +129,8 @@ public enum Rarity
     Starting = 1,
     Common= 11,
     Uncommon = 12,
-    Rare = 13
+    Rare = 13,
+    Epic = 14
 };
 
 public enum ZoomState
