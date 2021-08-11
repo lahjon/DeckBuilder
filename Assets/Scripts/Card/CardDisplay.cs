@@ -38,20 +38,6 @@ public class CardDisplay : CardVisual
     {
         base.OnMouseClick();
         clickCallback?.Invoke();
-
-        // else if (WorldStateSystem.instance.currentWorldState == WorldState.Shop)
-        // {
-        //     bool success = WorldSystem.instance.shopManager.shop.PurchaseCard(this);
-
-        //     if (success)
-        //     {
-        //         WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
-        //     }
-        // }
-        // else if (WorldStateSystem.instance.currentWorldState == WorldState.Reward)
-        // {
-        //     RewardCallback();
-        // }
     }
 
     void ShopCallback()
@@ -59,7 +45,7 @@ public class CardDisplay : CardVisual
         if (WorldSystem.instance.shopManager.shop.PurchaseCard(this)) WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
     }
 
-    void RewardCallback()
+    public void RewardCallback()
     {
         WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
 
@@ -81,12 +67,12 @@ public class CardDisplay : CardVisual
         Vector3 posEnd = WorldSystem.instance.deckDisplayManager.deckDisplayPos.position;
         Vector3 posStart = transform.position;
 
-        GameObject animateCard = WorldSystem.instance.deckDisplayManager.animatedCard.gameObject;
-        animateCard.SetActive(true);
+        CardDisplay animateCard = WorldSystem.instance.deckDisplayManager.animatedCard.GetComponent<CardDisplay>();
+        animateCard.gameObject.SetActive(true);
 
-        animateCard.GetComponent<CardDisplay>().cardData = cardData;
-        animateCard.GetComponent<CardDisplay>().BindCardData();
-        animateCard.GetComponent<CardDisplay>().BindCardVisualData();
+        animateCard.cardData = cardData;
+        animateCard.BindCardData();
+        animateCard.BindCardVisualData();
 
         Vector3 newScale = new Vector3(1.1f, 1.1f, 1.1f);
 
@@ -104,16 +90,15 @@ public class CardDisplay : CardVisual
             }
             yield return null;
         }  
-        animateCard.SetActive(false);
-        //Callback();
+        animateCard.gameObject.SetActive(false);
     }
 
     public override void OnMouseRightClick(bool allowDisplay = true)
     {
-        if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState == WorldState.Reward)
-        {
-            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
-        }
+        // if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState == WorldState.Reward)
+        // {
+        WorldSystem.instance.deckDisplayManager.DisplayCard(this);
+        // }
     }
 
     // public void OnMouseScroll()

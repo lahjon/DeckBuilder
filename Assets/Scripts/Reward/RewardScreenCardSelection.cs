@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RewardScreenCardSelection : MonoBehaviour
 {
-    private List<GameObject> cards = new List<GameObject>();
+    private List<CardDisplay> cards = new List<CardDisplay>();
     public GameObject canvas;
     public Transform background;
 
@@ -15,7 +15,7 @@ public class RewardScreenCardSelection : MonoBehaviour
 
         foreach (Transform card in WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform)
         {
-            cards.Add(card.gameObject);
+            cards.Add(card.GetComponent<CardDisplay>());
         }
 
         int maxCardReward;
@@ -24,16 +24,18 @@ public class RewardScreenCardSelection : MonoBehaviour
         else
             maxCardReward = WorldSystem.instance.characterManager.maxCardReward;
 
+        Debug.Log(cards.Count);
+        Debug.Log(maxCardReward);
         if(cards.Count < maxCardReward)
         {
-            GameObject newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreenCombat.cardDisplayPrefab, WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform);
+            CardDisplay newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreenCombat.cardDisplayPrefab, WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform).GetComponent<CardDisplay>();
             cards.Add(newCard);
         }
         else if (cards.Count > maxCardReward)
         {
             while (cards.Count > maxCardReward)
             {
-                Destroy(cards[cards.Count - 1]);
+                Destroy(cards[cards.Count - 1].gameObject);
                 cards.RemoveAt(cards.Count - 1);
             }
         }
@@ -50,22 +52,30 @@ public class RewardScreenCardSelection : MonoBehaviour
     }
     private void SetRandomCards()
     {
-        foreach (GameObject card in cards)
+        foreach (CardDisplay card in cards)
         {
-            card.GetComponent<CardDisplay>().cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType);
-            card.GetComponent<CardDisplay>().BindCardData();
-            card.GetComponent<CardDisplay>().BindCardVisualData();
-            card.SetActive(true);
+            card.cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType);
+            card.BindCardData();
+            card.BindCardVisualData();
+            card.gameObject.SetActive(true);
+            card.clickCallback = () => {
+                card.RewardCallback();
+            };
         }
     }
     private void SetSpecificCard(List<CardData> rCards)
     {
         for (int i = 0; i < cards.Count; i++)
         {
-            cards[i].GetComponent<CardDisplay>().cardData = rCards[i];
-            cards[i].GetComponent<CardDisplay>().BindCardData();
-            cards[i].GetComponent<CardDisplay>().BindCardVisualData();
-            cards[i].gameObject.SetActive(true);
+            CardDisplay card = cards[i];
+            card.cardData = rCards[i];
+            card.BindCardData();
+            card.BindCardVisualData();
+            card.gameObject.SetActive(true);
+
+            card.clickCallback = () => {
+                card.RewardCallback();
+            };
         }
     }
     

@@ -18,6 +18,14 @@ public class ShopOverworld : MonoBehaviour
             cardsPrices[cardsInStock.IndexOf(card)].text = cardsInStock[cardsInStock.IndexOf(card)].cardData.goldValue.ToString() + " g";
             card.BindCardData();
             card.BindCardVisualData();
+
+            card.clickCallback = () => {
+                if (WorldSystem.instance.shopManager.shop.PurchaseCard(card))
+                {
+                    WorldSystem.instance.deckDisplayManager.StartCoroutine(card.AnimateCardToDeck());
+                }
+            };
+
         }
     }
 
