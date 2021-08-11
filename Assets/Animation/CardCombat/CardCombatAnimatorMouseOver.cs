@@ -20,8 +20,6 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
         StartTransInfo = (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
 
         time = 0;
-        if(card.isPlayable())
-            card.cardHighlightType = CardHighlightType.Selected;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -40,7 +38,6 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
     {
         //Debug.Log("MouseOver StateExit: Sending Refresh idle trigger" + Time.frameCount);
         CombatSystem.instance.ResetSiblingIndexes();
-        card.EvaluateHighlightNotSelected();
     }
 
 }
