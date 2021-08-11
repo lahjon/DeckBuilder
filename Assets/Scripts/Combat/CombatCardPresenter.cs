@@ -29,7 +29,7 @@ public class CombatCardPresenter : MonoBehaviour
 
         List<(CardCombat card, CardLocation targetLocale)> cardsToHand = cardsLocale.Where(x => x.targetLocale == CardLocation.Hand).ToList();
         
-        if(cardsToHand.Count > 0)
+        if(cardsToHand.Any())
         {
             cardsToHand.ForEach(c => {
                 CombatSystem.instance.Hand.Add(c.card);

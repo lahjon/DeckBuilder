@@ -146,7 +146,7 @@ public class DebugManager : MonoBehaviour
     {
         if(showConsole && value.performed)
         {
-            if (found != null && found.Count > 0)
+            if (found != null && found.Any())
             {
                 string[] output = found[0].Split(' ');
                 input = output[0];
@@ -232,7 +232,7 @@ public class DebugManager : MonoBehaviour
         {
             found = words.Keys.ToList().FindAll( w => w.StartsWith(input) );
         }
-        if (found.Count > 0)
+        if (found.Any())
         {
             y += 40;
             GUI.Box(new Rect(0, y, Screen.width, 100), "");

@@ -58,7 +58,7 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public string GetRandomActiveArtifact()
     {
-        if (allActiveArtifactsNames.Count > 0)
+        if (allActiveArtifactsNames.Any())
         {
             int range = Random.Range(0, allActiveArtifactsNames.Count);
             return allActiveArtifactsNames[range];

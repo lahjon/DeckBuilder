@@ -290,7 +290,7 @@ public class EncounterManager : Manager
     {
         int gCount = 0;
         List<List<Encounter>> graphs = new List<List<Encounter>>();
-        while(nodes.Count > 0)
+        while(nodes.Any())
         {
             Encounter cEntry = nodes[0];
             nodes.RemoveAt(0);

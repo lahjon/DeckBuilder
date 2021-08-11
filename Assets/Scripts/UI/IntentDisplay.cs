@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class IntentDisplay : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class IntentDisplay : MonoBehaviour
         {
             attackSprite.SetActive(true);
             lblIntent.text = displayDamage.ToString() + (card.Damage.Times != 1 ? "x" + card.Damage.Times.ToString() : "");
-            if (card.effectsOnPlay.Count <= 0)
+            if (!card.effectsOnPlay.Any())
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[0];
                 attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to attack!");
@@ -36,7 +37,7 @@ public class IntentDisplay : MonoBehaviour
                 attackSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to attack and use an unknown effect!");
             }
         }
-        else if(card.effectsOnPlay.Count > 0 || card.activitiesOnPlay.Count > 0)
+        else if(card.effectsOnPlay.Any()|| card.activitiesOnPlay.Any())
         {
             otherSprite.gameObject.SetActive(true);
             otherSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to use an unknown effect!");

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RewardScreenCardSelection : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class RewardScreenCardSelection : MonoBehaviour
         }
 
         int maxCardReward;
-        if(rewardCards != null && rewardCards.Count > 0)
+        if(rewardCards != null && rewardCards.Any())
             maxCardReward = rewardCards.Count;
         else
             maxCardReward = WorldSystem.instance.characterManager.maxCardReward;
@@ -41,7 +42,7 @@ public class RewardScreenCardSelection : MonoBehaviour
         }
 
         WorldSystem.instance.rewardManager.rewardScreenCombat.canvasCard.SetActive(true);
-        if(rewardCards != null && rewardCards.Count > 0)
+        if(rewardCards != null && rewardCards.Any())
         {
             SetSpecificCard(rewardCards);
         }

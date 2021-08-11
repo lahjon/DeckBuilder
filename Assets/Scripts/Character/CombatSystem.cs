@@ -264,7 +264,7 @@ public class CombatSystem : MonoBehaviour
 
     public void CleanUp()
     {
-        while (EnemiesInScene.Count > 0)
+        while (EnemiesInScene.Any())
         {
             KillEnemy(EnemiesInScene[0]);
         }
@@ -546,7 +546,7 @@ public class CombatSystem : MonoBehaviour
 
     public IEnumerator DiscardAllCards()
     {
-        while (Hand.Count > 0)
+        while (Hand.Any())
         {
             yield return StartCoroutine(DiscardCard(Hand[Hand.Count - 1]));
         }

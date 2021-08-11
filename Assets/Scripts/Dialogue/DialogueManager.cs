@@ -80,7 +80,7 @@ public class DialogueManager : Manager, ISaveableWorld
     public void StartDialogue()
     {
         
-        if (dialogueData != null && dialogueData.sentences.Count > 0 && !activeDialogue)
+        if (dialogueData != null && dialogueData.sentences.Any() && !activeDialogue)
         {
             if (!string.IsNullOrEmpty(dialogueData.startEvent))
                 WorldSystem.instance.gameEventManager.StartEvent(dialogueData.startEvent);

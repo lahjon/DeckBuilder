@@ -618,7 +618,7 @@ public class GridManager : Manager
                 result.Add(tile);
             }
         }
-        if (result.Count > 0)
+        if (result.Any())
         {
             return GetTile(result[Random.Range(0, result.Count)]);
         }

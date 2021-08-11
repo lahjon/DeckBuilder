@@ -34,7 +34,7 @@ public class ObjectiveManager : Manager, ISaveableWorld
     void RegisterObjectives()
     {
         List<ObjectiveData> allObjs = objectiveDatas.Where(x => startingObjectives.Union(currentObjectives).Except(clearedObjectives).Contains(x.id)).ToList();
-        if (allObjs != null && allObjs.Count > 0)
+        if (allObjs != null && allObjs.Any())
             allObjs.ForEach(x => StartObjective(x));
     }
 
