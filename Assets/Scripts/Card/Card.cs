@@ -39,6 +39,9 @@ public class Card : MonoBehaviour
 
     public Dictionary<CardEffectInfo, CardCondition> EffectToCondition = new Dictionary<CardEffectInfo, CardCondition>();
 
+    public List<CardCondition> effectActivityConditions = new List<CardCondition>();
+    public bool hasSpecialConditions { get => effectActivityConditions.Any(); }
+
     public void BindCardData()
     {
         name            = cardData.cardName;
@@ -61,7 +64,11 @@ public class Card : MonoBehaviour
         unplayable      = cardData.unplayable;
         unstable        = cardData.unstable;
 
-        effectsOnPlay.ForEach(e => EffectToCondition[e] = new CardCondition(e.ConditionStruct));
+        effectsOnPlay.ForEach(e => {
+            CardCondition cardCondition = new CardCondition(this, e.ConditionStruct);
+            EffectToCondition[e] = cardCondition;
+            if(e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+        });
     }
 
     public void Mimic(Card card)

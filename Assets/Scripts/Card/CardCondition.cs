@@ -14,13 +14,17 @@ public class CardCondition : IEvents
 
     public Func<string, bool> CheckConditionAction;
 
-    public CardCondition(ConditionStruct conditionStruct)
+    public CardCombat card;
+
+    public CardCondition(Card card, ConditionStruct conditionStruct)
     {
         this.conditionStruct = conditionStruct;
         if (conditionStruct.type != ConditionType.None)
             CheckConditionAction = ConditionSystem.GetConditionChecker(conditionStruct.type);
         else
             value = true;
+
+        if (card is CardCombat cc) this.card = cc;
     }
 
     public CardCondition()
@@ -31,8 +35,11 @@ public class CardCondition : IEvents
 
     public void CheckCondition()
     {
-        Debug.Log("Checking condition type and val:" + conditionStruct.type + "," + conditionStruct.value);
-        value = CheckConditionAction(conditionStruct.value);
+        bool newVal = CheckConditionAction(conditionStruct.value);
+        if (newVal != value) {
+            value = newVal;
+            if(card != null) card.EvaluateHighlightNotSelected();
+        }
     }
 
     public void Subscribe()
@@ -42,8 +49,8 @@ public class CardCondition : IEvents
         {
             case ConditionType.None:
                 return;
-            case ConditionType.CardsPlayedAbove:
-            case ConditionType.CardsPlayedBelow:
+            case ConditionType.CardsPlayedAtLeast:
+            case ConditionType.CardsPlayedAtMost:
             case ConditionType.LastCardPlayedTurnType:
                 EventManager.OnCardPlayNoArgEvent += CheckCondition;
                 break;
@@ -60,8 +67,8 @@ public class CardCondition : IEvents
         {
             case ConditionType.None:
                 return;
-            case ConditionType.CardsPlayedAbove:
-            case ConditionType.CardsPlayedBelow:
+            case ConditionType.CardsPlayedAtLeast:
+            case ConditionType.CardsPlayedAtMost:
             case ConditionType.LastCardPlayedTurnType:
                 EventManager.OnCardPlayNoArgEvent -= CheckCondition;
                 break;

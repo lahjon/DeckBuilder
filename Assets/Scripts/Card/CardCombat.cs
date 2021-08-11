@@ -27,43 +27,42 @@ public class CardCombat : CardVisual, IEvents
     public Image image;
     Tween highlightTween;
 
+    public CardCondition playCondition = new CardCondition();
+
     CardHighlightType _cardHighlightType;
     public CardHighlightType cardHighlightType
     {
         get => _cardHighlightType;
         set
         {
+            if (value == _cardHighlightType) return;
             _cardHighlightType = value;
             highlightTween?.Kill();
             switch (_cardHighlightType)
             {
                 case CardHighlightType.Selected:
-
-                    highlightSelected.gameObject.SetActive(true);
-                    highlightSelected.color = Color.cyan;
-                    highlightTween = highlightSelected.DOColor(Color.blue, .2f).SetLoops(-1, LoopType.Yoyo).OnKill(() => {
-                        highlightSelected.gameObject.SetActive(false);
-                        Debug.Log("Kill");
-                    });
+                    StartHighlightAnimation(highlightSelected, Color.cyan, Color.blue, 0.2f);
                     break;
                 case CardHighlightType.Playable:
-                    highlightNormal.gameObject.SetActive(true);
-                    highlightNormal.color = Color.cyan;
-                    highlightTween = highlightNormal.DOColor(Color.blue, .5f).SetLoops(-1, LoopType.Yoyo).OnKill(() => {
-                        highlightNormal.gameObject.SetActive(false);
-                    });
+                    StartHighlightAnimation(highlightNormal, Color.cyan, Color.blue, 0.5f);
                     break;
                 case CardHighlightType.PlayableSpecial:
-                    hightlightSpecial.gameObject.SetActive(true);
-                    hightlightSpecial.color = Color.red;
-                    highlightTween = hightlightSpecial.DOColor(Color.magenta, .3f).SetLoops(-1, LoopType.Yoyo).OnKill(() => {
-                        hightlightSpecial.gameObject.SetActive(false);
-                    });
+                    StartHighlightAnimation(highlightNormal, Color.red, Color.grey, 0.4f);
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
+    {
+        highlight.gameObject.SetActive(true);
+        highlight.color = color1;
+        highlightTween = highlight.DOColor(color2, speed).SetLoops(-1, LoopType.Yoyo).OnKill(() =>
+        {
+            highlight.gameObject.SetActive(false);
+        });
     }
 
 
@@ -92,6 +91,11 @@ public class CardCombat : CardVisual, IEvents
             if(_selected == true)
             {
                 transform.SetAsLastSibling();
+                cardHighlightType = CardHighlightType.Selected;
+            }
+            else
+            {
+                EvaluateHighlightNotSelected();
             }
             animator.SetBool("Selected", value);          
         }
@@ -107,6 +111,32 @@ public class CardCombat : CardVisual, IEvents
         {
             _selectable = value;
             animator.SetBool("Selectable", value);
+            EvaluateHighlightNotSelected();
+        }
+    }
+
+    public bool isPlayable()
+    {
+        return playCondition.value && CombatSystem.instance.cEnergy >= displayCost;
+    }
+
+    public void EvaluateHighlightNotSelected()
+    {
+        if (selected) return; 
+
+        if (!selectable)
+            cardHighlightType = CardHighlightType.None;
+        else
+        {
+            if (isPlayable())
+            {
+                if(!hasSpecialConditions || effectActivityConditions.Any(x => !x.value))
+                    cardHighlightType = CardHighlightType.Playable;
+                else
+                    cardHighlightType = CardHighlightType.PlayableSpecial;
+            }
+            else
+                cardHighlightType = CardHighlightType.None;
         }
     }
 
@@ -132,6 +162,7 @@ public class CardCombat : CardVisual, IEvents
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
+        if (card.unplayable) card.playCondition = new CardCondition() { value = false };
         return card;
     }
 
@@ -158,11 +189,6 @@ public class CardCombat : CardVisual, IEvents
     public override void OnMouseExit()
     {
         animator.SetBool("MouseIsOver", false);
-    }
-
-    public void Highlight()
-    {
-
     }
 
     public void SelectCard()
@@ -219,11 +245,18 @@ public class CardCombat : CardVisual, IEvents
     {
         foreach (IEvents e in EffectToCondition.Values)
             e.Unsubscribe();
+
+        playCondition.Unsubscribe();
+        EventManager.OnEnergyChangedEvent -= EvaluateHighlightNotSelected;
     }
 
     public void Subscribe()
     {
         foreach (IEvents e in EffectToCondition.Values)
             e.Subscribe();
+
+        playCondition.Subscribe();
+
+        EventManager.OnEnergyChangedEvent += EvaluateHighlightNotSelected;
     }
 }

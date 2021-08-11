@@ -21,6 +21,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public RectTransform TooltipAnchor; 
     public List<string> toolTipTextBits = new List<string>();
 
+    public GameObject energyObjects;
+
     public TMP_Text costText;
 
     public int displayDamage = -1;
@@ -37,10 +39,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         set
         {
             _displayCost = value;
-            if (visibleCost)
-                costText.text = ValueColorWrapper(cost, _displayCost, true);
-            else
-                costText.gameObject.SetActive(false);
+            costText.text = ValueColorWrapper(cost, _displayCost, true);
         }
     }
 
@@ -60,6 +59,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
         displayCost = cost;
 
+        energyObjects.SetActive(visibleCost);
+
         SetBorderColor();
         ResetDamageBlockCalc();
         RefreshDescriptionText();
@@ -73,10 +74,11 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         artworkImage.sprite = card.artwork;
 
         displayCost = card.displayCost;
+        energyObjects.SetActive(card.visibleCost);
 
         SetBorderColor();
         ResetDamageBlockCalc();
-        RefreshDescriptionText();
+        RefreshDescriptionText(true);
     }
 
     public void ResetDamageBlockCalc()
@@ -86,9 +88,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         displayBlock = Block.Value;
     }
 
-    public void RefreshDescriptionText()
+    public void RefreshDescriptionText(bool forceRebuild = false)
     {
-        if (derivedText.Equals("")) DeriveDescriptionText();
+        if (derivedText.Equals("") || forceRebuild) DeriveDescriptionText();
         StringBuilder descText;
         displayText = derivedText;
 

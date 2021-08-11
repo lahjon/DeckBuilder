@@ -37,6 +37,11 @@ public class EventManager : Manager
     public delegate void CardPlayEvent(Card card);
     public static event CardPlayEvent OnCardPlayEvent;
 
+    public delegate void EnergyChangedEvent();
+    public static event EnergyChangedEvent OnEnergyChangedEvent;
+
+
+
     public static void EnterBuilding(BuildingType building)
     {
         if(OnEnterBuildingEvent != null)
@@ -92,6 +97,11 @@ public class EventManager : Manager
     {
         OnCardPlayEvent?.Invoke(card);
         OnCardPlayNoArgEvent?.Invoke();
+    }
+
+    public static void EnergyChanged()
+    {
+        OnEnergyChangedEvent?.Invoke();
     }
 }
 

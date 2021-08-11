@@ -28,6 +28,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
             (CombatSystem.instance.cEnergy < cardWaiting.card.displayCost))
         {
             CombatSystem.instance.Hand.Add(cardWaiting.card);
+            cardWaiting.card.selectable = true;
             CombatSystem.instance.RefreshHandPositions();
             cardWaiting.card.animator.SetTrigger("Unplayable");
         }

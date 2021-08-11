@@ -59,7 +59,15 @@ public class CombatSystem : MonoBehaviour
     [HideInInspector] public int cEnergy
     {
         get { return backingEnergy; }
-        set { backingEnergy = value; lblEnergy.text = backingEnergy.ToString(); }
+        set {
+            bool energyChanged = false;
+            if (backingEnergy != value)
+                energyChanged = true;
+            backingEnergy = value; 
+            lblEnergy.text = backingEnergy.ToString(); 
+            if(energyChanged)
+                EventManager.EnergyChanged();
+        }
     }
     private CombatActorEnemy _activeEnemy;
 

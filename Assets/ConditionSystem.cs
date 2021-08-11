@@ -26,10 +26,10 @@ public class ConditionSystem : MonoBehaviour
     {
         switch (conditionStruct.type)
         {
-            case ConditionType.CardsPlayedAbove:
-                return CheckCardsPlayedAbove(conditionStruct.value);
-            case ConditionType.CardsPlayedBelow:
-                return CheckCardsPlayedBelow(conditionStruct.value);
+            case ConditionType.CardsPlayedAtLeast:
+                return CheckCardsPlayeAtLeast(conditionStruct.value);
+            case ConditionType.CardsPlayedAtMost:
+                return CheckCardsPlayedAtMost(conditionStruct.value);
             case ConditionType.LastCardPlayedTurnType:
                 return CheckLastTypePlayedThisTurn(conditionStruct.value);
             default:
@@ -41,10 +41,10 @@ public class ConditionSystem : MonoBehaviour
     {
         switch (type)
         {
-            case ConditionType.CardsPlayedAbove:
-                return CheckCardsPlayedAbove;
-            case ConditionType.CardsPlayedBelow:
-                return CheckCardsPlayedBelow;
+            case ConditionType.CardsPlayedAtLeast:
+                return CheckCardsPlayeAtLeast;
+            case ConditionType.CardsPlayedAtMost:
+                return CheckCardsPlayedAtMost;
             case ConditionType.LastCardPlayedTurnType:
                 return CheckLastTypePlayedThisTurn;
             default:
@@ -52,14 +52,14 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
-    public static bool CheckCardsPlayedAbove(string nrLimit)
+    public static bool CheckCardsPlayeAtLeast(string nrLimit)
     {
-        return CombatSystem.instance.cardsPlayedThisTurn.Count > int.Parse(nrLimit);
+        return CombatSystem.instance.cardsPlayedThisTurn.Count >= int.Parse(nrLimit);
     }
 
-    public static bool CheckCardsPlayedBelow(string nrLimit)
+    public static bool CheckCardsPlayedAtMost(string nrLimit)
     {
-        return CombatSystem.instance.cardsPlayedThisTurn.Count < int.Parse(nrLimit);
+        return CombatSystem.instance.cardsPlayedThisTurn.Count <= int.Parse(nrLimit);
     }
 
     public static bool CheckLastTypePlayedThisTurn(string TypeName)

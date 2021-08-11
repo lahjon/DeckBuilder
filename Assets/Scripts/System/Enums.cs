@@ -118,8 +118,8 @@ public enum ConditionType
     KillEnemy,
     ClearTile,
     WinCombat,
-    CardsPlayedAbove,
-    CardsPlayedBelow,
+    CardsPlayedAtLeast,
+    CardsPlayedAtMost,
     LastCardPlayedTurnType
 }
 
