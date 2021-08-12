@@ -12,8 +12,7 @@ public class StateEvent : WorldStateAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
-        WorldStateSystem.SetInEvent(false);
+        WorldSystem.instance.uiManager.encounterUI.CloseEncounter(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

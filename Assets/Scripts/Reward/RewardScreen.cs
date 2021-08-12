@@ -13,11 +13,10 @@ public class RewardScreen : MonoBehaviour
     public CardDisplay[] displayCards;
     public GameObject cardPanel;
 
-    public void GetReward(RewardType rewardType, string[] value = null)
+    public void GetReward(RewardType rewardType, string[] value = null, bool fromEvent = false)
     {
         content.GetComponent<Button>().onClick.RemoveAllListeners();
         // make sure to delay all onClick to make sure player dont double click and remove reward screen instantly
-
         switch (rewardType)
         {
             case RewardType.Card:
@@ -42,10 +41,12 @@ public class RewardScreen : MonoBehaviour
                         cardDisplay.gameObject.SetActive(true);
 
                         Helpers.DelayForSeconds(.3f, () => {
+                            Debug.Log("1");
                             cardDisplay.clickCallback = () => {
                                 WorldSystem.instance.characterManager.AddCardDataToDeck(cardDisplay.cardData);
                                 WorldSystem.instance.deckDisplayManager.StartCoroutine(cardDisplay.AnimateCardToDeck());
                                 cardPanel.SetActive(false);
+                                WorldStateSystem.SetInEvent(false);
                                 WorldSystem.instance.rewardManager.ClearRewardScreen();
                             };
                         });
@@ -61,17 +62,17 @@ public class RewardScreen : MonoBehaviour
                 reward.transform.localScale = Vector3.one * 2;
                 reward.GetComponent<Button>().onClick.RemoveAllListeners();
 
+                void RewardCallback()
+                {
+                    reward.CollectCombatReward();
+                    reward.GetComponent<ToolTipScanner>().ExitAction();
+                    WorldStateSystem.SetInEvent(false);
+                    WorldSystem.instance.rewardManager.ClearRewardScreen();
+                }
+
                 Helpers.DelayForSeconds(.3f, () => {
-                    reward.GetComponent<Button>().onClick.AddListener(() => {
-                        reward.CollectCombatReward();
-                        reward.GetComponent<ToolTipScanner>().ExitAction();
-                        WorldSystem.instance.rewardManager.ClearRewardScreen();
-                    });
-                    content.GetComponent<Button>().onClick.AddListener(() => {
-                        reward.CollectCombatReward();
-                        reward.GetComponent<ToolTipScanner>().ExitAction();
-                        WorldSystem.instance.rewardManager.ClearRewardScreen();
-                    });
+                    reward.GetComponent<Button>().onClick.AddListener(() => RewardCallback());
+                    content.GetComponent<Button>().onClick.AddListener(() => RewardCallback());
                 });
                 
                 WorldStateSystem.SetInRewardScreen();

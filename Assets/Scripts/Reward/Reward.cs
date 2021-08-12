@@ -95,7 +95,7 @@ public class Reward : MonoBehaviour, IToolTipable
 
         if (itemData == null)
         {
-            Debug.Log("No artifact found!");
+            Debug.LogWarning("No artifact found!");
             return;
         }
 
@@ -111,7 +111,7 @@ public class Reward : MonoBehaviour, IToolTipable
 
         if (itemData == null)
         {
-            Debug.Log("No artifact found!");
+            Debug.LogWarning("No artifact found!");
             return;
         }
 
@@ -123,7 +123,7 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     public void RewardHeal(string[] value)
     {
-        callback = () => Debug.Log("No Reward Implemented!");
+        callback = () => Debug.LogError("No Reward Implemented!");
     }
     public void RewardCard(string[] value)
     {

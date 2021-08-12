@@ -40,9 +40,10 @@ public class EncounterUI : MonoBehaviour
     public void ChooseOption(int index)
     {
         if (transition) return;
+        List<bool> rewards = new List<bool>();
 
         foreach(EncounterEventEffectStruct effectStruct in encounterData.choices[index - 1].effects)
-            ExecuteEffect(effectStruct);
+            rewards.Add(ExecuteEffect(effectStruct));
 
         switch (encounterData.choices[index - 1].outcome)
         {
@@ -52,13 +53,15 @@ public class EncounterUI : MonoBehaviour
                 return;
             case EncounterEventChoiceOutcome.Combat:
                 CombatSystem.instance.encounterData = (EncounterDataCombat)encounterData.choices[index - 1].newEncounter;
-                WorldStateSystem.SetInCombat(true);
+                
+                WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
                 break;
             default:
-                WorldStateSystem.SetInEvent(false);
+                if (!rewards.Any(x => x)) WorldStateSystem.SetInEvent(false);
+                WorldSystem.instance.uiManager.encounterUI.CloseEncounter(false);
+                
                 break;
         }
-        CloseEncounter();
     }
 
     IEnumerator FadeToNextEvent()
@@ -82,14 +85,16 @@ public class EncounterUI : MonoBehaviour
         }
         transition = false;
     }
-    public void CloseEncounter()
+    public void CloseEncounter(bool exit = true)
     {
+        if (exit) WorldStateSystem.SetInEvent(false);
         canvas.SetActive(false);
     }
 
-    public void ExecuteEffect(EncounterEventEffectStruct effectStruct)
+    public bool ExecuteEffect(EncounterEventEffectStruct effectStruct)
     {
         int x;
+        bool inReward = false;
         switch (effectStruct.effect){
             case EncounterEventChoiceEffect.LifeCurrent:
                 x = int.Parse(effectStruct.parameter);
@@ -101,26 +106,19 @@ public class EncounterUI : MonoBehaviour
                 WorldSystem.instance.characterManager.characterStats.ModifyHealth(x);
                 break;
             case EncounterEventChoiceEffect.Artifact:
-                // ArtifactManager artifactManager = WorldSystem.instance.artifactManager;
-                // artifactManager.AddArtifact(artifactManager.GetRandomAvailableArtifact()?.name);
-                WorldSystem.instance.rewardManager.GetReward(RewardType.Artifact);
+                WorldSystem.instance.rewardManager.GetReward(RewardType.Artifact, null, true);
+                inReward = true;
                 break;
             case EncounterEventChoiceEffect.GetCards:
                 CardClassType cardClassType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
-                WorldSystem.instance.rewardManager.GetReward(RewardType.Card, new string[1]{effectStruct.parameter});
-                // if(effectStruct.parameter.Equals(""))
-                //     WorldSystem.instance.characterManager.AddCardDataToDeck(DatabaseSystem.instance.GetRandomCard(cardClassType));
-                // else
-                // {
-                //     string[] names = effectStruct.parameter.Split(';');
-                //     List<CardData> cardDatas = DatabaseSystem.instance.GetCardsByName(new List<string>(names));
-                //     cardDatas.ForEach(c => WorldSystem.instance.characterManager.AddCardDataToDeck(c));
-                // }
+                WorldSystem.instance.rewardManager.GetReward(RewardType.Card, new string[1]{effectStruct.parameter}, true);
+                inReward = true;
                 break;
             case EncounterEventChoiceEffect.Gold:
                 x = int.Parse(effectStruct.parameter);
                 WorldSystem.instance.characterManager.gold += x;
                 break;
         }
+        return inReward;
     }
 }

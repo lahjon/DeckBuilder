@@ -287,7 +287,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
-        activitiesOnPlay.ForEach(x => Debug.Log(x));
+        //activitiesOnPlay.ForEach(x => Debug.Log(x));
         return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(TooltipAnchor.position));
     }
 

@@ -49,9 +49,9 @@ public class RewardManager : Manager, IEvents
         }
     }
 
-    public void GetReward(RewardType type, string[] value = null)
+    public void GetReward(RewardType type, string[] value = null, bool fromEvent = false)
     {
-        rewardScreen.GetReward(type, value);
+        rewardScreen.GetReward(type, value, fromEvent);
     }
 
     public void OpenRewardScreen()

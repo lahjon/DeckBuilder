@@ -44,10 +44,12 @@ public class RewardScreenCardSelection : MonoBehaviour
         WorldSystem.instance.rewardManager.rewardScreenCombat.canvasCard.SetActive(true);
         if(rewardCards != null && rewardCards.Any())
         {
+            Debug.Log("Yes");
             SetSpecificCard(rewardCards);
         }
         else
         {
+            Debug.Log("No");
             SetRandomCards();   
         }
     }
@@ -73,7 +75,7 @@ public class RewardScreenCardSelection : MonoBehaviour
             card.BindCardData();
             card.BindCardVisualData();
             card.gameObject.SetActive(true);
-
+            Debug.Log("Get");
             card.clickCallback = () => {
                 card.RewardCallback();
             };
