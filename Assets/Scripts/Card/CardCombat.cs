@@ -215,6 +215,7 @@ public class CardCombat : CardVisual, IEvents
 
     public override void OnMouseClick()
     {
+        Debug.Log("MouseClickedCard. Firing OnMouseClick for card " + name);
         base.OnMouseClick();
         if(CombatSystem.instance.ActiveCard == this)
             CombatSystem.instance.SelectedCardTriggered();

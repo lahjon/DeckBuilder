@@ -129,6 +129,7 @@ MonoBehaviour:
   visibleCost: 1
   unplayable: 0
   unstable: 0
+  effectActivityConditions: []
   nameText: {fileID: 669835656910243549}
   descriptionText: {fileID: 6805669008975766311}
   typeText: {fileID: 6687956497259364566}
@@ -214,6 +215,7 @@ MonoBehaviour:
       type: 0
       value: 
     value: 1
+    card: {fileID: 0}
 --- !u!114 &1252811712759400481
 MonoBehaviour:
   m_ObjectHideFlags: 0

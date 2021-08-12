@@ -486,5 +486,4 @@ public enum Profession
     Beastmaster1 = 41,
     Beastmaster2 = 42,
     Beastmaster3 = 43,
-    
 }

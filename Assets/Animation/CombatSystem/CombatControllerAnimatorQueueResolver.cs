@@ -9,18 +9,17 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        cardWaiting = CombatSystem.instance.CardQueue.Dequeue();
-        Debug.Log("Starting processing of card" + cardWaiting.card.cardName);
-        if(CombatSystem.instance.acceptProcess) CheckCardProcess(animator);
+        
     }
-
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (CombatSystem.instance.acceptProcess)  CheckCardProcess(animator);
+        if (CombatSystem.instance.acceptProcess) CheckCardProcess(animator);
     }
 
     public void CheckCardProcess(Animator animator)
     {
+        cardWaiting = CombatSystem.instance.CardQueue.Dequeue();
+        Debug.Log("Starting processing of card" + cardWaiting.card.cardName);
         animator.SetBool("CardsQueued", CombatSystem.instance.CardQueue.Count != 0);
         if (
             (cardWaiting.card.targetRequired && !CombatSystem.instance.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
