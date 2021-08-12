@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class LevelLoader : MonoBehaviour
 
     public CharacterClassType selectedCharacterClassType;
     List<string> selectedTokens = new List<string>();
+    public Slider slider;
+    Tween tween;
     
     void Awake()
     {
@@ -44,10 +47,6 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNewLevel(int index = 1)
     {
-        // save start data to bring to overworld
-        selectedCharacterClassType = world.characterManager.selectedCharacterClassType;
-        selectedTokens = world.tokenManager.selectedTokens;
-
         StartCoroutine(LoadLevel(0.2f, index));
     }
 
@@ -80,10 +79,16 @@ public class LevelLoader : MonoBehaviour
     IEnumerator LoadNewScene(int sceneNumber) 
     {
         AsyncOperation async = SceneManager.LoadSceneAsync(sceneNumber);
+        //tween = loadingCircle.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + 180), 2f, RotateMode.FastBeyond360).SetLoops(-1);;
+
+        slider.value = 0;
 
         while (!async.isDone) {
+            slider.value = async.progress;
             yield return 0;
         }  
+
+        //tween?.Kill();
         if (sceneNumber == 1)
         {
             WorldStateSystem.SetInTown(true);
