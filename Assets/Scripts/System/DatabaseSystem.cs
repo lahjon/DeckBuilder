@@ -106,7 +106,6 @@ public class DatabaseSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log("WHY???? " +  WorldSystem.instance.characterManager.character.profession);
             return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.character.profession).SelectMany(x => x.startingCards).ToList();
         }
     }

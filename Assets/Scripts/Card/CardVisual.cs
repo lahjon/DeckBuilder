@@ -79,6 +79,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         SetBorderColor();
         ResetDamageBlockCalc();
         RefreshDescriptionText(true);
+        SetToolTips();
     }
 
     public void ResetDamageBlockCalc()

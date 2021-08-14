@@ -10,6 +10,7 @@ public class SelectionPath : MonoBehaviour
     public GameObject pathIconEnd;
     List<GameObject> pathIcons = new List<GameObject>();
     public bool enableDebug;
+    public CardCombat card;
 
     void Start()
     {
@@ -27,21 +28,28 @@ public class SelectionPath : MonoBehaviour
                 Gizmos.DrawSphere(gizmosPosition, 0.1f);
             }
 
-            Gizmos.DrawLine(new Vector3(controlPoints[0].position.x, controlPoints[0].position.y, controlPoints[0].position.z), new Vector3(controlPoints[1].position.x, controlPoints[1].position.y, controlPoints[1].position.z));
-            Gizmos.DrawLine(new Vector3(controlPoints[2].position.x, controlPoints[2].position.y, controlPoints[2].position.z), new Vector3(controlPoints[3].position.x, controlPoints[3].position.y, controlPoints[3].position.z));
+            Gizmos.DrawLine(
+                new Vector3(controlPoints[0].position.x, controlPoints[0].position.y, controlPoints[0].position.z), 
+                new Vector3(controlPoints[1].position.x, controlPoints[1].position.y, controlPoints[1].position.z));
+            Gizmos.DrawLine(
+                new Vector3(controlPoints[2].position.x, controlPoints[2].position.y, controlPoints[2].position.z), 
+                new Vector3(controlPoints[3].position.x, controlPoints[3].position.y, controlPoints[3].position.z));
         }
     }
 
-    public void StartFollow()
+    public void StartFollow(CardCombat card)
     {
+        this.card = card;
         foreach (GameObject obj in pathIcons)
         {
             obj.SetActive(true);
         }
     }
 
-    public void StopFollow()
+    public void StopFollow(CardCombat card = null)
     {
+        if (card != null && this.card != card) return; 
+
         foreach (GameObject obj in pathIcons)
         {
             obj.SetActive(false);
@@ -52,6 +60,7 @@ public class SelectionPath : MonoBehaviour
     {
         Vector3 targetPos = WorldSystem.instance.cameraManager.combatCamera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
         int counter = 0;
+        controlPoints[0].position = card.transform.position;
         controlPoints[3].position = targetPos;
         for(float t = 0; t <= 1; t += 0.05f)
         {

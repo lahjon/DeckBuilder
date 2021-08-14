@@ -7,13 +7,14 @@ using System.Linq;
 public class EncounterUI : MonoBehaviour
 {
     public TMP_Text encounterTitle;
-    public TMP_Text encounterDescription;
     public GameObject canvas;
     public CanvasGroup background;
-    public GameObject[] choices;
     public EncounterDataRandomEvent encounterData;
     public EncounterDataRandomEvent newEncounterData;
+    public List<EncounterEventReferences> references = new List<EncounterEventReferences>();
+
     private bool transition = false;
+
 
     public void StartEncounter()
     {
@@ -24,16 +25,24 @@ public class EncounterUI : MonoBehaviour
     public void BindEncounterData()
     {
         encounterTitle.text = encounterData.encounterName;
-        encounterDescription.text = encounterData.description;
 
-        foreach (GameObject go in choices)
+        references.ForEach(r => r.gameObject.SetActive(false));
+
+        EncounterEventReferences reference = references.Where(r => r.layoutType == encounterData.layoutType).First();
+        reference.gameObject.SetActive(true);
+        reference.encounterDescription.text = encounterData.description;
+
+        foreach (GameObject go in reference.choices)
             go.SetActive(false);
 
         for (int i = 0; i < encounterData.choices.Count; i++)
         {
-            choices[i].SetActive(true);
-            choices[i].transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choices[i].label;
+            reference.choices[i].SetActive(true);
+            reference.choices[i].transform.GetChild(0).GetComponent<TMP_Text>().text = encounterData.choices[i].label;
         }
+
+        if(encounterData.art != null)
+            reference.image.sprite = encounterData.art;
     }
 
     //Button option clicked

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encounterName: Colosseum
   tier: 0
+  layoutType: 1
   FindInRandom: 1
   description: "-You there! \nA man in armour shouts outside of a colosseum. \n-You
     are <i>invited</i> to participate in our Arena.\n\nIt doesn't really feel voluntary."
@@ -33,3 +34,4 @@ MonoBehaviour:
     outcome: 0
     newEncounter: {fileID: 0}
     effects: []
+  art: {fileID: 21300000, guid: b5a600c4774767d4db61ec5c87e97578, type: 3}

@@ -487,3 +487,9 @@ public enum Profession
     Beastmaster2 = 42,
     Beastmaster3 = 43,
 }
+
+public enum EncounterEventLayoutType
+{
+    NoImage,
+    ImageRight
+}

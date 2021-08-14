@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEncounterRandomEvent", menuName = "CardGame/EncounterDataRandomEvent")]
 public class EncounterDataRandomEvent : EncounterData
 {
+    public EncounterEventLayoutType layoutType = EncounterEventLayoutType.NoImage;
     public bool FindInRandom = true;  
 
     [TextArea(5, 5)]
@@ -15,4 +16,6 @@ public class EncounterDataRandomEvent : EncounterData
 
     [HideInInspector]
     public EncounterEventChoice chosenOption;
+
+    public Sprite art;
 }

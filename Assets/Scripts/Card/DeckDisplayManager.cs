@@ -71,9 +71,7 @@ public class DeckDisplayManager : Manager
             aCard.OnMouseExit();
             previousPosition = aCard.transform.position;
             selectedCard = aCard;
-            placeholderCard.cardData = selectedCard.cardData;
-            placeholderCard.BindCardData();
-            placeholderCard.BindCardVisualData();
+            placeholderCard.Mimic(aCard);
             inspectCard.SetActive(true);
             scroller.enabled = false;
             selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);

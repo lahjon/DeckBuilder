@@ -21,21 +21,18 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
         cardWaiting = CombatSystem.instance.CardQueue.Dequeue();
         Debug.Log("Starting processing of card" + cardWaiting.card.cardName);
         animator.SetBool("CardsQueued", CombatSystem.instance.CardQueue.Count != 0);
-        if (
-            (cardWaiting.card.targetRequired && !CombatSystem.instance.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
-            ||
-            (CombatSystem.instance.cEnergy < cardWaiting.card.displayCost))
+        if (cardWaiting.card.targetRequired && !CombatSystem.instance.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
         {
             CombatSystem.instance.Hand.Add(cardWaiting.card);
             cardWaiting.card.selectable = true;
             CombatSystem.instance.RefreshHandPositions();
+            CombatSystem.instance.cEnergy += cardWaiting.card.displayCost;
             cardWaiting.card.animator.SetTrigger("Unplayable");
         }
         else
         {
             CombatSystem.instance.InProcessCard = cardWaiting.card;
             CombatSystem.instance.InProcessTarget = cardWaiting.suppliedTarget;
-            CombatSystem.instance.cEnergy -= cardWaiting.card.displayCost;
             cardWaiting.card.animator.SetTrigger("CanPlay");
             animator.SetTrigger("CardCanProcess");
         }

@@ -26,7 +26,8 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         WorldSystem.instance.toolTipManager.canShow = false;
 
         selectionPath = CombatSystem.instance.selectionPath;
-        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => selectionPath.StartFollow());
+        //DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => selectionPath.StartFollow());
+        selectionPath.StartFollow(card);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -45,6 +46,6 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
     {
         card.selected = false;
         WorldSystem.instance.toolTipManager.canShow = true;
-        selectionPath.StopFollow();
+        selectionPath.StopFollow(card);
     }
 }
