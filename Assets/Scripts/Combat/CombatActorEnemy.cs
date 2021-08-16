@@ -60,7 +60,7 @@ public class CombatActorEnemy : CombatActor
 
         foreach(CardData cardData in enemyData.deck)
         {
-            GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
+            GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0));
             cardObject.transform.SetParent(gameObject.transform);
             Card card = cardObject.GetComponent<Card>();
             card.owner = this; 

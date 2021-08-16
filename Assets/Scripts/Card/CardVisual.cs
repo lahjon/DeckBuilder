@@ -84,7 +84,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void ResetDamageBlockCalc()
     {
-
         displayDamage = Damage.Value;
         displayBlock = Block.Value;
     }

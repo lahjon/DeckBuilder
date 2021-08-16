@@ -21,7 +21,7 @@ public class DatabaseGoogle
     Dictionary<string, string> SpreadSheetIDs = new Dictionary<string, string>();
 
     readonly string CardPath = @"Assets\Cards";
-    readonly string EnemyPath = @"Assets\CharacterClass\Enemies";
+    readonly string EnemyPath = @"Assets\Enemies";
     readonly string EncounterPath = @"Assets\Encounters\Overworld\Combat";
     readonly string ArtifactPath = @"Assets\Artifacts";
 
@@ -385,7 +385,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { @"Assets\CharacterClass\Enemies" });
+            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { EnemyPath });
             if(data == null)
             {
                 Debug.LogError("SKIPPED: Card assigned to non-existant enemy named: " + databaseName);
@@ -394,7 +394,7 @@ public class DatabaseGoogle
 
             string CardName = (string)gt[i, "CardName"];
 
-            CardData cardData = TDataNameToAsset<CardData>(CardName, new string[] { @"Assets\Cards" });
+            CardData cardData = TDataNameToAsset<CardData>(CardName, new string[] { CardPath });
             if(cardData == null)
             {
                 Debug.LogError("SKIPPED: Enemy assigned non-existant card: " + CardName);
@@ -420,7 +420,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { @"Assets\CharacterClass\Enemies" });
+            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { EnemyPath });
             if (data == null)
             {
                 Debug.LogError("SKIPPED: Effect assigned to non-existant enemy named: " + databaseName);

@@ -33,6 +33,8 @@ public class WorldMapConfirmWindow : MonoBehaviour
     {
         // use this to create the map
         WorldSystem.instance.gridManager.GenerateMap();
+        DatabaseSystem.instance.ResetEncountersCombatToDraw(null);
+        DatabaseSystem.instance.ResetEncountersEventToDraw();
     }
 
     public void ButtonOnClick()

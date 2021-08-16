@@ -57,6 +57,8 @@ public class CardCombat : CardVisual, IEvents
 
     private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
     {
+        if (highlight is null) return;
+
         highlight.gameObject.SetActive(true);
         highlight.color = color1;
         highlightTween = highlight.DOColor(color2, speed).SetLoops(-1, LoopType.Yoyo).OnKill(() =>

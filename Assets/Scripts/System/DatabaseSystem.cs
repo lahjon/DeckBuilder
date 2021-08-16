@@ -18,6 +18,10 @@ public class DatabaseSystem : MonoBehaviour
     public List<ArtifactData> artifacts = new List<ArtifactData>();
 
 
+    public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
+    public List<EncounterDataRandomEvent> encountersEventToDraw = new List<EncounterDataRandomEvent>();
+
+
     private void Awake()
     {
         if(instance == null)
@@ -110,18 +114,44 @@ public class DatabaseSystem : MonoBehaviour
         }
     }
 
+
+    public void ResetEncountersCombatToDraw(CombatEncounterType? type)
+    {
+        if (type is null)
+        {
+            encountersCombatToDraw.Clear();
+            encountersCombatToDraw.AddRange(encountersCombat);
+        }
+        else
+        {
+            encountersCombatToDraw = encountersCombatToDraw.Where(e => e.type != type).ToList(); //paranoia;
+            encountersCombatToDraw.AddRange(encountersCombat.Where(e => e.type == type));
+        }
+    }
+
+    public void ResetEncountersEventToDraw()
+    {
+        encountersEventToDraw.Clear(); //Paranoia
+        encountersEventToDraw.AddRange(encounterEvent.Where(e => e.FindInRandom));
+    }
+
     public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
     {
-        List<EncounterDataCombat> encounters = encountersCombat.Where(e => (int)e.type == (int)type).ToList();
+        if (!encountersCombatToDraw.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
+        List<EncounterDataCombat> encounters = encountersCombatToDraw.Where(e => e.type == (CombatEncounterType)type).ToList();
         int id = Random.Range(0, encounters.Count);
-        return encounters[id];
+        EncounterDataCombat data = encounters[id];
+        encounters.RemoveAt(id);
+        return data;
     }
 
     public EncounterDataRandomEvent GetRndEncounterEvent()
     {
-        List<EncounterDataRandomEvent> encounters = encounterEvent.Where(e => e.FindInRandom).ToList();
-        int id = Random.Range(0, encounters.Count);
-        return encounters[id];
+        if (!encountersEventToDraw.Any()) ResetEncountersEventToDraw();
+        int id = Random.Range(0, encountersEventToDraw.Count);
+        EncounterDataRandomEvent data = encountersEventToDraw[id];
+        encountersEventToDraw.RemoveAt(id);
+        return data;
     }
 }
 
