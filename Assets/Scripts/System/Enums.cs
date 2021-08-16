@@ -491,5 +491,6 @@ public enum Profession
 public enum EncounterEventLayoutType
 {
     NoImage,
-    ImageRight
+    ImageRight,
+    ImageLeft
 }

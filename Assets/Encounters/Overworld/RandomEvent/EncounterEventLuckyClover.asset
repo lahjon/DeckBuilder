@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encounterName: Lucky Clover
   tier: 0
-  layoutType: 1
+  layoutType: 2
   FindInRandom: 1
   description: 'On a sunny road, you come upon a lucky clover.
 
