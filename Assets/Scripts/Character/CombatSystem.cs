@@ -311,6 +311,8 @@ public class CombatSystem : MonoBehaviour
 
     public int PreviewCalcDamageAllEnemies(int value)
     {
+        if (!EnemiesInScene.Any()) return value;
+
         int possibleDamage = PreviewCalcDamageEnemy(value, EnemiesInScene[0]);
         foreach (CombatActor enemy in EnemiesInScene)
             if (possibleDamage != PreviewCalcDamageEnemy(value, enemy))

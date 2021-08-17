@@ -35,14 +35,7 @@ MonoBehaviour:
     ConditionStruct:
       type: 0
       value: 
-  effectsOnPlay:
-  - Type: 1
-    Value: 4
-    Times: 1
-    Target: 3
-    ConditionStruct:
-      type: 4
-      value: 2
+  effectsOnPlay: []
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
