@@ -54,6 +54,11 @@ public class RewardManager : Manager, IEvents
         rewardScreen.GetReward(type, value, fromEvent);
     }
 
+    public void CopyReward(Reward aReward)
+    {
+        rewardScreen.CopyReward(aReward);
+    }
+
     public void OpenRewardScreen()
     {
         rewardScreen.canvas.gameObject.SetActive(true);

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class TownManager : Manager, ISaveableWorld
 {
     [HideInInspector] public List<TownInteractable> townInteractables;
+    [HideInInspector] public BuildingScribe scribe;
+    [HideInInspector] public BuildingBarracks barracks;
     public List<BuildingStruct> buildings;
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
     public List<BuildingType> startingBuildings = new List<BuildingType>();
@@ -29,6 +31,8 @@ public class TownManager : Manager, ISaveableWorld
     {
         world.townManager = this;
         townMapCanvas.gameObject.SetActive(true);
+        scribe = (BuildingScribe)GetBuildingByType(BuildingType.Scribe);
+        barracks = (BuildingBarracks)GetBuildingByType(BuildingType.Barracks);
         for (int i = 0; i < encounters.childCount ; i++)
         {
             townInteractables.Add(encounters.GetChild(i).GetComponent<TownInteractable>());

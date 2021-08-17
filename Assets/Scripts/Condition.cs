@@ -97,6 +97,7 @@ public class Condition
         Debug.Log("Enemy Killed " + this);
         if (enemy.enemyId == value || string.IsNullOrEmpty(value))
         {
+            Debug.Log("adding");
             currentAmount++;
             CheckCondition();
         }

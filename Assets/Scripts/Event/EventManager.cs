@@ -76,6 +76,7 @@ public class EventManager : Manager
     public static void CompleteWorldEncounter()
     {
         OnCompleteWorldEncounterEvent?.Invoke();
+    
     }
     public static void CompleteSpecialEvent(string eventName)
     {

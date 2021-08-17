@@ -14278,6 +14278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   townInteractables: []
+  scribe: {fileID: 0}
+  barracks: {fileID: 0}
   buildings:
   - buildingType: 3
     building: {fileID: 146000298}
@@ -24900,6 +24902,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fb5a2231fcc976f4492c4d6de3813048, type: 3}
   - {fileID: 21300000, guid: c5702040bc543e34f846e7924b52784b, type: 3}
   artifacts: []
+  encountersCombatToDraw: []
+  encountersEventToDraw: []
 --- !u!4 &1500454268
 Transform:
   m_ObjectHideFlags: 0
@@ -31122,6 +31126,7 @@ MonoBehaviour:
   - {fileID: 1934607967}
   - {fileID: 1439848974}
   cardPanel: {fileID: 16245499}
+  headerText: {fileID: 1698766413}
 --- !u!1 &1901636185
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,7 +33,7 @@ public class ShopOverworld : MonoBehaviour
     {
         foreach (Artifact a in artifactsInStock)
         {
-            a.itemData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact(true);
+            a.itemData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
             if (a.itemData == null)
             {
                 a.gameObject.SetActive(false);

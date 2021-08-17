@@ -47,10 +47,11 @@ public class WorldMapConfirmWindow : MonoBehaviour
         }
         else
         {
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.completed = true;
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward();
             WorldSystem.instance.worldMapManager.currentWorldEncounter.CompleteCondition();
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.RemoveEncounter();
+            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward();
+            WorldSystem.instance.worldMapManager.UpdateMap();
         }
+        
+        CloseConfirmWindow();
     }
 }

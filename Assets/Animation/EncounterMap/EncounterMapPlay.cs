@@ -8,6 +8,7 @@ public class EncounterMapPlay : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Play;
+        if (WorldSystem.instance.gridManager.CheckClearCondition()) return;
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

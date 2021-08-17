@@ -8,12 +8,14 @@ public class StateTown : WorldStateAnimator
     {
         Init(TransitionType.Town, WorldState.Town);
         WorldSystem.instance.townManager.EnterTown();
+        if (world.worldMapManager.currentWorldEncounter?.completed == true)
+        {
+            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward();
+        }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log(world);
-        Debug.Log(world.townManager);
         world.townManager.ExitTown();
     }
 

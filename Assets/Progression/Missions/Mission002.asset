@@ -20,5 +20,5 @@ MonoBehaviour:
   goalEnterBuilding: []
   description: nr 2!
   startEvent: 
-  endEvent: Event002
+  endEvent: 
   nextMission: Mission003

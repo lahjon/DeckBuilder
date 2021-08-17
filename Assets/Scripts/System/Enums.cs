@@ -223,6 +223,7 @@ public enum RewardType
     Shard,
     Card,
     Heal,
+    UnlockCard,
     Item = 10,
     Artifact = 11
 }

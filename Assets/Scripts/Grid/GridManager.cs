@@ -95,6 +95,20 @@ public class GridManager : Manager
             StartCoroutine(CreateMap());
         }
     }
+
+    public bool CheckClearCondition()
+    {
+        // each time the map enters idle this checks to see if the condition from the world encounter is completed
+        if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc && enc.completed)
+        {
+            WorldStateSystem.SetInOverworld(false);
+            WorldStateSystem.SetInTown(true);
+            DeleteMap();
+            return true;
+        }
+        else
+            return false;
+    }
   
 
     public void ButtonCompleteCurrentTile()

@@ -8,7 +8,7 @@ public class ArtifactManager : Manager, ISaveableTemp
     public List<ArtifactData> allArtifacts = new List<ArtifactData>();
     List<string> allArtifactsNames = new List<string>();
     public List<string> allActiveArtifactsNames = new List<string>();
-    public List<string> allUnavailableArtifactsNames = new List<string>();
+    public HashSet<string> allUnavailableArtifactsNames = new HashSet<string>();
 
     public ArtifactMenu artifactMenu;
 
@@ -33,25 +33,26 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public ArtifactData GetSpecficArtifact(string artifactName)
     {
-        return allArtifacts[allArtifactsNames.IndexOf(allArtifacts.FirstOrDefault(x => x.name == artifactName).itemName)];
+        ArtifactData data = allArtifacts[allArtifactsNames.IndexOf(allArtifacts.FirstOrDefault(x => x.name == artifactName).itemName)];
+        allUnavailableArtifactsNames.Add(data.itemName);
+        return data;
     }
 
-    public ArtifactData GetRandomAvailableArtifact(bool makeUnvailable = false)
+    public ArtifactData GetRandomAvailableArtifact()
     {
-        //List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).Except(allUnavailableArtifactsNames).ToList();
-        List<string> availbleArtifacts = allArtifactsNames;
+        List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).Except(allUnavailableArtifactsNames).ToList();
+        //List<string> availbleArtifacts = allArtifactsNames;
 
         if (availbleArtifacts.Count <= 0)
         {
-            return null;
+            // TODO: better handling for when no artifacts left
+            availbleArtifacts = allArtifactsNames;
+            //return null;
         }
 
         string itemName = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
 
-        if (makeUnvailable)
-            allUnavailableArtifactsNames.Add(itemName);
-
-        Debug.Log(allArtifacts[allArtifactsNames.IndexOf(itemName)]);
+        allUnavailableArtifactsNames.Add(itemName);
 
         return allArtifacts[allArtifactsNames.IndexOf(itemName)];
     }

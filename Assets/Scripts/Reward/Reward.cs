@@ -16,7 +16,8 @@ public class Reward : MonoBehaviour, IToolTipable
     public RewardType rewardType;
     public TMP_Text rewardCountText;
     bool reset;
-    Action callback;
+    public string[] value;
+    public Action callback;
     public int rewardAmount;
     public void OnClick()
     {
@@ -31,6 +32,7 @@ public class Reward : MonoBehaviour, IToolTipable
     public void SetupReward(RewardType aRewardType, string[] aValue = null, bool worldReward = false)
     {
         rewardType = aRewardType;
+        value = aValue;
         GetComponent<Button>().onClick.AddListener(OnClick);
         switch (rewardType)
         {
@@ -56,6 +58,9 @@ public class Reward : MonoBehaviour, IToolTipable
                 break;
             case RewardType.Heal:
                 RewardHeal(aValue);
+                break;
+            case RewardType.UnlockCard:
+                RewardUnlockCard(aValue);
                 break;
             default:
                 break;
@@ -132,6 +137,22 @@ public class Reward : MonoBehaviour, IToolTipable
 
         callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(GetCardData(value));
     }
+
+    public void RewardUnlockCard(string[] value)
+    {
+        Debug.Log("Dick");
+        image.sprite = WorldSystem.instance.rewardManager.icons[2];
+        callback = () => {
+            if (value?.Any() == true && GetCardData(value) is List<CardData> datas)
+            {
+                datas.ForEach(x => WorldSystem.instance.townManager.scribe.UnlockCard(x));
+            }
+            else
+            {
+                Debug.LogWarning("No value for unlock card reward!");
+            }
+        };
+    }
     #endregion
 
     public static List<CardData> GetCardData(string[] value)
@@ -203,16 +224,21 @@ public class Reward : MonoBehaviour, IToolTipable
     {
         Vector3 pos;
         string desc;
-        if((int)rewardType >= 10)
+        switch (rewardType)
         {
-            // x > 10 has itemdata and can extract the description
-            pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-            desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
-            return (new List<string>{desc} , pos);
+            case RewardType.Item:
+            case RewardType.Artifact:
+                pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
+                desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
+                return (new List<string>{desc} , pos);
+            case RewardType.UnlockCard:
+                pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
+                desc = string.Format("<b>" + "Unlock a new card" + "</b>");
+                return (new List<string>{desc} , pos);
+            
+            default:
+                return (new List<string>{} , Vector3.zero);
         }
-        else
-            return (new List<string>{} , Vector3.zero);
-        
     }
 }
 

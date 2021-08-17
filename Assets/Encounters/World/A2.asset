@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
-  m_Name: NewWorldEncounterData 1
+  m_Name: A2
   m_EditorClassIdentifier: 
-  worldEncounterName: Test1
-  difficulty: 3
+  worldEncounterName: Test2
+  difficulty: 1
   rewardStruct:
-    type: 10
+    type: 1
     value: []
   clearCondition:
-    type: 1
-    value: 2001
-    amount: 0
+    type: 3
+    value: 
+    amount: 5
   type: 1
-  unlockableEncounters: []
+  unlockableEncounters:
+  - {fileID: 11400000, guid: 56d35421374694f44ada7941556313e3, type: 2}

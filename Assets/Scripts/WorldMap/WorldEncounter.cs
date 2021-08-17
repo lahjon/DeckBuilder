@@ -69,7 +69,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
-    public void RemoveEncounter()
+    void RemoveEncounter()
     {
         condition?.Unsubscribe();
         WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.worldEncounterName);
@@ -81,11 +81,14 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 WorldSystem.instance.worldMapManager.availableWorldEncounters.Add(enc.worldEncounterName);
             }
         }
+
+        Destroy(gameObject);
     }
 
     public void CollectReward()
     {
-        encounterReward.CollectCombatReward();
+        WorldSystem.instance.rewardManager.CopyReward(encounterReward);
+        RemoveEncounter();
     }
 
 

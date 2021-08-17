@@ -84,11 +84,6 @@ public class RewardScreenCombat : MonoBehaviour
             callback = null;
         }
 
-        if (WorldSystem.instance.gridManager.bossStarted)
-        {
-            WorldSystem.instance.BossDefeated();
-        }
-
         WorldStateSystem.SetInReward(false);
 
         for (int i = 0; i < content.transform.childCount; i++)

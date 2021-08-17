@@ -70,10 +70,7 @@ public class BuildingBarracks : Building
             WorldSystem.instance.characterManager.character.profession = currentProfession;
         }
 
-        if ((BuildingScribe)WorldSystem.instance.townManager.GetBuildingByType(BuildingType.Scribe) is BuildingScribe scribe)
-        {
-            scribe.UpdateScribe();
-        }
+        WorldSystem.instance.townManager.scribe?.UpdateScribe();
 
         Debug.Log("Update selected character");
     }
