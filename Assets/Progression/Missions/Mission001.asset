@@ -22,5 +22,5 @@ MonoBehaviour:
     requiredAmount: 1
   description: This is nr 1'!
   startEvent: Event001
-  endEvent: Event002
+  endEvent: 
   nextMission: Mission002

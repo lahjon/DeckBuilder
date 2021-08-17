@@ -44,7 +44,7 @@ public class CardCondition : IEvents
 
     public void Subscribe()
     {
-        Debug.Log("Subbing");
+        //Debug.Log("Subbing");
         switch (conditionStruct.type)
         {
             case ConditionType.None:

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Artifact : Item
 {
-    public override void BindData()
+    public override void BindData(bool allData = true)
     {
         base.BindData();
     }

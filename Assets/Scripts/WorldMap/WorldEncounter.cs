@@ -3,12 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
-public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ICondition
 {
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
-    public GameObject encounterReward;
+    public Reward encounterReward;
+    Condition condition;
+    bool _completed;
+    public bool completed
+    {
+        get => _completed;
+        set
+        {
+            _completed = value;
+            EventManager.CompleteWorldEncounter();
+        }
+    }
     public WorldEncounterType worldEncounterType
     {
         get => _worldEncounterType;
@@ -48,10 +60,32 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (worldEncounterType == WorldEncounterType.None)
         {
             worldEncounterType = worldEncounterData.type;
-            encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform);
-            encounterReward.GetComponent<Reward>().SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
-            encounterReward.SetActive(false);
+            condition = Condition.CreateCondition(worldEncounterData.clearCondition, UpdateCondition, CompleteCondition);
+            Debug.Log(worldEncounterData.clearCondition);
+            WorldSystem.instance.worldMapManager.worldEncounterTooltip.descriptionText.text = Condition.GetDescription(worldEncounterData.clearCondition);
+            encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform).GetComponent<Reward>();
+            encounterReward.SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
+            encounterReward.gameObject.SetActive(false);
         }
+    }
+
+    public void RemoveEncounter()
+    {
+        condition?.Unsubscribe();
+        WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.worldEncounterName);
+        WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.worldEncounterName);
+        if (worldEncounterData.unlockableEncounters?.Any() == true)
+        {
+            foreach (WorldEncounterData enc in worldEncounterData.unlockableEncounters)
+            {
+                WorldSystem.instance.worldMapManager.availableWorldEncounters.Add(enc.worldEncounterName);
+            }
+        }
+    }
+
+    public void CollectReward()
+    {
+        encounterReward.CollectCombatReward();
     }
 
 
@@ -63,5 +97,15 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public void OnPointerExit(PointerEventData eventData)
     {
         WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
+    }
+
+    public void UpdateCondition()
+    {
+        Debug.Log("Updating Condition: " + this + " " + condition);
+    }
+
+    public void CompleteCondition()
+    {
+        completed = true;
     }
 }

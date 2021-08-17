@@ -9,6 +9,7 @@ public class WorldMapManager : Manager, ISaveableWorld
     public Canvas canvas;
     public int actIndex;
     public HashSet<string> availableWorldEncounters = new HashSet<string>();
+    public HashSet<string> completedWorldEncounters = new HashSet<string>();
     public List<string> allWorldEncounters = new List<string>();
     public List<WorldEncounterData> startingEncounters = new List<WorldEncounterData>();
     public GameObject worldEncounterPrefab;
@@ -33,7 +34,7 @@ public class WorldMapManager : Manager, ISaveableWorld
     protected override void Start()
     {
         base.Start();
-        AddDefaultEncounters();
+        //AddDefaultEncounters();
     }
 
     public void OpenMap()

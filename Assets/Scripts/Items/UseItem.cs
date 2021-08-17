@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class UseItem : Item, IEvents
+public class UseItem : Item, IEvents, ICondition
 {
     bool _usable;
-    public ItemCondition itemCondition;
+    public Condition itemCondition;
     UseItemData _useItemData;
     public TMP_Text counterText; 
     public Effect effect; 
@@ -39,16 +39,19 @@ public class UseItem : Item, IEvents
         }
     }
 
-    public override void BindData()
+    public override void BindData(bool allData = true)
     {
         if (itemData == null) return;
         Initialize();
         
         image.sprite = itemData.artwork;
-        effect = Effect.GetEffect(gameObject, itemData.name, false);
-        itemCondition = ItemCondition.GetItemCondition(itemData.itemCondition, this);
-        charges = 1;
-        Subscribe();
+        if (allData)
+        {
+            effect = Effect.GetEffect(gameObject, itemData.name, false);
+            itemCondition = Condition.CreateCondition(itemData.itemCondition, UpdateCondition, CompleteCondition);
+            charges = 1;
+            Subscribe();
+        }
     }
     public void RemoveItem()
     {
@@ -56,6 +59,11 @@ public class UseItem : Item, IEvents
         itemCondition.Unsubscribe();
         Unsubscribe();
         Destroy(gameObject);
+    }
+
+    public void ConditionPass()
+    {
+
     }
 
     public void CheckItemUseCondition(WorldState state)
@@ -67,7 +75,7 @@ public class UseItem : Item, IEvents
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
         string desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
-        string condition = ItemCondition.GetDescription(itemData.itemCondition);
+        string condition = Condition.GetDescription(itemData.itemCondition);
         return (new List<string>{desc, condition} , pos);
     }
 
@@ -84,7 +92,21 @@ public class UseItem : Item, IEvents
     {
         effect?.AddEffect();
         Debug.Log("Using Item!");
-        itemCondition.UpdateCounter();
+        counterText.text = (itemCondition.requiredAmount - itemCondition.currentAmount).ToString();
         charges--;
+    }
+
+    public void UpdateCondition()
+    {
+        Debug.Log("Dick");
+        counterText.text = (itemCondition.requiredAmount - itemCondition.currentAmount).ToString();
+    }
+
+    public void CompleteCondition()
+    {
+        Debug.Log("Dick2");
+        counterText.text = "";
+        itemCondition.currentAmount = 0;
+        charges++;
     }
 }

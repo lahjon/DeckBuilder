@@ -2,11 +2,10 @@
 // using System.Collections.Generic;
 // using UnityEngine;
 
-// public abstract class ItemCondition
+// public abstract class WorldEncounterCondition
 // {
 //     int _currentAmount;
 //     public int requiredAmount;
-//     public UseItem item;
 //     public string value;
 //     public int currentAmount
 //     {
@@ -17,7 +16,7 @@
 //                 _currentAmount = value;
 //         }
 //     }
-//     public ItemCondition(string aValue, int aAmount, UseItem anItem)
+//     public WorldEncounterCondition(string aValue, int aAmount)
 //     {
 //         item = anItem;
 //         value = aValue;
@@ -48,11 +47,11 @@
 //         item.counterText.text = (requiredAmount - currentAmount).ToString();
 //     }
 
-//     public static Condition GetItemCondition(ConditionStruct type, UseItem item) => type.type switch
+//     public static WorldEncounterCondition GetCondition(ConditionStruct type, UseItem item) => type.type switch
 //     {
-//         ConditionType.KillEnemy => new ConditionKillEnemy(type.value, type.amount),
-//         ConditionType.ClearTile => new ConditionCompleteTile(type.value, type.amount),
-//         ConditionType.WinCombat => new ConditionWinCombat(type.value, type.amount),
+//         ConditionType.KillEnemy => new ItemConditionKillEnemy(type.value, type.amount, item),
+//         ConditionType.ClearTile => new ItemConditionCompleteTile(type.value, type.amount, item),
+//         ConditionType.WinCombat => new ItemConditionWinCombat(type.value, type.amount, item),
 //         _                           => null,
 //     };
 //     public static string GetDescription(ConditionStruct type) => type.type switch

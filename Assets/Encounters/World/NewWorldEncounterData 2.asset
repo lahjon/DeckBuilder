@@ -17,4 +17,9 @@ MonoBehaviour:
   rewardStruct:
     type: 1
     value: []
+  clearCondition:
+    type: 3
+    value: 
+    amount: 5
   type: 1
+  unlockableEncounters: []

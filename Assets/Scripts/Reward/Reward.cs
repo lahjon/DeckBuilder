@@ -95,7 +95,7 @@ public class Reward : MonoBehaviour, IToolTipable
 
         if (itemData == null)
         {
-            Debug.LogWarning("No artifact found!");
+            Debug.LogWarning("No Item found!");
             return;
         }
 

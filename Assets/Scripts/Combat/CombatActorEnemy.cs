@@ -40,6 +40,11 @@ public class CombatActorEnemy : CombatActor
         enemies.Add(CombatSystem.instance.Hero);
     }
 
+    void OnDestroy()
+    {
+        DOTween.Kill(this);
+    }
+
     public void SetTarget(bool set = false)
     {
         if(set && !target.activeSelf)

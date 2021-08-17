@@ -7,4 +7,5 @@ public struct ConditionStruct
 {
     public ConditionType type;
     public string value;
+    public int amount;
 }

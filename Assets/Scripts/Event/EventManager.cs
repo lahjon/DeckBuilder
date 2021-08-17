@@ -30,6 +30,8 @@ public class EventManager : Manager
     public static event NewOverlayStateEvent OnNewOverlayStateEvent;
     public delegate void WinCombatEvent();
     public static event WinCombatEvent OnWinCombatEvent;
+    public delegate void CompleteWorldEncounterEvent();
+    public static event CompleteWorldEncounterEvent OnCompleteWorldEncounterEvent;
 
     public delegate void CardPlayNoArgEvent();
     public static event CardPlayNoArgEvent OnCardPlayNoArgEvent;
@@ -70,6 +72,10 @@ public class EventManager : Manager
     {
         if (OnStatsTrackerUpdatedEvent != null)
             EventManager.OnStatsTrackerUpdatedEvent();
+    }
+    public static void CompleteWorldEncounter()
+    {
+        OnCompleteWorldEncounterEvent?.Invoke();
     }
     public static void CompleteSpecialEvent(string eventName)
     {

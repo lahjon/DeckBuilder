@@ -123,7 +123,7 @@ public class BuildingBarracks : Building
             Debug.Log(selectedItems[i]);
             useItems[i].gameObject.SetActive(true);
             useItems[i] = selectedItems[i];
-            useItems[i].BindData();
+            useItems[i].BindData(false);
         }
     }
 }

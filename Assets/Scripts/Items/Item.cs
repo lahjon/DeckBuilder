@@ -46,7 +46,7 @@ public abstract class Item : MonoBehaviour, IToolTipable
         return (new List<string>{desc} , pos);
     }
     public abstract void OnClick();
-    public virtual void BindData()
+    public virtual void BindData(bool allData = true)
     {   
         Initialize();
         if (itemData != null)
