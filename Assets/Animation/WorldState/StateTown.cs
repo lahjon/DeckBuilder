@@ -11,6 +11,7 @@ public class StateTown : WorldStateAnimator
         if (world.worldMapManager.currentWorldEncounter?.completed == true)
         {
             WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward();
+            
         }
     }
 

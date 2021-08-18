@@ -30587,7 +30587,7 @@ MonoBehaviour:
   hexScale: 0.3765092
   initialized: 0
   tileParent: {fileID: 624123282}
-  roadParent: {fileID: 0}
+  roadParent: {fileID: 1113844811}
   subAct: 0
   tilesUntilBoss: 5
   rotateCounter: 0
@@ -31126,7 +31126,7 @@ MonoBehaviour:
   - {fileID: 1934607967}
   - {fileID: 1439848974}
   cardPanel: {fileID: 16245499}
-  headerText: {fileID: 0}
+  headerText: {fileID: 1698766413}
 --- !u!1 &1901636185
 GameObject:
   m_ObjectHideFlags: 0

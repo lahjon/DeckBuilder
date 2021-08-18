@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using System.Globalization;
 
 public class Reward : MonoBehaviour, IToolTipable
 {
@@ -180,8 +181,8 @@ public class Reward : MonoBehaviour, IToolTipable
                     if (item.Contains("rarity"))
                     {
                         string[] rarity = item.Split('=')[1].Split(';');
-                        float x = float.Parse(rarity[0]);
-                        float y = float.Parse(rarity[1]);
+                        float x = float.Parse(rarity[0], CultureInfo.InvariantCulture.NumberFormat);
+                        float y = float.Parse(rarity[1], CultureInfo.InvariantCulture.NumberFormat);
                         cardFilter.rarity = Helpers.DrawRarity(x, y);
                     }
                     else if (item.Contains("cost"))

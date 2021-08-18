@@ -23,7 +23,6 @@ public class GridManager : Manager
     public List<HexTile> completedTiles = new List<HexTile>();
     public List<HexTile> specialTiles = new List<HexTile>();
     public GridState gridState;
-    public BossCounter bossCounter;
     public GameObject content;
     public HexMapController hexMapController;
     public int currentTurn;
@@ -34,10 +33,8 @@ public class GridManager : Manager
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public Transform tileParent, roadParent;
     public int subAct;
-    public int tilesUntilBoss;
+    public TMP_Text conditionText;
     
-    
-
     TileEncounterType GetRandomEncounterType()
     {
         List<TileEncounterType> allTypes = new List<TileEncounterType>{
@@ -137,7 +134,6 @@ public class GridManager : Manager
         specialTiles.Clear();
         highlightedTiles.Clear();
         gridState = GridState.Creating;
-        bossCounter.ResetCounter();
         furthestRowReached = 0;
         subAct = 0;
         for (int i = 0; i < tileParent.childCount; i++)
@@ -152,8 +148,7 @@ public class GridManager : Manager
 
     IEnumerator CreateMap()
     {
-        bossCounter.tilesUntilBoss = tilesUntilBoss;
-        bossCounter.counter = tilesUntilBoss;
+        WorldSystem.instance.worldMapManager.currentWorldEncounter.GetEncounterDescription();
         
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;
@@ -206,9 +201,10 @@ public class GridManager : Manager
         hexMapController.disablePanning = false;
         hexMapController.disableZoom = false;
         initialized = true;
-        HighlightEntries(); 
+
         
-        world.uiManager.UIWarningController.CreateWarning(bossCounter.tilesLeftUntilBoss, 3f);
+
+        HighlightEntries(); 
     }
 
     public void ExpandMap()
@@ -248,7 +244,6 @@ public class GridManager : Manager
     {
         if (currentTile != null)
         {
-            bossCounter.counter--;
             List<int> tileList = new List<int>();
             VectorToArray(currentTile.coord).ToList().ForEach(x => tileList.Add(Mathf.Abs(x)));
             currentTile.CloseExists();
