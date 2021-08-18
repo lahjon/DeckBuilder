@@ -5,12 +5,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
 
-public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ICondition
+public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
     public Reward encounterReward;
-    Condition condition;
+    CountingCondition condition;
     bool _completed;
     public bool completed
     {
@@ -60,9 +60,9 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (worldEncounterType == WorldEncounterType.None)
         {
             worldEncounterType = worldEncounterData.type;
-            condition = Condition.CreateCondition(worldEncounterData.clearCondition, UpdateCondition, CompleteCondition);
+            condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             Debug.Log(worldEncounterData.clearCondition);
-            WorldSystem.instance.worldMapManager.worldEncounterTooltip.descriptionText.text = Condition.GetDescription(worldEncounterData.clearCondition);
+            WorldSystem.instance.worldMapManager.worldEncounterTooltip.descriptionText.text = worldEncounterData.clearCondition.GetDescription();
             encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform).GetComponent<Reward>();
             encounterReward.SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
             encounterReward.gameObject.SetActive(false);
@@ -102,12 +102,12 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
     }
 
-    public void UpdateCondition()
+    public void OnPreconditionUpdate()
     {
         Debug.Log("Updating Condition: " + this + " " + condition);
     }
 
-    public void CompleteCondition()
+    public void OnConditionTrue()
     {
         completed = true;
     }

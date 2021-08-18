@@ -20,6 +20,6 @@ MonoBehaviour:
   goldValue: 110
   itemCondition:
     type: 1
-    value: 
-    amount: 2
+    strParameter: 
+    numValue: 2
   itemUseCondition: 0a0000000500000007000000

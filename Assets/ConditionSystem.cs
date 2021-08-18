@@ -21,23 +21,7 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
-
-    public static bool CheckCondition(ConditionStruct conditionStruct)
-    {
-        switch (conditionStruct.type)
-        {
-            case ConditionType.CardsPlayedAtLeast:
-                return CheckCardsPlayeAtLeast(conditionStruct.value);
-            case ConditionType.CardsPlayedAtMost:
-                return CheckCardsPlayedAtMost(conditionStruct.value);
-            case ConditionType.LastCardPlayedTurnType:
-                return CheckLastTypePlayedThisTurn(conditionStruct.value);
-            default:
-                return false;
-        }
-    }
-
-    public static Func<string, bool> GetConditionChecker(ConditionType type)
+    public static Func<ConditionStruct, bool> GetConditionChecker(ConditionType type)
     {
         switch (type)
         {
@@ -52,21 +36,21 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
-    public static bool CheckCardsPlayeAtLeast(string nrLimit)
+    public static bool CheckCardsPlayeAtLeast(ConditionStruct conditionStruct)
     {
-        return CombatSystem.instance.cardsPlayedThisTurn.Count >= int.Parse(nrLimit);
+        return CombatSystem.instance.cardsPlayedThisTurn.Count >= conditionStruct.numValue;
     }
 
-    public static bool CheckCardsPlayedAtMost(string nrLimit)
+    public static bool CheckCardsPlayedAtMost(ConditionStruct conditionStruct)
     {
-        return CombatSystem.instance.cardsPlayedThisTurn.Count <= int.Parse(nrLimit);
+        return CombatSystem.instance.cardsPlayedThisTurn.Count <= conditionStruct.numValue;
     }
 
-    public static bool CheckLastTypePlayedThisTurn(string TypeName)
+    public static bool CheckLastTypePlayedThisTurn(ConditionStruct conditionStruct)
     {
         if (CombatSystem.instance.cardsPlayedThisTurn.Count < 1) return false;
         CardType cardType;
-        Enum.TryParse(TypeName, out cardType);
+        Enum.TryParse(conditionStruct.strParameter, out cardType);
         return CombatSystem.instance.cardsPlayedThisTurn[CombatSystem.instance.cardsPlayedThisTurn.Count -1].cardType == cardType;
     }
 

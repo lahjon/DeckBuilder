@@ -19,7 +19,7 @@ MonoBehaviour:
     value: []
   clearCondition:
     type: 2
-    value: 
-    amount: 6
+    strParameter: 
+    numValue: 4
   type: 1
   unlockableEncounters: []

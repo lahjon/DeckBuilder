@@ -27,7 +27,7 @@ public class CardCombat : CardVisual, IEvents
     public Image image;
     Tween highlightTween;
 
-    public CardCondition playCondition = new CardCondition();
+    public Condition playCondition = new Condition();
 
     CardHighlightType _cardHighlightType;
     public CardHighlightType cardHighlightType
@@ -60,7 +60,7 @@ public class CardCombat : CardVisual, IEvents
     {
         effectsOnPlay.ForEach(e => {
             Debug.Log("Running override setup for card " + name);
-            CardCondition cardCondition = new CardCondition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
+            Condition cardCondition = new Condition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
             EffectToCondition[e] = cardCondition;
             if (e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
         });
@@ -179,7 +179,7 @@ public class CardCombat : CardVisual, IEvents
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
-        if (card.unplayable) card.playCondition = new CardCondition() { value = false };
+        if (card.unplayable) card.playCondition = new Condition() { value = false };
 
         card.Subscribe();
         return card;

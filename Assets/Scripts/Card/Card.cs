@@ -37,9 +37,9 @@ public class Card : MonoBehaviour
     public bool unplayable;
     public bool unstable;
 
-    public Dictionary<CardEffectInfo, CardCondition> EffectToCondition = new Dictionary<CardEffectInfo, CardCondition>();
+    public Dictionary<CardEffectInfo, Condition> EffectToCondition = new Dictionary<CardEffectInfo, Condition>();
 
-    public List<CardCondition> effectActivityConditions = new List<CardCondition>();
+    public List<Condition> effectActivityConditions = new List<Condition>();
     public bool hasSpecialConditions { get => effectActivityConditions.Any(); }
 
     public void BindCardData()
@@ -94,7 +94,7 @@ public class Card : MonoBehaviour
     {
         Debug.Log("Running base setup for card " + name);
         effectsOnPlay.ForEach(e => {
-            CardCondition cardCondition = new CardCondition(e.ConditionStruct);
+            Condition cardCondition = new Condition(e.ConditionStruct);
             EffectToCondition[e] = cardCondition;
             if(e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
         });

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class UseItem : Item, IEvents, ICondition
+public class UseItem : Item, IEvents
 {
     bool _usable;
-    public Condition itemCondition;
+    public CountingCondition itemCondition;
     UseItemData _useItemData;
     public TMP_Text counterText; 
     public Effect effect; 
@@ -48,7 +48,7 @@ public class UseItem : Item, IEvents, ICondition
         if (allData)
         {
             effect = Effect.GetEffect(gameObject, itemData.name, false);
-            itemCondition = Condition.CreateCondition(itemData.itemCondition, UpdateCondition, CompleteCondition);
+            itemCondition = new CountingCondition(itemData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             charges = 1;
             Subscribe();
         }
@@ -75,7 +75,7 @@ public class UseItem : Item, IEvents, ICondition
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
         string desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
-        string condition = Condition.GetDescription(itemData.itemCondition);
+        string condition = itemData.itemCondition.GetDescription();
         return (new List<string>{desc, condition} , pos);
     }
 
@@ -96,13 +96,13 @@ public class UseItem : Item, IEvents, ICondition
         charges--;
     }
 
-    public void UpdateCondition()
+    public void OnPreconditionUpdate()
     {
         Debug.Log("Dick");
         counterText.text = (itemCondition.requiredAmount - itemCondition.currentAmount).ToString();
     }
 
-    public void CompleteCondition()
+    public void OnConditionTrue()
     {
         Debug.Log("Dick2");
         counterText.text = "";

@@ -6,6 +6,16 @@ using UnityEngine;
 public struct ConditionStruct
 {
     public ConditionType type;
-    public string value;
-    public int amount;
+    public string strParameter;
+    public int numValue;
+
+
+    public string GetDescription() => type switch
+    {
+        ConditionType.None => "No Condition",
+        ConditionType.KillEnemy => string.Format("<b>Kill Enemies (" + numValue + ")</b>"),
+        ConditionType.ClearTile => string.Format("<b>Clear Tiles (" + numValue + ")</b>"),
+        ConditionType.WinCombat => string.Format("<b>Win Combats (" + numValue + ")</b>"),
+        _ => null
+    };
 }

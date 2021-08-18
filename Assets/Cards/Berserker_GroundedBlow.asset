@@ -26,7 +26,8 @@ MonoBehaviour:
     Target: 3
     ConditionStruct:
       type: 0
-      value: 
+      strParameter: 
+      numValue: 0
   Block:
     Type: 2
     Value: 0
@@ -34,7 +35,8 @@ MonoBehaviour:
     Target: 6
     ConditionStruct:
       type: 0
-      value: 
+      strParameter: 
+      numValue: 0
   effectsOnPlay:
   - Type: 4
     Value: 2
@@ -42,7 +44,8 @@ MonoBehaviour:
     Target: 3
     ConditionStruct:
       type: 6
-      value: Order
+      strParameter: Order
+      numValue: 0
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []

@@ -26931,7 +26931,7 @@ MonoBehaviour:
   worldEncounters: []
   worldEncounterTooltip: {fileID: 2016413690}
   worldMapConfirmWindow: {fileID: 922834138}
-  currentWorldEncounter: {fileID: 0}
+  currentWorldEncounter: {fileID: 433371439}
 --- !u!1001 &1647991983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31126,7 +31126,7 @@ MonoBehaviour:
   - {fileID: 1934607967}
   - {fileID: 1439848974}
   cardPanel: {fileID: 16245499}
-  headerText: {fileID: 1698766413}
+  headerText: {fileID: 0}
 --- !u!1 &1901636185
 GameObject:
   m_ObjectHideFlags: 0
