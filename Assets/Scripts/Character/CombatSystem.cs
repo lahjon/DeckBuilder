@@ -333,10 +333,7 @@ public class CombatSystem : MonoBehaviour
         int baseVal = card.Damage.Value;
         int calcDamage = enemy is null ? PreviewCalcDamageAllEnemies(baseVal) : PreviewCalcDamageEnemy(baseVal, enemy);
         if(calcDamage != card.displayDamage)
-        {
             card.displayDamage = calcDamage;
-            card.RefreshDescriptionText();
-        }
     }
 
     public void RecalcAllCardsDamage()
