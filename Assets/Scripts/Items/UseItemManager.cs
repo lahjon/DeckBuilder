@@ -9,7 +9,7 @@ public class UseItemManager : Manager, ISaveableTemp
     public Canvas canvas;
     public Transform content;
     public List<UseItemData> allItems = new List<UseItemData>(); 
-    public List<UseItem> equippedItems = new List<UseItem>(); 
+    public List<UsableItem> equippedItems = new List<UsableItem>(); 
     public int maxItemSlots;
     public int usedItemSlots;
     protected override void Awake()
@@ -36,7 +36,7 @@ public class UseItemManager : Manager, ISaveableTemp
         }
     }
 
-    public void RemoveItem(UseItem item)
+    public void RemoveItem(UsableItem item)
     {
         if (equippedItems.Contains(item))
         {
@@ -47,7 +47,7 @@ public class UseItemManager : Manager, ISaveableTemp
 
     public void RemoveItem()
     {
-        UseItem item = equippedItems[Random.Range(0, equippedItems.Count - 1)];
+        UsableItem item = equippedItems[Random.Range(0, equippedItems.Count - 1)];
         if (item != null)
         {
             equippedItems.Remove(item);
@@ -74,7 +74,7 @@ public class UseItemManager : Manager, ISaveableTemp
             return;
 
         usedItemSlots++;
-        UseItem newItem = Instantiate(itemPrefab, content).GetComponent<UseItem>();
+        UsableItem newItem = Instantiate(itemPrefab, content).GetComponent<UsableItem>();
         equippedItems.Add(newItem);
         newItem.itemData = data;
     }
