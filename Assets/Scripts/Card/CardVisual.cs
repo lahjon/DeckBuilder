@@ -25,14 +25,34 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public TMP_Text costText;
 
-    public int displayDamage = -1;
-    public int displayBlock = -1;
+    readonly static string strBlockCode = "_BLOCKINFO_";
+    readonly static string strDamageCode = "_DAMAGEINFO_";
+    readonly static string colorCodeGood = "#2e590c";
+    readonly static string colorCodeBad = "#a16658";
 
+
+    private int _displayDamage = -1;
+    private int _displayBlock = -1;
     private int _displayCost;
 
-    const string strBlockCode = "_BLOCKINFO_";
-    const string strDamageCode = "_DAMAGEINFO_";
-
+    public int displayDamage
+    {
+        get => _displayDamage;
+        set
+        {
+            _displayDamage = value;
+            RefreshDescriptionText();
+        }
+    }
+    public int displayBlock
+    {
+        get => _displayBlock;
+        set
+        {
+            _displayBlock = value;
+            RefreshDescriptionText();
+        }
+    }
     public int displayCost
     {
         get { return _displayCost; }
@@ -42,9 +62,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             costText.text = ValueColorWrapper(cost, _displayCost, true);
         }
     }
-
-    readonly static string colorCodeGood = "#2e590c";
-    readonly static string colorCodeBad = "#a16658";
 
     private string derivedText = "";
     private string displayText;
@@ -84,8 +101,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void ResetDamageBlockCalc()
     {
-        displayDamage = Damage.Value;
-        displayBlock = Block.Value;
+        _displayDamage = Damage.Value;
+        _displayBlock = Block.Value;
+        RefreshDescriptionText();
     }
 
     public void RefreshDescriptionText(bool forceRebuild = false)
