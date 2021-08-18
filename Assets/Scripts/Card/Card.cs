@@ -64,11 +64,7 @@ public class Card : MonoBehaviour
         unplayable      = cardData.unplayable;
         unstable        = cardData.unstable;
 
-        effectsOnPlay.ForEach(e => {
-            CardCondition cardCondition = new CardCondition(this, e.ConditionStruct);
-            EffectToCondition[e] = cardCondition;
-            if(e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
-        });
+        SetupEffecConditions();
     }
 
     public void Mimic(Card card)
@@ -92,8 +88,16 @@ public class Card : MonoBehaviour
         visibleCost = card.visibleCost;
         unplayable = card.unplayable;
         unstable = card.unstable;
+    }
 
-        //effectsOnPlay.ForEach(e => EffectToCondition[e] = new CardCondition(e.ConditionStruct));
+    public virtual void SetupEffecConditions()
+    {
+        Debug.Log("Running base setup for card " + name);
+        effectsOnPlay.ForEach(e => {
+            CardCondition cardCondition = new CardCondition(e.ConditionStruct);
+            EffectToCondition[e] = cardCondition;
+            if(e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+        });
     }
 
     [HideInInspector]

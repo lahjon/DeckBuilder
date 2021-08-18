@@ -256,41 +256,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             OnMouseRightClick();
     }
 
-    
-    // public void DisplayCard()
-    // {
-    // if(WorldSystem.instance.deckDisplayManager.selectedCard == null)
-    // {
-    //     WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-    //     WorldSystem.instance.deckDisplayManager.selectedCard = this;
-    //     WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().cardData = WorldSystem.instance.deckDisplayManager.selectedCard.cardData;
-    //     WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardData();
-    //     WorldSystem.instance.deckDisplayManager.placeholderCard.GetComponent<CardVisual>().BindCardVisualData();
-    //     WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(true);
-    //     WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(true);
-    //     WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = false;
-    //     transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
-    // }
-    // else
-    // {
-    //     ResetCardPosition();
-    // }
-    // }
-    // public void ResetCardPosition()
-    // {
-    //     WorldSystem.instance.deckDisplayManager.backgroundPanel.SetActive(false);
-    //     WorldSystem.instance.deckDisplayManager.clickableArea.SetActive(false);
-    //     WorldSystem.instance.deckDisplayManager.scroller.GetComponent<ScrollRect>().enabled = true;
-    //     WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-    //     WorldSystem.instance.deckDisplayManager.previousPosition = transform.position;
-    //     WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    // }
-    // public void ResetCardPositionNext()
-    // {
-    //     WorldSystem.instance.deckDisplayManager.selectedCard.transform.position = WorldSystem.instance.deckDisplayManager.previousPosition;
-    //     WorldSystem.instance.deckDisplayManager.previousPosition = Vector3.zero;
-    //     WorldSystem.instance.deckDisplayManager.selectedCard = null;
-    // }
+  
 
     public virtual void OnMouseClick()
     {

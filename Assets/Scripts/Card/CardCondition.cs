@@ -12,19 +12,25 @@ public class CardCondition : IEvents
     public ConditionStruct conditionStruct;
     public bool value;
 
-    public Func<string, bool> CheckConditionAction;
+    public Func<string, bool> ConditionEvaluator;
 
-    public CardCombat card;
+    Action OnPreConditionUpdate;
+    Action OnConditionFlipTrue;
+    Action OnConditionFlipFalse;
+    Action OnConditionFlip;
 
-    public CardCondition(Card card, ConditionStruct conditionStruct)
+    public CardCondition(ConditionStruct conditionStruct, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
     {
         this.conditionStruct = conditionStruct;
         if (conditionStruct.type != ConditionType.None)
-            CheckConditionAction = ConditionSystem.GetConditionChecker(conditionStruct.type);
+            ConditionEvaluator = ConditionSystem.GetConditionChecker(conditionStruct.type);
         else
             value = true;
 
-        if (card is CardCombat cc) this.card = cc;
+        this.OnPreConditionUpdate   = OnPreConditionUpdate;
+        this.OnConditionFlip        = OnConditionFlip;
+        this.OnConditionFlipTrue    = OnConditionFlipTrue;
+        this.OnConditionFlipFalse   = OnConditionFlipFalse;
     }
 
     public CardCondition()
@@ -35,10 +41,16 @@ public class CardCondition : IEvents
 
     public void CheckCondition()
     {
-        bool newVal = CheckConditionAction(conditionStruct.value);
+        bool newVal = ConditionEvaluator(conditionStruct.value);
+
+        OnPreConditionUpdate?.Invoke();
         if (newVal != value) {
             value = newVal;
-            if(card != null) card.EvaluateHighlightNotSelected();
+            OnConditionFlip?.Invoke();
+            if (newVal)
+                OnConditionFlipTrue?.Invoke();
+            else
+                OnConditionFlipFalse?.Invoke();
         }
     }
 

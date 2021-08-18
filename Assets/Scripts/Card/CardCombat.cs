@@ -55,6 +55,18 @@ public class CardCombat : CardVisual, IEvents
         }
     }
 
+
+    public override void SetupEffecConditions()
+    {
+        effectsOnPlay.ForEach(e => {
+            Debug.Log("Running override setup for card " + name);
+            CardCondition cardCondition = new CardCondition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
+            EffectToCondition[e] = cardCondition;
+            if (e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+        });
+    }
+
+
     private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
     {
 
@@ -125,7 +137,9 @@ public class CardCombat : CardVisual, IEvents
 
     public void EvaluateHighlightNotSelected()
     {
-        if (selected) return; 
+        if (selected) return;
+
+        Debug.Log("Evaluated highlightype");
 
         if (!selectable)
             cardHighlightType = CardHighlightType.None;
@@ -166,6 +180,8 @@ public class CardCombat : CardVisual, IEvents
         CombatSystem.instance.createdCards.Add(card);
 
         if (card.unplayable) card.playCondition = new CardCondition() { value = false };
+
+        card.Subscribe();
         return card;
     }
 
