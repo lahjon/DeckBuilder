@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class Condition : IEvents
+public class Condition : IEventSubscriber
 {
     public ConditionStruct conditionStruct;
     public bool value;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class StatsTrackerSystem : MonoBehaviour, IEvents, ISaveableWorld
+public class StatsTrackerSystem : MonoBehaviour, IEventSubscriber, ISaveableWorld
 {
     public static Dictionary<string, int> enemyTracker = new Dictionary<string, int>();
     public static Dictionary<BuildingType, int> buildingTracker = new Dictionary<BuildingType, int>();

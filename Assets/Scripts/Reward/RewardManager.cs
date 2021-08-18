@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class RewardManager : Manager, IEvents
+public class RewardManager : Manager, IEventSubscriber
 {
     public GameObject rewardPrefab;
     public Sprite[] icons;

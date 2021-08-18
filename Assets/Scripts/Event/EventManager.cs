@@ -113,7 +113,7 @@ public class EventManager : Manager
 }
 
 
-public interface IEvents
+public interface IEventSubscriber
 {
     void Subscribe();
     void Unsubscribe();

@@ -8,7 +8,7 @@ using System.Linq;
 using DG.Tweening;
 
 
-public class CardCombat : CardVisual, IEvents
+public class CardCombat : CardVisual, IEventSubscriber
 {
     public RectTransform cardPanel;
     public AnimationCurve transitionCurveDraw;
@@ -263,7 +263,7 @@ public class CardCombat : CardVisual, IEvents
 
     public void Unsubscribe()
     {
-        foreach (IEvents e in EffectToCondition.Values)
+        foreach (IEventSubscriber e in EffectToCondition.Values)
             e.Unsubscribe();
 
         playCondition.Unsubscribe();
@@ -272,7 +272,7 @@ public class CardCombat : CardVisual, IEvents
 
     public void Subscribe()
     {
-        foreach (IEvents e in EffectToCondition.Values)
+        foreach (IEventSubscriber e in EffectToCondition.Values)
             e.Subscribe();
 
         playCondition.Subscribe();
