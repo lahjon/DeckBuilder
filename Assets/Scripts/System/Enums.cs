@@ -29,9 +29,9 @@ public static class EnumExtenstions
             case EffectType.Confused:
                 return $"<b>Confused</b>\nAttacks will land on a random enemy";
             case EffectType.Splice:
-                return $"<b>Splice</b>\n.The next splice card you play will meld with the top splice card in discard";
+                return $"<b>Splice</b>\nThe next splice card you play will meld with the top splice card in discard";
             case EffectType.Envenom:
-                return $"<b>Envenom</b>\n.Unblocked damage will deal poison to the target.";
+                return $"<b>Envenom</b>\nUnblocked damage will deal poison to the target.";
             default:
                 return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }

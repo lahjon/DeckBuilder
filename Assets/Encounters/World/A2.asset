@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: A2
   m_EditorClassIdentifier: 
   worldEncounterName: Test2
-  difficulty: 1
+  difficulty: 2
   rewardStruct:
     type: 1
     value: []
   clearCondition:
-    type: 3
-    value: 
-    amount: 5
+    type: 2
+    strParameter: 
+    numValue: 6
   type: 1
   unlockableEncounters:
   - {fileID: 11400000, guid: 56d35421374694f44ada7941556313e3, type: 2}
