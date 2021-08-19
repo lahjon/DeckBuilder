@@ -10,7 +10,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
     public Reward encounterReward;
-    CountingCondition condition;
+    public CountingCondition condition;
     bool _completed;
     public bool completed
     {
@@ -62,7 +62,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             worldEncounterType = worldEncounterData.type;
             condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             Debug.Log(worldEncounterData.clearCondition);
-            WorldSystem.instance.worldMapManager.worldEncounterTooltip.descriptionText.text = condition.GetDescription(false);
             encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform).GetComponent<Reward>();
             encounterReward.SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
             encounterReward.gameObject.SetActive(false);

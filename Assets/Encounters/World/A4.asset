@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: A4
   m_EditorClassIdentifier: 
   worldEncounterName: Test4
-  difficulty: 3
+  difficulty: 4
   rewardStruct:
     type: 11
     value: []
   clearCondition:
     type: 2
     strParameter: 
-    numValue: 4
+    numValue: 7
   type: 1
   unlockableEncounters: []

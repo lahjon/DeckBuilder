@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: A3
   m_EditorClassIdentifier: 
   worldEncounterName: Test3
-  difficulty: 2
+  difficulty: 3
   rewardStruct:
     type: 2
     value: []
