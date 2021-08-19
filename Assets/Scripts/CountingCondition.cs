@@ -5,23 +5,9 @@ using System;
 
 public class CountingCondition : Condition
 {
-    int _currentAmount = 0;
+    int currentAmount = 0;
 
     public int requiredAmount => conditionStruct.numValue;
-
-    public virtual int currentAmount
-    {
-        get => _currentAmount;
-        set
-        {
-            _currentAmount = value;
-        }
-    }
-
-    public CountingCondition()
-    {
-
-    }
 
     public CountingCondition(ConditionStruct conditionStruct, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
         : base(conditionStruct,OnPreConditionUpdate, null, OnConditionFlipTrue)
