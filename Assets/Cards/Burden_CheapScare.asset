@@ -46,7 +46,7 @@ MonoBehaviour:
     Target: 0
     ConditionStruct:
       type: 0
-      strParameter: 0
+      strParameter: 
       numValue: 0
   activitiesOnDraw: []
   rarity: 11

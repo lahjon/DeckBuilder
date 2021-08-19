@@ -41,7 +41,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         set
         {
             _displayDamage = value;
-            RefreshDescriptionText();
+            RefreshBlockAndDamageParts();
         }
     }
     public int displayBlock
@@ -50,7 +50,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         set
         {
             _displayBlock = value;
-            RefreshDescriptionText();
+            RefreshBlockAndDamageParts();
         }
     }
     public int displayCost
@@ -70,6 +70,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void BindCardVisualData()
     {
+        derivedText = "";
+        displayText = "";
         nameText.text = cardName;
         artworkImage.sprite = artwork;
         typeText.text = cardType.ToString();
@@ -103,12 +105,18 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     {
         _displayDamage = Damage.Value;
         _displayBlock = Block.Value;
-        RefreshDescriptionText();
     }
 
     public void RefreshDescriptionText(bool forceRebuild = false)
     {
         if (derivedText.Equals("") || forceRebuild) DeriveDescriptionText();
+
+        RefreshBlockAndDamageParts();
+        descriptionText.text = displayText;
+    }
+
+    public void RefreshBlockAndDamageParts()
+    {
         StringBuilder descText;
         displayText = derivedText;
 
@@ -126,15 +134,13 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         if (Damage.Value != 0)
         {
             descText = new StringBuilder(100);
-            if (Block.Value != 0) descText.AppendLine();
+            if (Damage.Value != 0) descText.AppendLine();
             descText.Append(Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + " ");
             descText.Append(ValueColorWrapper(Damage.Value, displayDamage));
             if (Damage.Times != 1) descText.Append(" " + Damage.Times + " times ");
             if (Damage.Target != CardTargetType.EnemySingle) descText.Append(" " + Damage.Target.ToString());
             displayText = displayText.Replace(strDamageCode, descText.ToString());
         }
-
-        descriptionText.text = displayText;
     }
 
     public void DeriveDescriptionText()

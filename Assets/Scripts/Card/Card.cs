@@ -88,11 +88,12 @@ public class Card : MonoBehaviour
         visibleCost = card.visibleCost;
         unplayable = card.unplayable;
         unstable = card.unstable;
+
+        SetupEffecConditions();
     }
 
     public virtual void SetupEffecConditions()
     {
-        Debug.Log("Running base setup for card " + name);
         effectsOnPlay.ForEach(e => {
             Condition cardCondition = new Condition(e.ConditionStruct);
             EffectToCondition[e] = cardCondition;

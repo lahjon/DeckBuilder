@@ -44,8 +44,8 @@ MonoBehaviour:
     Target: 3
     ConditionStruct:
       type: 4
-      strParameter: 2
-      numValue: 0
+      strParameter: 
+      numValue: 2
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []

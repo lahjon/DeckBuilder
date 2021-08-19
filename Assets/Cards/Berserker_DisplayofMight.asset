@@ -44,7 +44,7 @@ MonoBehaviour:
     Target: 4
     ConditionStruct:
       type: 0
-      strParameter: 0
+      strParameter: 
       numValue: 0
   - Type: 3
     Value: 2
@@ -52,7 +52,7 @@ MonoBehaviour:
     Target: 4
     ConditionStruct:
       type: 0
-      strParameter: 0
+      strParameter: 
       numValue: 0
   activitiesOnPlay: []
   effectsOnDraw: []
