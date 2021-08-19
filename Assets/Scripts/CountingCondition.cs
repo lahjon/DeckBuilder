@@ -5,7 +5,7 @@ using System;
 
 public class CountingCondition : Condition
 {
-    int currentAmount = 0;
+    public int currentAmount = 0;
 
     public int requiredAmount => conditionStruct.numValue;
 
