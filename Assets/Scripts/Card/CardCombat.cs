@@ -261,6 +261,14 @@ public class CardCombat : CardVisual, IEventSubscriber
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
+    public void RefreshConditions()
+    {
+        foreach (Condition c in EffectToCondition.Values)
+            c.OnEventNotification();
+
+        playCondition.OnEventNotification();
+    }
+
     public void Unsubscribe()
     {
         foreach (IEventSubscriber e in EffectToCondition.Values)

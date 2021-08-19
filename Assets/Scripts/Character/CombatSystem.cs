@@ -169,6 +169,8 @@ public class CombatSystem : MonoBehaviour
 
     public void SetUpEncounter()
     {
+        cardsPlayedThisTurn.Clear();
+        createdCards.Clear();
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
 

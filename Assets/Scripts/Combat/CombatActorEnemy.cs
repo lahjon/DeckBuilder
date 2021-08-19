@@ -165,6 +165,13 @@ public class CombatActorEnemy : CombatActor
         foreach (CardEffect re in effectTypeToRule.Values)
             re.OnActorDeath();
 
+        List<EffectType> effects = effectTypeToRule.Keys.ToList();
+        foreach (EffectType e in effects)
+        {
+            effectTypeToRule[e]?.Dismantle();
+        }
+        
+
         if(hand != null) Destroy(hand.gameObject);
         hand = null;
         deck.ForEach(x => Destroy(x.gameObject));

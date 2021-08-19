@@ -33,6 +33,7 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
 
         StartTransInfo = TransSnapshot();
         card.selectable = true;
+        card.RefreshConditions();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

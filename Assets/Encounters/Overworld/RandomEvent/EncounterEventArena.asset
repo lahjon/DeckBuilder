@@ -19,7 +19,7 @@ MonoBehaviour:
   description: "-You there! \nA man in armour shouts outside of a colosseum. \n-You
     are <i>invited</i> to participate in our Arena.\n\nIt doesn't really feel voluntary."
   choices:
-  - label: A worthy challange!
+  - label: A worthy challenge!
     outcome: 2
     newEncounter: {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
     effects: []

@@ -11,15 +11,15 @@ public static class EnumExtenstions
             case EffectType.Barricade:
                 return $"<b>Barricade</b>\nBlock is retained between turns";
             case EffectType.Vulnerable:
-                return $"<b>Vurnerable</b>\nRecieve 25% more attack damage";
+                return $"<b>Vurnerable</b>\nReceive 25% more attack damage";
             case EffectType.Thorns:
                 return $"<b>Thorns</b>\nDeal damage back when attacked";
             case EffectType.Weak:
                 return $"<b>Weak</b>\nDeals 25% less damage";
             case EffectType.Challenge:
-                return $"<b>Challenge</b>\nChallanged actors deal double damage against eachother";
+                return $"<b>Challenge</b>\nChallenged actors deal double damage against eachother";
             case EffectType.Poison:
-                return $"<b>Poison</b>\nLoose life at the end of the turn";
+                return $"<b>Poison</b>\nLose life at the end of the turn";
             case EffectType.Strength:
                 return $"<b>Strength</b>\nIncreases the value of all attacks";
             case EffectType.StrengthTemp:
@@ -27,7 +27,7 @@ public static class EnumExtenstions
             case EffectType.Block:
                 return $"<b>Block</b>\nBlock negates incoming attack damage until the end of the round";
             case EffectType.Confused:
-                return $"<b>Confused</b>\nAttacks will land on a random enemy";
+                return $"<b>Confused</b>\nCards with a single target will land on a random enemy";
             case EffectType.Splice:
                 return $"<b>Splice</b>\nThe next splice card you play will meld with the top splice card in discard";
             case EffectType.Envenom:

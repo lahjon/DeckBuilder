@@ -94,6 +94,7 @@ public class Condition : IEventSubscriber
     }
     public virtual void OnEventNotification()
     {
+        if (ConditionEvaluator == null) return;
         bool newVal = ConditionEvaluator(conditionStruct);
 
         OnPreConditionUpdate?.Invoke();
