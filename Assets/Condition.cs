@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -8,7 +8,6 @@ public class Condition : IEventSubscriber
 {
     public ConditionStruct conditionStruct;
     public bool value;
-
     public Func<ConditionStruct, bool> ConditionEvaluator;
 
     public Action OnPreConditionUpdate;

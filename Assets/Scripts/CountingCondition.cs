@@ -51,4 +51,13 @@ public class CountingCondition : Condition
         }
     }
 
+    public string GetDescription(bool getCurrentAmount) => conditionStruct.type switch
+    {
+        ConditionType.None => "No Condition",
+        ConditionType.KillEnemy => string.Format("<b>Kill Enemies (" + (getCurrentAmount ? Mathf.Abs(currentAmount - requiredAmount) : requiredAmount) + ")</b>"),
+        ConditionType.ClearTile => string.Format("<b>Clear Tiles (" + (getCurrentAmount ? Mathf.Abs(currentAmount - requiredAmount) : requiredAmount) + ")</b>"),
+        ConditionType.WinCombat => string.Format("<b>Win Combats (" + (getCurrentAmount ? Mathf.Abs(currentAmount - requiredAmount) : requiredAmount) + ")</b>"),
+        _ => null
+    };
+
 }

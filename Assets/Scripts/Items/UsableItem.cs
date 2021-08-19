@@ -75,7 +75,7 @@ public class UsableItem : Item, IEventSubscriber
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
         string desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
-        string condition = itemData.itemCondition.GetDescription();
+        string condition = itemCondition.GetDescription(false);
         return (new List<string>{desc, condition} , pos);
     }
 

@@ -62,7 +62,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             worldEncounterType = worldEncounterData.type;
             condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             Debug.Log(worldEncounterData.clearCondition);
-            WorldSystem.instance.worldMapManager.worldEncounterTooltip.descriptionText.text = worldEncounterData.clearCondition.GetDescription();
+            WorldSystem.instance.worldMapManager.worldEncounterTooltip.descriptionText.text = condition.GetDescription(false);
             encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform).GetComponent<Reward>();
             encounterReward.SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
             encounterReward.gameObject.SetActive(false);
@@ -102,9 +102,15 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
     }
 
+    public void GetEncounterDescription()
+    {
+        WorldSystem.instance.gridManager.conditionText.text = condition.GetDescription(true);
+    }
+
     public void OnPreconditionUpdate()
     {
         Debug.Log("Updating Condition: " + this + " " + condition);
+        GetEncounterDescription();
     }
 
     public void OnConditionTrue()

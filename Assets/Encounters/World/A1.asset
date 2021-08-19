@@ -19,7 +19,7 @@ MonoBehaviour:
     value:
     - name=Berserker_CanonlybeOne
   clearCondition:
-    type: 2
+    type: 1
     strParameter: 
     numValue: 2
   type: 1
