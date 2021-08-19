@@ -53,6 +53,6 @@ MonoBehaviour:
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
-  goldValue: 0
+  goldValue: 10
   unplayable: 0
   unstable: 0

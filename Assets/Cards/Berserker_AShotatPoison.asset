@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_TricksterAttack
+  m_Name: Berserker_AShotatPoison
   m_EditorClassIdentifier: 
-  cardName: TricksterAttack
+  cardName: A Shot at Poison
   cardType: 0
-  artwork: {fileID: 21300000, guid: 5af9aa24d4646ec44b8801810bfc249f, type: 3}
+  artwork: {fileID: 21300000, guid: 2ea1b41b246012545abfebb5f95c1b25, type: 3}
   cost: 1
   visibleCost: 1
   immediate: 0
   exhaust: 0
   Damage:
     Type: 0
-    Value: 5
-    Times: 2
+    Value: 6
+    Times: 1
     Target: 3
     ConditionStruct:
       type: 0
@@ -32,17 +32,25 @@ MonoBehaviour:
     Type: 2
     Value: 0
     Times: 0
-    Target: 0
+    Target: 3
     ConditionStruct:
       type: 0
       strParameter: 
       numValue: 0
-  effectsOnPlay: []
+  effectsOnPlay:
+  - Type: 1
+    Value: 4
+    Times: 1
+    Target: 3
+    ConditionStruct:
+      type: 4
+      strParameter: 2
+      numValue: 0
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 11
-  cardClass: 8
+  cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 10

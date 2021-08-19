@@ -26,7 +26,8 @@ MonoBehaviour:
     Target: 3
     ConditionStruct:
       type: 0
-      value: 
+      strParameter: 
+      numValue: 0
   Block:
     Type: 2
     Value: 3
@@ -34,7 +35,8 @@ MonoBehaviour:
     Target: 0
     ConditionStruct:
       type: 0
-      value: 
+      strParameter: 
+      numValue: 0
   effectsOnPlay: []
   activitiesOnPlay:
   - type: 2
@@ -45,6 +47,6 @@ MonoBehaviour:
   cardClass: 3
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
-  goldValue: 0
+  goldValue: 10
   unplayable: 0
   unstable: 0

@@ -298,5 +298,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 17c70f991f2f42b49992d81cfb67995f, type: 2}
   - {fileID: 11400000, guid: 173c177d050afff4587662a691f4677f, type: 2}
   allActiveArtifactsNames: []
-  allUnavailableArtifactsNames: []
   artifactMenu: {fileID: 8242332177682655122}
