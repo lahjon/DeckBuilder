@@ -62,13 +62,12 @@ public class EncounterUI : MonoBehaviour
                 return;
             case EncounterEventChoiceOutcome.Combat:
                 CombatSystem.instance.encounterData = (EncounterDataCombat)encounterData.choices[index - 1].newEncounter;
-                
+                WorldStateSystem.SetInCombat(true);
                 WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
                 break;
             default:
-                if (!rewards.Any(x => x)) WorldStateSystem.SetInEvent(false);
+                if (!rewards.Any()) WorldStateSystem.SetInEvent(false);
                 WorldSystem.instance.uiManager.encounterUI.CloseEncounter(false);
-                
                 break;
         }
     }
