@@ -91,6 +91,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         base.Mimic(card);
         nameText.text = card.cardName;
         artworkImage.sprite = card.artwork;
+        typeText.text = cardType.ToString();
 
         displayCost = card.displayCost;
         energyObjects.SetActive(card.visibleCost);
@@ -230,11 +231,12 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     protected void SetToolTips()
     {
         toolTipTextBits.Clear();
-        if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
+        if (immediate) toolTipTextBits.Add("<b>Immediate</b>\nThis card will play itself when you draw it.");
         if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
+        if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
         allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
         activitiesOnPlay.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
-        if (exhaust) toolTipTextBits.Add("<b>Exhaust</b>\nThis disappears when used.");
+        if (exhaust) toolTipTextBits.Add("<b>Exhaust</b>\nThis card disappears when used.");
     }
 
     void SetBorderColor()

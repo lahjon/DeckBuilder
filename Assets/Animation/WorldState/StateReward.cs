@@ -20,8 +20,8 @@ public class StateReward : WorldStateAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        CombatSystem.instance.CleanUp();
-        CombatSystem.instance.content.SetActive(false);
+        CombatSystem.instance.CleanUp(); //kanske lägga detta i "Waiting" state för combatSystem?
+        CombatSystem.instance.content.SetActive(false); //kanske lägga detta i "Waiting" state för combatSystem?
         world.rewardManager.draftAmount = 0;
         world.rewardManager.rewardScreenCombat.RemoveRewardScreen();
         world.cameraManager.SwapToMain();
