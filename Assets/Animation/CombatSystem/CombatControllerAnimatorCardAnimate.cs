@@ -61,8 +61,8 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             yield return new WaitForSeconds(0.2f);
         }
 
-
-        CombatSystem.instance.animator.Play(nextLayerState);
+        if(!CombatSystem.instance.animator.GetBool("HasWon"))
+            CombatSystem.instance.animator.Play(nextLayerState);
     }
 
 
