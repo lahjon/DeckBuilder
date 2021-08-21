@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
   m_Name: Slime
   m_EditorClassIdentifier: 
-  StartingHP: 15
+  StartingHP: 21
   enemyId: 00009
   enemyName: Slime
   artwork: {fileID: 0}

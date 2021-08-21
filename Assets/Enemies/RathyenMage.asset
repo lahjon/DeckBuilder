@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
   m_Name: RathyenMage
   m_EditorClassIdentifier: 
-  StartingHP: 16
+  StartingHP: 20
   enemyId: 00010
   enemyName: Rathyen Mage
   artwork: {fileID: 0}
