@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
-  m_Name: A1
+  m_Name: B1
   m_EditorClassIdentifier: 
-  worldEncounterName: Test1
+  worldEncounterName: DebugEncounter(DoNotPlay)
   difficulty: 1
   rewardStruct:
     type: 2
@@ -22,7 +22,7 @@ MonoBehaviour:
     type: 2
     strParameter: 
     numValue: 1
-  type: 1
+  type: 2
   unlockableEncounters:
   - {fileID: 11400000, guid: b7d4a3c5d7cfc3a4e8a17477539f18ce, type: 2}
   - {fileID: 11400000, guid: 5808e7ddf6ca7d7499e8d0e205dfc6c1, type: 2}
