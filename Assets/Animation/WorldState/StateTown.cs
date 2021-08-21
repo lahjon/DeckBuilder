@@ -10,8 +10,7 @@ public class StateTown : WorldStateAnimator
         WorldSystem.instance.townManager.EnterTown();
         if (world.worldMapManager.currentWorldEncounter?.completed == true)
         {
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward();
-            
+            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward(); 
         }
     }
 

@@ -66,7 +66,8 @@ public class EncounterUI : MonoBehaviour
                 WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
                 break;
             default:
-                if (!rewards.Any()) WorldStateSystem.SetInEvent(false);
+                Debug.Log(rewards.Count);
+                if (!rewards.Any(x => x)) WorldStateSystem.SetInEvent(false);
                 WorldSystem.instance.uiManager.encounterUI.CloseEncounter(false);
                 break;
         }

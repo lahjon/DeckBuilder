@@ -14,8 +14,6 @@ public class StateBonfire : WorldStateAnimator
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         world.bonfireManager.LeaveBonfire();
-        //WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
-        //WorldStateSystem.SetInBonfire(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

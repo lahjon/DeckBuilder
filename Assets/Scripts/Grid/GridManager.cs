@@ -98,9 +98,9 @@ public class GridManager : Manager
         // each time the map enters idle this checks to see if the condition from the world encounter is completed
         if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc && enc.completed)
         {
+            DeleteMap();
             WorldStateSystem.SetInOverworld(false);
             WorldStateSystem.SetInTown(true);
-            DeleteMap();
             return true;
         }
         else
@@ -258,6 +258,8 @@ public class GridManager : Manager
             animator.SetBool("IsPlaying", false);
 
             EventManager.CompleteTile();
+            
+            if (WorldSystem.instance.gridManager.CheckClearCondition()) return;
         }
     }
     

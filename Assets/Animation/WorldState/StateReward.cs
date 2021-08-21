@@ -26,8 +26,6 @@ public class StateReward : WorldStateAnimator
         world.rewardManager.rewardScreenCombat.RemoveRewardScreen();
         world.cameraManager.SwapToMain();
         CombatSystem.instance.animator.SetTrigger("Reset");
-        
-        if (WorldSystem.instance.gridManager.CheckClearCondition()) return;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -20,8 +20,6 @@ public class EncounterMapIdle : EncounterMapAnimator
         base.Init();
         gridManager.gridState = GridState.Placement;
 
-        if (WorldSystem.instance.gridManager.CheckClearCondition()) return;
-
         if (!highlightedEntries)
         {
             gridManager.HighlightEntries();
