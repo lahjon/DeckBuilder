@@ -11,14 +11,15 @@ public class CombatControllerAnimatorWin : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
+        Debug.Log("Entered Won State!");
         DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => WorldStateSystem.SetInReward(true) );
         CombatSystem.instance.combatOverlay.AnimateVictorious();
         CombatSystem.instance.EndTurn();
-        
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("Leaving winstate!");
     }
 
 

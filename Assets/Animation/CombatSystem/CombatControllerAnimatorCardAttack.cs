@@ -35,14 +35,19 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
             foreach (CombatActor actor in targets)
             {
                 int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
-                yield return CombatSystem.instance.StartCoroutine(actor.GetAttacked(damage, activeActor));
+                if(actor != null && actor.hitPoints > 0)
+                    yield return CombatSystem.instance.StartCoroutine(actor.GetAttacked(damage, activeActor));
             }
 
             if (attack.Target == CardTargetType.EnemyRandom && i != attack.Times -1) // redraw enemy if target is random
                 targets = CombatSystem.instance.GetTargets(activeActor, attack.Target, suppliedTarget);
+
+            if (activeActor.hitPoints == 0) break;
         }
 
-        CombatSystem.instance.animator.Play(nextLayerState);
+        Debug.Log("leaving perform attack. Has won is:  " + CombatSystem.instance.animator.GetBool("HasWon"));
+        if (!CombatSystem.instance.animator.GetBool("HasWon"))
+            CombatSystem.instance.animator.Play(nextLayerState);
     }
         
 

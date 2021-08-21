@@ -28,8 +28,8 @@ public class EventManager : Manager
     public static event NewWorldStateEvent OnNewWorldStateEvent;
     public delegate void NewOverlayStateEvent(OverlayState overlayState);
     public static event NewOverlayStateEvent OnNewOverlayStateEvent;
-    public delegate void WinCombatEvent();
-    public static event WinCombatEvent OnWinCombatEvent;
+    public delegate void CombatWonEvent();
+    public static event CombatWonEvent OnCombatWonEvent;
     public delegate void CompleteWorldEncounterEvent();
     public static event CompleteWorldEncounterEvent OnCompleteWorldEncounterEvent;
 
@@ -88,11 +88,11 @@ public class EventManager : Manager
         if(OnLevelUpEvent != null)
             EventManager.OnLevelUpEvent(classType, level);
     }
-    public static void WinCombat()
+    public static void CombatWon()
     {
-        Debug.Log("Winning Combat!");
-        if(OnWinCombatEvent != null)
-            EventManager.OnWinCombatEvent();
+        Debug.Log("Won Combat!");
+        if(OnCombatWonEvent != null)
+            EventManager.OnCombatWonEvent();
     }
 
     public static void CompleteTile()
