@@ -19,6 +19,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             _completed = value;
             EventManager.CompleteWorldEncounter();
+            condition.Unsubscribe();
         }
     }
     public WorldEncounterType worldEncounterType

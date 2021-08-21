@@ -15,8 +15,9 @@ MonoBehaviour:
   worldEncounterName: Test2
   difficulty: 2
   rewardStruct:
-    type: 1
-    value: []
+    type: 5
+    value:
+    - name=Berserker_CanonlybeOne
   clearCondition:
     type: 2
     strParameter: 

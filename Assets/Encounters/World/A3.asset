@@ -20,6 +20,6 @@ MonoBehaviour:
   clearCondition:
     type: 3
     strParameter: 
-    numValue: 10
+    numValue: 1
   type: 1
   unlockableEncounters: []

@@ -171,7 +171,8 @@ public enum GridState
     Overview,
     Dragging,
     Rotating,
-    Complete
+    Complete,
+    Encounter
 }
 
 public enum CardType
