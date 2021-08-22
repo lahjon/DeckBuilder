@@ -50,7 +50,7 @@ public class WorldMapManager : Manager, ISaveableWorld
 
     public void ButtonEnterTown()
     {
-        WorldStateSystem.SetInWorldMap(false);
+        WorldStateSystem.SetInTown(true);
     }
 
     public void UpdateMap()

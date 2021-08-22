@@ -51,16 +51,10 @@ public class CardDisplay : CardVisual
         WorldSystem.instance.deckDisplayManager.StartCoroutine(AnimateCardToDeck());
 
         WorldSystem.instance.characterManager.playerCardsData.Add(cardData);
-        if (WorldSystem.instance.rewardManager.draftAmount > 0)
-        {
-            WorldSystem.instance.rewardManager.draftAmount--;
-            WorldSystem.instance.rewardManager.OpenDraftMode();
-        }
-        else
-        {
-            WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
-            WorldSystem.instance.rewardManager.rewardScreenCardSelection.canvas.SetActive(false);
-        }
+
+        WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
+        WorldSystem.instance.rewardManager.rewardScreenCardSelection.canvas.SetActive(false);
+        
     }
 
     public IEnumerator AnimateCardToDeck()

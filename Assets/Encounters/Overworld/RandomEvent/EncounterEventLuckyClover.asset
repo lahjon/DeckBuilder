@@ -25,13 +25,13 @@ MonoBehaviour:
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
-    - effect: 2
+    - effect: 0
       parameter: 10
   - label: Wealth (Gain 50 gold)
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
-    - effect: 5
+    - effect: 2
       parameter: 50
   chosenOption:
     label: 

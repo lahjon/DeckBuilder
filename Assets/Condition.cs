@@ -29,7 +29,6 @@ public class Condition : IEventSubscriber
         this.OnConditionFlip = OnConditionFlip;
         this.OnConditionFlipTrue = OnConditionFlipTrue;
         this.OnConditionFlipFalse = OnConditionFlipFalse;
-        Subscribe();
     }
 
     public Condition()
@@ -41,7 +40,6 @@ public class Condition : IEventSubscriber
 
     public void Subscribe()
     {
-        //Debug.Log("Subbing");
         switch (conditionStruct.type)
         {
             case ConditionType.None:
@@ -64,6 +62,8 @@ public class Condition : IEventSubscriber
             default:
                 break;
         }
+
+        if (this is CountingCondition countingCondition) return;
         OnEventNotification();
     }
 
@@ -94,6 +94,7 @@ public class Condition : IEventSubscriber
     }
     public virtual void OnEventNotification()
     {
+        Debug.Log("Base");
         if (ConditionEvaluator == null) return;
         bool newVal = ConditionEvaluator(conditionStruct);
 

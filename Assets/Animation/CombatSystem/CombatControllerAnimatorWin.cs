@@ -11,7 +11,7 @@ public class CombatControllerAnimatorWin : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => WorldStateSystem.SetInReward(true) );
+        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => WorldStateSystem.SetInCombatReward(true) );
         CombatSystem.instance.combatOverlay.AnimateVictorious();
         CombatSystem.instance.EndTurn();
         

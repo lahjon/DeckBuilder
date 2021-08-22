@@ -12,7 +12,7 @@ public class RewardScreenCardSelection : MonoBehaviour
     public void SetupRewards(List<CardData> rewardCards = null)
     {
         cards.Clear();
-        WorldStateSystem.SetInReward(true);
+        WorldStateSystem.SetInCombatReward(true);
 
         foreach (Transform card in WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform)
         {

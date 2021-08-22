@@ -25,13 +25,13 @@ MonoBehaviour:
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
-    - effect: 3
+    - effect: 1
       parameter: -5
   - label: Being injured (-15 HP)
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
-    - effect: 2
+    - effect: 0
       parameter: -15
   chosenOption:
     label: 

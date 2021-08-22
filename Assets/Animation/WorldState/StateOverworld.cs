@@ -9,13 +9,15 @@ public class StateOverworld : WorldStateAnimator
     {
         Init(TransitionType.Normal, WorldState.Overworld);
         if(hexMapController == null) hexMapController = world.gridManager.hexMapController;
-
         world.gridManager.content.SetActive(true);
+        Debug.Log("Entering Overworld");
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        Debug.Log("Exit Overworld");
         world.gridManager.content.SetActive(false);
+        WorldStateSystem.SetInOverworld(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

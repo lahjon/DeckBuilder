@@ -72,8 +72,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugDraftCards(int amount)
     {
-        world.rewardManager.draftAmount = amount;
-        WorldStateSystem.SetInReward(true);
+        WorldStateSystem.SetInCombatReward(true);
     }
 
     public void DebugAddStat(int amount)
@@ -113,8 +112,6 @@ public class DebugUI : MonoBehaviour
         {
             CombatSystem.instance.encounterData = data;
             WorldStateSystem.SetInOverworld(true);
-            yield return new WaitForSeconds(1f);
-            WorldStateSystem.SetInTown(false);
             yield return new WaitForSeconds(1f);
             WorldStateSystem.SetInCombat(true);
         }
@@ -184,7 +181,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugInRewardScreen()
     {
-        world.rewardManager.GetReward(RewardType.Artifact);
+        world.rewardManager.CreateReward(RewardType.Artifact, null, null);
     }
 
     public void DebugRemoveRandomItem()
@@ -203,7 +200,8 @@ public class DebugUI : MonoBehaviour
     public void DebugRewardGetCard()
     {
         Debug.Log("Get Card");
-        world.rewardManager.GetReward(RewardType.UnlockCard, new string[1]{"name=Berserker_CanonlybeOne"} );
+        world.rewardManager.CreateReward(RewardType.UnlockCard, new string[1]{"name=Berserker_CanonlybeOne"});
+        WorldStateSystem.SetInTownReward(true);
     }
 
     public void DebugResetAllData()

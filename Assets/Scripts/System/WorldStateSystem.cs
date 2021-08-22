@@ -88,9 +88,26 @@ public class WorldStateSystem : MonoBehaviour
     {
         worldAnimator.SetBool("InBuilding", aBool);
     }
-    public static void SetInShop(bool aBool)
+    public static void SetInOverworldShop(bool aBool)
     {
-        worldAnimator.SetBool("InShop", aBool);
+        worldAnimator.SetBool("InOverworldShop", aBool);
+    }
+    public static void SetInCombatReward(bool aBool)
+    {
+        worldAnimator.SetBool("InCombatReward", aBool);
+    }
+    public static void SetInTownReward(bool aBool)
+    {
+        worldAnimator.SetBool("InTownReward", aBool);
+    }
+
+    public static void SetInEventReward(bool aBool)
+    {
+        worldAnimator.SetBool("InEventReward", aBool);
+    }
+    public static void SetInTownShop(bool aBool)
+    {
+        worldAnimator.SetBool("InTownShop", aBool);
     }
     public static void SetInCutscene(bool aBool)
     {
@@ -104,10 +121,18 @@ public class WorldStateSystem : MonoBehaviour
     {
         worldAnimator.SetBool("InOverworld", aBool);
     }
-    public static void SetInReward(bool aBool)
-    {
-        worldAnimator.SetBool("InReward", aBool);
-    }
+    // public static void SetInCombatReward(bool aBool)
+    // {
+    //     worldAnimator.SetBool("InCombatReward", aBool);
+    // }
+    // public static void SetInEventReward(bool aBool)
+    // {
+    //     worldAnimator.SetBool("InEventReward", aBool);
+    // }
+    // public static void SetInTownReward(bool aBool)
+    // {
+    //     worldAnimator.SetBool("InTownReward", aBool);
+    // }
     public static void SetInEvent(bool aBool)
     {
         worldAnimator.SetBool("InEvent", aBool);
@@ -137,10 +162,10 @@ public class WorldStateSystem : MonoBehaviour
     {
         overlayAnimator.SetTrigger("InDialogue");
     }
-    public static void SetInRewardScreen()
-    {
-        overlayAnimator.SetTrigger("InRewardScreen");
-    }
+    // public static void SetInRewardScreen()
+    // {
+    //     overlayAnimator.SetTrigger("InRewardScreen");
+    // }
     public static void SetInEscapeMenu()
     {
         if (_currentOverlayState == OverlayState.EscapeMenu)

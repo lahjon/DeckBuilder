@@ -49,6 +49,7 @@ public class UsableItem : Item, IEventSubscriber
         {
             effect = Effect.GetEffect(gameObject, itemData.name, false);
             itemCondition = new CountingCondition(itemData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
+            itemCondition.Subscribe();
             charges = 1;
             Subscribe();
         }

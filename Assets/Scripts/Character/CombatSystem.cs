@@ -264,13 +264,16 @@ public class CombatSystem : MonoBehaviour
         EventManager.WinCombat();
     }
 
-    public void CleanUp()
+    public void CleanUpEnemies()
     {
-        while (EnemiesInScene.Any())
-        {
-            KillEnemy(EnemiesInScene[0]);
-        }
+    while (EnemiesInScene.Any())
+    {
+        KillEnemy(EnemiesInScene[0]);
+    }
+    }
 
+    public void CleanUpScene()
+    {
         Hand.ForEach(x => Destroy(x.gameObject));
         Hand.Clear();
         Hero.deck.ForEach(x => Destroy(x.gameObject));

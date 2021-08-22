@@ -19,6 +19,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             _completed = value;
             EventManager.CompleteWorldEncounter();
+            CollectReward();
             condition.Unsubscribe();
         }
     }
@@ -49,6 +50,11 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
+    void OnDestroy()
+    {
+        Debug.Log("Destroyed");
+    }
+
     public void ButtonOnClick()
     {
         WorldSystem.instance.worldMapManager.currentWorldEncounter = this;
@@ -63,9 +69,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             worldEncounterType = worldEncounterData.type;
             condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             Debug.Log(worldEncounterData.clearCondition);
-            encounterReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, transform).GetComponent<Reward>();
-            encounterReward.SetupReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, true);
-            encounterReward.gameObject.SetActive(false);
+            encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
         }
     }
 
@@ -87,8 +91,10 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void CollectReward()
     {
-        WorldSystem.instance.rewardManager.CopyReward(encounterReward);
+        Debug.Log("Collect Reward");
+        encounterReward.AddReward();
         RemoveEncounter();
+        WorldStateSystem.SetInTownReward(true);
     }
 
 
@@ -104,7 +110,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void GetEncounterDescription()
     {
-        WorldSystem.instance.gridManager.conditionText.text = condition.GetDescription(true);
+        WorldSystem.instance.gridManager.conditionText.text = condition?.GetDescription(true);
     }
 
     public void OnPreconditionUpdate()

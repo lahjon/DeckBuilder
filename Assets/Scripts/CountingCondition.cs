@@ -22,6 +22,7 @@ public class CountingCondition : Condition
 
     public override void OnEventNotification()
     {
+        Debug.Log("In condition: " + ConditionEvaluator);
         if (ConditionEvaluator == null) return; //dodges initial notification OnCreation
         currentAmount++;
         base.OnEventNotification();

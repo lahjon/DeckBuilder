@@ -30,7 +30,7 @@ public class Reward : MonoBehaviour, IToolTipable
         if(reset)
             WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
     }
-    public void SetupReward(RewardType aRewardType, string[] aValue = null, bool worldReward = false)
+    public void SetupReward(RewardType aRewardType, string[] aValue = null)
     {
         rewardType = aRewardType;
         value = aValue;
@@ -39,11 +39,7 @@ public class Reward : MonoBehaviour, IToolTipable
         {
             case RewardType.Gold:
                 RewardGold(aValue);
-                if (worldReward)
-                {
-                    rewardCountText.text = rewardAmount.ToString();
-                    rewardCountText.gameObject.SetActive(true);
-                }
+
                 break;
             case RewardType.Shard:
                 RewardShard(aValue);
@@ -66,8 +62,25 @@ public class Reward : MonoBehaviour, IToolTipable
             default:
                 break;
         }
+    }
 
-        if (worldReward) Destroy(rewardText.gameObject); 
+    public void SetWorldReward()
+    {
+        rewardCountText.text = rewardAmount.ToString();
+        rewardCountText.gameObject.SetActive(true);
+        rewardText.gameObject.SetActive(false);
+    }
+
+    public void AddReward()
+    {
+        WorldSystem.instance.rewardManager.uncollectedReward.Add(this);
+        transform.SetParent(WorldSystem.instance.rewardManager.rewardParent);
+    }
+    public void RemoveReward()
+    {
+        WorldSystem.instance.rewardManager.uncollectedReward.Remove(this);
+        Destroy(gameObject);
+        WorldSystem.instance.rewardManager.CollectRewards();
     }
 
     #region RewardTypes
@@ -92,6 +105,7 @@ public class Reward : MonoBehaviour, IToolTipable
         rewardText.text = string.Format("Shard: " + amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[1];
         reset = true;
+        rewardAmount = amount;
 
         callback = () => WorldSystem.instance.characterManager.shard += amount;
     }
@@ -235,6 +249,14 @@ public class Reward : MonoBehaviour, IToolTipable
             case RewardType.UnlockCard:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
                 desc = string.Format("<b>" + "Unlock a new card" + "</b>");
+                return (new List<string>{desc} , pos);
+            case RewardType.Gold:
+                pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
+                desc = string.Format("<b>" + rewardAmount.ToString() + " Gold" + "</b>");
+                return (new List<string>{desc} , pos);
+            case RewardType.Shard:
+                pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
+                desc = string.Format("<b>" + rewardAmount.ToString() + " Shards" + "</b>");
                 return (new List<string>{desc} , pos);
             
             default:

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 
 public class RewardManager : Manager, IEventSubscriber
@@ -11,16 +12,13 @@ public class RewardManager : Manager, IEventSubscriber
     public RewardScreenCombat rewardScreenCombat;
     [SerializeField] RewardScreen rewardScreen;
     public RewardScreenCardSelection rewardScreenCardSelection;
-    public int draftAmount = 0;
-    public System.Action rewardCallback;
+    public List<Reward> uncollectedReward;
+    public Transform rewardParent;
     protected override void Awake()
     {
         base.Awake();
         world.rewardManager = this;
     }
-
-
-
     public void OpenCombatRewardScreen()
     {
         rewardScreenCombat.SetupRewards();
@@ -39,37 +37,49 @@ public class RewardManager : Manager, IEventSubscriber
     {
         EventManager.OnEnemyKilledEvent += EnemyKilled;
     }
-    public void CreateRewards(RewardType[] rewards, Transform parent)
+
+    public void CollectRewards()
     {
-        Debug.LogWarning("körs denna??? säg till om du ser");
-        foreach (RewardType reward in rewards)
+        if (uncollectedReward?.Any() == true) 
         {
-            Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, parent).GetComponent<Reward>();
-            newReward.SetupReward(reward);
+            OpenRewardScreen();
+            rewardScreen.CollectReward(uncollectedReward[0]);
         }
+        else  ClearRewardScreen();
     }
 
-    public void GetReward(RewardType type, string[] value = null, bool fromEvent = false)
+    public Reward CreateReward(RewardType type, string[] value = null, Transform parent = null, bool addReward = true)
     {
-        rewardScreen.GetReward(type, value, fromEvent);
+        if (parent == null) parent = rewardParent;
+
+        Reward reward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, parent).GetComponent<Reward>();
+        reward.gameObject.SetActive(false);
+        reward.SetupReward(type, value);
+        if (addReward) reward.AddReward();
+        return reward;
     }
+
 
     public void CopyReward(Reward aReward)
     {
-        rewardScreen.CopyReward(aReward);
+        rewardScreen.CollectReward(aReward);
     }
 
     public void OpenRewardScreen()
     {
+        Debug.Log("Open Reward Screen");
         rewardScreen.canvas.gameObject.SetActive(true);
     }
 
     public void ClearRewardScreen()
     {
-        if (rewardScreen.reward != null)
-            Destroy(rewardScreen.reward.gameObject);
+        Debug.Log("Clear Reward Screen");
+        if (rewardScreen.currentReward != null)
+            Destroy(rewardScreen.currentReward.gameObject);
             
-        WorldStateSystem.TriggerClear();
+        WorldStateSystem.SetInTownReward(false);
+        WorldStateSystem.SetInEventReward(false);
+
         rewardScreen.canvas.gameObject.SetActive(false);
     }
 

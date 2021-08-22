@@ -13416,6 +13416,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 859126613}
   m_CullTransparentMesh: 1
+--- !u!1 &866386370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 866386371}
+  m_Layer: 0
+  m_Name: RewardParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &866386371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866386370}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1144900194}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &869099204
 GameObject:
   m_ObjectHideFlags: 0
@@ -18007,6 +18037,7 @@ Transform:
   - {fileID: 1186353785}
   - {fileID: 1764640839}
   - {fileID: 1894293933}
+  - {fileID: 866386371}
   m_Father: {fileID: 1673503173}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18030,7 +18061,8 @@ MonoBehaviour:
   rewardScreenCombat: {fileID: 1764640840}
   rewardScreen: {fileID: 1894293934}
   rewardScreenCardSelection: {fileID: 1186353786}
-  draftAmount: 0
+  uncollectedReward: []
+  rewardParent: {fileID: 866386371}
 --- !u!1 &1145168608
 GameObject:
   m_ObjectHideFlags: 0
@@ -23757,6 +23789,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 428e44f0bb552f64abeb36bd7931f0d5, type: 2}
   - {fileID: 11400000, guid: ead4d02a75ca28048a01f2c91f9ace7a, type: 2}
   - {fileID: 11400000, guid: 3f7f246cff2d4474b80fe1e765a1582b, type: 2}
+  - {fileID: 11400000, guid: ab6dc72863c56804da92ac2b1b521685, type: 2}
   - {fileID: 11400000, guid: 6b1a523fd2529ad48bf1552bc71e2a28, type: 2}
   - {fileID: 11400000, guid: a2b9d102c40379747aabaf25a794fa0c, type: 2}
   - {fileID: 11400000, guid: 368b62cf321bed34981e90a7d594fac3, type: 2}
@@ -29173,7 +29206,7 @@ RectTransform:
   m_GameObject: {fileID: 1789004927}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1261879902}
   - {fileID: 16245500}
@@ -30175,7 +30208,7 @@ MonoBehaviour:
   content: {fileID: 1261879901}
   anchor: {fileID: 415191145}
   canvas: {fileID: 1789004931}
-  reward: {fileID: 0}
+  currentReward: {fileID: 0}
   displayCards:
   - {fileID: 652835873}
   - {fileID: 1934607967}

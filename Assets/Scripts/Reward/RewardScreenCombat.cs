@@ -54,20 +54,20 @@ public class RewardScreenCombat : MonoBehaviour
     public void ResetReward()
     {
         if (rewardCount < 1 )
-            WorldStateSystem.SetInReward(false);
+            WorldStateSystem.SetInCombatReward(false);
     }
 
     public void ResetCurrentRewardEvent()
     {
-        WorldStateSystem.SetInReward(false);
+        WorldStateSystem.SetInCombatReward(false);
     }
 
     private void CreateRewards(RewardStruct[] rewards)
     {
         foreach (RewardStruct reward in rewards)
         {
-            Reward newReward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, content.transform).GetComponent<Reward>();
-            newReward.SetupReward(reward.type, reward.value);
+            Reward newReward = WorldSystem.instance.rewardManager.CreateReward(reward.type, reward.value, content.transform, false);
+            newReward.gameObject.SetActive(true);
             rewardCount++;
         }
     }
@@ -84,7 +84,7 @@ public class RewardScreenCombat : MonoBehaviour
             callback = null;
         }
 
-        WorldStateSystem.SetInReward(false);
+        WorldStateSystem.SetInCombatReward(false);
 
         for (int i = 0; i < content.transform.childCount; i++)
         {

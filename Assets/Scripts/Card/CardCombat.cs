@@ -61,6 +61,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         effectsOnPlay.ForEach(e => {
             Debug.Log("Running override setup for card " + name);
             Condition cardCondition = new Condition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
+            cardCondition.Subscribe();
             EffectToCondition[e] = cardCondition;
             if (e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
         });

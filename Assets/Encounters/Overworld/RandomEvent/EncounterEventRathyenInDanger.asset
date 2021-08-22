@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encounterName: Rathyen in Danger
   tier: 0
+  layoutType: 0
   FindInRandom: 1
   description: "There is some commotion ahead, and you see a band of Warhogs bully
     a lone Rathyen. \n\nWhile Rathyens are generally unfriendly, it doesn't seem
@@ -23,7 +24,7 @@ MonoBehaviour:
     outcome: 3
     newEncounter: {fileID: 11400000, guid: 8826f34a627aa994d9d6bda84df1a1ae, type: 2}
     effects:
-    - effect: 2
+    - effect: 0
       parameter: -10
   - label: This isn't your fight.
     outcome: 1
@@ -34,3 +35,4 @@ MonoBehaviour:
     outcome: 0
     newEncounter: {fileID: 0}
     effects: []
+  art: {fileID: 0}

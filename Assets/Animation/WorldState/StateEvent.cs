@@ -6,13 +6,14 @@ public class StateEvent : WorldStateAnimator
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Init(TransitionType.Normal, WorldState.Event);
+        Init(TransitionType.Normal, WorldState.OverworldEvent);
         WorldSystem.instance.uiManager.encounterUI.StartEncounter();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        WorldSystem.instance.uiManager.encounterUI.CloseEncounter(false);
+        WorldStateSystem.SetInEvent(false);
+        WorldSystem.instance.uiManager.encounterUI.CloseEncounter();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
