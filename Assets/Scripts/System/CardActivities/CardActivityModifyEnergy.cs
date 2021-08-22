@@ -2,19 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-public class CardActivityDrawCard : CardActivity
+public class CardActivityModifyEnergy : CardActivity
 {
-
     public override IEnumerator Execute(string input)
     {
-        int x = Int32.Parse(input);
-        yield return ActivitySystem.StartCoroutine(CombatSystem.instance.DrawCards(x));
+        CombatSystem.instance.cEnergy += int.Parse(input);
+        yield return new WaitForSeconds(0.2f); // byt mot energy effekt
     }
 
     public override string GetDescription(string input)
     {
-        return "Draw " + (input.Equals("1") ? "a card." : input + " cards.");
+        return (input.Substring(0,1).Equals("-") ? "Loose " : "Gain ") + input + " energy";
     }
 
     public override string GetToolTip(string input)

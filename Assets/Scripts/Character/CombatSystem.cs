@@ -61,6 +61,7 @@ public class CombatSystem : MonoBehaviour
         get { return backingEnergy; }
         set {
             bool energyChanged = false;
+            value = Mathf.Max(0, value);
             if (backingEnergy != value)
                 energyChanged = true;
             backingEnergy = value; 
@@ -260,8 +261,8 @@ public class CombatSystem : MonoBehaviour
     }
     public void WinCombat()
     {
-        animator.SetTrigger("Win");
-        EventManager.WinCombat();
+        animator.SetBool("HasWon",true);
+        EventManager.CombatWon();
     }
 
     public void CleanUpEnemies()
@@ -390,7 +391,7 @@ public class CombatSystem : MonoBehaviour
     {
         if (!Hand.Contains(card))
         {
-            Debug.LogError("Current degree requested for card not in hand!");
+            //Debug.LogError("Current degree requested for card not in hand!");
             return -1f;
         }
 

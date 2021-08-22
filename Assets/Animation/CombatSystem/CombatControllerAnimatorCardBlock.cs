@@ -37,7 +37,6 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
             if(block.Target == CardTargetType.EnemyRandom && i != block.Times -1) // redraw if random, though doubt it ever will be
                 targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block.Target, suppliedTarget);
         }
-
         CombatSystem.instance.animator.Play(nextLayerState);
     }
         

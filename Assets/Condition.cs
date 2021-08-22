@@ -50,7 +50,7 @@ public class Condition : IEventSubscriber
                 EventManager.OnCardPlayNoArgEvent       += OnEventNotification;
                 break;
             case ConditionType.WinCombat:
-                EventManager.OnWinCombatEvent           += OnEventNotification;
+                EventManager.OnCombatWonEvent           += OnEventNotification;
                 break;
             case ConditionType.ClearTile:
                 EventManager.OnCompleteTileEvent        += OnEventNotification;
@@ -79,7 +79,7 @@ public class Condition : IEventSubscriber
                 EventManager.OnCardPlayNoArgEvent       -= OnEventNotification;
                 break;
             case ConditionType.WinCombat:
-                EventManager.OnWinCombatEvent           -= OnEventNotification;
+                EventManager.OnCombatWonEvent           -= OnEventNotification;
                 break;
             case ConditionType.ClearTile:
                 EventManager.OnCompleteTileEvent        -= OnEventNotification;

@@ -482,7 +482,8 @@ public enum CardActivityType
     ExhaustDiscard,
     CombatCostChange,
     SetRandomBroken,
-    Heal
+    Heal,
+    ModifyEnergy
 }
 
 public enum Profession

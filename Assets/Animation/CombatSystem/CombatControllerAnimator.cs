@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CombatControllerAnimator : StateMachineBehaviour
 {
+    
     public virtual void SetRefs(Animator animator)
     {
         

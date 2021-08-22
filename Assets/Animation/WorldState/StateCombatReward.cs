@@ -21,6 +21,7 @@ public class StateCombatReward : WorldStateAnimator
         world.cameraManager.SwapToMain();
         world.toolTipManager.DisableTips();
         CombatSystem.instance.animator.SetTrigger("Reset");
+        CombatSystem.instance.animator.SetBool("HasWon",false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

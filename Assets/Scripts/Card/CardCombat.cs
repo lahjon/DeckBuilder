@@ -140,8 +140,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         if (selected) return;
 
-        Debug.Log("Evaluated highlightype");
-
         if (!selectable)
             cardHighlightType = CardHighlightType.None;
         else
