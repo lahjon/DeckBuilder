@@ -8,39 +8,39 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        CombatSystem.instance.StartCoroutine(SetupCombat());
-        CombatSystem.instance.combatOverlay.AnimateCombatStart();
+        combat.StartCoroutine(SetupCombat());
+        combat.combatOverlay.AnimateCombatStart();
     }
 
     public IEnumerator SetupCombat()
     {
-        CombatSystem.instance.BindCharacterData();
-        foreach (CombatActor actor in CombatSystem.instance.ActorsInScene)
+        combat.BindCharacterData();
+        foreach (CombatActor actor in combat.ActorsInScene)
             actor.InitializeCombat();
 
-        foreach (Func<IEnumerator> func in CombatSystem.instance.Hero.actionsStartCombat)
-            yield return CombatSystem.instance.StartCoroutine(func.Invoke());
+        foreach (Func<IEnumerator> func in combat.Hero.actionsStartCombat)
+            yield return combat.StartCoroutine(func.Invoke());
 
         yield return new WaitForSeconds(0.5f);
 
-        EncounterDataCombat encounterData = CombatSystem.instance.encounterData;
+        EncounterDataCombat encounterData = combat.encounterData;
         List<CardEffectInfo>    startingEffects = encounterData.startingEffects;
         List<int>               startingTargets = encounterData.startEffectsTargets;
         int counter = 0;
 
         foreach (CardEffectInfo e in startingEffects)
         {
-            List<CombatActor> targets = CombatSystem.instance.GetTargets(CombatSystem.instance.Hero, e.Target, CombatSystem.instance.EnemiesInScene[startingTargets[counter++]]);
+            List<CombatActor> targets = combat.GetTargets(combat.Hero, e.Target, combat.EnemiesInScene[startingTargets[counter++]]);
             for (int i = 0; i < e.Times; i++)
                 foreach (CombatActor actor in targets)
-                    yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(e));
+                    yield return combat.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(e));
         } 
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
             foreach (CardEffectInfo e in encounterData.enemyData[i].startingEffects)
-                yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e));
+                yield return combat.StartCoroutine(combat.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e));
 
-        CombatSystem.instance.animator.SetTrigger("SetupComplete");
+        combat.animator.SetTrigger("SetupComplete");
     }
 
 

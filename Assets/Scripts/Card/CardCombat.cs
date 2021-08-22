@@ -56,30 +56,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     }
 
 
-    public override void SetupEffecConditions()
-    {
-        effectsOnPlay.ForEach(e => {
-            Debug.Log("Running override setup for card " + name);
-            Condition cardCondition = new Condition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
-            cardCondition.Subscribe();
-            EffectToCondition[e] = cardCondition;
-            if (e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
-        });
-    }
-
-
-    private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
-    {
-
-        if (highlight == null) return;
-
-        highlight.gameObject.SetActive(true);
-        highlight.color = color1;
-        highlightTween = highlight.DOColor(color2, speed).SetLoops(-1, LoopType.Yoyo).OnKill(() =>
-        {
-            highlight.gameObject.SetActive(false);
-        });
-    }
 
 
     public bool MouseReact
@@ -134,6 +110,28 @@ public class CardCombat : CardVisual, IEventSubscriber
     public bool isPlayable()
     {
         return playCondition.value && CombatSystem.instance.cEnergy >= displayCost;
+    }
+    public override void SetupEffecConditions()
+    {
+        effectsOnPlay.ForEach(e => {
+            Condition cardCondition = new Condition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
+            EffectToCondition[e] = cardCondition;
+            if (e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+        });
+    }
+
+
+    private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
+    {
+
+        if (highlight == null) return;
+
+        highlight.gameObject.SetActive(true);
+        highlight.color = color1;
+        highlightTween = highlight.DOColor(color2, speed).SetLoops(-1, LoopType.Yoyo).OnKill(() =>
+        {
+            highlight.gameObject.SetActive(false);
+        });
     }
 
     public void EvaluateHighlightNotSelected()

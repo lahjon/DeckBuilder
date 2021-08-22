@@ -10,13 +10,13 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         //Debug.Log("Entered enemy start state");
         SetRefs(animator);
 
-        CombatSystem.instance.combatOverlay.AnimateEnemyTurn();
+        combat.combatOverlay.AnimateEnemyTurn();
 
-        enemy = CombatSystem.instance.enemiesWaiting.Dequeue();
-        CombatSystem.instance.ActiveActor = enemy;
-        CombatSystem.instance.InProcessCard = enemy.hand;
-        CombatSystem.instance.InProcessTarget = CombatSystem.instance.Hero;
-        CombatSystem.instance.StartCoroutine(EnemyTurn());
+        enemy = combat.enemiesWaiting.Dequeue();
+        combat.ActiveActor = enemy;
+        combat.InProcessCard = enemy.hand;
+        combat.InProcessTarget = combat.Hero;
+        combat.StartCoroutine(EnemyTurn());
     }
 
 
@@ -25,9 +25,9 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         enemy.ShowMoveDisplay(false);
         for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
-            yield return CombatSystem.instance.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
+            yield return combat.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 
-        CombatSystem.instance.animator.SetTrigger("EnemyPlayCard");
+        combat.animator.SetTrigger("EnemyPlayCard");
     }
  
 

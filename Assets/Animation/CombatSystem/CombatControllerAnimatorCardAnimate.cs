@@ -21,7 +21,7 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             animationSystem = null;
         }
 
-        layerName = CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero ? "Resolve Card" : "EnemyCard";
+        layerName = combat.ActiveActor == combat.Hero ? "Resolve Card" : "EnemyCard";
 
         if (card.Block.Value != 0)
             nextState = "Block";
@@ -32,7 +32,7 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
         else
             nextState = "Activities & Discard";
 
-        CombatSystem.instance.StartCoroutine(WaitForAnimation(animationSystem));
+        combat.StartCoroutine(WaitForAnimation(animationSystem));
     }
 
     public void CreateAnimation()
@@ -40,9 +40,9 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
         if (card.cardData.animationPrefab != null)
         {
             GameObject child = card.cardData.animationPrefab.transform.GetChild(0).gameObject;
-            animationObject = Instantiate(card.cardData.animationPrefab,CombatSystem.instance.cardHoldPos) as GameObject;
+            animationObject = Instantiate(card.cardData.animationPrefab,combat.cardHoldPos) as GameObject;
             animationSystem = child.GetComponent<ParticleSystem>();
-            animationObject.transform.position = CombatSystem.instance.cardHoldPos.position;
+            animationObject.transform.position = combat.cardHoldPos.position;
             animationSystem.Stop();
         }
     }
@@ -61,8 +61,8 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             yield return new WaitForSeconds(0.2f);
         }
 
-        if(!CombatSystem.instance.animator.GetBool("HasWon"))
-            CombatSystem.instance.animator.Play(nextLayerState);
+        if(!combat.animator.GetBool("HasWon"))
+            combat.animator.Play(nextLayerState);
     }
 
 

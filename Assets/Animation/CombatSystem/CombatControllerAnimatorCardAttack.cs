@@ -6,7 +6,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 {
     CardEffectInfo attack;
 
-    CombatActor activeActor { get { return CombatSystem.instance.ActiveActor; } }
+    CombatActor activeActor { get { return combat.ActiveActor; } }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -19,16 +19,16 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 
         attack = card.Damage;
         if (attack.Value == 0)
-            CombatSystem.instance.animator.Play(nextLayerState);
+            combat.animator.Play(nextLayerState);
         else
-            CombatSystem.instance.StartCoroutine(PerformAttack());
+            combat.StartCoroutine(PerformAttack());
     }
 
 
 
     IEnumerator PerformAttack()
     {
-        List<CombatActor> targets = CombatSystem.instance.GetTargets(activeActor, attack.Target, suppliedTarget);
+        List<CombatActor> targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
 
         for(int i = 0; i < attack.Times; i++)
         {
@@ -36,18 +36,18 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
             {
                 int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
                 if(actor != null && actor.hitPoints > 0)
-                    yield return CombatSystem.instance.StartCoroutine(actor.GetAttacked(damage, activeActor));
+                    yield return combat.StartCoroutine(actor.GetAttacked(damage, activeActor));
             }
 
             if (attack.Target == CardTargetType.EnemyRandom && i != attack.Times -1) // redraw enemy if target is random
-                targets = CombatSystem.instance.GetTargets(activeActor, attack.Target, suppliedTarget);
+                targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
 
             if (activeActor.hitPoints == 0) break;
         }
 
-        Debug.Log("leaving perform attack. Has won is:  " + CombatSystem.instance.animator.GetBool("HasWon"));
-        if (!CombatSystem.instance.animator.GetBool("HasWon"))
-            CombatSystem.instance.animator.Play(nextLayerState);
+        Debug.Log("leaving perform attack. Has won is:  " + combat.animator.GetBool("HasWon"));
+        if (!combat.animator.GetBool("HasWon"))
+            combat.animator.Play(nextLayerState);
     }
         
 

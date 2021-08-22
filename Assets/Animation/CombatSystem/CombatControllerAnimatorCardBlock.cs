@@ -21,23 +21,23 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 
 
         if (block.Value == 0)
-            CombatSystem.instance.animator.Play(nextLayerState);
+            combat.animator.Play(nextLayerState);
         else
-            CombatSystem.instance.StartCoroutine(ApplyBlock());
+            combat.StartCoroutine(ApplyBlock());
     }
 
     IEnumerator ApplyBlock()
     {
-        List<CombatActor> targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block.Target, suppliedTarget);
+        List<CombatActor> targets = combat.GetTargets(combat.ActiveActor, block.Target, suppliedTarget);
         for (int i = 0; i < block.Times; i++)
         {
             foreach (CombatActor actor in targets)
-                yield return CombatSystem.instance.StartCoroutine(actor.ChangeBlock(block.Value));
+                yield return combat.StartCoroutine(actor.ChangeBlock(block.Value));
 
             if(block.Target == CardTargetType.EnemyRandom && i != block.Times -1) // redraw if random, though doubt it ever will be
-                targets = CombatSystem.instance.GetTargets(CombatSystem.instance.ActiveActor, block.Target, suppliedTarget);
+                targets = combat.GetTargets(combat.ActiveActor, block.Target, suppliedTarget);
         }
-        CombatSystem.instance.animator.Play(nextLayerState);
+        combat.animator.Play(nextLayerState);
     }
         
 
