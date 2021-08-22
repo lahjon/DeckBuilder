@@ -235,7 +235,11 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
         if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
         allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
-        activitiesOnPlay.ForEach(x => toolTipTextBits.Add(CardActivitySystem.instance.ToolTipByCardActivity(x)));
+        activitiesOnPlay.ForEach(x => {
+            string tippie = CardActivitySystem.instance.ToolTipByCardActivity(x);
+            if (!tippie.Equals(string.Empty)) toolTipTextBits.Add(tippie);
+            }
+        );
         if (exhaust) toolTipTextBits.Add("<b>Exhaust</b>\nThis card disappears when used.");
     }
 

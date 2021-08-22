@@ -22,6 +22,7 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.CombatCostChange] = new CardActivityCombatCostChange();
         ActivityTypeToAction[CardActivityType.SetRandomBroken] = new CardActivitySetRandomBroken();
         ActivityTypeToAction[CardActivityType.Heal] = new CardActivityHeal();
+        ActivityTypeToAction[CardActivityType.ModifyEnergy] = new CardActivityModifyEnergy();
     }
 
     public void Start()

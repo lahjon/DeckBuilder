@@ -61,6 +61,7 @@ public class CombatSystem : MonoBehaviour
         get { return backingEnergy; }
         set {
             bool energyChanged = false;
+            value = Mathf.Max(0, value);
             if (backingEnergy != value)
                 energyChanged = true;
             backingEnergy = value; 
