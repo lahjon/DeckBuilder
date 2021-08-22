@@ -47,6 +47,12 @@ public static class EnumExtenstions
                 return string.Format("<b>{0}</b>\nMissing Description!", type.ToString());
         }
     }
+
+    public static bool IsReward(this EncounterEventChoiceEffect effect)
+    {
+        if ((int)effect >= 20) return true;
+        else return false;
+    }
     
 
     public static CardEffect GetRuleEffect(this EffectType type)
@@ -92,7 +98,7 @@ public static class EnumExtenstions
                 WorldStateSystem.SetInCombat(true);
                 break;
             case OverworldEncounterType.Shop:
-                WorldStateSystem.SetInShop(true);
+                WorldStateSystem.SetInOverworldShop(true);
                 break;
             case OverworldEncounterType.RandomEvent:
                 WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterEvent();
@@ -266,12 +272,14 @@ public enum WorldEncounterType
 
 public enum EncounterEventChoiceEffect
 {
-    GetCards,
-    SelectionCards,
     LifeCurrent,
     LifeMax,
-    Artifact,
-    Gold
+    Gold,
+
+    // reward effects
+    GetCards = 20,
+    SelectionCards,
+    Artifact
 }
 
 public enum EncounterHexStatus
@@ -343,12 +351,16 @@ public enum OverlayState
 public enum WorldState
 {
     MainMenu,
-    Event,
-    Bonfire,
-    Reward,
-    Shop,
+    OverworldEvent,
+    OverworldBonfire,
+    OverworldShop,
+    CombatReward,
+    EventReward,
+    TownReward,
+    TownShop,
     Combat,
     WorldMap,
+    WorldMapAnimation,
     Town,
     Building,
     Dialogue,

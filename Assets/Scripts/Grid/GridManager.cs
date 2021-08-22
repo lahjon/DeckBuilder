@@ -86,6 +86,7 @@ public class GridManager : Manager
 
     public void GenerateMap()
     {
+        Debug.Log("Generating Map");
         if (!initialized)
         {
             InitializeMap();
@@ -99,7 +100,6 @@ public class GridManager : Manager
         if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc && enc.completed)
         {
             DeleteMap();
-            WorldStateSystem.SetInOverworld(false);
             WorldStateSystem.SetInTown(true);
             return true;
         }
@@ -148,7 +148,7 @@ public class GridManager : Manager
 
     IEnumerator CreateMap()
     {
-        WorldSystem.instance.worldMapManager.currentWorldEncounter.GetEncounterDescription();
+        if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc) enc.GetEncounterDescription();
         
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;

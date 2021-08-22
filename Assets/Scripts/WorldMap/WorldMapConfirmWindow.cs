@@ -18,6 +18,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
 
             encounterName.text = worldEncounter.worldEncounterData.worldEncounterName;
             encounterReward = Instantiate(worldEncounter.encounterReward, rewardAnchor).GetComponent<Reward>();
+            encounterReward.SetWorldReward();
             encounterReward.transform.localPosition = Vector3.zero;
             encounterReward.transform.localScale *= 1.85f;
             difficultyText.text = worldEncounter.worldEncounterData.difficulty.ToString();
@@ -29,26 +30,26 @@ public class WorldMapConfirmWindow : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void GenerateMap()
+    public void Confirm()
     {
-        // use this to create the map
-        WorldSystem.instance.gridManager.GenerateMap();
+        WorldSystem.instance.worldMapManager.currentWorldEncounter.condition.Subscribe();
+        WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
         DatabaseSystem.instance.ResetEncountersCombatToDraw(null);
         DatabaseSystem.instance.ResetEncountersEventToDraw();
+        Helpers.DelayForSeconds(1f, () => WorldSystem.instance.gridManager.GenerateMap());
+        WorldStateSystem.SetInOverworld(true);
     }
 
     public void ButtonOnClick()
     {
         if (!WorldSystem.instance.debugMode)
         {
-            WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
-            WorldStateSystem.instance.transitionScreen.midCallback = () => GenerateMap();
-            WorldStateSystem.SetInOverworld(true);
+            Confirm();
         }
         else
         {
+            Debug.Log("Debug mode complete encounter");
             WorldSystem.instance.worldMapManager.currentWorldEncounter.OnConditionTrue();
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward();
             WorldSystem.instance.worldMapManager.UpdateMap();
         }
         

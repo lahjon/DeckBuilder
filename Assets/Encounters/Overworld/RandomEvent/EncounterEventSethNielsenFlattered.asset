@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encounterName: Seth Nielsen Flattered
   tier: 0
+  layoutType: 0
   FindInRandom: 0
   description: Blushing, Seth Nielsen searches his pockets and hands you a salve.
   choices:
@@ -21,10 +22,11 @@ MonoBehaviour:
     outcome: 1
     newEncounter: {fileID: 0}
     effects:
-    - effect: 0
+    - effect: 20
       parameter: name=Colorless_Healingsalve
   chosenOption:
     label: 
     outcome: 0
     newEncounter: {fileID: 0}
     effects: []
+  art: {fileID: 0}

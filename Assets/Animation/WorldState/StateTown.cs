@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class StateTown : WorldStateAnimator
 {
@@ -8,15 +9,13 @@ public class StateTown : WorldStateAnimator
     {
         Init(TransitionType.Town, WorldState.Town);
         WorldSystem.instance.townManager.EnterTown();
-        if (world.worldMapManager.currentWorldEncounter?.completed == true)
-        {
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.CollectReward(); 
-        }
+        if (world.rewardManager.uncollectedReward?.Any() == true) WorldStateSystem.SetInTownReward(true);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         world.townManager.ExitTown();
+        WorldStateSystem.SetInTown(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

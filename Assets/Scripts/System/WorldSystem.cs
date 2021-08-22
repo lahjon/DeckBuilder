@@ -96,8 +96,6 @@ public class WorldSystem : MonoBehaviour
     public void BossDefeated()
     {
         gridManager.currentTile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
-        WorldStateSystem.SetInOverworld(false);
-        WorldStateSystem.SetInTown(true);
 
         if (subAct < 3)
             subAct++;

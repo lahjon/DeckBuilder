@@ -108,7 +108,7 @@ public class ShopOverworld : MonoBehaviour
     public void ButtonLeave()
     {
         WorldSystem.instance.artifactManager.allUnavailableArtifactsNames.Clear();
-        WorldStateSystem.SetInShop(false);
+        WorldStateSystem.SetInOverworldShop(false);
     }
 
 }

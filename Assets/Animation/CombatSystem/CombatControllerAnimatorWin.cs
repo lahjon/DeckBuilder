@@ -5,15 +5,21 @@ using DG.Tweening;
 
 public class CombatControllerAnimatorWin : CombatControllerAnimator
 {
+    CombatActor hero;
     float timeDelay = 1.0f;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        Debug.Log("Entered Won State!");
-        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => WorldStateSystem.SetInReward(true) );
-        combat.combatOverlay.AnimateVictorious();
-        combat.EndTurn();
+        DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => WorldStateSystem.SetInCombatReward(true) );
+        CombatSystem.instance.combatOverlay.AnimateVictorious();
+        CombatSystem.instance.EndTurn();
     }
+
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        Debug.Log("Leaving winstate!");
+    }
+
 
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Goal Drive
   cardType: 2
-  artwork: {fileID: 21300000, guid: b1e7fb84c58a802438b3c47d9d097a8e, type: 3}
+  artwork: {fileID: 21300000, guid: 65a586c1fb7831141919cfd326400dfa, type: 3}
   cost: 0
   visibleCost: 1
   immediate: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
       numValue: 0
   effectsOnPlay: []
   activitiesOnPlay:
-  - type: 7
+  - type: 0
     parameter: 1
   effectsOnDraw: []
   activitiesOnDraw: []

@@ -24,7 +24,7 @@ public class WorldStateAnimator : StateMachineBehaviour
             worldStateSystem = WorldStateSystem.instance;
         }
 
-        //Debug.Log("Do Transaction:" + transactionType);
+        Debug.Log("Do Transaction:" + transactionType);
         
         if (transactionType != TransitionType.None)
         {
@@ -41,6 +41,7 @@ public class WorldStateAnimator : StateMachineBehaviour
             {
                 case TransitionType.Normal:
                     worldStateSystem.transitionScreen.NormalTransitionStart();
+                    Debug.Log(this);
                     break;
 
                 case TransitionType.EnterMap:

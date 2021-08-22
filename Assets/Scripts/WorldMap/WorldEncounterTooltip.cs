@@ -21,6 +21,7 @@ public class WorldEncounterTooltip : MonoBehaviour
             encounterName.text = worldEncounter.worldEncounterData.worldEncounterName;
             encounterReward = Instantiate(worldEncounter.encounterReward, rewardAnchor).GetComponent<Reward>();
             encounterReward.transform.localPosition = Vector3.zero;
+            encounterReward.SetWorldReward();
 
             transform.position = worldEncounter.transform.position + new Vector3(0, encounterReward.GetComponent<RectTransform>().sizeDelta.x + 1, 0);;
             descriptionText.text = worldEncounter.condition.GetDescription(false);

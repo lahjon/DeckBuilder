@@ -96,6 +96,7 @@ public class Card : MonoBehaviour
     {
         effectsOnPlay.ForEach(e => {
             Condition cardCondition = new Condition(e.ConditionStruct);
+            cardCondition.Subscribe();
             EffectToCondition[e] = cardCondition;
             if(e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
         });
