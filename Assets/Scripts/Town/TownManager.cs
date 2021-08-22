@@ -24,7 +24,7 @@ public class TownManager : Manager, ISaveableWorld
     public void OpenWorldMap()
     {
         WorldStateSystem.SetInTown(false);
-        WorldStateSystem.SetInWorldMap(true);
+        WorldStateSystem.SetInWorldMap();
     }
 
     void Init()

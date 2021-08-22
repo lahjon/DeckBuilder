@@ -15,6 +15,7 @@ MonoBehaviour:
   itemName: Mr. Sneeko
   itemId: 0
   artwork: {fileID: 21300000, guid: d35185e850365c141b9014a3515aac2f, type: 3}
-  description: A poison snake?
+  description: Snakes have poison.
   rarity: 1
+  goldValue: 0
   cost: 1

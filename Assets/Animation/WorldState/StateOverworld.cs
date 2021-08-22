@@ -17,7 +17,6 @@ public class StateOverworld : WorldStateAnimator
     {
         Debug.Log("Exit Overworld");
         world.gridManager.content.SetActive(false);
-        WorldStateSystem.SetInOverworld(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

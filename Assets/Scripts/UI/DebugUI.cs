@@ -111,7 +111,7 @@ public class DebugUI : MonoBehaviour
         if (data != null) 
         {
             CombatSystem.instance.encounterData = data;
-            WorldStateSystem.SetInOverworld(true);
+            WorldStateSystem.SetInOverworld();
             yield return new WaitForSeconds(1f);
             WorldStateSystem.SetInCombat(true);
         }
@@ -223,7 +223,7 @@ public class DebugUI : MonoBehaviour
     public void DebugGenerateWorld()
     {
         WorldStateSystem.SetInTown(false);
-        WorldStateSystem.SetInOverworld(true);
+        WorldStateSystem.SetInOverworld();
         world.gridManager.GenerateMap();
     }
 

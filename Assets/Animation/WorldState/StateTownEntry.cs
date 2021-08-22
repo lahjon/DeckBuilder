@@ -2,11 +2,12 @@
 // using System.Collections.Generic;
 // using UnityEngine;
 
-// public class StateTownIdle : WorldStateAnimator
+// public class StateTownEntry : WorldStateAnimator
 // {
 //     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 //     {
-//         Init(TransitionType.Town, WorldState.Town);
+//         Init(TransitionType.None, WorldState.Town);
+//         Debug.Log("Enter Town Entry");
 
 //     }
 

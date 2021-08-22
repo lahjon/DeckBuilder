@@ -13,7 +13,6 @@ public class StateWorldMap : WorldStateAnimator
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         world.worldMapManager.CloseMap();
-        WorldStateSystem.SetInWorldMap(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
