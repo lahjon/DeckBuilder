@@ -126,6 +126,8 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.Completed)
             {
+
+                // BYT GridMan till HashSet så går detta att göra utan if.
                 if (!completed)
                 {
                     gridManager.completedTiles.Add(this);
@@ -375,7 +377,7 @@ public class HexTile : MonoBehaviour
             spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
             gridManager.currentTurn++;
             turnCompleted = gridManager.currentTurn;
-            encountersExits.ForEach(x => x.UpdateEntry());
+            encountersExits.ForEach(x => x.RotationUpdateEntry());
         }
         
         LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.2f).setEaseOutCubic().setOnComplete(
@@ -424,11 +426,9 @@ public class HexTile : MonoBehaviour
         {
             if (instant)
             {
-                //OffsetRotation(true);
                 transform.Rotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + gridManager.rotationAmount));
                 gridManager.rotationAmount = 0;
                 gridManager.rotateCounter = 0;
-                //encountersExits.ForEach(x => x.UpdateEntry());
                 MatchRotation();
             }
             else
@@ -437,6 +437,7 @@ public class HexTile : MonoBehaviour
                 gridManager.buttonRotateLeft.interactable = false;
                 gridManager.buttonRotateRight.interactable = false;
                 OffsetRotation();
+                ResetRoadsEncounters();
                 float timer = 0.5f;
                 transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + gridManager.rotationAmount), timer, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
                     gridManager.buttonRotateLeft.interactable = true;
@@ -444,10 +445,21 @@ public class HexTile : MonoBehaviour
                     gridManager.buttonRotateConfirm.interactable = true;
                     gridManager.rotationAmount = 0;
                     gridManager.rotateCounter = 0;
-                    encountersExits.ForEach(x => x.UpdateEntry());
+                    encountersExits.ForEach(x => x.RotationUpdateEntry());
+                    encountersExits.Where(x => x.encounterType == OverworldEncounterType.Start).FirstOrDefault().HighlightReachable();
                     MatchRotation();
                 });
             }
+        }
+    }
+
+    public void ResetRoadsEncounters()
+    {
+        for(int i = 0; i < encounters.Count; i++)
+        {
+            encounters[i].status = EncounterHexStatus.Idle;
+            for (int j = 0; j < encounters[i].roads.Count; j++)
+                encounters[i].roads[j].status = EncounterRoadStatus.Idle;
         }
     }
 
@@ -607,7 +619,6 @@ public class HexTile : MonoBehaviour
         if (exit)
         {
             posToEncountersExit[pos] = enc;
-            Debug.Log("Adding Exit: " + enc);
             encountersExits.Add(enc);
         }
 

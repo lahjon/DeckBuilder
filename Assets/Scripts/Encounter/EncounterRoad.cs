@@ -8,10 +8,12 @@ public class EncounterRoad : MonoBehaviour
     private EncounterRoadStatus _status = EncounterRoadStatus.Idle;
     public EncounterRoadStatus status { get { return _status; } set{
             _status = value;
-            if(value == EncounterRoadStatus.Traversed)
+            if (value == EncounterRoadStatus.Traversed)
                 roadSprites.ForEach(x => x.color = new Color32(255, 255, 255, 255));
-            else if(value == EncounterRoadStatus.Unreachable)
+            else if (value == EncounterRoadStatus.Unreachable)
                 roadSprites.ForEach(x => x.color = new Color32(150, 150, 150, 255));
+            else
+                roadSprites.ForEach(x => x.color = new Color32(255, 191,230 ,255));
         } 
     }
 

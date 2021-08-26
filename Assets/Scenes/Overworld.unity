@@ -8547,6 +8547,7 @@ MonoBehaviour:
   sideCards: []
   allSideCards: []
   allDeckCards: []
+  extraCards: []
   deckParent: {fileID: 1682444217}
   sideParent: {fileID: 1408016317}
 --- !u!1 &484484880
@@ -29952,26 +29953,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2499265add6fe4ab9b128f048525a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actRoads:
-  - {fileID: 0}
-  startPos: {fileID: 0}
-  UIPrefab: {fileID: 6509705178551945313, guid: 1cdd02cf2183e6a41a52c9dec8fda140, type: 3}
-  canvas: {fileID: 0}
-  overworldEncounters: []
-  townEncounter: {fileID: 51815187}
   currentEncounter: {fileID: 0}
-  currentEncounterHex: {fileID: 0}
   encounterTier: 1
-  ActTemplate: {fileID: 0}
-  RoadTemplate: {fileID: 3358915619704755654, guid: 990a8fe1d3b58a34db6e3c0541f9ce21, type: 3}
-  overWorldEncounterTemplate: {fileID: 8443101174515678486, guid: 778c4a9c2ea0d034789a353cfd901bc9, type: 3}
   maxWidth: 3
   minWidth: 2
   length: 7
   placementNoise: 10
   branshProb: 0.25
   tileSizeInverse: 0
-  templateHexEncounter: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
+  templateEncounter: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
+  templateRoad: {fileID: 3358915619704755654, guid: 990a8fe1d3b58a34db6e3c0541f9ce21, type: 3}
   encounterParent: {fileID: 0}
 --- !u!4 &1867544623 stripped
 Transform:

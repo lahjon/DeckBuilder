@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Animations;
+using System.Linq;
 
 public class Encounter : MonoBehaviour
 {
@@ -76,21 +77,21 @@ public class Encounter : MonoBehaviour
             CancelAnimation();
 
             if (_status == EncounterHexStatus.Selectable)
-                AnimateEncounter();
-            if(_status == EncounterHexStatus.Visited)
             {
-                spriteRenderer.color = new Color32(50, 50, 50,255);
+                spriteRenderer.color = new Color32(255, 255, 255, 255);
+                AnimateEncounter();
             }
-            else if(_status == EncounterHexStatus.Unreachable)
+            else if (_status == EncounterHexStatus.Visited)
+                spriteRenderer.color = new Color32(50, 50, 50, 255);
+            else if (_status == EncounterHexStatus.Unreachable)
+            {
                 spriteRenderer.color = new Color32(200, 200, 200, 255);
+                foreach (EncounterRoad road in roads)
+                    road.status = EncounterRoadStatus.Unreachable;
+            }
             else
                 spriteRenderer.color = new Color32(255, 255, 255, 255);
         }
-    }
-
-    public void Awake()
-    {
-        
     }
 
     public void Init()
@@ -126,7 +127,6 @@ public class Encounter : MonoBehaviour
     {
         transform.localScale = startingScale*1.5f;
         status = EncounterHexStatus.Visited;
-        Debug.Log("STATUS: " + this);
 
         tile.encounters.Remove(this);
         if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is Encounter encEntry)
@@ -135,7 +135,7 @@ public class Encounter : MonoBehaviour
             yield return StartCoroutine(intraHexRoad.AnimateTraverseRoad(this));
         }
 
-        Encounter previous = WorldSystem.instance.encounterManager.currentEncounterHex;
+        Encounter previous = WorldSystem.instance.encounterManager.currentEncounter;
         if (previous != null)
         {
             previous.SetLeaving();
@@ -144,39 +144,64 @@ public class Encounter : MonoBehaviour
                     yield return StartCoroutine(road.AnimateTraverseRoad(this));
                 
         }
-        
 
-        HashSet<Encounter> reachable = WorldSystem.instance.encounterManager.FindAllReachableNodes(this);
+        HighlightReachable();
+        
+        WorldSystem.instance.encounterManager.currentEncounter = this;
+
+        if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
+            encounterType.Invoke();
+    }
+
+    public void HighlightReachable()
+    {
+        status = EncounterHexStatus.Visited; // needed when overworld map is just testing rotations
+        HashSet<Encounter> reachable = FindAllReachableNodes(this);
 
         foreach (Encounter enc in tile.encounters)
         {
+            if (enc == this) continue; 
+
             if (reachable.Contains(enc))
                 enc.status = neighboors.Contains(enc) ? EncounterHexStatus.Selectable : EncounterHexStatus.Idle;
-            else if (enc.status == EncounterHexStatus.Idle)
-            {
+            else if (enc.status != EncounterHexStatus.Unreachable)
                 enc.status = EncounterHexStatus.Unreachable;
-                foreach (EncounterRoad road in enc.roads)
-                    road.status = EncounterRoadStatus.Unreachable;
-            }
         }
 
-        foreach(Encounter enc in reachable)
+        foreach (Encounter enc in reachable)
         {
             foreach (EncounterRoad road in enc.roads)
             {
                 Encounter otherEnc = road.OtherEnd(enc);
-                if( otherEnc.status == EncounterHexStatus.Visited 
-                    && otherEnc != this
-                    && road.status != EncounterRoadStatus.Traversed) {
+                if (otherEnc.status == EncounterHexStatus.Visited && otherEnc != this)
                     road.status = EncounterRoadStatus.Unreachable;
-                }
             }
         }
-        
-        WorldSystem.instance.encounterManager.currentEncounterHex = this;
 
-        if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
-            encounterType.Invoke();
+    }
+
+    public static HashSet<Encounter> FindAllReachableNodes(Encounter enc)
+    {
+        HashSet<Encounter> hs = new HashSet<Encounter>();
+
+        if (enc.encounterType == OverworldEncounterType.Exit)
+        {
+            hs.Add(enc);
+            return hs;
+        }
+
+        List<Encounter> neighs = enc.neighboors.Where(e => e.status == EncounterHexStatus.Idle || e.status == EncounterHexStatus.Selectable).ToList();
+        foreach (Encounter neigh in neighs)
+        {
+            //avoiding animationtriggers
+            EncounterHexStatus originalStatus = neigh.status;
+            neigh._status = EncounterHexStatus.Visited;
+            hs.UnionWith(FindAllReachableNodes(neigh));
+            neigh._status = originalStatus;
+        }
+
+        if (hs.Any()) hs.Add(enc);
+        return hs;
     }
 
     public int ExitDirection()
@@ -184,7 +209,7 @@ public class Encounter : MonoBehaviour
         return HexTile.positionsExit.IndexOf(coordinates);
     }
 
-    public void UpdateEntry()
+    public void RotationUpdateEntry()
     {
         //Debug.Log(HexTile.positionsExit[tile.encountersExits[this]]);
         //Debug.Log(tile.entryDir);

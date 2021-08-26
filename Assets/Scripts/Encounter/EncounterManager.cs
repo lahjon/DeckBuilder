@@ -5,19 +5,8 @@ using System.Linq;
 
 public class EncounterManager : Manager
 {
-    public List<GameObject> actRoads; 
-    public GameObject startPos;
-    public GameObject UIPrefab;
-    public Canvas canvas;
-    public List<Encounter> overworldEncounters;
-    public GameObject townEncounter;
     public Encounter currentEncounter;
-    public Encounter currentEncounterHex;
     public int encounterTier;
-
-    public GameObject ActTemplate;
-    public GameObject RoadTemplate;
-    public GameObject overWorldEncounterTemplate;
     
     public int maxWidth = 4;
     public int minWidth = 3;
@@ -26,7 +15,8 @@ public class EncounterManager : Manager
     public double branshProb = 0.25;
     public float tileSizeInverse;
 
-    public GameObject templateHexEncounter; 
+    public GameObject templateEncounter; 
+    public GameObject templateRoad;
 
     [HideInInspector] public GameObject encounterParent; 
 
@@ -51,7 +41,7 @@ public class EncounterManager : Manager
 
     public EncounterRoad AddRoad(Encounter fromEnc, Encounter toEnc, bool animate = false)
     {
-        GameObject roadObj = Instantiate(RoadTemplate, fromEnc.tile.roadParent);
+        GameObject roadObj = Instantiate(templateRoad, fromEnc.tile.roadParent);
         EncounterRoad road = roadObj.GetComponent<EncounterRoad>();
 
         road.DrawRoad(fromEnc, toEnc, animate);
@@ -82,7 +72,7 @@ public class EncounterManager : Manager
 
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
         {
-            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
+            GameObject obj = Instantiate(templateEncounter, tile.encounterParent);
             Encounter enc = obj.GetComponent<Encounter>();
             enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
@@ -139,7 +129,7 @@ public class EncounterManager : Manager
 
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
         {
-            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent) as GameObject;
+            GameObject obj = Instantiate(templateEncounter, tile.encounterParent);
             Encounter enc = obj.GetComponent<Encounter>();
             enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
@@ -201,7 +191,7 @@ public class EncounterManager : Manager
 
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
         {
-            GameObject obj = Instantiate(templateHexEncounter, tile.encounterParent);
+            GameObject obj = Instantiate(templateEncounter, tile.encounterParent);
             Encounter enc = obj.GetComponent<Encounter>();
             enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
@@ -481,30 +471,6 @@ public class EncounterManager : Manager
         return false;
     }
 
-    public HashSet<Encounter> FindAllReachableNodes(Encounter enc)
-    {
-        HashSet<Encounter> hs = new HashSet<Encounter>();
-
-        if(enc.encounterType == OverworldEncounterType.Exit)
-        {
-            hs.Add(enc);
-            return hs;
-        }
-
-        List<Encounter> neighs = enc.neighboors.Where(e => e.status == EncounterHexStatus.Idle || e.status == EncounterHexStatus.Selectable).ToList();
-        foreach (Encounter neigh in neighs)
-        {
-            EncounterHexStatus originalStatus = neigh.status;
-            //avoiding animationtriggers
-            neigh._status = EncounterHexStatus.Visited;
-            hs.UnionWith(FindAllReachableNodes(neigh));
-            neigh._status = originalStatus;
-        }
-
-        if (hs.Count == 0) return hs;
-        hs.Add(enc);
-        return hs;
-    }
 
     public void Testie()
     {
