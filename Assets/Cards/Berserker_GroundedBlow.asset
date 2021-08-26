@@ -24,7 +24,7 @@ MonoBehaviour:
     Value: 7
     Times: 1
     Target: 3
-    ConditionStruct:
+    conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
@@ -33,7 +33,7 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 6
-    ConditionStruct:
+    conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
@@ -42,7 +42,7 @@ MonoBehaviour:
     Value: 2
     Times: 1
     Target: 3
-    ConditionStruct:
+    conditionStruct:
       type: 6
       strParameter: Order
       numValue: 0

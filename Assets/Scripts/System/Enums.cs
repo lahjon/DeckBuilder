@@ -126,7 +126,8 @@ public enum ConditionType
     WinCombat,
     CardsPlayedAtLeast,
     CardsPlayedAtMost,
-    LastCardPlayedTurnType
+    LastCardPlayedTurnType,
+    Discharge
 }
 
 public enum Rarity

@@ -156,10 +156,10 @@ public class DatabaseGoogle
             cardEffect.Times = Int32.Parse((string)gt[i, "Times"]);
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
 
-            cardEffect.ConditionStruct = new ConditionStruct();
-            Enum.TryParse((string)gt[i, "ConditionType"], out cardEffect.ConditionStruct.type);
-            cardEffect.ConditionStruct.strParameter = (string)gt[i, "ConditionStrParam"];
-            cardEffect.ConditionStruct.numValue = Int32.Parse((string)gt[i, "ConditionValue"]);
+            cardEffect.conditionStruct = new ConditionStruct();
+            Enum.TryParse((string)gt[i, "ConditionType"], out cardEffect.conditionStruct.type);
+            cardEffect.conditionStruct.strParameter = (string)gt[i, "ConditionStrParam"];
+            cardEffect.conditionStruct.numValue = Int32.Parse((string)gt[i, "ConditionValue"]);
 
             if (((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
                 data.effectsOnPlay.Add(cardEffect);

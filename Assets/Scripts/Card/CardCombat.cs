@@ -111,12 +111,19 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         return playCondition.value && CombatSystem.instance.cEnergy >= displayCost;
     }
-    public override void SetupEffecConditions()
+    public override void SetupConditions()
     {
         effectsOnPlay.ForEach(e => {
-            Condition cardCondition = new Condition(e.ConditionStruct, null, EvaluateHighlightNotSelected);
+            Condition cardCondition = new Condition(e.conditionStruct, null, EvaluateHighlightNotSelected);
             EffectToCondition[e] = cardCondition;
-            if (e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+            if (e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+        });
+
+        activitiesOnPlay.ForEach(e =>
+        {
+            Condition cardCondition = new Condition(e.conditionStruct, null, EvaluateHighlightNotSelected);
+            ActivityToCondition[e] = cardCondition;
+            if (e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
         });
     }
 
@@ -179,6 +186,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         if (card.unplayable) card.playCondition = new Condition() { value = false };
 
         card.Subscribe();
+        card.RefreshConditions();
         return card;
     }
 
@@ -268,7 +276,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void Unsubscribe()
     {
-        foreach (IEventSubscriber e in EffectToCondition.Values)
+        foreach (IEventSubscriber e in effectActivityConditions)
             e.Unsubscribe();
 
         playCondition.Unsubscribe();
@@ -277,7 +285,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void Subscribe()
     {
-        foreach (IEventSubscriber e in EffectToCondition.Values)
+        foreach (IEventSubscriber e in effectActivityConditions)
             e.Subscribe();
 
         playCondition.Subscribe();

@@ -9,7 +9,7 @@ public class CardEffectInfo
     public int Value;
     public int Times;
     public CardTargetType Target;
-    public ConditionStruct ConditionStruct;
+    public ConditionStruct conditionStruct;
 
     public CardEffectInfo() { }
 
@@ -19,7 +19,7 @@ public class CardEffectInfo
         Value = value;
         Times = times;
         Target = cardTargetType;
-        ConditionStruct = new ConditionStruct() { type = ConditionType.None};
+        conditionStruct = new ConditionStruct() { type = ConditionType.None};
     }
 
     public CardEffectInfo(EffectType type, int value, int times, CardTargetType cardTargetType, ConditionStruct conditionStruct)
@@ -28,14 +28,8 @@ public class CardEffectInfo
         Value = value;
         Times = times;
         Target = cardTargetType;
-        ConditionStruct = conditionStruct;
+        this.conditionStruct = conditionStruct;
     }
-
-    public CardEffectInfo Clone()
-    {
-        return new CardEffectInfo(Type, Value, Times, Target, ConditionStruct);
-    }
-
 
     public static CardEffectInfo operator+(CardEffectInfo a, CardEffectInfo b)
     {

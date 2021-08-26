@@ -38,6 +38,7 @@ public class Card : MonoBehaviour
     public bool unstable;
 
     public Dictionary<CardEffectInfo, Condition> EffectToCondition = new Dictionary<CardEffectInfo, Condition>();
+    public Dictionary<CardActivitySetting, Condition> ActivityToCondition = new Dictionary<CardActivitySetting, Condition>();
 
     public List<Condition> effectActivityConditions = new List<Condition>();
     public bool hasSpecialConditions { get => effectActivityConditions.Any(); }
@@ -64,7 +65,7 @@ public class Card : MonoBehaviour
         unplayable      = cardData.unplayable;
         unstable        = cardData.unstable;
 
-        SetupEffecConditions();
+        SetupConditions();
     }
 
     public void Mimic(Card card)
@@ -89,16 +90,25 @@ public class Card : MonoBehaviour
         unplayable = card.unplayable;
         unstable = card.unstable;
 
-        SetupEffecConditions();
+        SetupConditions();
     }
 
-    public virtual void SetupEffecConditions()
+    public virtual void SetupConditions()
     {
         effectsOnPlay.ForEach(e => {
-            Condition cardCondition = new Condition(e.ConditionStruct);
+            Condition cardCondition = new Condition(e.conditionStruct);
             cardCondition.Subscribe();
+            cardCondition.OnEventNotification();
             EffectToCondition[e] = cardCondition;
-            if(e.ConditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+            if(e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
+        });
+        activitiesOnPlay.ForEach(e =>
+        {
+            Condition cardCondition = new Condition(e.conditionStruct);
+            cardCondition.Subscribe();
+            cardCondition.OnEventNotification();
+            ActivityToCondition[e] = cardCondition;
+            if (e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
         });
     }
 

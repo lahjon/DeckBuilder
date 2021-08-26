@@ -208,8 +208,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     private string EffectInfoToString(CardEffectInfo effectInfo)
     {
         string retString = "";
-        if (effectInfo.ConditionStruct.type != ConditionType.None) retString += "If " + effectInfo.ConditionStruct.type.ToString() + " " + effectInfo.ConditionStruct.strParameter
-                + (effectInfo.ConditionStruct.numValue == 0 ? "" : effectInfo.ConditionStruct.numValue.ToString()) 
+        if (effectInfo.conditionStruct.type != ConditionType.None) retString += "If " + effectInfo.conditionStruct.type.ToString() + " " + effectInfo.conditionStruct.strParameter
+                + (effectInfo.conditionStruct.numValue == 0 ? "" : effectInfo.conditionStruct.numValue.ToString()) 
                  + " then: ";
         retString += effectInfo.Type.ToString() + EffectTypeToIconCode(effectInfo.Type) + " " + effectInfo.Value;
         if (effectInfo.Times != 1) retString += " " + effectInfo.Times + " times";

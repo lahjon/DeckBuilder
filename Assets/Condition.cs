@@ -94,7 +94,6 @@ public class Condition : IEventSubscriber
     }
     public virtual void OnEventNotification()
     {
-        Debug.Log("Base");
         if (ConditionEvaluator == null) return;
         bool newVal = ConditionEvaluator(conditionStruct);
 
