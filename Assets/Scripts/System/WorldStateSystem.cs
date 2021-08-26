@@ -54,13 +54,8 @@ public class WorldStateSystem : MonoBehaviour
             Destroy(gameObject);
         }
 
-        worldAnimator = this.GetComponent<Animator>();
-        overlayAnimator = this.transform.GetChild(0).GetComponent<Animator>();
-
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            SetInTown(true);
-        }
+        worldAnimator = GetComponent<Animator>();
+        overlayAnimator = transform.GetChild(0).GetComponent<Animator>();
     }
 
     public static void TriggerToMainMenu()
@@ -76,10 +71,7 @@ public class WorldStateSystem : MonoBehaviour
         worldAnimator.SetBool("InReward", false);
         worldAnimator.SetBool("InEvent", false);
     }
-    public static void SetInTown(bool aBool)
-    {
-        worldAnimator.SetBool("InTown", aBool);
-    }
+
     public static void SetInCombat(bool aBool)
     {
         worldAnimator.SetBool("InCombat", aBool);
@@ -109,30 +101,24 @@ public class WorldStateSystem : MonoBehaviour
     {
         worldAnimator.SetBool("InTownShop", aBool);
     }
-    public static void SetInCutscene(bool aBool)
+    public static void SetInCutscene()
     {
-        worldAnimator.SetBool("InCutscene", aBool);
+        worldAnimator.SetTrigger("InCutscene");
     }
-    public static void SetInWorldMap(bool aBool)
+    public static void SetInWorldMap()
     {
-        worldAnimator.SetBool("InWorldMap", aBool);
+        worldAnimator.SetTrigger("TriggerWorldMap");
     }
-    public static void SetInOverworld(bool aBool)
+    public static void SetInOverworld()
     {
-        worldAnimator.SetBool("InOverworld", aBool);
+        worldAnimator.SetTrigger("TriggerOverworld");
     }
-    // public static void SetInCombatReward(bool aBool)
-    // {
-    //     worldAnimator.SetBool("InCombatReward", aBool);
-    // }
-    // public static void SetInEventReward(bool aBool)
-    // {
-    //     worldAnimator.SetBool("InEventReward", aBool);
-    // }
-    // public static void SetInTownReward(bool aBool)
-    // {
-    //     worldAnimator.SetBool("InTownReward", aBool);
-    // }
+    public static void SetInTown(bool aBool)
+    {
+        Debug.Log("DICKCIDK");
+        WorldSystem.instance.characterManager.ResetDeck();
+        worldAnimator.SetBool("TriggerTown", aBool);
+    }
     public static void SetInEvent(bool aBool)
     {
         worldAnimator.SetBool("InEvent", aBool);

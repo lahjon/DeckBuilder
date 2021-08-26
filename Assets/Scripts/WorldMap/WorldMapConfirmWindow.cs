@@ -37,7 +37,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
         DatabaseSystem.instance.ResetEncountersCombatToDraw(null);
         DatabaseSystem.instance.ResetEncountersEventToDraw();
         Helpers.DelayForSeconds(1f, () => WorldSystem.instance.gridManager.GenerateMap());
-        WorldStateSystem.SetInOverworld(true);
+        WorldStateSystem.SetInOverworld();
     }
 
     public void ButtonOnClick()

@@ -96,9 +96,9 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         characterVariablesUI.UpdateCharacterHUD();
     }
 
-    public void UnlockCardInDeck()
+    public void ResetDeck()
     {
-        
+        playerCardsData = world.townManager.scribe.GetDeck();
     }
 
     public void Heal(int amount)

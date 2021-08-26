@@ -15,9 +15,9 @@ MonoBehaviour:
   worldEncounterName: DebugEncounter(DoNotPlay)
   difficulty: 1
   rewardStruct:
-    type: 2
+    type: 5
     value:
-    - 15
+    - name=Colorless_Healingsalve
   clearCondition:
     type: 2
     strParameter: 

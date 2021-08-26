@@ -13,6 +13,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public List<string> sideCards = new List<string>();
     public List<CardDisplay> allSideCards = new List<CardDisplay>();
     public List<CardDisplay> allDeckCards = new List<CardDisplay>();
+    public List<CardData> extraCards = new List<CardData>();
     public Transform deckParent, sideParent;
 
     void Start()
@@ -25,12 +26,16 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         DatabaseSystem.instance.GetCardsByName(currentCards).ForEach(x => CreateCard(x, true));
         DatabaseSystem.instance.GetCardsByName(sideCards).ForEach(x => CreateCard(x, false));
         SortDeck();
-        WorldSystem.instance.characterManager.playerCardsData = DatabaseSystem.instance.GetStartingDeck(true).Concat(allDeckCards.Select(x => x.cardData)).ToList();
+        WorldSystem.instance.characterManager.playerCardsData = GetDeck();
     }
 
-    public List<CardData> GetStartDeck()
+    public List<CardData> GetStartingDeck()
     {
         return DatabaseSystem.instance.GetStartingDeck(true).Concat(DatabaseSystem.instance.GetStartingDeck(false)).ToList();
+    }
+    public List<CardData> GetDeck()
+    {
+        return DatabaseSystem.instance.GetStartingDeck(true).Concat(allDeckCards.Select(x => x.cardData)).Concat(extraCards).ToList();
     }
 
     public void UnlockCard(CardData data)
@@ -142,7 +147,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void ConfirmDeck()
     {
-        WorldSystem.instance.characterManager.playerCardsData = DatabaseSystem.instance.GetStartingDeck(true).Concat(allDeckCards.Select(x => x.cardData)).ToList();
+        WorldSystem.instance.characterManager.playerCardsData = GetDeck();
     }
     public override void CloseBuilding()
     {
