@@ -85,17 +85,11 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         typeText.text = cardType.ToString();
 
         displayCost = cost;
-
         energyObjects.SetActive(visibleCost);
 
-        cardTextElements.Clear();
-        cardTextElements.Add(Damage);
-        cardTextElements.Add(Block);
-        cardTextElements.AddRange(effectsOnDraw);
-        cardTextElements.AddRange(activitiesOnDraw);
-        cardTextElements.AddRange(effectsOnPlay);
-        cardTextElements.AddRange(activitiesOnPlay);
-        for(int i = 0; i < singleFieldProperties.Count; i++)
+        ResetCardTextElementsList();
+
+        for (int i = 0; i < singleFieldProperties.Count; i++)
         {
             if ((int)singleFieldProperties[i].type < 0)
                 cardTextElements.Insert(0, singleFieldProperties[i]);
@@ -118,13 +112,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         displayCost = card.displayCost;
         energyObjects.SetActive(card.visibleCost);
 
-        cardTextElements.Clear();
-        cardTextElements.Add(Damage);
-        cardTextElements.Add(Block);
-        cardTextElements.AddRange(effectsOnDraw);
-        cardTextElements.AddRange(activitiesOnDraw);
-        cardTextElements.AddRange(effectsOnPlay);
-        cardTextElements.AddRange(activitiesOnPlay);
+        ResetCardTextElementsList();
+
         for (int i = 0; i < singleFieldProperties.Count; i++)
         {
             if ((int)singleFieldProperties[i].type < 0)
@@ -136,6 +125,17 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         SetBorderColor();
         RefreshDescriptionText(true);
         SetToolTips();
+    }
+
+    public void ResetCardTextElementsList()
+    {
+        cardTextElements.Clear();
+        cardTextElements.Add(Damage);
+        cardTextElements.Add(Block);
+        cardTextElements.AddRange(effectsOnDraw);
+        cardTextElements.AddRange(activitiesOnDraw);
+        cardTextElements.AddRange(effectsOnPlay);
+        cardTextElements.AddRange(activitiesOnPlay);
     }
 
     public void ResetDamageBlockVals()

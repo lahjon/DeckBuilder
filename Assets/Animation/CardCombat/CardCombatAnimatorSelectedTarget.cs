@@ -11,7 +11,6 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
 
     float duration = 0.2f;
     float time;
-    float timeDelay = 0.05f;
     SelectionPath selectionPath;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

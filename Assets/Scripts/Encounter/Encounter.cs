@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Animations;
-using System.Linq;
 
 public class Encounter : MonoBehaviour
 {
