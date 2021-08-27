@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class EnumExtenstions
 {
-    public static string GetDescription(this EffectType type)
+    public static string GetToolTip(this EffectType type)
     {
         switch (type)
         {
@@ -222,6 +222,14 @@ public enum CardClassType
     Burden,
     Torment,
     Enemy
+}
+
+public enum CardSingleFieldPropertyType
+{
+    Immediate = -3,
+    Unplayable = -2,
+    Unstable = -1,
+    Exhaust = 0
 }
 
 public enum RewardType

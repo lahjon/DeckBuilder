@@ -14,16 +14,18 @@ public class Card : MonoBehaviour
     public CardType cardType;
 
     public int cost;
+    public bool visibleCost = true;
+
     public CardData cardData;
 
-    public bool immediate;
-    public bool exhaust;
+    public List<CardSingleFieldProperty> singleFieldProperties = new List<CardSingleFieldProperty>();
+    public HashSet<CardSingleFieldPropertyType> singleFieldTypes = new HashSet<CardSingleFieldPropertyType>();
 
-    public CardEffectInfo Damage;
-    public CardEffectInfo Block;
+    public CardEffectCarrier Damage;
+    public CardEffectCarrier Block;
 
-    public List<CardEffectInfo> effectsOnPlay = new List<CardEffectInfo>();
-    public List<CardEffectInfo> effectsOnDraw = new List<CardEffectInfo>();
+    public List<CardEffectCarrier> effectsOnPlay = new List<CardEffectCarrier>();
+    public List<CardEffectCarrier> effectsOnDraw = new List<CardEffectCarrier>();
     public List<CardActivitySetting> activitiesOnPlay = new List<CardActivitySetting>();
     public List<CardActivitySetting> activitiesOnDraw = new List<CardActivitySetting>();
 
@@ -33,15 +35,7 @@ public class Card : MonoBehaviour
 
     public CardClassType classType = CardClassType.None;
 
-    public bool visibleCost = true;
-    public bool unplayable;
-    public bool unstable;
-
-    public Dictionary<CardEffectInfo, Condition> EffectToCondition = new Dictionary<CardEffectInfo, Condition>();
-    public Dictionary<CardActivitySetting, Condition> ActivityToCondition = new Dictionary<CardActivitySetting, Condition>();
-
-    public List<Condition> effectActivityConditions = new List<Condition>();
-    public bool hasSpecialConditions { get => effectActivityConditions.Any(); }
+    public List<Condition> registeredHighlightConditions = new List<Condition>();
 
     public void BindCardData()
     {
@@ -51,21 +45,17 @@ public class Card : MonoBehaviour
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
         cost            = cardData.cost;
-        immediate       = cardData.immediate;
-        exhaust         = cardData.exhaust;
-        Damage          = cardData.Damage;
-        Block           = cardData.Block;
-        effectsOnPlay   = cardData.effectsOnPlay;
-        effectsOnDraw   = cardData.effectsOnDraw;
+        cardData.singleFieldProperties.OrderBy(s => (int)s).ToList().ForEach(s => RegisterSingleField(s));
+        
+        Damage          = SetupEffectcarrier(cardData.Damage);
+        Block           = SetupEffectcarrier(cardData.Block);
+        cardData.effectsOnPlay.ForEach(e=> effectsOnPlay.Add(SetupEffectcarrier(e)));
+        cardData.effectsOnDraw.ForEach(e=> effectsOnDraw.Add(SetupEffectcarrier(e)));
         activitiesOnPlay= cardData.activitiesOnPlay;
         activitiesOnDraw= cardData.activitiesOnDraw;
         animationPrefab = cardData.animationPrefab;
         classType       = cardData.cardClass;
         visibleCost     = cardData.visibleCost;
-        unplayable      = cardData.unplayable;
-        unstable        = cardData.unstable;
-
-        SetupConditions();
     }
 
     public void Mimic(Card card)
@@ -76,8 +66,8 @@ public class Card : MonoBehaviour
         cardName = card.cardName;
         artwork = card.artwork;
         cost = card.cost;
-        immediate = card.immediate;
-        exhaust = card.exhaust;
+        singleFieldProperties = card.singleFieldProperties;
+        singleFieldTypes = card.singleFieldTypes;
         Damage = card.Damage;
         Block = card.Block;
         effectsOnPlay = card.effectsOnPlay;
@@ -87,29 +77,21 @@ public class Card : MonoBehaviour
         animationPrefab = card.animationPrefab;
         classType = card.classType;
         visibleCost = card.visibleCost;
-        unplayable = card.unplayable;
-        unstable = card.unstable;
-
-        SetupConditions();
     }
 
-    public virtual void SetupConditions()
+    public CardEffectCarrier SetupEffectcarrier(CardEffectCarrierData data)
     {
-        effectsOnPlay.ForEach(e => {
-            Condition cardCondition = new Condition(e.conditionStruct);
-            cardCondition.Subscribe();
-            cardCondition.OnEventNotification();
-            EffectToCondition[e] = cardCondition;
-            if(e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
-        });
-        activitiesOnPlay.ForEach(e =>
-        {
-            Condition cardCondition = new Condition(e.conditionStruct);
-            cardCondition.Subscribe();
-            cardCondition.OnEventNotification();
-            ActivityToCondition[e] = cardCondition;
-            if (e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
-        });
+        if (this is CardCombat cardCombat)
+            return new CardEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
+        else
+            return new CardEffectCarrier(data, this);
+    }
+
+    public void RegisterSingleField(CardSingleFieldPropertyType s)
+    {
+        if (singleFieldTypes.Contains(s)) return;
+        singleFieldProperties.Add(new CardSingleFieldProperty(s));
+        singleFieldTypes.Add(s);
     }
 
     [HideInInspector]
@@ -124,26 +106,11 @@ public class Card : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        //AssignMaterials();
-    } 
-
-    void AssignMaterials()
-    {
-        // material = Instantiate(material);
-
-        // for (int i = 0; i < transform.childCount; i++)
-        // {
-            
-        // }
-    }
-
-    public List<CardEffectInfo> allEffects
+    public List<CardEffectCarrier> allEffects
     {
         get
         {
-            List<CardEffectInfo> tempList = new List<CardEffectInfo>
+            List<CardEffectCarrier> tempList = new List<CardEffectCarrier>
             {
                 Damage,
                 Block
@@ -165,7 +132,7 @@ public class Card : MonoBehaviour
         }
     }
 
-    public List<CardEffectInfo> GetEffectsByType(EffectType type)
+    public List<CardEffectCarrier> GetEffectsByType(EffectType type)
     {
         return effectsOnPlay.Where(x => x.Type == type).ToList();
     }
@@ -198,8 +165,8 @@ public class Card : MonoBehaviour
 
         foreach(EffectType type in effectTypes)
         {
-            List<CardEffectInfo> aE = a.GetEffectsByType(type);
-            List<CardEffectInfo> bE = b.GetEffectsByType(type);
+            List<CardEffectCarrier> aE = a.GetEffectsByType(type);
+            List<CardEffectCarrier> bE = b.GetEffectsByType(type);
 
             if (aE.Count == 0)
                 Target.effectsOnPlay.AddRange(bE);
@@ -224,7 +191,7 @@ public class Card : MonoBehaviour
             }
             else
             {
-                int aParam = Int32.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
+                int aParam = int.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
                 if(aParam > 1)
                     Target.activitiesOnPlay.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = (aParam-1).ToString()});
             }

@@ -14,17 +14,15 @@ public class CardData : ScriptableObject
     public int cost;
     public bool visibleCost = true;
 
-    public bool immediate;
+    public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();
 
-    public bool exhaust = false;
+    public CardEffectCarrierData Damage;
+    public CardEffectCarrierData Block;
 
-    public CardEffectInfo Damage;
-    public CardEffectInfo Block;
-
-    public List<CardEffectInfo>         effectsOnPlay = new List<CardEffectInfo>();
+    public List<CardEffectCarrierData>  effectsOnPlay = new List<CardEffectCarrierData>();
     public List<CardActivitySetting>    activitiesOnPlay = new List<CardActivitySetting>();
 
-    public List<CardEffectInfo>         effectsOnDraw = new List<CardEffectInfo>();
+    public List<CardEffectCarrierData>  effectsOnDraw = new List<CardEffectCarrierData>();
     public List<CardActivitySetting>    activitiesOnDraw = new List<CardActivitySetting>();
 
     public Rarity rarity;
@@ -35,7 +33,4 @@ public class CardData : ScriptableObject
 
     
     public int goldValue;
-
-    public bool unplayable = false;
-    public bool unstable = false;
 }

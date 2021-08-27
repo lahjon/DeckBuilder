@@ -25,11 +25,12 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public TMP_Text costText;
 
-    readonly static string strBlockCode = "_BLOCKINFO_";
-    readonly static string strDamageCode = "_DAMAGEINFO_";
+    public readonly static string strBlockCode = "_BLOCKINFO_";
+    public readonly static string strDamageCode = "_DAMAGEINFO_";
     readonly static string colorCodeGood = "#2e590c";
     readonly static string colorCodeBad = "#a16658";
 
+    public List<ICardTextElement> cardTextElements = new List<ICardTextElement>();
 
     private int _displayDamage = -1;
     private int _displayBlock = -1;
@@ -41,7 +42,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         set
         {
             _displayDamage = value;
-            RefreshBlockAndDamageParts();
+            RefreshDamageBlockVals();
         }
     }
     public int displayBlock
@@ -50,7 +51,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         set
         {
             _displayBlock = value;
-            RefreshBlockAndDamageParts();
+            RefreshDamageBlockVals();
         }
     }
     public int displayCost
@@ -68,6 +69,13 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public bool isBroken = false;
 
+    private void RefreshDamageBlockVals()
+    {
+        displayText = derivedText.Replace(strDamageCode, ValueColorWrapper(Damage.Value, _displayDamage));
+        displayText = displayText.Replace(strBlockCode, ValueColorWrapper(Block.Value, _displayBlock));
+        descriptionText.text = displayText;
+    }
+
     public void BindCardVisualData()
     {
         derivedText = "";
@@ -80,8 +88,22 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
         energyObjects.SetActive(visibleCost);
 
+        cardTextElements.Clear();
+        cardTextElements.Add(Damage);
+        cardTextElements.Add(Block);
+        cardTextElements.AddRange(effectsOnDraw);
+        cardTextElements.AddRange(activitiesOnDraw);
+        cardTextElements.AddRange(effectsOnPlay);
+        cardTextElements.AddRange(activitiesOnPlay);
+        for(int i = 0; i < singleFieldProperties.Count; i++)
+        {
+            if ((int)singleFieldProperties[i].type < 0)
+                cardTextElements.Insert(0, singleFieldProperties[i]);
+            else
+                cardTextElements.Add(singleFieldProperties[i]);
+        }
+
         SetBorderColor();
-        ResetDamageBlockCalc();
         RefreshDescriptionText();
         SetToolTips();
     }
@@ -96,103 +118,52 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         displayCost = card.displayCost;
         energyObjects.SetActive(card.visibleCost);
 
+        cardTextElements.Clear();
+        cardTextElements.Add(Damage);
+        cardTextElements.Add(Block);
+        cardTextElements.AddRange(effectsOnDraw);
+        cardTextElements.AddRange(activitiesOnDraw);
+        cardTextElements.AddRange(effectsOnPlay);
+        cardTextElements.AddRange(activitiesOnPlay);
+        for (int i = 0; i < singleFieldProperties.Count; i++)
+        {
+            if ((int)singleFieldProperties[i].type < 0)
+                cardTextElements.Insert(0, singleFieldProperties[i]);
+            else
+                cardTextElements.Add(singleFieldProperties[i]);
+        }
+
         SetBorderColor();
-        ResetDamageBlockCalc();
         RefreshDescriptionText(true);
         SetToolTips();
     }
 
-    public void ResetDamageBlockCalc()
+    public void ResetDamageBlockVals()
     {
-        _displayDamage = Damage.Value;
-        _displayBlock = Block.Value;
+        displayDamage = Damage.Value;
+        displayBlock = Block.Value;
     }
 
     public void RefreshDescriptionText(bool forceRebuild = false)
     {
         if (derivedText.Equals("") || forceRebuild) DeriveDescriptionText();
-
-        RefreshBlockAndDamageParts();
-        descriptionText.text = displayText;
-    }
-
-    public void RefreshBlockAndDamageParts()
-    {
-        StringBuilder descText;
-        displayText = derivedText;
-
-        //Special care for Damage and Block
-        if (Block.Value != 0)
-        {
-            descText = new StringBuilder(100);
-            descText.Append(Block.Type.ToString() + EffectTypeToIconCode(Block.Type) + " ");
-            descText.Append(ValueColorWrapper(Block.Value, displayBlock));
-            if (Block.Times != 1) descText.Append(" " + Block.Times + " times ");
-            if (Block.Target != CardTargetType.Self) descText.Append(" " + Block.Target.ToString());
-            displayText = displayText.Replace(strBlockCode, descText.ToString());
-        }
-        //Special care for Damage and Block
-        if (Damage.Value != 0)
-        {
-            descText = new StringBuilder(100);
-            if (Damage.Value != 0) descText.AppendLine();
-            descText.Append(Damage.Type.ToString() + EffectTypeToIconCode(Damage.Type) + " ");
-            descText.Append(ValueColorWrapper(Damage.Value, displayDamage));
-            if (Damage.Times != 1) descText.Append(" " + Damage.Times + " times ");
-            if (Damage.Target != CardTargetType.EnemySingle) descText.Append(" " + Damage.Target.ToString());
-            displayText = displayText.Replace(strDamageCode, descText.ToString());
-        }
+        ResetDamageBlockVals();
     }
 
     public void DeriveDescriptionText()
     {
-        StringBuilder descText = new StringBuilder(300);
+        StringBuilder textDeriver = new StringBuilder(300);
 
-        if (immediate) descText.AppendLine("<b>Immediate</b>");
-        if (unplayable) descText.AppendLine("<b>Unplayable</b>");
-        if (unstable) descText.AppendLine("<b>Unstable</b>");
-
-
-        //Special care for Damage and Block
-        if (Block.Value != 0) descText.Append(strBlockCode);
-        //Special care for Damage and Block
-        if (Damage.Value != 0) descText.Append(strDamageCode);
-
-        //On draw non-modifiable descs
-
-        for (int i = 0; i < effectsOnDraw.Count; i++)
+        for(int i = 0; i < cardTextElements.Count; i++)
         {
-            if (effectsOnDraw[i].Value == 0) continue;
-            if (descText.Length != 0) descText.AppendLine();
-            descText.Append("On Draw: " + EffectInfoToString(effectsOnDraw[i]));
+            string element = cardTextElements[i].GetElementText();
+            if (element == null || element.Equals(string.Empty)) continue;
+            if (textDeriver.Length != 0) textDeriver.AppendLine();
+            if (effectsOnDraw.Contains(cardTextElements[i]) || activitiesOnDraw.Contains(cardTextElements[i])) textDeriver.Append("On Draw");
+            textDeriver.Append(cardTextElements[i].GetElementText());
         }
 
-        for (int i = 0; i < activitiesOnDraw.Count; i++)
-        {
-            if (descText.Length != 0) descText.AppendLine();
-            descText.Append("On Draw: " + CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnDraw[i]));
-        }
-
-        //Generall non-modifiable descs
-        for (int i = 0; i < effectsOnPlay.Count; i++)
-        {
-            if (effectsOnPlay[i].Value == 0) continue;
-            if (descText.Length != 0) descText.AppendLine();
-            descText.Append(EffectInfoToString(effectsOnPlay[i]));
-        }
-
-        for (int i = 0; i < activitiesOnPlay.Count; i++)
-        {
-            if (descText.Length != 0) descText.AppendLine();
-            descText.Append(CardActivitySystem.instance.DescriptionByCardActivity(activitiesOnPlay[i]));
-        }
-        if (exhaust)
-        {
-            if (descText.Length != 0) descText.AppendLine();
-            descText.Append("<b>Exhaust</b>");
-        }
-
-        derivedText = descText.ToString();
+        derivedText = textDeriver.ToString();
     }
 
     public string ValueColorWrapper(int originalVal, int currentVal, bool inverse = false)
@@ -205,20 +176,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             return "<color=" + colorCodeGood + ">" + currentVal.ToString() + "</color>";
     }
 
-    private string EffectInfoToString(CardEffectInfo effectInfo)
-    {
-        string retString = "";
-        if (effectInfo.conditionStruct.type != ConditionType.None) retString += "If " + effectInfo.conditionStruct.type.ToString() + " " + effectInfo.conditionStruct.strParameter
-                + (effectInfo.conditionStruct.numValue == 0 ? "" : effectInfo.conditionStruct.numValue.ToString()) 
-                 + " then: ";
-        retString += effectInfo.Type.ToString() + EffectTypeToIconCode(effectInfo.Type) + " " + effectInfo.Value;
-        if (effectInfo.Times != 1) retString += " " + effectInfo.Times + " times";
-        if (effectInfo.Target != CardTargetType.EnemySingle) retString += " " + effectInfo.Target.ToString();
 
-        return retString;
-    }
-
-    private string EffectTypeToIconCode(EffectType type)
+    public static string EffectTypeToIconCode(EffectType type)
     {
         if (type == EffectType.Damage)
             return " <sprite name=\"Attack\">";
@@ -231,16 +190,12 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     protected void SetToolTips()
     {
         toolTipTextBits.Clear();
-        if (immediate) toolTipTextBits.Add("<b>Immediate</b>\nThis card will play itself when you draw it.");
-        if (unplayable) toolTipTextBits.Add("<b>Unplayable</b>\nThis card can not be played.");
-        if (unstable) toolTipTextBits.Add("<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.");
-        allEffects.ForEach(x => { if (x.Type != EffectType.Damage && !(x.Type == EffectType.Block && x.Value == 0)) toolTipTextBits.Add(x.Type.GetDescription()); });
-        activitiesOnPlay.ForEach(x => {
-            string tippie = CardActivitySystem.instance.ToolTipByCardActivity(x);
-            if (!tippie.Equals(string.Empty)) toolTipTextBits.Add(tippie);
-            }
-        );
-        if (exhaust) toolTipTextBits.Add("<b>Exhaust</b>\nThis card disappears when used.");
+        for (int i = 0; i < cardTextElements.Count; i++)
+        {
+            string element = cardTextElements[i].GetElementToolTip();
+            if (element == null || element.Equals(string.Empty)) continue;
+            toolTipTextBits.Add(element);
+        }
     }
 
     void SetBorderColor()

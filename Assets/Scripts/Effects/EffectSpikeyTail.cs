@@ -18,7 +18,7 @@ public class EffectSpikeyTail : Effect
 
     IEnumerator ApplyThorns()
     {
-        StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Thorns, Times = 1, Value = 3 }));
+        StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier() { Type = EffectType.Thorns, Times = 1, Value = 3 }));
         yield return null;
     }
 }

@@ -241,7 +241,7 @@ public class CombatSystem : MonoBehaviour
     public void EndTurn()
     {
         cardsPlayedThisTurn.Clear();
-        Hand.Where(c => c.unstable).ToList().ForEach(c => { Hand.Remove(c); Destroy(c.gameObject); });
+        Hand.Where(c => c.singleFieldTypes.Contains(CardSingleFieldPropertyType.Unstable)).ToList().ForEach(c => { Hand.Remove(c); Destroy(c.gameObject); });
 
         foreach (CardCombat card in Hand)
         {
@@ -494,7 +494,7 @@ public class CombatSystem : MonoBehaviour
         Hand.Add(card);
         card.effectsOnDraw.ForEach(e => drawnToResolve.Enqueue(e));
         card.activitiesOnDraw.ForEach(e => drawnToResolve.Enqueue(e));
-        if (card.immediate) drawnToResolve.Enqueue(card);
+        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Immediate)) drawnToResolve.Enqueue(card);
 
         card.animator.SetTrigger("StartDraw");
         UpdateDeckTexts();
@@ -505,7 +505,7 @@ public class CombatSystem : MonoBehaviour
         while(drawnToResolve.Count != 0)
         {
             object obj = drawnToResolve.Dequeue();
-            if(obj is CardEffectInfo cardEffect)
+            if(obj is CardEffectCarrier cardEffect)
             {
                 List<CombatActor> targets = GetTargets(Hero, cardEffect.Target, null);
                 for (int i = 0; i < cardEffect.Times; i++)
@@ -599,7 +599,7 @@ public class CombatSystem : MonoBehaviour
 
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.displayCost <= cEnergy && card.selectable && !card.unplayable;
+        bool selectable = card.displayCost <= cEnergy && card.selectable && card.playCondition;
         if (!silentCheck && card.displayCost > cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    

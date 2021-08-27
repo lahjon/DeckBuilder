@@ -16,8 +16,10 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
         //Debug.Log("Starting effets transmittion");
         List<CombatActor> targets;
 
-        foreach (CardEffectInfo e in card.effectsOnPlay.Where(e=> card.EffectToCondition[e].value))
+        foreach (CardEffectCarrier e in card.effectsOnPlay)
         {
+            if (!e.condition) continue;
+
             targets = combat.GetTargets(combat.ActiveActor, e.Target, suppliedTarget);
 
             for (int i = 0; i < e.Times; i++)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 {
-    CardEffectInfo attack;
+    CardEffectCarrier attack;
 
     CombatActor activeActor { get { return combat.ActiveActor; } }
 

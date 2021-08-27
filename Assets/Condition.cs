@@ -15,6 +15,8 @@ public class Condition : IEventSubscriber
     public Action OnConditionFlipFalse;
     public Action OnConditionFlip;
 
+    public static implicit operator bool(Condition c) => c.value;
+
     public Condition(ConditionStruct conditionStruct, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
     {
         this.conditionStruct = conditionStruct;
@@ -37,6 +39,15 @@ public class Condition : IEventSubscriber
         value = true;
     }
 
+    public string GetTextCard()
+    {
+        string retString = "";
+        if (conditionStruct.type != ConditionType.None) retString += "If " + conditionStruct.type.ToString() + " " + conditionStruct.strParameter
+                + (conditionStruct.numValue == 0 ? "" : conditionStruct.numValue.ToString())
+                    + " then: ";
+
+        return retString;
+    }
 
     public void Subscribe()
     {

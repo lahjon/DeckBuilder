@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 {
-    CardEffectInfo block;
+    CardEffectCarrier block;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

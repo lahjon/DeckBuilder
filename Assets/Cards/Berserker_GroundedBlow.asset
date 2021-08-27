@@ -17,8 +17,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 6041b8f04bce8214a9b270b9b82d4321, type: 3}
   cost: 1
   visibleCost: 1
-  immediate: 0
-  exhaust: 0
+  singleFieldProperties: 
   Damage:
     Type: 0
     Value: 7
@@ -54,5 +53,3 @@ MonoBehaviour:
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 10
-  unplayable: 0
-  unstable: 0

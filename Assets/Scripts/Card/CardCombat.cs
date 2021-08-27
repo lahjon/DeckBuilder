@@ -56,8 +56,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     }
 
 
-
-
     public bool MouseReact
     {
         get
@@ -111,22 +109,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         return playCondition.value && CombatSystem.instance.cEnergy >= displayCost;
     }
-    public override void SetupConditions()
-    {
-        effectsOnPlay.ForEach(e => {
-            Condition cardCondition = new Condition(e.conditionStruct, null, EvaluateHighlightNotSelected);
-            EffectToCondition[e] = cardCondition;
-            if (e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
-        });
-
-        activitiesOnPlay.ForEach(e =>
-        {
-            Condition cardCondition = new Condition(e.conditionStruct, null, EvaluateHighlightNotSelected);
-            ActivityToCondition[e] = cardCondition;
-            if (e.conditionStruct.type != ConditionType.None) effectActivityConditions.Add(cardCondition);
-        });
-    }
-
 
     private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
     {
@@ -151,7 +133,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         {
             if (isPlayable())
             {
-                if(!hasSpecialConditions || effectActivityConditions.Any(x => !x.value))
+                if(!registeredHighlightConditions.Any() || registeredHighlightConditions.Any(x => !x.value))
                     cardHighlightType = CardHighlightType.Playable;
                 else
                     cardHighlightType = CardHighlightType.PlayableSpecial;
@@ -183,7 +165,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
-        if (card.unplayable) card.playCondition = new Condition() { value = false };
+        if (card.singleFieldProperties.Any(s => s == CardSingleFieldPropertyType.Unplayable)) card.playCondition = new Condition() { value = false };
 
         card.Subscribe();
         card.RefreshConditions();
@@ -268,7 +250,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void RefreshConditions()
     {
-        foreach (Condition c in EffectToCondition.Values)
+        foreach (Condition c in registeredHighlightConditions)
             c.OnEventNotification();
 
         playCondition.OnEventNotification();
@@ -276,7 +258,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void Unsubscribe()
     {
-        foreach (IEventSubscriber e in effectActivityConditions)
+        foreach (IEventSubscriber e in registeredHighlightConditions)
             e.Unsubscribe();
 
         playCondition.Unsubscribe();
@@ -285,7 +267,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void Subscribe()
     {
-        foreach (IEventSubscriber e in effectActivityConditions)
+        foreach (IEventSubscriber e in registeredHighlightConditions)
             e.Subscribe();
 
         playCondition.Subscribe();

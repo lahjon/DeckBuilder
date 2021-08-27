@@ -4,12 +4,22 @@ using UnityEngine;
 
 
 [System.Serializable]
-public struct CardActivitySetting
+public class CardActivitySetting : ICardTextElement
 {
     public CardActivityType type;
     public string parameter;
 
     public ConditionStruct conditionStruct;
+
+    public string GetElementText()
+    {
+        return CardActivitySystem.instance.DescriptionByCardActivity(this);
+    }
+
+    public string GetElementToolTip()
+    {
+        return CardActivitySystem.instance.ToolTipByCardActivity(this);
+    }
 }
 
 

@@ -29,7 +29,7 @@ public class CardEffectChallenge : CardEffect
                 challengedActors.Add(challenger);
 
                 yield return CombatSystem.instance.StartCoroutine(
-                    challenger.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = 1, Value = 1 })
+                    challenger.RecieveEffectNonDamageNonBlock(new CardEffectCarrier() { Type = EffectType.Challenge, Times = 1, Value = 1 })
                     );
                 ((CardEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
                 challenger.dealAttackActorMods[actor].Add(AttackEffect);
@@ -44,7 +44,7 @@ public class CardEffectChallenge : CardEffect
         foreach(CombatActor actor in challengedActors)
         {
             ((CardEffectChallenge)actor.effectTypeToRule[EffectType.Challenge]).challengedActors.Remove(actor);
-            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo() { Type = EffectType.Challenge, Times = -1, Value = 1 }));
+            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier() { Type = EffectType.Challenge, Times = -1, Value = 1 }));
         }
     }
 

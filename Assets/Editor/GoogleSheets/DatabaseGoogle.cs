@@ -114,12 +114,12 @@ public class DatabaseGoogle
             data.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
             Enum.TryParse((string)gt[i, "BlockTarget"], out data.Block.Target);
 
-            data.immediate = (string)gt[i, "Immediate"] == "TRUE";
-            data.exhaust = (string)gt[i, "Exhaust"] == "TRUE";
-            data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
-            data.unplayable = (string)gt[i, "Unplayable"] == "TRUE";
-            data.unstable = (string)gt[i, "Unstable"] == "TRUE";
+            if ((string)gt[i, "Immediate"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Immediate);
+            if ((string)gt[i, "Exhaust"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Exhaust);
+            if ((string)gt[i, "Unplayable"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Unplayable);
+            if ((string)gt[i, "Unstable"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Unstable);
 
+            data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
             data.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
 
             data.effectsOnPlay.Clear();
@@ -148,7 +148,7 @@ public class DatabaseGoogle
                 break;
 
             CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { CardPath });
-            CardEffectInfo cardEffect = new CardEffectInfo();
+            CardEffectCarrierData cardEffect = new CardEffectCarrierData();
             Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
 
             cardEffect.Type = effectType;
@@ -302,7 +302,7 @@ public class DatabaseGoogle
 
             if (cardData.effectsOnPlay.Count != 0)
             {
-                foreach (CardEffectInfo effect in cardData.effectsOnPlay)
+                foreach (CardEffectCarrierData effect in cardData.effectsOnPlay)
                 {
                     List<object> cDataCardEffect = new List<object>();
                     cDataCardEffect.Add(cardData.name);
@@ -428,7 +428,7 @@ public class DatabaseGoogle
                 continue;
             }
 
-            CardEffectInfo cardEffect = new CardEffectInfo();
+            CardEffectCarrier cardEffect = new CardEffectCarrier();
             cardEffect.Target = CardTargetType.Self;
             Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
             cardEffect.Value = int.Parse((string)gt[i, "Value"]);
@@ -531,7 +531,7 @@ public class DatabaseGoogle
                 continue;
             }
 
-            CardEffectInfo cardEffect = new CardEffectInfo();
+            CardEffectCarrier cardEffect = new CardEffectCarrier();
             Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
             cardEffect.Value = int.Parse((string)gt[i, "Value"]);
             cardEffect.Times = int.Parse((string)gt[i, "Times"]);

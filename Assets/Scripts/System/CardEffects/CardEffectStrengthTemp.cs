@@ -14,7 +14,7 @@ public class CardEffectStrengthTemp : CardEffect
 
     public override void RespondStackUpdate(int update)
     {
-       CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectInfo(EffectType.Strength, update, 1)));
+       CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Strength, update, 1)));
     }
 
     

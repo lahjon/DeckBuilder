@@ -6,7 +6,7 @@ using System.Linq;
 
 public class CardActivitySplice : CardActivity
 {
-    CardEffectInfo cardEffect = new CardEffectInfo() { Type = EffectType.Splice, Times = 1};
+    CardEffectCarrier cardEffect = new CardEffectCarrier() { Type = EffectType.Splice, Times = 1};
     public override IEnumerator Execute(string input)
     {
         CombatActor hero = CombatSystem.instance.Hero;
@@ -32,7 +32,7 @@ public class CardActivitySplice : CardActivity
                 cardEffect.Value = -1;
                 yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
                 CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
-                CombatSystem.instance.InProcessCard.exhaust = true;
+                CombatSystem.instance.InProcessCard.RegisterSingleField(CardSingleFieldPropertyType.Exhaust);
 
                 hero.discard.Remove(discardedCard);
                 UnityEngine.Object.Destroy(discardedCard.gameObject);

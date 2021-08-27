@@ -101,7 +101,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public virtual void CardResolved(Card card)
     {
-        if (card.exhaust)
+        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Exhaust))
             Destroy(card.gameObject);
         else
             DiscardCard(card);
@@ -173,7 +173,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     }
 
 
-    public IEnumerator RecieveEffectNonDamageNonBlock(CardEffectInfo effectInfo)
+    public IEnumerator RecieveEffectNonDamageNonBlock(CardEffectCarrier effectInfo)
     {
         if (!effectTypeToRule.ContainsKey(effectInfo.Type))
         {
@@ -222,7 +222,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
-        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetDescription()); });
+        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetToolTip()); });
         return (toolTipTextBits, AnchorToolTip.position);
     }
 

@@ -17,14 +17,13 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: a552e15c1660ace4c9da083d629cdf4e, type: 3}
   cost: 1
   visibleCost: 1
-  immediate: 0
-  exhaust: 0
+  singleFieldProperties: 
   Damage:
     Type: 0
     Value: 0
     Times: 0
     Target: 3
-    ConditionStruct:
+    conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
@@ -33,7 +32,7 @@ MonoBehaviour:
     Value: 0
     Times: 0
     Target: 0
-    ConditionStruct:
+    conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
@@ -41,6 +40,10 @@ MonoBehaviour:
   activitiesOnPlay:
   - type: 1
     parameter: Burden_CheapScare,Deck
+    conditionStruct:
+      type: 0
+      strParameter: 
+      numValue: 0
   effectsOnDraw: []
   activitiesOnDraw: []
   rarity: 11
@@ -48,5 +51,3 @@ MonoBehaviour:
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
   goldValue: 10
-  unplayable: 0
-  unstable: 0

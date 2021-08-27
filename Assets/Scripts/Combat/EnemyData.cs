@@ -16,7 +16,7 @@ public class EnemyData : ScriptableObject
     public int experience;
     public List<CardData> deck = new List<CardData>();
 
-    public List<CardEffectInfo> startingEffects = new List<CardEffectInfo>();
+    public List<CardEffectCarrier> startingEffects = new List<CardEffectCarrier>();
     public List<CardActivity> startingActivities = new List<CardActivity>();
 
     public bool shuffleInit = true;

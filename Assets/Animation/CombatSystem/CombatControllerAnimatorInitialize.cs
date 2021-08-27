@@ -24,11 +24,11 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         yield return new WaitForSeconds(0.5f);
 
         EncounterDataCombat encounterData = combat.encounterData;
-        List<CardEffectInfo>    startingEffects = encounterData.startingEffects;
+        List<CardEffectCarrier>    startingEffects = encounterData.startingEffects;
         List<int>               startingTargets = encounterData.startEffectsTargets;
         int counter = 0;
 
-        foreach (CardEffectInfo e in startingEffects)
+        foreach (CardEffectCarrier e in startingEffects)
         {
             List<CombatActor> targets = combat.GetTargets(combat.Hero, e.Target, combat.EnemiesInScene[startingTargets[counter++]]);
             for (int i = 0; i < e.Times; i++)
@@ -37,7 +37,7 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         } 
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
-            foreach (CardEffectInfo e in encounterData.enemyData[i].startingEffects)
+            foreach (CardEffectCarrier e in encounterData.enemyData[i].startingEffects)
                 yield return combat.StartCoroutine(combat.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e));
 
         combat.animator.SetTrigger("SetupComplete");
