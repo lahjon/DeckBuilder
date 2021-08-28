@@ -176,7 +176,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             return "<color=" + colorCodeGood + ">" + currentVal.ToString() + "</color>";
     }
 
-
     public static string EffectTypeToIconCode(EffectType type)
     {
         if (type == EffectType.Damage)

@@ -30,7 +30,7 @@ public class Card : MonoBehaviour
     public List<CardActivitySetting> activitiesOnDraw = new List<CardActivitySetting>();
 
     public GameObject animationPrefab;
-    public CombatActor owner;
+    public CombatActor owner; 
     public Material material;
 
     public CardClassType classType = CardClassType.None;
