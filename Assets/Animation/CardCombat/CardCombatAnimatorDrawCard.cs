@@ -31,6 +31,8 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         (Vector3, Vector3) tempTransInfo = CombatSystem.instance.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);
 
+        EventManager.HandCountChanged();
+
         StartTransInfo = TransSnapshot();
         card.selectable = true;
         card.RefreshConditions();

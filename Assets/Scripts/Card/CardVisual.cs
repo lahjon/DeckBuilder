@@ -159,7 +159,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             string element = cardTextElements[i].GetElementText();
             if (element == null || element.Equals(string.Empty)) continue;
             if (textDeriver.Length != 0) textDeriver.AppendLine();
-            if (effectsOnDraw.Contains(cardTextElements[i]) || activitiesOnDraw.Contains(cardTextElements[i])) textDeriver.Append("On Draw");
+            if (effectsOnDraw.Contains(cardTextElements[i]) || activitiesOnDraw.Contains(cardTextElements[i])) textDeriver.Append("On Draw ");
             textDeriver.Append(cardTextElements[i].GetElementText());
         }
 

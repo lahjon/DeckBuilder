@@ -35,7 +35,8 @@ public class Card : MonoBehaviour
 
     public CardClassType classType = CardClassType.None;
 
-    public List<Condition> registeredHighlightConditions = new List<Condition>();
+    public List<Condition> registeredConditions = new List<Condition>();
+    public List<IEventSubscriber> registeredSubscribers = new List<IEventSubscriber>();
 
     public void BindCardData()
     {

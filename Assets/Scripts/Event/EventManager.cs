@@ -42,7 +42,14 @@ public class EventManager : Manager
     public delegate void EnergyChangedEvent();
     public static event EnergyChangedEvent OnEnergyChangedEvent;
 
+    public delegate void DeckCountChangeEvent();
+    public static event DeckCountChangeEvent OnDeckCountChangeEvent;
 
+    public delegate void DiscardCountChangeEvent();
+    public static event DiscardCountChangeEvent OnDiscardCountChangeEvent;
+
+    public delegate void HandCountChangeEvent();
+    public static event HandCountChangeEvent OnHandCountChangeEvent;
 
     public static void EnterBuilding(BuildingType building)
     {
@@ -110,6 +117,22 @@ public class EventManager : Manager
     {
         OnEnergyChangedEvent?.Invoke();
     }
+
+    public static void DeckCountChanged()
+    {
+        OnDeckCountChangeEvent?.Invoke();
+    }
+
+    public static void DiscardCountChanged()
+    {
+        OnDiscardCountChangeEvent?.Invoke();
+    }
+
+    public static void HandCountChanged()
+    {
+        OnHandCountChangeEvent?.Invoke();
+    }
+
 }
 
 

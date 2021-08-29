@@ -116,6 +116,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     {
         int index = UnityEngine.Random.Range(0, deck.Count + 1);
         deck.Insert(index, card);
+        EventManager.DeckCountChanged();
     }
 
 

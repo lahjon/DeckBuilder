@@ -133,7 +133,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         {
             if (isPlayable())
             {
-                if(!registeredHighlightConditions.Any() || registeredHighlightConditions.Any(x => !x.value))
+                if(!registeredConditions.Any() || registeredConditions.Any(x => !x.value))
                     cardHighlightType = CardHighlightType.Playable;
                 else
                     cardHighlightType = CardHighlightType.PlayableSpecial;
@@ -250,7 +250,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void RefreshConditions()
     {
-        foreach (Condition c in registeredHighlightConditions)
+        foreach (Condition c in registeredConditions)
             c.OnEventNotification();
 
         playCondition.OnEventNotification();
@@ -258,7 +258,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void Unsubscribe()
     {
-        foreach (IEventSubscriber e in registeredHighlightConditions)
+        foreach (IEventSubscriber e in registeredSubscribers)
             e.Unsubscribe();
 
         playCondition.Unsubscribe();
@@ -267,7 +267,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void Subscribe()
     {
-        foreach (IEventSubscriber e in registeredHighlightConditions)
+        foreach (IEventSubscriber e in registeredSubscribers)
             e.Subscribe();
 
         playCondition.Subscribe();

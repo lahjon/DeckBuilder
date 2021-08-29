@@ -6,13 +6,13 @@ using System.Linq;
 
 public class CardActivitySplice : CardActivity
 {
-    CardEffectCarrier cardEffect = new CardEffectCarrier() { Type = EffectType.Splice, Times = 1};
     public override IEnumerator Execute(string input)
     {
+        CardEffectCarrier cardEffect;
         CombatActor hero = CombatSystem.instance.Hero;
 
         if (!hero.effectTypeToRule.ContainsKey(EffectType.Splice)) {
-            cardEffect.Value = Int32.Parse(input);
+            cardEffect = new CardEffectCarrier(EffectType.Splice, int.Parse(input));
             yield return CombatSystem.instance.StartCoroutine(hero.RecieveEffectNonDamageNonBlock(cardEffect));
         }
         else
@@ -29,7 +29,7 @@ public class CardActivitySplice : CardActivity
             
             if (discardedCard != null)
             {
-                cardEffect.Value = -1;
+                cardEffect = new CardEffectCarrier(EffectType.Splice, -1);
                 yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
                 CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
                 CombatSystem.instance.InProcessCard.RegisterSingleField(CardSingleFieldPropertyType.Exhaust);

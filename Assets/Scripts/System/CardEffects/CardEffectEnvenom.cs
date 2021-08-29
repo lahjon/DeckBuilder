@@ -24,7 +24,7 @@ public class CardEffectEnvenom : CardEffect
 
     IEnumerator FeelThePoisonDagger(CombatActor hurtEnemy)
     {
-        yield return hurtEnemy.RecieveEffectNonDamageNonBlock(new CardEffectCarrier() { Type = EffectType.Poison, Times = 1, Value = nrStacked });
+        yield return CombatSystem.instance.StartCoroutine(hurtEnemy.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Poison,nrStacked)));
     }
 
 }

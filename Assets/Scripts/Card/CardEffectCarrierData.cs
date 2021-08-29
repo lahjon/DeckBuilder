@@ -6,8 +6,8 @@ using UnityEngine;
 public struct CardEffectCarrierData
 {
     public EffectType Type;
-    public int Value;
-    public int Times;
+    public string Value;
+    public string Times;
     public CardTargetType Target;
     public ConditionStruct conditionStruct;
 }

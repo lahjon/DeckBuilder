@@ -40,7 +40,8 @@ public class CombatSystem : MonoBehaviour
     public int energyTurn;
     public float origoCardRot = 1000f;
     public float origoCardPos = 1000f;
-    public float handDegreeBetweenCards = 10f;
+    public float baseDegreeBetweenCards = 10f;
+    public float clampedDegreeBetweenCards { get => baseDegreeBetweenCards * Mathf.Min(1.0f, (6.0f - 1.0f) / (Hand.Count - 1)); }
     public bool acceptEndTurn = true;
     public bool acceptActions = true;
     public bool acceptProcess = false;
@@ -153,6 +154,7 @@ public class CombatSystem : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            EventManager.OnDeckCountChangeEvent += UpdateDeckTexts;
             //DontDestroyOnLoad(gameObject);
         }
         else
@@ -366,8 +368,9 @@ public class CombatSystem : MonoBehaviour
     public (Vector3 Position,Vector3 Angles) GetPositionInHand(int CardNr)
     {
         // Positional Info
-        float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards/2 : 0;
-        float degree = ((CardNr - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+
+        float localoffset = (Hand.Count % 2 == 0) ? clampedDegreeBetweenCards / 2 : 0;
+        float degree = ((CardNr - (Hand.Count / 2)) * clampedDegreeBetweenCards + localoffset);
         return GetTargetPositionFromDegree(degree);
     }
 
@@ -395,8 +398,8 @@ public class CombatSystem : MonoBehaviour
             return -1f;
         }
 
-        float localoffset = (Hand.Count % 2 == 0) ? handDegreeBetweenCards / 2 : 0;
-        float degree = ((Hand.IndexOf(card) - (Hand.Count / 2)) * handDegreeBetweenCards + localoffset);
+        float localoffset = (Hand.Count % 2 == 0) ? clampedDegreeBetweenCards / 2 : 0;
+        float degree = ((Hand.IndexOf(card) - (Hand.Count / 2)) * clampedDegreeBetweenCards + localoffset);
 
         return degree;
     }
@@ -468,6 +471,7 @@ public class CombatSystem : MonoBehaviour
             if (Hero.deck.Count == 0)
             {
                 Hero.deck.AddRange(Hero.discard);
+                EventManager.DeckCountChanged();
                 Hero.discard.Clear();
                 Hero.ShuffleDeck();
             }
@@ -497,7 +501,7 @@ public class CombatSystem : MonoBehaviour
         if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Immediate)) drawnToResolve.Enqueue(card);
 
         card.animator.SetTrigger("StartDraw");
-        UpdateDeckTexts();
+        EventManager.DeckCountChanged();
     }
 
     IEnumerator ResolveDrawnEffects()

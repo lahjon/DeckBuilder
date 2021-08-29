@@ -22,6 +22,8 @@ public class CombatActorHero : CombatActor
     {
         ((CardCombat)card).animator.SetTrigger("Discarded");
         base.DiscardCard(card);
+        EventManager.DiscardCountChanged();
+        EventManager.HandCountChanged();
     }
 
     public override void CardResolved(Card card)

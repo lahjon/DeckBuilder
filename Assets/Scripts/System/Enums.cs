@@ -232,6 +232,14 @@ public enum CardSingleFieldPropertyType
     Exhaust = 0
 }
 
+public enum CardLinkablePropertyType
+{
+    None,
+    Handsize,
+    NrCardsDeck,
+    NrCardsDiscard
+}
+
 public enum RewardType
 {
     None,

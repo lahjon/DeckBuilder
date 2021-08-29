@@ -358,7 +358,7 @@ MonoBehaviour:
   energyTurn: 0
   origoCardRot: 1000
   origoCardPos: 1000
-  handDegreeBetweenCards: 10
+  baseDegreeBetweenCards: 10
   acceptEndTurn: 1
   acceptActions: 1
   acceptProcess: 0

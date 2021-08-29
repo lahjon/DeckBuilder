@@ -38,7 +38,7 @@ MonoBehaviour:
       numValue: 0
   effectsOnPlay:
   - Type: 4
-    Value: 2
+    Value: prop:Handsize
     Times: 1
     Target: 3
     conditionStruct:

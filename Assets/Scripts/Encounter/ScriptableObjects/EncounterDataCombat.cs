@@ -10,7 +10,7 @@ public class EncounterDataCombat : EncounterData
 
     public List<EnemyData> enemyData = new List<EnemyData>();
   
-    public List<CardEffectCarrier> startingEffects = new List<CardEffectCarrier>();
+    public List<CardEffectCarrierData> startingEffects = new List<CardEffectCarrierData>();
     public List<int> startEffectsTargets = new List<int>();
     public List<CardActivity> startingActivities = new List<CardActivity>();
 

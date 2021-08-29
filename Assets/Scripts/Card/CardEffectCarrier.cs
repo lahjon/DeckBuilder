@@ -7,25 +7,26 @@ using UnityEngine;
 [System.Serializable]
 public class CardEffectCarrier: ICardTextElement
 {
-    public Card card; 
+    internal Card card; 
 
     public EffectType Type;
-    public int Value { get; set; }
-    public int Times { get; set; }
 
+    public CardInt Value;
+    public CardInt Times;
+
+    internal string description = string.Empty;
 
     public CardTargetType Target;
     public Condition condition;
 
     public CardEffectCarrier() { }
 
-
-    public CardEffectCarrier(EffectType type, int value, int times, CardTargetType target = CardTargetType.EnemySingle, Card card = null)
+    public CardEffectCarrier(EffectType type, int value, int times = 1, CardTargetType target = CardTargetType.EnemySingle, Card card = null)
     {
         this.card = card;
         Type = type;
-        Value = value;
-        Times = times;
+        Value = new CardInt(value);
+        Times = new CardInt(times);
         Target = target;
         condition = new Condition();
     }
@@ -34,17 +35,54 @@ public class CardEffectCarrier: ICardTextElement
     {
         this.card = card;
         Type = data.Type;
-        Value = data.Value;
-        Times = data.Times;
+        Value = CardInt.Factory(data.Value,card, ForceTextRefresh);
+        Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;
 
         condition = new Condition(data.conditionStruct, OnPreConditionUpdate);
         if (data.conditionStruct.type != ConditionType.None)
         {
-            card.registeredHighlightConditions.Add(condition);
+            card.registeredConditions.Add(condition);
+            card.registeredSubscribers.Add(condition);
         }
     }
 
+    public virtual string GetElementText()
+    {
+        if (!description.Equals(string.Empty)) return description;
+
+        if (Value == 0) return null;
+        description = condition.GetTextCard();
+
+        description += "<b>" + Type.ToString() + "</b> ";
+        if (Type == EffectType.Damage)
+            description += CardVisual.strDamageCode;
+        else if (Type == EffectType.Block)
+            description += CardVisual.strBlockCode;
+        else
+            description += Value.GetTextForValue();
+
+        if (Times != 1) description += " " + Times + " times";
+        if ((Type == EffectType.Damage && Target != CardTargetType.EnemySingle) || (Type == EffectType.Block && Target != CardTargetType.Self)) description += " " + Target.ToString();
+
+
+        return description;
+    }
+
+    public string GetElementToolTip()
+    {
+       if(Type == EffectType.Damage || (Type == EffectType.Block && Value == 0)) return null;
+       return Type.GetToolTip();
+    }
+
+    public void ForceTextRefresh()
+    {
+        if (card is CardCombat c)
+        {
+            description = string.Empty;
+            c.RefreshDescriptionText(true);
+        }
+    }
     public static CardEffectCarrier operator+(CardEffectCarrier a, CardEffectCarrier b)
     {
         if (a == null)
@@ -63,30 +101,5 @@ public class CardEffectCarrier: ICardTextElement
                                   1, 
                                   (CardTargetType)Mathf.Max((int)a.Target, (int)b.Target)
                                   ); 
-    }
-
-    public string GetElementText()
-    {
-        if (Value == 0) return null;
-        string retString = condition.GetTextCard();
-       
-        retString += Type.ToString() + " ";
-        if (Type == EffectType.Damage)
-            retString += CardVisual.strDamageCode;
-        else if (Type == EffectType.Block)
-            retString += CardVisual.strBlockCode;
-        else
-            retString += Value.ToString();
-
-        if (Times != 1) retString += " " + Times + " times";
-        if ((Type == EffectType.Damage && Target != CardTargetType.EnemySingle) || (Type == EffectType.Block && Target != CardTargetType.Self)) retString += " " + Target.ToString();
-
-        return retString;
-    }
-
-    public string GetElementToolTip()
-    {
-       if(Type == EffectType.Damage || (Type == EffectType.Block && Value == 0)) return null;
-       return Type.GetToolTip();
     }
 }

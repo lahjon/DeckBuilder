@@ -105,13 +105,13 @@ public class DatabaseGoogle
             data.cardName = (string)gt[i, "Name"];
             data.cost = Int32.Parse((string)gt[i, "Cost"]);
             data.Damage.Type = EffectType.Damage;
-            data.Damage.Value = Int32.Parse((string)gt[i, "DamageValue"]);
-            data.Damage.Times = Int32.Parse((string)gt[i,"DamageTimes"]);
+            data.Damage.Value = (string)gt[i, "DamageValue"];
+            data.Damage.Times = (string)gt[i,"DamageTimes"];
             Enum.TryParse((string)gt[i,"DamageTarget"], out data.Damage.Target);
 
             data.Block.Type = EffectType.Block;
-            data.Block.Value = Int32.Parse((string)gt[i, "BlockValue"]);
-            data.Block.Times = Int32.Parse((string)gt[i, "BlockTimes"]);
+            data.Block.Value = (string)gt[i, "BlockValue"];
+            data.Block.Times = (string)gt[i, "BlockTimes"];
             Enum.TryParse((string)gt[i, "BlockTarget"], out data.Block.Target);
 
             if ((string)gt[i, "Immediate"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Immediate);
@@ -152,8 +152,8 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
 
             cardEffect.Type = effectType;
-            cardEffect.Value = Int32.Parse((string)gt[i, "Value"]);
-            cardEffect.Times = Int32.Parse((string)gt[i, "Times"]);
+            cardEffect.Value = (string)gt[i, "Value"];
+            cardEffect.Times = (string)gt[i, "Times"];
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
 
             cardEffect.conditionStruct = new ConditionStruct();
@@ -411,8 +411,10 @@ public class DatabaseGoogle
 
     }
 
+
     public void ReadEntriesEnemyEffects(string sheetName, string lastCol, string sheet)
     {
+        /*
         GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
 
         for (int i = 1; i < gt.values.Count; i++)
@@ -440,7 +442,7 @@ public class DatabaseGoogle
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-
+        */
     }
 
     #endregion
@@ -531,10 +533,10 @@ public class DatabaseGoogle
                 continue;
             }
 
-            CardEffectCarrier cardEffect = new CardEffectCarrier();
+            CardEffectCarrierData cardEffect = new CardEffectCarrierData();
             Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
-            cardEffect.Value = int.Parse((string)gt[i, "Value"]);
-            cardEffect.Times = int.Parse((string)gt[i, "Times"]);
+            cardEffect.Value = (string)gt[i, "Value"];
+            cardEffect.Times = (string)gt[i, "Times"];
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
 
             data.startingEffects.Add(cardEffect);

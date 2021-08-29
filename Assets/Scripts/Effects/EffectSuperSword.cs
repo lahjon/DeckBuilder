@@ -8,7 +8,7 @@ public class EffectSuperSword : Effect
     {
         Debug.Log(string.Format("Adding effect {0}!", this.GetType().Name));
         CombatSystem.instance.StartCoroutine(
-            CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier() { Type = EffectType.Strength, Times = 1, Value = 3 }));
+            CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Strength, 3)));
     }
 
     public override void RemoveEffect()
