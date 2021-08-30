@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tokenDatas:
+  - {fileID: 11400000, guid: 0de54166855dd8645bf4eac165e1f029, type: 2}
+  - {fileID: 11400000, guid: f4dab1e2e27d6cb459a7d6c25ec61388, type: 2}
   - {fileID: 11400000, guid: d343699d067a05047981bfa8c1686f9f, type: 2}
   - {fileID: 11400000, guid: f720c59a42117054da71d17992eb5684, type: 2}
   allTokens: []

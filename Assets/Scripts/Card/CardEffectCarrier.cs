@@ -62,7 +62,7 @@ public class CardEffectCarrier: ICardTextElement
         else
             description += Value.GetTextForValue();
 
-        if (Times != 1) description += " " + Times + " times";
+        if (Times != 1) description += " " + Times.GetTextForTimes() + " times";
         if ((Type == EffectType.Damage && Target != CardTargetType.EnemySingle) || (Type == EffectType.Block && Target != CardTargetType.Self)) description += " " + Target.ToString();
 
 

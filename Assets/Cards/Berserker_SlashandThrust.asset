@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Berserker_CanonlybeOne
+  m_Name: Berserker_SlashandThrust
   m_EditorClassIdentifier: 
-  cardName: Can only be One
-  cardType: 3
-  artwork: {fileID: 21300000, guid: 3e69f4e12d7fec74b825244b6c19f49e, type: 3}
-  cost: 2
+  cardName: Slash and Thrust
+  cardType: 2
+  artwork: {fileID: 21300000, guid: 0e093df838203f04a89e25a5ce69ed9a, type: 3}
+  cost: 1
   visibleCost: 1
-  singleFieldProperties: 0000000000000000
+  singleFieldProperties: 
   Damage:
     Type: 0
-    Value: 0
-    Times: 0
+    Value: 4
+    Times: 3
     Target: 3
     conditionStruct:
       type: 0
@@ -36,19 +36,11 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
-  effectsOnPlay:
-  - Type: 8
-    Value: 1
-    Times: 1
-    Target: 3
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
+  effectsOnPlay: []
   activitiesOnPlay: []
   effectsOnDraw: []
   activitiesOnDraw: []
-  rarity: 13
+  rarity: 1
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

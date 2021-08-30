@@ -35,6 +35,12 @@ public class CardInt: IEventSubscriber
         return value.ToString();
     }
 
+    public virtual string GetTextForTimes()
+    {
+        return value.ToString();
+    }
+
+
     public virtual void Subscribe()
     {
 
