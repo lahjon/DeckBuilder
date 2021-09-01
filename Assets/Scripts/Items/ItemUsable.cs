@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class UsableItem : Item, IEventSubscriber
+public class ItemUsable : Item, IEventSubscriber
 {
     bool _usable;
     public CountingCondition itemCondition;

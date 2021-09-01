@@ -9,8 +9,8 @@ public class BuildingBarracks : Building
     public Image characterArtwork;
     public SelectableCharacter currentSelectedCharacter;
     public Profession currentProfession;
-    public List<UsableItem> selectedItems;
-    public List<UsableItem> useItems = new List<UsableItem>();
+    public List<ItemUsable> selectedItems;
+    public List<ItemUsable> useItems = new List<ItemUsable>();
     public GameObject barracks, characterSelection; // rooms
     List<SelectableCharacter> selectableCharacters = new List<SelectableCharacter>();
     public Transform characterParent;
