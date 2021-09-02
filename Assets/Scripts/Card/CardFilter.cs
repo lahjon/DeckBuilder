@@ -10,7 +10,7 @@ public class CardFilter
     public Rarity? rarity;
     public CardClassType? classType;
     public CardClassType? notClassType;
-    public int? cost;
+    public string? cost;
     public Rarity[]? rarityArr;
     public CardClassType[]? classTypeArr;
     public CardClassType[]? notClassTypeArr;

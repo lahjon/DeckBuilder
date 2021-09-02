@@ -237,7 +237,9 @@ public enum CardLinkablePropertyType
     None,
     Handsize,
     NrCardsDeck,
-    NrCardsDiscard
+    NrCardsDiscard,
+    EnergyAvailable,
+    CardEnergySpent
 }
 
 public enum RewardType

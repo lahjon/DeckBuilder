@@ -11,7 +11,7 @@ public class CardData : ScriptableObject
     public CardType cardType;
 
     public Sprite artwork;
-    public int cost;
+    public string cost;
     public bool visibleCost = true;
 
     public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();

@@ -34,7 +34,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     private int _displayDamage = -1;
     private int _displayBlock = -1;
-    private int _displayCost;
 
     public int displayDamage
     {
@@ -54,15 +53,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             RefreshDamageBlockVals();
         }
     }
-    public int displayCost
-    {
-        get { return _displayCost; }
-        set
-        {
-            _displayCost = value;
-            costText.text = ValueColorWrapper(cost, _displayCost, true);
-        }
-    }
+
 
     private string derivedText = "";
     private string displayText;
@@ -84,7 +75,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         artworkImage.sprite = artwork;
         typeText.text = cardType.ToString();
 
-        displayCost = cost;
+        costText.text = cost.GetTextForCost();
         energyObjects.SetActive(visibleCost);
 
         ResetCardTextElementsList();
@@ -107,9 +98,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         base.Mimic(card);
         nameText.text = card.cardName;
         artworkImage.sprite = card.artwork;
-        typeText.text = cardType.ToString();
+        typeText.text = card.typeText.text;
 
-        displayCost = card.displayCost;
+        costText.text = card.costText.text;
         energyObjects.SetActive(card.visibleCost);
 
         ResetCardTextElementsList();

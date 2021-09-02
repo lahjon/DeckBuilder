@@ -42,9 +42,9 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public List<Func<CombatActor, IEnumerator>> onAttackRecieved = new List<Func<CombatActor,IEnumerator>>();
     public List<Func<CombatActor, IEnumerator>> onUnblockedDmgDealt = new List<Func<CombatActor, IEnumerator>>();
-    
-    public List<Card> deck = new List<Card>();
-    public List<Card> discard = new List<Card>();
+
+    public ListEventReporter<Card> deck;
+    public ListEventReporter<Card> discard; 
 
 
     public List<CombatActor> allies;
@@ -116,7 +116,6 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     {
         int index = UnityEngine.Random.Range(0, deck.Count + 1);
         deck.Insert(index, card);
-        EventManager.DeckCountChanged();
     }
 
 

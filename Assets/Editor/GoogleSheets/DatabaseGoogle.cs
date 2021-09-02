@@ -103,7 +103,7 @@ public class DatabaseGoogle
 
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
-            data.cost = Int32.Parse((string)gt[i, "Cost"]);
+            data.cost = (string)gt[i, "Cost"];
             data.Damage.Type = EffectType.Damage;
             data.Damage.Value = (string)gt[i, "DamageValue"];
             data.Damage.Times = (string)gt[i,"DamageTimes"];

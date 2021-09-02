@@ -12,6 +12,12 @@ public class CombatActorHero : CombatActor
         enemies.AddRange(CombatSystem.instance.EnemiesInScene);
     }
 
+    private void Awake()
+    {
+        deck = new ListEventReporter<Card>(EventManager.DeckCountChanged);
+        discard = new ListEventReporter<Card>(EventManager.DiscardCountChanged);        
+    }
+
     void Start()
     {
         spriteRenderer.sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
@@ -22,8 +28,6 @@ public class CombatActorHero : CombatActor
     {
         ((CardCombat)card).animator.SetTrigger("Discarded");
         base.DiscardCard(card);
-        EventManager.DiscardCountChanged();
-        EventManager.HandCountChanged();
     }
 
     public override void CardResolved(Card card)

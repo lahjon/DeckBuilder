@@ -13,7 +13,7 @@ public class Card : MonoBehaviour
 
     public CardType cardType;
 
-    public int cost;
+    public CardInt cost;
     public bool visibleCost = true;
 
     public CardData cardData;
@@ -45,9 +45,8 @@ public class Card : MonoBehaviour
         rarity          = cardData.rarity;
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
-        cost            = cardData.cost;
+        cost            = CardInt.Factory(cardData.cost,this);
         cardData.singleFieldProperties.OrderBy(s => (int)s).ToList().ForEach(s => RegisterSingleField(s));
-        
         Damage          = SetupEffectcarrier(cardData.Damage);
         Block           = SetupEffectcarrier(cardData.Block);
         cardData.effectsOnPlay.ForEach(e=> effectsOnPlay.Add(SetupEffectcarrier(e)));
@@ -154,7 +153,7 @@ public class Card : MonoBehaviour
 
         Target.artwork = a.artwork;
         Target.animationPrefab = a.animationPrefab;
-        Target.cost = Mathf.Max(a.cost, b.cost);
+        Target.cost = CardInt.Factory(Mathf.Max(a.cost, b.cost).ToString(),Target);
 
         Target.cardName = a.cardName + (a.cardName.Contains("Mod+") ? "+" : " Mod+");
 

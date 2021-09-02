@@ -40,6 +40,11 @@ public class CardInt: IEventSubscriber
         return value.ToString();
     }
 
+    public virtual string GetTextForCost()
+    {
+        return value.ToString();
+    }
+
 
     public virtual void Subscribe()
     {

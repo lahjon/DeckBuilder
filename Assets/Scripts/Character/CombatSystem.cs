@@ -74,7 +74,7 @@ public class CombatSystem : MonoBehaviour
     private CombatActorEnemy _activeEnemy;
 
     public List<CardData> deckData;
-    public List<CardCombat> Hand = new List<CardCombat>();
+    public ListEventReporter<CardCombat> Hand = new ListEventReporter<CardCombat>(EventManager.HandCountChanged);
     public List<CardCombat> createdCards = new List<CardCombat>();
 
     public List<CombatActorEnemy> EnemiesInScene = new List<CombatActorEnemy>();
@@ -471,7 +471,6 @@ public class CombatSystem : MonoBehaviour
             if (Hero.deck.Count == 0)
             {
                 Hero.deck.AddRange(Hero.discard);
-                EventManager.DeckCountChanged();
                 Hero.discard.Clear();
                 Hero.ShuffleDeck();
             }
@@ -501,7 +500,6 @@ public class CombatSystem : MonoBehaviour
         if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Immediate)) drawnToResolve.Enqueue(card);
 
         card.animator.SetTrigger("StartDraw");
-        EventManager.DeckCountChanged();
     }
 
     IEnumerator ResolveDrawnEffects()
@@ -603,8 +601,8 @@ public class CombatSystem : MonoBehaviour
 
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.displayCost <= cEnergy && card.selectable && card.playCondition;
-        if (!silentCheck && card.displayCost > cEnergy)
+        bool selectable = card.cost <= cEnergy && card.selectable && card.playCondition;
+        if (!silentCheck && card.cost> cEnergy)
         {
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
         }

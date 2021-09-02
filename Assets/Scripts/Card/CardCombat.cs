@@ -27,6 +27,8 @@ public class CardCombat : CardVisual, IEventSubscriber
     public Image image;
     Tween highlightTween;
 
+    public int energySpent = 0;
+
     public Condition playCondition = new Condition();
 
     CardHighlightType _cardHighlightType;
@@ -107,7 +109,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public bool isPlayable()
     {
-        return playCondition.value && CombatSystem.instance.cEnergy >= displayCost;
+        return playCondition.value && CombatSystem.instance.cEnergy >= cost;
     }
 
     private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)

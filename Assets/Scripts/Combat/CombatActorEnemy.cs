@@ -63,6 +63,9 @@ public class CombatActorEnemy : CombatActor
 
         SetupCamera();
 
+        deck = new ListEventReporter<Card>();
+        discard = new ListEventReporter<Card>();
+
         foreach(CardData cardData in enemyData.deck)
         {
             GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0));
