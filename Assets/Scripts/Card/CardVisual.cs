@@ -18,58 +18,21 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public Image border;
     public Image rarityBorder;
     public Image energyColor;
-    public RectTransform TooltipAnchor; 
+    public RectTransform TooltipAnchor;
     public List<string> toolTipTextBits = new List<string>();
 
     public GameObject energyObjects;
 
     public TMP_Text costText;
 
-    public readonly static string strBlockCode = "_BLOCKINFO_";
-    public readonly static string strDamageCode = "_DAMAGEINFO_";
-    readonly static string colorCodeGood = "#2e590c";
-    readonly static string colorCodeBad = "#a16658";
-
     public List<ICardTextElement> cardTextElements = new List<ICardTextElement>();
 
-    private int _displayDamage = -1;
-    private int _displayBlock = -1;
-
-    public int displayDamage
-    {
-        get => _displayDamage;
-        set
-        {
-            _displayDamage = value;
-            RefreshDamageBlockVals();
-        }
-    }
-    public int displayBlock
-    {
-        get => _displayBlock;
-        set
-        {
-            _displayBlock = value;
-            RefreshDamageBlockVals();
-        }
-    }
-
-
-    private string derivedText = "";
-    private string displayText;
+    private string displayText = "";
 
     public bool isBroken = false;
 
-    private void RefreshDamageBlockVals()
-    {
-        displayText = derivedText.Replace(strDamageCode, ValueColorWrapper(Damage.Value, _displayDamage));
-        displayText = displayText.Replace(strBlockCode, ValueColorWrapper(Block.Value, _displayBlock));
-        descriptionText.text = displayText;
-    }
-
     public void BindCardVisualData()
     {
-        derivedText = "";
         displayText = "";
         nameText.text = cardName;
         artworkImage.sprite = artwork;
@@ -129,23 +92,17 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         cardTextElements.AddRange(activitiesOnPlay);
     }
 
-    public void ResetDamageBlockVals()
-    {
-        displayDamage = Damage.Value;
-        displayBlock = Block.Value;
-    }
-
     public void RefreshDescriptionText(bool forceRebuild = false)
     {
-        if (derivedText.Equals("") || forceRebuild) DeriveDescriptionText();
-        ResetDamageBlockVals();
+        if (displayText.Equals("") || forceRebuild) DeriveDescriptionText();
+        descriptionText.text = displayText;
     }
 
     public void DeriveDescriptionText()
     {
         StringBuilder textDeriver = new StringBuilder(300);
 
-        for(int i = 0; i < cardTextElements.Count; i++)
+        for (int i = 0; i < cardTextElements.Count; i++)
         {
             string element = cardTextElements[i].GetElementText();
             if (element == null || element.Equals(string.Empty)) continue;
@@ -154,17 +111,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             textDeriver.Append(cardTextElements[i].GetElementText());
         }
 
-        derivedText = textDeriver.ToString();
-    }
-
-    public string ValueColorWrapper(int originalVal, int currentVal, bool inverse = false)
-    {
-        if ((!inverse && currentVal < originalVal) || (inverse && currentVal > originalVal))
-            return "<color=" + colorCodeBad + ">" + currentVal.ToString() + "</color>";
-        else if(originalVal == currentVal)
-            return currentVal.ToString();
-        else
-            return "<color=" + colorCodeGood + ">" + currentVal.ToString() + "</color>";
+        displayText = textDeriver.ToString();
     }
 
     public static string EffectTypeToIconCode(EffectType type)

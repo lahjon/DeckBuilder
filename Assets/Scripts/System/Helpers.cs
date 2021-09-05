@@ -14,6 +14,9 @@ using DG.Tweening;
 
 public static class Helpers
 {
+    readonly static string colorCodeGood = "#2e590c";
+    readonly static string colorCodeBad = "#a16658";
+
     public static Dictionary<CardClassType,Color> borderColors = new Dictionary<CardClassType, Color>{
         {CardClassType.Berserker,           new Color(.57f, .13f, .13f, 1f) }, 
         {CardClassType.Rogue,               new Color(.32f, .63f, .41f, 1f) }, 
@@ -61,7 +64,18 @@ public static class Helpers
         DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete(() => callback?.Invoke()); 
     }
 
-        public static Rarity DrawRarity(float uncommon, float rare)
+    public static string ValueColorWrapper(int originalVal, int currentVal, bool inverse = false)
+    {
+        if ((!inverse && currentVal < originalVal) || (inverse && currentVal > originalVal))
+            return "<color=" + colorCodeBad + ">" + currentVal.ToString() + "</color>";
+        else if (originalVal == currentVal)
+            return currentVal.ToString();
+        else
+            return "<color=" + colorCodeGood + ">" + currentVal.ToString() + "</color>";
+    }
+
+
+    public static Rarity DrawRarity(float uncommon, float rare)
     {
         float[] probs = new float[] { 1 - uncommon - rare, uncommon, rare };
 

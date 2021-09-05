@@ -31,6 +31,14 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public Condition playCondition = new Condition();
 
+    public delegate void DamageRecalcEvent();
+    public event DamageRecalcEvent OnDamageRecalcEvent;
+
+    public void DamageNeedsRecalc()
+    {
+        OnDamageRecalcEvent?.Invoke();
+    }
+
     CardHighlightType _cardHighlightType;
     public CardHighlightType cardHighlightType
     {
@@ -144,6 +152,8 @@ public class CardCombat : CardVisual, IEventSubscriber
                 cardHighlightType = CardHighlightType.None;
         }
     }
+
+
 
     void Start()
     {

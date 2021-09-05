@@ -26,7 +26,7 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
 
         animator.SetBool("ToCardPileDiscard", true);
         //Reset any modified values from previous buffs
-        CombatSystem.instance.SetCardCalcDamage(card);
+        card.DamageNeedsRecalc();
 
         (Vector3, Vector3) tempTransInfo = CombatSystem.instance.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.Item1, Vector3.one, tempTransInfo.Item2);
