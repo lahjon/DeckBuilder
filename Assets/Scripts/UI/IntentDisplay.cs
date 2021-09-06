@@ -25,7 +25,7 @@ public class IntentDisplay : MonoBehaviour
         if(card.Damage.Value != 0)
         {
             attackSprite.SetActive(true);
-            lblIntent.text = displayDamage.ToString() + (card.Damage.Times != 1 ? "x" + card.Damage.Times.ToString() : "");
+            lblIntent.text = displayDamage.ToString() + (card.Damage.Times.value != 1 ? "x" + card.Damage.Times.value.ToString() : "");
             if (!card.effectsOnPlay.Any())
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[0];
