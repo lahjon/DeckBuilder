@@ -71,7 +71,7 @@ public class CombatSystem : MonoBehaviour
                 EventManager.EnergyChanged();
         }
     }
-    private CombatActorEnemy _activeEnemy;
+    private CombatActorEnemy _targetedEnemy;
 
     public List<CardData> deckData;
     public ListEventReporter<CardCombat> Hand = new ListEventReporter<CardCombat>(EventManager.HandCountChanged);
@@ -113,15 +113,15 @@ public class CombatSystem : MonoBehaviour
     {
         get
         {
-            return _activeEnemy;
+            return _targetedEnemy;
         }
         set
         {
-            _activeEnemy = value;
+            _targetedEnemy = value;
             if (!(ActiveCard is null))
             {
                 ActiveCard.animator.SetBool("HasTarget", !(value is null));
-                SetCardCalcDamage(ActiveCard, value);
+                ActiveCard.DamageNeedsRecalc();
             }
 
         }
@@ -145,7 +145,7 @@ public class CombatSystem : MonoBehaviour
             foreach (CardCombat card in Hand)
                 if (card != value) card.MouseReact = (value is null);
             if (_activeCard != null)
-                _activeCard.animator.SetBool("HasTarget", _activeEnemy != null);
+                _activeCard.animator.SetBool("HasTarget", _targetedEnemy != null);
         }
     }
 
@@ -155,7 +155,7 @@ public class CombatSystem : MonoBehaviour
         {
             instance = this;
             EventManager.OnDeckCountChangeEvent += UpdateDeckTexts;
-            //DontDestroyOnLoad(gameObject);
+            deckData = WorldSystem.instance.characterManager.playerCardsData;
         }
         else
         {
@@ -334,21 +334,18 @@ public class CombatSystem : MonoBehaviour
         return RulesSystem.instance.CalculateDamage(value, Hero, enemy);
     }
 
-    public void SetCardCalcDamage(CardCombat card, CombatActor enemy = null)
+    public int CalculateDisplayDamage(int value)
     {
-        if (card.Damage.Value == 0) return;
-
-        int baseVal = card.Damage.Value;
-        int calcDamage = enemy is null ? PreviewCalcDamageAllEnemies(baseVal) : PreviewCalcDamageEnemy(baseVal, enemy);
-        if(calcDamage != card.displayDamage)
-            card.displayDamage = calcDamage;
+        CombatActorEnemy enemy = TargetedEnemy;
+        int calcDamage = enemy is null ? PreviewCalcDamageAllEnemies(value) : PreviewCalcDamageEnemy(value, enemy);
+        return calcDamage;
     }
 
     public void RecalcAllCardsDamage()
     {
         foreach(CardCombat card in Hand)
         {
-            SetCardCalcDamage(card);
+            card.DamageNeedsRecalc();
         }
     }
 

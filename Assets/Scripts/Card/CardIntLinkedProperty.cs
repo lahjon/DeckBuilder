@@ -14,15 +14,14 @@ public class CardIntLinkedProperty: CardInt
 
     public override int value
     {
-        set => base.value = value;
-        get => _value + (int)((PropGetter == null ? 0 : PropGetter())*Mathf.Pow(scalar, inverseScalar ? -1 : 1));
+        get => base.value + (int)((PropGetter == null ? 0 : PropGetter())*Mathf.Pow(scalar, inverseScalar ? -1 : 1));
     }
 
     private CalcType calcType
     {
         get
         {
-            if (scalar == 1 && _value == 0)
+            if (scalar == 1 && baseVal == 0)
                 return CalcType.None;
             else if (scalar > 1)
                 return inverseScalar ? CalcType.Dividing : CalcType.Multiplicative;
@@ -44,8 +43,6 @@ public class CardIntLinkedProperty: CardInt
 
     public CardIntLinkedProperty(string input, Card card, Action onLinkedValChange = null)
     {
-        value = 0;
-
         CardLinkablePropertyType prop;
         string[] parts = input.Split(new char[] { ':', '/', '*', '+' });
         for (int i = 0; i < parts.Length; i++)
@@ -55,7 +52,7 @@ public class CardIntLinkedProperty: CardInt
         {
             int numVal = int.Parse(parts[2]);
             if (input.Contains("+"))
-                _value = numVal;
+                baseVal = numVal;
             else
             {
                 scalar = numVal;
@@ -128,7 +125,7 @@ public class CardIntLinkedProperty: CardInt
         }
 
         if (calcType == CalcType.Multiplicative) retstring += " times " + scalar.ToString();
-        else if (calcType == CalcType.Additive) retstring += " +" + _value.ToString();
+        else if (calcType == CalcType.Additive) retstring += " +" + baseVal.ToString();
 
         retstring += " </i>(" + value.ToString() + ")</i>";
 

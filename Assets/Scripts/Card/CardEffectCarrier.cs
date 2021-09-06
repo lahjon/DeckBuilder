@@ -29,6 +29,7 @@ public class CardEffectCarrier: ICardTextElement
         Times = new CardInt(times);
         Target = target;
         condition = new Condition();
+        if (Type == EffectType.Damage) RegisterDamageComponent();
     }
 
     public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnPreConditionUpdate = null)
@@ -45,9 +46,17 @@ public class CardEffectCarrier: ICardTextElement
             card.registeredConditions.Add(condition);
             card.registeredSubscribers.Add(condition);
         }
+
+        if (Type == EffectType.Damage) RegisterDamageComponent();
     }
 
-    public virtual string GetElementText()
+    public void RegisterDamageComponent()
+    {
+        if (card is CardCombat c)
+            c.OnDamageRecalcEvent += ForceTextRefresh;
+    }
+
+    public string GetElementText()
     {
         if (!description.Equals(string.Empty)) return description;
 
@@ -56,9 +65,12 @@ public class CardEffectCarrier: ICardTextElement
 
         description += "<b>" + Type.ToString() + "</b> ";
         if (Type == EffectType.Damage)
-            description += CardVisual.strDamageCode;
-        else if (Type == EffectType.Block)
-            description += CardVisual.strBlockCode;
+        {
+            if (Value is CardIntLinkedProperty cip)
+                description += cip.GetTextForValue();
+            else
+                description += Helpers.ValueColorWrapper(Value.value, CombatSystem.instance.CalculateDisplayDamage(Value));
+        }
         else
             description += Value.GetTextForValue();
 

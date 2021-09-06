@@ -9,9 +9,11 @@ public class CardInt: IEventSubscriber
 {
     internal Card card;
 
-    internal int _value;
+    public int baseVal;
 
-    public virtual int value { get { return _value; } set { _value = value; } }
+    public int modifier = 0;
+
+    public virtual int value { get => baseVal + modifier; }
 
     public static implicit operator int(CardInt ci) => ci.value;
 
@@ -26,7 +28,7 @@ public class CardInt: IEventSubscriber
 
     public CardInt(int val, Card card = null)
     {
-        value = val;
+        baseVal = val;
         this.card = card;
     }
 
