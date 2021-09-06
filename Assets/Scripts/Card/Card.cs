@@ -10,6 +10,7 @@ public class Card : MonoBehaviour
     public Rarity rarity;
     public string cardName;
     public Sprite artwork;
+    public bool upgradeable;
 
     public CardType cardType;
 

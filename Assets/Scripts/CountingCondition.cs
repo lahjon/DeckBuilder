@@ -22,7 +22,6 @@ public class CountingCondition : Condition
 
     public override void OnEventNotification()
     {
-        Debug.Log("In condition: " + ConditionEvaluator);
         if (ConditionEvaluator == null) return; //dodges initial notification OnCreation
         currentAmount++;
         base.OnEventNotification();
@@ -30,8 +29,16 @@ public class CountingCondition : Condition
 
     public override void OnEventNotification(EnemyData enemy)
     {
-        Debug.Log("Enemy Killed " + this);
         if (enemy.enemyId == conditionStruct.strParameter || string.IsNullOrEmpty(conditionStruct.strParameter))
+        {
+            Debug.Log("adding");
+            OnEventNotification();
+        }
+    }
+
+    public override void OnEventNotification(BuildingType buildingType)
+    {
+        if (buildingType.ToString() == conditionStruct.strParameter || string.IsNullOrEmpty(conditionStruct.strParameter))
         {
             Debug.Log("adding");
             OnEventNotification();

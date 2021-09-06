@@ -8,11 +8,14 @@ public class Objective : Progression
     [TextArea(5,5)]
     public string objectiveName;
     public string description;
+    public ObjectiveData data;
+    public ObjectiveData nextObjective;
     public string endEvent;
-    public void StartObjetive(ObjectiveData data)
+    public void StartObjetive(ObjectiveData aData)
     {
-        goals.Clear();
-        goalsTrackAmount.Clear();
+        data = aData;
+
+        nextObjective = data.nextObjective;
 
         objectiveName = data.aName;
         id = data.id;
@@ -26,11 +29,13 @@ public class Objective : Progression
 
     protected override void Complete()
     {
-        Debug.Log("Progression Done");
+        base.Complete();
+        WorldSystem.instance.objectiveManager.StartObjective(nextObjective);
+
         WorldSystem.instance.gameEventManager.StartEvent(endEvent);
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning(description);
-        WorldSystem.instance.progressionManager.AddCompleteObjective(this);
-        Destroy(this);
+        WorldSystem.instance.objectiveManager.AddCompleteObjective(this);
+        Destroy(gameObject);
     }
 
 }

@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Mission001
   aName: First Mission
-  goalKillEnemy: []
-  goalEnterBuilding:
-  - buildingType: 3
-    requiredAmount: 1
-  - buildingType: 5
-    requiredAmount: 1
+  conditionStructs:
+  - type: 3
+    strParameter: Barracks
+    numValue: 1
+  - type: 3
+    strParameter: TownHall
+    numValue: 1
   description: This is nr 1'!
+  mainMission: 0
   startEvent: Event001
   endEvent: Event002
-  nextMission: Mission002
+  nextMission: {fileID: 11400000, guid: ec502b26ab884b94593b6f6384b0e284, type: 2}

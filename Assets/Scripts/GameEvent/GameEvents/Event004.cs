@@ -7,9 +7,6 @@ public class Event004 : GameEvent
     {
         base.StartGameEvent();
         Debug.Log("Did you just finish you first conversation?!");
-        if (WorldSystem.instance.missionManager != null && WorldSystem.instance.missionManager.mission == null)
-        {
-            WorldSystem.instance.missionManager.NewMission("Mission001", false);
-        }
+        WorldSystem.instance.missionManager.StartMission("Mission001");
     }  
 }

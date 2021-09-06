@@ -123,6 +123,7 @@ public enum ConditionType
     None,
     KillEnemy,
     ClearTile,
+    EnterBuilding,
     WinCombat,
     CardsPlayedAtLeast,
     CardsPlayedAtMost,
@@ -422,6 +423,12 @@ public enum FormationType
     Trio,
     AlternatingFive,
     HoveringAroundLeader
+}
+
+public enum ProgressionGoalType
+{
+    KillEnemy,
+    EnterBuilding,
 }
 
 public enum BuildingType

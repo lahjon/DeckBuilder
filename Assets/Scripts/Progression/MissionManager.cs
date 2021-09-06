@@ -6,54 +6,93 @@ using System.Linq;
 
 public class MissionManager : Manager, ISaveableWorld
 {
-    public Mission mission;
-    public string currentMissionId = "";
-    public GameObject missions;
+    public List<MissionData> clearedMissions = new List<MissionData>();
+    public List<MissionData> currentMissions = new List<MissionData>();
     public MissionUI missionUI;
-    public List<MissionData> missionDatas;
+    public Transform missionParent;
+    public List<MissionData> allMissionDatas;
+    public GameObject missionPrefab;
+
     protected override void Awake()
     {
         base.Awake();
         world.missionManager = this;
     }
 
-    MissionData GetMissionFromString(string missionId)
+    protected override void Start()
     {
-        
-        return missionDatas.FirstOrDefault(x => x.name == missionId);
+        base.Start();
     }
-    public void NewMission(string newMissionId, bool save = true)
+
+    public Mission StartMission(MissionData data, bool fromLoad = false)
     {
+        Debug.Log("starrtng mission; " + fromLoad);
+        if (data == null || clearedMissions.Contains(data)) return null;
+        if (!fromLoad && currentMissions.Contains(data)) return null;
+        if (!fromLoad) currentMissions.Add(data);
 
-        if (missionDatas.FirstOrDefault(x => x.id == newMissionId) is MissionData missionData) 
-        {
-            mission.StartMission(missionData);
-            Debug.Log("Start mission: " + newMissionId);
-            currentMissionId = newMissionId;
-
-            if (save) world.SaveProgression();
-        }
-        else
-        {
-            Debug.LogWarning("No mission with ID: " + newMissionId);
-            return;
-        }
+        Mission mission = Instantiate(missionPrefab, missionParent).GetComponent<Mission>();
+        mission.name = data.id;
+        mission.StartMission(data);
+        return mission;
     }
-    public void ClearMission()
+
+    public void StartMission(string missionId)
     {
-        missionUI.ClearUI(true);
+        if (!string.IsNullOrEmpty(missionId) && allMissionDatas.FirstOrDefault(x => x.name == missionId) is MissionData data)
+            StartMission(data);
+    }
+    void RegisterMissions()
+    {
+        List<MissionData> allMissions = currentMissions.Except(clearedMissions).ToList();
+        if (allMissions?.Any() == true) allMissions.ForEach(x => StartMission(x));
+    }
+
+    public void AddCompleteMission(Mission mission)
+    {
+        if (!clearedMissions.Contains(mission.data)) clearedMissions.Add(mission.data);
+        if (currentMissions.Contains(mission.data)) currentMissions.Remove(mission.data);
+
+        world.SaveProgression();
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.currentMissionId = currentMissionId;
+        a_SaveData.clearedMissions = clearedMissions.Select(x => x.id).ToList();
+        a_SaveData.currentMissions = currentMissions.Select(x => x.id).ToList();
+
+        List<IntListWrapper> allGoals = new List<IntListWrapper>();
+        for (int i = 0; i < missionParent.transform.childCount; i++)
+        {
+            Mission mission = missionParent.transform.GetChild(i).GetComponent<Mission>();
+            IntListWrapper innerList = new IntListWrapper();
+            innerList.aList = mission.countingConditions.Select(x => x.currentAmount).ToList();
+            allGoals.Add(innerList);
+        }
+
+        Debug.Log("goal: " + allGoals.Count);
+        a_SaveData.currentMissionGoals = allGoals;
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        if (a_SaveData.currentMissionId != null && a_SaveData.currentMissionId != "")
+        //a_SaveData.currentMissions.ForEach(x => Debug.Log("DANGER: " + x));
+        if (a_SaveData.clearedMissions != null)
         {
-            NewMission(a_SaveData.currentMissionId, false);
+            clearedMissions = allMissionDatas.Where(x => a_SaveData.clearedMissions.Contains(x.id)).ToList();
+        }
+        if (a_SaveData.currentMissions != null)
+        {
+            currentMissions = allMissionDatas.Where(x => a_SaveData.currentMissions.Contains(x.id)).ToList();
+            for (int i = 0; i < currentMissions.Count; i++)
+            {
+                Mission mission = StartMission(currentMissions[i], true);
+                for (int g = 0; g < mission.countingConditions.Count; g++)
+                {
+                    mission.countingConditions[g].currentAmount = a_SaveData.currentMissionGoals[i][g];
+                }
+            }
         }
     }
 }
+

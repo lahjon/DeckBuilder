@@ -15,27 +15,27 @@ public class MissionUI : MonoBehaviour
     public Transform panel;
     public void UpdateUI(bool newMission)
     {
-        if (WorldSystem.instance.missionManager.mission != null)
-        {
-            missionName = WorldSystem.instance.missionManager.mission.aName;
-            missionText.text = missionName;
+        // if (WorldSystem.instance.missionManager.mission != null)
+        // {
+        //     missionName = WorldSystem.instance.missionManager.mission.aName;
+        //     missionText.text = missionName;
 
-            goals.Clear();
+        //     goals.Clear();
 
-            WorldSystem.instance.missionManager.mission.goals.ForEach(x => goals.Add(x.goalName, x.completed));
-            if (newMission)
-            {
-                ClearUI();
-                CreateGoals();
-            }
-            for (int i = 0; i < goals.Count; i++)
-            {
-                if (goals.ElementAt(i).Value == true)
-                {
-                    goalObjs[i].GetComponent<TMP_Text>().color = Color.green;
-                }
-            }
-        }
+        //     WorldSystem.instance.missionManager.mission.goals.ForEach(x => goals.Add(x.goalName, x.completed));
+        //     if (newMission)
+        //     {
+        //         ClearUI();
+        //         CreateGoals();
+        //     }
+        //     for (int i = 0; i < goals.Count; i++)
+        //     {
+        //         if (goals.ElementAt(i).Value == true)
+        //         {
+        //             goalObjs[i].GetComponent<TMP_Text>().color = Color.green;
+        //         }
+        //     }
+        // }
       
     }
     public void ClearUI(bool nameChange = false)
