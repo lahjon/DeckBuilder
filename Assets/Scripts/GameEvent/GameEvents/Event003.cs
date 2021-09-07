@@ -7,10 +7,7 @@ public class Event003 : GameEvent
     {
         base.StartGameEvent();
         world.townManager.worldMapButton.interactable = false;
-        if (WorldSystem.instance.missionManager != null && WorldSystem.instance.missionManager.currentMissionId == "Mission001")
-        {
-            WorldSystem.instance.missionManager.NewMission("Mission001", false);
-        }
+        WorldSystem.instance.missionManager.StartMission("Mission001");
         Debug.Log("Start event 003");
     }  
 }

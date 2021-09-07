@@ -17,7 +17,7 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 3e69f4e12d7fec74b825244b6c19f49e, type: 3}
   cost: 2
   visibleCost: 1
-  singleFieldProperties: 0000000000000000
+  singleFieldProperties: 000000000000000000000000
   Damage:
     Type: 0
     Value: 0

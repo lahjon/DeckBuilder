@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 
 public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
@@ -15,6 +16,9 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public List<CardDisplay> allDeckCards = new List<CardDisplay>();
     public List<CardData> extraCards = new List<CardData>();
     public Transform deckParent, sideParent;
+    public TMP_Text sideboardAmountText;
+    public GameObject warningPrompt;
+    public int maxSideboardCards;
 
     void Start()
     {
@@ -96,6 +100,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
     }
 
+    void UpdateCounter()
+    {
+        sideboardAmountText.text = string.Format("{0} / {1}", sideCards.Count, maxSideboardCards);
+    }
+
     public void MoveCard(CardDisplay card)
     {
         if (card.transform.parent == deckParent)
@@ -106,6 +115,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         {
             MoveToDeck(card);
         }
+
+        UpdateCounter();
     }
 
     void MoveToDeck(CardDisplay card)
@@ -121,6 +132,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     void MoveToSide(CardDisplay card)
     {
+        if (sideCards.Count >= maxSideboardCards) return;
+
         card.transform.SetParent(sideParent);
         sideCards.Add(card.cardData.name);
         allSideCards.Add(card);
@@ -151,8 +164,19 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     public override void CloseBuilding()
     {
+        if (sideCards.Count < maxSideboardCards)
+        {
+            PromptWarning();
+            return;
+        }
+
         ConfirmDeck();
         base.CloseBuilding();
+    }
+
+    void PromptWarning()
+    {
+        WorldSystem.instance.uiManager.UIWarningController.CreateWarning("You need to select " + maxSideboardCards.ToString() + " cards!");
     }
     public override void EnterBuilding()
     {
@@ -179,12 +203,14 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         if (a_SaveData.currentCards?.Any() == true)
         {
             currentCards = a_SaveData.currentCards;
+            sideCards = a_SaveData.sideCards;
         }
-        else
+        else if (a_SaveData.currentCards == null)
         {
             currentCards = DatabaseSystem.instance.GetStartingDeck(false).Select(x => x.name).ToList();
+            sideCards = new List<string>();
         }
-        sideCards = a_SaveData.sideCards?.Any() == true ? a_SaveData.sideCards : new List<string>();
+        //sideCards = a_SaveData.sideCards?.Any() == true ? a_SaveData.sideCards : new List<string>();
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)

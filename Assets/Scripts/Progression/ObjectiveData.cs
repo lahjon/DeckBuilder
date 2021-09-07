@@ -7,5 +7,6 @@ using System.Linq;
 public class ObjectiveData : ProgressionData
 {
     [TextArea(5,5)]public string description;
+    public ObjectiveData nextObjective;
     public string endEvent;
 }

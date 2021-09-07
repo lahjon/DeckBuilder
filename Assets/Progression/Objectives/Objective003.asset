@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9dac0da79f050a442b630c71edd521f1, type: 3}
-  m_Name: Objective001
+  m_Name: Objective003
   m_EditorClassIdentifier: 
-  id: Objective001
-  aName: First Obj
-  conditionStructs:
-  - type: 3
-    strParameter: 
-    numValue: 2
-  description: yes,. 1
-  nextObjective: {fileID: 0}
-  endEvent: 
+  id: Objective003
+  aName: tgree
+  goalKillEnemy: []
+  goalEnterBuilding:
+  - buildingType: 5
+    requiredAmount: 1
+  description: Enter the barracks!
+  nextObjective: {fileID: 11400000, guid: 3948089da676551469a7379d712687b5, type: 2}
+  endEvent: Event006

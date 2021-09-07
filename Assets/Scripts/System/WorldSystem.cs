@@ -19,7 +19,7 @@ public class WorldSystem : MonoBehaviour
     public TownManager townManager;
     public UIManager uiManager;
     public GameEventManager gameEventManager;
-    public ObjectiveManager progressionManager;
+    public ObjectiveManager objectiveManager;
     public MissionManager missionManager;
     public TokenManager tokenManager;
     public ArtifactManager artifactManager;

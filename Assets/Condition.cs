@@ -69,6 +69,9 @@ public class Condition : IEventSubscriber
             case ConditionType.KillEnemy:
                 EventManager.OnEnemyKilledEvent         += OnEventNotification;
                 break;
+            case ConditionType.EnterBuilding:
+                EventManager.OnEnterBuildingEvent       += OnEventNotification;
+                break;
 
             default:
                 break;
@@ -122,6 +125,11 @@ public class Condition : IEventSubscriber
     }
 
     public virtual void OnEventNotification(EnemyData enemy)
+    {
+        OnEventNotification();
+    }
+
+    public virtual void OnEventNotification(BuildingType buildingType)
     {
         OnEventNotification();
     }

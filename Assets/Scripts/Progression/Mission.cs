@@ -8,47 +8,34 @@ public class Mission : Progression
     public string description;
     public string endEvent;
     public string startEvent;
-    public string nextMission;
+    public MissionData data;
 
-    public void StartMission(MissionData data)
+    public void StartMission(MissionData aData)
     {
-        goals.Clear();
-        goalsTrackAmount.Clear();
-
+        data = aData;
         aName = data.aName;
         id = data.id;
         description = data.description;
         endEvent = data.endEvent;
         startEvent = data.startEvent;
-        nextMission = data.nextMission;
 
-        #region goals
-
-        // enter building
-        data?.goalEnterBuilding.ForEach(x => AddGoal(new EnterBuildingGoal(this, x.buildingType, x.requiredAmount)));
-
-        // kill enemy
-        data?.goalKillEnemy.ForEach(x => AddGoal(new KillEnemyGoal(this, x.enemyId, x.requiredAmount)));
-
-        #endregion
+        CreateGoals(data);
 
         WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
         WorldSystem.instance.gameEventManager.StartEvent(startEvent);
     }
     protected override void Complete()
     {
-        Debug.Log("Mission Done");
+        base.Complete();
         WorldSystem.instance.gameEventManager.StartEvent(endEvent);
-        if (nextMission != null && nextMission != "")
+        if (data.nextMission != null)
         {
-            WorldSystem.instance.missionManager.NewMission(nextMission);
+            WorldSystem.instance.missionManager.StartMission(data.nextMission);
             Debug.Log("Starting new mission");
         }
-        else
-        {
-            WorldSystem.instance.missionManager.ClearMission();
-            Debug.Log("No new mission to start in this chain");
-        }
+
+        WorldSystem.instance.missionManager.AddCompleteMission(this);
+        Destroy(gameObject);
     }
 
 }

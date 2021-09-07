@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_SlashandThrust
   m_EditorClassIdentifier: 
   cardName: Slash and Thrust
-  cardType: 2
+  cardType: 0
   artwork: {fileID: 21300000, guid: 0e093df838203f04a89e25a5ce69ed9a, type: 3}
   cost: 1
   visibleCost: 1
