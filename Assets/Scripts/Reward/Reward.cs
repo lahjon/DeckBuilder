@@ -155,7 +155,6 @@ public class Reward : MonoBehaviour, IToolTipable
 
     public void RewardUnlockCard(string[] value)
     {
-        Debug.Log("Dick");
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
         callback = () => {
             if (value?.Any() == true && GetCardData(value) is List<CardData> datas)

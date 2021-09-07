@@ -17,35 +17,16 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 81cc2096260fe1b4288f75ea4f29c4be, type: 3}
   cost: 0
   visibleCost: 1
-  singleFieldProperties: 000000000000000000000000
-  Damage:
-    Type: 0
-    Value: 0
-    Times: 0
-    Target: 3
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-  Block:
-    Type: 2
-    Value: 0
-    Times: 0
-    Target: 0
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-  effectsOnPlay: []
-  activitiesOnPlay:
+  singleFieldProperties: 00000000
+  effects: []
+  activities:
   - type: 0
     parameter: 3
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
-  effectsOnDraw: []
-  activitiesOnDraw: []
+    execTime: 0
   rarity: 13
   cardClass: 1
   animationPrefab: {fileID: 0}

@@ -26,7 +26,7 @@ public class CardActivityAddCardToCombat : CardActivity
 
         List<CardData> cd = new List<CardData>();
         cd.AddRange(DatabaseSystem.instance.GetCardsByName(cardNames));
-        cd.ForEach(d => cards.Add(CardCombat.CreateCardCombatFromData(d)));
+        cd.ForEach(d => cards.Add(CardCombat.Factory(d)));
         CombatSystem.instance.cardPresenter.DisplayCards(cards, targetLocations);
 
         yield return null;

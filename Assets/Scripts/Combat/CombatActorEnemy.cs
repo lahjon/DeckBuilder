@@ -129,7 +129,7 @@ public class CombatActorEnemy : CombatActor
     public void UpdateIntentDisplay(Card card)
     {
         int displayDamage = 0;
-        if (card.Damage.Value != 0) displayDamage = RulesSystem.instance.CalculateDamage(card.Damage.Value, this, CombatSystem.instance.Hero);
+        if (card.Attacks.Any()) displayDamage = RulesSystem.instance.CalculateDamage(card.Attacks[0].Value.value, this, CombatSystem.instance.Hero);
         intentDisplay.RecieveIntent(card, displayDamage);   
     }
 

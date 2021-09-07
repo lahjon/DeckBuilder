@@ -181,7 +181,7 @@ public class CombatSystem : MonoBehaviour
 
         foreach(CardData cd in deckData)
         {
-            CardCombat card = CardCombat.CreateCardCombatFromData(cd);
+            CardCombat card = CardCombat.Factory(cd);
             Hero.deck.Add(card);
         }
 

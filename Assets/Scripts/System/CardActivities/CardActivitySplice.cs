@@ -31,7 +31,7 @@ public class CardActivitySplice : CardActivity
             {
                 cardEffect = new CardEffectCarrier(EffectType.Splice, -1);
                 yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
-                CardCombat splicedCard = CardCombat.CreateCardCombined((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
+                CardCombat splicedCard = CardCombat.Combine((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
                 CombatSystem.instance.InProcessCard.RegisterSingleField(CardSingleFieldPropertyType.Exhaust);
 
                 hero.discard.Remove(discardedCard);

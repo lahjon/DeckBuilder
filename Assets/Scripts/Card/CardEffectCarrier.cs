@@ -41,6 +41,7 @@ public class CardEffectCarrier: ICardTextElement
         Target = data.Target;
 
         condition = new Condition(data.conditionStruct, OnPreConditionUpdate);
+
         if (data.conditionStruct.type != ConditionType.None)
         {
             card.registeredConditions.Add(condition);
@@ -60,7 +61,6 @@ public class CardEffectCarrier: ICardTextElement
     {
         if (!description.Equals(string.Empty)) return description;
 
-        if (Value == 0) return null;
         description = condition.GetTextCard();
 
         description += "<b>" + Type.ToString() + "</b> ";

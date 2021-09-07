@@ -84,8 +84,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public void ResetCardTextElementsList()
     {
         cardTextElements.Clear();
-        cardTextElements.Add(Damage);
-        cardTextElements.Add(Block);
+        cardTextElements.AddRange(Attacks);
+        cardTextElements.AddRange(Blocks);
         cardTextElements.AddRange(effectsOnDraw);
         cardTextElements.AddRange(activitiesOnDraw);
         cardTextElements.AddRange(effectsOnPlay);

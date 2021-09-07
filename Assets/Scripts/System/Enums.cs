@@ -243,6 +243,12 @@ public enum CardLinkablePropertyType
     CardEnergySpent
 }
 
+public enum CardComponentExecType
+{
+    OnPlay,
+    OnDraw
+}
+
 public enum RewardType
 {
     None,

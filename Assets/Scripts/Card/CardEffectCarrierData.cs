@@ -10,4 +10,6 @@ public struct CardEffectCarrierData
     public string Times;
     public CardTargetType Target;
     public ConditionStruct conditionStruct;
+
+    public CardComponentExecType execTime;
 }

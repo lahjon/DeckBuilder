@@ -104,15 +104,8 @@ public class DatabaseGoogle
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
             data.cost = (string)gt[i, "Cost"];
-            data.Damage.Type = EffectType.Damage;
-            data.Damage.Value = (string)gt[i, "DamageValue"];
-            data.Damage.Times = (string)gt[i,"DamageTimes"];
-            Enum.TryParse((string)gt[i,"DamageTarget"], out data.Damage.Target);
 
-            data.Block.Type = EffectType.Block;
-            data.Block.Value = (string)gt[i, "BlockValue"];
-            data.Block.Times = (string)gt[i, "BlockTimes"];
-            Enum.TryParse((string)gt[i, "BlockTarget"], out data.Block.Target);
+            data.singleFieldProperties.Clear();
 
             if ((string)gt[i, "Immediate"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Immediate);
             if ((string)gt[i, "Exhaust"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Exhaust);
@@ -122,10 +115,8 @@ public class DatabaseGoogle
             data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
             data.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
 
-            data.effectsOnPlay.Clear();
-            data.effectsOnDraw.Clear();
-            data.activitiesOnPlay.Clear();
-            data.activitiesOnDraw.Clear();
+            data.effects.Clear();
+            data.activities.Clear();
 
 
             BindArt(data, databaseName);
@@ -159,13 +150,11 @@ public class DatabaseGoogle
             cardEffect.conditionStruct = new ConditionStruct();
             Enum.TryParse((string)gt[i, "ConditionType"], out cardEffect.conditionStruct.type);
             cardEffect.conditionStruct.strParameter = (string)gt[i, "ConditionStrParam"];
-            cardEffect.conditionStruct.numValue = Int32.Parse((string)gt[i, "ConditionValue"]);
+            cardEffect.conditionStruct.numValue = (string)gt[i, "ConditionValue"] == "" ? 0 : Int32.Parse((string)gt[i, "ConditionValue"]);
 
-            if (((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
-                data.effectsOnPlay.Add(cardEffect);
-            else
-                data.effectsOnDraw.Add(cardEffect);
+            Enum.TryParse((string)gt[i, "ExecutionTime"], out cardEffect.execTime);
 
+            data.effects.Add(cardEffect);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -191,10 +180,9 @@ public class DatabaseGoogle
             activitySetting.type = cardActivityType;
             activitySetting.parameter = (string)gt[i, "Parameter"];
 
-            if (((string)gt[i, "ExecutionTime"]).Equals("OnPlay"))
-                data.activitiesOnPlay.Add(activitySetting);
-            else
-                data.activitiesOnDraw.Add(activitySetting);
+            Enum.TryParse((string)gt[i, "ExecutionTime"], out activitySetting.execTime);
+
+            data.activities.Add(activitySetting);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -292,17 +280,12 @@ public class DatabaseGoogle
             cDataCard.Add(cardData.name);
             cDataCard.Add(cardData.cardName);
             cDataCard.Add(cardData.cost);
-            cDataCard.Add(cardData.Damage.Value);
-            cDataCard.Add(cardData.Damage.Times);
-            cDataCard.Add(cardData.Damage.Target.ToString());
-            cDataCard.Add(cardData.Block.Value);
-            cDataCard.Add(cardData.Block.Times);
 
             InputDataCard.Add(cDataCard);
 
-            if (cardData.effectsOnPlay.Count != 0)
+            if (cardData.effects.Count != 0)
             {
-                foreach (CardEffectCarrierData effect in cardData.effectsOnPlay)
+                foreach (CardEffectCarrierData effect in cardData.effects)
                 {
                     List<object> cDataCardEffect = new List<object>();
                     cDataCardEffect.Add(cardData.name);
@@ -315,9 +298,9 @@ public class DatabaseGoogle
                 }
             }
 
-            if (cardData.activitiesOnPlay.Count != 0)
+            if (cardData.activities.Count != 0)
             {
-                foreach (CardActivitySetting caSetting in cardData.activitiesOnPlay)
+                foreach (CardActivitySetting caSetting in cardData.activities)
                 {
                     List<object> cDataCardActivity = new List<object>();
                     cDataCardActivity.Add(cardData.name);

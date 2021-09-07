@@ -22,8 +22,9 @@ public class Card : MonoBehaviour
     public List<CardSingleFieldProperty> singleFieldProperties = new List<CardSingleFieldProperty>();
     public HashSet<CardSingleFieldPropertyType> singleFieldTypes = new HashSet<CardSingleFieldPropertyType>();
 
-    public CardEffectCarrier Damage;
-    public CardEffectCarrier Block;
+    public List<CardEffectCarrier> Attacks = new List<CardEffectCarrier>();
+
+    public List<CardEffectCarrier> Blocks = new List<CardEffectCarrier>();
 
     public List<CardEffectCarrier> effectsOnPlay = new List<CardEffectCarrier>();
     public List<CardEffectCarrier> effectsOnDraw = new List<CardEffectCarrier>();
@@ -48,12 +49,28 @@ public class Card : MonoBehaviour
         artwork         = cardData.artwork;
         cost            = CardInt.Factory(cardData.cost,this);
         cardData.singleFieldProperties.OrderBy(s => (int)s).ToList().ForEach(s => RegisterSingleField(s));
-        Damage          = SetupEffectcarrier(cardData.Damage);
-        Block           = SetupEffectcarrier(cardData.Block);
-        cardData.effectsOnPlay.ForEach(e=> effectsOnPlay.Add(SetupEffectcarrier(e)));
-        cardData.effectsOnDraw.ForEach(e=> effectsOnDraw.Add(SetupEffectcarrier(e)));
-        activitiesOnPlay= cardData.activitiesOnPlay;
-        activitiesOnDraw= cardData.activitiesOnDraw;
+
+        foreach(CardEffectCarrierData effect in cardData.effects) 
+        {
+            CardEffectCarrier carrier = SetupEffectcarrier(effect);
+            if (effect.Type == EffectType.Damage)
+                Attacks.Add(carrier);
+            else if (effect.Type == EffectType.Block)
+                Blocks.Add(carrier);
+            else if(effect.execTime == CardComponentExecType.OnPlay)
+                effectsOnPlay.Add(carrier);
+            else if(effect.execTime == CardComponentExecType.OnDraw)
+                effectsOnDraw.Add(carrier);
+        }
+
+        foreach (CardActivitySetting activity in cardData.activities)
+        {
+            if (activity.execTime == CardComponentExecType.OnPlay)
+                activitiesOnPlay.Add(activity);
+            else if (activity.execTime == CardComponentExecType.OnDraw)
+                activitiesOnDraw.Add(activity);
+        }
+
         animationPrefab = cardData.animationPrefab;
         classType       = cardData.cardClass;
         visibleCost     = cardData.visibleCost;
@@ -69,8 +86,8 @@ public class Card : MonoBehaviour
         cost = card.cost;
         singleFieldProperties = card.singleFieldProperties;
         singleFieldTypes = card.singleFieldTypes;
-        Damage = card.Damage;
-        Block = card.Block;
+        Attacks = card.Attacks;
+        Blocks = card.Blocks;
         effectsOnPlay = card.effectsOnPlay;
         effectsOnDraw = card.effectsOnDraw;
         activitiesOnPlay = card.activitiesOnPlay;
@@ -93,44 +110,6 @@ public class Card : MonoBehaviour
         if (singleFieldTypes.Contains(s)) return;
         singleFieldProperties.Add(new CardSingleFieldProperty(s));
         singleFieldTypes.Add(s);
-    }
-
-    [HideInInspector]
-    public bool targetRequired
-    {
-        get
-        {
-            if (effectsOnPlay.Count(x => x.Target == CardTargetType.EnemySingle) == 0 && (Damage.Value == 0 || Damage.Target != CardTargetType.EnemySingle))
-                return false;
-            else
-                return true;
-        }
-    }
-
-    public List<CardEffectCarrier> allEffects
-    {
-        get
-        {
-            List<CardEffectCarrier> tempList = new List<CardEffectCarrier>
-            {
-                Damage,
-                Block
-            };
-            tempList.AddRange(effectsOnPlay);
-            return tempList;
-        }
-    }
-
-    public HashSet<CardTargetType> allTargetTypes
-    {
-        get
-        {
-            HashSet<CardTargetType> tempSet = new HashSet<CardTargetType>();
-            if (Damage.Value != 0) tempSet.Add(Damage.Target);
-            if (Block.Value != 0) tempSet.Add(Block.Target);
-            effectsOnPlay.ForEach(x => tempSet.Add(x.Target));
-            return tempSet;
-        }
     }
 
     public List<CardEffectCarrier> GetEffectsByType(EffectType type)
@@ -158,8 +137,8 @@ public class Card : MonoBehaviour
 
         Target.cardName = a.cardName + (a.cardName.Contains("Mod+") ? "+" : " Mod+");
 
-        Target.Damage = a.Damage + b.Damage;
-        Target.Block = a.Block + b.Block;
+        //Target.Damage = a.Damage + b.Damage;
+        //Target.Block = a.Block + b.Block;
 
         a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type));
         b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type));

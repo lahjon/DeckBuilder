@@ -60,12 +60,16 @@ public class CardIntLinkedProperty: CardInt
             }
         }
 
-        propertyType = prop;
 
-        this.card = card;
-        card.registeredSubscribers.Add(this);
-        this.onLinkedValChange = onLinkedValChange;
-
+        if (card is CardCombat)
+        {
+            propertyType = prop;
+            card.registeredSubscribers.Add(this);
+            this.card = card;
+            this.onLinkedValChange = onLinkedValChange;
+        }
+        else
+            _propertyType = prop;
     }
     private Func<int> PropGetter;
      
@@ -103,6 +107,8 @@ public class CardIntLinkedProperty: CardInt
     public override string GetTextForValue()
     {
         string retstring = "";
+
+        Debug.Log("Requesting text for val for CardInt");
         CalcType calcType = this.calcType;
 
 
@@ -127,7 +133,8 @@ public class CardIntLinkedProperty: CardInt
         if (calcType == CalcType.Multiplicative) retstring += " times " + scalar.ToString();
         else if (calcType == CalcType.Additive) retstring += " +" + baseVal.ToString();
 
-        retstring += " </i>(" + value.ToString() + ")</i>";
+        if(card is CardCombat) //Can only be calculated in combat
+            retstring += " </i>(" + value.ToString() + ")</i>";
 
         return retstring;
     }
