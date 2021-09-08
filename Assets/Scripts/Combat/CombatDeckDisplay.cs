@@ -14,6 +14,7 @@ public class CombatDeckDisplay : MonoBehaviour
     public TMP_Text titleText;
     public List<CardVisual> sourceCards;
     public List<CardDisplay> allDisplayedCards;
+    public System.Action confirmCallback;
 
     void Open()
     {
