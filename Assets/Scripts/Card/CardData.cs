@@ -16,14 +16,8 @@ public class CardData : ScriptableObject
 
     public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();
 
-    public CardEffectCarrierData Damage;
-    public CardEffectCarrierData Block;
-
-    public List<CardEffectCarrierData>  effectsOnPlay = new List<CardEffectCarrierData>();
-    public List<CardActivitySetting>    activitiesOnPlay = new List<CardActivitySetting>();
-
-    public List<CardEffectCarrierData>  effectsOnDraw = new List<CardEffectCarrierData>();
-    public List<CardActivitySetting>    activitiesOnDraw = new List<CardActivitySetting>();
+    public List<CardEffectCarrierData>  effects = new List<CardEffectCarrierData>();
+    public List<CardActivitySetting>    activities = new List<CardActivitySetting>();
 
     public Rarity rarity;
 

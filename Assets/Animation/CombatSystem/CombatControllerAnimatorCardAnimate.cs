@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
 {
@@ -23,11 +24,11 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
 
         layerName = combat.ActiveActor == combat.Hero ? "Resolve Card" : "EnemyCard";
 
-        if (card.Block.Value != 0)
+        if (card.Blocks.Any())
             nextState = "Block";
-        else if (card.Damage.Value != 0)
+        else if (card.Attacks.Any())
             nextState = "Attack";
-        else if (card.effectsOnPlay.Count != 0)
+        else if (card.effectsOnPlay.Any())
             nextState = "Effects";
         else
             nextState = "Activities & Discard";

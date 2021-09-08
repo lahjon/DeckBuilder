@@ -18,34 +18,15 @@ MonoBehaviour:
   cost: 3
   visibleCost: 1
   singleFieldProperties: 
-  Damage:
-    Type: 0
-    Value: 0
-    Times: 0
-    Target: 3
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-  Block:
-    Type: 2
-    Value: 0
-    Times: 0
-    Target: 0
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-  effectsOnPlay: []
-  activitiesOnPlay:
+  effects: []
+  activities:
   - type: 1
     parameter: Burden_StickyGoo,Deck;Burden_CheapScare,Deck;Burden_Disarm,Deck
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
-  effectsOnDraw: []
-  activitiesOnDraw: []
+    execTime: 0
   rarity: 13
   cardClass: 8
   animationPrefab: {fileID: 0}

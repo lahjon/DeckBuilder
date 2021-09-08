@@ -66,12 +66,16 @@ public class CardCombat : CardVisual, IEventSubscriber
     }
 
 
+    [HideInInspector]
+    public bool targetRequired
+    {
+        get => Attacks.Any(x => x.Target == CardTargetType.EnemySingle) || effectsOnPlay.Any(x => x.Target == CardTargetType.EnemySingle);
+    }
+
+
     public bool MouseReact
     {
-        get
-        {
-            return _mouseReact;
-        }
+        get => _mouseReact;
         set
         {
             _mouseReact = value;
@@ -81,10 +85,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public bool selected 
     {
-        get
-        {
-            return _selected;
-        }
+        get => _selected;
         set
         {
             _selected = value;
@@ -103,10 +104,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public bool selectable
     {
-        get
-        {
-            return _selectable;
-        }
+        get => _selectable;
         set
         {
             _selectable = value;
@@ -153,8 +151,6 @@ public class CardCombat : CardVisual, IEventSubscriber
         }
     }
 
-
-
     void Start()
     {
         animator.SetBool("NeedTarget",targetRequired);
@@ -162,7 +158,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         image = GetComponent<Image>();
     }
 
-    public static CardCombat CreateCardCombatFromData(CardData cardData)
+    public static CardCombat Factory(CardData cardData)
     {
         GameObject CardObject = Instantiate(CombatSystem.instance.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);
@@ -184,7 +180,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         return card;
     }
 
-    public static CardCombat CreateCardCombined(CardCombat a, CardCombat b)
+    public static CardCombat Combine(CardCombat a, CardCombat b)
     {
         GameObject CardObject = Instantiate(CombatSystem.instance.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
         CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);

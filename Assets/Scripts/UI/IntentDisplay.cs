@@ -22,10 +22,10 @@ public class IntentDisplay : MonoBehaviour
         otherSprite.SetActive(false);
         lblIntent.text = "";
 
-        if(card.Damage.Value != 0)
+        if(card.Attacks.Any())
         {
             attackSprite.SetActive(true);
-            lblIntent.text = displayDamage.ToString() + (card.Damage.Times != 1 ? "x" + card.Damage.Times.ToString() : "");
+            lblIntent.text = displayDamage.ToString() + (card.Attacks[0].Times.value != 1 ? "x" + card.Attacks[0].Times.value.ToString() : "");
             if (!card.effectsOnPlay.Any())
             {
                 attackSprite.GetComponent<Intent>().image.sprite = attackIcons[0];
@@ -42,7 +42,7 @@ public class IntentDisplay : MonoBehaviour
             otherSprite.gameObject.SetActive(true);
             otherSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy intends to use an unknown effect!");
         }
-        else if(card.Block.Value != 0)
+        else if(card.Blocks[0].Value != 0)
         {
             defendSprite.gameObject.SetActive(true);
             defendSprite.GetComponent<Intent>().tooltipDescription = string.Format("The enemy is intending to block!");

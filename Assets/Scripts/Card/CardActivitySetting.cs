@@ -11,6 +11,7 @@ public class CardActivitySetting : ICardTextElement
 
     public ConditionStruct conditionStruct;
 
+    public CardComponentExecType execTime;
     public string GetElementText()
     {
         return CardActivitySystem.instance.DescriptionByCardActivity(this);

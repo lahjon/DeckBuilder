@@ -18,8 +18,8 @@ MonoBehaviour:
   cost: 1
   visibleCost: 1
   singleFieldProperties: 
-  Damage:
-    Type: 0
+  effects:
+  - Type: 0
     Value: 7
     Times: 1
     Target: 3
@@ -27,27 +27,17 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
-  Block:
-    Type: 2
-    Value: 0
-    Times: 0
-    Target: 0
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-  effectsOnPlay:
+    execTime: 0
   - Type: 4
     Value: 2
     Times: 1
     Target: 3
     conditionStruct:
-      type: 6
+      type: 7
       strParameter: Order
       numValue: 0
-  activitiesOnPlay: []
-  effectsOnDraw: []
-  activitiesOnDraw: []
+    execTime: 0
+  activities: []
   rarity: 11
   cardClass: 1
   animationPrefab: {fileID: 0}
