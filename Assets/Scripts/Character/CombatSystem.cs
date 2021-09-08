@@ -243,7 +243,11 @@ public class CombatSystem : MonoBehaviour
     public void EndTurn()
     {
         cardsPlayedThisTurn.Clear();
-        Hand.Where(c => c.singleFieldTypes.Contains(CardSingleFieldPropertyType.Unstable)).ToList().ForEach(c => { Hand.Remove(c); Destroy(c.gameObject); });
+        Hand.Where(c => c.singleFieldTypes.Contains(CardSingleFieldPropertyType.Unstable)).ToList().ForEach(c => { 
+            Hand.Remove(c); 
+            Debug.Log(c);
+            Hero.ExhaustCard(c); 
+            });
 
         foreach (CardCombat card in Hand)
         {
@@ -626,6 +630,12 @@ public class CombatSystem : MonoBehaviour
     public void ButtonOpenDeck()
     {
         combatDeckDisplay.OpenDeck();
+        Debug.Log("Open");
+    }
+
+    public void ButtonOpenExhaust()
+    {
+        combatDeckDisplay.OpenExhaust();
         Debug.Log("Open");
     }
 

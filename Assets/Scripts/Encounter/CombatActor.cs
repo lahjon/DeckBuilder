@@ -45,6 +45,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public ListEventReporter<Card> deck;
     public ListEventReporter<Card> discard; 
+    public ListEventReporter<Card> exhaust = new ListEventReporter<Card>(); 
 
 
     public List<CombatActor> allies;
@@ -96,13 +97,21 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public virtual void DiscardCard(Card card)
     {
-        discard.Insert(0,card);
+        discard.Insert(0, card);
+        Debug.Log("insert card in discard: " + card);
+    }
+
+    public virtual void ExhaustCard(Card card)
+    {
+        Debug.Log("insert card in exhaust");
+        exhaust.Insert(0, card);
+        card.gameObject.SetActive(false);
     }
 
     public virtual void CardResolved(Card card)
     {
         if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Exhaust))
-            Destroy(card.gameObject);
+            ExhaustCard(card);
         else
             DiscardCard(card);
     }

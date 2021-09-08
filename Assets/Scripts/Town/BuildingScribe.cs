@@ -102,7 +102,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void UpdateCounter()
     {
-        sideboardAmountText.text = string.Format("{0} / {1}", sideCards.Count, maxSideboardCards);
+        sideboardAmountText.text = string.Format("{0} / {1}", currentCards.Count, maxSideboardCards);
     }
 
     public void MoveCard(CardDisplay card)
@@ -121,6 +121,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void MoveToDeck(CardDisplay card)
     {
+        if (currentCards.Count >= maxSideboardCards) return;
+
         card.transform.SetParent(deckParent);
         currentCards.Add(card.cardData.name);
         allDeckCards.Add(card);
@@ -132,7 +134,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     void MoveToSide(CardDisplay card)
     {
-        if (sideCards.Count >= maxSideboardCards) return;
 
         card.transform.SetParent(sideParent);
         sideCards.Add(card.cardData.name);
@@ -164,7 +165,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     public override void CloseBuilding()
     {
-        if (sideCards.Count < maxSideboardCards)
+        if (currentCards.Count < maxSideboardCards)
         {
             PromptWarning();
             return;

@@ -66,6 +66,7 @@ public class DeckDisplayManager : Manager
 
     public void DisplayCard(CardVisual aCard)
     {
+        Debug.Log("Display Card");
         if(selectedCard == null)
         {
             aCard.OnMouseExit();

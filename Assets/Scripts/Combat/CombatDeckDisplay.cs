@@ -13,47 +13,52 @@ public class CombatDeckDisplay : MonoBehaviour
 
     public TMP_Text titleText;
     public List<CardVisual> sourceCards;
-    public List<CardVisual> allDisplayedCards;
+    public List<CardDisplay> allDisplayedCards;
+
+    void Open()
+    {
+        deckDisplay.gameObject.SetActive(true);
+        WorldStateSystem.SetInDisplay();
+    }
 
     public void OpenDiscard()
     {
-        deckDisplay.gameObject.SetActive(true);
-        UpdateAllCards(DeckType.CombatDiscard);
-        WorldStateSystem.SetInDisplay();
-
-        // CombatSystem.instance.Hero.discard.ForEach(x => {
-        //     GameObject card = Instantiate(x.gameObject, content);
-        //     card.SetActive(true);
-        //     card.transform.localScale = Vector3.one;
-        //     Debug.Log(card.transform.localScale);
-        // });
-
+        UpdateAllCards(CardLocation.Discard);
         titleText.text = "Discard";
+        Open();
     }
 
     public void OpenDeck()
     {
-        deckDisplay.gameObject.SetActive(true);
-        UpdateAllCards(DeckType.CombatDeck);
-        WorldStateSystem.SetInDisplay();
-
-        // CombatSystem.instance.Hero.deck.ForEach(x => {
-        //     GameObject card = Instantiate(x.gameObject, content);
-        //     card.SetActive(true);
-        //     card.transform.localScale = Vector3.one;
-        //     Debug.Log(card.transform.localScale);
-        // });
-
+        UpdateAllCards(CardLocation.Deck);
         titleText.text = "Deck";
+        Open();
     }
 
-    public void UpdateAllCards(DeckType type)
+    public void OpenExhaust()
+    {
+        UpdateAllCards(CardLocation.Exhaust);
+        titleText.text = "Exhaust";
+        Open();
+    }
+
+    public void UpdateAllCards(CardLocation cardLocation)
     {
         sourceCards.Clear();
-        if (type == DeckType.CombatDeck)
-            CombatSystem.instance.Hero.deck.ForEach(c => sourceCards.Add((CardVisual)c));
-        else
-            CombatSystem.instance.Hero.discard.ForEach(c => sourceCards.Add((CardVisual)c));
+        switch (cardLocation)
+        {
+            case CardLocation.Deck:
+                CombatSystem.instance.Hero.deck.ForEach(c => sourceCards.Add((CardVisual)c));
+                break;
+            case CardLocation.Discard:
+                CombatSystem.instance.Hero.discard.ForEach(c => sourceCards.Add((CardVisual)c));
+                break;
+            case CardLocation.Exhaust:
+                CombatSystem.instance.Hero.exhaust.ForEach(c => sourceCards.Add((CardVisual)c));
+                break;
+            default:
+                break;
+        }
 
         if (sourceCards.Count > allDisplayedCards.Count)
         {
@@ -76,16 +81,15 @@ public class CombatDeckDisplay : MonoBehaviour
 
         for (int i = 0; i < sourceCards.Count; i++)
         {
-            allDisplayedCards[i].Mimic(sourceCards[i]);
+            CardDisplay newCard = allDisplayedCards[i];
+            newCard.Mimic(sourceCards[i]);
+            Debug.Log("Add callback");
+            newCard.clickCallback = () => WorldSystem.instance.deckDisplayManager.DisplayCard(newCard);
         }
     }
 
     public void ButtonClose()
     {
-        // for (int i = 0; i < content.childCount; i++)
-        // {
-        //     Destroy(content.GetChild(i).gameObject);
-        // }
         WorldStateSystem.TriggerClear();
         deckDisplay.gameObject.SetActive(false);
     }
