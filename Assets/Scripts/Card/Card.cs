@@ -40,8 +40,21 @@ public class Card : MonoBehaviour
     public List<Condition> registeredConditions = new List<Condition>();
     public List<IEventSubscriber> registeredSubscribers = new List<IEventSubscriber>();
 
+
+    public void Reset()
+    {
+        Attacks.Clear();
+        Blocks.Clear();
+        effectsOnPlay.Clear();
+        effectsOnDraw.Clear();
+        activitiesOnDraw.Clear();
+        activitiesOnPlay.Clear();
+        singleFieldTypes.Clear();
+        singleFieldProperties.Clear();
+    }
     public void BindCardData()
     {
+        Reset();
         name            = cardData.cardName;
         cardType        = cardData.cardType;
         rarity          = cardData.rarity;
