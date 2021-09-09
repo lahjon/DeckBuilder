@@ -30,4 +30,4 @@ MonoBehaviour:
     type: 4
   classType: 3
   startingItem: HealingPotion
-  unlocked: 1
+  unlocked: 0
