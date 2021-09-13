@@ -12,4 +12,5 @@ public struct CardEffectCarrierData
     public ConditionStruct conditionStruct;
 
     public CardComponentExecType execTime;
+
 }

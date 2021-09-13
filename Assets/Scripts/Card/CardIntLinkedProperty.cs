@@ -108,7 +108,6 @@ public class CardIntLinkedProperty: CardInt
     {
         string retstring = "";
 
-        Debug.Log("Requesting text for val for CardInt");
         CalcType calcType = this.calcType;
 
 
