@@ -11,6 +11,7 @@ public class Card : MonoBehaviour
 {
     public Rarity rarity;
     public string cardName;
+    public string cardId;
     public Sprite artwork;
     public List<CardModifierData> cardModifiers;
 
@@ -53,11 +54,13 @@ public class Card : MonoBehaviour
         activitiesOnPlay.Clear();
         singleFieldTypes.Clear();
         singleFieldProperties.Clear();
+        cardModifiers.Clear();
     }
     public void BindCardData()
     {
         Reset();
         name            = cardData.cardName;
+        cardId          = cardData.cardId;
         cardType        = cardData.cardType;
         rarity          = cardData.rarity;
         cardName        = cardData.cardName;
@@ -91,6 +94,16 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
     }
 
+    public void AddModifierToCard(CardModifierData cardModifierData)
+    {
+        Debug.Log("Add logic in here to add modifiers");
+        CardVisual card;
+        if (TryGetComponent<CardVisual>(out card))
+        {
+            card.UpdateCardVisual();
+        }
+    }
+
     public void Exhaust()
     {
         Image image = GetComponent<Image>();
@@ -117,6 +130,8 @@ public class Card : MonoBehaviour
     public void Mimic(Card card)
     {
         name = card.cardName;
+        cardData = card.cardData;
+        cardId = card.cardId;
         cardType = card.cardType;
         rarity = card.rarity;
         cardName = card.cardName;

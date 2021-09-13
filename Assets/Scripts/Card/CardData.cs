@@ -13,8 +13,9 @@ public class CardData : ScriptableObject
 
     public Sprite artwork;
     public string cost;
+    public string upgradeCost;
     public bool visibleCost = true;
-    public List<CardModifierData> cardModifiers;
+    public List<CardModifierData> cardModifiers = new List<CardModifierData>();
 
     public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();
 

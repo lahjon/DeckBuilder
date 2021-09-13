@@ -166,11 +166,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         a_SaveData.playerCardsDataNames = tempList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.gold = gold;
-        if (SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            a_SaveData.currentHealth = currentHealth;
-            a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
-        }
+
+        a_SaveData.currentHealth = currentHealth;
+        a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
+    
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

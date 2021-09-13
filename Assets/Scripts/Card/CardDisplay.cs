@@ -7,8 +7,7 @@ using DG.Tweening;
 
 public class CardDisplay : CardVisual
 {
-    private float startDragPos;
-    bool dragging;
+    public int idx;
     public System.Action clickCallback;
     Tween tween;
     bool _selected;

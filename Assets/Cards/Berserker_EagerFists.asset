@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Berserker_EagerFists
   m_EditorClassIdentifier: 
+  cardId: 
   cardName: Eager Fists
   cardType: 0
   artwork: {fileID: 21300000, guid: 5740242c75ca43142910c354252f4cd7, type: 3}
   cost: 0
+  upgradeCost: 5
   visibleCost: 1
+  cardModifiers:
+  - {fileID: 11400000, guid: 3b466c9d802b5354baab5e0c73309ea6, type: 2}
+  - {fileID: 11400000, guid: 2d5d33c680ac87f4791a946e4006e044, type: 2}
   singleFieldProperties: fdffffff00000000
   effects:
   - Type: 0

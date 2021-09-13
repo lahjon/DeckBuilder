@@ -10,33 +10,50 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public GameObject scribe, deckManagement, cardUpgrade; // rooms
     public GameObject cardPrefab;
     public List<CardWrapper> unlockedCards = new List<CardWrapper>();
-    public List<string> deckCards = new List<string>();
-    public List<string> sideCards = new List<string>();
+    public List<CardWrapper> deckCards = new List<CardWrapper>();
+    public List<CardWrapper> sideCards = new List<CardWrapper>();
     public List<CardDisplay> allSideCards = new List<CardDisplay>();
+    public List<CardDisplay> allUpgradeCards = new List<CardDisplay>();
     public List<CardDisplay> allDeckCards = new List<CardDisplay>();
     public List<CardData> extraCards = new List<CardData>();
-    public Transform deckParent, sideParent;
+    public Transform deckParent, sideParent, upgradeParent;
     public TMP_Text sideboardAmountText;
-    public GameObject warningPrompt;
     public int maxSideboardCards;
+    public int idxCounter;
 
     void Start()
     {
-        UpdateDeck();
+        // UpdateDeck();
+        // UpdateUpgradeManagement();
     }
 
     void UpdateDeck()
     {
-        DatabaseSystem.instance.GetCardsByID(deckCards).ForEach(x => CreateCard(x, true));
-        DatabaseSystem.instance.GetCardsByID(sideCards).ForEach(x => CreateCard(x, false));
+        List<CardDisplay> cards = new List<CardDisplay>();
+        foreach (CardDisplay c in allSideCards)
+        {
+            foreach (CardWrapper cw in deckCards)
+            {
+                if (cw.idx == c.idx && cw.cardId == c.cardName)
+                {
+                    cards.Add(c);
+                }
+            }
+        }
+        cards.ForEach(c => MoveToDeck(c));
+
+        while (allDeckCards.Count < maxSideboardCards)
+        {
+            MoveToDeck(allSideCards[0]);
+        }
+
         SortDeck();
-        WorldSystem.instance.characterManager.playerCardsData = GetDeck();
     }
 
     public void UnlockProfessionCard(Profession profession)
     {
         // SWAP TO ID
-        DatabaseSystem.instance.GetStartingProfessionCards(profession).ForEach(x => unlockedCards.Add(new CardWrapper(x.cardName)));
+        DatabaseSystem.instance.GetStartingProfessionCards(profession).ForEach(x => UnlockCard(x, false));
     }
 
     public List<CardData> GetStartingDeck()
@@ -48,21 +65,24 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         return DatabaseSystem.instance.GetStartingDeck(true).Concat(allDeckCards.Select(x => x.cardData)).Concat(extraCards).ToList();
     }
 
-    public void UnlockCard(CardData data)
+    public void UnlockCard(CardData data, bool save = true)
     {
-        unlockedCards.Add(new CardWrapper(data.cardName));
-        sideCards.Add(data.cardName);
-        CreateCard(data, false);
+        unlockedCards.Add(new CardWrapper(data.cardName, idxCounter));
+        //CreateCardManage(data);
+        if (save) WorldSystem.instance.SaveProgression();
+        
     }
 
-    public void UpgradeCardPermanent(string cardId)
+    public void UpgradeCardPermanent(CardDisplay aCard)
     {
-        if (unlockedCards.FirstOrDefault(x => x.cardId == cardId) is CardWrapper card && DatabaseSystem.instance.GetCardByID(cardId) is CardData data)
+        if (unlockedCards.FirstOrDefault(x => x.idx == aCard.idx && x.cardId == aCard.cardName) is CardWrapper cw)
         {
-            int idx = card.timesUpgraded;
-            if (idx < data.cardModifiers.Count)
+            if (cw.timesUpgraded < aCard.cardData.cardModifiers.Count)
             {
-                card.cardModifiersId.Add(data.cardModifiers[idx].id);
+                CardModifierData cardMod = aCard.cardData.cardModifiers[cw.timesUpgraded];
+                aCard.AddModifierToCard(cardMod);
+                cw.timesUpgraded++;
+                cw.cardModifiersId.Add(cardMod.id);
             }
         }
     }
@@ -75,61 +95,92 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
     }
 
-    void CreateCard(CardData data, bool inDeck, CardDisplay aDisplay = null)
+    void CreateCardManage(CardDisplay display, CardData data, int idxOverride = -1)
     {
-        Transform parent = inDeck ? deckParent : sideParent;
-        CardDisplay display;
-        if (aDisplay == null) 
-            display = Instantiate(cardPrefab, parent).GetComponent<CardDisplay>();
-        else 
-            display = aDisplay;
+        //CardDisplay display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
+
         display.name = data.cardName;
         display.cardData = data;
         display.BindCardData();
         display.BindCardVisualData();
-        if (inDeck)
+
+        if (idxOverride >= 0)
         {
-            allDeckCards.Add(display);
-            Debug.Log("Dick");
+            display.idx = idxOverride;
         }
         else
         {
-            allSideCards.Add(display);
+            display.idx = idxCounter;   
+            idxCounter++;
         }
+        allSideCards.Add(display);
         display.clickCallback = () => MoveCard(display);
+    }
+
+    void CreateCardUpgrade(CardData data, int idx)
+    {
+        CardDisplay display = Instantiate(cardPrefab, upgradeParent).GetComponent<CardDisplay>();
+
+        display.name = data.cardName;
+        display.cardData = data;
+        display.BindCardData();
+        display.BindCardVisualData();
+        display.idx = idx;
+
+        allUpgradeCards.Add(display);
+        display.clickCallback = () => UpgradeCard(display);
+    }
+
+    void UpgradeCard(CardDisplay card)
+    {   
+        if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardName) is CardWrapper cw)
+        {
+            int upgradeCost = int.Parse(card.cardData.upgradeCost) * (cw.timesUpgraded + 1);
+            if (cw.timesUpgraded >= card.cardData.cardModifiers.Count)
+            {
+                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Card is fully upgraded!");
+                return;
+            }
+            if (WorldSystem.instance.characterManager.shard >= upgradeCost)
+            {
+                CardModifierData cardModifierData = card.cardData.cardModifiers[cw.timesUpgraded];
+                cw.cardModifiersId.Add(cardModifierData.id);
+                cw.timesUpgraded++;
+                card.AddModifierToCard(cardModifierData);
+                WorldSystem.instance.characterManager.shard -= upgradeCost;
+            }
+            else
+            {
+                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough shards!");
+            }
+        }
     }
     void SortDeck()
     {
         // sort deck
-        allDeckCards.OrderBy(x => x.cardName);
-        if (allDeckCards.Count == deckCards.Count)
+        List<CardDisplay> sorted = allDeckCards.OrderBy(x => x.cardName).ToList();
+        Debug.Log("SortDeck");
+        int amount = allDeckCards.Count;
+
+        for (int i = 0; i < amount; i++)
         {
-            for (int i = 0; i < deckCards.Count; i++)
-            {
-                if (allDeckCards[i].cardName == deckCards[i])
-                {
-                    allDeckCards[i].transform.SetSiblingIndex(deckCards.IndexOf(deckCards[i]));
-                }
-            }
+            sorted[i].transform.SetSiblingIndex(i);
         }
+        
     
         // sort side
         allSideCards.OrderBy(x => x.cardName);
-        if (allSideCards.Count == deckCards.Count)
+        amount = allSideCards.Count;
+
+        for (int i = 0; i < amount; i++)
         {
-            for (int i = 0; i < deckCards.Count; i++)
-            {
-                if (allSideCards[i].cardName == deckCards[i])
-                {
-                    allSideCards[i].transform.SetSiblingIndex(deckCards.IndexOf(deckCards[i]));
-                }
-            }
+            allSideCards[i].transform.SetSiblingIndex(i);
         }
     }
 
     void UpdateCounter()
     {
-        sideboardAmountText.text = string.Format("{0} / {1}", deckCards.Count, maxSideboardCards);
+        sideboardAmountText.text = string.Format("{0} / {1}", allDeckCards.Count, maxSideboardCards);
     }
 
     public void MoveCard(CardDisplay card)
@@ -148,42 +199,73 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void MoveToDeck(CardDisplay card)
     {
-        if (deckCards.Count >= maxSideboardCards) return;
+        if (allDeckCards.Count >= maxSideboardCards) return;
 
+        List<CardDisplay> sorted = new List<CardDisplay>();
+        allDeckCards.ForEach(x => sorted.Add(x));
+        sorted.Add(card);
+        sorted = sorted.OrderBy(x => x.cardName).ToList();
         card.transform.SetParent(deckParent);
-        deckCards.Add(card.cardData.cardName);
-        allDeckCards.Add(card);
-        deckCards.Sort();
-        if (deckCards.FirstOrDefault(x => x == card.cardData.cardName) is string c) card.transform.SetSiblingIndex(deckCards.IndexOf(c));
+        card.transform.SetSiblingIndex(sorted.IndexOf(card));
 
+        allDeckCards.Add(card);
         allSideCards.Remove(card);
-        sideCards.Remove(card.cardData.cardName);
     }
     void MoveToSide(CardDisplay card)
     {
-        Debug.Log("Move to side");
+        List<CardDisplay> sorted = new List<CardDisplay>();
+        allSideCards.ForEach(x => sorted.Add(x));
+        sorted.Add(card);
+        sorted = sorted.OrderBy(x => x.cardName).ToList();
         card.transform.SetParent(sideParent);
-        sideCards.Add(card.cardData.cardName);
+        card.transform.SetSiblingIndex(sorted.IndexOf(card));
         allSideCards.Add(card);
-        sideCards.Sort();
-        if (sideCards.FirstOrDefault(x => x == card.cardData.cardName) is string c) card.transform.SetSiblingIndex(sideCards.IndexOf(c));
-
         allDeckCards.Remove(card);
-        deckCards.Remove(card.cardData.cardName);
     }
 
-    public void UpdateScribe()
+    public void UpdateDeckManagement()
     {
+        CardDisplay display;
         SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
-        var allCards = allSideCards.Concat(allDeckCards).ToList();
-        while (allCards.Count > 0)
-        {
-            Destroy(allCards[allCards.Count - 1].gameObject);
-            allCards.RemoveAt(allCards.Count - 1);
-        }
-        allSideCards.Clear();
+        allDeckCards.ForEach(x => MoveToDeck(x));
         allDeckCards.Clear();
+        List<CardWrapper> uCards = new List<CardWrapper>();
+
+        for (int i = 0; i < unlockedCards.Count; i++)
+        {
+            if (DatabaseSystem.instance.GetCardByID(unlockedCards[i].cardId) is CardData data)
+            {
+                if ((int)data.cardClass == (int)WorldSystem.instance.characterManager.selectedCharacterClassType)
+                {
+                    uCards.Add(unlockedCards[i]);
+                }
+            }
+        }
+        
+        while (allSideCards.Count < uCards.Count)
+        {
+            display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
+            allSideCards.Add(display);
+        }
+        while (allSideCards.Count > uCards.Count)
+        {
+            Destroy(allSideCards[allSideCards.Count - 1].gameObject);
+            allSideCards.RemoveAt(allSideCards.Count - 1);
+        }
+
+        for (int i = 0; i < uCards.Count; i++)
+        {
+            CreateCardManage(allSideCards[i], DatabaseSystem.instance.GetCardByID(uCards[i].cardId), uCards[i].idx);
+        }
+
         UpdateDeck();
+    }
+
+    public void UpdateUpgradeManagement()
+    {
+        List<CardDisplay> allCards = allDeckCards;
+        allCards.ForEach(x => MoveToDeck(x));
+        allCards.ForEach(x => CreateCardUpgrade(x.cardData, x.idx));
     }
 
     void ConfirmDeck()
@@ -192,12 +274,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     public override void CloseBuilding()
     {
-        if (deckCards.Count < maxSideboardCards)
-        {
-            PromptWarning();
-            return;
-        }
-
         ConfirmDeck();
         base.CloseBuilding();
     }
@@ -213,49 +289,82 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     public void ButtonEnterDeckManagement()
     {
+        UpdateDeckManagement();
         StepInto(deckManagement);
     }
     public void ButtonEnterCardUpgrade()
     {
+        UpdateUpgradeManagement();
         StepInto(cardUpgrade);
+    }
+
+    protected override void StepBack()
+    {
+        if (allDeckCards.Count < maxSideboardCards)
+        {
+            PromptWarning();
+            return;
+        }
+        base.StepBack();
     }
 
     public void PopulateSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
-        a_SaveData.currentCards = deckCards;
+        List<CardWrapper> deckCards = new List<CardWrapper>();
+        allDeckCards.ForEach(x => deckCards.Add(new CardWrapper(x.cardName, x.idx)));
+
+        List<CardWrapper> sideCards = new List<CardWrapper>();
+        allSideCards.ForEach(x => sideCards.Add(new CardWrapper(x.cardName, x.idx)));
+        
+        a_SaveData.deckCards = deckCards;
         a_SaveData.sideCards = sideCards;
     }
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
-        if (a_SaveData.currentCards?.Any() == true)
+        if (a_SaveData.deckCards?.Any() == true)
         {
-            deckCards = a_SaveData.currentCards;
+            deckCards = a_SaveData.deckCards;
             sideCards = a_SaveData.sideCards;
         }
-        // else if (a_SaveData.currentCards == null)
-        // {
-        //     // if no cards unlocked
-        //     currentCards = new List<string>();
-        //     sideCards = new List<string>();
-        // }
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.unlockedCards = unlockedCards;
+        a_SaveData.idxCounter = idxCounter;
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
+        idxCounter = a_SaveData.idxCounter;
         if (a_SaveData.unlockedCards?.Any() == true)
         {
             unlockedCards = a_SaveData.unlockedCards;
+            // foreach (CardWrapper card in unlockedCards)
+            // {
+            //     CreateCardManage(DatabaseSystem.instance.GetCardByID(card.cardId), card.idx);
+            // }
         }
         else
         {
             UnlockProfessionCard(Profession.Berserker1);
-            deckCards = unlockedCards.Select(x => x.cardId).ToList();
+            // while (allDeckCards.Count < maxSideboardCards)
+            // {
+            //     MoveToDeck(allSideCards[0]);
+            // }
         }
     }
 }
+
+// [System.Serializable]
+// public class DeckCardWrapper
+// {
+//     public DeckCardWrapper(string aCardId, int anIdx)
+//     {
+//         cardId = aCardId;
+//         idx = anIdx;
+//     }
+//     public string cardId;
+//     public int idx;
+// }

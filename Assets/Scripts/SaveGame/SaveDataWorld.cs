@@ -13,6 +13,7 @@ public class SaveDataWorld
     public CharacterClassType classType;
     public int completedDialogue;
     public List<CardWrapper> unlockedCards;
+    public int idxCounter;
 
     // token
     public List<string> unlockedTokens;

@@ -12,16 +12,19 @@ public class CardModifierData : ScriptableObject
 [System.Serializable] 
 public class CardWrapper
 {
-    public CardWrapper(string anId, List<string> allCardModifiers)
+    public CardWrapper(string anId, List<string> allCardModifiers, int anIdx)
     {
         cardId = anId;
         cardModifiersId = allCardModifiers;
+        idx = anIdx;
     }
-    public CardWrapper(string anId)
+    public CardWrapper(string anId, int anIdx)
     {
         cardId = anId;
+        idx = anIdx;
     }
     public string cardId;
     public int timesUpgraded;
+    public int idx;
     public List<string> cardModifiersId;
 }

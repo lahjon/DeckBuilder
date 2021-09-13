@@ -38,6 +38,7 @@ public static class Helpers
 
     public static Color attackColor = new Color(190,83,83);
     public static Color neutralColor = Color.white;
+    public static Color upgradeCardColor = new Color(1f, 0.9f, 0.7f);
     public static float timeMultiplier = 1.0f;
 
     public static string ToLowerFirstChar(this string input)

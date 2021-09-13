@@ -16,7 +16,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public TMP_Text typeText;
     public Image artworkImage;
     public Image highlightSelected, highlightNormal, hightlightSpecial;
-    public Image border;
+    public Image border, cardBackground;
     public Image rarityBorder;
     public Image energyColor;
     public RectTransform TooltipAnchor;
@@ -68,6 +68,12 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         {
             highlight.gameObject.SetActive(false);
         });
+    }
+
+    public void UpdateCardVisual()
+    {
+        nameText.text += " +";
+        cardBackground.color = Helpers.upgradeCardColor; 
     }
 
     public void BindCardVisualData()
@@ -176,6 +182,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     void SetBorderColor()
     {
+        cardBackground.color = Color.white;
         border.color = Helpers.borderColors[classType];
         rarityBorder.color = Helpers.rarityBorderColors[rarity];
         energyColor.color = Helpers.borderColors[classType];

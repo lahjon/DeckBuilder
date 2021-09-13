@@ -9,6 +9,7 @@ using System.Linq;
 public class DebugUI : MonoBehaviour
 {
     public GameObject canvas;
+    public CardData cardData;
     public int strength;
     public string tokenReward;
     public string artifactReward = "TestArtifact1";
@@ -191,11 +192,14 @@ public class DebugUI : MonoBehaviour
 
     public void DebugUnlockCardInScribe()
     {
-        if ((BuildingScribe)world.townManager.GetBuildingByType(BuildingType.Scribe) is BuildingScribe scribe)
-        {
-            scribe.UnlockCard(DatabaseSystem.instance.GetRandomCard());
-        }
+        world.townManager.scribe.UnlockCard(cardData);
     }
+    // public void DebugUpgradeCardPermanent()
+    // { 
+
+    //     string value = world.townManager.scribe.unlockedCards[Random.Range(0, world.townManager.scribe.unlockedCards.Count)].cardId;
+    //     world.townManager.scribe.UpgradeCardPermanent(value);
+    // }
 
     public void DebugRewardGetCard()
     {

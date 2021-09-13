@@ -35,7 +35,7 @@ public abstract class Building : MonoBehaviour
         StepBack();
     }
 
-    protected void StepBack()
+    protected virtual void StepBack()
     {
         if (currentSelection.Count > 1)
         {

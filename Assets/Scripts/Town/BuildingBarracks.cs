@@ -70,7 +70,7 @@ public class BuildingBarracks : Building
             WorldSystem.instance.characterManager.character.profession = currentProfession;
         }
 
-        WorldSystem.instance.townManager.scribe?.UpdateScribe();
+        //WorldSystem.instance.townManager.scribe?.UpdateDeckManagement();
 
         Debug.Log("Update selected character");
     }

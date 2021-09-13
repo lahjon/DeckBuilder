@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Splicer_Defend
   m_EditorClassIdentifier: 
+  cardId: 
   cardName: Defend
   cardType: 2
   artwork: {fileID: 21300000, guid: 70466ba407d987e4ba3aaa33d4dc7532, type: 3}
   cost: 1
+  upgradeCost: 5
   visibleCost: 1
+  cardModifiers:
+  - {fileID: 11400000, guid: 3b466c9d802b5354baab5e0c73309ea6, type: 2}
+  - {fileID: 11400000, guid: 2d5d33c680ac87f4791a946e4006e044, type: 2}
   singleFieldProperties: 
   effects:
   - Type: 2
