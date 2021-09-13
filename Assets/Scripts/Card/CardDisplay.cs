@@ -3,12 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class CardDisplay : CardVisual
 {
     private float startDragPos;
     bool dragging;
     public System.Action clickCallback;
+    Tween tween;
+    bool _selected;
+    public bool selected
+    {
+        get => _selected;
+        set
+        {
+            _selected = value;
+            if (_selected)
+                cardHighlightType = CardHighlightType.Selected;
+            else
+                cardHighlightType = CardHighlightType.None;
+
+        }
+    }
 
     void OnEnable()
     {
@@ -18,7 +34,7 @@ public class CardDisplay : CardVisual
     public override void OnPointerEnter(PointerEventData eventData)
     {
         if (transform.localScale.x <= 1f)
-            transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
+            transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);
     }
     
 
@@ -26,8 +42,40 @@ public class CardDisplay : CardVisual
     {
 
         if (transform.localScale.x >= 1f)
-            transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+            transform.localScale = new Vector3(1f, 1f, 1f);
         
+    }
+
+    public void SelectCard()
+    {
+        int maxAmount = CombatSystem.instance.combatDeckDisplay.selectAmount;
+        int currentAmount = CombatSystem.instance.combatDeckDisplay.selectedCards.Count;
+
+        if (selected) 
+        {
+            DeselectCard();
+            return;
+        }
+        if (currentAmount >= maxAmount) return;
+
+        selected = true;
+        CombatSystem.instance.combatDeckDisplay.AddCard(this);
+
+        tween = transform.DOScale(transform.localScale + new Vector3(0.05f, 0.05f, 0.05f), .1f).SetLoops(1, LoopType.Yoyo).OnComplete(
+            () => transform.localScale = Vector3.one
+        ).OnKill(
+            () => transform.localScale = Vector3.one
+        );
+    }
+    public void DeselectCard()
+    {
+        tween = transform.DOScale(Vector3.one, .1f).SetLoops(1, LoopType.Yoyo).OnComplete(
+            () => transform.localScale = Vector3.one
+        ).OnKill(
+            () => transform.localScale = Vector3.one
+        );
+        CombatSystem.instance.combatDeckDisplay.RemoveCard(this);
+        selected = false;
     }
 
     public override void ResetScale()

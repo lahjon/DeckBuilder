@@ -6,6 +6,7 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New Card", menuName = "CardGame/Card")]
 public class CardData : ScriptableObject
 {
+    public string cardId;
     public string cardName;
 
     public CardType cardType;
@@ -13,6 +14,7 @@ public class CardData : ScriptableObject
     public Sprite artwork;
     public string cost;
     public bool visibleCost = true;
+    public List<CardModifierData> cardModifiers;
 
     public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();
 

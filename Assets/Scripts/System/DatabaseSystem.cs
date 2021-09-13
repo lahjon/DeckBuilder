@@ -35,6 +35,18 @@ public class DatabaseSystem : MonoBehaviour
         }
     }
 
+    public List<CardData> GetCardsByID(List<string> cardIds)
+    {
+        // SWAP TO ID
+        return cards.Where(x => cardIds.Contains(x.cardName)).ToList();
+    }
+
+    public CardData GetCardByID(string cardId)
+    {
+        // SWAP TO ID
+        return cards.FirstOrDefault(x => x.cardName == cardId);
+    }
+
 
     public List<CardData> GetCardsByName(List<string> cardNames)
     {
@@ -98,9 +110,9 @@ public class DatabaseSystem : MonoBehaviour
         return allOverworldIcons.Where(x => x.name == "Overworld" + type.ToString()).First();
     }
 
-    public List<CardData> GetStartingDeck(CharacterClassType character, Profession profession = Profession.Base)
+    public List<CardData> GetStartingProfessionCards(Profession profession)
     {
-        return StartingCards.Where(x => x.characterClass == character && x.profession == profession).SelectMany(x => x.startingCards).ToList();
+        return StartingCards.Where(x => x.profession == profession).SelectMany(x => x.startingCards).ToList();
     }
     public List<CardData> GetStartingDeck(bool baseProf)
     {

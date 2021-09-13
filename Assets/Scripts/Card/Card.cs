@@ -4,13 +4,15 @@ using UnityEngine;
 using System.Linq;
 using System;
 using TMPro;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
     public Rarity rarity;
     public string cardName;
     public Sprite artwork;
-    public bool upgradeable;
+    public List<CardModifierData> cardModifiers;
 
     public CardType cardType;
 
@@ -87,6 +89,29 @@ public class Card : MonoBehaviour
         animationPrefab = cardData.animationPrefab;
         classType       = cardData.cardClass;
         visibleCost     = cardData.visibleCost;
+    }
+
+    public void Exhaust()
+    {
+        Image image = GetComponent<Image>();
+        image.raycastTarget = false;
+
+        // if (owner = CombatSystem.instance.Hero)
+        // {
+        //     CardCombat card = (CardCombat)this;
+        //     card.DeselectCard();
+        // }
+
+        Sequence mySequence = DOTween.Sequence();
+        mySequence.Append(transform.DORotate(new Vector3(0,0,1080), 1, RotateMode.FastBeyond360));
+        mySequence.Join(transform.DOScale(0, 1));
+        //mySequence.Join(transform.DORotate(new Vector3(0,0,1080), 1));
+        mySequence.OnComplete(() => {
+            gameObject.SetActive(false);
+            transform.localScale = Vector3.one;
+            transform.localRotation = Quaternion.identity;
+            image.raycastTarget = true;
+        });
     }
 
     public void Mimic(Card card)

@@ -25,7 +25,6 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public BoxCollider2D boxCollider2D;
     public Image image;
-    Tween highlightTween;
 
     public int energySpent = 0;
 
@@ -38,33 +37,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         OnDamageRecalcEvent?.Invoke();
     }
-
-    CardHighlightType _cardHighlightType;
-    public CardHighlightType cardHighlightType
-    {
-        get => _cardHighlightType;
-        set
-        {
-            if (value == _cardHighlightType) return;
-            _cardHighlightType = value;
-            highlightTween?.Kill();
-            switch (_cardHighlightType)
-            {
-                case CardHighlightType.Selected:
-                    StartHighlightAnimation(highlightSelected, Color.cyan, Color.blue, 0.2f);
-                    break;
-                case CardHighlightType.Playable:
-                    StartHighlightAnimation(highlightNormal, Color.cyan, Color.blue, 0.5f);
-                    break;
-                case CardHighlightType.PlayableSpecial:
-                    StartHighlightAnimation(highlightNormal, Color.red, Color.grey, 0.4f);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
 
     [HideInInspector]
     public bool targetRequired
@@ -116,19 +88,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     public bool isPlayable()
     {
         return playCondition.value && CombatSystem.instance.cEnergy >= cost;
-    }
-
-    private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
-    {
-
-        if (highlight == null) return;
-
-        highlight.gameObject.SetActive(true);
-        highlight.color = color1;
-        highlightTween = highlight.DOColor(color2, speed).SetLoops(-1, LoopType.Yoyo).OnKill(() =>
-        {
-            highlight.gameObject.SetActive(false);
-        });
     }
 
     public void EvaluateHighlightNotSelected()

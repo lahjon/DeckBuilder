@@ -128,7 +128,8 @@ public enum ConditionType
     CardsPlayedAtLeast,
     CardsPlayedAtMost,
     LastCardPlayedTurnType,
-    Discharge
+    Discharge,
+    KillBoss
 }
 
 public enum Rarity

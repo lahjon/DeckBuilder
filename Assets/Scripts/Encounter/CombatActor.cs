@@ -105,7 +105,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     {
         Debug.Log("insert card in exhaust");
         exhaust.Insert(0, card);
-        card.gameObject.SetActive(false);
+        card.Exhaust();
     }
 
     public virtual void CardResolved(Card card)

@@ -12,7 +12,7 @@ public class SaveDataWorld
     public int shard;
     public CharacterClassType classType;
     public int completedDialogue;
-    public List<string> unlockedCards;
+    public List<CardWrapper> unlockedCards;
 
     // token
     public List<string> unlockedTokens;

@@ -93,27 +93,12 @@ MonoBehaviour:
   rarity: 0
   cardName: 
   artwork: {fileID: 0}
+  upgradeable: 0
   cardType: 0
-  cost: 0
+  visibleCost: 1
   cardData: {fileID: 0}
-  immediate: 0
-  exhaust: 0
-  Damage:
-    Type: 0
-    Value: 0
-    Times: 0
-    Target: 0
-    ConditionStruct:
-      type: 0
-      value: 
-  Block:
-    Type: 0
-    Value: 0
-    Times: 0
-    Target: 0
-    ConditionStruct:
-      type: 0
-      value: 
+  Attacks: []
+  Blocks: []
   effectsOnPlay: []
   effectsOnDraw: []
   activitiesOnPlay: []
@@ -122,9 +107,6 @@ MonoBehaviour:
   owner: {fileID: 0}
   material: {fileID: 2100000, guid: 2d3d4743c13f4034c80822f0466a0e54, type: 2}
   classType: 0
-  visibleCost: 1
-  unplayable: 0
-  unstable: 0
   nameText: {fileID: 669835656910243549}
   descriptionText: {fileID: 6805669008975766311}
   typeText: {fileID: 6687956497259364566}
@@ -139,9 +121,8 @@ MonoBehaviour:
   toolTipTextBits: []
   energyObjects: {fileID: 7054377862404620958}
   costText: {fileID: 6468055499818804120}
-  displayDamage: -1
-  displayBlock: -1
   isBroken: 0
+  sorushIsAFaggot: {fileID: 0}
 --- !u!114 &7652459339360859076
 MonoBehaviour:
   m_ObjectHideFlags: 0

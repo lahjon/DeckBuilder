@@ -547,7 +547,8 @@ public class CombatSystem : MonoBehaviour
 
     internal void CancelCardSelection()
     {
-        ActiveCard.selected = false;
+        if (ActiveCard != null) ActiveCard.selected = false;
+
         ActiveCard = null;
         ResetSiblingIndexes();
     }
@@ -629,20 +630,20 @@ public class CombatSystem : MonoBehaviour
 
     public void ButtonOpenDeck()
     {
-        combatDeckDisplay.OpenDeck();
-        Debug.Log("Open");
+        combatDeckDisplay.OpenDeckDisplay(CardLocation.Deck);
+        Debug.Log("Open Deck");
     }
 
     public void ButtonOpenExhaust()
     {
-        combatDeckDisplay.OpenExhaust();
-        Debug.Log("Open");
+        combatDeckDisplay.OpenDeckDisplay(CardLocation.Exhaust);
+        Debug.Log("Open Exhaust");
     }
 
     public void ButtonOpenDiscard()
     {
-        combatDeckDisplay.OpenDiscard();
-        Debug.Log("Open");
+        combatDeckDisplay.OpenDeckDisplay(CardLocation.Discard);
+        Debug.Log("Open Discard");
     }
 
     public void SelectedCardTriggered()

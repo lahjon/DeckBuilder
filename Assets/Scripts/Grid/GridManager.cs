@@ -33,6 +33,7 @@ public class GridManager : Manager
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public Transform tileParent, roadParent;
     public int subAct;
+    ConditionType conditionType;
     public TMP_Text conditionText;
     
     TileEncounterType GetRandomEncounterType()
@@ -84,11 +85,12 @@ public class GridManager : Manager
         base.Start();
     } 
 
-    public void GenerateMap()
+    public void GenerateMap(ConditionType aConditionType = ConditionType.ClearTile)
     {
         Debug.Log("Generating Map");
         if (!initialized)
         {
+            conditionType = aConditionType;
             InitializeMap();
             StartCoroutine(CreateMap());
         }

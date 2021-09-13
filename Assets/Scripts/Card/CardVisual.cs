@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using System.Text;
+using DG.Tweening;
 
 public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPointerEnterHandler, IPointerExitHandler
 {
@@ -30,6 +31,44 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     private string displayText = "";
 
     public bool isBroken = false;
+    Tween highlightTween;
+    CardHighlightType _cardHighlightType;
+    public CardHighlightType cardHighlightType
+    {
+        get => _cardHighlightType;
+        set
+        {
+            if (value == _cardHighlightType) return;
+            _cardHighlightType = value;
+            highlightTween?.Kill();
+            switch (_cardHighlightType)
+            {
+                case CardHighlightType.Selected:
+                    StartHighlightAnimation(highlightSelected, Color.cyan, Color.blue, 0.2f);
+                    break;
+                case CardHighlightType.Playable:
+                    StartHighlightAnimation(highlightNormal, Color.cyan, Color.blue, 0.5f);
+                    break;
+                case CardHighlightType.PlayableSpecial:
+                    StartHighlightAnimation(highlightNormal, Color.red, Color.grey, 0.4f);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    private void StartHighlightAnimation(Image highlight, Color color1, Color color2, float speed)
+    {
+
+        if (highlight == null) return;
+
+        highlight.gameObject.SetActive(true);
+        highlight.color = color1;
+        highlightTween = highlight.DOColor(color2, speed).SetLoops(-1, LoopType.Yoyo).OnKill(() =>
+        {
+            highlight.gameObject.SetActive(false);
+        });
+    }
 
     public void BindCardVisualData()
     {
