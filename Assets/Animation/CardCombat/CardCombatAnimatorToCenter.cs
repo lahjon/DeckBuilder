@@ -29,15 +29,16 @@ public class CardCombatAnimatorToCenter : CardCombatAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (reached) return;
+
         time += speed * Time.deltaTime;        
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
-        if (reached) return;
-
         if (Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < 0.5f || time > 1)
         {
-            if (time < 1) CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
+            if (time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1);
             reached = true;
+            Debug.Log("Reached Center");
             animator.SetTrigger("ReachedCenter");
         }
     }

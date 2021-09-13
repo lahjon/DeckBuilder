@@ -32,7 +32,8 @@ public class CombatActorHero : CombatActor
 
     public override void CardResolved(Card card)
     {
-        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Exhaust)) ExhaustCard(card);
+        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Exhaust)) 
+            ExhaustCard(card);
         else
         {
             ((CardCombat)card).animator.SetTrigger("Resolved");
