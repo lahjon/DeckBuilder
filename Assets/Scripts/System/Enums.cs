@@ -194,11 +194,11 @@ public enum CardType
     Torment // classless, permanent bad card
 }
 
-public enum CardTargetType
+public enum CardTargetType /*OBS order matters for splice! ^*/
 {
     Self,
-    AlliesInclSelf,
     AlliesExclSelf,
+    AlliesInclSelf,
     EnemySingle,
     EnemyAll,
     EnemyRandom,
