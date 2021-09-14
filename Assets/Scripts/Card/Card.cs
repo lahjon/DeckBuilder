@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public Rarity rarity;
+    public Rarity rarity;  
     public string cardName;
     public string cardId;
     public Sprite artwork;
