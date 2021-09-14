@@ -26,8 +26,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     public BoxCollider2D boxCollider2D;
     public Image image;
 
-    public int energySpent = 0;
-
     public Condition playCondition = new Condition();
 
     public delegate void DamageRecalcEvent();
