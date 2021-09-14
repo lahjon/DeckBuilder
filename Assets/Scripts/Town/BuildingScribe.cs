@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 {
     public GameObject scribe, deckManagement, cardUpgrade; // rooms
+    public GameObject upgradedCardWindow;
+    public CardDisplay upgradedCard;
     public GameObject cardPrefab;
     public List<CardWrapper> unlockedCards = new List<CardWrapper>();
     public List<CardWrapper> deckCards = new List<CardWrapper>();
@@ -73,19 +76,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         
     }
 
-    public void UpgradeCardPermanent(CardDisplay aCard)
-    {
-        if (unlockedCards.FirstOrDefault(x => x.idx == aCard.idx && x.cardId == aCard.cardName) is CardWrapper cw)
-        {
-            if (cw.timesUpgraded < aCard.cardData.cardModifiers.Count)
-            {
-                CardModifierData cardMod = aCard.cardData.cardModifiers[cw.timesUpgraded];
-                aCard.AddModifierToCard(cardMod);
-                cw.timesUpgraded++;
-                cw.cardModifiersId.Add(cardMod.id);
-            }
-        }
-    }
 
     public void AddModifierToCard(string cardId, CardModifierData cardModifierData)
     {
@@ -97,13 +87,16 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void CreateCardManage(CardDisplay display, CardData data, int idxOverride = -1)
     {
-        //CardDisplay display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
-
         display.name = data.cardName;
         display.cardData = data;
         display.BindCardData();
         display.BindCardVisualData();
 
+        for (int i = 0; i < display.cardModifiers.Count; i++)
+        {
+            display.UpdateCardVisual();
+        }
+        
         if (idxOverride >= 0)
         {
             display.idx = idxOverride;
@@ -120,6 +113,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     void CreateCardUpgrade(CardData data, int idx)
     {
         CardDisplay display = Instantiate(cardPrefab, upgradeParent).GetComponent<CardDisplay>();
+
+        for (int i = 0; i < display.cardModifiers.Count; i++)
+        {
+            display.UpdateCardVisual();
+        }
 
         display.name = data.cardName;
         display.cardData = data;
@@ -148,6 +146,22 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
                 cw.timesUpgraded++;
                 card.AddModifierToCard(cardModifierData);
                 WorldSystem.instance.characterManager.shard -= upgradeCost;
+                upgradedCardWindow.SetActive(true);
+                GridLayoutGroup glg = upgradeParent.GetComponent<GridLayoutGroup>();
+                glg.enabled = false;
+                upgradedCard.Mimic(card);
+                card.gameObject.SetActive(false);
+
+                void Callback()
+                {
+                    glg.enabled = true;
+                    card.gameObject.SetActive(true);
+                    upgradedCardWindow.SetActive(false);
+                }
+
+                upgradedCardWindow.GetComponent<Button>().onClick.AddListener(() => Callback());
+                upgradedCard.clickCallback = Callback;
+                WorldSystem.instance.SaveProgression();
             }
             else
             {
@@ -155,6 +169,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             }
         }
     }
+
     void SortDeck()
     {
         // sort deck
@@ -166,7 +181,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         {
             sorted[i].transform.SetSiblingIndex(i);
         }
-        
     
         // sort side
         allSideCards.OrderBy(x => x.cardName);
@@ -294,6 +308,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     public void ButtonEnterCardUpgrade()
     {
+        UpdateDeckManagement();
         UpdateUpgradeManagement();
         StepInto(cardUpgrade);
     }
@@ -341,30 +356,10 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         if (a_SaveData.unlockedCards?.Any() == true)
         {
             unlockedCards = a_SaveData.unlockedCards;
-            // foreach (CardWrapper card in unlockedCards)
-            // {
-            //     CreateCardManage(DatabaseSystem.instance.GetCardByID(card.cardId), card.idx);
-            // }
         }
         else
         {
             UnlockProfessionCard(Profession.Berserker1);
-            // while (allDeckCards.Count < maxSideboardCards)
-            // {
-            //     MoveToDeck(allSideCards[0]);
-            // }
         }
     }
 }
-
-// [System.Serializable]
-// public class DeckCardWrapper
-// {
-//     public DeckCardWrapper(string aCardId, int anIdx)
-//     {
-//         cardId = aCardId;
-//         idx = anIdx;
-//     }
-//     public string cardId;
-//     public int idx;
-// }

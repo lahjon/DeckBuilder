@@ -73,6 +73,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public void UpdateCardVisual()
     {
         nameText.text += " +";
+        cardName += " +";
         cardBackground.color = Helpers.upgradeCardColor; 
     }
 
@@ -107,6 +108,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         nameText.text = card.cardName;
         artworkImage.sprite = card.artwork;
         typeText.text = card.typeText.text;
+        cardBackground.color = card.cardBackground.color;
 
         costText.text = card.costText.text;
         energyObjects.SetActive(card.visibleCost);
@@ -182,7 +184,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     void SetBorderColor()
     {
-        cardBackground.color = Color.white;
+        //cardBackground.color = Color.white;
         border.color = Helpers.borderColors[classType];
         rarityBorder.color = Helpers.rarityBorderColors[rarity];
         energyColor.color = Helpers.borderColors[classType];

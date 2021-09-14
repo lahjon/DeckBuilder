@@ -96,12 +96,14 @@ public class Card : MonoBehaviour
 
     public void AddModifierToCard(CardModifierData cardModifierData)
     {
-        Debug.Log("Add logic in here to add modifiers");
-        CardVisual card;
-        if (TryGetComponent<CardVisual>(out card))
+        //Debug.Log("Add logic in here to add modifiers");
+        
+        if (this is CardVisual card)
         {
             card.UpdateCardVisual();
         }
+
+
     }
 
     public void Exhaust()
