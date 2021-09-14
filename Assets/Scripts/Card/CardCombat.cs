@@ -85,10 +85,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         }
     }
 
-    public bool isPlayable()
-    {
-        return playCondition.value && CombatSystem.instance.cEnergy >= cost;
-    }
+    public bool isPlayable => playCondition.value && cost.Payable;
 
     public void EvaluateHighlightNotSelected()
     {
@@ -98,7 +95,7 @@ public class CardCombat : CardVisual, IEventSubscriber
             cardHighlightType = CardHighlightType.None;
         else
         {
-            if (isPlayable())
+            if (isPlayable)
             {
                 if(!registeredConditions.Any() || registeredConditions.Any(x => !x.value))
                     cardHighlightType = CardHighlightType.Playable;

@@ -603,11 +603,9 @@ public class CombatSystem : MonoBehaviour
 
     public bool CardisSelectable(CardCombat card, bool silentCheck = true)
     {
-        bool selectable = card.cost <= cEnergy && card.selectable && card.playCondition;
-        if (!silentCheck && card.cost> cEnergy)
-        {
+        bool selectable = card.cost.Payable && card.selectable && card.playCondition;
+        if (!silentCheck && !card.cost.Payable)
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
-        }
              
         return selectable;
     }
