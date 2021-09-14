@@ -26,5 +26,5 @@ public class CardWrapper
     public string cardId;
     public int timesUpgraded;
     public int idx;
-    public List<string> cardModifiersId;
+    public List<string> cardModifiersId = new List<string>();
 }
