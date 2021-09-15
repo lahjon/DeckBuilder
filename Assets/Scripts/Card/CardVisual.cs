@@ -29,6 +29,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public List<ICardTextElement> cardTextElements = new List<ICardTextElement>();
 
     private string displayText = "";
+    public bool permanentUpgrade;
 
     public bool isBroken = false;
     Tween highlightTween;
