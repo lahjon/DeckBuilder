@@ -12,6 +12,7 @@ public class Card : MonoBehaviour
     public Rarity rarity;
     public string cardName;
     public string cardId;
+    public int timesUpgraded;
     public Sprite artwork;
     public List<CardModifierData> cardModifiers;
 
