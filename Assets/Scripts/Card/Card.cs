@@ -13,7 +13,7 @@ public class Card : MonoBehaviour
     public string cardName;
     public string cardId;
     public Sprite artwork;
-    public List<CardModifierData> cardModifiers;
+    public List<CardFunctionalityData> cardModifiers;
 
     public CardType cardType;
 
@@ -23,10 +23,8 @@ public class Card : MonoBehaviour
     public CardData cardData;
 
     public List<CardSingleFieldProperty> singleFieldProperties = new List<CardSingleFieldProperty>();
-    public HashSet<CardSingleFieldPropertyType> singleFieldTypes = new HashSet<CardSingleFieldPropertyType>();
 
     public List<CardEffectCarrier> Attacks = new List<CardEffectCarrier>();
-
     public List<CardEffectCarrier> Blocks = new List<CardEffectCarrier>();
 
     public List<CardEffectCarrier> effectsOnPlay = new List<CardEffectCarrier>();
@@ -43,7 +41,6 @@ public class Card : MonoBehaviour
     public List<Condition> registeredConditions = new List<Condition>();
     public List<IEventSubscriber> registeredSubscribers = new List<IEventSubscriber>();
 
-
     public void Reset()
     {
         Attacks.Clear();
@@ -52,7 +49,6 @@ public class Card : MonoBehaviour
         effectsOnDraw.Clear();
         activitiesOnDraw.Clear();
         activitiesOnPlay.Clear();
-        singleFieldTypes.Clear();
         singleFieldProperties.Clear();
         cardModifiers.Clear();
     }
@@ -60,7 +56,7 @@ public class Card : MonoBehaviour
     {
         Reset();
         name            = cardData.cardName;
-        cardId          = cardData.cardId;
+        cardId          = cardData.id;
         cardType        = cardData.cardType;
         rarity          = cardData.rarity;
         cardName        = cardData.cardName;
@@ -94,7 +90,7 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
     }
 
-    public void AddModifierToCard(CardModifierData cardModifierData)
+    public void AddModifierToCard(CardFunctionalityData cardModifierData)
     {
         //Debug.Log("Add logic in here to add modifiers");
         
@@ -102,10 +98,9 @@ public class Card : MonoBehaviour
         {
             card.UpdateCardVisual();
         }
-
-
     }
 
+    public bool HasProperty(CardSingleFieldPropertyType prop) => singleFieldProperties.Any(x => x.type == prop);
     public void Exhaust()
     {
         Image image = GetComponent<Image>();
@@ -140,7 +135,6 @@ public class Card : MonoBehaviour
         artwork = card.artwork;
         cost = card.cost;
         singleFieldProperties = card.singleFieldProperties;
-        singleFieldTypes = card.singleFieldTypes;
         Attacks = card.Attacks;
         Blocks = card.Blocks;
         effectsOnPlay = card.effectsOnPlay;
@@ -162,9 +156,8 @@ public class Card : MonoBehaviour
 
     public void RegisterSingleField(CardSingleFieldPropertyType s)
     {
-        if (singleFieldTypes.Contains(s)) return;
+        if (HasProperty(s)) return;
         singleFieldProperties.Add(new CardSingleFieldProperty(s));
-        singleFieldTypes.Add(s);
     }
 
     public List<CardEffectCarrier> GetEffectsByType(EffectType type)

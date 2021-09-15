@@ -24,6 +24,7 @@ public class DatabaseGoogle
     readonly string EnemyPath = @"Assets\Enemies";
     readonly string EncounterPath = @"Assets\Encounters\Overworld\Combat";
     readonly string ArtifactPath = @"Assets\Artifacts";
+    readonly string ModifierPath = @"Assets\CardModifier";
 
     SheetsService service;
 
@@ -47,10 +48,11 @@ public class DatabaseGoogle
 
     public void DownloadCards()
     {
-        ReadEntriesCard("Card", "Z", "Main");
-        ReadEntriesCardEffects("CardEffects", "Z", "Main");
-        ReadEntriesCardActivites("CardActivities", "E", "Main");
-        ReadEntriesCardStarting("CardsStarting", "E", "Main");
+        ReadEntriesCard("Card", "Z");
+        ReadEntriesCardEffects("CardEffects", "Z");
+        ReadEntriesCardActivites("CardActivities", "K");
+        ReadEntriesCardFields("CardSingleFields", "F");
+        ReadEntriesCardStarting("CardsStarting", "E");
     }
 
     public void DownloadEnemies()
@@ -79,9 +81,9 @@ public class DatabaseGoogle
     }
 
 
-    public void ReadEntriesCard(string sheetName, string lastCol, string sheet)
+    public void ReadEntriesCard(string sheetName, string lastCol)
     {
-        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
         for (int i = 1; i < gt.values.Count; i++)
         {
             AssetDatabase.SaveAssets();
@@ -97,26 +99,31 @@ public class DatabaseGoogle
                 AssetDatabase.CreateAsset(data, CardPath + @"\" + databaseName + ".asset");
             }
 
+            data.ResetFunctionality();
+
             Enum.TryParse((string)gt[i, "CardType"], out data.cardType);
             Enum.TryParse((string)gt[i, "Class"], out data.cardClass);
             Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
 
+            data.id = (string)gt[i, "ID"];
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
             data.cost = (string)gt[i, "Cost"];
 
-            data.singleFieldProperties.Clear();
-
-            if ((string)gt[i, "Immediate"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Immediate);
-            if ((string)gt[i, "Exhaust"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Exhaust);
-            if ((string)gt[i, "Unplayable"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Unplayable);
-            if ((string)gt[i, "Unstable"] == "TRUE") data.singleFieldProperties.Add(CardSingleFieldPropertyType.Unstable);
-
             data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
             data.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
 
-            data.effects.Clear();
-            data.activities.Clear();
+            data.maxUpgrades = Int32.Parse((string)gt[i, "Upgrades"]);
+            data.upgrades.Clear();
+
+            for (int j = 1; j <= data.maxUpgrades; j++)
+            {
+                CardFunctionalityData mod = FunctionalityAt(databaseName, j);
+                data.upgrades.Add(mod);
+                mod.id = data.id + "_" + j;
+                EditorUtility.SetDirty(mod);
+            }
+
 
 
             BindArt(data, databaseName);
@@ -125,24 +132,50 @@ public class DatabaseGoogle
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
+    }
+
+
+    public void ReadEntriesCardFields(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+
+            CardSingleFieldPropertyType type;
+            Enum.TryParse((string)gt[i, "Property"], out type);
+
+
+            int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
+            CardFunctionalityData data = level == 0 ?
+                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
+                                            FunctionalityAt(databaseName, level);
+            data.singleFieldProperties.Add(type);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
 
     }
 
-    public void ReadEntriesCardEffects(string sheetName, string lastCol, string sheet)
+    public void ReadEntriesCardEffects(string sheetName, string lastCol)
     {
-        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);  
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);  
 
         for (int i = 1; i < gt.values.Count; i++)
         {
             string databaseName = (string)gt[i,"DatabaseName"];
             if (databaseName.Equals(""))
                 break;
+            
 
-            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { CardPath });
             CardEffectCarrierData cardEffect = new CardEffectCarrierData();
-            Enum.TryParse((string)gt[i, "EffectType"], out EffectType effectType);
-
-            cardEffect.Type = effectType;
+            Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
             cardEffect.Value = (string)gt[i, "Value"];
             cardEffect.Times = (string)gt[i, "Times"];
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
@@ -154,8 +187,13 @@ public class DatabaseGoogle
 
             Enum.TryParse((string)gt[i, "ExecutionTime"], out cardEffect.execTime);
 
-            data.effects.Add(cardEffect);
 
+            int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
+            CardFunctionalityData data = level == 0 ? 
+                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
+                                            FunctionalityAt(databaseName,level);
+
+            data.effects.Add(cardEffect);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -163,9 +201,9 @@ public class DatabaseGoogle
 
     }
 
-    public void ReadEntriesCardActivites(string sheetName, string lastCol, string sheet)
+    public void ReadEntriesCardActivites(string sheetName, string lastCol)
     {
-        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
 
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -173,7 +211,6 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] {CardPath });
             CardActivitySetting activitySetting = new CardActivitySetting();
             Enum.TryParse((string)gt[i, "Activity"], out CardActivityType cardActivityType);
 
@@ -182,6 +219,10 @@ public class DatabaseGoogle
 
             Enum.TryParse((string)gt[i, "ExecutionTime"], out activitySetting.execTime);
 
+            int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
+            CardFunctionalityData data = level == 0 ?
+                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
+                                            FunctionalityAt(databaseName, level);
             data.activities.Add(activitySetting);
 
             EditorUtility.SetDirty(data);
@@ -192,11 +233,11 @@ public class DatabaseGoogle
     }
 
 
-    public void ReadEntriesCardStarting(string sheetName, string lastCol, string sheet)
+    public void ReadEntriesCardStarting(string sheetName, string lastCol)
     {
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
         DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
-        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
 
         dbs.StartingCards.Clear(); 
 
@@ -574,7 +615,7 @@ public class DatabaseGoogle
 
     }
 
-    GoogleTable getGoogleTable(string sheetName, string lastCol, string sheet)
+    GoogleTable getGoogleTable(string sheetName, string lastCol, string sheet = "Main")
     {
         GoogleTable googleTable = new GoogleTable();
         Dictionary<string, int> colNames = new Dictionary<string, int>();
@@ -647,6 +688,21 @@ public class DatabaseGoogle
             object obj = AssetDatabase.LoadAssetAtPath(path,typeof(T));
             data = (T)obj;
         }
+
+        return data;
+    }
+
+    public CardFunctionalityData FunctionalityAt(string cardName, int upgradeLevel)
+    {
+        string databaseName = cardName + "_" + upgradeLevel.ToString();
+        CardFunctionalityData data = TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { ModifierPath });
+        if (data is null)
+        {
+            data = ScriptableObject.CreateInstance<CardFunctionalityData>();
+            AssetDatabase.SaveAssets();
+            AssetDatabase.CreateAsset(data, ModifierPath + @"\" + databaseName + ".asset");
+        }
+        data.ResetFunctionality();
 
         return data;
     }

@@ -12,20 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Berserker_Strike
   m_EditorClassIdentifier: 
-  cardId: 
-  cardName: Strike
-  cardType: 0
-  artwork: {fileID: 21300000, guid: 8e94f3ac898ab6244af7281d20b52591, type: 3}
-  cost: 1
-  upgradeCost: 5
-  visibleCost: 1
-  cardModifiers:
-  - {fileID: 11400000, guid: 3b466c9d802b5354baab5e0c73309ea6, type: 2}
-  - {fileID: 11400000, guid: 2d5d33c680ac87f4791a946e4006e044, type: 2}
+  id: 2
   singleFieldProperties: 
   effects:
   - Type: 0
-    Value: 7
+    Value: 6
     Times: 1
     Target: 3
     conditionStruct:
@@ -34,6 +25,15 @@ MonoBehaviour:
       numValue: 0
     execTime: 0
   activities: []
+  cardName: Strike
+  cardType: 0
+  artwork: {fileID: 21300000, guid: 8e94f3ac898ab6244af7281d20b52591, type: 3}
+  cost: 1
+  visibleCost: 1
+  upgradeCostShards: 
+  maxUpgrades: 1
+  upgrades:
+  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
   rarity: 1
   cardClass: 1
   animationPrefab: {fileID: 0}

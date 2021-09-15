@@ -32,7 +32,7 @@ public class CombatActorHero : CombatActor
 
     public override void CardResolved(Card card)
     {
-        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Exhaust)) 
+        if (card.HasProperty(CardSingleFieldPropertyType.Exhaust)) 
             ExhaustCard(card);
         else
         {

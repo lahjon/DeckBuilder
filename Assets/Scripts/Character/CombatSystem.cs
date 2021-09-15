@@ -248,7 +248,7 @@ public class CombatSystem : MonoBehaviour
     public void EndTurn()
     {
         cardsPlayedThisTurn.Clear();
-        Hand.Where(c => c.singleFieldTypes.Contains(CardSingleFieldPropertyType.Unstable)).ToList().ForEach(c => { 
+        Hand.Where(c => c.HasProperty(CardSingleFieldPropertyType.Unstable)).ToList().ForEach(c => { 
             Hand.Remove(c); 
             Debug.Log(c);
             Hero.ExhaustCard(c); 
@@ -503,7 +503,7 @@ public class CombatSystem : MonoBehaviour
         Hand.Add(card);
         card.effectsOnDraw.ForEach(e => drawnToResolve.Enqueue(e));
         card.activitiesOnDraw.ForEach(e => drawnToResolve.Enqueue(e));
-        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Immediate)) drawnToResolve.Enqueue(card);
+        if (card.HasProperty(CardSingleFieldPropertyType.Immediate)) drawnToResolve.Enqueue(card);
 
         card.animator.SetTrigger("StartDraw");
     }

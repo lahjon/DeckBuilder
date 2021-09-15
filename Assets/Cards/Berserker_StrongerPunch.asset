@@ -12,16 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Berserker_StrongerPunch
   m_EditorClassIdentifier: 
-  cardId: 
-  cardName: Stronger Punch
-  cardType: 0
-  artwork: {fileID: 21300000, guid: 3319dcfb7c247264c8d2eefd92d9be4b, type: 3}
-  cost: 1
-  upgradeCost: 5
-  visibleCost: 1
-  cardModifiers:
-  - {fileID: 11400000, guid: 3b466c9d802b5354baab5e0c73309ea6, type: 2}
-  - {fileID: 11400000, guid: 2d5d33c680ac87f4791a946e4006e044, type: 2}
+  id: 44
   singleFieldProperties: 
   effects:
   - Type: 0
@@ -34,6 +25,15 @@ MonoBehaviour:
       numValue: 0
     execTime: 0
   activities: []
+  cardName: Stronger Punch
+  cardType: 0
+  artwork: {fileID: 21300000, guid: 3319dcfb7c247264c8d2eefd92d9be4b, type: 3}
+  cost: 1
+  visibleCost: 1
+  upgradeCostShards: 
+  maxUpgrades: 1
+  upgrades:
+  - {fileID: 11400000, guid: 5edb37c9fbf60a846a319ebf961e621c, type: 2}
   rarity: 11
   cardClass: 1
   animationPrefab: {fileID: 0}

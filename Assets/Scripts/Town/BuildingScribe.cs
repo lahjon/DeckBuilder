@@ -77,7 +77,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
 
 
-    public void AddModifierToCard(string cardId, CardModifierData cardModifierData)
+    public void AddModifierToCard(string cardId, CardFunctionalityData cardModifierData)
     {
         if (unlockedCards.FirstOrDefault(x => x.cardId == cardId) is CardWrapper card)
         {
@@ -133,17 +133,16 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {   
         if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardName) is CardWrapper cw)
         {
-            int upgradeCost = int.Parse(card.cardData.upgradeCost) * (cw.timesUpgraded + 1);
-            if (cw.timesUpgraded >= card.cardData.cardModifiers.Count)
+            int upgradeCost = int.Parse(card.cardData.upgradeCostShards) * (cw.timesUpgraded + 1);
+            if (cw.timesUpgraded >= card.cardData.upgrades.Count)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Card is fully upgraded!");
                 return;
             }
             if (WorldSystem.instance.characterManager.shard >= upgradeCost)
             {
-                CardModifierData cardModifierData = card.cardData.cardModifiers[cw.timesUpgraded];
+                CardFunctionalityData cardModifierData = card.cardData.upgrades[cw.timesUpgraded++];
                 cw.cardModifiersId.Add(cardModifierData.id);
-                cw.timesUpgraded++;
                 card.AddModifierToCard(cardModifierData);
                 WorldSystem.instance.characterManager.shard -= upgradeCost;
                 upgradedCardWindow.SetActive(true);

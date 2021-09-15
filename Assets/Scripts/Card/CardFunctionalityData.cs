@@ -2,10 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Card Modifier", menuName = "CardGame/CardModifier")]
-public class CardModifierData : ScriptableObject
+[CreateAssetMenu(fileName = "New Card Functionality", menuName = "CardGame/CardFunctionalityData")]
+public class CardFunctionalityData : ScriptableObject
 {
     public string id;
+
+    public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();
+    public List<CardEffectCarrierData> effects = new List<CardEffectCarrierData>();
+    public List<CardActivitySetting> activities = new List<CardActivitySetting>();
+
+    public void ResetFunctionality()
+    {
+        singleFieldProperties.Clear();
+        effects.Clear();
+        activities.Clear();
+    }
 }
 
 

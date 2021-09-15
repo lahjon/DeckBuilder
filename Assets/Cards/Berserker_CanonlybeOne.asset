@@ -12,16 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
   m_Name: Berserker_CanonlybeOne
   m_EditorClassIdentifier: 
-  cardId: 
-  cardName: Can only be One
-  cardType: 3
-  artwork: {fileID: 21300000, guid: 3e69f4e12d7fec74b825244b6c19f49e, type: 3}
-  cost: 2
-  upgradeCost: 5
-  visibleCost: 1
-  cardModifiers:
-  - {fileID: 11400000, guid: 3b466c9d802b5354baab5e0c73309ea6, type: 2}
-  - {fileID: 11400000, guid: 2d5d33c680ac87f4791a946e4006e044, type: 2}
+  id: 17
   singleFieldProperties: 00000000
   effects:
   - Type: 8
@@ -34,6 +25,14 @@ MonoBehaviour:
       numValue: 0
     execTime: 0
   activities: []
+  cardName: Can only be One
+  cardType: 3
+  artwork: {fileID: 21300000, guid: 3e69f4e12d7fec74b825244b6c19f49e, type: 3}
+  cost: 2
+  visibleCost: 1
+  upgradeCostShards: 
+  maxUpgrades: 0
+  upgrades: []
   rarity: 13
   cardClass: 1
   animationPrefab: {fileID: 0}

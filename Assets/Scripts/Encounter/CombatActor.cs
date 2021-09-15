@@ -110,7 +110,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public virtual void CardResolved(Card card)
     {
-        if (card.singleFieldTypes.Contains(CardSingleFieldPropertyType.Exhaust))
+        if (card.HasProperty(CardSingleFieldPropertyType.Exhaust))
             ExhaustCard(card);
         else
             DiscardCard(card);
