@@ -104,6 +104,14 @@ public static class Helpers
         return SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));
     }
 
+    public static Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
+    {
+        float xLerp = Mathf.LerpAngle(StartAngle.x, FinishAngle.x, t);
+        float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
+        float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
+        return new Vector3(xLerp, yLerp, zLerp);
+    }
+
     // public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
     // {
     //     List<T> assets = new List<T>();

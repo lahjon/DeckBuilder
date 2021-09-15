@@ -26,8 +26,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
             combat.Hand.Add(cardWaiting.card);
             cardWaiting.card.selectable = true;
             combat.RefreshHandPositions();
-            combat.cEnergy += cardWaiting.card.energySpent;
-            cardWaiting.card.energySpent = 0;
+            cardWaiting.card.cost.Refund();
             cardWaiting.card.animator.SetTrigger("Unplayable");
         }
         else

@@ -58,7 +58,7 @@ public class BezierFollow : MonoBehaviour
 
             scale = 1 - endScale * tParam;
             transform.localScale = new Vector3(scale, scale, scale);
-            transform.localEulerAngles = attachedCard.AngleLerp(startingAngles, endAngle, tParam);
+            transform.localEulerAngles = Helpers.AngleLerp(startingAngles, endAngle, tParam);
 
             transform.position = objectPosition;
             yield return new WaitForEndOfFrame();

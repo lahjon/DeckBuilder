@@ -11,7 +11,7 @@ public class CardActivityCombatCostChange : CardActivity
         List<CardCombat> eligibleCards = CombatSystem.instance.Hand.Where(c => c.classType != CardClassType.Burden && c.classType != CardClassType.Enemy && c.classType != CardClassType.Torment).ToList();
         if(eligibleCards.Count != 0)
         {
-            eligibleCards[UnityEngine.Random.Range(0,eligibleCards.Count)].cost.modifier += 1;
+            eligibleCards[UnityEngine.Random.Range(0,eligibleCards.Count)].cost.ModifyCardCost(int.Parse(input));
         }
         yield return null;
     }

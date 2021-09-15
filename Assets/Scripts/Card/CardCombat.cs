@@ -26,8 +26,6 @@ public class CardCombat : CardVisual, IEventSubscriber
     public BoxCollider2D boxCollider2D;
     public Image image;
 
-    public int energySpent = 0;
-
     public Condition playCondition = new Condition();
 
     public delegate void DamageRecalcEvent();
@@ -76,7 +74,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public bool selectable
     {
-        get => _selectable;
+        get => _selectable && cost.Payable && playCondition;
         set
         {
             _selectable = value;
@@ -85,10 +83,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         }
     }
 
-    public bool isPlayable()
-    {
-        return playCondition.value && CombatSystem.instance.cEnergy >= cost;
-    }
+    public bool isPlayable => playCondition.value && cost.Payable;
 
     public void EvaluateHighlightNotSelected()
     {
@@ -98,7 +93,7 @@ public class CardCombat : CardVisual, IEventSubscriber
             cardHighlightType = CardHighlightType.None;
         else
         {
-            if (isPlayable())
+            if (isPlayable)
             {
                 if(!registeredConditions.Any() || registeredConditions.Any(x => !x.value))
                     cardHighlightType = CardHighlightType.Playable;
@@ -164,22 +159,15 @@ public class CardCombat : CardVisual, IEventSubscriber
         animator.SetBool("MouseIsOver", false);
     }
 
-    public void SelectCard()
-    {
-        if (CombatSystem.instance.ActiveCard != null) CombatSystem.instance.ActiveCard.DeselectCard();
-        selected = true;
-        CombatSystem.instance.ActiveCard = this;
-        animator.SetBool("Selected", true);
-    }
-    public override void  OnMouseRightClick(bool allowDisplay = true)
+    public override void OnMouseRightClick(bool allowDisplay = true)
     {
         Debug.Log("OnMouseRighclick called");
-        if (CombatSystem.instance.ActiveCard == this)
+        if (selected)
         {
-            DeselectCard();
+            CombatSystem.instance.CancelCardSelection();
             Debug.Log("Deselect");
         }
-        else if(!selected && allowDisplay && CombatSystem.instance.ActiveCard == null)
+        else if(allowDisplay && CombatSystem.instance.ActiveCard == null)
         {
             WorldSystem.instance.deckDisplayManager.DisplayCard(this);
             Debug.Log("Display");
@@ -188,31 +176,13 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseClick()
     {
-        Debug.Log("MouseClickedCard. Firing OnMouseClick for card " + name);
         base.OnMouseClick();
-        if(CombatSystem.instance.ActiveCard == this)
-            CombatSystem.instance.SelectedCardTriggered();
-        else if(CombatSystem.instance.CardisSelectable(this,false))
-            SelectCard();  
-    }
-
-    public void DeselectCard()
-    {
-        selected = false;
-        CombatSystem.instance.CancelCardSelection();
+        CombatSystem.instance.CardClicked(this);
     }
 
     public override void ResetScale()
     {
         throw new System.NotImplementedException();
-    }
-
-    public Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
-    {
-        float xLerp = Mathf.LerpAngle(StartAngle.x, FinishAngle.x, t);
-        float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
-        float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
-        return new Vector3(xLerp, yLerp, zLerp);
     }
 
     public void RefreshConditions()
@@ -238,7 +208,6 @@ public class CardCombat : CardVisual, IEventSubscriber
             e.Subscribe();
 
         playCondition.Subscribe();
-
         EventManager.OnEnergyChangedEvent += EvaluateHighlightNotSelected;
     }
 }

@@ -139,13 +139,18 @@ public class CombatSystem : MonoBehaviour
             if (_activeCard != null && value != _activeCard)
                 _activeCard.selected = false;
 
-            //overwrite
             _activeCard = value;
             EnemiesInScene.ForEach(x => x.SetTarget(false));
+
+            //overwrite
             foreach (CardCombat card in Hand)
                 if (card != value) card.MouseReact = (value is null);
+
             if (_activeCard != null)
+            {
+                _activeCard.selected = true;
                 _activeCard.animator.SetBool("HasTarget", _targetedEnemy != null);
+            }
         }
     }
 
@@ -547,8 +552,6 @@ public class CombatSystem : MonoBehaviour
 
     internal void CancelCardSelection()
     {
-        if (ActiveCard != null) ActiveCard.selected = false;
-
         ActiveCard = null;
         ResetSiblingIndexes();
     }
@@ -601,15 +604,14 @@ public class CombatSystem : MonoBehaviour
         animator.SetTrigger("PlayerTurnEnd");
     }
 
-    public bool CardisSelectable(CardCombat card, bool silentCheck = true)
+    public void CardClicked(CardCombat card)
     {
-        bool selectable = card.cost <= cEnergy && card.selectable && card.playCondition;
-        if (!silentCheck && card.cost> cEnergy)
-        {
-            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough energy!");    
-        }
-             
-        return selectable;
+        if (ActiveCard == card)
+            SelectedCardTriggered();
+        else if (card.selectable)
+            ActiveCard = card;
+        else if (!card.cost.Payable)
+            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Cannot pay for this card!");
     }
 
     private bool MouseInsideArea()
@@ -648,10 +650,6 @@ public class CombatSystem : MonoBehaviour
 
     public void SelectedCardTriggered()
     {
-        //Debug.Log("mouseclicked");
-        if (ActiveCard is null)
-            return;
-
         if (MouseInsideArea())
         {
             CancelCardSelection();
