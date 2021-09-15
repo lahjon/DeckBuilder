@@ -101,7 +101,7 @@ public class CardIntLinkedProperty: CardInt
     private static int ValueGetterSizeDeck() => CombatSystem.instance.Hero.deck.Count;
     private static int ValueGetterSizeDiscard() => CombatSystem.instance.Hero.discard.Count;
     private static int ValueGetterEnergy() => CombatSystem.instance.cEnergy;
-    private int ValueGetterSpentEnergyCard() => ((CardCombat)card).energySpent;
+    private int ValueGetterSpentEnergyCard() => card.cost.PaidEnergy;
 
 
     public override string GetTextForValue()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public class CardCost
 {
     public CardInt EnergyCost;
-    int PaidCost;
+    public int PaidEnergy;
 
     Card card;
 
@@ -27,14 +27,14 @@ public class CardCost
     {
         if (!(card.owner is CombatActorHero)) return;
 
-        PaidCost = EnergyCost; // ändra till mer avancerat sen när vi har fler energytyper;
+        PaidEnergy = EnergyCost; // ändra till mer avancerat sen när vi har fler energytyper;
         CombatSystem.instance.cEnergy -= EnergyCost;
     }
 
     public void Refund()
     {
-        CombatSystem.instance.cEnergy += PaidCost;
-        PaidCost = 0;
+        CombatSystem.instance.cEnergy += PaidEnergy;
+        PaidEnergy = 0;
     }
 
     public string GetTextForCost()

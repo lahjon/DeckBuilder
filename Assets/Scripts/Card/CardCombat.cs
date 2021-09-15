@@ -74,7 +74,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public bool selectable
     {
-        get => _selectable;
+        get => _selectable && cost.Payable && playCondition;
         set
         {
             _selectable = value;
@@ -159,13 +159,6 @@ public class CardCombat : CardVisual, IEventSubscriber
         animator.SetBool("MouseIsOver", false);
     }
 
-    public void SelectCard()
-    {
-        if (CombatSystem.instance.ActiveCard != null) CombatSystem.instance.ActiveCard.DeselectCard();
-        selected = true;
-        CombatSystem.instance.ActiveCard = this;
-        animator.SetBool("Selected", true);
-    }
     public override void  OnMouseRightClick(bool allowDisplay = true)
     {
         Debug.Log("OnMouseRighclick called");
@@ -185,15 +178,12 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         Debug.Log("MouseClickedCard. Firing OnMouseClick for card " + name);
         base.OnMouseClick();
-        if(CombatSystem.instance.ActiveCard == this)
-            CombatSystem.instance.SelectedCardTriggered();
-        else if(CombatSystem.instance.CardisSelectable(this,false))
-            SelectCard();  
+
+        CombatSystem.instance.CardClicked(this);
     }
 
     public void DeselectCard()
     {
-        selected = false;
         CombatSystem.instance.CancelCardSelection();
     }
 
