@@ -7,12 +7,10 @@ using TMPro;
 
 public class DeckDisplayManager : Manager
 {
-    public List<CardData> allCardsData;
     public GameObject cardPrefab;
     public RectTransform content;
     public Canvas canvas;
     public GameObject deckDisplay;
-    public List<CardDisplay> allDisplayedCards;
     public CardVisual selectedCard;
     public ScrollRect scroller;
     public Vector3 previousPosition;
@@ -33,34 +31,41 @@ public class DeckDisplayManager : Manager
 
     public void UpdateAllCards()
     {
-        allCardsData.Clear();
-        WorldSystem.instance.characterManager.playerCardsData.ForEach(x => allCardsData.Add(x));
-
-        if(allCardsData.Count > allDisplayedCards.Count)
+        int counter = 0;
+        int cardCount = world.characterManager.playerCards.Count;
+        if(content.transform.childCount < cardCount)
         {
-            while (allCardsData.Count > allDisplayedCards.Count)
+            while (content.transform.childCount < cardCount)
             {
-                CardDisplay newCard = Instantiate(cardPrefab,content.gameObject.transform).GetComponent<CardDisplay>();
-                newCard.transform.SetParent(content.gameObject.transform);
-                newCard.gameObject.SetActive(true);
-                allDisplayedCards.Add(newCard);
-                newCard.clickCallback = () => DisplayCard(newCard);
+                counter++;
+                if (counter > 50)
+                {
+                    Debug.Log("DANGER1");
+                    break;
+                }
+                CardDisplay card = Instantiate(cardPrefab, content.transform).GetComponent<CardDisplay>();
+                card.transform.SetParent(content.transform);
+                card.gameObject.SetActive(true);
+                card.clickCallback = () => DisplayCard(card);
             }
         }
-        else if(allCardsData.Count < allDisplayedCards.Count)
+        else if(content.transform.childCount > cardCount)
         {
-            while (allCardsData.Count < allDisplayedCards.Count)
+            while (content.transform.childCount > cardCount)
             {   
-                Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)].gameObject);
-                allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
+                counter++;
+                if (counter > 50)
+                {
+                    Debug.Log("DANGER2");
+                    break;
+                }
+                Destroy(content.transform.GetChild(0).gameObject);
             }
         }
 
-        for (int i = 0; i < allCardsData.Count; i++)
+        for (int i = 0; i < content.transform.childCount; i++)
         {
-            allDisplayedCards[i].cardData = allCardsData[i];
-            allDisplayedCards[i].BindCardData();
-            allDisplayedCards[i].BindCardVisualData();
+            content.transform.GetChild(i).GetComponent<CardDisplay>().Mimic(world.characterManager.playerCards[i]);
         }
     }
 
@@ -91,20 +96,6 @@ public class DeckDisplayManager : Manager
         selectedCard = null;
     }
 
-    public void RemoveCardAtIndex(int index)
-    {
-        Destroy(allDisplayedCards[index]);
-        allDisplayedCards.RemoveAt(index);
-    }
-
-    // public void ResetCardDisplay()
-    // {
-    //     if (selectedCard != null)
-    //     {
-    //         ResetCardPosition();
-    //     }
-    // }
-
     public void CloseDeckDisplay()
     {
         WorldStateSystem.TriggerClear();
@@ -117,28 +108,5 @@ public class DeckDisplayManager : Manager
     {
         world.deckDisplayManager.CloseDeckDisplay();
     }
-    // public void DisplayNextCard(int direction)
-    // {
-        
-    //     int index = allDisplayedCards.IndexOf(selectedCard.gameObject);
-    //     Debug.Log(index);
-    //     if(direction == 1) 
-    //     {
-    //         if(index != allDisplayedCards.Count - 1)
-    //         {
-    //             selectedCard.ResetCardPositionNext();
-    //             placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
 
-    //         }
-    //     }
-    //     else if(direction == -1)
-    //     {
-    //         if(index != 0)
-    //         {
-    //             selectedCard.ResetCardPositionNext();
-    //             placeholderCard.GetComponent<Card>().cardData = selectedCard.cardData;
-
-    //         }
-    //     }
-    // }
 }

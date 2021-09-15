@@ -5357,8 +5357,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 478066833}
-        m_TargetAssemblyTypeName: Building, Assembly-CSharp
-        m_MethodName: ButtonStepBack
+        m_TargetAssemblyTypeName: BuildingScribe, Assembly-CSharp
+        m_MethodName: ButtonLeaveManagement
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8676,22 +8676,19 @@ MonoBehaviour:
   scribe: {fileID: 503687404}
   deckManagement: {fileID: 692563483}
   cardUpgrade: {fileID: 419186843}
-  upgradedCardWindow: {fileID: 0}
-  upgradedCard: {fileID: 0}
+  upgradedCardWindow: {fileID: 1710172195}
+  upgradedCard: {fileID: 1508429933}
   cardPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
   unlockedCards: []
   deckCards: []
-  sideCards: []
   allSideCards: []
-  allUpgradeCards: []
   allDeckCards: []
   extraCards: []
   deckParent: {fileID: 1682444217}
   sideParent: {fileID: 1408016317}
   upgradeParent: {fileID: 1460222843}
   sideboardAmountText: {fileID: 1822081059}
-  maxSideboardCards: 4
-  idxCounter: 0
+  maxSideboardCards: 8
 --- !u!1 &484484880
 GameObject:
   m_ObjectHideFlags: 0
@@ -20870,8 +20867,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 478066833}
-        m_TargetAssemblyTypeName: Building, Assembly-CSharp
-        m_MethodName: ButtonStepBack
+        m_TargetAssemblyTypeName: BuildingScribe, Assembly-CSharp
+        m_MethodName: ButtonLeaveUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24806,6 +24803,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 53696efd4d625404ab5e8238931b2b39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1508429933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6057283121657397141, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+  m_PrefabInstance: {fileID: 814897256}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19186e35c21f3ac4f98b413d20952b83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1516614392
@@ -28793,12 +28801,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4350bb7cd1dc29f4b88b9306871fa58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allCardsData: []
+  allCards: []
   cardPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
   content: {fileID: 290228078}
   canvas: {fileID: 309282867}
   deckDisplay: {fileID: 2139546816}
-  allDisplayedCards: []
   selectedCard: {fileID: 0}
   scroller: {fileID: 859126615}
   previousPosition: {x: 0, y: 0, z: 0}
@@ -30698,7 +30705,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4 / 4
+  m_text: 8 / 8
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

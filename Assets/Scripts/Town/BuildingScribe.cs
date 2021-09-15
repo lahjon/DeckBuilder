@@ -16,7 +16,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public List<CardWrapper> deckCards = new List<CardWrapper>();
     public List<CardDisplay> allSideCards = new List<CardDisplay>();
     public List<CardDisplay> allDeckCards = new List<CardDisplay>();
-    public List<CardDisplay> allCards = new List<CardDisplay>();
     public List<CardData> extraCards = new List<CardData>();
     public Transform deckParent, sideParent, upgradeParent;
     public TMP_Text sideboardAmountText;
@@ -24,12 +23,14 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void Start()
     {
-        
+        UpdateScribe();
+        UpdateDeck();
+        ConfirmDeck();
     }
 
     void Initialize()
     {
-        
+
     }
 
     void ResetDeck()
@@ -47,13 +48,10 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
         foreach (CardDisplay c in allSideCards)
         {
-            Debug.Log(c.cardName);
             foreach (CardWrapper cw in deckCards)
             {
-                Debug.Log(cw.cardId);
-                if (cw.idx == c.idx && cw.cardId == c.cardName)
+                if (cw.idx == c.idx && cw.cardId == c.cardId)
                 {
-                    Debug.Log(cw.idx);
                     cards.Add(c);
                 }
             }
@@ -70,8 +68,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void UnlockProfessionCard(Profession profession)
     {
-        // SWAP TO ID
-        DatabaseSystem.instance.GetStartingProfessionCards(profession).ForEach(x => UnlockCard(x, false));
+        DatabaseSystem.instance.GetStartingProfessionCards(profession).Concat(DatabaseSystem.instance.GetStartingDeck(true)).ToList().ForEach(x => UnlockCard(x, false));
     }
 
     public List<CardData> GetStartingDeck()
@@ -87,7 +84,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         int idx = unlockedCards?.Any() == true ? unlockedCards[0].idx++ : 0;
 
-        CardWrapper cw = new CardWrapper(data.cardName, idx);
+        CardWrapper cw = new CardWrapper(data.id, idx);
         unlockedCards.Add(cw);
 
         if (save) WorldSystem.instance.SaveProgression();
@@ -109,32 +106,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
 
         display.idx = cw.idx;
-        //allSideCards.Add(display);
-    }
-
-    void CreateCardUpgrade(CardData data, int idx)
-    {
-        // CardDisplay display = Instantiate(cardPrefab, upgradeParent).GetComponent<CardDisplay>();
-
-        // for (int i = 0; i < display.timesUpgraded; i++)
-        // {
-        //     display.cardModifiers.Add(data.cardModifiers[i]);
-        //     display.UpdateCardVisual();
-        // }
-
-        // display.name = data.cardName;
-        // display.cardData = data;
-        // display.BindCardData();
-        // display.BindCardVisualData();
-        // display.idx = idx;
-
-        // allUpgradeCards.Add(display);
-        //display.clickCallback = () => UpgradeCard(display);
     }
 
     void UpgradeCard(CardDisplay card)
     {   
-        if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardName) is CardWrapper cw)
+        if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardId) is CardWrapper cw)
         {
             int upgradeCost = int.Parse(card.cardData.upgradeCostShards) * (cw.timesUpgraded + 1);
             if (cw.timesUpgraded >= card.cardData.upgrades.Count)
@@ -149,9 +125,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
                 cw.timesUpgraded++;
                 card.timesUpgraded++;
                 card.AddModifierToCard(cardModifierData);
-
-                // REMOVE WHEN ID DONE
-                cw.cardId = card.cardName;
                 WorldSystem.instance.characterManager.shard -= upgradeCost;
                 upgradedCardWindow.SetActive(true);
                 GridLayoutGroup glg = upgradeParent.GetComponent<GridLayoutGroup>();
@@ -233,7 +206,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
         if (adjustLists)
         {
-            CardWrapper cw = unlockedCards.FirstOrDefault(x => x.cardId == card.cardName && x.idx == card.idx);
+            CardWrapper cw = unlockedCards.FirstOrDefault(x => x.cardId == card.cardId && x.idx == card.idx);
             deckCards.Add(cw);
         }
     }
@@ -250,7 +223,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
         if (adjustLists)
         {
-            CardWrapper cw = unlockedCards.FirstOrDefault(x => x.cardId == card.cardName && x.idx == card.idx);
+            CardWrapper cw = unlockedCards.FirstOrDefault(x => x.cardId == card.cardId && x.idx == card.idx);
             deckCards.Remove(cw);
         }
     }
@@ -303,7 +276,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void ConfirmDeck()
     {
-        WorldSystem.instance.characterManager.playerCardsData = GetDeck();
+        WorldSystem.instance.characterManager.playerCards = allDeckCards.Select(x => (CardVisual)x).ToList();
+        WorldSystem.instance.deckDisplayManager.UpdateAllCards();
     }
     public override void CloseBuilding()
     {
@@ -319,11 +293,13 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         base.EnterBuilding();
         UpdateScribe();
+        UpdateDeck();
         StepInto(scribe);
     }
     public void ButtonEnterDeckManagement()
     {
         UpdateDeck();
+        UpdateCounter();
         StepInto(deckManagement);
     }
     public void ButtonEnterCardUpgrade()
@@ -359,10 +335,10 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public void PopulateSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
         List<CardWrapper> deckCards = new List<CardWrapper>();
-        allDeckCards.ForEach(x => deckCards.Add(new CardWrapper(x.cardName, x.idx)));
+        allDeckCards.ForEach(x => deckCards.Add(new CardWrapper(x.cardId, x.idx)));
 
         List<CardWrapper> sideCards = new List<CardWrapper>();
-        allSideCards.ForEach(x => sideCards.Add(new CardWrapper(x.cardName, x.idx)));
+        allSideCards.ForEach(x => sideCards.Add(new CardWrapper(x.cardId, x.idx)));
         
         a_SaveData.deckCards = deckCards;
         a_SaveData.sideCards = sideCards;

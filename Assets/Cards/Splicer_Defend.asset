@@ -30,9 +30,11 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: 70466ba407d987e4ba3aaa33d4dc7532, type: 3}
   cost: 1
   visibleCost: 1
-  upgradeCostShards: 
-  maxUpgrades: 0
-  upgrades: []
+  upgradeCostShards: 2
+  maxUpgrades: 2
+  upgrades:
+  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
   rarity: 1
   cardClass: 3
   animationPrefab: {fileID: 0}

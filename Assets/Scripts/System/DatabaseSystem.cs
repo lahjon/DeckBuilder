@@ -37,14 +37,12 @@ public class DatabaseSystem : MonoBehaviour
 
     public List<CardData> GetCardsByID(List<string> cardIds)
     {
-        // SWAP TO ID
-        return cards.Where(x => cardIds.Contains(x.cardName)).ToList();
+        return cards.Where(x => cardIds.Contains(x.id)).ToList();
     }
 
     public CardData GetCardByID(string cardId)
     {
-        // SWAP TO ID
-        return cards.FirstOrDefault(x => x.cardName == cardId);
+        return cards.FirstOrDefault(x => x.id == cardId);
     }
 
 

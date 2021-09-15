@@ -15,6 +15,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterVariablesUI characterVariablesUI;
     public Character character;
     public List<CardData> playerCardsData = new List<CardData>();
+    public List<CardVisual> playerCards = new List<CardVisual>();
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
