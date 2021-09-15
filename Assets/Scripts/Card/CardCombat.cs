@@ -159,15 +159,15 @@ public class CardCombat : CardVisual, IEventSubscriber
         animator.SetBool("MouseIsOver", false);
     }
 
-    public override void  OnMouseRightClick(bool allowDisplay = true)
+    public override void OnMouseRightClick(bool allowDisplay = true)
     {
         Debug.Log("OnMouseRighclick called");
-        if (CombatSystem.instance.ActiveCard == this)
+        if (selected)
         {
-            DeselectCard();
+            CombatSystem.instance.CancelCardSelection();
             Debug.Log("Deselect");
         }
-        else if(!selected && allowDisplay && CombatSystem.instance.ActiveCard == null)
+        else if(allowDisplay && CombatSystem.instance.ActiveCard == null)
         {
             WorldSystem.instance.deckDisplayManager.DisplayCard(this);
             Debug.Log("Display");
@@ -176,28 +176,13 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseClick()
     {
-        Debug.Log("MouseClickedCard. Firing OnMouseClick for card " + name);
         base.OnMouseClick();
-
         CombatSystem.instance.CardClicked(this);
-    }
-
-    public void DeselectCard()
-    {
-        CombatSystem.instance.CancelCardSelection();
     }
 
     public override void ResetScale()
     {
         throw new System.NotImplementedException();
-    }
-
-    public Vector3 AngleLerp(Vector3 StartAngle, Vector3 FinishAngle, float t)
-    {
-        float xLerp = Mathf.LerpAngle(StartAngle.x, FinishAngle.x, t);
-        float yLerp = Mathf.LerpAngle(StartAngle.y, FinishAngle.y, t);
-        float zLerp = Mathf.LerpAngle(StartAngle.z, FinishAngle.z, t);
-        return new Vector3(xLerp, yLerp, zLerp);
     }
 
     public void RefreshConditions()
@@ -223,7 +208,6 @@ public class CardCombat : CardVisual, IEventSubscriber
             e.Subscribe();
 
         playCondition.Subscribe();
-
         EventManager.OnEnergyChangedEvent += EvaluateHighlightNotSelected;
     }
 }
