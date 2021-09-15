@@ -7,7 +7,7 @@ public class CardFunctionalityData : ScriptableObject
 {
     public string id;
 
-    public List<CardSingleFieldPropertyType> singleFieldProperties = new List<CardSingleFieldPropertyType>();
+    public List<(CardSingleFieldPropertyType prop, bool val)> singleFieldProperties = new List<(CardSingleFieldPropertyType prop, bool val)>();
     public List<CardEffectCarrierData> effects = new List<CardEffectCarrierData>();
     public List<CardActivitySetting> activities = new List<CardActivitySetting>();
 
