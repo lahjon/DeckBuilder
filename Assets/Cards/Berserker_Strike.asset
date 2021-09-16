@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_Strike
   m_EditorClassIdentifier: 
   id: 2
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects:
   - Type: 0
     Value: 6
@@ -31,9 +31,8 @@ MonoBehaviour:
   cost: 1
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
+  maxUpgrades: 1
   upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
   - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
   rarity: 1
   cardClass: 1

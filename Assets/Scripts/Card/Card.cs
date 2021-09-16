@@ -63,7 +63,7 @@ public class Card : MonoBehaviour
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
         cost            = new CardCost(this,cardData.cost);
-        cardData.singleFieldProperties.OrderBy(s => (int)s).ToList().ForEach(s => RegisterSingleField(s));
+        cardData.singleFieldProperties.OrderBy(s => (int)s.prop).ToList().ForEach(s => RegisterSingleField(s));
 
         foreach(CardEffectCarrierData effect in cardData.effects) 
         {
@@ -91,10 +91,13 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
     }
 
-    public void AddModifierToCard(CardFunctionalityData cardModifierData)
+    public void AddModifierToCard(CardFunctionalityData data)
     {
         //Debug.Log("Add logic in here to add modifiers");
-        
+
+        for (int i = 0; i < data.singleFieldProperties.Count; i++)
+            RegisterSingleField(data.singleFieldProperties[i]);
+
         if (this is CardVisual card)
         {
             card.UpdateCardVisual();
@@ -155,10 +158,21 @@ public class Card : MonoBehaviour
             return new CardEffectCarrier(data, this);
     }
 
-    public void RegisterSingleField(CardSingleFieldPropertyType s)
+    public void RegisterSingleField(CardSingleFieldPropertyTypeWrapper typeWrapper)
     {
-        if (HasProperty(s)) return;
-        singleFieldProperties.Add(new CardSingleFieldProperty(s));
+        if (typeWrapper.val && !HasProperty(typeWrapper.prop))
+            singleFieldProperties.Add(new CardSingleFieldProperty(typeWrapper.prop));
+        else if(!typeWrapper.val && HasProperty(typeWrapper.prop))
+        {
+            for(int i = 0; i < singleFieldProperties.Count; i++)
+            {
+                if(singleFieldProperties[i].type == typeWrapper.prop)
+                {
+                    singleFieldProperties.RemoveAt(i);
+                    break;
+                }
+            }
+        }
     }
 
     public List<CardEffectCarrier> GetEffectsByType(EffectType type)

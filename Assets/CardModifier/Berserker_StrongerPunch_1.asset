@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_StrongerPunch_1
   m_EditorClassIdentifier: 
   id: 44_1
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects:
   - Type: 0
     Value: 5

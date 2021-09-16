@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Enemy_EnvenomAllies1
   m_EditorClassIdentifier: 
   id: 40
-  singleFieldProperties: 00000000
+  singleFieldProperties:
+  - Name: Exhaust, True
+    prop: 0
+    val: 1
   effects:
   - Type: 12
     Value: 1
@@ -31,10 +34,8 @@ MonoBehaviour:
   cost: 1
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 12
   cardClass: 8
   animationPrefab: {fileID: 0}

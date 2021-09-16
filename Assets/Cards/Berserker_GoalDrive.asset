@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_GoalDrive
   m_EditorClassIdentifier: 
   id: 49
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects: []
   activities:
   - type: 7
@@ -29,10 +29,8 @@ MonoBehaviour:
   cost: 0
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 13
   cardClass: 1
   animationPrefab: {fileID: 0}

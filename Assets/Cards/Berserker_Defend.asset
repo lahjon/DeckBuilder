@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_Defend
   m_EditorClassIdentifier: 
   id: 3
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects:
   - Type: 2
     Value: 5
@@ -31,10 +31,8 @@ MonoBehaviour:
   cost: 1
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 1
   cardClass: 1
   animationPrefab: {fileID: 0}

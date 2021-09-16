@@ -7,7 +7,7 @@ public class CardFunctionalityData : ScriptableObject
 {
     public string id;
 
-    public List<(CardSingleFieldPropertyType prop, bool val)> singleFieldProperties = new List<(CardSingleFieldPropertyType prop, bool val)>();
+    public List<CardSingleFieldPropertyTypeWrapper> singleFieldProperties = new List<CardSingleFieldPropertyTypeWrapper>();
     public List<CardEffectCarrierData> effects = new List<CardEffectCarrierData>();
     public List<CardActivitySetting> activities = new List<CardActivitySetting>();
 
@@ -17,6 +17,22 @@ public class CardFunctionalityData : ScriptableObject
         effects.Clear();
         activities.Clear();
     }
+}
+
+[System.Serializable]
+public struct CardSingleFieldPropertyTypeWrapper
+{
+    //public string Name => prop.ToString();
+    public string Name;
+    public CardSingleFieldPropertyTypeWrapper(CardSingleFieldPropertyType prop, bool val)
+    {
+        this.prop = prop;
+        this.val = val;
+        Name = prop.ToString() + ", " + val.ToString();
+    }
+
+    public CardSingleFieldPropertyType prop;
+    public bool val;
 }
 
 

@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Berserker_DisplayofMight
   m_EditorClassIdentifier: 
   id: 42
-  singleFieldProperties: 00000000
+  singleFieldProperties:
+  - Name: Exhaust, True
+    prop: 0
+    val: 1
   effects:
   - Type: 0
     Value: 20
@@ -49,10 +52,9 @@ MonoBehaviour:
   cost: 2
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
+  maxUpgrades: 1
   upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  - {fileID: 11400000, guid: 526a4d2d129c3da4b9824ed6c4e8ab9a, type: 2}
   rarity: 13
   cardClass: 1
   animationPrefab: {fileID: 0}

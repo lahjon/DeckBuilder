@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Enemy_PigStrike
   m_EditorClassIdentifier: 
   id: 18
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects:
   - Type: 0
     Value: 7
@@ -31,10 +31,8 @@ MonoBehaviour:
   cost: 1
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 0
   cardClass: 8
   animationPrefab: {fileID: 0}

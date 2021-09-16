@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: Burden_CheapScare
   m_EditorClassIdentifier: 
   id: 20
-  singleFieldProperties: fffffffffeffffff
+  singleFieldProperties:
+  - Name: Unstable, True
+    prop: -1
+    val: 1
+  - Name: Unplayable, True
+    prop: -2
+    val: 1
   effects:
   - Type: 10
     Value: -2
@@ -31,10 +37,8 @@ MonoBehaviour:
   cost: 0
   visibleCost: 0
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 11
   cardClass: 6
   animationPrefab: {fileID: 0}

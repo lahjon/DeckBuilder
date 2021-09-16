@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Splicer_Kick
   m_EditorClassIdentifier: 
   id: 10
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects:
   - Type: 0
     Value: 6
@@ -38,10 +38,8 @@ MonoBehaviour:
   cost: 1
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 11
   cardClass: 3
   animationPrefab: {fileID: 0}

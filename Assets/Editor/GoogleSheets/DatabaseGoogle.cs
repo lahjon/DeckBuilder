@@ -154,7 +154,7 @@ public class DatabaseGoogle
             CardFunctionalityData data = level == 0 ?
                                             TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
                                             FunctionalityAt(databaseName, level);
-            data.singleFieldProperties.Add(type);
+            data.singleFieldProperties.Add(new CardSingleFieldPropertyTypeWrapper(type, bool.Parse((string)gt[i, "Add"])));
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();

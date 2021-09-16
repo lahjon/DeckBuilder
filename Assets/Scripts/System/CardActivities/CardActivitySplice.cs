@@ -32,7 +32,7 @@ public class CardActivitySplice : CardActivity
                 cardEffect = new CardEffectCarrier(EffectType.Splice, -1);
                 yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
                 CardCombat splicedCard = CardCombat.Combine((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
-                CombatSystem.instance.InProcessCard.RegisterSingleField(CardSingleFieldPropertyType.Exhaust);
+                CombatSystem.instance.InProcessCard.RegisterSingleField(new CardSingleFieldPropertyTypeWrapper() {prop = CardSingleFieldPropertyType.Exhaust, val = true});
 
                 hero.discard.Remove(discardedCard);
                 UnityEngine.Object.Destroy(discardedCard.gameObject);

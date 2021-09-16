@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Splicer_AreaMod
   m_EditorClassIdentifier: 
   id: 34
-  singleFieldProperties: 
+  singleFieldProperties: []
   effects:
   - Type: 0
     Value: 6
@@ -38,10 +38,8 @@ MonoBehaviour:
   cost: 2
   visibleCost: 1
   upgradeCostShards: 2
-  maxUpgrades: 2
-  upgrades:
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
-  - {fileID: 11400000, guid: 55201ccee66ab974aa5a0d57b8d1253e, type: 2}
+  maxUpgrades: 0
+  upgrades: []
   rarity: 13
   cardClass: 3
   animationPrefab: {fileID: 0}
