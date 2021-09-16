@@ -76,6 +76,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         nameText.text += " +";
         cardName += " +";
         cardBackground.color = Helpers.upgradeCardColor; 
+        ResetCardTextElementsList();
+        RefreshDescriptionText(true);
+        SetToolTips();
     }
 
     public void BindCardVisualData()
