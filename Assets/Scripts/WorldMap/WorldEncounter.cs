@@ -68,7 +68,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             worldEncounterType = worldEncounterData.type;
             condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
-            Debug.Log(worldEncounterData.clearCondition);
             encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
         }
     }

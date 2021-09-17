@@ -10,6 +10,18 @@ public class CardDisplay : CardVisual
     public int idx;
     public System.Action clickCallback;
     Tween tween;
+    public GameObject nonSelectableImage;
+    public bool _selectable;
+    public bool selectable
+    {
+        get => _selectable;
+        set
+        {
+            _selectable = value;
+            if (_selectable) nonSelectableImage.SetActive(false);
+            else nonSelectableImage.SetActive(true);
+        }
+    }
     bool _selected;
     public bool selected
     {

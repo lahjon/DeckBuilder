@@ -19,7 +19,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public List<CardData> extraCards = new List<CardData>();
     public Transform deckParent, sideParent, upgradeParent;
     public TMP_Text sideboardAmountText;
-    public int maxSideboardCards;
+    public int maxSideboardAmount;
+    public int lockedSideboardAmount;
 
     void Start()
     {
@@ -37,14 +38,23 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         List<CardDisplay> allCards = new List<CardDisplay>();
         allDeckCards.ForEach(x => allCards.Add(x));
-        allCards.ForEach(x => MoveToSide(x));
+        allCards.ForEach(x => MoveToSide(x, false));
     }
 
     void UpdateDeck()
     {
-        ResetDeck();
+        //ResetDeck();
         List<CardDisplay> cards = new List<CardDisplay>();
-        allSideCards.ForEach(x => x.clickCallback = () => MoveCard(x));
+        List<CardDisplay> cardsOptional = allSideCards.Concat(allDeckCards).Where(x => x.rarity != Rarity.Starting).ToList();
+        List<CardDisplay> cardLocked = allSideCards.Concat(allDeckCards).Where(x => x.rarity == Rarity.Starting).ToList();
+        cardsOptional.ForEach(x => {
+            x.clickCallback = () => MoveCard(x);
+            x.selectable = true;
+        });
+        cardLocked.ForEach(x => {
+            x.clickCallback = null;
+            x.selectable = false;
+        });
 
         foreach (CardDisplay c in allSideCards)
         {
@@ -57,11 +67,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             }
         }
         cards.ForEach(c => MoveToDeck(c, false));
-
-        while (allDeckCards.Count < maxSideboardCards)
-        {
-            MoveToDeck(allSideCards[0]);
-        }
 
         SortDeck();
     }
@@ -154,7 +159,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         // sort deck
         List<CardDisplay> sorted = allDeckCards.OrderBy(x => x.cardName).ToList();
-        Debug.Log("SortDeck");
         int amount = allDeckCards.Count;
 
         for (int i = 0; i < amount; i++)
@@ -163,18 +167,30 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
     
         // sort side
-        allSideCards.OrderBy(x => x.cardName);
+        sorted = allSideCards.OrderBy(x => x.cardName).ToList();
         amount = allSideCards.Count;
 
         for (int i = 0; i < amount; i++)
         {
-            allSideCards[i].transform.SetSiblingIndex(i);
+            sorted[i].transform.SetSiblingIndex(i);
         }
     }
 
+    // void SortUpgrade()
+    // {
+    //     // sort deck
+    //     List<CardDisplay> sorted = allSideCards.OrderBy(x => x.cardName).ToList();
+    //     int amount = allSideCards.Count;
+
+    //     for (int i = 0; i < amount; i++)
+    //     {
+    //         sorted[i].transform.SetSiblingIndex(i);
+    //     }
+    // }
+
     void UpdateCounter()
     {
-        sideboardAmountText.text = string.Format("{0} / {1}", allDeckCards.Count, maxSideboardCards);
+        sideboardAmountText.text = string.Format("{0} / {1}", allDeckCards.Count, maxSideboardAmount + lockedSideboardAmount);
     }
 
     public void MoveCard(CardDisplay card)
@@ -193,7 +209,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void MoveToDeck(CardDisplay card, bool adjustLists = true)
     {
-        if (allDeckCards.Count >= maxSideboardCards) return;
+        if (allDeckCards.Count >= maxSideboardAmount + lockedSideboardAmount) return;
 
         List<CardDisplay> sorted = new List<CardDisplay>();
         allDeckCards.ForEach(x => sorted.Add(x));
@@ -265,13 +281,13 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void UpdateUpgradeManagement()
     {
-        //ResetDeck();
-
         foreach (CardDisplay display in allSideCards.Concat(allDeckCards).ToList())
         {
             display.clickCallback = () => UpgradeCard(display);
             display.transform.SetParent(upgradeParent);
+            display.selectable = true;
         }
+        SortDeck();
     }
 
     void ConfirmDeck()
@@ -287,7 +303,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void PromptWarning()
     {
-        WorldSystem.instance.uiManager.UIWarningController.CreateWarning("You need to select " + maxSideboardCards.ToString() + " cards!");
+        WorldSystem.instance.uiManager.UIWarningController.CreateWarning("You need to select " + maxSideboardAmount.ToString() + " cards!");
     }
     public override void EnterBuilding()
     {
@@ -310,7 +326,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void ButtonLeaveManagement()
     {
-        if (allDeckCards.Count < maxSideboardCards)
+        if (allDeckCards.Count < maxSideboardAmount + lockedSideboardAmount)
         {
             PromptWarning();
         }
@@ -346,10 +362,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void LoadFromSaveDataCharacter(SaveDataCharacter a_SaveData)
     {
-        Debug.Log("Load char");
         if (a_SaveData.deckCards?.Any() == true)
         {
-            Debug.Log("Load char side");
             deckCards = a_SaveData.deckCards;
         }
     }
@@ -368,6 +382,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         else
         {
             UnlockProfessionCard(Profession.Berserker1);
+            deckCards.AddRange(unlockedCards);
         }
     }
 }

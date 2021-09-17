@@ -26,7 +26,6 @@ public class MissionManager : Manager, ISaveableWorld
 
     public Mission StartMission(MissionData data, bool fromLoad = false)
     {
-        Debug.Log("starrtng mission; " + fromLoad);
         if (data == null || clearedMissions.Contains(data)) return null;
         if (!fromLoad && currentMissions.Contains(data)) return null;
         if (!fromLoad) currentMissions.Add(data);

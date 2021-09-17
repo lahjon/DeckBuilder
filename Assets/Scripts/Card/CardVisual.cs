@@ -33,6 +33,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public bool isBroken = false;
     Tween highlightTween;
+    
     CardHighlightType _cardHighlightType;
     public CardHighlightType cardHighlightType
     {

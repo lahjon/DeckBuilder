@@ -17,7 +17,6 @@ public class CharacterStats : MonoBehaviour
 
     public int GetStat(StatType aStatType)
     {
-        Debug.Log(aStatType);
         int value = stats.Where(x => x.type == aStatType).FirstOrDefault().value;
         return value;
     }
