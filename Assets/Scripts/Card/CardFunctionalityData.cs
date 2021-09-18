@@ -7,9 +7,9 @@ public class CardFunctionalityData : ScriptableObject
 {
     public string id;
 
-    public List<CardSingleFieldPropertyTypeWrapper> singleFieldProperties = new List<CardSingleFieldPropertyTypeWrapper>();
-    public List<CardEffectCarrierData> effects = new List<CardEffectCarrierData>();
-    public List<CardActivitySetting> activities = new List<CardActivitySetting>();
+    public List<CardSingleFieldPropertyTypeWrapper> singleFieldProperties   = new List<CardSingleFieldPropertyTypeWrapper>();
+    public List<CardEffectCarrierData>              effects                 = new List<CardEffectCarrierData>();
+    public List<CardActivityData>                   activities              = new List<CardActivityData>();
 
     public void ResetFunctionality()
     {

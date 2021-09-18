@@ -79,15 +79,17 @@ public class Card : MonoBehaviour
                 effectsOnDraw.Add(carrier);
         }
 
-        foreach (CardActivitySetting activity in cardData.activities)
+        foreach (CardActivityData activity in cardData.activities)
         {
+            CardActivitySetting carrier = SetupActivitySetting(activity);
             if (activity.execTime == CardComponentExecType.OnPlay)
-                activitiesOnPlay.Add(activity);
+                activitiesOnPlay.Add(carrier);
             else if (activity.execTime == CardComponentExecType.OnDraw)
-                activitiesOnDraw.Add(activity);
+                activitiesOnDraw.Add(carrier);
         }
 
         animationPrefab = cardData.animationPrefab;
+
         classType       = cardData.cardClass;
         visibleCost     = cardData.visibleCost;
     }
@@ -109,25 +111,28 @@ public class Card : MonoBehaviour
         foreach(CardEffectCarrierData effect in data.effects)
         {
             if(effect.Type == EffectType.Damage)
-                AddToList(Attacks, effect);
+                AddUpgradeEffectToList(Attacks, effect);
             else if (effect.Type == EffectType.Block)
-                AddToList(Blocks, effect);
+                AddUpgradeEffectToList(Blocks, effect);
             else if (effect.execTime == CardComponentExecType.OnPlay)
-                AddToList(effectsOnPlay, effect);
+                AddUpgradeEffectToList(effectsOnPlay, effect);
             else if (effect.execTime == CardComponentExecType.OnDraw)
-                AddToList(effectsOnDraw, effect);
+                AddUpgradeEffectToList(effectsOnDraw, effect);
+        }
+
+        foreach (CardActivityData activity in data.activities)
+        {
+            if (activity.execTime == CardComponentExecType.OnPlay)
+                AddUpgradeActivityToList(activitiesOnPlay, activity);
+            else if (activity.execTime == CardComponentExecType.OnDraw)
+                AddUpgradeActivityToList(activitiesOnDraw, activity);
         }
 
         if (this is CardVisual card)
-        {
             card.UpdateCardVisual();
-            Debug.Log("IS a card Visual");
-        }
-        else
-            Debug.Log("NOT a card Visual");
     }
 
-    public void AddToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
+    void AddUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
     {
         for (int i = 0; i < targetList.Count; i++)
         {
@@ -138,6 +143,11 @@ public class Card : MonoBehaviour
             }
             targetList.Add(SetupEffectcarrier(data));
         }
+    }
+
+    void AddUpgradeActivityToList(List<CardActivitySetting> targetList, CardActivityData activity)
+    {
+        targetList.Add(SetupActivitySetting(activity));
     }
 
 
@@ -196,6 +206,14 @@ public class Card : MonoBehaviour
             return new CardEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
             return new CardEffectCarrier(data, this);
+    }
+
+    public CardActivitySetting SetupActivitySetting(CardActivityData data)
+    {
+        if (this is CardCombat cardCombat)
+            return new CardActivitySetting(data, this, cardCombat.EvaluateHighlightNotSelected);
+        else
+            return new CardActivitySetting(data, this);
     }
 
     public void RegisterSingleField(CardSingleFieldPropertyTypeWrapper typeWrapper)
@@ -275,9 +293,9 @@ public class Card : MonoBehaviour
             }
             else
             {
-                int aParam = int.Parse(a.GetactivityByType(CardActivityType.Splice).parameter);
-                if(aParam > 1)
-                    Target.activitiesOnPlay.Add(new CardActivitySetting() { type = CardActivityType.Splice, parameter = (aParam-1).ToString()});
+                int aParam = int.Parse(a.GetactivityByType(CardActivityType.Splice).parameter) - 1;
+                if (aParam > 1)
+                    Target.activitiesOnPlay.Add(new CardActivitySetting(new CardActivityData() { type = CardActivityType.Splice, parameter = aParam.ToString() },Target));
             }
         }
     }

@@ -211,19 +211,18 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            CardActivitySetting activitySetting = new CardActivitySetting();
-            Enum.TryParse((string)gt[i, "Activity"], out CardActivityType cardActivityType);
+            CardActivityData activity = new CardActivityData();
+            Enum.TryParse((string)gt[i, "Activity"], out activity.type);
+            Enum.TryParse((string)gt[i, "ExecutionTime"], out activity.execTime);
 
-            activitySetting.type = cardActivityType;
-            activitySetting.parameter = (string)gt[i, "Parameter"];
-
-            Enum.TryParse((string)gt[i, "ExecutionTime"], out activitySetting.execTime);
+            activity.parameter = (string)gt[i, "Parameter"];
 
             int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
+            
             CardFunctionalityData data = level == 0 ?
                                             TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
                                             FunctionalityAt(databaseName, level);
-            data.activities.Add(activitySetting);
+            data.activities.Add(activity);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -341,7 +340,7 @@ public class DatabaseGoogle
 
             if (cardData.activities.Count != 0)
             {
-                foreach (CardActivitySetting caSetting in cardData.activities)
+                foreach (CardActivityData caSetting in cardData.activities)
                 {
                     List<object> cDataCardActivity = new List<object>();
                     cDataCardActivity.Add(cardData.name);
