@@ -189,17 +189,18 @@ public class Card : MonoBehaviour
     {
         if (typeWrapper.val && !HasProperty(typeWrapper.prop))
             singleFieldProperties.Add(new CardSingleFieldProperty(typeWrapper.prop));
-        else if(!typeWrapper.val && HasProperty(typeWrapper.prop))
+        else if (!typeWrapper.val && HasProperty(typeWrapper.prop))
         {
-            for(int i = 0; i < singleFieldProperties.Count; i++)
+            for (int i = 0; i < singleFieldProperties.Count; i++)
             {
-                if(singleFieldProperties[i].type == typeWrapper.prop)
+                if (singleFieldProperties[i].type == typeWrapper.prop)
                 {
                     singleFieldProperties.RemoveAt(i);
                     break;
                 }
             }
         }
+
     }
 
     public List<CardEffectCarrier> GetEffectsByType(EffectType type)

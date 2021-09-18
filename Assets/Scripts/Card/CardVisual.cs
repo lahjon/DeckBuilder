@@ -119,15 +119,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         energyObjects.SetActive(card.visibleCost);
 
         ResetCardTextElementsList();
-
-        for (int i = 0; i < singleFieldProperties.Count; i++)
-        {
-            if ((int)singleFieldProperties[i].type < 0)
-                cardTextElements.Insert(0, singleFieldProperties[i]);
-            else
-                cardTextElements.Add(singleFieldProperties[i]);
-        }
-
         SetBorderColor();
         RefreshDescriptionText(true);
         SetToolTips();
@@ -142,6 +133,15 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         cardTextElements.AddRange(activitiesOnDraw);
         cardTextElements.AddRange(effectsOnPlay);
         cardTextElements.AddRange(activitiesOnPlay);
+
+        for (int i = 0; i < singleFieldProperties.Count; i++)
+        {
+            if ((int)singleFieldProperties[i].type < 0)
+                cardTextElements.Insert(0, singleFieldProperties[i]);
+            else
+                cardTextElements.Add(singleFieldProperties[i]);
+        }
+
     }
 
     public void RefreshDescriptionText(bool forceRebuild = false)
