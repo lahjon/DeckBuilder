@@ -94,6 +94,7 @@ public class Card : MonoBehaviour
     public void AddModifierToCard(CardFunctionalityData data)
     {
         //Debug.Log("Add logic in here to add modifiers");
+        cardModifiers.Add(data);
 
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
