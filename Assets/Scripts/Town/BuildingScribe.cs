@@ -105,10 +105,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         display.timesUpgraded = cw.timesUpgraded;
 
         for (int i = 0; i < display.timesUpgraded; i++)
-        {
-            display.cardModifiers.Add(data.upgrades[i]);
             display.AddModifierToCard(data.upgrades[i]);
-        }
 
         display.idx = cw.idx;
     }
