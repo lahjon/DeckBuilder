@@ -114,23 +114,10 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public static CardCombat Factory(CardVisual cardVisual)
     {
-        GameObject CardObject = Instantiate(CombatSystem.instance.TemplateCard, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0)) as GameObject;
-        CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);
-        CardObject.transform.localScale = Vector3.one;
-        CardCombat card = CardObject.GetComponent<CardCombat>();
-        card.cardPanel = CombatSystem.instance.cardPanel.GetComponent<RectTransform>();
-        card.Mimic(cardVisual);
-        // card.BindCardData();
-        // card.BindCardVisualData();
-        card.owner = CombatSystem.instance.Hero;
-        card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
-        card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
-        CombatSystem.instance.createdCards.Add(card);
+        CardCombat card = Factory(cardVisual.cardData);
+        for (int i = 0; i < cardVisual.cardModifiers.Count; i++)
+            card.AddModifierToCard(cardVisual.cardModifiers[i]);
 
-        if (card.singleFieldProperties.Any(s => s == CardSingleFieldPropertyType.Unplayable)) card.playCondition = new Condition() { value = false };
-
-        card.Subscribe();
-        card.RefreshConditions();
         return card;
     }
 

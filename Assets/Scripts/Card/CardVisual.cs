@@ -93,15 +93,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         energyObjects.SetActive(visibleCost);
 
         ResetCardTextElementsList();
-
-        for (int i = 0; i < singleFieldProperties.Count; i++)
-        {
-            if ((int)singleFieldProperties[i].type < 0)
-                cardTextElements.Insert(0, singleFieldProperties[i]);
-            else
-                cardTextElements.Add(singleFieldProperties[i]);
-        }
-
         SetBorderColor();
         RefreshDescriptionText();
         SetToolTips();

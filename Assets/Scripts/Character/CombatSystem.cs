@@ -187,6 +187,7 @@ public class CombatSystem : MonoBehaviour
         foreach(CardVisual cv in deckData)
         {
             CardCombat card = CardCombat.Factory(cv);
+            card.owner = Hero;
             Hero.deck.Add(card);
         }
 

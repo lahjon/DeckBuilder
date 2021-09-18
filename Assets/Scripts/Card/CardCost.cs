@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 
 public class CardCost
@@ -25,10 +26,12 @@ public class CardCost
 
     public void Pay()
     {
-        if (!(card.owner is CombatActorHero)) return;
+        Debug.Log("1");
+        if (!(card.owner == CombatSystem.instance.Hero)) return;
+        Debug.Log("2");
 
         PaidEnergy = EnergyCost; // ändra till mer avancerat sen när vi har fler energytyper;
-        CombatSystem.instance.cEnergy -= EnergyCost;
+        CombatSystem.instance.cEnergy -= EnergyCost.value;
     }
 
     public void Refund()
