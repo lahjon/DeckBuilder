@@ -25,7 +25,7 @@ MonoBehaviour:
       numValue: 0
     execTime: 0
   - Type: 4
-    Value: 2
+    Value: prop:NrCardsDeck+2
     Times: 1
     Target: 3
     conditionStruct:
