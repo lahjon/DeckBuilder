@@ -8688,8 +8688,8 @@ MonoBehaviour:
   sideParent: {fileID: 1408016317}
   upgradeParent: {fileID: 1460222843}
   sideboardAmountText: {fileID: 1822081059}
-  maxSideboardAmount: 0
-  lockedSideboardAmount: 0
+  maxSideboardAmount: 4
+  lockedSideboardAmount: 4
 --- !u!1 &484484880
 GameObject:
   m_ObjectHideFlags: 0
