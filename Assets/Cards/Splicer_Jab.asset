@@ -16,8 +16,16 @@ MonoBehaviour:
   singleFieldProperties: []
   effects:
   - Type: 0
-    Value: 3
-    Times: 1
+    Value:
+      linkedProp: 0
+      baseVal: 3
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
     Target: 3
     conditionStruct:
       type: 0
@@ -35,7 +43,11 @@ MonoBehaviour:
   cardName: Jab
   cardType: 0
   artwork: {fileID: 21300000, guid: 5bb90fbb156088c4a9d16617bdf7a689, type: 3}
-  cost: 0
+  cost:
+    linkedProp: 0
+    baseVal: 0
+    scalar: 1
+    inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 2
   maxUpgrades: 0

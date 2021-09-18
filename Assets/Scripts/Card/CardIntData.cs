@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class CardIntLinkData
+[Serializable]
+public class CardIntData
 {
     public CardLinkablePropertyType linkedProp      = CardLinkablePropertyType.None;
     public int                      baseVal         = 0;

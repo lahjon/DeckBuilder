@@ -16,8 +16,16 @@ MonoBehaviour:
   singleFieldProperties: []
   effects:
   - Type: 2
-    Value: 5
-    Times: 1
+    Value:
+      linkedProp: 0
+      baseVal: 5
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
     Target: 0
     conditionStruct:
       type: 0
@@ -28,7 +36,11 @@ MonoBehaviour:
   cardName: Defend
   cardType: 2
   artwork: {fileID: 21300000, guid: bd22c3f18cc306e4498ad21437b1863b, type: 3}
-  cost: 1
+  cost:
+    linkedProp: 0
+    baseVal: 1
+    scalar: 1
+    inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 2
   maxUpgrades: 0

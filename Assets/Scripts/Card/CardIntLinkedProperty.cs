@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class CardIntLinkedProperty: CardInt
 {
+    Action onLinkedValChange;
+
+
     int scalar = 1;
     bool inverseScalar = false;
 
@@ -39,7 +42,7 @@ public class CardIntLinkedProperty: CardInt
         }
     }
 
-    public CardIntLinkedProperty(CardIntLinkData data, Card card, Action onLinkedValChange = null)
+    public CardIntLinkedProperty(CardIntData data, Card card, Action onLinkedValChange = null)
     {
         baseVal = data.baseVal;
         scalar = data.scalar;
@@ -58,11 +61,12 @@ public class CardIntLinkedProperty: CardInt
 
     private Func<int> PropGetter;
 
-    public override void AbsorbModifier(CardIntLinkData data)
+    protected void ActionFire() => onLinkedValChange?.Invoke();
+
+    public override void AbsorbModifier(CardIntData data)
     {
         baseVal += data.baseVal;    //Add val
         scalar = data.scalar;       //OVERwrite scalar. 
-        ActionFire();
     }
 
     private Func<int> GetGetter(CardLinkablePropertyType prop)

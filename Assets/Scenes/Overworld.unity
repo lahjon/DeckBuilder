@@ -8688,8 +8688,8 @@ MonoBehaviour:
   sideParent: {fileID: 1408016317}
   upgradeParent: {fileID: 1460222843}
   sideboardAmountText: {fileID: 1822081059}
-  maxSideboardAmount: 4
-  lockedSideboardAmount: 4
+  maxSideboardAmount: 0
+  lockedSideboardAmount: 0
 --- !u!1 &484484880
 GameObject:
   m_ObjectHideFlags: 0
@@ -24634,10 +24634,10 @@ MonoBehaviour:
     characterClass: 1
     profession: 11
     startingCards:
-    - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
+    - {fileID: 11400000, guid: 428e44f0bb552f64abeb36bd7931f0d5, type: 2}
     - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
     - {fileID: 11400000, guid: 3f7f246cff2d4474b80fe1e765a1582b, type: 2}
-    - {fileID: 11400000, guid: 428e44f0bb552f64abeb36bd7931f0d5, type: 2}
+    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
   - name: Berserker, Berserker2
     characterClass: 1
     profession: 12

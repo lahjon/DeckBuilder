@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class CardInt: IEventSubscriber
 {
-    protected Action onLinkedValChange;
-
     protected Card card;
 
     public int baseVal;
@@ -21,20 +19,20 @@ public class CardInt: IEventSubscriber
 
     public static implicit operator int(CardInt ci) => ci.value;
 
-    public static CardInt Factory(string input, Card card, Action OnPreConditionUpdate = null)
+    public static CardInt Factory(CardIntData input, Card card, Action OnPreConditionUpdate = null)
     {
-        if (!input.Contains(':'))
-            return new CardInt(int.Parse(input), OnPreConditionUpdate);
+        if (input.linkedProp == CardLinkablePropertyType.None)
+            return new CardInt(input.baseVal);
         else
-            return new CardIntLinkedProperty(ParseInput(input), card, OnPreConditionUpdate);
+            return new CardIntLinkedProperty(input, card, OnPreConditionUpdate);
     }
 
-    public static CardIntLinkData ParseInput(string input)
+    public static CardIntData ParseInput(string input)
     {
         if (!input.Contains(':'))
-            return new CardIntLinkData() { baseVal = int.Parse(input) };
+            return new CardIntData() { baseVal = int.Parse(input) };
 
-        CardIntLinkData retData = new CardIntLinkData();
+        CardIntData retData = new CardIntData();
         string[] parts = input.Split(new char[] { ':', '/', '*', '+' });
         
         Enum.TryParse(parts[1], out retData.linkedProp);
@@ -53,23 +51,16 @@ public class CardInt: IEventSubscriber
         return retData;
     }
 
-    protected void ActionFire()
-    {
-        onLinkedValChange?.Invoke();
-    }
-
-    public virtual void AbsorbModifier(CardIntLinkData data)
+    public virtual void AbsorbModifier(CardIntData data)
     {
         baseVal += data.baseVal;
-        ActionFire();
     }
 
     public CardInt() { }
 
-    public CardInt(int val, Action OnPreConditionUpdate = null)
+    public CardInt(int val)
     {
         baseVal = val;
-        onLinkedValChange = OnPreConditionUpdate;
     }
 
     public virtual string GetTextForValue()

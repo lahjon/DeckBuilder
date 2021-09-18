@@ -16,8 +16,16 @@ MonoBehaviour:
   singleFieldProperties: []
   effects:
   - Type: 0
-    Value: 4
-    Times: 1
+    Value:
+      linkedProp: 0
+      baseVal: 4
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
     Target: 3
     conditionStruct:
       type: 0
@@ -25,8 +33,16 @@ MonoBehaviour:
       numValue: 0
     execTime: 0
   - Type: 4
-    Value: prop:NrCardsDeck+2
-    Times: 1
+    Value:
+      linkedProp: 0
+      baseVal: 2
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
     Target: 3
     conditionStruct:
       type: 0
@@ -37,7 +53,11 @@ MonoBehaviour:
   cardName: Bash
   cardType: 0
   artwork: {fileID: 21300000, guid: c03d5658f42504949be1b5b76dc24b8a, type: 3}
-  cost: 1
+  cost:
+    linkedProp: 0
+    baseVal: 1
+    scalar: 1
+    inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 2
   maxUpgrades: 0

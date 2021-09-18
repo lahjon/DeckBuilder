@@ -11,7 +11,7 @@ public class CardData : CardFunctionalityData
     public CardType cardType;
 
     public Sprite artwork;
-    public string cost;
+    public CardIntData cost;
     public bool visibleCost = true;
     
     public string upgradeCostShards;

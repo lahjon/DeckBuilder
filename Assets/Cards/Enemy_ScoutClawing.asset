@@ -16,8 +16,16 @@ MonoBehaviour:
   singleFieldProperties: []
   effects:
   - Type: 0
-    Value: 1
-    Times: 3
+    Value:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 3
+      scalar: 1
+      inverseScalar: 0
     Target: 3
     conditionStruct:
       type: 0
@@ -28,7 +36,11 @@ MonoBehaviour:
   cardName: Scout Clawing
   cardType: 0
   artwork: {fileID: 21300000, guid: aae78abf43f15c34cb1022b9941d5425, type: 3}
-  cost: 1
+  cost:
+    linkedProp: 0
+    baseVal: 1
+    scalar: 1
+    inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 2
   maxUpgrades: 0

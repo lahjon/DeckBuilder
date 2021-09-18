@@ -57,6 +57,24 @@ public class CardEffectCarrier: ICardTextElement
             c.OnDamageRecalcEvent += ForceTextRefresh;
     }
 
+    public bool CanAbsorb(CardEffectCarrierData data)
+    {
+        return
+            Type == data.Type
+            && condition.conditionStruct.type == data.conditionStruct.type
+            && (int)Target <= (int)data.Target
+            && (Times.propertyType == data.Times.linkedProp || data.Times.linkedProp == CardLinkablePropertyType.None)
+            && (Value.propertyType == data.Value.linkedProp || data.Value.linkedProp == CardLinkablePropertyType.None);
+    }
+
+    public void AbsorbModifier(CardEffectCarrierData data)
+    {
+        Target = data.Target;
+        Times.AbsorbModifier(data.Times);
+        Value.AbsorbModifier(data.Value);
+        description = string.Empty;
+    }
+
     public string GetElementText()
     {
         if (!description.Equals(string.Empty)) return description;

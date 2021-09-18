@@ -22,7 +22,6 @@ public class CardFilter
         if (cf.name != null             && cf.name != cd.name)                                              return false;
         if (cf.notClassType != null     && cf.notClassType == cd.cardClass)                                 return false;
         if (cf.classType != null        && cf.classType != cd.cardClass)                                    return false;
-        if (cf.cost != null             && cf.cost != cd.cost)                                              return false;
         if (cf.rarity != null           && cf.rarity != cd.rarity)                                          return false;
         if (cf.notClassTypeArr != null  && System.Array.IndexOf(cf.notClassTypeArr, cd.cardClass) > -1)     return false;
         if (cf.classTypeArr != null     && System.Array.IndexOf(cf.classTypeArr, cd.cardClass) < 0)         return false;

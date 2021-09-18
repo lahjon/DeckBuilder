@@ -98,11 +98,37 @@ public class Card : MonoBehaviour
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
 
+        foreach(CardEffectCarrierData effect in data.effects)
+        {
+            if(effect.Type == EffectType.Damage)
+                AddToList(Attacks, effect);
+            else if (effect.Type == EffectType.Block)
+                AddToList(Blocks, effect);
+            else if (effect.execTime == CardComponentExecType.OnPlay)
+                AddToList(effectsOnPlay, effect);
+            else if (effect.execTime == CardComponentExecType.OnDraw)
+                AddToList(effectsOnDraw, effect);
+        }
+
         if (this is CardVisual card)
         {
             card.UpdateCardVisual();
         }
     }
+
+    public void AddToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
+    {
+        for (int i = 0; i < targetList.Count; i++)
+        {
+            if (targetList[i].CanAbsorb(data))
+            {
+                targetList[i].AbsorbModifier(data);
+                break;
+            }
+            targetList.Add(SetupEffectcarrier(data));
+        }
+    }
+
 
     public bool HasProperty(CardSingleFieldPropertyType prop) => singleFieldProperties.Any(x => x.type == prop);
     public void Exhaust()

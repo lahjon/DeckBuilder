@@ -12,10 +12,10 @@ public class CardCost
 
     Card card;
 
-    public CardCost(Card card, string energy)
+    public CardCost(Card card, CardIntData energyData)
     {
         this.card = card;
-        EnergyCost = CardInt.Factory(energy, card);
+        EnergyCost = CardInt.Factory(energyData, card);
     }
 
     public bool Payable
