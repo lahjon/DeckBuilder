@@ -22,6 +22,7 @@ public class Card : MonoBehaviour
     public bool visibleCost = true;
 
     public CardData cardData;
+    public int idx;
 
     public List<CardSingleFieldProperty> singleFieldProperties = new List<CardSingleFieldProperty>();
 
@@ -91,12 +92,16 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
     }
 
-    public void UpgradeCard()
+    public bool UpgradeCard()
     {
-        
+        if (timesUpgraded >= cardData.maxUpgrades) return false;
+        AddModifierToCard(cardData.upgrades[timesUpgraded++]);
+
+        return true;
     }
     public void AddModifierToCard(CardFunctionalityData data)
     {
+        Debug.Log("doing :" + timesUpgraded);
         cardModifiers.Add(data);
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
@@ -116,7 +121,10 @@ public class Card : MonoBehaviour
         if (this is CardVisual card)
         {
             card.UpdateCardVisual();
+            Debug.Log("IS a card Visual");
         }
+        else
+            Debug.Log("NOT a card Visual");
     }
 
     public void AddToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
@@ -167,6 +175,9 @@ public class Card : MonoBehaviour
         cardName = card.cardName;
         artwork = card.artwork;
         cost = card.cost;
+        idx = card.idx;
+        cardModifiers = card.cardModifiers;
+        timesUpgraded = card.timesUpgraded;
         singleFieldProperties = card.singleFieldProperties;
         Attacks = card.Attacks;
         Blocks = card.Blocks;

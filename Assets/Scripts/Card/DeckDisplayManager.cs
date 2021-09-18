@@ -19,6 +19,8 @@ public class DeckDisplayManager : Manager
     public Transform deckDisplayPos;
     public CardDisplay animatedCard;
     public TMP_Text titleText;
+    public System.Action exitCallback;
+
 
     protected override void Awake()
     {
@@ -29,7 +31,29 @@ public class DeckDisplayManager : Manager
         deckDisplay.SetActive(false);
     }
 
-    public void UpdateAllCards(int callbackType = 0)
+    public void OpenDisplay()
+    {
+        titleText.text = "All Cards";
+        WorldStateSystem.SetInDisplay();
+        WorldSystem.instance.deckDisplayManager.deckDisplay.SetActive(true);   
+        WorldSystem.instance.deckDisplayManager.UpdateAllCards(0);
+    }
+
+    public void OpenUpgrade(System.Action callback)
+    {
+        titleText.text = "Pick a card to upgrade";
+        exitCallback = callback;
+        WorldStateSystem.SetInDisplay();
+        WorldSystem.instance.deckDisplayManager.deckDisplay.SetActive(true);   
+        WorldSystem.instance.deckDisplayManager.UpdateAllCards(1);  
+    }
+
+    /// <summary>
+    /// <para>callbackTypes with int switch: </para>
+    /// <para>0 = DisplayCard </para>
+    /// <para>1 = UpgradeCard </para>
+    /// </summary>
+    public void UpdateAllCards(int callbackType)
     {
         int cardCount = world.characterManager.playerCards.Count;
         if(content.transform.childCount < cardCount)
@@ -39,17 +63,6 @@ public class DeckDisplayManager : Manager
                 CardDisplay card = Instantiate(cardPrefab, content.transform).GetComponent<CardDisplay>();
                 card.transform.SetParent(content.transform);
                 card.gameObject.SetActive(true);
-                switch (callbackType)
-                {
-                    case 0:
-                        card.clickCallback = () => DisplayCard(card);
-                        break;
-                    case 1:
-                        card.clickCallback = () => card.UpgradeCard();
-                        break;
-                    default:
-                        break;
-                }
             }
         }
         else if(content.transform.childCount > cardCount)
@@ -62,7 +75,28 @@ public class DeckDisplayManager : Manager
 
         for (int i = 0; i < content.transform.childCount; i++)
         {
-            content.transform.GetChild(i).GetComponent<CardDisplay>().Mimic(world.characterManager.playerCards[i]);
+            CardDisplay display = content.transform.GetChild(i).GetComponent<CardDisplay>();
+            display.Mimic(world.characterManager.playerCards[i]);
+            switch (callbackType)
+            {
+                case 0:
+                    display.clickCallback = () => DisplayCard(display);
+                    break;
+                case 1:
+                    display.clickCallback = () => {
+                        if (world.characterManager.playerCards.FirstOrDefault(x => x.idx == display.idx)?.UpgradeCard() == true)
+                        {
+                            CloseDeckDisplay();
+                            exitCallback?.Invoke();
+                            exitCallback = null;
+                        }
+                        else
+                            world.uiManager.UIWarningController.CreateWarning("Card is fully upgraded! Select another card!");
+                    };
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

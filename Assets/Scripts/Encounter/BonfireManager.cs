@@ -54,6 +54,10 @@ public class BonfireManager : Manager
     {
         Rest();
     }
+    public void ButtonUpgrade()
+    {
+        world.deckDisplayManager.OpenUpgrade(ButtonLeave);
+    }
 
     public void ButtonLeave()
     {

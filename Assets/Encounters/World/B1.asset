@@ -21,6 +21,6 @@ MonoBehaviour:
   clearCondition:
     type: 2
     strParameter: 
-    numValue: 1
+    numValue: 3
   type: 2
   unlockableEncounters: []

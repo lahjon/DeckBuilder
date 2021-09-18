@@ -189,7 +189,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     void SetBorderColor()
     {
-        //cardBackground.color = Color.white;
+        if (timesUpgraded < 1) cardBackground.color = new Color(0.7f, 0.7f, 0.7f);
         border.color = Helpers.borderColors[classType];
         rarityBorder.color = Helpers.rarityBorderColors[rarity];
         energyColor.color = Helpers.borderColors[classType];

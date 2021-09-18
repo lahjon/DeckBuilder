@@ -173,18 +173,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
     }
 
-    // void SortUpgrade()
-    // {
-    //     // sort deck
-    //     List<CardDisplay> sorted = allSideCards.OrderBy(x => x.cardName).ToList();
-    //     int amount = allSideCards.Count;
-
-    //     for (int i = 0; i < amount; i++)
-    //     {
-    //         sorted[i].transform.SetSiblingIndex(i);
-    //     }
-    // }
-
     void UpdateCounter()
     {
         sideboardAmountText.text = string.Format("{0} / {1}", allDeckCards.Count, maxSideboardAmount + lockedSideboardAmount);
@@ -252,7 +240,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         {
             if (DatabaseSystem.instance.GetCardByID(unlockedCards[i].cardId) is CardData data)
             {
-                if ((int)data.cardClass == (int)WorldSystem.instance.characterManager.selectedCharacterClassType)
+                if ((int)data.cardClass == (int)WorldSystem.instance.characterManager.selectedCharacterClassType || data.cardClass == CardClassType.Colorless)
                 {
                     uCards.Add(unlockedCards[i]);
                 }
@@ -290,7 +278,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     void ConfirmDeck()
     {
         WorldSystem.instance.characterManager.playerCards = allDeckCards.Select(x => (CardVisual)x).ToList();
-        WorldSystem.instance.deckDisplayManager.UpdateAllCards();
+        //WorldSystem.instance.deckDisplayManager.UpdateAllCards(0);
     }
     public override void CloseBuilding()
     {
