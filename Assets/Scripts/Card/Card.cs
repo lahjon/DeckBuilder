@@ -91,10 +91,13 @@ public class Card : MonoBehaviour
         visibleCost     = cardData.visibleCost;
     }
 
+    public void UpgradeCard()
+    {
+        //AddModifierToCard();
+    }
+
     public void AddModifierToCard(CardFunctionalityData data)
     {
-        //Debug.Log("Add logic in here to add modifiers");
-
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
 

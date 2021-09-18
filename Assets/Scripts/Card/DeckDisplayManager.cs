@@ -29,36 +29,33 @@ public class DeckDisplayManager : Manager
         deckDisplay.SetActive(false);
     }
 
-    public void UpdateAllCards()
+    public void UpdateAllCards(int callbackType = 0)
     {
-        int counter = 0;
         int cardCount = world.characterManager.playerCards.Count;
         if(content.transform.childCount < cardCount)
         {
             while (content.transform.childCount < cardCount)
             {
-                counter++;
-                if (counter > 50)
-                {
-                    Debug.Log("DANGER1");
-                    break;
-                }
                 CardDisplay card = Instantiate(cardPrefab, content.transform).GetComponent<CardDisplay>();
                 card.transform.SetParent(content.transform);
                 card.gameObject.SetActive(true);
-                card.clickCallback = () => DisplayCard(card);
+                switch (callbackType)
+                {
+                    case 0:
+                        card.clickCallback = () => DisplayCard(card);
+                        break;
+                    case 1:
+                        card.clickCallback = () => card.UpgradeCard();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         else if(content.transform.childCount > cardCount)
         {
             while (content.transform.childCount > cardCount)
             {   
-                counter++;
-                if (counter > 50)
-                {
-                    Debug.Log("DANGER2");
-                    break;
-                }
                 Destroy(content.transform.GetChild(0).gameObject);
             }
         }
