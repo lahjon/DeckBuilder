@@ -80,10 +80,10 @@ public class DeckDisplayManager : Manager
             switch (callbackType)
             {
                 case 0:
-                    display.clickCallback = () => DisplayCard(display);
+                    display.OnClick = () => DisplayCard(display);
                     break;
                 case 1:
-                    display.clickCallback = () => {
+                    display.OnClick = () => {
                         if (world.characterManager.playerCards.FirstOrDefault(x => x.idx == display.idx)?.UpgradeCard() == true)
                         {
                             CloseDeckDisplay();
@@ -123,7 +123,6 @@ public class DeckDisplayManager : Manager
         inspectCard.SetActive(false);
         scroller.enabled = true;
         selectedCard.transform.position = previousPosition;
-        previousPosition = transform.position;
         selectedCard = null;
     }
 

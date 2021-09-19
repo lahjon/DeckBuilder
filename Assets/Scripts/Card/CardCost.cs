@@ -26,9 +26,7 @@ public class CardCost
 
     public void Pay()
     {
-        Debug.Log("1");
         if (!(card.owner == CombatSystem.instance.Hero)) return;
-        Debug.Log("2");
 
         PaidEnergy = EnergyCost; // ändra till mer avancerat sen när vi har fler energytyper;
         CombatSystem.instance.cEnergy -= EnergyCost.value;

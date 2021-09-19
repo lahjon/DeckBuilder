@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class CardDisplay : CardVisual
 {
-    public System.Action clickCallback;
+    public System.Action OnClick;
     Tween tween;
     public GameObject nonSelectableImage;
     public bool _selectable;
@@ -17,8 +17,7 @@ public class CardDisplay : CardVisual
         set
         {
             _selectable = value;
-            if (_selectable) nonSelectableImage.SetActive(false);
-            else nonSelectableImage.SetActive(true);
+            nonSelectableImage.SetActive(!_selectable);
         }
     }
     bool _selected;
@@ -29,10 +28,23 @@ public class CardDisplay : CardVisual
         {
             _selected = value;
             if (_selected)
+            {
                 cardHighlightType = CardHighlightType.Selected;
+                tween = transform.DOScale(transform.localScale + new Vector3(0.05f, 0.05f, 0.05f), .1f).SetLoops(1, LoopType.Yoyo).OnComplete(
+                    () => transform.localScale = Vector3.one
+                ).OnKill(
+                    () => transform.localScale = Vector3.one
+                );
+            }
             else
+            {
                 cardHighlightType = CardHighlightType.None;
-
+                tween = transform.DOScale(Vector3.one, .1f).SetLoops(1, LoopType.Yoyo).OnComplete(
+                    () => transform.localScale = Vector3.one
+                ).OnKill(
+                    () => transform.localScale = Vector3.one
+                );
+            }
         }
     }
 
@@ -50,40 +62,24 @@ public class CardDisplay : CardVisual
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-
         if (transform.localScale.x >= 1f)
             transform.localScale = new Vector3(1f, 1f, 1f);
-        
     }
 
     public void SelectCard()
     {
-        int maxAmount = CombatSystem.instance.combatDeckDisplay.selectAmount;
-        int currentAmount = CombatSystem.instance.combatDeckDisplay.selectedCards.Count;
-
         if (selected) 
         {
             DeselectCard();
             return;
         }
-        if (currentAmount >= maxAmount) return;
+        if (!CombatSystem.instance.combatDeckDisplay.CanSelectMore) return;
 
-        selected = true;
         CombatSystem.instance.combatDeckDisplay.AddCard(this);
-
-        tween = transform.DOScale(transform.localScale + new Vector3(0.05f, 0.05f, 0.05f), .1f).SetLoops(1, LoopType.Yoyo).OnComplete(
-            () => transform.localScale = Vector3.one
-        ).OnKill(
-            () => transform.localScale = Vector3.one
-        );
+        selected = true;
     }
     public void DeselectCard()
     {
-        tween = transform.DOScale(Vector3.one, .1f).SetLoops(1, LoopType.Yoyo).OnComplete(
-            () => transform.localScale = Vector3.one
-        ).OnKill(
-            () => transform.localScale = Vector3.one
-        );
         CombatSystem.instance.combatDeckDisplay.RemoveCard(this);
         selected = false;
     }
@@ -96,7 +92,7 @@ public class CardDisplay : CardVisual
     {
         base.OnMouseClick();
         Debug.Log("Clicky?");
-        clickCallback?.Invoke();
+        OnClick?.Invoke();
     }
 
     void ShopCallback()
@@ -148,10 +144,7 @@ public class CardDisplay : CardVisual
 
     public override void OnMouseRightClick(bool allowDisplay = true)
     {
-        // if (WorldStateSystem.instance.currentOverlayState == OverlayState.Display || WorldStateSystem.instance.currentWorldState == WorldState.Reward)
-        // {
         WorldSystem.instance.deckDisplayManager.DisplayCard(this);
-        // }
     }
 
     // public void OnMouseScroll()

@@ -52,7 +52,7 @@ public class RewardScreen : MonoBehaviour
 
                 CardDisplay cardDisplay = displayCards[i];
 
-                cardDisplay.clickCallback = null;
+                cardDisplay.OnClick = null;
 
                 cardDisplay.cardData = cardDatas[i];
                 cardDisplay.BindCardData();
@@ -61,7 +61,7 @@ public class RewardScreen : MonoBehaviour
 
                 Helpers.DelayForSeconds(.3f, () => {
                     Debug.Log("1");
-                    cardDisplay.clickCallback = () => {
+                    cardDisplay.OnClick = () => {
                         WorldSystem.instance.characterManager.AddCardDataToDeck(cardDisplay.cardData);
                         WorldSystem.instance.deckDisplayManager.StartCoroutine(cardDisplay.AnimateCardToDeck());
                         cardPanel.SetActive(false);
@@ -87,7 +87,7 @@ public class RewardScreen : MonoBehaviour
 
                 CardDisplay cardDisplay = displayCards[i];
 
-                cardDisplay.clickCallback = null;
+                cardDisplay.OnClick = null;
 
                 cardDisplay.cardData = cardDatas[i];
                 cardDisplay.BindCardData();
@@ -95,7 +95,7 @@ public class RewardScreen : MonoBehaviour
                 cardDisplay.gameObject.SetActive(true);
 
                 Helpers.DelayForSeconds(.3f, () => {
-                    cardDisplay.clickCallback = () => {
+                    cardDisplay.OnClick = () => {
                         WorldSystem.instance.townManager.scribe.UnlockCard(cardDisplay.cardData);
                         cardPanel.SetActive(false);
                         reward.RemoveReward();

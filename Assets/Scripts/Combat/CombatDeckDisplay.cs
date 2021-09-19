@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System;
 
 public class CombatDeckDisplay : MonoBehaviour
 {
@@ -16,8 +17,21 @@ public class CombatDeckDisplay : MonoBehaviour
     public TMP_Text titleText;
     public int selectAmount;
     public List<CardVisual> sourceCards = new List<CardVisual>();
-    public List<CardVisual> selectedCards = new List<CardVisual>();
+    public ListEventReporter<CardVisual> selectedCards;
     public List<CardDisplay> allDisplayedCards = new List<CardDisplay>();
+    public bool CanSelectMore { get => selectedCards.Count < selectAmount; }
+
+    public Action OnSelectionConfirm;
+
+    Dictionary<CardLocation, List<Card>> TypeToPile = new Dictionary<CardLocation, List<Card>>();
+
+    public void Start()
+    {
+        selectedCards = new ListEventReporter<CardVisual>(UpdateAmountText);
+        TypeToPile[CardLocation.Deck] = CombatSystem.instance.Hero.deck;
+        TypeToPile[CardLocation.Discard] = CombatSystem.instance.Hero.discard;
+        TypeToPile[CardLocation.Exhaust] = CombatSystem.instance.Hero.exhaust;
+    }
 
     void Open()
     {
@@ -25,35 +39,22 @@ public class CombatDeckDisplay : MonoBehaviour
         WorldStateSystem.SetInDisplay();
     }
 
-    public void OpenDeckDisplay(CardLocation cardLocation, int aSelectAmount = 0)
+    public void OpenDeckDisplay(CardLocation cardLocation, int aSelectAmount = 0, Action OnSelectionConfirm = null)
     {
+        this.OnSelectionConfirm = OnSelectionConfirm;
         selectAmount = aSelectAmount;
         sourceCards.Clear();
         selectedCards.Clear();
 
-        switch (cardLocation)
-        {
-            case CardLocation.Deck:
-                if (selectAmount > 0) EnableSelect("Select cards from your deck");
-                else DisableSelect("Deck");
-                CombatSystem.instance.Hero.deck.ForEach(c => sourceCards.Add((CardVisual)c));
-                break;
-            case CardLocation.Discard:
-                if (selectAmount > 0) EnableSelect("Select cards from your discard");
-                else DisableSelect("Discard");
-                CombatSystem.instance.Hero.discard.ForEach(c => sourceCards.Add((CardVisual)c));
-                break;
-            case CardLocation.Exhaust:
-                if (selectAmount > 0) EnableSelect("Select cards from your exhaust");
-                else DisableSelect("Exhaust");
-                CombatSystem.instance.Hero.exhaust.ForEach(c => sourceCards.Add((CardVisual)c));
-                break;
-            default:
-                break;
-        }
+        if (selectAmount > 0)   EnableSelect("Select cards from your " + cardLocation.ToString());
+        else                    DisableSelect(cardLocation.ToString());
+        
+        TypeToPile[cardLocation].ForEach(c => sourceCards.Add((CardVisual)c));
+
         UpdateAllCards();
         Open();
     }
+
 
     void EnableSelect(string aText)
     {
@@ -73,54 +74,35 @@ public class CombatDeckDisplay : MonoBehaviour
 
     public void UpdateAllCards()
     {
-        if (sourceCards.Count > allDisplayedCards.Count)
+        while (sourceCards.Count > allDisplayedCards.Count)
         {
-            while (sourceCards.Count > allDisplayedCards.Count)
-            {
-                CardDisplay newCard = Instantiate(cardPrefab,content.gameObject.transform).GetComponent<CardDisplay>();
-                newCard.transform.SetParent(content.gameObject.transform);
-                newCard.gameObject.SetActive(true);
-                allDisplayedCards.Add(newCard);
-            }
+            CardDisplay newCard = Instantiate(cardPrefab,content.gameObject.transform).GetComponent<CardDisplay>();
+            newCard.transform.SetParent(content.gameObject.transform);
+            newCard.gameObject.SetActive(true);
+            allDisplayedCards.Add(newCard);
         }
-        else if(sourceCards.Count < allDisplayedCards.Count)
-        {
-            while (sourceCards.Count < allDisplayedCards.Count)
-            {   
-                Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)].gameObject);
-                allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
-            }
+        while (sourceCards.Count < allDisplayedCards.Count)
+        {   
+            Destroy(allDisplayedCards[(allDisplayedCards.Count - 1)].gameObject);
+            allDisplayedCards.RemoveAt(allDisplayedCards.Count - 1);
         }
 
         for (int i = 0; i < sourceCards.Count; i++)
         {
-            CardDisplay newCard = allDisplayedCards[i];
-            newCard.Mimic(sourceCards[i]);
-            newCard.selected = false;
+            CardDisplay cd = allDisplayedCards[i];
+            cd.Mimic(sourceCards[i]);
+            cd.selected = false;
 
             if (selectAmount > 0) 
-                newCard.clickCallback = () => newCard.SelectCard();
-            else 
-                newCard.clickCallback = () => WorldSystem.instance.deckDisplayManager.DisplayCard(newCard);
+                cd.OnClick = () => cd.SelectCard();
+            //else newCard.clickCallback = () => WorldSystem.instance.deckDisplayManager.DisplayCard(newCard);
         }
     }
 
-    public void AddCard(CardDisplay aCard)
-    {
-        if (sourceCards[allDisplayedCards.IndexOf(aCard)] is CardVisual card)
-        {
-            selectedCards.Add(card);
-            selectAmountText.text = string.Format("{0} / {1}", selectedCards.Count, selectAmount);
-        }
-    }
-    public void RemoveCard(CardDisplay aCard)
-    {
-        if (sourceCards[allDisplayedCards.IndexOf(aCard)] is CardVisual card)
-        {
-            selectedCards.Remove(card);
-            selectAmountText.text = string.Format("{0} / {1}", selectedCards.Count, selectAmount);
-        }
-    }
+    public void AddCard(CardDisplay aCard)      => selectedCards.Add(sourceCards[allDisplayedCards.IndexOf(aCard)]);
+    public void RemoveCard(CardDisplay aCard)   => selectedCards.Remove(sourceCards[allDisplayedCards.IndexOf(aCard)]);
+
+    public void UpdateAmountText() => selectAmountText.text = string.Format("{0} / {1}", selectedCards.Count, selectAmount);
 
     public void ButtonConfirm()
     {
@@ -129,7 +111,7 @@ public class CombatDeckDisplay : MonoBehaviour
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning(string.Format("Select {0} cards!", selectAmount));
             return;
         }
-        Debug.Log("Trigger callback from here!");
+        OnSelectionConfirm?.Invoke();
         ButtonClose();
     }
     public void ButtonClose()
@@ -138,17 +120,3 @@ public class CombatDeckDisplay : MonoBehaviour
         deckDisplay.gameObject.SetActive(false);
     }
 }
-
-// public class DeckDisplayList<T> : List<T>
-// {
-//     public new void Add(T item)
-//     {
-//         base.Add(item);
-        
-//     }
-//     public new void Remove(T item)
-//     {
-//         base.Remove(item);
-        
-//     }
-// }

@@ -170,17 +170,8 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseRightClick(bool allowDisplay = true)
     {
-        Debug.Log("OnMouseRighclick called");
         if (selected)
-        {
             CombatSystem.instance.CancelCardSelection();
-            Debug.Log("Deselect");
-        }
-        else if(allowDisplay && CombatSystem.instance.ActiveCard == null)
-        {
-            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
-            Debug.Log("Display");
-        }
     }
 
     public override void OnMouseClick()

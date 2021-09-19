@@ -61,7 +61,7 @@ public class RewardScreenCardSelection : MonoBehaviour
             card.BindCardData();
             card.BindCardVisualData();
             card.gameObject.SetActive(true);
-            card.clickCallback = () => {
+            card.OnClick = () => {
                 card.RewardCallback();
             };
         }
@@ -76,7 +76,7 @@ public class RewardScreenCardSelection : MonoBehaviour
             card.BindCardVisualData();
             card.gameObject.SetActive(true);
             Debug.Log("Get");
-            card.clickCallback = () => {
+            card.OnClick = () => {
                 card.RewardCallback();
             };
         }

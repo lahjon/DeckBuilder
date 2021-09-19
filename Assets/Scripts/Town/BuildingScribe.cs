@@ -48,11 +48,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         List<CardDisplay> cardsOptional = allSideCards.Concat(allDeckCards).Where(x => x.rarity != Rarity.Starting).ToList();
         List<CardDisplay> cardLocked = allSideCards.Concat(allDeckCards).Where(x => x.rarity == Rarity.Starting).ToList();
         cardsOptional.ForEach(x => {
-            x.clickCallback = () => MoveCard(x);
+            x.OnClick = () => MoveCard(x);
             x.selectable = true;
         });
         cardLocked.ForEach(x => {
-            x.clickCallback = null;
+            x.OnClick = null;
             x.selectable = false;
         });
 
@@ -142,7 +142,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
                 }
 
                 upgradedCardWindow.GetComponent<Button>().onClick.AddListener(() => Callback());
-                upgradedCard.clickCallback = Callback;
+                upgradedCard.OnClick = Callback;
                 WorldSystem.instance.SaveProgression();
             }
             else
@@ -268,7 +268,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         foreach (CardDisplay display in allSideCards.Concat(allDeckCards).ToList())
         {
-            display.clickCallback = () => UpgradeCard(display);
+            display.OnClick = () => UpgradeCard(display);
             display.transform.SetParent(upgradeParent);
             display.selectable = true;
         }

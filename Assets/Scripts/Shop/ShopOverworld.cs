@@ -19,7 +19,7 @@ public class ShopOverworld : MonoBehaviour
             card.BindCardData();
             card.BindCardVisualData();
 
-            card.clickCallback = () => {
+            card.OnClick = () => {
                 if (WorldSystem.instance.shopManager.shop.PurchaseCard(card))
                 {
                     WorldSystem.instance.deckDisplayManager.StartCoroutine(card.AnimateCardToDeck());
