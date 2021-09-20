@@ -87,7 +87,7 @@ public class ShopOverworld : MonoBehaviour
         if (characterGold >= goldCost)
         {
             WorldSystem.instance.characterManager.gold -= goldCost;
-            WorldSystem.instance.characterManager.AddCardDataToDeck(clickedCard.cardData);
+            WorldSystem.instance.characterManager.AddCardToDeck(clickedCard);
             clickedCard.gameObject.SetActive(false);
             clickedCard.ResetScale();
             cardsPrices[cardsInStock.IndexOf(clickedCard)].text = "Out of stock!";

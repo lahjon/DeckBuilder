@@ -115,8 +115,6 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void SetInTown(bool aBool)
     {
-        Debug.Log("DICKCIDK");
-        WorldSystem.instance.characterManager.ResetDeck();
         worldAnimator.SetBool("TriggerTown", aBool);
     }
     public static void SetInEvent(bool aBool)

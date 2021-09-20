@@ -62,7 +62,7 @@ public class RewardScreen : MonoBehaviour
                 Helpers.DelayForSeconds(.3f, () => {
                     Debug.Log("1");
                     cardDisplay.OnClick = () => {
-                        WorldSystem.instance.characterManager.AddCardDataToDeck(cardDisplay.cardData);
+                        WorldSystem.instance.characterManager.AddCardToDeck(cardDisplay);
                         WorldSystem.instance.deckDisplayManager.StartCoroutine(cardDisplay.AnimateCardToDeck());
                         cardPanel.SetActive(false);
                         aReward.RemoveReward();

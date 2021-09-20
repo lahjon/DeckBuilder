@@ -156,20 +156,13 @@ public class DebugUI : MonoBehaviour
         Debug.Log("card data: " + text);
         CardData data = DatabaseSystem.instance.GetRandomCard(new CardFilter() {name = text});
 
-
-        // data = DatabaseSystem.instance.GetRandomCard(new CardFilter() {
-        //     costArr = new int[]{0},
-        //     classType = CardClassType.Splicer,
-        //     notClassTypeArr = new CardClassType[]{CardClassType.Burden}
-        //     });
-
         if (data == null)
         {
             Debug.Log("No card named: " + data);
             return;
         }
 
-        world.characterManager.AddCardDataToDeck(data);
+        world.characterManager.AddCardToDeck(data);
     }
     public void DebugAddTokenReward()
     {

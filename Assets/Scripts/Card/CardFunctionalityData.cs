@@ -39,11 +39,12 @@ public struct CardSingleFieldPropertyTypeWrapper
 [System.Serializable] 
 public class CardWrapper
 {
-    public CardWrapper(string anId, List<string> allCardModifiers, int anIdx)
+    public CardWrapper(string anId, int anIdx, List<string> allCardModifiers, int allTimesUpgraded)
     {
         cardId = anId;
-        cardModifiersId = allCardModifiers;
         idx = anIdx;
+        cardModifiersId = allCardModifiers;
+        timesUpgraded = allTimesUpgraded;
     }
     public CardWrapper(string anId, int anIdx)
     {

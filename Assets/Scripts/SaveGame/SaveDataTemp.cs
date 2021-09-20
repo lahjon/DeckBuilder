@@ -5,7 +5,7 @@ using System.Linq;
 [System.Serializable]
 public class SaveDataTemp
 {
-    public List<string> playerCardsDataNames = new List<string>();
+    public List<CardWrapper> playerCards = new List<CardWrapper>();
     public CharacterClassType selectedCharacterClassType;
     public List<string> selectedTokens = new List<string>(); 
     public List<string> allActiveArtifactsNames = new List<string>();

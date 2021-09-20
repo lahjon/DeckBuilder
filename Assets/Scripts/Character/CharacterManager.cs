@@ -14,7 +14,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public CharacterVariablesUI characterVariablesUI;
     public Character character;
-    public List<CardData> playerCardsData = new List<CardData>();
     public List<CardVisual> playerCards = new List<CardVisual>();
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
@@ -23,6 +22,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterSheet characterSheet;
     public CharacterStats characterStats;
     public int currentHealth;
+    public Transform cardParent;
+    public GameObject cardPrefab;
 
 
     protected override void Awake()
@@ -99,7 +100,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void ResetDeck()
     {
-        playerCardsData = world.townManager.scribe.GetDeck();
+        for (int i = 0; i < cardParent.childCount; i++)
+        {
+            Destroy(cardParent.GetChild(i).gameObject);
+        }
+        world.townManager.scribe.UpdateScribe();
     }
 
     public void Heal(int amount)
@@ -124,23 +129,33 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         characterVariablesUI.UpdateCharacterHUD();
     }
 
-    public void AddCardDataToDeck(CardData newCardData)
+    public void AddCardToDeck(CardVisual cardVisual)
     {
-        playerCardsData.Add(newCardData); 
+        playerCards.Add(Instantiate(cardVisual, cardParent)); 
+    }
+    public void AddCardToDeck(CardData data)
+    {
+        CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
+        card.name = data.cardName;
+        card.cardData = data;
+        card.BindCardData();
+        card.BindCardVisualData();
+        playerCards.Add(card); 
     }
 
-    public void RemoveCardDataFromDeck(string aCardName)
+    public void AddCardToDeck(CardWrapper cw)
     {
-        if(playerCardsData.Count > 1)
-        {
-            CardData cardData = playerCardsData.FirstOrDefault(x => x.cardName == aCardName);
-            if (cardData != null)
-            {
-                playerCardsData.RemoveAt(playerCardsData.IndexOf(cardData));
-            }
-        }
+        CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
+        CardData data = DatabaseSystem.instance.GetCardByID(cw.cardId);
+        card.name = data.cardName;
+        card.cardData = data;
+        card.timesUpgraded = cw.timesUpgraded;
+        card.BindCardData();
+        card.BindCardVisualData();
+        //CardFunctionalityData cfData = cw.cardModifiersId.Select(x =>).ToList();
+        //card.AddModifierToCard
+        playerCards.Add(card); 
     }
-
     public void KillCharacter()
     {
         WorldStateSystem.SetInDeathScreen();
@@ -162,9 +177,9 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        List<string> tempList = new List<string>();
-        playerCardsData.ForEach(x => tempList.Add(x.name));
-        a_SaveData.playerCardsDataNames = tempList;
+        List<CardWrapper> cwList = new List<CardWrapper>();
+        playerCards.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
+        a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.gold = gold;
 
@@ -175,8 +190,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        if (a_SaveData.playerCardsDataNames != null && a_SaveData.playerCardsDataNames.Count > 0 && SceneManager.GetActiveScene().buildIndex != 0)
-            playerCardsData = DatabaseSystem.instance.GetCardsByName(a_SaveData.playerCardsDataNames);
+        if (a_SaveData.playerCards != null && a_SaveData.playerCards.Count > 0 && SceneManager.GetActiveScene().buildIndex != 0)
+            a_SaveData.playerCards.ForEach(x => AddCardToDeck(x));
 
         if (a_SaveData.selectedCharacterClassType != CharacterClassType.None)
             selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
