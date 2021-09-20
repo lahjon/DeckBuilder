@@ -35,6 +35,7 @@ public class CombatCardPresenter : MonoBehaviour
                 CombatSystem.instance.Hand.Add(c.card);
                 (c.card.transform.localPosition, c.card.transform.localEulerAngles) = CombatSystem.instance.GetPositionInHand(c.card);
                 c.card.animator.SetTrigger("GotoHand");
+                c.card.selectable = true;
                 cardsLocale.Remove(c);
             });
 

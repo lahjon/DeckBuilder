@@ -24,6 +24,7 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.Heal] = new CardActivityHeal();
         ActivityTypeToAction[CardActivityType.ModifyEnergy] = new CardActivityModifyEnergy();
         ActivityTypeToAction[CardActivityType.DrawDiscard] = new CardActivityDrawDiscard();
+        ActivityTypeToAction[CardActivityType.DualWield] = new CardActivityDualWield();
     }
 
     public void Start()

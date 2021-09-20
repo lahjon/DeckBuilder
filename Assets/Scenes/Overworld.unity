@@ -16345,8 +16345,9 @@ MonoBehaviour:
   titleText: {fileID: 2310169198745315515}
   selectAmount: 0
   sourceCards: []
-  selectedCards: []
   allDisplayedCards: []
+  handCopy: []
+  customList: []
 --- !u!1 &1004245085
 GameObject:
   m_ObjectHideFlags: 0
@@ -24902,10 +24903,10 @@ MonoBehaviour:
     characterClass: 1
     profession: 11
     startingCards:
-    - {fileID: 11400000, guid: 428e44f0bb552f64abeb36bd7931f0d5, type: 2}
+    - {fileID: 11400000, guid: bd74702c9cc4d7140a64f4ea0b9f8806, type: 2}
     - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
     - {fileID: 11400000, guid: 3f7f246cff2d4474b80fe1e765a1582b, type: 2}
-    - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
+    - {fileID: 11400000, guid: 9eb1433e02aa9584b84a855ed98fb43b, type: 2}
   - name: Berserker, Berserker2
     characterClass: 1
     profession: 12
@@ -24967,9 +24968,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6b1a523fd2529ad48bf1552bc71e2a28, type: 2}
   - {fileID: 11400000, guid: a2b9d102c40379747aabaf25a794fa0c, type: 2}
   - {fileID: 11400000, guid: 368b62cf321bed34981e90a7d594fac3, type: 2}
+  - {fileID: 11400000, guid: bd74702c9cc4d7140a64f4ea0b9f8806, type: 2}
   - {fileID: 11400000, guid: aeeefcdaa9aa63c4c9785dad692df4b1, type: 2}
   - {fileID: 11400000, guid: a7855e3ba8de4734aa9ee6cf87688c6f, type: 2}
   - {fileID: 11400000, guid: 9a5445ba91b8b9e47ae85b6e13b6c44b, type: 2}
+  - {fileID: 11400000, guid: 9eb1433e02aa9584b84a855ed98fb43b, type: 2}
   - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
   - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
   - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}

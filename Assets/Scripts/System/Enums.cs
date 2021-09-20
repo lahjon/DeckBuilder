@@ -510,7 +510,8 @@ public enum CardActivityType
     SetRandomBroken,
     Heal,
     ModifyEnergy,
-    DrawDiscard
+    DrawDiscard,
+    DualWield
 }
 
 public enum Profession

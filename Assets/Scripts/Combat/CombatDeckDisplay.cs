@@ -20,6 +20,8 @@ public class CombatDeckDisplay : MonoBehaviour
     public ListEventReporter<CardVisual> selectedCards;
     public List<CardDisplay> allDisplayedCards = new List<CardDisplay>();
     public List<Card> handCopy = new List<Card>();
+    public List<Card> customList = new List<Card>();
+
     public bool CanSelectMore { get => selectedCards.Count < selectAmount; }
 
     public Action OnSelectionConfirm;
@@ -43,7 +45,7 @@ public class CombatDeckDisplay : MonoBehaviour
         WorldStateSystem.SetInDisplay();
     }
 
-    public void OpenDeckDisplay(CardLocation cardLocation, int aSelectAmount = 0, Action OnSelectionConfirm = null)
+    public void OpenDeckDisplay(CardLocation cardLocation, int aSelectAmount = 0, List<Card> customSubset = null, Action OnSelectionConfirm = null)
     {
         this.OnSelectionConfirm = OnSelectionConfirm;
         handCopy.Clear();
@@ -54,8 +56,11 @@ public class CombatDeckDisplay : MonoBehaviour
 
         if (selectAmount > 0)   EnableSelect("Select cards from your " + cardLocation.ToString());
         else                    DisableSelect(cardLocation.ToString());
-        
-        TypeToPile[cardLocation].ForEach(c => sourceCards.Add((CardVisual)c));
+
+        if (customSubset is null)
+            TypeToPile[cardLocation].ForEach(c => sourceCards.Add((CardVisual)c));
+        else
+            customSubset.ForEach(c => sourceCards.Add((CardVisual)c));
 
         UpdateAllCards();
         Open();
