@@ -19,6 +19,7 @@ public class CombatDeckDisplay : MonoBehaviour
     public List<CardVisual> sourceCards = new List<CardVisual>();
     public ListEventReporter<CardVisual> selectedCards;
     public List<CardDisplay> allDisplayedCards = new List<CardDisplay>();
+    public List<Card> handCopy = new List<Card>();
     public bool CanSelectMore { get => selectedCards.Count < selectAmount; }
 
     public Action OnSelectionConfirm;
@@ -27,10 +28,13 @@ public class CombatDeckDisplay : MonoBehaviour
 
     public void Start()
     {
+        Debug.Log("kör start combatdisplay");
         selectedCards = new ListEventReporter<CardVisual>(UpdateAmountText);
         TypeToPile[CardLocation.Deck] = CombatSystem.instance.Hero.deck;
         TypeToPile[CardLocation.Discard] = CombatSystem.instance.Hero.discard;
         TypeToPile[CardLocation.Exhaust] = CombatSystem.instance.Hero.exhaust;
+        TypeToPile[CardLocation.Hand] = handCopy;
+        
     }
 
     void Open()
@@ -42,6 +46,8 @@ public class CombatDeckDisplay : MonoBehaviour
     public void OpenDeckDisplay(CardLocation cardLocation, int aSelectAmount = 0, Action OnSelectionConfirm = null)
     {
         this.OnSelectionConfirm = OnSelectionConfirm;
+        handCopy.Clear();
+        handCopy.AddRange(CombatSystem.instance.Hand);
         selectAmount = aSelectAmount;
         sourceCards.Clear();
         selectedCards.Clear();

@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_Strike_1
   m_EditorClassIdentifier: 
   id: 2_1
-  singleFieldProperties:
-  - Name: test
-    prop: 0
-    val: 1
+  singleFieldProperties: []
   effects:
   - Type: 0
     Value:

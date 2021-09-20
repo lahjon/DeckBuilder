@@ -509,7 +509,8 @@ public enum CardActivityType
     CombatCostChange,
     SetRandomBroken,
     Heal,
-    ModifyEnergy
+    ModifyEnergy,
+    DrawDiscard
 }
 
 public enum Profession

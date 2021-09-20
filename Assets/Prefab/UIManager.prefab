@@ -11870,6 +11870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 347953517784571732}
+  cardData: {fileID: 0}
   strength: 0
   tokenReward: 
   artifactReward: TestArtifact1

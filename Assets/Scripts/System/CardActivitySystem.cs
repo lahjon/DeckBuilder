@@ -23,6 +23,7 @@ public class CardActivitySystem : MonoBehaviour
         ActivityTypeToAction[CardActivityType.SetRandomBroken] = new CardActivitySetRandomBroken();
         ActivityTypeToAction[CardActivityType.Heal] = new CardActivityHeal();
         ActivityTypeToAction[CardActivityType.ModifyEnergy] = new CardActivityModifyEnergy();
+        ActivityTypeToAction[CardActivityType.DrawDiscard] = new CardActivityDrawDiscard();
     }
 
     public void Start()

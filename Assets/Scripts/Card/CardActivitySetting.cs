@@ -11,7 +11,7 @@ public class CardActivitySetting : ICardTextElement
     public string parameter;
     public Condition condition;
 
-    public CardActivitySetting(CardActivityData data, Card card, Action OnPreConditionUpdate = null)
+    public CardActivitySetting(CardActivityData data, Card card = null, Action OnPreConditionUpdate = null)
     {
         type = data.type;
         parameter = data.parameter;

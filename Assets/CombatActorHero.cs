@@ -26,7 +26,11 @@ public class CombatActorHero : CombatActor
 
     public override void DiscardCard(Card card)
     {
-        ((CardCombat)card).animator.SetTrigger("Discarded");
+        if (card is CardCombat cc)
+        {
+            CombatSystem.instance.Hand.Remove(cc);
+            cc.animator.SetTrigger("Discarded");
+        }
         base.DiscardCard(card);
     }
 

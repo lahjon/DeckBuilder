@@ -567,10 +567,7 @@ public class CombatSystem : MonoBehaviour
 
     public IEnumerator DiscardCard(CardCombat card)
     {
-        Hand.Remove(card);
-        Hero.discard.Add(card);
-
-        card.animator.SetTrigger("Discarded");
+        Hero.DiscardCard(card);
         RefreshHandPositions();
         yield return new WaitForSeconds(0.1f);
         UpdateDeckTexts();
