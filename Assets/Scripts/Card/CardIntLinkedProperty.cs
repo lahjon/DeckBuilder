@@ -15,7 +15,10 @@ public class CardIntLinkedProperty: CardInt
 
     public override int value
     {
-        get => base.value + (int)((PropGetter == null ? 0 : PropGetter())*Mathf.Pow(scalar, inverseScalar ? -1 : 1));
+        get => Mathf.Clamp(
+            baseVal + modifier + (int)((PropGetter == null ? 0 : PropGetter())*Mathf.Pow(scalar, inverseScalar ? -1 : 1)),
+            limitLower,
+            limitUpper);
     }
 
     private CalcType calcType
