@@ -203,6 +203,10 @@ public class CombatSystem : MonoBehaviour
             CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
             combatActorEnemy.ReadEnemyData(enemyDatas[i]);
             EnemiesInScene.Add(combatActorEnemy);
+            if (i == 0)
+            {
+                combatActorEnemy.targetRing.SetActive(true);
+            }
         }
         animator.SetTrigger("StartSetup");
     }

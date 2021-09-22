@@ -197,7 +197,7 @@ public class DebugUI : MonoBehaviour
     public void DebugRewardGetCard()
     {
         Debug.Log("Get Card");
-        world.rewardManager.CreateReward(RewardType.UnlockCard, new string[1]{"name=Berserker_CanonlybeOne"});
+        world.rewardManager.CreateReward(RewardType.UnlockCard, new string[1]{"name=Berserker_NewCard"});
         WorldStateSystem.SetInTownReward(true);
     }
 

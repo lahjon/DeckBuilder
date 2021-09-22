@@ -33,6 +33,7 @@ public class CombatActorEnemy : CombatActor
     float toolTipDelay = 1f;
     bool toolTipShowing = false;
     [SerializeField] Enemy enemyScript;
+    public GameObject targetRing;
 
 
     public override void SetupAlliesEnemies(){

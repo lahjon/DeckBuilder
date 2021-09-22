@@ -1743,7 +1743,6 @@ MonoBehaviour:
   defaultDrawCardAmount: 0
   characterVariablesUI: {fileID: 1552755417}
   character: {fileID: 952739434614670721}
-  playerCardsData: []
   playerCards: []
   selectedCharacterClassType: 0
   allCharacterData:
@@ -1756,6 +1755,8 @@ MonoBehaviour:
   characterSheet: {fileID: 1230108495922096121}
   characterStats: {fileID: 1230108494971754154}
   currentHealth: 0
+  cardParent: {fileID: 0}
+  cardPrefab: {fileID: 0}
 --- !u!1 &1230108494998685654
 GameObject:
   m_ObjectHideFlags: 0
