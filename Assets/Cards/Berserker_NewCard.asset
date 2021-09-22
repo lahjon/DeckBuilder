@@ -52,7 +52,7 @@ MonoBehaviour:
     scalar: 1
     inverseScalar: 0
   visibleCost: 1
-  upgradeCostShards: 
+  upgradeCostShards: 4
   maxUpgrades: 2
   upgrades:
   - {fileID: 11400000, guid: bcd4d670ec054824ca4d25cd16cda5b7, type: 2}
