@@ -13,9 +13,12 @@ public class CardInt: IEventSubscriber
 
     public int modifier = 0;
 
+    public int limitLower = int.MinValue;
+    public int limitUpper = int.MaxValue;
+
     public virtual CardLinkablePropertyType propertyType { get => CardLinkablePropertyType.None; set { } }
 
-    public virtual int value { get => baseVal + modifier; }
+    public virtual int value { get => Mathf.Clamp(baseVal + modifier, limitLower, limitUpper); }
 
     public static implicit operator int(CardInt ci) => ci.value;
 

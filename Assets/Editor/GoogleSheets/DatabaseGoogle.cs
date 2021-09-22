@@ -119,6 +119,7 @@ public class DatabaseGoogle
             for (int j = 1; j <= data.maxUpgrades; j++)
             {
                 CardFunctionalityData mod = FunctionalityAt(databaseName, j);
+                mod.ResetFunctionality();
                 data.upgrades.Add(mod);
                 mod.id = data.id + "_" + j;
                 EditorUtility.SetDirty(mod);
@@ -701,7 +702,6 @@ public class DatabaseGoogle
             AssetDatabase.SaveAssets();
             AssetDatabase.CreateAsset(data, ModifierPath + @"\" + databaseName + ".asset");
         }
-        data.ResetFunctionality();
 
         return data;
     }

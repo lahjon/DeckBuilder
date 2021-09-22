@@ -45,18 +45,18 @@ MonoBehaviour:
     execTime: 0
   cardName: New Card
   cardType: 0
-  artwork: {fileID: 21300000, guid: 314663ddd631d8d4c9f9046d335df1df, type: 3}
+  artwork: {fileID: 21300000, guid: 39ca3e0ae21b28f41a4993169826d33d, type: 3}
   cost:
     linkedProp: 0
     baseVal: 1
     scalar: 1
     inverseScalar: 0
   visibleCost: 1
-  upgradeCostShards: 2
+  upgradeCostShards: 
   maxUpgrades: 2
   upgrades:
-  - {fileID: 11400000, guid: 2537aba33ece0a54782e45101a068db8, type: 2}
-  - {fileID: 11400000, guid: 30df6fbc28b643044a53cea5ad9c379c, type: 2}
+  - {fileID: 11400000, guid: bcd4d670ec054824ca4d25cd16cda5b7, type: 2}
+  - {fileID: 11400000, guid: 3edfb3129e6b59148a532d7af131a4c0, type: 2}
   rarity: 11
   cardClass: 1
   animationPrefab: {fileID: 0}

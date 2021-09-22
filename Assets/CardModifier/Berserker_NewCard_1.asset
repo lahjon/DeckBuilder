@@ -17,5 +17,22 @@ MonoBehaviour:
   - Name: Immediate, True
     prop: -3
     val: 1
-  effects: []
+  effects:
+  - Type: 9
+    Value:
+      linkedProp: 0
+      baseVal: 40
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+    Target: 0
+    conditionStruct:
+      type: 0
+      strParameter: 
+      numValue: 0
+    execTime: 0
   activities: []

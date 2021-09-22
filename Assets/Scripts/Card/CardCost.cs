@@ -17,6 +17,7 @@ public class CardCost
     {
         this.card = card;
         EnergyCost = CardInt.Factory(energyData, card);
+        EnergyCost.limitLower = 0;
     }
 
     public bool Payable
