@@ -24,9 +24,9 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
 
         WorldSystem.instance.toolTipManager.canShow = false;
 
-        selectionPath = CombatSystem.instance.selectionPath;
+        //selectionPath = CombatSystem.instance.selectionPath;
         //DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => selectionPath.StartFollow());
-        selectionPath.StartFollow(card);
+        //selectionPath.StartFollow(card);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,13 +38,13 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         else
             CardLerp(StartTransInfo, TargetTransInfo, 1);
 
-        selectionPath.FollowPath();
+        //selectionPath.FollowPath();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         card.selected = false;
         WorldSystem.instance.toolTipManager.canShow = true;
-        selectionPath.StopFollow(card);
+        //selectionPath.StopFollow(card);
     }
 }

@@ -27,13 +27,13 @@ public class StateCombat : WorldStateAnimator
         {
             if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldStateSystem.instance.currentWorldState == WorldState.Combat)
             {
-                if (CombatSystem.instance.ActiveCard == CombatSystem.instance.Hand[i])
-                {
-                    Debug.Log("AlphaNum Deselct");
-                    CombatSystem.instance.ActiveCard.OnMouseRightClick(false);
-                }
-                else
-                    CombatSystem.instance.Hand[i].OnMouseClick();
+                // if (CombatSystem.instance.ActiveCard == CombatSystem.instance.Hand[i])
+                // {
+                //     Debug.Log("AlphaNum Deselct");
+                //     CombatSystem.instance.ActiveCard.OnMouseRightClick(false);
+                // }
+                // else
+                CombatSystem.instance.Hand[i].OnMouseClick();
 
                 break;
             }
@@ -41,6 +41,10 @@ public class StateCombat : WorldStateAnimator
         if (Input.GetKeyDown(KeyCode.Space) && CombatSystem.instance.acceptEndTurn == true)
         {
             CombatSystem.instance.PlayerInputEndTurn();
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            CombatSystem.instance.ToggleTarget();
         }
     }
 

@@ -213,6 +213,16 @@ public class CombatActorEnemy : CombatActor
         
     }   
 
+    public void EnableTarget()
+    {
+        targetRing.SetActive(true);
+    }
+
+    public void DisableTarget()
+    {
+        targetRing.SetActive(false);
+    }
+
     public void OnMouseOver()
     {
         toolTiptimer += Time.deltaTime;
@@ -220,11 +230,16 @@ public class CombatActorEnemy : CombatActor
         {
             toolTipShowing = true;
         }
-        if (CombatSystem.instance.ActiveCard != null  && CombatSystem.instance.ActiveCard.targetRequired)
-            SetTarget(true);
+        // if (CombatSystem.instance.ActiveCard != null  && CombatSystem.instance.ActiveCard.targetRequired)
+        //     SetTarget(true);
         
 
-        if(CombatSystem.instance.TargetedEnemy != this) CombatSystem.instance.TargetedEnemy = this;
+        //if(CombatSystem.instance.TargetedEnemy != this) CombatSystem.instance.TargetedEnemy = this;
+    }
+
+    public void OnMouseUp()
+    {
+        CombatSystem.instance.TargetedEnemy = this;
     }
 
 
@@ -232,8 +247,8 @@ public class CombatActorEnemy : CombatActor
     {
         toolTiptimer = 0;
         toolTipShowing = false;
-        SetTarget(false);
-        if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
+        //SetTarget(false);
+        //if (CombatSystem.instance.TargetedEnemy == this) CombatSystem.instance.TargetedEnemy = null;
     }
 
     public override void RecalcDamage()

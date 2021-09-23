@@ -39,7 +39,8 @@ public class CardCombat : CardVisual, IEventSubscriber
     [HideInInspector]
     public bool targetRequired
     {
-        get => Attacks.Any(x => x.Target == CardTargetType.EnemySingle) || effectsOnPlay.Any(x => x.Target == CardTargetType.EnemySingle);
+        get => true;
+        //get => Attacks.Any(x => x.Target == CardTargetType.EnemySingle) || effectsOnPlay.Any(x => x.Target == CardTargetType.EnemySingle);
     }
 
 
@@ -178,6 +179,8 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         base.OnMouseClick();
         CombatSystem.instance.CardClicked(this);
+
+        if (CombatSystem.instance.quickPlayCards) Helpers.DelayForSeconds(.1f, () => CombatSystem.instance.CardClicked(this));
     }
 
     public override void ResetScale()

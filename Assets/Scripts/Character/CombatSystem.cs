@@ -45,6 +45,7 @@ public class CombatSystem : MonoBehaviour
     public bool acceptEndTurn = true;
     public bool acceptActions = true;
     public bool acceptProcess = false;
+    public bool quickPlayCards = true;
     public List<EnemyData> enemyDatas = new List<EnemyData>();
 
     public EncounterDataCombat encounterData;
@@ -71,7 +72,7 @@ public class CombatSystem : MonoBehaviour
                 EventManager.EnergyChanged();
         }
     }
-    private CombatActorEnemy _targetedEnemy;
+    [SerializeField] private CombatActorEnemy _targetedEnemy;
 
     public List<CardVisual> deckData;
     public ListEventReporter<CardCombat> Hand = new ListEventReporter<CardCombat>(EventManager.HandCountChanged);
@@ -112,12 +113,23 @@ public class CombatSystem : MonoBehaviour
     public CombatActorEnemy TargetedEnemy
     {
         get
-        {
+        {   
             return _targetedEnemy;
         }
         set
         {
+            if (_targetedEnemy != null)
+            {
+                _targetedEnemy.DisableTarget();
+            }
             _targetedEnemy = value;
+
+            if (_targetedEnemy == null && EnemiesInScene.Count > 0)
+            {
+                TargetedEnemy = EnemiesInScene[0];
+            }
+            _targetedEnemy?.EnableTarget();
+
             if (!(ActiveCard is null))
             {
                 ActiveCard.animator.SetBool("HasTarget", !(value is null));
@@ -140,7 +152,7 @@ public class CombatSystem : MonoBehaviour
                 _activeCard.selected = false;
 
             _activeCard = value;
-            EnemiesInScene.ForEach(x => x.SetTarget(false));
+            //EnemiesInScene.ForEach(x => x.SetTarget(false));
 
             //overwrite
             foreach (CardCombat card in Hand)
@@ -205,7 +217,7 @@ public class CombatSystem : MonoBehaviour
             EnemiesInScene.Add(combatActorEnemy);
             if (i == 0)
             {
-                combatActorEnemy.targetRing.SetActive(true);
+                TargetedEnemy = EnemiesInScene[0];
             }
         }
         animator.SetTrigger("StartSetup");
@@ -271,9 +283,19 @@ public class CombatSystem : MonoBehaviour
     private void KillEnemy(CombatActorEnemy enemy)
     {
         enemy.OnDeath();
-        if (TargetedEnemy == enemy) TargetedEnemy = null;
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
+        TargetedEnemy = null;
+        ToggleTarget();
+    }
+
+    public void ToggleTarget()
+    {
+        if (TargetedEnemy != null && EnemiesInScene.Count > 1)
+        {
+            int idx = (EnemiesInScene.IndexOf(TargetedEnemy) + 1 + EnemiesInScene.Count) % EnemiesInScene.Count;
+            TargetedEnemy = EnemiesInScene[idx]; 
+        }
     }
     public void WinCombat()
     {
@@ -284,9 +306,9 @@ public class CombatSystem : MonoBehaviour
     public void CleanUpEnemies()
     {
     while (EnemiesInScene.Any())
-    {
-        KillEnemy(EnemiesInScene[0]);
-    }
+        {
+            KillEnemy(EnemiesInScene[0]);
+        }
     }
 
     public void CleanUpScene()
@@ -652,12 +674,13 @@ public class CombatSystem : MonoBehaviour
 
     public void SelectedCardTriggered()
     {
-        if (MouseInsideArea())
-        {
-            CancelCardSelection();
-            return;
-        }
-
+        // if (MouseInsideArea())
+        // {
+        //     CancelCardSelection();
+        //     return;
+        // }
+        
+        Debug.Log("Clicky");
         ActiveCard.animator.SetTrigger("MouseClicked");
         ActiveCard = null;
     }
