@@ -45,7 +45,7 @@ public class CombatSystem : MonoBehaviour
     public bool acceptEndTurn = true;
     public bool acceptActions = true;
     public bool acceptProcess = false;
-    public bool quickPlayCards = true;
+    public bool quickPlayCards;
     public List<EnemyData> enemyDatas = new List<EnemyData>();
 
     public EncounterDataCombat encounterData;
