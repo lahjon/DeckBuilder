@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 1252811712759400481}
   - component: {fileID: 248037277262318977}
   - component: {fileID: 7126495680530560642}
-  - component: {fileID: 6985510345366933409}
   - component: {fileID: 2844651702644537897}
+  - component: {fileID: 4156438862548645683}
   m_Layer: 0
   m_Name: CardCombat
   m_TagString: Untagged
@@ -97,11 +97,13 @@ MonoBehaviour:
   rarity: 0
   cardName: 
   cardId: 
+  timesUpgraded: 0
   artwork: {fileID: 0}
   cardModifiers: []
   cardType: 0
   visibleCost: 1
   cardData: {fileID: 0}
+  idx: 0
   Attacks: []
   Blocks: []
   effectsOnPlay: []
@@ -127,6 +129,7 @@ MonoBehaviour:
   toolTipTextBits: []
   energyObjects: {fileID: 7054377862404620958}
   costText: {fileID: 6468055499818804120}
+  permanentUpgrade: 0
   isBroken: 0
   cardPanel: {fileID: 0}
   transitionCurveDraw:
@@ -191,7 +194,6 @@ MonoBehaviour:
   fanDegreeTarget: 0
   boxCollider2D: {fileID: 0}
   image: {fileID: 0}
-  energySpent: 0
 --- !u!114 &1252811712759400481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,20 +284,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 280.6, y: 389.5}
   m_EdgeRadius: 0
---- !u!114 &6985510345366933409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130489016394698252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a48b3fc37740afd4ea0e25a15ffe8b69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  routeDiscard: {fileID: 0}
-  routeDeck: {fileID: 0}
 --- !u!114 &2844651702644537897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +297,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeDelay: 0.5
+--- !u!114 &4156438862548645683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130489016394698252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a48b3fc37740afd4ea0e25a15ffe8b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  routeDiscard: {fileID: 0}
+  routeDeck: {fileID: 0}
 --- !u!1001 &6680579575582242689
 PrefabInstance:
   m_ObjectHideFlags: 0

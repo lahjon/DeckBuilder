@@ -8,6 +8,7 @@ public class BezierFollow : MonoBehaviour
 
     public Transform routeDiscard;
     public Transform routeDeck;
+    public Transform routeOath;
     private float tParam;
     private Vector3 objectPosition;
     private float speedModifier;
@@ -15,6 +16,7 @@ public class BezierFollow : MonoBehaviour
 
     private Vector3[] pathDiscard = new Vector3[4];
     private Vector3[] pathDeck = new Vector3[4];
+    private Vector3[] pathOath = new Vector3[4];
 
 
     // Start is called before the first frame update
@@ -27,21 +29,33 @@ public class BezierFollow : MonoBehaviour
         for(int i = 1; i < 4; i++)
         {
             pathDiscard[i]  = routeDiscard.GetChild(i).position;
+            pathOath[i]     = routeOath.GetChild(i).position;
             pathDeck[i]     = routeDeck.GetChild(i).position;
         }
     }
 
-    public void StartAnimation(bool toDiscard = true)
+    public void StartAnimation(int path)
     {
-        StartCoroutine(GoByTheRoute(toDiscard));
+        switch (path)
+        {
+            case 0:
+                StartCoroutine(GoByTheRoute(pathDeck));
+                break;
+            case 1:
+                StartCoroutine(GoByTheRoute(pathDiscard));
+                break;
+            case 2:
+                StartCoroutine(GoByTheRoute(pathOath));
+                break;
+            default:
+                break;
+        }
     }
 
-    private IEnumerator GoByTheRoute(bool toDiscard = true)
+    private IEnumerator GoByTheRoute(Vector3[] p)
     {
         Vector3 startingAngles = transform.localEulerAngles;
         Vector3 endAngle = Vector3.zero;
-
-        Vector3[] p = toDiscard ? pathDiscard : pathDeck;
         p[0] = transform.position;
 
         float endScale = 0.7f;

@@ -134,6 +134,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.Hero;
         card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
+        card.GetComponent<BezierFollow>().routeOath = CombatSystem.instance.pathOath.transform;
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
@@ -151,6 +152,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         CardObject.transform.localScale = Vector3.one;
         CardCombat card = CardObject.GetComponent<CardCombat>();
         card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
+        card.GetComponent<BezierFollow>().routeOath = CombatSystem.instance.pathOath.transform;
         card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         SpliceCards(card, a, b);
         card.classType = a.classType;

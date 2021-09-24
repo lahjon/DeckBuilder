@@ -14,7 +14,7 @@ public class CardCombatAnimatorDiscarding : CardCombatAnimator
 
         CombatSystem.instance.DiscardCard(card);
         card.animator.SetBool("HasTarget", false);
-        card.GetComponent<BezierFollow>().StartAnimation(card.animator.GetBool("ToCardPileDiscard"));
+        card.GetComponent<BezierFollow>().StartAnimation(1);
         card.animator.SetBool("ToCardPileDiscard", true);
     }
 
