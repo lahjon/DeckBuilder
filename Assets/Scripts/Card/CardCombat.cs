@@ -133,9 +133,6 @@ public class CardCombat : CardVisual, IEventSubscriber
         card.BindCardData();
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.Hero;
-        card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
-        card.GetComponent<BezierFollow>().routeOath = CombatSystem.instance.pathOath.transform;
-        card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         CombatSystem.instance.createdCards.Add(card);
 
         if (card.singleFieldProperties.Any(s => s == CardSingleFieldPropertyType.Unplayable)) card.playCondition = new Condition() { value = false };
@@ -151,14 +148,61 @@ public class CardCombat : CardVisual, IEventSubscriber
         CardObject.transform.SetParent(CombatSystem.instance.cardPanel, false);
         CardObject.transform.localScale = Vector3.one;
         CardCombat card = CardObject.GetComponent<CardCombat>();
-        card.GetComponent<BezierFollow>().routeDiscard = CombatSystem.instance.pathDiscard.transform;
-        card.GetComponent<BezierFollow>().routeOath = CombatSystem.instance.pathOath.transform;
-        card.GetComponent<BezierFollow>().routeDeck = CombatSystem.instance.pathDeck.transform;
         SpliceCards(card, a, b);
         card.classType = a.classType;
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.ActiveActor;
         return card;
+    }
+    public void StartBezierAnimation(int path)
+    {
+        switch (path)
+        {
+            case 0: // deck
+                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeDeck));
+                break;
+            case 1: // discard
+                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeDiscard));
+                break;
+            case 2: // hero
+                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeSelf));
+                break;
+            default:
+                break;
+        }
+    }
+
+    IEnumerator GoByTheRoute(Vector3[] p)
+    {
+        Vector3 startingAngles = transform.localEulerAngles;
+        Vector3 endAngle = Vector3.zero;
+        Vector3 p1 = transform.position;
+        Vector3 objectPosition;
+        float endScale = 0.7f;
+        float scale;
+        float tParam = 0;
+        float speedModifier = 1;
+
+        while(tParam < 1)
+        {
+            tParam += Time.deltaTime * speedModifier;
+
+            objectPosition =    1 * Mathf.Pow(1 - tParam, 3) * p1 + 
+                                3 * Mathf.Pow(1 - tParam, 2) * tParam * p[1] + 
+                                3 * (1 - tParam) * Mathf.Pow(tParam, 2) * p[2] + 
+                                1 * Mathf.Pow(tParam, 3) * p[3];
+
+            scale = 1 - endScale * tParam;
+            transform.localScale = new Vector3(scale, scale, scale);
+            transform.localEulerAngles = Helpers.AngleLerp(startingAngles, endAngle, tParam);
+
+            transform.position = objectPosition;
+            yield return new WaitForEndOfFrame();
+        }
+
+        CombatSystem.instance.UpdateDeckTexts();
+        animator.SetTrigger("DoneDiscarding");
+        GetComponent<Image>().raycastTarget = true;
     }
 
     public override void OnMouseEnter()

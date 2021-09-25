@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 248037277262318977}
   - component: {fileID: 7126495680530560642}
   - component: {fileID: 2844651702644537897}
-  - component: {fileID: 4156438862548645683}
   m_Layer: 0
   m_Name: CardCombat
   m_TagString: Untagged
@@ -297,20 +296,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeDelay: 0.5
---- !u!114 &4156438862548645683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130489016394698252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a48b3fc37740afd4ea0e25a15ffe8b69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  routeDiscard: {fileID: 0}
-  routeDeck: {fileID: 0}
 --- !u!1001 &6680579575582242689
 PrefabInstance:
   m_ObjectHideFlags: 0

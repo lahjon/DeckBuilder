@@ -13,9 +13,7 @@ public class CombatSystem : MonoBehaviour
     public static CombatSystem instance;
     public CombatOverlay combatOverlay;
     public GameObject TemplateCard;
-    public BezierPath pathDiscard;
-    public BezierPath pathDeck;
-    public BezierPath pathOath;
+    public BezierController bezierController;
     public SelectionPath selectionPath;
     public GameObject TemplateEnemy;
     public TMP_Text lblEnergy;

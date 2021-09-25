@@ -118,6 +118,9 @@ TagManager:
   - name: SelectionPath
     uniqueID: 223154637
     locked: 0
+  - name: Journal
+    uniqueID: 3136911321
+    locked: 0
   - name: CardInspect
     uniqueID: 3089196295
     locked: 0
