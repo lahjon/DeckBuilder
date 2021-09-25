@@ -15,7 +15,7 @@ public class ObjectiveManager : Manager, ISaveableWorld
     protected override void Awake()
     {
         base.Awake(); 
-        world.objectiveManager = this;      
+        world.objectiveManager = this;     
     }
 
     protected override void Start()
@@ -23,16 +23,15 @@ public class ObjectiveManager : Manager, ISaveableWorld
         base.Start();
     }
 
-    // public void StartObjective(string objectiveId)
-    // {
-    //     if(!string.IsNullOrEmpty(objectiveId) && objectiveDatas.FirstOrDefault(x => x.name == objectiveId) is ObjectiveData data)
-    //     {
-    //         Objective obj = Instantiate(objectivePrefab, transform).GetComponent<Objective>();
-    //         obj.name = data.id;
-    //         currentObjectives.Add(data.id);
-    //         obj.StartObjetive(data);
-    //     }
-    // }
+    public List<Objective> GetAllObjectives()
+    {
+        List<Objective> allObjs = new List<Objective>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            allObjs.Add(transform.GetChild(i).GetComponent<Objective>());
+        }
+        return allObjs;
+    }
 
     public Objective StartObjective(ObjectiveData data, bool fromLoad = false)
     {
@@ -66,7 +65,6 @@ public class ObjectiveManager : Manager, ISaveableWorld
         a_SaveData.currentObjectives = currentObjectives.Select(x => x.id).ToList();
 
         List<IntListWrapper> allGoals = new List<IntListWrapper>();
-        //for (int i = transform.childCount - 1; i > 0 ; i--)
         for (int i = 0; i < transform.childCount; i++)
         {
             Objective obj = transform.GetChild(i).GetComponent<Objective>();
@@ -74,8 +72,6 @@ public class ObjectiveManager : Manager, ISaveableWorld
             innerList.aList = obj.countingConditions.Select(x => x.currentAmount).ToList();
             allGoals.Add(innerList);
         }
-
-        Debug.Log("goal: " + allGoals.Count);
         a_SaveData.currentObjectiveGoals = allGoals;
     }
 

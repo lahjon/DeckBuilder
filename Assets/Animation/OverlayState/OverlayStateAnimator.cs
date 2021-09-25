@@ -35,7 +35,7 @@ public class OverlayStateAnimator : StateMachineBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            WorldStateSystem.SetInEscapeMenu();
+            world.menuManager.ToggleMenu();
         }
     }
 }

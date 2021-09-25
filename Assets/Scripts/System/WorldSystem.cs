@@ -14,6 +14,7 @@ public class WorldSystem : MonoBehaviour
     public EncounterManager encounterManager;
     public CharacterManager characterManager;
     public ShopManager shopManager;
+    public MenuManager menuManager;
     public CameraManager cameraManager;
     public DeckDisplayManager deckDisplayManager;
     public TownManager townManager;

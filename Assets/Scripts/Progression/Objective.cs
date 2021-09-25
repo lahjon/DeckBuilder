@@ -14,6 +14,7 @@ public class Objective : Progression
     public void StartObjetive(ObjectiveData aData)
     {
         data = aData;
+        aName = aData.aName;
 
         nextObjective = data.nextObjective;
 

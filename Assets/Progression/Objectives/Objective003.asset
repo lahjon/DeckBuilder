@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Objective003
   aName: tgree
-  goalKillEnemy: []
-  goalEnterBuilding:
-  - buildingType: 5
-    requiredAmount: 1
+  conditionStructs:
+  - type: 4
+    strParameter: 
+    numValue: 2
   description: Enter the barracks!
   nextObjective: {fileID: 11400000, guid: 3948089da676551469a7379d712687b5, type: 2}
   endEvent: Event006

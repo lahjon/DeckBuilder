@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Objective002
   aName: second obj
-  goalKillEnemy: []
-  goalEnterBuilding:
-  - buildingType: 4
-    requiredAmount: 1
+  conditionStructs:
+  - type: 3
+    strParameter: 
+    numValue: 3
   description: no,. 2
+  nextObjective: {fileID: 0}
   endEvent: 
