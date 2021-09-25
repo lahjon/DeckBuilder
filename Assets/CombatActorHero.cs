@@ -36,9 +36,12 @@ public class CombatActorHero : CombatActor
 
     public override void CardResolved(Card card)
     {
-        if (card.HasProperty(CardSingleFieldPropertyType.Exhaust)) 
+        Debug.Log(card.cardType);
+        if (card.HasProperty(CardSingleFieldPropertyType.Exhaust))  // Exhaust
             ExhaustCard(card);
-        else
+        else if (card.cardType == CardType.Oath)                    // Oath
+            ((CardCombat)card).StartBezierAnimation(2);
+        else                                                        // Discard
         {
             ((CardCombat)card).animator.SetTrigger("Resolved");
             base.DiscardCard(card);

@@ -159,20 +159,20 @@ public class CardCombat : CardVisual, IEventSubscriber
         switch (path)
         {
             case 0: // deck
-                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeDeck));
+                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeDeck, path));
                 break;
             case 1: // discard
-                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeDiscard));
+                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeDiscard, path));
                 break;
             case 2: // hero
-                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeSelf));
+                StartCoroutine(GoByTheRoute(CombatSystem.instance.bezierController.routeSelf, path));
                 break;
             default:
                 break;
         }
     }
 
-    IEnumerator GoByTheRoute(Vector3[] p)
+    IEnumerator GoByTheRoute(Vector3[] p, int path)
     {
         Vector3 startingAngles = transform.localEulerAngles;
         Vector3 endAngle = Vector3.zero;
@@ -199,10 +199,14 @@ public class CardCombat : CardVisual, IEventSubscriber
             transform.position = objectPosition;
             yield return new WaitForEndOfFrame();
         }
-
         CombatSystem.instance.UpdateDeckTexts();
-        animator.SetTrigger("DoneDiscarding");
-        GetComponent<Image>().raycastTarget = true;
+        if (path == 2)
+            Destroy(gameObject);
+        else
+        {
+            animator.SetTrigger("DoneDiscarding");
+            GetComponent<Image>().raycastTarget = true;
+        }
     }
 
     public override void OnMouseEnter()
