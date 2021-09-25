@@ -228,6 +228,7 @@ public enum CardClassType
 
 public enum CardSingleFieldPropertyType
 {
+    Fortify = -4,
     Immediate = -3,
     Unplayable = -2,
     Unstable = -1,
@@ -241,7 +242,8 @@ public enum CardLinkablePropertyType
     NrCardsDeck,
     NrCardsDiscard,
     EnergyAvailable,
-    CardEnergySpent
+    CardEnergySpent,
+    CountPlayedCardsSameName
 }
 
 public enum CardComponentExecType

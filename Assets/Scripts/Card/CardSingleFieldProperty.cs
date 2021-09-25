@@ -32,6 +32,8 @@ public class CardSingleFieldProperty : ICardTextElement, IEquatable<CardSingleFi
                 return "<b>Unstable</b>\nThis card will exhaust if it is still in hand at end of turn.";
             case CardSingleFieldPropertyType.Exhaust:
                 return "<b>Exhaust</b>\nThis card disappears when played.";
+            case CardSingleFieldPropertyType.Fortify:
+                return "<b>Fortify</b>\nThe power of this Oath increases for every Oath already played with the same name.";
             default:
                 return "<b>" + type.ToString() + "</b>" + " Who knows?"; 
         }

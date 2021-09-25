@@ -66,7 +66,9 @@ public class Card : MonoBehaviour
         cost            = new CardCost(this,cardData.cost);
         cardData.singleFieldProperties.OrderBy(s => (int)s.prop).ToList().ForEach(s => RegisterSingleField(s));
 
-        foreach(CardEffectCarrierData effect in cardData.effects) 
+        PostSingleFieldSetup();
+
+        foreach (CardEffectCarrierData effect in cardData.effects) 
         {
             CardEffectCarrier carrier = SetupEffectcarrier(effect);
             if (effect.Type == EffectType.Damage)
@@ -231,7 +233,17 @@ public class Card : MonoBehaviour
                 }
             }
         }
+    }
 
+    public void PostSingleFieldSetup()
+    {
+        if(singleFieldProperties.Any(x => x.type == CardSingleFieldPropertyType.Fortify))
+        {
+            for(int i = 0; i < cardData.effects.Count; i++)
+            {
+                cardData.effects[i].Value.linkedProp = CardLinkablePropertyType.CountPlayedCardsSameName;
+            }
+        }
     }
 
     public List<CardEffectCarrier> GetEffectsByType(EffectType type)

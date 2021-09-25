@@ -86,6 +86,8 @@ public class CardIntLinkedProperty: CardInt
                 return ValueGetterEnergy;
             case CardLinkablePropertyType.CardEnergySpent:
                 return ValueGetterSpentEnergyCard;
+            case CardLinkablePropertyType.CountPlayedCardsSameName:
+                return ValueGetterSameName;
             default:
                 return null;
         }
@@ -96,15 +98,19 @@ public class CardIntLinkedProperty: CardInt
     private static int ValueGetterSizeDiscard() => CombatSystem.instance.Hero.discard.Count;
     private static int ValueGetterEnergy() => CombatSystem.instance.cEnergy;
     private int ValueGetterSpentEnergyCard() => card.cost.PaidEnergy;
+    private int ValueGetterSameName() => CombatSystem.instance.playHistory.Count(x=> x.cardName == card.cardName);
 
 
     public override string GetTextForValue()
     {
+        if (propertyType == CardLinkablePropertyType.CountPlayedCardsSameName)
+            return base.GetTextForValue();
+
         string retstring = "";
 
         CalcType calcType = this.calcType;
 
-
+  
         if (calcType == CalcType.Dividing)
             retstring += "for every " + scalar.ToString() + " ";
         else
@@ -168,6 +174,9 @@ public class CardIntLinkedProperty: CardInt
             case CardLinkablePropertyType.NrCardsDiscard:
                 EventManager.OnDiscardCountChangeEvent += ActionFire;
                 break;
+            case CardLinkablePropertyType.CountPlayedCardsSameName:
+                EventManager.OnCardPlayNoArgEvent += ActionFire;
+                break;
         }
     }
 
@@ -184,6 +193,9 @@ public class CardIntLinkedProperty: CardInt
                 break;
             case CardLinkablePropertyType.NrCardsDiscard:
                 EventManager.OnDiscardCountChangeEvent -= ActionFire;
+                break;
+            case CardLinkablePropertyType.CountPlayedCardsSameName:
+                EventManager.OnCardPlayNoArgEvent -= ActionFire;
                 break;
         }
     }

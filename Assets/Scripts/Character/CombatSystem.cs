@@ -108,6 +108,7 @@ public class CombatSystem : MonoBehaviour
     public Button openDeck, discardDeck;
 
     public List<CardCombat> cardsPlayedThisTurn = new List<CardCombat>();
+    public List<CardCombat> playHistory = new List<CardCombat>();
 
     public CombatActorEnemy TargetedEnemy
     {
@@ -184,11 +185,13 @@ public class CombatSystem : MonoBehaviour
     public void NoteCardFinished(Card card)
     {
         cardsPlayedThisTurn.Add((CardCombat)card);
+        playHistory.Add((CardCombat)card);
     }
 
     public void SetUpEncounter()
     {
         cardsPlayedThisTurn.Clear();
+        playHistory.Clear();
         createdCards.Clear();
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
