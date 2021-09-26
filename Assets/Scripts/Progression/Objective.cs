@@ -15,9 +15,7 @@ public class Objective : Progression
     {
         data = aData;
         aName = aData.aName;
-
         nextObjective = data.nextObjective;
-
         objectiveName = data.aName;
         id = data.id;
         description = data.description;

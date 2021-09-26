@@ -105,7 +105,6 @@ public class Card : MonoBehaviour
     }
     public void AddModifierToCard(CardFunctionalityData data)
     {
-        Debug.Log("doing :" + timesUpgraded);
         cardModifiers.Add(data);
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
@@ -132,6 +131,33 @@ public class Card : MonoBehaviour
 
         if (this is CardVisual card)
             card.UpdateCardVisual();
+    }
+    public bool DowngradeCard()
+    {
+        if (timesUpgraded < 1) return false;
+        RemoveModifierFromCard(cardData.upgrades[timesUpgraded-- - 1]);
+
+        return true;
+    }
+
+    public void RemoveModifierFromCard(CardFunctionalityData data)
+    {
+        // NEED FIX
+        cardModifiers.Remove(data);
+
+        if (this is CardVisual card)
+            card.UpdateCardVisual();
+    }
+    void RemoveUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
+    {
+        // NEED FIX
+        targetList.Remove(SetupEffectcarrier(data));
+    }
+
+    void RemoveUpgradeActivityToList(List<CardActivitySetting> targetList, CardActivityData activity)
+    {
+        // NEED FIX
+        targetList.Remove(SetupActivitySetting(activity));
     }
 
     void AddUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
@@ -188,15 +214,15 @@ public class Card : MonoBehaviour
         artwork = card.artwork;
         cost = card.cost;
         idx = card.idx;
-        cardModifiers = card.cardModifiers;
         timesUpgraded = card.timesUpgraded;
-        singleFieldProperties = card.singleFieldProperties;
-        Attacks = card.Attacks;
-        Blocks = card.Blocks;
-        effectsOnPlay = card.effectsOnPlay;
-        effectsOnDraw = card.effectsOnDraw;
-        activitiesOnPlay = card.activitiesOnPlay;
-        activitiesOnDraw = card.activitiesOnDraw;
+        cardModifiers = new List<CardFunctionalityData>(card.cardModifiers);
+        singleFieldProperties = new List<CardSingleFieldProperty>(card.singleFieldProperties);
+        Attacks = new List<CardEffectCarrier>(card.Attacks);
+        Blocks = new List<CardEffectCarrier>(card.Blocks);
+        effectsOnPlay = new List<CardEffectCarrier>(card.effectsOnPlay);
+        effectsOnDraw = new List<CardEffectCarrier>(card.effectsOnDraw);
+        activitiesOnPlay = new List<CardActivitySetting>(card.activitiesOnPlay);
+        activitiesOnDraw = new List<CardActivitySetting>(card.activitiesOnDraw);
         animationPrefab = card.animationPrefab;
         classType = card.classType;
         visibleCost = card.visibleCost;

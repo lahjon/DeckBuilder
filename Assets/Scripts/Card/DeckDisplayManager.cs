@@ -20,6 +20,9 @@ public class DeckDisplayManager : Manager
     public CardDisplay animatedCard;
     public TMP_Text titleText;
     public System.Action exitCallback;
+    public TMP_Text upgradeLevel;
+    public Toggle toggleUpgrade;
+    public GameObject upgradeTools;
 
 
     protected override void Awake()
@@ -102,15 +105,16 @@ public class DeckDisplayManager : Manager
 
     public void DisplayCard(CardVisual aCard)
     {
-        Debug.Log("Display Card");
         if(selectedCard == null)
         {
+            placeholderCard.Reset();
             aCard.OnMouseExit();
             previousPosition = aCard.transform.position;
             selectedCard = aCard;
             placeholderCard.Mimic(aCard);
             inspectCard.SetActive(true);
             scroller.enabled = false;
+            upgradeLevel.text = (aCard.timesUpgraded + 1).ToString();
             selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
         }
         else
@@ -118,9 +122,47 @@ public class DeckDisplayManager : Manager
             ResetCardPosition();
         }
     }
+
+    public void ResetCard()
+    {
+        placeholderCard.Mimic(selectedCard);
+        upgradeLevel.text = (selectedCard.timesUpgraded + 1).ToString();
+    }
+    
+
+    public void ButtonNextUpgrade()
+    {
+        if (placeholderCard != null && placeholderCard.UpgradeCard())
+        {
+            upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
+        }
+    }
+    public void ButtonPreviousUpgrade()
+    {
+        if (placeholderCard != null && placeholderCard.DowngradeCard())
+        {
+            upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
+        }
+    }
+    public void ButtonToggleViewUpgrade()
+    {
+        if (toggleUpgrade.isOn)
+        {
+            upgradeTools.SetActive(true);
+        }
+        else
+        {
+            upgradeTools.SetActive(false);
+            if (selectedCard != null && inspectCard.activeSelf)
+            {
+                ResetCard();
+            }
+        }
+    }
     public void ResetCardPosition()
     {
         inspectCard.SetActive(false);
+        toggleUpgrade.isOn = false;
         scroller.enabled = true;
         selectedCard.transform.position = previousPosition;
         selectedCard = null;

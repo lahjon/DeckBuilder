@@ -24,6 +24,16 @@ public class MissionManager : Manager, ISaveableWorld
         base.Start();
     }
 
+    public List<Mission> GetAllMission()
+    {
+        List<Mission> allMissions = new List<Mission>();
+        for (int i = 0; i < missionParent.childCount; i++)
+        {
+            allMissions.Add(missionParent.GetChild(i).GetComponent<Mission>());
+        }
+        return allMissions;
+    }
+
     public Mission StartMission(MissionData data, bool fromLoad = false)
     {
         if (data == null || clearedMissions.Contains(data)) return null;
