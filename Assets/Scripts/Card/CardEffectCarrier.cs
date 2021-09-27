@@ -32,7 +32,7 @@ public class CardEffectCarrier: ICardTextElement
         if (Type == EffectType.Damage) RegisterDamageComponent();
     }
 
-    public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnPreConditionUpdate = null)
+    public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnConditionFlip = null)
     {
         this.card = card;
         Type = data.Type;
@@ -40,7 +40,7 @@ public class CardEffectCarrier: ICardTextElement
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;
 
-        condition = new Condition(data.conditionStruct, OnPreConditionUpdate);
+        condition = new Condition(data.conditionStruct, null, OnConditionFlip );
 
         if (data.conditionStruct.type != ConditionType.None)
         {
