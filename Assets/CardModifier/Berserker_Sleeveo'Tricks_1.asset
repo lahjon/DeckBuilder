@@ -10,35 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99f0da7bd508578488ffaa618db12b8b, type: 3}
-  m_Name: Berserker_NewCard_1
+  m_Name: Berserker_Sleeveo'Tricks_1
   m_EditorClassIdentifier: 
-  id: 53_1
-  singleFieldProperties:
-  - Name: Immediate, True
-    prop: -3
-    val: 1
-  effects:
-  - Type: 9
-    Value:
-      linkedProp: 0
-      baseVal: 40
-      scalar: 1
-      inverseScalar: 0
-    Times:
-      linkedProp: 0
-      baseVal: 0
-      scalar: 1
-      inverseScalar: 0
-    Target: 0
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-    execTime: 0
+  id: 52_1
+  singleFieldProperties: []
+  effects: []
   activities:
-  - type: 4
+  - type: 9
     strParameter: 
-    val: 40
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 

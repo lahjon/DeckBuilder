@@ -37,8 +37,9 @@ MonoBehaviour:
     inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 8
-  maxUpgrades: 0
-  upgrades: []
+  maxUpgrades: 1
+  upgrades:
+  - {fileID: 11400000, guid: 626f03990da471f46a5476abdf01e95c, type: 2}
   rarity: 12
   cardClass: 5
   animationPrefab: {fileID: 0}
