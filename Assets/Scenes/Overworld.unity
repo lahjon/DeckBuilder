@@ -762,7 +762,6 @@ GameObject:
   - component: {fileID: 23228795}
   - component: {fileID: 23228794}
   - component: {fileID: 23228793}
-  - component: {fileID: 23228797}
   m_Layer: 0
   m_Name: InspectCard
   m_TagString: Untagged
@@ -816,7 +815,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1724079553}
         m_TargetAssemblyTypeName: DeckDisplayManager, Assembly-CSharp
-        m_MethodName: ResetCardPosition
+        m_MethodName: DeactivateDisplayCard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -884,27 +883,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0.0020752}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &23228797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23228792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!1 &23871801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,7 +1035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &24044606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1146,6 +1124,7 @@ MonoBehaviour:
   descriptionTitle: {fileID: 0}
   descriptionText: {fileID: 0}
   descriptionGoals: {fileID: 0}
+  currentProgressionData: {fileID: 0}
 --- !u!1 &28703851
 GameObject:
   m_ObjectHideFlags: 0
@@ -27108,7 +27087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1400532287
 RectTransform:
   m_ObjectHideFlags: 0
