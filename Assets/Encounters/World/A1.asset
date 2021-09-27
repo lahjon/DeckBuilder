@@ -17,9 +17,9 @@ MonoBehaviour:
   rewardStruct:
     type: 2
     value:
-    - 15
+    - 20
   clearCondition:
-    type: 3
+    type: 2
     strParameter: 
     numValue: 6
   type: 1

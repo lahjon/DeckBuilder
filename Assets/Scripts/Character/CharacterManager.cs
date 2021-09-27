@@ -133,6 +133,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         while (deck.Any())
             RemoveCard(deck[0]);
+
+        for (int i = 0; i < cardParent.childCount; i++)
+        {
+            Destroy(cardParent.GetChild(i).gameObject);
+        }
     }
 
     public void AddCardToDeck(CardVisual source)
