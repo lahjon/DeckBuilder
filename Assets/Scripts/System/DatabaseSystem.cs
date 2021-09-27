@@ -116,11 +116,11 @@ public class DatabaseSystem : MonoBehaviour
     {
         if (baseProf)
         {
-            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == Profession.Base).SelectMany(x => x.startingCards).ToList();
+            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == Profession.Base).First().startingCards;
         }
         else
         {
-            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.character.profession).SelectMany(x => x.startingCards).ToList();
+            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.character.profession).First().startingCards;
         }
     }
 

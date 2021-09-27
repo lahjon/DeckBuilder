@@ -29,11 +29,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         ConfirmDeck();
     }
 
-    void Initialize()
-    {
-
-    }
-
     void ResetDeck()
     {
         List<CardDisplay> allCards = new List<CardDisplay>();
@@ -196,14 +191,12 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         if (allDeckCards.Count >= maxSideboardAmount + lockedSideboardAmount) return;
 
-        List<CardDisplay> sorted = new List<CardDisplay>();
-        allDeckCards.ForEach(x => sorted.Add(x));
-        sorted.Add(card);
-        sorted = sorted.OrderBy(x => x.cardName).ToList();
-        card.transform.SetParent(deckParent);
-        card.transform.SetSiblingIndex(sorted.IndexOf(card));
         allDeckCards.Add(card);
         allSideCards.Remove(card);
+        List<CardDisplay> sorted = allDeckCards.OrderBy(x => x.cardName).ToList();
+
+        card.transform.SetParent(deckParent);
+        card.transform.SetSiblingIndex(sorted.IndexOf(card));
 
         if (adjustLists)
         {
@@ -213,14 +206,12 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     }
     void MoveToSide(CardDisplay card, bool adjustLists = true)
     {
-        List<CardDisplay> sorted = new List<CardDisplay>();
-        allSideCards.ForEach(x => sorted.Add(x));
-        sorted.Add(card);
-        sorted = sorted.OrderBy(x => x.cardName).ToList();
-        card.transform.SetParent(sideParent);
-        card.transform.SetSiblingIndex(sorted.IndexOf(card));
         allSideCards.Add(card);
         allDeckCards.Remove(card);
+        List<CardDisplay> sorted = allSideCards.OrderBy(x => x.cardName).ToList();
+
+        card.transform.SetParent(sideParent);
+        card.transform.SetSiblingIndex(sorted.IndexOf(card));
 
         if (adjustLists)
         {
@@ -277,8 +268,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void ConfirmDeck()
     {
-        WorldSystem.instance.characterManager.playerCards = allDeckCards.Select(x => (CardVisual)x).ToList();
-        //WorldSystem.instance.deckDisplayManager.UpdateAllCards(0);
+        WorldSystem.instance.characterManager.ClearDeck();
+        allDeckCards.ForEach(c => WorldSystem.instance.characterManager.AddCardToDeck(c));
     }
     public override void CloseBuilding()
     {

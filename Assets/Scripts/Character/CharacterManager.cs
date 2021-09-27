@@ -14,7 +14,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public CharacterVariablesUI characterVariablesUI;
     public Character character;
-    public List<CardVisual> playerCards = new List<CardVisual>();
+    public List<CardVisual> deck = new List<CardVisual>();
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
@@ -129,33 +129,49 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         characterVariablesUI.UpdateCharacterHUD();
     }
 
-    public void AddCardToDeck(CardVisual cardVisual)
+    public void ClearDeck()
     {
-        playerCards.Add(Instantiate(cardVisual, cardParent)); 
+        while (deck.Any())
+            RemoveCard(deck[0]);
+    }
+
+    public void AddCardToDeck(CardVisual source)
+    {
+        CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
+        card.Mimic(source);
+        deck.Add(card);
+        WorldSystem.instance.deckDisplayManager.Add(card);
     }
     public void AddCardToDeck(CardData data)
     {
         CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
-        card.name = data.cardName;
-        card.cardData = data;
-        card.BindCardData();
-        card.BindCardVisualData();
-        playerCards.Add(card); 
+        BindAndRegister(card,data);
+    }
+
+    public void RemoveCard(CardVisual card)
+    {
+        WorldSystem.instance.deckDisplayManager.Remove(card);
+        deck.Remove(card);
     }
 
     public void AddCardToDeck(CardWrapper cw)
     {
         CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
         CardData data = DatabaseSystem.instance.GetCardByID(cw.cardId);
+        card.timesUpgraded = cw.timesUpgraded;
+        BindAndRegister(card, data);
+    }
+
+    private void BindAndRegister(CardVisual card, CardData data)
+    {
         card.name = data.cardName;
         card.cardData = data;
-        card.timesUpgraded = cw.timesUpgraded;
         card.BindCardData();
         card.BindCardVisualData();
-        //CardFunctionalityData cfData = cw.cardModifiersId.Select(x =>).ToList();
-        //card.AddModifierToCard
-        playerCards.Add(card); 
+        deck.Add(card);
+        WorldSystem.instance.deckDisplayManager.Add(card);
     }
+
     public void KillCharacter()
     {
         WorldStateSystem.SetInDeathScreen();
@@ -178,7 +194,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
         List<CardWrapper> cwList = new List<CardWrapper>();
-        playerCards.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
+        deck.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.gold = gold;

@@ -172,7 +172,7 @@ public class CombatSystem : MonoBehaviour
         {
             instance = this;
             EventManager.OnDeckCountChangeEvent += UpdateDeckTexts;
-            deckData = WorldSystem.instance.characterManager.playerCards;
+            deckData = WorldSystem.instance.characterManager.deck;
         }
         else
         {
@@ -196,12 +196,11 @@ public class CombatSystem : MonoBehaviour
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
 
-        deckData = WorldSystem.instance.characterManager.playerCards;
+        deckData = WorldSystem.instance.characterManager.deck;
 
         foreach(CardVisual cv in deckData)
         {
             CardCombat card = CardCombat.Factory(cv);
-            card.owner = Hero;
             Hero.deck.Add(card);
         }
 

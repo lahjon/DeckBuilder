@@ -31,14 +31,17 @@ public class CardActivityDualWield : CardActivity
             CardActivitySetting activity = new CardActivitySetting(new CardActivityData() {parameter = cmd, type = CardActivityType.AddCardToCombat });
             yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(activity));
 
-            CardFunctionalityData modData = new CardFunctionalityData();
-            modData.singleFieldProperties.Add(new CardSingleFieldPropertyTypeWrapper(CardSingleFieldPropertyType.Exhaust, true));
+            List<CardFunctionalityData> modData = new List<CardFunctionalityData>(display.selectedCards[0].cardModifiers);
+            CardFunctionalityData exhauster = new CardFunctionalityData();
+            exhauster.singleFieldProperties.Add(new CardSingleFieldPropertyTypeWrapper(CardSingleFieldPropertyType.Exhaust, true));
+            modData.Add(exhauster);
 
             for(int i = 0; i < x; i++)
             {
                 CardCombat card = CombatSystem.instance.Hand[CombatSystem.instance.Hand.Count - 1 - i];
                 card.cost.ModifyCardCost(-1);
-                card.AddModifierToCard(modData);
+                for(int j = 0; j< modData.Count; j++)
+                    card.AddModifierToCard(modData[j]);
             }
         }
     }
