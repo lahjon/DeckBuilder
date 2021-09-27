@@ -135,33 +135,6 @@ public class Card : MonoBehaviour
         if (this is CardVisual card)
             card.UpdateCardVisual();
     }
-    public bool DowngradeCard()
-    {
-        if (timesUpgraded < 1) return false;
-        RemoveModifierFromCard(cardData.upgrades[timesUpgraded-- - 1]);
-
-        return true;
-    }
-
-    public void RemoveModifierFromCard(CardFunctionalityData data)
-    {
-        // NEED FIX
-        cardModifiers.Remove(data);
-
-        if (this is CardVisual card)
-            card.UpdateCardVisual();
-    }
-    void RemoveUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
-    {
-        // NEED FIX
-        targetList.Remove(SetupEffectcarrier(data));
-    }
-
-    void RemoveUpgradeActivityToList(List<CardActivitySetting> targetList, CardActivityData activity)
-    {
-        // NEED FIX
-        targetList.Remove(SetupActivitySetting(activity));
-    }
 
     void AddUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
     {
