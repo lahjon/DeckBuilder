@@ -23,9 +23,11 @@ public class DeckDisplayManager : Manager
     public TMP_Text upgradeLevel;
     public Toggle toggleUpgrade;
     public GameObject upgradesViewer;
+    public System.Action confirmCallback;
 
     public Dictionary<CardVisual, CardVisual> sourceToCard = new Dictionary<CardVisual, CardVisual>();
     public Dictionary<CardVisual, CardVisual> cardToSource = new Dictionary<CardVisual, CardVisual>();
+
 
     protected override void Awake()
     {
@@ -116,6 +118,8 @@ public class DeckDisplayManager : Manager
         upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
         selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
 
+        
+
         toggleUpgrade.gameObject.SetActive(aCard.cardData.maxUpgrades != 0);
     }
 
@@ -166,6 +170,16 @@ public class DeckDisplayManager : Manager
         inspectCard.SetActive(false);
         deckDisplay.SetActive(false);
         selectedCard = null;
+        confirmCallback = null;
+    }
+
+    public void ConfirmCallback()
+    {
+        if (confirmCallback != null)
+        {
+            confirmCallback.Invoke();
+            confirmCallback = null;
+        }
     }
 
     public void ButtonClose()

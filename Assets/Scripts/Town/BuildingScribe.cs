@@ -10,8 +10,9 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 {
     public GameObject scribe, deckManagement, cardUpgrade; // rooms
     public GameObject upgradedCardWindow;
+    public Button confirmButton, cancelButton, upgradeWindowButton;
     public CardDisplay upgradedCard;
-    public GameObject cardPrefab;
+    public GameObject cardPrefab, upgradeCostPrefab;
     public List<CardWrapper> unlockedCards = new List<CardWrapper>();
     public List<CardWrapper> deckCards = new List<CardWrapper>();
     public List<CardDisplay> allSideCards = new List<CardDisplay>();
@@ -21,9 +22,14 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public TMP_Text sideboardAmountText;
     public int maxSideboardAmount;
     public int lockedSideboardAmount;
+    public CardVisual selectedCard;
+    public CardWrapper currentCw;
+    GridLayoutGroup glg;
+    Dictionary<int, GameObject> allCosts = new Dictionary<int, GameObject>();
 
     void Start()
     {
+        glg = upgradeParent.GetComponent<GridLayoutGroup>();
         UpdateScribe();
         UpdateDeck();
         ConfirmDeck();
@@ -34,6 +40,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         List<CardDisplay> allCards = new List<CardDisplay>();
         allDeckCards.ForEach(x => allCards.Add(x));
         allCards.ForEach(x => MoveToSide(x, false));
+        allCosts.Clear();
     }
 
     void UpdateDeck()
@@ -95,9 +102,10 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             display.AddModifierToCard(data.upgrades[i]);
 
         display.idx = cw.idx;
+        //allCosts[display.idx].transform.GetChild(0).GetComponent<TMP_Text>().text = cw.timesUpgraded < data.maxUpgrades ? (int.Parse(display.cardData.upgradeCostShards) * (cw.timesUpgraded + 1)).ToString() + " shards" : "";
     }
 
-    void UpgradeCard(CardDisplay card)
+    void PreviewUpgradeCard(CardDisplay card)
     {   
         if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardId) is CardWrapper cw)
         {
@@ -113,30 +121,34 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough shards!");
                 return;
             }
-            
-            WorldSystem.instance.characterManager.shard -= upgradeCost;
-            CardFunctionalityData cardModifierData = card.cardData.upgrades[cw.timesUpgraded];
-            cw.RegisterUpgrade(cardModifierData.id);
-            card.AddModifierToCard(cardModifierData);
 
-            upgradedCardWindow.SetActive(true);
-            GridLayoutGroup glg = upgradeParent.GetComponent<GridLayoutGroup>();
+            currentCw = cw;
+            selectedCard = card;
             glg.enabled = false;
-            upgradedCard.Mimic(card);
+            upgradedCard.Clone(card);
             card.gameObject.SetActive(false);
-
-            void Callback()
-            {
-                glg.enabled = true;
-                card.gameObject.SetActive(true);
-                upgradedCardWindow.SetActive(false);
-            }
-
-            upgradedCardWindow.GetComponent<Button>().onClick.AddListener(() => Callback());
-            upgradedCard.OnClick = Callback;
-
-            WorldSystem.instance.SaveProgression();
+            upgradedCardWindow.SetActive(true);
         }
+
+    }
+    public void ButtonUpgradeCard()
+    {
+        if (currentCw == null || selectedCard == null) return;
+        int upgradeCost = int.Parse(selectedCard.cardData.upgradeCostShards) * (currentCw.timesUpgraded + 1);
+        WorldSystem.instance.characterManager.shard -= upgradeCost;
+        CardFunctionalityData cardModifierData = selectedCard.cardData.upgrades[currentCw.timesUpgraded];
+        currentCw.RegisterUpgrade(cardModifierData.id);
+        selectedCard.UpgradeCard();
+        //if (selectedCard.UpgradeCard()) allCosts[selectedCard.idx].transform.GetChild(0).GetComponent<TMP_Text>().text = selectedCard.timesUpgraded + 1 < selectedCard.cardData.maxUpgrades ? (int.Parse(selectedCard.cardData.upgradeCostShards) * (selectedCard.timesUpgraded + 2)).ToString() + " shards" : "";
+        ButtonCloseUpgrade();
+        WorldSystem.instance.SaveProgression();
+    }
+    public void ButtonCloseUpgrade()
+    {
+        selectedCard?.gameObject.SetActive(true);
+        selectedCard = null;
+        glg.enabled = true;
+        upgradedCardWindow.SetActive(false);
     }
 
     void SortDeck()
@@ -232,6 +244,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
         for (int i = 0; i < subsetCharacterCards.Count; i++)
         {
+            // GameObject goCost = Instantiate(upgradeCostPrefab, allSideCards[i].transform);
+            // allCosts.Add(subsetCharacterCards[i].idx, goCost);
             CreateCardManage(allSideCards[i], subsetCharacterCards[i]);
         }
     }
@@ -240,7 +254,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         foreach (CardDisplay display in allSideCards.Concat(allDeckCards).ToList())
         {
-            display.OnClick = () => UpgradeCard(display);
+            display.OnClick = () => PreviewUpgradeCard(display);
             display.transform.SetParent(upgradeParent);
             display.selectable = true;
         }
@@ -299,11 +313,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         allDeckCards.ForEach(x => x.transform.SetParent(deckParent));
         StepBack();
     }
-
-    // protected override void StepBack()
-    // {
-    //     base.StepBack();
-    // }
 
     public void PopulateSaveDataCharacter(SaveDataCharacter a_SaveData)
     {

@@ -1743,7 +1743,7 @@ MonoBehaviour:
   defaultDrawCardAmount: 0
   characterVariablesUI: {fileID: 1552755417}
   character: {fileID: 952739434614670721}
-  playerCards: []
+  deck: []
   selectedCharacterClassType: 0
   allCharacterData:
   - {fileID: 11400000, guid: 22875865049eea346b4e5fd9c094be69, type: 2}
