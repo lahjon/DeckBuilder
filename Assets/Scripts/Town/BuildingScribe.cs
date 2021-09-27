@@ -40,27 +40,21 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         //ResetDeck();
         List<CardDisplay> cards = new List<CardDisplay>();
-        List<CardDisplay> cardsOptional = allSideCards.Concat(allDeckCards).Where(x => x.rarity != Rarity.Starting).ToList();
-        List<CardDisplay> cardLocked = allSideCards.Concat(allDeckCards).Where(x => x.rarity == Rarity.Starting).ToList();
-        cardsOptional.ForEach(x => {
-            x.OnClick = () => MoveCard(x);
-            x.selectable = true;
-        });
-        cardLocked.ForEach(x => {
-            x.OnClick = null;
-            x.selectable = false;
-        });
 
-        foreach (CardDisplay c in allSideCards)
+        foreach(CardDisplay card in allSideCards)
         {
-            foreach (CardWrapper cw in deckCards)
-            {
-                if (cw.idx == c.idx && cw.cardId == c.cardId)
-                {
-                    cards.Add(c);
-                }
-            }
+            if(card.rarity == Rarity.Starting)
+                card.OnClick = null;
+            else
+                card.OnClick = () => MoveCard(card);
+            card.selectable = card.rarity != Rarity.Starting;
         }
+        
+        foreach (CardDisplay c in allSideCards)
+            foreach (CardWrapper cw in deckCards)
+                if (cw.idx == c.idx && cw.cardId == c.cardId)
+                    cards.Add(c);
+
         cards.ForEach(c => MoveToDeck(c, false));
 
         SortDeck();
@@ -93,13 +87,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     void CreateCardManage(CardDisplay display, CardWrapper cw)
     {
         CardData data = DatabaseSystem.instance.GetCardByID(cw.cardId);
-        display.name = data.cardName;
         display.cardData = data;
         display.BindCardData();
         display.BindCardVisualData();
-        display.timesUpgraded = cw.timesUpgraded;
 
-        for (int i = 0; i < display.timesUpgraded; i++)
+        for (int i = 0; i < cw.timesUpgraded; i++)
             display.AddModifierToCard(data.upgrades[i]);
 
         display.idx = cw.idx;
@@ -110,40 +102,40 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardId) is CardWrapper cw)
         {
             int upgradeCost = int.Parse(card.cardData.upgradeCostShards) * (cw.timesUpgraded + 1);
+            
             if (cw.timesUpgraded >= card.cardData.upgrades.Count)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Card is fully upgraded!");
                 return;
             }
-            if (WorldSystem.instance.characterManager.shard >= upgradeCost)
-            {
-                CardFunctionalityData cardModifierData = card.cardData.upgrades[cw.timesUpgraded];
-                cw.cardModifiersId.Add(cardModifierData.id);
-                cw.timesUpgraded++;
-                card.timesUpgraded++;
-                card.AddModifierToCard(cardModifierData);
-                WorldSystem.instance.characterManager.shard -= upgradeCost;
-                upgradedCardWindow.SetActive(true);
-                GridLayoutGroup glg = upgradeParent.GetComponent<GridLayoutGroup>();
-                glg.enabled = false;
-                upgradedCard.Mimic(card);
-                card.gameObject.SetActive(false);
-
-                void Callback()
-                {
-                    glg.enabled = true;
-                    card.gameObject.SetActive(true);
-                    upgradedCardWindow.SetActive(false);
-                }
-
-                upgradedCardWindow.GetComponent<Button>().onClick.AddListener(() => Callback());
-                upgradedCard.OnClick = Callback;
-                WorldSystem.instance.SaveProgression();
-            }
-            else
+            else if(WorldSystem.instance.characterManager.shard < upgradeCost)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough shards!");
+                return;
             }
+            
+            WorldSystem.instance.characterManager.shard -= upgradeCost;
+            CardFunctionalityData cardModifierData = card.cardData.upgrades[cw.timesUpgraded];
+            cw.RegisterUpgrade(cardModifierData.id);
+            card.AddModifierToCard(cardModifierData);
+
+            upgradedCardWindow.SetActive(true);
+            GridLayoutGroup glg = upgradeParent.GetComponent<GridLayoutGroup>();
+            glg.enabled = false;
+            upgradedCard.Mimic(card);
+            card.gameObject.SetActive(false);
+
+            void Callback()
+            {
+                glg.enabled = true;
+                card.gameObject.SetActive(true);
+                upgradedCardWindow.SetActive(false);
+            }
+
+            upgradedCardWindow.GetComponent<Button>().onClick.AddListener(() => Callback());
+            upgradedCard.OnClick = Callback;
+
+            WorldSystem.instance.SaveProgression();
         }
     }
 
@@ -151,21 +143,15 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         // sort deck
         List<CardDisplay> sorted = allDeckCards.OrderBy(x => x.cardName).ToList();
-        int amount = allDeckCards.Count;
 
-        for (int i = 0; i < amount; i++)
-        {
+        for (int i = 0; i < sorted.Count; i++)
             sorted[i].transform.SetSiblingIndex(i);
-        }
     
         // sort side
         sorted = allSideCards.OrderBy(x => x.cardName).ToList();
-        amount = allSideCards.Count;
 
-        for (int i = 0; i < amount; i++)
-        {
+        for (int i = 0; i < sorted.Count; i++)
             sorted[i].transform.SetSiblingIndex(i);
-        }
     }
 
     void UpdateCounter()
@@ -176,13 +162,9 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public void MoveCard(CardDisplay card)
     {
         if (card.transform.parent == deckParent)
-        {
             MoveToSide(card);
-        }
         else
-        {
             MoveToDeck(card);
-        }
 
         UpdateCounter();
     }
@@ -223,9 +205,8 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public void UpdateScribe()
     {
         CardDisplay display;
-        //SaveDataManager.LoadJsonData(GetComponents<ISaveableCharacter>(), (int)WorldSystem.instance.characterManager.selectedCharacterClassType);
         ResetDeck();
-        List<CardWrapper> uCards = new List<CardWrapper>();
+        List<CardWrapper> subsetCharacterCards = new List<CardWrapper>();
 
         for (int i = 0; i < unlockedCards.Count; i++)
         {
@@ -233,25 +214,25 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             {
                 if ((int)data.cardClass == (int)WorldSystem.instance.characterManager.selectedCharacterClassType || data.cardClass == CardClassType.Colorless)
                 {
-                    uCards.Add(unlockedCards[i]);
+                    subsetCharacterCards.Add(unlockedCards[i]);
                 }
             }
         }
         
-        while (allSideCards.Count < uCards.Count)
+        while (allSideCards.Count < subsetCharacterCards.Count)
         {
             display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
             allSideCards.Add(display);
         }
-        while (allSideCards.Count > uCards.Count)
+        while (allSideCards.Count > subsetCharacterCards.Count)
         {
             Destroy(allSideCards[allSideCards.Count - 1].gameObject);
             allSideCards.RemoveAt(allSideCards.Count - 1);
         }
 
-        for (int i = 0; i < uCards.Count; i++)
+        for (int i = 0; i < subsetCharacterCards.Count; i++)
         {
-            CreateCardManage(allSideCards[i], uCards[i]);
+            CreateCardManage(allSideCards[i], subsetCharacterCards[i]);
         }
     }
 

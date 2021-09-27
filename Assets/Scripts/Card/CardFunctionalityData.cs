@@ -39,6 +39,10 @@ public struct CardSingleFieldPropertyTypeWrapper
 [System.Serializable] 
 public class CardWrapper
 {
+    public string cardId;
+    public int timesUpgraded;
+    public int idx;
+    public List<string> cardModifiersId = new List<string>();
     public CardWrapper(string anId, int anIdx, List<string> allCardModifiers, int allTimesUpgraded)
     {
         cardId = anId;
@@ -51,8 +55,11 @@ public class CardWrapper
         cardId = anId;
         idx = anIdx;
     }
-    public string cardId;
-    public int timesUpgraded;
-    public int idx;
-    public List<string> cardModifiersId = new List<string>();
+
+    public void RegisterUpgrade(string id)
+    {
+        cardModifiersId.Add(id);
+        timesUpgraded++;
+    }
+
 }

@@ -99,12 +99,14 @@ public class Card : MonoBehaviour
     public bool UpgradeCard()
     {
         if (timesUpgraded >= cardData.maxUpgrades) return false;
-        AddModifierToCard(cardData.upgrades[timesUpgraded++]);
+        AddModifierToCard(cardData.upgrades[timesUpgraded]);
 
         return true;
     }
     public void AddModifierToCard(CardFunctionalityData data)
     {
+        timesUpgraded++;
+
         cardModifiers.Add(data);
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
@@ -185,16 +187,9 @@ public class Card : MonoBehaviour
         Image image = GetComponent<Image>();
         image.raycastTarget = false;
 
-        // if (owner = CombatSystem.instance.Hero)
-        // {
-        //     CardCombat card = (CardCombat)this;
-        //     card.DeselectCard();
-        // }
-
         Sequence mySequence = DOTween.Sequence();
         mySequence.Append(transform.DORotate(new Vector3(0,0,1080), 1, RotateMode.FastBeyond360));
         mySequence.Join(transform.DOScale(0, 1));
-        //mySequence.Join(transform.DORotate(new Vector3(0,0,1080), 1));
         mySequence.OnComplete(() => {
             gameObject.SetActive(false);
             transform.localScale = Vector3.one;
