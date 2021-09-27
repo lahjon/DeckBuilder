@@ -16,10 +16,11 @@ MonoBehaviour:
   difficulty: 3
   rewardStruct:
     type: 2
-    value: []
+    value:
+    - 20
   clearCondition:
     type: 1
     strParameter: 
-    numValue: 10
+    numValue: 12
   type: 1
   unlockableEncounters: []
