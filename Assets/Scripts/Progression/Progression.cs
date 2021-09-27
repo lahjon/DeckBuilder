@@ -10,11 +10,10 @@ public abstract class Progression : MonoBehaviour
     public List<CountingCondition> countingConditions = new List<CountingCondition>();
     public bool completed = false;
 
-    public void CreateGoals(ProgressionData data)
+    public void CreateGoals(ProgressionData aData)
     {
-        if (data == null) return;
-        
-        foreach (ConditionStruct x in data.conditionStructs)
+        if (aData == null) return;
+        foreach (ConditionStruct x in aData.conditionStructs)
         {
             CountingCondition countingCondition = new CountingCondition(x, ConditionOnUpdate, ConditionOnTrue);
             countingCondition.Subscribe();

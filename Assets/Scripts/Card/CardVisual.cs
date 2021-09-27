@@ -74,9 +74,10 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public void UpdateCardVisual()
     {
-        nameText.text += " +";
-        cardName += " +";
-        cardBackground.color = Helpers.upgradeCardColor; 
+        string newCardName = timesUpgraded > 0 ? string.Format("{0} +{1}", cardData.cardName, timesUpgraded)  : cardData.cardName;
+        nameText.text = newCardName;
+        cardName = newCardName;
+        cardBackground.color = timesUpgraded > 0 ? Helpers.upgradeCardColor : Helpers.normalCardColor;
         ResetCardTextElementsList();
         RefreshDescriptionText(true);
         SetToolTips();
