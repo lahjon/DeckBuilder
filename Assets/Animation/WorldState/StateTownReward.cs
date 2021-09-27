@@ -8,7 +8,7 @@ public class StateTownReward : WorldStateAnimator
     {
         Init(TransitionType.Normal, WorldState.TownReward);
         world.rewardManager.CollectRewards();
-        world.characterManager.ResetDeck();
+        
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

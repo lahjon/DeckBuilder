@@ -116,7 +116,7 @@ public class DeckDisplayManager : Manager
         upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
         selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
 
-        toggleUpgrade.gameObject.SetActive(aCard.upgradable);
+        toggleUpgrade.gameObject.SetActive(aCard.cardData.maxUpgrades != 0);
     }
 
     public void ResetPlaceHolderCard()
@@ -140,8 +140,6 @@ public class DeckDisplayManager : Manager
         placeholderCard.Clone(placeholderCard,mods);
         upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
     }
-
-    //Depreaceted? 
     public void ButtonToggleViewUpgrade()
     {
         upgradesViewer.SetActive(toggleUpgrade.isOn);
@@ -151,7 +149,6 @@ public class DeckDisplayManager : Manager
         else
             ButtonNextUpgrade();
     }
-
 
     public void DeactivateDisplayCard()
     {
