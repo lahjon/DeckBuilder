@@ -6,7 +6,6 @@ using System.Linq;
 [CreateAssetMenu(fileName = "NewMissionData", menuName = "CardGame/MissionData")]
 public class MissionData : ProgressionData
 {
-    [TextArea(5,5)]public string description;
     public bool mainMission;
     public string startEvent;
     public string endEvent;
