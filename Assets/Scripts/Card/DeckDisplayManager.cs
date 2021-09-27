@@ -89,7 +89,6 @@ public class DeckDisplayManager : Manager
     public void Add(CardVisual source)
     {
         CardDisplay card = Instantiate(cardPrefab, content.transform).GetComponent<CardDisplay>();
-        card.transform.SetParent(content.transform);
         card.gameObject.SetActive(true);
 
         sourceToCard[source] = card;
@@ -100,11 +99,9 @@ public class DeckDisplayManager : Manager
     public void Remove(CardVisual source)
     {
         CardVisual card = sourceToCard[source];
-
-        Destroy(sourceToCard[source].gameObject);
-
-        sourceToCard.Remove(source);
         cardToSource.Remove(card);
+        Destroy(sourceToCard[source].gameObject);
+        sourceToCard.Remove(source);
     }
 
     public void DisplayCard(CardVisual aCard)
@@ -123,12 +120,10 @@ public class DeckDisplayManager : Manager
             selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
         }
         else
-        {
-            ResetCardPosition();
-        }
+            DeactivateDisplayCard();
     }
 
-    public void ResetCard()
+    public void ResetPlaceHolderCard()
     {
         placeholderCard.Clone(selectedCard);
         upgradeLevel.text = (selectedCard.timesUpgraded + 1).ToString();
@@ -151,20 +146,14 @@ public class DeckDisplayManager : Manager
     }
     public void ButtonToggleViewUpgrade()
     {
-        if (toggleUpgrade.isOn)
-        {
-            upgradeTools.SetActive(true);
-        }
-        else
-        {
-            upgradeTools.SetActive(false);
-            if (selectedCard != null && inspectCard.activeSelf)
-            {
-                ResetCard();
-            }
-        }
+        upgradeTools.SetActive(toggleUpgrade.isOn);
+
+        if(!toggleUpgrade.isOn && selectedCard != null && inspectCard.activeSelf)
+            ResetPlaceHolderCard();
     }
-    public void ResetCardPosition()
+
+
+    public void DeactivateDisplayCard()
     {
         inspectCard.SetActive(false);
         toggleUpgrade.isOn = false;
