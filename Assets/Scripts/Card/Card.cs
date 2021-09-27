@@ -145,15 +145,23 @@ public class Card : MonoBehaviour
             if (targetList[i].CanAbsorb(data))
             {
                 targetList[i].AbsorbModifier(data);
-                break;
+                return;
             }
             targetList.Add(SetupEffectcarrier(data));
         }
     }
 
-    void AddUpgradeActivityToList(List<CardActivitySetting> targetList, CardActivityData activity)
+    void AddUpgradeActivityToList(List<CardActivitySetting> targetList, CardActivityData data)
     {
-        targetList.Add(SetupActivitySetting(activity));
+        for(int i = 0; i < targetList.Count; i++)
+        {
+            if (targetList[i].CanAbsorb(data))
+            {
+                targetList[i].AbsorbModifierData(data);
+                return;
+            }
+        }
+        targetList.Add(SetupActivitySetting(data));
     }
 
 
@@ -304,9 +312,9 @@ public class Card : MonoBehaviour
             }
             else
             {
-                int aParam = int.Parse(a.GetactivityByType(CardActivityType.Splice).parameter) - 1;
+                int aParam = int.Parse(a.GetactivityByType(CardActivityType.Splice).strParameter) - 1;
                 if (aParam > 1)
-                    Target.activitiesOnPlay.Add(new CardActivitySetting(new CardActivityData() { type = CardActivityType.Splice, parameter = aParam.ToString() },Target));
+                    Target.activitiesOnPlay.Add(new CardActivitySetting(new CardActivityData() { type = CardActivityType.Splice, strParameter = aParam.ToString() },Target));
             }
         }
     }

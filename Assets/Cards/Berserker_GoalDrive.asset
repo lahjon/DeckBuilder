@@ -17,7 +17,8 @@ MonoBehaviour:
   effects: []
   activities:
   - type: 7
-    parameter: 1
+    strParameter: 
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 
@@ -33,8 +34,9 @@ MonoBehaviour:
     inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 15
-  maxUpgrades: 0
-  upgrades: []
+  maxUpgrades: 1
+  upgrades:
+  - {fileID: 11400000, guid: 0337183050d959740b4257cd8ed4b7a8, type: 2}
   rarity: 13
   cardClass: 1
   animationPrefab: {fileID: 0}

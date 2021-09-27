@@ -6,13 +6,11 @@ using UnityEngine;
 public class CardActivityExhaustDiscard : CardActivity
 {
 
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
-        int x = Int32.Parse(input);
-
         CombatActor target = CombatSystem.instance.InProcessTarget;
         
-        for(int i = 0; i < x && target.discard.Count >= 0; i++)
+        for(int i = 0; i < data.val && target.discard.Count >= 0; i++)
         {
             Card card = target.discard[0];
             target.discard.RemoveAt(0);
@@ -27,13 +25,13 @@ public class CardActivityExhaustDiscard : CardActivity
         yield return null;
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
-        return "Exhaust " + input + " in the targets discard.";
+        return "Exhaust " + data.val + " in the targets discard.";
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
-        return $"When you play this card, the top  " + (input == "1" ? " card " : input + " cards") + " in the targets discard will be exhausted";
+        return $"When you play this card, the top  " + (data.val == 1 ? " card " : data.val + " cards") + " in the targets discard will be exhausted";
     }
 }

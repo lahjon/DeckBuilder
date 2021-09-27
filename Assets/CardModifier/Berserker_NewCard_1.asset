@@ -35,4 +35,12 @@ MonoBehaviour:
       strParameter: 
       numValue: 0
     execTime: 0
-  activities: []
+  activities:
+  - type: 4
+    strParameter: 
+    val: 40
+    conditionStruct:
+      type: 0
+      strParameter: 
+      numValue: 0
+    execTime: 0

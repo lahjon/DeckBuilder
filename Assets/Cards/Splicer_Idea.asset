@@ -17,14 +17,16 @@ MonoBehaviour:
   effects: []
   activities:
   - type: 2
-    parameter: 1
+    strParameter: 
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
     execTime: 0
   - type: 0
-    parameter: 1
+    strParameter: 
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 

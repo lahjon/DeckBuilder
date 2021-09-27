@@ -62,7 +62,9 @@ public class DebugManager : MonoBehaviour
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
                     CardActivityAddCardToCombat addIt = new CardActivityAddCardToCombat();
-                    StartCoroutine(addIt.Execute(x));
+
+                    CardActivitySetting data = new CardActivitySetting(new CardActivityData() { strParameter = x, type = CardActivityType.DrawCard });
+                    StartCoroutine(addIt.Execute(data));
                 }
             }
         );

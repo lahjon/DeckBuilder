@@ -7,20 +7,20 @@ using System;
 public class CardActivityAddCardToCombat : CardActivity
 {
     string databaseName;
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
         //Debug.Log("Starting AddCard");
-        string[] inputSplit = input.Split(';');
+        string[] inputSplit = data.strParameter.Split(';');
         List<string> cardNames = new List<string>();
         List<CardCombat> cards = new List<CardCombat>();
         List<CardLocation> targetLocations = new List<CardLocation>();
 
         foreach(string s in inputSplit)
         {
-            string[] data = s.Split(',');
-            cardNames.Add(data[0]);
+            string[] cardData = s.Split(',');
+            cardNames.Add(cardData[0]);
             CardLocation locale;
-            Enum.TryParse(data[1], out locale);
+            Enum.TryParse(cardData[1], out locale);
             targetLocations.Add(locale);
         }
 
@@ -32,13 +32,13 @@ public class CardActivityAddCardToCombat : CardActivity
         yield return null;
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
         databaseName = "poo"; // DatabaseSystem.instance.cardDatabase.allCards.Where(x => x.name == input).FirstOrDefault().cardName;
         return $"Add a <b>{databaseName}</b> to your deck.";
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
         return $"When you play this card, a <b>{databaseName}</b> will be added to your deck.";
     }

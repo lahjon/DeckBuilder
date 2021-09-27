@@ -5,20 +5,19 @@ using UnityEngine;
 
 public class CardActivityHeal : CardActivity
 {
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
-        int x = Int32.Parse(input);
-        CombatSystem.instance.ActiveActor.HealLife(x);
+        CombatSystem.instance.ActiveActor.HealLife(data.val);
         yield return null;
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
-        return "Heal " + input + " life";
+        return "Heal " + data.val + " life";
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
-        return $"<b>Heal</b> This will restore some life lost";
+        return string.Empty;
     }
 }

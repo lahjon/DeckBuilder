@@ -6,9 +6,8 @@ public abstract class CardActivity
 {
     public static CardActivitySystem ActivitySystem;
 
-    public abstract IEnumerator Execute(string input);
-    public abstract string GetDescription(string input);
-
-    public abstract string GetToolTip(string input);
+    public abstract IEnumerator Execute(CardActivitySetting data);
+    public abstract string GetDescription(CardActivitySetting data);
+    public abstract string GetToolTip(CardActivitySetting data);
 
 }

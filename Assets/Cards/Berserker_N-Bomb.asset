@@ -18,7 +18,7 @@ MonoBehaviour:
   - Type: 0
     Value:
       linkedProp: 0
-      baseVal: 32
+      baseVal: 22
       scalar: 1
       inverseScalar: 0
     Times:
@@ -43,8 +43,9 @@ MonoBehaviour:
     inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 15
-  maxUpgrades: 0
-  upgrades: []
+  maxUpgrades: 1
+  upgrades:
+  - {fileID: 11400000, guid: e9341a2b3708c474ea4a030d3b6b4bc8, type: 2}
   rarity: 13
   cardClass: 1
   animationPrefab: {fileID: 0}

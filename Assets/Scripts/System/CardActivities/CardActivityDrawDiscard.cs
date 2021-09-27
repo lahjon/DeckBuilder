@@ -7,10 +7,9 @@ using System.Linq;
 public class CardActivityDrawDiscard : CardActivity
 {
     public bool doneSelecting;
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
-        int x = int.Parse(input);
-        CardActivitySetting activity = new CardActivitySetting(new CardActivityData() {parameter = input, type = CardActivityType.DrawCard });
+        CardActivitySetting activity = new CardActivitySetting(new CardActivityData() {val = data.val, type = CardActivityType.DrawCard });
         yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(activity));
 
         List<CardVisual> DiscardCards = new List<CardVisual>();
@@ -23,7 +22,7 @@ public class CardActivityDrawDiscard : CardActivity
             doneSelecting = false;
 
             CombatDeckDisplay display = CombatSystem.instance.combatDeckDisplay;
-            display.OpenDeckDisplay(CardLocation.Hand, 2, null, () => { doneSelecting = true; });
+            display.OpenDeckDisplay(CardLocation.Hand, data.val, null, () => { doneSelecting = true; });
 
             while (!doneSelecting)
                 yield return null;
@@ -36,12 +35,12 @@ public class CardActivityDrawDiscard : CardActivity
                 CombatSystem.instance.StartCoroutine(CombatSystem.instance.DiscardCard(cc));
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
-        return "Draw " + input + ", then discard " + input;
+        return "Draw " + data.val + ", then discard " + data.val;
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
         return string.Empty;
     }

@@ -6,13 +6,13 @@ using System.Linq;
 
 public class CardActivitySplice : CardActivity
 {
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
         CardEffectCarrier cardEffect;
         CombatActor hero = CombatSystem.instance.Hero;
 
         if (!hero.effectTypeToRule.ContainsKey(EffectType.Splice)) {
-            cardEffect = new CardEffectCarrier(EffectType.Splice, int.Parse(input));
+            cardEffect = new CardEffectCarrier(EffectType.Splice, data.val);
             yield return CombatSystem.instance.StartCoroutine(hero.RecieveEffectNonDamageNonBlock(cardEffect));
         }
         else
@@ -43,15 +43,15 @@ public class CardActivitySplice : CardActivity
         }
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
-        return "<b>Splice</b>" + input;
+        return "<b>Splice</b>" + data.val;
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
         return $"If you play this card while you have <b>Splice</b>, add the contents of the top card with <b>Splice</b> in your discard pile to this card. " +
             $"\nOtherwise, recieve the <b>Splice</b> status effect. " +
-            $"\nThis card can merge " + input + " more time" + (input.Equals("1") ? "" : "s");
+            $"\nThis card can merge " + data.val  + " more time" + (data.val  == 1 ? "" : "s");
     }
 }

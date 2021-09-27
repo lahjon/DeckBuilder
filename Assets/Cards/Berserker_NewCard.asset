@@ -37,7 +37,8 @@ MonoBehaviour:
     execTime: 0
   activities:
   - type: 4
-    parameter: -20
+    strParameter: 
+    val: -20
     conditionStruct:
       type: 0
       strParameter: 

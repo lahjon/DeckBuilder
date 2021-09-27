@@ -6,7 +6,7 @@ using System.Linq;
 
 public class CardActivitySetRandomBroken : CardActivity
 {
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
         List<CardCombat> eligibleCards = CombatSystem.instance.Hand.Where(c => c.classType != CardClassType.Burden && c.classType != CardClassType.Enemy && c.classType != CardClassType.Torment).ToList();
         int index = Random.Range(0, eligibleCards.Count);
@@ -14,12 +14,12 @@ public class CardActivitySetRandomBroken : CardActivity
         yield return null;
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
         return "Break a random card";
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
         return "A random card will be broken";
     }
