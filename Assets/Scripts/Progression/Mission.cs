@@ -5,7 +5,6 @@ using System.Linq;
 
 public class Mission : Progression
 {
-    public string description;
     public string endEvent;
     public string startEvent;
     public MissionData data;

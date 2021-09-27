@@ -149,12 +149,13 @@ public class DeckDisplayManager : Manager
         if (!toggleUpgrade.isOn && selectedCard != null && inspectCard.activeSelf)
             ResetPlaceHolderCard();
         else
-            placeholderCard.UpgradeCard();
+            ButtonNextUpgrade();
     }
 
 
     public void DeactivateDisplayCard()
     {
+        Debug.Log("deactivate");
         inspectCard.SetActive(false);
         toggleUpgrade.isOn = false;
         scroller.enabled = true;

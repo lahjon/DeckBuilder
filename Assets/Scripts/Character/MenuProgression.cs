@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenuProgression : MonoBehaviour
 {
@@ -12,16 +13,36 @@ public class MenuProgression : MonoBehaviour
     public List<MenuItemProgression> completedMissions, currentMissions = new List<MenuItemProgression>();
     public Image objCompletedButton, objCurrentButton;
     public Image missionCompletedButton, missionCurrentButton;
+    public GameObject descriptionWindow;
+    public TMP_Text descriptionTitle, descriptionText, descriptionGoals;
+    public ProgressionData currentProgressionData;
 
     void OnEnable()
     {
+        DisableDescription();
         UpdateMenu();
     }
-
     void UpdateMenu()
     {
         UpdateObjectives();
         UpdateMissions();
+    }
+    public void DisableDescription()
+    {
+        if (descriptionWindow.activeSelf)
+        {
+            currentProgressionData = null;
+            descriptionWindow.SetActive(false);
+        }
+    }
+    public void EnableDescription(ProgressionData aData, int cAmount, int rAmount)
+    {
+        Debug.Log("Enable");
+        currentProgressionData = aData;
+        descriptionTitle.text = aData.aName;
+        descriptionText.text = aData.description;
+        descriptionGoals.text = rAmount != 0 ? string.Format("{0} - ({1} / {2})", aData.conditionStructs[0].type.ToString(), cAmount.ToString(), rAmount.ToString()) : "Completed";
+        descriptionWindow.SetActive(true);
     }
 
     void UpdateMissions()
@@ -146,6 +167,7 @@ public class MenuProgression : MonoBehaviour
         currentObjs.ForEach(x => x.gameObject.SetActive(true));
         objCompletedButton.color = Color.gray;
         objCurrentButton.color = Color.white;
+        //DisableDescription();
     }
     public void ButtonShowCompletedObjectives()
     {
@@ -153,6 +175,7 @@ public class MenuProgression : MonoBehaviour
         currentObjs.ForEach(x => x.gameObject.SetActive(false));
         objCompletedButton.color = Color.white;
         objCurrentButton.color = Color.gray;
+        //DisableDescription();
     }
 
     public void ButtonShowCurrentMissions()
@@ -161,6 +184,7 @@ public class MenuProgression : MonoBehaviour
         currentMissions.ForEach(x => x.gameObject.SetActive(true));
         missionCompletedButton.color = Color.gray;
         missionCurrentButton.color = Color.white;
+        //DisableDescription();
     }
     public void ButtonShowCompletedMissions()
     {
@@ -168,5 +192,6 @@ public class MenuProgression : MonoBehaviour
         currentMissions.ForEach(x => x.gameObject.SetActive(false));
         missionCompletedButton.color = Color.white;
         missionCurrentButton.color = Color.gray;
+        //DisableDescription();
     }
 }

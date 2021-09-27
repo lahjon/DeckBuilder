@@ -7,7 +7,6 @@ public class Objective : Progression
 {
     [TextArea(5,5)]
     public string objectiveName;
-    public string description;
     public ObjectiveData data;
     public ObjectiveData nextObjective;
     public string endEvent;

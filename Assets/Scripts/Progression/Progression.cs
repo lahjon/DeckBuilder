@@ -7,6 +7,7 @@ public abstract class Progression : MonoBehaviour
 {
     public string id;
     public string aName;
+    public string description;
     public List<CountingCondition> countingConditions = new List<CountingCondition>();
     public bool completed = false;
 
