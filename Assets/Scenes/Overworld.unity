@@ -10490,11 +10490,12 @@ MonoBehaviour:
   deckManagement: {fileID: 692563483}
   cardUpgrade: {fileID: 419186843}
   upgradedCardWindow: {fileID: 1710172195}
-  confirmButton: {fileID: 0}
-  cancelButton: {fileID: 0}
-  upgradeWindowButton: {fileID: 0}
+  confirmButton: {fileID: 1082338974}
+  cancelButton: {fileID: 1146757580}
+  upgradeWindowButton: {fileID: 1710172197}
   upgradedCard: {fileID: 1508429933}
   cardPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
+  upgradeCostPrefab: {fileID: 8923610096815713136, guid: bb32b42f23fc9f44282d99b84432bc1c, type: 3}
   unlockedCards: []
   deckCards: []
   allSideCards: []
