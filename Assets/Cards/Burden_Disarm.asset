@@ -23,7 +23,8 @@ MonoBehaviour:
   effects: []
   activities:
   - type: 5
-    parameter: Random
+    strParameter: Random
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 

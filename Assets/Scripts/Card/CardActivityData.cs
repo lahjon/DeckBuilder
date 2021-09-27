@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 public struct CardActivityData
 {
     public CardActivityType type;
-    public string parameter;
+    public string strParameter;
+    public int val;
 
     public ConditionStruct conditionStruct;
 

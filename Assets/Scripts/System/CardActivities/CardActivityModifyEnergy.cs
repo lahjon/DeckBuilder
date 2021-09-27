@@ -6,18 +6,18 @@ using System.Linq;
 
 public class CardActivityModifyEnergy : CardActivity
 {
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
-        CombatSystem.instance.cEnergy += int.Parse(input);
+        CombatSystem.instance.cEnergy += data.val;
         yield return new WaitForSeconds(0.2f); // byt mot energy effekt
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
-        return (input.Substring(0,1).Equals("-") ? "Loose " : "Gain ") + input + " energy";
+        return (data.val < 0 ? "Loose " : "Gain ") + data.val + " energy";
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
         return string.Empty;
     }

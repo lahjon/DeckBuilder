@@ -8,13 +8,15 @@ using System;
 public class CardActivitySetting : ICardTextElement
 {
     public CardActivityType type;
-    public string parameter;
+    public string strParameter;
+    public int val;
     public Condition condition;
 
     public CardActivitySetting(CardActivityData data, Card card = null, Action OnPreConditionUpdate = null)
     {
         type = data.type;
-        parameter = data.parameter;
+        strParameter = data.strParameter;
+        val = data.val;
 
         condition = new Condition(data.conditionStruct, OnPreConditionUpdate);
 
@@ -33,6 +35,18 @@ public class CardActivitySetting : ICardTextElement
     public string GetElementToolTip()
     {
         return CardActivitySystem.instance.ToolTipByCardActivity(this);
+    }
+
+    public bool CanAbsorb(CardActivityData data)
+    {
+        return      type == data.type && 
+                    strParameter == data.strParameter && 
+                    condition.conditionStruct.type == data.conditionStruct.type; 
+    }
+
+    public void AbsorbModifierData(CardActivityData data)
+    {
+        val += data.val;
     }
 }
 

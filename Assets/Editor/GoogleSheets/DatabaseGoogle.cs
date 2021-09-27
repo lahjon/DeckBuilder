@@ -217,7 +217,8 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "Activity"], out activity.type);
             Enum.TryParse((string)gt[i, "ExecutionTime"], out activity.execTime);
 
-            activity.parameter = (string)gt[i, "Parameter"];
+            activity.strParameter = (string)gt[i, "strParameter"];
+            activity.val = Int32.Parse((string)gt[i, "val"]);
 
             int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
             
@@ -348,7 +349,7 @@ public class DatabaseGoogle
                     cDataCardActivity.Add(cardData.name);
                     cDataCardActivity.Add(cardData.cardName);
                     cDataCardActivity.Add(caSetting.type.ToString());
-                    cDataCardActivity.Add(caSetting.parameter.ToString());
+                    cDataCardActivity.Add(caSetting.strParameter.ToString());
                     InputDataCardActivities.Add(cDataCardActivity);
                 }
             }

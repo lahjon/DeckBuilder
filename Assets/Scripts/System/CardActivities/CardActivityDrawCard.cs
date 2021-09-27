@@ -6,18 +6,17 @@ using UnityEngine;
 public class CardActivityDrawCard : CardActivity
 {
 
-    public override IEnumerator Execute(string input)
+    public override IEnumerator Execute(CardActivitySetting data)
     {
-        int x = Int32.Parse(input);
-        yield return ActivitySystem.StartCoroutine(CombatSystem.instance.DrawCards(x));
+        yield return ActivitySystem.StartCoroutine(CombatSystem.instance.DrawCards(data.val));
     }
 
-    public override string GetDescription(string input)
+    public override string GetDescription(CardActivitySetting data)
     {
-        return "Draw " + (input.Equals("1") ? "a card." : input + " cards.");
+        return "Draw " + (data.val == 1 ? "a card." : data.val + " cards.");
     }
 
-    public override string GetToolTip(string input)
+    public override string GetToolTip(CardActivitySetting data)
     {
         return string.Empty;
     }

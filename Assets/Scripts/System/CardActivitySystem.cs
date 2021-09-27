@@ -39,7 +39,7 @@ public class CardActivitySystem : MonoBehaviour
             Debug.LogError("No function exists for Activity of type" + cardActivity.type.ToString());
         }
         else
-            yield return StartCoroutine(ActivityTypeToAction[cardActivity.type].Execute(cardActivity.parameter));
+            yield return StartCoroutine(ActivityTypeToAction[cardActivity.type].Execute(cardActivity));
     }
 
     public string DescriptionByCardActivity(CardActivitySetting cardActivity)
@@ -49,7 +49,7 @@ public class CardActivitySystem : MonoBehaviour
             Debug.LogError("No description exists for Activity of type" + cardActivity.type.ToString());
             return "_NULL";
         }
-        return ActivityTypeToAction[cardActivity.type].GetDescription(cardActivity.parameter);
+        return ActivityTypeToAction[cardActivity.type].GetDescription(cardActivity);
     }
 
 
@@ -60,7 +60,7 @@ public class CardActivitySystem : MonoBehaviour
             Debug.LogError("No description exists for Activity of type" + cardActivity.type.ToString());
             return "_NULL";
         }
-        return ActivityTypeToAction[cardActivity.type].GetToolTip(cardActivity.parameter);
+        return ActivityTypeToAction[cardActivity.type].GetToolTip(cardActivity);
     }
 
 }
