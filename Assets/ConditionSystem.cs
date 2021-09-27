@@ -26,7 +26,7 @@ public class ConditionSystem : MonoBehaviour
         switch (type)
         {
             case ConditionType.CardsPlayedAtLeast:
-                return CheckCardsPlayeAtLeast;
+                return CheckCardsPlayedAtLeast;
             case ConditionType.CardsPlayedAtMost:
                 return CheckCardsPlayedAtMost;
             case ConditionType.LastCardPlayedTurnType:
@@ -36,8 +36,9 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
-    public static bool CheckCardsPlayeAtLeast(ConditionStruct conditionStruct)
+    public static bool CheckCardsPlayedAtLeast(ConditionStruct conditionStruct)
     {
+        Debug.Log("cards played vs value:" + CombatSystem.instance.cardsPlayedThisTurn.Count + "," + conditionStruct.numValue);
         return CombatSystem.instance.cardsPlayedThisTurn.Count >= conditionStruct.numValue;
     }
 

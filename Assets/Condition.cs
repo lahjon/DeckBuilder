@@ -77,7 +77,7 @@ public class Condition : IEventSubscriber
                 break;
         }
 
-        if (this is CountingCondition countingCondition) return;
+        if (this is CountingCondition) return;
         OnEventNotification();
     }
 
@@ -109,18 +109,18 @@ public class Condition : IEventSubscriber
     public virtual void OnEventNotification()
     {
         if (ConditionEvaluator == null) return;
-        bool newVal = ConditionEvaluator(conditionStruct);
+        bool oldVal = value;
+        value = ConditionEvaluator(conditionStruct);
 
         OnPreConditionUpdate?.Invoke();
 
-        if (newVal != value)
+        if (oldVal != value)
         {
-            value = newVal;
             OnConditionFlip?.Invoke();
-            if (newVal)
-                OnConditionFlipTrue?.Invoke();
-            else
+            if (oldVal)
                 OnConditionFlipFalse?.Invoke();
+            else
+                OnConditionFlipTrue?.Invoke();
         }
     }
 
