@@ -22,6 +22,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public RectTransform TooltipAnchor;
     public List<string> toolTipTextBits = new List<string>();
 
+    public GameObject cardPrefab;
+
     public GameObject energyObjects;
 
     public TMP_Text costText;
@@ -136,6 +138,36 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     }
 
+    public static CardVisual Factory(CardVisual cardVisual, Transform parent) => Factory(cardVisual.cardData, parent, cardVisual.cardModifiers);
+
+    public static CardVisual Factory(CardData data, Transform parent, List<CardFunctionalityData> appliedUpgrades = null)
+    {
+        CardVisual card = Instantiate(WorldSystem.instance.characterManager.cardPrefab, parent).GetComponent<CardVisual>();
+        card.cardData = data;
+        card.BindCardData();
+        card.BindCardVisualData();
+
+        if(appliedUpgrades != null)
+            foreach (CardFunctionalityData mod in appliedUpgrades)
+                card.AddModifierToCard(mod);
+
+        return card;
+    }
+
+    public void Clone(CardVisual card, List<CardFunctionalityData> explicitMods = null)
+    {
+        Reset();
+        cardData = card.cardData;
+        BindCardData();
+        BindCardVisualData();
+
+        List<CardFunctionalityData> mods = new List<CardFunctionalityData>(card.cardModifiers);
+        if (explicitMods != null) mods.AddRange(explicitMods);
+
+        foreach (CardFunctionalityData mod in mods)
+            AddModifierToCard(mod);
+    }
+        
     public void RefreshDescriptionText(bool forceRebuild = false)
     {
         if (displayText.Equals("") || forceRebuild) DeriveDescriptionText();

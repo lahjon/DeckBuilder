@@ -137,15 +137,14 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void AddCardToDeck(CardVisual source)
     {
-        CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
-        card.Mimic(source);
+        AddCardToDeck(source.cardData, source.cardModifiers);
+    }
+    public void AddCardToDeck(CardData data, List<CardFunctionalityData> appliedUpgrades = null)
+    {
+        CardVisual card = CardVisual.Factory(data, cardParent, appliedUpgrades);
+
         deck.Add(card);
         WorldSystem.instance.deckDisplayManager.Add(card);
-    }
-    public void AddCardToDeck(CardData data)
-    {
-        CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
-        BindAndRegister(card,data);
     }
 
     public void RemoveCard(CardVisual card)
@@ -156,18 +155,13 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void AddCardToDeck(CardWrapper cw)
     {
-        CardVisual card = Instantiate(cardPrefab, cardParent).GetComponent<CardVisual>();
         CardData data = DatabaseSystem.instance.GetCardByID(cw.cardId);
-        card.timesUpgraded = cw.timesUpgraded;
-        BindAndRegister(card, data);
-    }
+        List<CardFunctionalityData> modifiers = new List<CardFunctionalityData>();
+        for (int i = 0; i < cw.timesUpgraded; i++)
+            modifiers.Add(data.upgrades[i]);
 
-    private void BindAndRegister(CardVisual card, CardData data)
-    {
-        card.name = data.cardName;
-        card.cardData = data;
-        card.BindCardData();
-        card.BindCardVisualData();
+        CardVisual card = CardVisual.Factory(data, cardParent, modifiers);
+
         deck.Add(card);
         WorldSystem.instance.deckDisplayManager.Add(card);
     }

@@ -45,6 +45,7 @@ public class Card : MonoBehaviour
 
     public void Reset()
     {
+        timesUpgraded = 0;
         Attacks.Clear();
         Blocks.Clear();
         effectsOnPlay.Clear();
@@ -106,8 +107,8 @@ public class Card : MonoBehaviour
     public void AddModifierToCard(CardFunctionalityData data)
     {
         timesUpgraded++;
-
         cardModifiers.Add(data);
+
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
 
@@ -184,6 +185,8 @@ public class Card : MonoBehaviour
     public bool HasProperty(CardSingleFieldPropertyType prop) => singleFieldProperties.Any(x => x.type == prop);
     public void Exhaust()
     {
+        if (!(this is CardCombat)) return;
+
         Image image = GetComponent<Image>();
         image.raycastTarget = false;
 

@@ -25,6 +25,7 @@ public class DeckDisplayManager : Manager
     public GameObject upgradeTools;
 
     public Dictionary<CardVisual, CardVisual> sourceToCard = new Dictionary<CardVisual, CardVisual>();
+    public Dictionary<CardVisual, CardVisual> cardToSource = new Dictionary<CardVisual, CardVisual>();
 
     protected override void Awake()
     {
@@ -68,8 +69,9 @@ public class DeckDisplayManager : Manager
                     break;
                 case 1:
                     display.OnClick = () => {
-                        if (world.characterManager.deck.FirstOrDefault(x => x.idx == display.idx)?.UpgradeCard() == true)
+                        if (cardToSource[display].UpgradeCard() == true)
                         {
+                            display.Mimic(cardToSource[display]);
                             CloseDeckDisplay();
                             exitCallback?.Invoke();
                             exitCallback = null;
@@ -91,27 +93,33 @@ public class DeckDisplayManager : Manager
         card.gameObject.SetActive(true);
 
         sourceToCard[source] = card;
+        cardToSource[card] = source;
         card.Mimic(source);
     }
 
     public void Remove(CardVisual source)
     {
+        CardVisual card = sourceToCard[source];
+
         Destroy(sourceToCard[source].gameObject);
+
         sourceToCard.Remove(source);
+        cardToSource.Remove(card);
     }
 
     public void DisplayCard(CardVisual aCard)
     {
         if(selectedCard == null)
         {
-            placeholderCard.Reset();
             aCard.OnMouseExit();
+
             previousPosition = aCard.transform.position;
             selectedCard = aCard;
-            placeholderCard.Mimic(aCard);
+
+            placeholderCard.Clone(aCard);
             inspectCard.SetActive(true);
             scroller.enabled = false;
-            upgradeLevel.text = (aCard.timesUpgraded + 1).ToString();
+            upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
             selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
         }
         else
@@ -122,7 +130,7 @@ public class DeckDisplayManager : Manager
 
     public void ResetCard()
     {
-        placeholderCard.Mimic(selectedCard);
+        placeholderCard.Clone(selectedCard);
         upgradeLevel.text = (selectedCard.timesUpgraded + 1).ToString();
     }
 
@@ -135,10 +143,11 @@ public class DeckDisplayManager : Manager
     }
     public void ButtonPreviousUpgrade()
     {
-        if (placeholderCard != null && placeholderCard.DowngradeCard())
-        {
-            upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
-        }
+        if (placeholderCard.timesUpgraded == 0) return;
+        placeholderCard.cardModifiers.RemoveAt(placeholderCard.cardModifiers.Count - 1);
+        List<CardFunctionalityData> mods = new List<CardFunctionalityData>(placeholderCard.cardModifiers);
+        placeholderCard.Clone(placeholderCard,mods);
+        upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
     }
     public void ButtonToggleViewUpgrade()
     {
