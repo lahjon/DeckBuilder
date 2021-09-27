@@ -65,9 +65,11 @@ public class DeckDisplayManager : Manager
             switch (callbackType)
             {
                 case 0:
+                    display.gameObject.SetActive(true);
                     display.OnClick = () => DisplayCard(display);
                     break;
                 case 1:
+                    display.gameObject.SetActive(display.upgradable);
                     display.OnClick = () => {
                         if (cardToSource[display].UpgradeCard() == true)
                         {

@@ -43,6 +43,8 @@ public class Card : MonoBehaviour
     public List<Condition> registeredConditions = new List<Condition>();
     public List<IEventSubscriber> registeredSubscribers = new List<IEventSubscriber>();
 
+    public bool upgradable { get => timesUpgraded < cardData.maxUpgrades; }
+
     public void Reset()
     {
         timesUpgraded = 0;
@@ -99,7 +101,7 @@ public class Card : MonoBehaviour
 
     public bool UpgradeCard()
     {
-        if (timesUpgraded >= cardData.maxUpgrades) return false;
+        if (!upgradable) return false;
         AddModifierToCard(cardData.upgrades[timesUpgraded]);
 
         return true;
