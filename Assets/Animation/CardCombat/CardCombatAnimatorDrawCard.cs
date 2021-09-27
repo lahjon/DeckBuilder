@@ -24,7 +24,6 @@ public class CardCombatAnimatorDrawCard : CardCombatAnimator
         curve = card.transitionCurveDraw;
         speed = 3.5f;
 
-        animator.SetBool("ToCardPileDiscard", true);
         //Reset any modified values from previous buffs
         card.DamageNeedsRecalc();
 

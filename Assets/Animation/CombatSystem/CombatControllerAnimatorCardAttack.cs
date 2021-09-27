@@ -26,7 +26,6 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
     }
 
 
-
     IEnumerator PerformAttack()
     {
         foreach (CardEffectCarrier attack in attacks)
@@ -38,18 +37,18 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
                 foreach (CombatActor actor in targets)
                 {
                     int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
-                    if (actor != null && actor.hitPoints > 0)
+                    if (actor != null)
                         yield return combat.StartCoroutine(actor.GetAttacked(damage, activeActor));
                 }
+                
+                if ((activeActor.hitPoints == 0 && attack.Target != CardTargetType.EnemyRandom) || !CombatSystem.instance.EnemiesInScene.Any()) break;
 
                 if (attack.Target == CardTargetType.EnemyRandom && i != attack.Times - 1) // redraw enemy if target is random
                     targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
 
-                if (activeActor.hitPoints == 0) break;
                 yield return new WaitForSeconds(0.1f);
             }
 
-            Debug.Log("leaving perform attack. Has won is:  " + combat.animator.GetBool("HasWon"));
             if (!combat.animator.GetBool("HasWon"))
                 combat.animator.Play(nextLayerState);
         }

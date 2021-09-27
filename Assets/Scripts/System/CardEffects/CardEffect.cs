@@ -72,12 +72,12 @@ public abstract class CardEffect
     }
 
 
-    internal virtual IEnumerator _OnNewTurn()
+    protected virtual IEnumerator _OnNewTurn()
     {
         yield return null; //this method is always meant to be overwritten if used 
     }
 
-    public virtual IEnumerator _OnEndTurn()
+    protected virtual IEnumerator _OnEndTurn()
     {
         yield return CombatSystem.instance.StartCoroutine(RecieveInput(-1));
     }

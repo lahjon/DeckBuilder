@@ -27450,6 +27450,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
   - {fileID: 11400000, guid: ea1a87f91eb2802498145fd1e5a5462b, type: 2}
   - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
+  - {fileID: 11400000, guid: 00a3282a466924d4882167d9a109214c, type: 2}
   - {fileID: 11400000, guid: 2b3c8221c2281124eab03869d9835ec7, type: 2}
   - {fileID: 11400000, guid: 5bae0982d49fe8548bf71b8c4bbd90c7, type: 2}
   - {fileID: 11400000, guid: 49c74b8cbe903fa4c9ea53ef151f62f6, type: 2}
@@ -40391,6 +40392,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1673503173}
     m_Modifications:
+    - target: {fileID: 133086419, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 38
+      objectReference: {fileID: 0}
     - target: {fileID: 859835119, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -40415,6 +40420,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1083538779, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 37
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122604373, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 1127413753, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -40438,6 +40451,14 @@ PrefabInstance:
     - target: {fileID: 1127413753, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1257645131, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388272344, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 1754717110, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -40931,6 +40952,42 @@ PrefabInstance:
       propertyPath: encounterUI
       value: 
       objectReference: {fileID: 1541008555}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.size
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[14].name
+      value: Dazed
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[15].name
+      value: Spiked
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[16].name
+      value: Vulnerable
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[17].name
+      value: Weak
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[14].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 376c0bb365ba4034196b58f37410e6a4, type: 3}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[15].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5171040f72e3c744fb277a838d0e17d5, type: 3}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[16].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0f54148581f0974478c5f762be97ab47, type: 3}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[17].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e6bfada06c20ed94d97a9f6652c6bbd3, type: 3}
     - target: {fileID: 347953518813682204, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_Name
       value: UIManager
@@ -41082,7 +41139,7 @@ PrefabInstance:
     - target: {fileID: 347953519859478627, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: cardData
       value: 
-      objectReference: {fileID: 11400000, guid: 03b92f3b595d38f48a03bafd88f122c8, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 347953519886253006, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

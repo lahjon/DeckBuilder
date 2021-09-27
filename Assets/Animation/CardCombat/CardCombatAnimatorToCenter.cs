@@ -38,7 +38,6 @@ public class CardCombatAnimatorToCenter : CardCombatAnimator
         {
             if (time < 1) CardLerp(StartTransInfo, TargetTransInfo, 1);
             reached = true;
-            Debug.Log("Reached Center");
             animator.SetTrigger("ReachedCenter");
         }
     }

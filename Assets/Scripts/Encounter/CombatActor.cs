@@ -43,6 +43,9 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public List<Func<CombatActor, IEnumerator>> onAttackRecieved = new List<Func<CombatActor,IEnumerator>>();
     public List<Func<CombatActor, IEnumerator>> onUnblockedDmgDealt = new List<Func<CombatActor, IEnumerator>>();
 
+    public List<Func<float>> gainBlockMult = new List<Func<float>>();
+    public List<Func<IEnumerator>> OnBlockGained = new List<Func<IEnumerator>>();
+    
     public ListEventReporter<Card> deck;
     public ListEventReporter<Card> discard; 
     public ListEventReporter<Card> exhaust = new ListEventReporter<Card>(); 
@@ -146,7 +149,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         if (shield > 0)
         {
             int shieldDamage = Mathf.Min(shield, damage);
-            StartCoroutine(ChangeBlock(-shieldDamage));
+            StartCoroutine(LooseBlock(shieldDamage));
             damage -= shieldDamage;
         }
 
@@ -209,17 +212,27 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
                 yield return StartCoroutine(effectTypeToRule[effect].OnEndTurn());
     }
 
-    public IEnumerator ChangeBlock(int change)
+    public IEnumerator GainBlock(int change)
+    {
+        shield += change;
+        yield return StartCoroutine(healthEffectsUI.UpdateShield(shield));
+        List<Func<IEnumerator>> funcs = new List<Func<IEnumerator>>(OnBlockGained);
+        foreach (Func<IEnumerator> funkie in funcs)
+            if(funkie != null)
+                yield return StartCoroutine(funkie.Invoke());
+    }
+
+    public IEnumerator LooseBlock(int change)
     {
         //Debug.Log("Starting change of block with " + change);
-        shield += change;
+        shield -= change;
         //Debug.Log("Shield now at  " + shield);
         yield return StartCoroutine(healthEffectsUI.UpdateShield(shield));
     }
 
     public IEnumerator RemoveAllBlock()
     {
-        yield return StartCoroutine(ChangeBlock(-shield));
+        yield return StartCoroutine(LooseBlock(shield));
     }
 
     public int ApplyCombatStrength()

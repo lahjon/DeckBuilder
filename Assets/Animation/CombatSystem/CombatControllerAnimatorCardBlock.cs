@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 {
@@ -34,7 +35,13 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
             for (int i = 0; i < block.Times; i++)
             {
                 foreach (CombatActor actor in targets)
-                    yield return combat.StartCoroutine(actor.ChangeBlock(block.Value));
+                {
+                    float x = block.Value;
+                    foreach (Func<float> f in actor.gainBlockMult)
+                        x *= f.Invoke();
+
+                    yield return combat.StartCoroutine(actor.GainBlock((int)x));
+                }
 
                 if(block.Target == CardTargetType.EnemyRandom && i != block.Times -1) // redraw if random, though doubt it ever will be
                     targets = combat.GetTargets(combat.ActiveActor, block.Target, suppliedTarget);

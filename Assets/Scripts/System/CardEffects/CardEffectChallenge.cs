@@ -44,7 +44,7 @@ public class CardEffectChallenge : CardEffect
         foreach(CombatActor actor in challengedActors)
         {
             ((CardEffectChallenge)actor.effectTypeToRule[EffectType.Challenge]).challengedActors.Remove(actor);
-            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Challenge, 1)));
+            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Challenge, -1)));
         }
     }
 

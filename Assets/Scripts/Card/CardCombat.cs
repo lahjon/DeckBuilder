@@ -201,12 +201,11 @@ public class CardCombat : CardVisual, IEventSubscriber
         }
         CombatSystem.instance.UpdateDeckTexts();
         if (path == 2)
-            Destroy(gameObject);
+            Unsubscribe();
         else
-        {
-            animator.SetTrigger("DoneDiscarding");
             GetComponent<Image>().raycastTarget = true;
-        }
+        
+        animator.SetTrigger("DoneDiscarding");
     }
 
     public override void OnMouseEnter()

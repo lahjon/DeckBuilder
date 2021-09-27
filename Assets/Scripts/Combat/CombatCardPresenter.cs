@@ -44,7 +44,6 @@ public class CombatCardPresenter : MonoBehaviour
 
         cardsLocale.ForEach(c => {
             c.card.transform.localEulerAngles = Vector3.one;
-            c.card.animator.SetBool("ToCardPileDiscard", c.targetLocale == CardLocation.Discard);
             if (c.targetLocale == CardLocation.Discard)
                 CombatSystem.instance.Hero.discard.Add(c.card);
             else
@@ -69,14 +68,20 @@ public class CombatCardPresenter : MonoBehaviour
         }
 
         float addWait = CombatSystem.instance.ActiveActor == CombatSystem.instance.Hero ? 0 : 1f;
-        StartCoroutine(DelaySendToCardPile(cardsLocale.Select(c => c.card).ToList(), addWait));
+        StartCoroutine(DelaySendToCardPile(cardsLocale, addWait));
     }
 
-    IEnumerator DelaySendToCardPile(List<CardCombat> cards,float addWait)
+    IEnumerator DelaySendToCardPile(List<(CardCombat card, CardLocation target)> cardsLocale,float addWait)
     {
         yield return new WaitForSeconds(waitDelay + addWait);
 
-        foreach (CardCombat c in cards)
-            if (c.animator.GetCurrentAnimatorStateInfo(0).IsName("Foreshadowed")) c.animator.SetTrigger("Discarded");
+        foreach ((CardCombat card, CardLocation target) c in cardsLocale)
+        {
+            if (c.card.animator.GetCurrentAnimatorStateInfo(0).IsName("Foreshadowed"))
+            {
+                c.card.animator.SetBool("ToDeckPileOverride", c.target == CardLocation.Deck);
+                c.card.animator.SetTrigger("Discarded");
+            }
+        }
     }
 }

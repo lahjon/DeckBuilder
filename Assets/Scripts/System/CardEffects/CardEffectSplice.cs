@@ -13,7 +13,7 @@ public class CardEffectSplice : CardEffect
         OnEndTurn = _OnEndTurn;
     }
 
-    public override IEnumerator _OnEndTurn()
+    protected override IEnumerator _OnEndTurn()
     {
         yield return CombatSystem.instance.StartCoroutine(RecieveInput(-nrStacked));
     }

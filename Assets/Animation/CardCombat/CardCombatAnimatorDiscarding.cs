@@ -11,11 +11,35 @@ public class CardCombatAnimatorDiscarding : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-
-        CombatSystem.instance.DiscardCard(card);
         card.animator.SetBool("HasTarget", false);
-        card.StartBezierAnimation(1);
-        card.animator.SetBool("ToCardPileDiscard", true);
+
+        if (card.animator.GetBool("Resolved"))
+        {
+            if (card.HasProperty(CardSingleFieldPropertyType.Exhaust))
+                CombatSystem.instance.Hero.ExhaustCard(card);
+            else if (card.cardType == CardType.Oath)                    // Oath
+                card.StartBezierAnimation(2);
+            else                                                        // Discard
+            {
+                CombatSystem.instance.Hero.DiscardCardNoTrigger(card);
+                card.StartBezierAnimation(1);
+            }
+        }
+        else
+        {
+            if (card.animator.GetBool("ToDeckPileOverride"))
+            {
+                card.StartBezierAnimation(0);
+                card.animator.SetBool("ToDeckPileOverride", false);
+            }
+            else
+            {
+                CombatSystem.instance.Hero.DiscardCardNoTrigger(card);
+                card.StartBezierAnimation(1);
+            }
+        }
+
+        card.animator.SetBool("Resolved",false);
     }
 
 }

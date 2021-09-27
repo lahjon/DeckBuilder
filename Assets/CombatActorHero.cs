@@ -24,6 +24,11 @@ public class CombatActorHero : CombatActor
         collision = gameObject.AddComponent<BoxCollider2D>();
     }
 
+    public void DiscardCardNoTrigger(CardCombat card)
+    {
+        base.DiscardCard(card);
+    }
+
     public override void DiscardCard(Card card)
     {
         if (card is CardCombat cc)
@@ -31,21 +36,11 @@ public class CombatActorHero : CombatActor
             CombatSystem.instance.Hand.Remove(cc);
             cc.animator.SetTrigger("Discarded");
         }
-        base.DiscardCard(card);
     }
 
     public override void CardResolved(Card card)
     {
-        Debug.Log(card.cardType);
-        if (card.HasProperty(CardSingleFieldPropertyType.Exhaust))  // Exhaust
-            ExhaustCard(card);
-        else if (card.cardType == CardType.Oath)                    // Oath
-            ((CardCombat)card).StartBezierAnimation(2);
-        else                                                        // Discard
-        {
-            ((CardCombat)card).animator.SetTrigger("Resolved");
-            base.DiscardCard(card);
-        }
+        ((CardCombat)card).animator.SetBool("Resolved",true);
     }
 
     public void ClearAllEffects()

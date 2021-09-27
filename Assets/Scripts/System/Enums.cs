@@ -32,8 +32,12 @@ public static class EnumExtenstions
                 return $"<b>Splice</b>\nThe next splice card you play will meld with the top splice card in discard";
             case EffectType.Envenom:
                 return $"<b>Envenom</b>\nUnblocked damage will deal poison to the target.";
+            case EffectType.Dazed:
+                return $"<b>Dazed</b>\nThe next time you would gain block this turn, gain 0 block instead.";
+            case EffectType.Spiked:
+                return $"<b>Spiked</b>\nUntil your next turn, retailate when attacked.";
             default:
-                return $"<b>{type.ToString()}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
+                return $"<b>{type}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
     }
 
@@ -81,6 +85,10 @@ public static class EnumExtenstions
                 return new CardEffectConfused();
             case EffectType.Envenom:
                 return new CardEffectEnvenom();
+            case EffectType.Dazed:
+                return new CardEffectDazed();
+            case EffectType.Spiked:
+                return new CardEffectSpiked();
             default:
                 return null;
         }
@@ -355,7 +363,9 @@ public enum EffectType
     Strength,
     StrengthTemp,
     Confused,
-    Envenom
+    Envenom,
+    Dazed,
+    Spiked
 }
 
 public enum OverlayState
