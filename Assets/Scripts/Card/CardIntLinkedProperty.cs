@@ -98,7 +98,7 @@ public class CardIntLinkedProperty: CardInt
     private static int ValueGetterSizeDiscard() => CombatSystem.instance.Hero.discard.Count;
     private static int ValueGetterEnergy() => CombatSystem.instance.cEnergy;
     private int ValueGetterSpentEnergyCard() => card.cost.PaidEnergy;
-    private int ValueGetterSameName() => CombatSystem.instance.playHistory.Count(x=> x.cardName == card.cardName);
+    private int ValueGetterSameName() => CombatSystem.instance.playHistory.Count(x=> x.cardId == card.cardId);
 
 
     public override string GetTextForValue()
