@@ -128,8 +128,8 @@ public class DeckDisplayManager : Manager
 
     public void ButtonConfirm()
     {
-        DeactivateDisplayCard();
         selectedCard.UpgradeCard();
+        DeactivateDisplayCard();
         CloseDeckDisplay();
         exitCallback?.Invoke();
         exitCallback = null;
