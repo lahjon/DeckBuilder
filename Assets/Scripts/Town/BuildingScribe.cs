@@ -43,10 +43,9 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void UpdateDeck()
     {
-        //ResetDeck();
         List<CardDisplay> cards = new List<CardDisplay>();
 
-        foreach(CardDisplay card in allSideCards)
+        foreach(CardDisplay card in allSideCards.Concat(allDeckCards))
         {
             if(card.rarity == Rarity.Starting)
                 card.OnClick = null;
@@ -236,6 +235,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         {
             display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
             display.shopCost = Instantiate(upgradeCostPrefab, display.transform).GetComponent<ShopCost>();
+            display.shopCost.gameObject.SetActive(false);
             allSideCards.Add(display);
         }
         while (allSideCards.Count > subsetCharacterCards.Count)
@@ -257,6 +257,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             display.OnClick = () => PreviewUpgradeCard(display);
             display.transform.SetParent(upgradeParent);
             display.selectable = true;
+            display.shopCost.gameObject.SetActive(true);
         }
         SortDeck();
     }
@@ -309,8 +310,15 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void ButtonLeaveUpgrade()
     {
-        allSideCards.ForEach(x => x.transform.SetParent(sideParent));
-        allDeckCards.ForEach(x => x.transform.SetParent(deckParent));
+        allSideCards.ForEach(x => {
+            x.transform.SetParent(sideParent);
+            x.shopCost.gameObject.SetActive(false);
+        });
+        allDeckCards.ForEach(x => {
+            x.transform.SetParent(deckParent);
+            x.shopCost.gameObject.SetActive(false);
+        });
+
         StepBack();
     }
 
