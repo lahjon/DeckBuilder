@@ -8,6 +8,7 @@ using DG.Tweening;
 public class CardDisplay : CardVisual
 {
     public System.Action OnClick;
+    public ShopCost shopCost;
     Tween tween;
     public GameObject nonSelectableImage;
     public bool _selectable;

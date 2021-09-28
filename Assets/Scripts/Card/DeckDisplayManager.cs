@@ -22,7 +22,7 @@ public class DeckDisplayManager : Manager
     public System.Action exitCallback;
     public TMP_Text upgradeLevel;
     public Toggle toggleUpgrade;
-    public GameObject upgradesViewer;
+    public GameObject upgradesViewer, upgradeConfirm;
     public System.Action confirmCallback;
 
     public Dictionary<CardVisual, CardVisual> sourceToCard = new Dictionary<CardVisual, CardVisual>();
@@ -72,12 +72,9 @@ public class DeckDisplayManager : Manager
                     break;
                 case 1:
                     display.gameObject.SetActive(display.upgradable);
-                    display.OnClick = () => {
-                        cardToSource[display].UpgradeCard();
-                        display.Mimic(cardToSource[display]);
-                        CloseDeckDisplay();
-                        exitCallback?.Invoke();
-                        exitCallback = null;
+                    display.OnClick = () => 
+                    {
+                        DisplayCard(display, true);
                     };
                     break;
                 default:
@@ -104,7 +101,7 @@ public class DeckDisplayManager : Manager
         sourceToCard.Remove(source);
     }
 
-    public void DisplayCard(CardVisual aCard)
+    public void DisplayCard(CardVisual aCard, bool upgrade = false)
     {
         aCard.OnMouseExit();
 
@@ -115,12 +112,27 @@ public class DeckDisplayManager : Manager
         placeholderCard.OnClick = () => DeactivateDisplayCard();
         inspectCard.SetActive(true);
         scroller.enabled = false;
-        upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
         selectedCard.transform.position = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.1f);
+        upgradeConfirm.SetActive(upgrade);
+        if (upgrade)
+        {
+            toggleUpgrade.gameObject.SetActive(false);
+            placeholderCard.UpgradeCard();
+        }
+        else
+        {
+            upgradeLevel.text = (placeholderCard.timesUpgraded + 1).ToString();
+            toggleUpgrade.gameObject.SetActive(aCard.cardData.maxUpgrades != 0);
+        }
+    }
 
-        
-
-        toggleUpgrade.gameObject.SetActive(aCard.cardData.maxUpgrades != 0);
+    public void ButtonConfirm()
+    {
+        DeactivateDisplayCard();
+        selectedCard.UpgradeCard();
+        CloseDeckDisplay();
+        exitCallback?.Invoke();
+        exitCallback = null;
     }
 
     public void ResetPlaceHolderCard()

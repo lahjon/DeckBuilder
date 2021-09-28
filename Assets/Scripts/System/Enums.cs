@@ -272,6 +272,13 @@ public enum RewardType
     Artifact = 11
 }
 
+public enum CurrencyType
+{
+    None, 
+    Gold, 
+    Shard
+}
+
 public enum DialogueParticipant
 {
     None,
