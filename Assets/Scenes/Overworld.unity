@@ -26783,7 +26783,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1724079553}
         m_TargetAssemblyTypeName: DeckDisplayManager, Assembly-CSharp
-        m_MethodName: CloseDeckDisplay
+        m_MethodName: DeactivateDisplayCard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
