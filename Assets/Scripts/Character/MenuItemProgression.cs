@@ -6,49 +6,43 @@ using TMPro;
 
 public class MenuItemProgression : MonoBehaviour
 {
+    public TMP_Text titleText;
     public TMP_Text itemText;
     public ProgressionData data;
-    public int cAmount = 0;
-    public int rAmount = 0;
-
-    public void SetObjectiveItem(Objective obj)
+    public Mission mission;
+    public void SetMissionItem(Mission aMission)
     {
-        data = obj.data;
-        if (obj?.countingConditions.Any() != null)
-        {
-            cAmount = obj.countingConditions[0].currentAmount;
-            rAmount = obj.countingConditions[0].requiredAmount;
-            itemText.text = string.Format("{0} - {1} ({2} / {3})", obj.aName, obj.countingConditions[0].conditionStruct.type.ToString(), cAmount, rAmount); 
-        }
-        else
-        {
-            itemText.text = "Missing Data";
-        }
-    }
-    public void SetObjectiveItem(ProgressionData aData)
-    {
-        data = aData;
-        itemText.text = string.Format("{0} - Completed", aData.aName); 
-    }
-
-    public void SetMissionItem(Mission mission)
-    {
-        data = mission.data;
+        data = aMission.data;
+        mission = aMission;
         if (mission?.countingConditions.Any() != null)
         {
-            cAmount = mission.countingConditions[0].currentAmount;
-            rAmount = mission.countingConditions[0].requiredAmount;
-            itemText.text = string.Format("{0} - {1} ({2} / {3})", mission.aName, mission.countingConditions[0].conditionStruct.type.ToString(), cAmount, rAmount); 
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            titleText.text =  mission.aName;
+            for (int i = 0; i < data.conditionStructs.Count; i++)
+            {
+                sb.AppendLine(data.conditionStructs[i].GetMissionDescription(mission.countingConditions[i].currentAmount, mission.countingConditions[i].requiredAmount));
+            }
+            itemText.text = sb.ToString();
         }
         else
         {
+            titleText.text = "Unknown";
             itemText.text = "Missing Data";
         }
     }
     public void SetMissionItem(ProgressionData aData)
     {
         data = aData;
-        itemText.text = string.Format("{0} - Completed", aData.aName); 
+        if (aData != null)
+        {
+            titleText.text = aData.aName;
+            itemText.text = "Completed";
+        }
+        else
+        {
+            titleText.text = "Unknown";
+            itemText.text = "Missing Data";
+        }
     }
 
     public void ButtonClick()
@@ -56,7 +50,7 @@ public class MenuItemProgression : MonoBehaviour
         MenuProgression mP = WorldSystem.instance.menuManager.menuProgression;
         if (mP.currentProgressionData != data)
         {
-            mP.EnableDescription(data, cAmount, rAmount);
+            mP.EnableDescription(data, mission);
         }
         else
         {

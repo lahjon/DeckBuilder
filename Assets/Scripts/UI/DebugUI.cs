@@ -94,6 +94,11 @@ public class DebugUI : MonoBehaviour
     {
         world.levelManager.AddExperience(amount);
     }
+    public void DebugUnlockPerk()
+    {
+        PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerksDatas).ToList().Count)];
+        world.menuManager.menuCharacter.UnlockPerk(data);
+    }
     public void DebugAddLevel()
     {
         world.levelManager.AddLevel();

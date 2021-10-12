@@ -85,7 +85,6 @@ public class MissionManager : Manager, ISaveableWorld
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        //a_SaveData.currentMissions.ForEach(x => Debug.Log("DANGER: " + x));
         if (a_SaveData.clearedMissions != null)
         {
             clearedMissions = allMissionDatas.Where(x => a_SaveData.clearedMissions.Contains(x.id)).ToList();

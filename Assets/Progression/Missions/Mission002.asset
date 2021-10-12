@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Mission002
   aName: Second Mission
-  goalKillEnemy:
-  - enemyId: 2001
-    requiredAmount: 1
-  goalEnterBuilding: []
   description: nr 2!
+  conditionStructs:
+  - type: 9
+    strParameter: BigBad Wolf
+    numValue: 1
+  mainMission: 0
   startEvent: 
   endEvent: 
-  nextMission: Mission003
+  nextMission: {fileID: 0}

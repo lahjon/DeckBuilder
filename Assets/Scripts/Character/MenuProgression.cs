@@ -24,7 +24,6 @@ public class MenuProgression : MonoBehaviour
     }
     void UpdateMenu()
     {
-        UpdateObjectives();
         UpdateMissions();
     }
     public void DisableDescription()
@@ -35,13 +34,25 @@ public class MenuProgression : MonoBehaviour
             descriptionWindow.SetActive(false);
         }
     }
-    public void EnableDescription(ProgressionData aData, int cAmount, int rAmount)
+    public void EnableDescription(ProgressionData aData, Mission mission)
     {
         Debug.Log("Enable");
         currentProgressionData = aData;
         descriptionTitle.text = aData.aName;
         descriptionText.text = aData.description;
-        descriptionGoals.text = rAmount != 0 ? string.Format("{0} - ({1} / {2})", aData.conditionStructs[0].type.ToString(), cAmount.ToString(), rAmount.ToString()) : "Completed";
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        if (mission != null)
+        {
+            for (int i = 0; i < aData.conditionStructs.Count; i++)
+            {
+                sb.AppendLine(aData.conditionStructs[i].GetMissionDescription(mission.countingConditions[i].currentAmount, mission.countingConditions[i].requiredAmount));
+            }
+            descriptionGoals.text = sb.ToString();
+        }
+        else
+        {
+            descriptionGoals.text = aData.conditionStructs[0].GetMissionDescription(0, 0);
+        }
         descriptionWindow.SetActive(true);
     }
 
@@ -53,27 +64,13 @@ public class MenuProgression : MonoBehaviour
         List<ProgressionData> allCompletedMissions = new List<ProgressionData>();
         allCompletedMissions.AddRange(WorldSystem.instance.missionManager.clearedMissions);
 
-        int counter = 0;
         while (missionParent.childCount > allCurrentMissions.Count + allCompletedMissions.Count)
         {
-            counter++;
             Destroy(missionParent.GetChild(0));
-            if (counter > 50)
-            {
-                Debug.LogError("DangerDestr!");
-                break;
-            }
         }
-        counter = 0;
         while (missionParent.childCount < allCurrentMissions.Count + allCompletedMissions.Count)
         {
-            counter++;
             Instantiate(progressionItemPrefab, missionParent);
-            if (counter > 50)
-            {
-                Debug.LogError("DangerInstant!");
-                break;
-            }
         }
         int idx = 0;
         for (int i = 0; i < missionParent.childCount; i++)
@@ -101,81 +98,6 @@ public class MenuProgression : MonoBehaviour
         allCompletedMissions.ForEach(x => Debug.Log(x.aName));
 
         ButtonShowCurrentMissions();
-    }
-
-    void UpdateObjectives()
-    {
-        completedObjs.Clear();
-        currentObjs.Clear();
-        List<Objective> allCurrentObjs = WorldSystem.instance.objectiveManager.GetAllObjectives();
-        List<ProgressionData> allCompletedObjs = new List<ProgressionData>();
-        allCompletedObjs.AddRange(WorldSystem.instance.objectiveManager.clearedObjectives);
-
-        int counter = 0;
-        while (objParent.childCount > allCurrentObjs.Count + allCompletedObjs.Count)
-        {
-            counter++;
-            Destroy(objParent.GetChild(0));
-            if (counter > 50)
-            {
-                Debug.LogError("DangerDestr!");
-                break;
-            }
-        }
-        counter = 0;
-        while (objParent.childCount < allCurrentObjs.Count + allCompletedObjs.Count)
-        {
-            counter++;
-            Instantiate(progressionItemPrefab, objParent);
-            if (counter > 50)
-            {
-                Debug.LogError("DangerInstant!");
-                break;
-            }
-        }
-        int idx = 0;
-        for (int i = 0; i < objParent.childCount; i++)
-        {
-            if (idx < allCurrentObjs.Count)
-            {
-                if (objParent.GetChild(i).GetComponent<MenuItemProgression>() is MenuItemProgression item && allCurrentObjs[i] is Objective objective)
-                {
-                    item.SetObjectiveItem(objective);
-                    currentObjs.Add(item);
-                }
-                idx++;
-            }
-            else
-            {
-                if (objParent.GetChild(i).GetComponent<MenuItemProgression>() is MenuItemProgression item && allCompletedObjs[i - idx] is ProgressionData data)
-                {
-                    Debug.Log(data.aName);
-                    item.SetObjectiveItem(data);
-                    completedObjs.Add(item);
-                }
-            }
-        }
-
-        allCompletedObjs.ForEach(x => Debug.Log(x.aName));
-
-        ButtonShowCurrentObjectives();
-    }
-
-    public void ButtonShowCurrentObjectives()
-    {
-        completedObjs.ForEach(x => x.gameObject.SetActive(false));
-        currentObjs.ForEach(x => x.gameObject.SetActive(true));
-        objCompletedButton.color = Color.gray;
-        objCurrentButton.color = Color.white;
-        //DisableDescription();
-    }
-    public void ButtonShowCompletedObjectives()
-    {
-        completedObjs.ForEach(x => x.gameObject.SetActive(true));
-        currentObjs.ForEach(x => x.gameObject.SetActive(false));
-        objCompletedButton.color = Color.white;
-        objCurrentButton.color = Color.gray;
-        //DisableDescription();
     }
 
     public void ButtonShowCurrentMissions()

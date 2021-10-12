@@ -25,6 +25,9 @@ public class SaveDataWorld
     // town
     public List<BuildingType> unlockedBuildings;
 
+    // perk
+    public List<int> unlockedPerks = new List<int>();
+
     //progressions
     public List<string> clearedObjectives;
     public List<string> currentObjectives;

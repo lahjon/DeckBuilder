@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: Mission001
   aName: First Mission
+  description: This is nr 1'!
   conditionStructs:
   - type: 3
     strParameter: Barracks
     numValue: 1
   - type: 3
     strParameter: TownHall
-    numValue: 1
-  description: This is nr 1'!
+    numValue: 2
   mainMission: 0
   startEvent: Event001
   endEvent: Event002
