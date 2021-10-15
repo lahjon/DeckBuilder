@@ -556,3 +556,11 @@ public enum EncounterEventLayoutType
     ImageRight,
     ImageLeft
 }
+
+public enum TileType
+{
+    Forest,
+    Cave,
+    BanditCamp,
+    Town
+}
