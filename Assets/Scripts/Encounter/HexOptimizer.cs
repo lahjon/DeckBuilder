@@ -8,6 +8,7 @@ using UnityEngine;
 public class HexOptimizer
 {
     List<Encounter> encounters;
+    TileType tileType;
     public int cScore;
 
     public int iterationLimit = 50;
@@ -22,32 +23,42 @@ public class HexOptimizer
         OverworldEncounterType.Shop
     };
 
-    Dictionary<OverworldEncounterType, int> targets = new Dictionary<OverworldEncounterType, int>();
+    Dictionary<OverworldEncounterType, int> totalCounts = new Dictionary<OverworldEncounterType, int>();
+    Dictionary<OverworldEncounterType, int> fixedCounts = new Dictionary<OverworldEncounterType, int>();
 
-    public Dictionary<OverworldEncounterType, float> commons = new Dictionary<OverworldEncounterType, float>() {
-        {OverworldEncounterType.CombatNormal, 1f},
-        {OverworldEncounterType.RandomEvent, 1f},
+    public List<OverworldEncounterType> commons = new List<OverworldEncounterType>() {
+        OverworldEncounterType.CombatNormal,
+        OverworldEncounterType.RandomEvent
     };
 
-    public Dictionary<OverworldEncounterType, float> uncommons = new Dictionary<OverworldEncounterType, float>() {
-        {OverworldEncounterType.CombatElite, 1f},
-        {OverworldEncounterType.Shop, 1f},
-        {OverworldEncounterType.Bonfire, 1f}
+    public List<OverworldEncounterType> uncommons = new List<OverworldEncounterType>() {
+        OverworldEncounterType.CombatElite,
+        OverworldEncounterType.Shop,
+        OverworldEncounterType.Bonfire
     };
 
-    public void SetEncounters(List<Encounter> encounters)
+    public Dictionary<OverworldEncounterType, float> proportions = new Dictionary<OverworldEncounterType, float>();
+
+
+
+    public void SetEncounters(List<Encounter> encounters, TileType tileType)
     {
         this.encounters = new List<Encounter>(encounters);
+        this.tileType = tileType;
+        Debug.Log(tileType);
         foreach (OverworldEncounterType type in types)
-            targets[type] = 0;
-        
+        {
+            fixedCounts[type] = Helpers.tileTypeToFixedAmounts[tileType][type];
+            proportions[type] = Helpers.TileTypeToProportions[tileType][type];
+        }
+
         DrawTargets();
 
         //init with correct targets
         ShuffleEncounters();
         int cursor = 0;
         foreach(OverworldEncounterType type in types)
-            for(int i = 0; i < targets[type]; i++)
+            for(int i = 0; i < totalCounts[type]; i++)
                 this.encounters[cursor++].encounterType = type;
 
         cScore = ScoreFull();
@@ -73,7 +84,7 @@ public class HexOptimizer
             {
                 int probeScore = chosenEnc.encounterType == swapEnc.encounterType ? cScore : Probe(chosenEnc, swapEnc);
                 //Debug.Log(string.Format("{0},{1}: {2} --> {3}, score {4} --> {5}", iteration, chosenEnc.name, original, type, cScore, probeScore));
-                if (probeScore > maxScore)
+                if (probeScore >= maxScore)
                 {
                     maxScore = probeScore;
                     bestSwap = swapEnc;
@@ -90,7 +101,7 @@ public class HexOptimizer
             {
                 Debug.Log("restarting hexOptimizer");
                 resetCount = 0;
-                SetEncounters(encounters);
+                SetEncounters(encounters, tileType);
             }
         }
     }
@@ -116,7 +127,7 @@ public class HexOptimizer
 
     public int NeighPenalty(OverworldEncounterType type1, OverworldEncounterType type2)
     {
-        if (commons.ContainsKey(type1) || commons.ContainsKey(type2)) return 0;
+        if (commons.Contains(type1) || commons.Contains(type2)) return 0;
         return type1 == type2 ? -10 : 0;
     }
 
@@ -127,9 +138,9 @@ public class HexOptimizer
 
         foreach (Encounter neigh in enc.neighboors)
         {
-            if (!commons.Keys.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
+            if (!commons.Contains(enc.encounterType) && enc.encounterType == neigh.encounterType)
                 retScore += 10;
-            if (!commons.Keys.Contains(testType) && testType == neigh.encounterType)
+            if (!commons.Contains(testType) && testType == neigh.encounterType)
                 retScore -= 10;
         }
 
@@ -143,7 +154,7 @@ public class HexOptimizer
         foreach (Encounter enc in encounters)
         {
             visited.Add(enc);
-            if (commons.Keys.Contains(enc.encounterType)) continue;
+            if (commons.Contains(enc.encounterType)) continue;
 
             foreach (Encounter neigh in enc.neighboors.Except(visited))
                 if (enc.encounterType == neigh.encounterType)
@@ -166,41 +177,49 @@ public class HexOptimizer
 
     private void DrawTargets()
     {
-        int slotsUncommon   = (int)(Random.Range(0.4f, 0.5f) * encounters.Count);
-        int slotsCommon     = encounters.Count - slotsUncommon;
+        int totalFreeSpaces = encounters.Count - fixedCounts.Values.Sum();
+        int slotsUncommon   = (int)(Random.Range(0.4f, 0.5f) * totalFreeSpaces);
+        int slotsCommon     = totalFreeSpaces - slotsUncommon;
+
+        for (int i = 0; i < types.Length; i++)
+            totalCounts[types[i]] = 0; 
 
         InitTargetGroup(commons, slotsCommon);
         InitTargetGroup(uncommons, slotsUncommon);
-       
+
+        for (int i = 0; i < types.Length; i++)
+            totalCounts[types[i]]+= fixedCounts[types[i]];
     }
 
-    private void InitTargetGroup(Dictionary<OverworldEncounterType,float> group, int slots)
+    private void InitTargetGroup(List<OverworldEncounterType> group, int slots)
     {
-        List<OverworldEncounterType> types = group.Keys.ToList();
-        float[] rands = new float[types.Count];
+        float[] rands = new float[group.Count];
         float sum = 0;
-        for (int i = 0; i < types.Count; i++)
-            sum += (rands[i] = Random.Range(0f, 1f) * group[types[i]]);
-        for (int i = 0; i < types.Count; i++)
+        for (int i = 0; i < group.Count; i++)
+            sum += (rands[i] = Random.Range(0f, 1f) * proportions[group[i]]);
+        for (int i = 0; i < group.Count; i++)
             rands[i] /= sum;
 
-        float[] currentWeights = new float[types.Count];
+        float[] currentWeights = new float[group.Count];
+        
         for (int i = 0; i < slots; i++)
         {
             float maxDistance = float.MinValue;
             int maxIndex = 0;
-            for (int j = 0; j < types.Count; j++)
+            for (int j = 0; j < group.Count; j++)
             {
+                if (rands[j] == 0f) continue;
+
                 if (rands[j] - currentWeights[j] > maxDistance)
                 {
                     maxDistance = rands[j] - currentWeights[j];
                     maxIndex = j;
                 }
             }
-            targets[types[maxIndex]]++;
+            totalCounts[group[maxIndex]]++;
 
-            for (int j = 0; j < types.Count; j++)
-                currentWeights[j] = targets[types[j]] / (i + 1);
+            for (int j = 0; j < group.Count; j++)
+                currentWeights[j] = totalCounts[types[j]] / (i + 1);
         }
     }
 

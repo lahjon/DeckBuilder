@@ -561,6 +561,8 @@ public enum TileType
 {
     Forest,
     Cave,
+    Plains,
     BanditCamp,
-    Town
+    Town,
+    Caravan
 }

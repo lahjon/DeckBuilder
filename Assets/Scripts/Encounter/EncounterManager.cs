@@ -62,7 +62,7 @@ public class EncounterManager : Manager
         world.gridManager.animator.SetBool("IsAnimating", false);
     }
 
-    public void GenerateInitialHexEncounters(HexTile tile)
+    public void GenerateFirstHexEncounters(HexTile tile)
     {
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
 
@@ -176,7 +176,7 @@ public class EncounterManager : Manager
         }
 
         HexOptimizer optimizer = new HexOptimizer();
-        optimizer.SetEncounters(tile.encounters.Except(tile.encountersExits).ToList());
+        optimizer.SetEncounters(tile.encounters.Except(tile.encountersExits).ToList(), tile.type);
         optimizer.Run();
         tile.OffsetRotation(true);
     }
@@ -434,7 +434,6 @@ public class EncounterManager : Manager
         }
 
         LinearLineAxisType crossLine = HexCoordsOnLine(posA, posB);
-        Debug.Log(crossLine);
         if (crossLine == LinearLineAxisType.Z)
         {
             starting = posA.x < posB.x ? posA : posB;

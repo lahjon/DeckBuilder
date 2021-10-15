@@ -34,7 +34,97 @@ public static class Helpers
         {Rarity.Common,     Color.gray }, 
         {Rarity.Uncommon,   new Color(.1f, .6f, .1f, 1f) },
         {Rarity.Rare,       new Color(.67f, .16f, .55f, 1f) }
-     }; 
+     };
+
+    public static Dictionary<TileType, Dictionary<OverworldEncounterType, float>> TileTypeToProportions    = new Dictionary<TileType, Dictionary<OverworldEncounterType, float>> {
+        {TileType.Plains, new Dictionary<OverworldEncounterType, float>{
+                    {OverworldEncounterType.CombatNormal, 1f},
+                    {OverworldEncounterType.RandomEvent, 1f},
+                    {OverworldEncounterType.CombatElite, 1f},
+                    {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Bonfire, 1f}
+        }},
+        {TileType.Forest, new Dictionary<OverworldEncounterType, float>{
+                    {OverworldEncounterType.CombatNormal, 1f},
+                    {OverworldEncounterType.RandomEvent, 1f},
+                    {OverworldEncounterType.CombatElite, 1f},
+                    {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Bonfire, 1f}
+        }},
+        {TileType.Cave, new Dictionary<OverworldEncounterType, float>{
+                    {OverworldEncounterType.CombatNormal, 1f},
+                    {OverworldEncounterType.RandomEvent, 1f},
+                    {OverworldEncounterType.CombatElite, 1f},
+                    {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Bonfire, 1f}
+        }},
+        {TileType.BanditCamp, new Dictionary<OverworldEncounterType, float>{
+                    {OverworldEncounterType.CombatNormal, 1f},
+                    {OverworldEncounterType.RandomEvent, 1f},
+                    {OverworldEncounterType.CombatElite, 1f},
+                    {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Bonfire, 1f}
+        }},
+        {TileType.Caravan, new Dictionary<OverworldEncounterType, float>{
+                    {OverworldEncounterType.CombatNormal, 1f},
+                    {OverworldEncounterType.RandomEvent, 1f},
+                    {OverworldEncounterType.CombatElite, 1f},
+                    {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Bonfire, 1f}
+        }},
+        {TileType.Town, new Dictionary<OverworldEncounterType, float>{
+                    {OverworldEncounterType.CombatNormal, 0f},
+                    {OverworldEncounterType.RandomEvent, 1f},
+                    {OverworldEncounterType.CombatElite, 0f},
+                    {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Bonfire, 1f}
+        }}
+    };
+    public static Dictionary<TileType, Dictionary<OverworldEncounterType, int>> tileTypeToFixedAmounts      = new Dictionary<TileType, Dictionary<OverworldEncounterType, int>> {
+        {TileType.Plains, new Dictionary<OverworldEncounterType, int>{
+                    {OverworldEncounterType.CombatNormal, 0},
+                    {OverworldEncounterType.RandomEvent, 0},
+                    {OverworldEncounterType.CombatElite, 0},
+                    {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Bonfire, 0}
+        }},
+        {TileType.Forest, new Dictionary<OverworldEncounterType, int>{
+                    {OverworldEncounterType.CombatNormal, 0},
+                    {OverworldEncounterType.RandomEvent, 0},
+                    {OverworldEncounterType.CombatElite, 0},
+                    {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Bonfire, 0}
+        }},
+        {TileType.Cave, new Dictionary<OverworldEncounterType, int>{
+                    {OverworldEncounterType.CombatNormal, 0},
+                    {OverworldEncounterType.RandomEvent, 0},
+                    {OverworldEncounterType.CombatElite, 0},
+                    {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Bonfire, 0}
+        }},
+        {TileType.BanditCamp, new Dictionary<OverworldEncounterType, int>{
+                    {OverworldEncounterType.CombatNormal, 0},
+                    {OverworldEncounterType.RandomEvent, 0},
+                    {OverworldEncounterType.CombatElite, 2},
+                    {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Bonfire, 0}
+        }},
+        {TileType.Caravan, new Dictionary<OverworldEncounterType, int>{
+                    {OverworldEncounterType.CombatNormal, 0},
+                    {OverworldEncounterType.RandomEvent, 0},
+                    {OverworldEncounterType.CombatElite, 0},
+                    {OverworldEncounterType.Shop, 1},
+                    {OverworldEncounterType.Bonfire, 1}
+        }},
+        {TileType.Town, new Dictionary<OverworldEncounterType, int>{
+                    {OverworldEncounterType.CombatNormal, 0},
+                    {OverworldEncounterType.RandomEvent, 0},
+                    {OverworldEncounterType.CombatElite, 0},
+                    {OverworldEncounterType.Shop, 1},
+                    {OverworldEncounterType.Bonfire, 1}
+        }}
+    };
+
 
     public static Color attackColor = new Color(190,83,83);
     public static Color neutralColor = Color.white;
@@ -147,5 +237,6 @@ public static class Helpers
     {
         return ((v - a) / (b - a));
     }
+
 
 }

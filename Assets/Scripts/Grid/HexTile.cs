@@ -33,6 +33,8 @@ public class HexTile : MonoBehaviour
     public TileBiome tileBiome;
     public bool completed;
 
+    public TileType type;
+
     public Dictionary<Vector3Int, Encounter> posToEncounter = new Dictionary<Vector3Int, Encounter>();
     public Dictionary<Vector3Int, Encounter> posToEncountersExit = new Dictionary<Vector3Int, Encounter>();
     public static List<Vector3Int> positionsExit = new List<Vector3Int>()
@@ -245,7 +247,7 @@ public class HexTile : MonoBehaviour
         }
         else
         {
-            availableDirections = gridManager.AddNeighbours();
+            availableDirections = gridManager.AddNeighbours(4,5);
         }
 
         //spriteRenderer.sprite = gridManager.activeTilesSprite[0];
@@ -297,13 +299,12 @@ public class HexTile : MonoBehaviour
     {
         // start flip
         DeleteAllContent();
+
+        Debug.Log(type);
+
         spriteRenderer.color = Color.white;
-        if(Random.Range(0,2) == 0)
-            availableDirections = new List<int>{0,2,4};
-        else
-            availableDirections = new List<int>{1,3,5};
             
-        WorldSystem.instance.encounterManager.GenerateInitialHexEncounters(this);
+        WorldSystem.instance.encounterManager.GenerateFirstHexEncounters(this);
         posToEncounter[Vector3Int.zero].encounterType = OverworldEncounterType.Cave;
 
         encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
@@ -330,6 +331,7 @@ public class HexTile : MonoBehaviour
     {
         if (enterPlacement)
         {
+            Debug.Log("tileType: " + type);
             if (specialTile || gridManager.bossStarted)
                 spriteRenderer.sprite = gridManager.inactiveTilesSprite[0];
 
@@ -338,6 +340,8 @@ public class HexTile : MonoBehaviour
             hexMapController.FocusTile(this, ZoomState.Inner, true);
             entryDir = gridManager.GetEntry(this).Item1;
             tileState = TileState.Animation;
+
+            WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
 
             List<int> requiredExits = new List<int>();
             if (gridManager.bossStarted)

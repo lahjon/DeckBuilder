@@ -6,7 +6,6 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
 
-
 public class GridManager : Manager
 {
     public Animator animator;
@@ -151,13 +150,11 @@ public class GridManager : Manager
     IEnumerator CreateMap()
     {
         if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc) enc.GetEncounterDescription();
-        
+
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;
         hexMapController.disableZoom = true;
         gridState = GridState.Creating;
-
-        float timer = 0;
 
         // create a 0,0,0 start tile and activate it
         HexTile firstTile = GetTile(Vector3Int.zero);
@@ -166,7 +163,7 @@ public class GridManager : Manager
         firstTile.LockDirections();
 
         // flip it up
-        timer = 1 * timeMultiplier;
+        float timer = 1 * timeMultiplier;
         firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
         yield return new WaitForSeconds(timer);
 
@@ -203,8 +200,6 @@ public class GridManager : Manager
         hexMapController.disablePanning = false;
         hexMapController.disableZoom = false;
         initialized = true;
-
-        
 
         HighlightEntries(); 
     }
@@ -774,6 +769,8 @@ public class GridManager : Manager
 
     HexTile AddTile(Vector3Int coord)
     {
+        System.Array tileTypes = System.Enum.GetValues(typeof(TileType));
+
         if (coord.x + coord.y + coord.z != 0)
         {
             Debug.LogWarning("Invalid coord");
@@ -788,17 +785,14 @@ public class GridManager : Manager
         tile.tileEncounterType = GetRandomEncounterType();
         tile.tileBiome = GetRandomTileBiome();
         tile.Init();
+        tile.type = (TileType)tileTypes.GetValue(Random.Range(0, tileTypes.Length));
 
-        if (!tiles.ContainsValue(tile))
-        {
-            tiles.Add(coord, tile);
-        }
+        tiles.Add(coord, tile);
 
-        tile.Init();
-        if (coord != Vector3.zero)
-            world.encounterManager.GenerateHexEncounters(tile, new List<Vector3Int>() { Vector3Int.zero});
-        else
-            world.encounterManager.GenerateInitialHexEncounters(tile);
+        if (coord == Vector3.zero)
+        //    world.encounterManager.GenerateHexEncounters(tile, new List<Vector3Int>() { Vector3Int.zero});
+        //else
+            world.encounterManager.GenerateFirstHexEncounters(tile);
     
         tile.ContentVisible(false);
         
