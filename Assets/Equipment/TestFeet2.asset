@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0760503f105b5824396812f49f88e4fd, type: 3}
+  m_Name: TestFeet2
+  m_EditorClassIdentifier: 
+  id: 3
+  equipmentName: Feet2
+  level: 1
+  equipmentType: 5
+  classType: 1
+  artwork: {fileID: 21300000, guid: 09a5a8c6dae08b14f8de03775baed06f, type: 3}
+  effect: 

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0760503f105b5824396812f49f88e4fd, type: 3}
+  m_Name: TestChest1
+  m_EditorClassIdentifier: 
+  id: 0
+  equipmentName: Chest1
+  level: 0
+  equipmentType: 2
+  classType: 1
+  artwork: {fileID: 21300000, guid: 10d04198d94e54041b2ca5b7f4fc6343, type: 3}
+  effect: 
