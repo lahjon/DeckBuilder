@@ -76,6 +76,12 @@ public class DebugUI : MonoBehaviour
         WorldStateSystem.SetInCombatReward(true);
     }
 
+    public void DebugUpgradeGearHead()
+    {
+        world.equipmentManager.UpgradeEquipment(EquipmentType.Head);
+    }
+
+
     public void DebugAddStat(int amount)
     {
         world.characterManager.characterStats.ModifyHealth(amount);

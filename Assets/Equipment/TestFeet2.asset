@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   equipmentName: Feet2
-  level: 1
+  description: feet stuff 2
+  level: 2
   equipmentType: 5
   classType: 1
   artwork: {fileID: 21300000, guid: 09a5a8c6dae08b14f8de03775baed06f, type: 3}

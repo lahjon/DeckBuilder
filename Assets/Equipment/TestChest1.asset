@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   equipmentName: Chest1
-  level: 0
+  description: Chest stuff Chest stuff test 1
+  level: 1
   equipmentType: 2
   classType: 1
   artwork: {fileID: 21300000, guid: 10d04198d94e54041b2ca5b7f4fc6343, type: 3}

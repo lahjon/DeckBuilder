@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   equipmentName: Hands2
-  level: 1
+  description: hands 2
+  level: 2
   equipmentType: 3
   classType: 1
   artwork: {fileID: 21300000, guid: 8cf51feae7a712544ae117c12881a136, type: 3}

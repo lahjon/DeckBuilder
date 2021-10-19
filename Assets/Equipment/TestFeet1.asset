@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   equipmentName: Feet1
-  level: 0
+  description: Fett stutff 1
+  level: 1
   equipmentType: 5
   classType: 1
   artwork: {fileID: 21300000, guid: 6259e440e56eef6438656b2f8ba89443, type: 3}
