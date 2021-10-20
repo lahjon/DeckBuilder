@@ -16,7 +16,7 @@ public class UseItemManager : Manager, ISaveableTemp
     {
         base.Awake();
         world.useItemManager = this;
-    }
+}
     protected override void Start()
     {
         base.Start();

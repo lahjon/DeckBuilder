@@ -96,7 +96,15 @@ public static class EnumExtenstions
 
 }
 
-
+public enum EquipmentType
+{
+    None, 
+    Head,
+    Chest,
+    Hands,
+    Legs, 
+    Feet
+}
 
 public enum ConditionType
 {

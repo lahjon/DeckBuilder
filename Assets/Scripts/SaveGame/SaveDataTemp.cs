@@ -7,6 +7,7 @@ public class SaveDataTemp
 {
     public List<CardWrapper> playerCards = new List<CardWrapper>();
     public CharacterClassType selectedCharacterClassType;
+    public EquipmentStruct equipmentStruct;
     public List<string> selectedTokens = new List<string>(); 
     public List<string> allActiveArtifactsNames = new List<string>();
     public List<string> selectedUseItems = new List<string>(); 

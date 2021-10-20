@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class MenuCharacter : MonoBehaviour, ISaveableWorld
 {
@@ -10,11 +11,26 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
     public List<Perk> allEquippedPerks;
     public Transform perkContent;
     public GameObject perkPrefab;
+    public GameObject tooltipPanel;
+    public TMP_Text tooltipName;
+    public TMP_Text tooltipDescription;
 
     void Start()
     {
         allEquippedPerksDatas.ForEach(x => AddPerk(x));
         allEquippedPerksDatas.Clear();
+        DeactivateToolTip();
+    }
+    public void ActivateToolTip(EquipmentData data)
+    {
+        if (data == null) return;
+        tooltipPanel.SetActive(true);
+        tooltipName.text = data.equipmentName;
+        tooltipDescription.text = data.description;
+    }
+    public void DeactivateToolTip()
+    {
+        tooltipPanel.SetActive(false);
     }
 
     void AddPerk(PerkData data)

@@ -26,7 +26,7 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         EncounterDataCombat encounterData = combat.encounterData;
         //List<CardEffectCarrier>    startingEffects = encounterData.startingEffects;
         List<int>               startingTargets = encounterData.startEffectsTargets;
-        int counter = 0;
+        //int counter = 0;
 
         /*
         foreach (CardEffectCarrier e in startingEffects)
