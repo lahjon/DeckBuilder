@@ -79,11 +79,14 @@ public class Condition : IEventSubscriber
             case ConditionType.EncounterCompleted:
                 EventManager.OnEncounterCompletedEvent += OnEventNotification;
                 break;
+            case ConditionType.StorySegmentCompleted:
+                EventManager.OnCompleteStorySegmentEvent += OnEventNotification;
+                break;
             default:
                 break;
         }
 
-        if (this is CountingCondition) return;
+        if (this is ConditionCounting) return;
         OnEventNotification();
     }
 
@@ -171,6 +174,12 @@ public class Condition : IEventSubscriber
             OnEventNotification();
     }
 
+    public void OnEventNotification(WorldEncounterSegment segment)
+    {
+        Debug.Log("Responded to complete segment");
+        if (segment.data.ID == conditionData.strParameter || conditionData.strParameters.Contains(segment.data.ID))
+            OnEventNotification();
+    }
 }
 
 

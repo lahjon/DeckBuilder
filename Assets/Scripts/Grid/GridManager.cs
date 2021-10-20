@@ -205,7 +205,7 @@ public class GridManager : Manager
 
         HighlightEntries();
 
-        WorldSystem.instance.worldMapManager.currentWorldEncounter?.SetupInitialSegment();
+        WorldSystem.instance.worldMapManager.currentWorldEncounter?.SetupInitialSegments();
     }
 
     public void ExpandMap()

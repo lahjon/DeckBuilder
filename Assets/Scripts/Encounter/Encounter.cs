@@ -287,6 +287,13 @@ public class Encounter : MonoBehaviour
         encounterType = OverworldEncounterType.Story;
     }
 
+    public void RemoveStoryEncounter()
+    {
+        storyID = null;
+        encData = null;
+        encounterType = OverworldEncounterType.RandomEvent;
+    }
+
     public void StartEncounter()
     {
         if (!string.IsNullOrEmpty(storyID))

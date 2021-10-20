@@ -615,6 +615,21 @@ public class HexTile : MonoBehaviour
 
     } 
 
+    public void SetStoryInfo(string ID, Color color, EncounterData storyEncounter = null)
+    {
+        storyMark.gameObject.SetActive(true);
+        storyMark.color = color;
+        storyId = ID;
+        this.storyEncounter = storyEncounter;
+    }
+
+    public void RemoveStoryInfo()
+    {
+        storyId = string.Empty;
+        storyEncounter = null;
+        storyMark.gameObject.SetActive(false);
+    }
+
     #region Encounters 
 
 

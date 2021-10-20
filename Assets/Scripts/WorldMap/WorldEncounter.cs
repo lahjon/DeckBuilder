@@ -11,9 +11,15 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
     public Reward encounterReward;
-    public CountingCondition condition;
+    public ConditionCounting conditionClear;
+    public ConditionCounting conditionStartAnd;
+    public ConditionCounting conditionStartOr;
+
     public List<WorldEncounterSegment> segments = new List<WorldEncounterSegment>();
     bool _completed;
+
+    public List<WorldEncounterSegment> nextStorySegments = new List<WorldEncounterSegment>();
+
     public bool completed
     {
         get => _completed;
@@ -22,7 +28,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             _completed = value;
             EventManager.CompleteWorldEncounter();
             CollectReward();
-            condition.Unsubscribe();
+            conditionClear.Unsubscribe();
         }
     }
     public WorldEncounterType worldEncounterType
@@ -64,17 +70,17 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (worldEncounterType == WorldEncounterType.None)
         {
             worldEncounterType = worldEncounterData.type;
-            condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
+            conditionClear = new ConditionCounting(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
             segments.Clear();
             foreach (WorldEncounterSegmentData segmentData in worldEncounterData.SegmentDatas)
-                segments.Add(new WorldEncounterSegment(segmentData));
+                segments.Add(new WorldEncounterSegment(segmentData,this));
         }
     }
 
     void RemoveEncounter()
     {
-        condition?.Unsubscribe();
+        conditionClear?.Unsubscribe();
         WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.worldEncounterName);
         WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.worldEncounterName);
         if (worldEncounterData.unlockableEncounters?.Any() == true)
@@ -109,7 +115,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void GetEncounterDescription()
     {
-        WorldSystem.instance.gridManager.conditionText.text = condition?.GetDescription(true);
+        WorldSystem.instance.gridManager.conditionText.text = conditionClear?.GetDescription(true);
     }
 
     public void OnPreconditionUpdate()
@@ -122,10 +128,24 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         completed = true;
     }
 
-    public void SetupInitialSegment()
+    public void SetupInitialSegments()
     {
-        Debug.Log("Starting setup" + segments.Count);
-        if(segments.Count > 0)
-            WorldSystem.instance.gridManager.StartCoroutine(segments[0].SetupSegment());
+        foreach (WorldEncounterSegment segment in segments)
+            if (segment.data.requiredSegmentsAND.Count == 0 && segment.data.requiredSegmentsOR.Count == 0)
+                nextStorySegments.Add(segment);
+        WorldSystem.instance.gridManager.StartCoroutine(SetupNextSegments());
     }
+
+    public IEnumerator SetupNextSegments()
+    {
+        Debug.Log("Setup next segments: " + nextStorySegments.Count);
+        for(int i = 0; i < nextStorySegments.Count;i++)
+        {
+            WorldEncounterSegment segment = nextStorySegments[i];
+            yield return WorldSystem.instance.gridManager.StartCoroutine(segment.SetupSegment());
+        }
+
+        nextStorySegments.Clear();
+    }
+
 }

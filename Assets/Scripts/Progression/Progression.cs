@@ -8,7 +8,7 @@ public abstract class Progression : MonoBehaviour
     public string id;
     public string aName;
     public string description;
-    public List<CountingCondition> countingConditions = new List<CountingCondition>();
+    public List<ConditionCounting> countingConditions = new List<ConditionCounting>();
     public bool completed = false;
 
     public void CreateGoals(ProgressionData aData)
@@ -16,7 +16,7 @@ public abstract class Progression : MonoBehaviour
         if (aData == null) return;
         foreach (ConditionData x in aData.conditionStructs)
         {
-            CountingCondition countingCondition = new CountingCondition(x, ConditionOnUpdate, ConditionOnTrue);
+            ConditionCounting countingCondition = new ConditionCounting(x, ConditionOnUpdate, ConditionOnTrue);
             countingCondition.Subscribe();
             countingConditions.Add(countingCondition);
         }

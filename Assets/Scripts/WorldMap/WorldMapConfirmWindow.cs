@@ -32,7 +32,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
 
     public void Confirm()
     {
-        WorldSystem.instance.worldMapManager.currentWorldEncounter.condition.Subscribe();
+        WorldSystem.instance.worldMapManager.currentWorldEncounter.conditionClear.Subscribe();
         WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
         DatabaseSystem.instance.ResetEncountersCombatToDraw(null);
         DatabaseSystem.instance.ResetEncountersEventToDraw();

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CountingCondition : Condition
+public class ConditionCounting : Condition
 {
     public int currentAmount = 0;
 
     public int requiredAmount => conditionData.numValue;
 
-    public CountingCondition(ConditionData conditionStruct, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
+    public ConditionCounting(ConditionData conditionStruct, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
         : base(conditionStruct,OnPreConditionUpdate, null, OnConditionFlipTrue)
     {
         ConditionEvaluator = GreaterThanComparer;

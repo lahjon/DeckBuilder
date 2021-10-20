@@ -11,15 +11,51 @@ public class WorldEncounterSegment
     public WorldEncounter encounter;
     public WorldEncounterSegmentData data;
 
-    public Condition condition;
+    public ConditionCounting conditionClear;
+    public ConditionCounting conditionStartAnd;
+    public ConditionCounting conditionStartOr;
 
-    public WorldEncounterSegment(WorldEncounterSegmentData data)
+    public WorldEncounterSegment(WorldEncounterSegmentData data, WorldEncounter encounter)
     {
+        this.encounter = encounter;
         this.data = data;
+        SetupStartConditions();
+    }
+
+    public void SetupStartConditions()
+    {
+        if(data.requiredSegmentsAND.Count != 0)
+        {
+            conditionStartAnd = new ConditionCounting(
+                new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = data.requiredSegmentsAND.Count, strParameters = data.requiredSegmentsAND },
+                null,
+                () => {
+                    encounter.nextStorySegments.Add(this);
+                    conditionStartAnd.Unsubscribe();
+                    conditionStartOr?.Unsubscribe();
+                    });
+        }
+
+        if (data.requiredSegmentsOR.Count != 0)
+        {
+            conditionStartOr = new ConditionCounting(
+                new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = 1, strParameters = data.requiredSegmentsOR },
+                null,
+                () => {
+                    encounter.nextStorySegments.Add(this);
+                    conditionStartOr.Unsubscribe();
+                    conditionStartAnd?.Unsubscribe();
+                });
+        }
+
+        conditionStartOr?.Subscribe();
+        conditionStartAnd?.Subscribe();
     }
 
     public IEnumerator SetupSegment()
     {
+        CancelPrevious();
+
         switch (data.segmentType)
         {
             case WorldEncounterSegmentType.ClearTiles:
@@ -42,28 +78,27 @@ public class WorldEncounterSegment
     private void SetupClearTiles()
     {
         foreach (Vector3Int vec in data.gridCoordinates)
-        {
-            HexTile tile = WorldSystem.instance.gridManager.GetTile(vec);
-            tile.storyMark.gameObject.SetActive(true);
-            tile.storyId = data.ID;
-        }
+            WorldSystem.instance.gridManager.GetTile(vec).SetStoryInfo(data.ID, data.color);
 
-        condition = new CountingCondition(new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.ID, numValue = data.gridCoordinates.Count }, null, () => Debug.Log("issa complete"));
-        condition.Subscribe();
+        conditionClear = new ConditionCounting(
+            new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.ID, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
+            null,
+            SegmentFinished);
+
+        conditionClear.Subscribe();
     }
 
     public void SetupClearEncounters()
     {
         for(int i = 0; i < data.gridCoordinates.Count; i++)
-        {
-            HexTile tile = WorldSystem.instance.gridManager.GetTile(data.gridCoordinates[i]);
-            tile.storyMark.gameObject.SetActive(true);
-            tile.storyId = data.ID;
-            tile.storyEncounter = data.encounters[i];
-        }
+            WorldSystem.instance.gridManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.ID, data.color, data.encounters[i]);
 
-        condition = new CountingCondition(new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID , numValue = data.encounters.Count}, null, () => Debug.Log("issa complete"));
-        condition.Subscribe();
+        conditionClear = new ConditionCounting(
+            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID , numValue = data.encounters.Count- data.nrSkippableTiles}, 
+            null,
+            SegmentFinished);
+
+        conditionClear.Subscribe();
     }
 
     public void SetupFindEncounters()
@@ -76,24 +111,45 @@ public class WorldEncounterSegment
             Vector3Int coord = coords[UnityEngine.Random.Range(0, coords.Count)];
             coords.Remove(coord);
             HexTile tile = WorldSystem.instance.gridManager.GetTile(coord);
-            tile.storyMark.gameObject.SetActive(true);
             if (misses++ < data.nrDecoys)
-            {
-                tile.storyId = data.ID + "_miss";
-                tile.storyEncounter = data.missEncounters[i % data.missEncounters.Count];
-            }
+                tile.SetStoryInfo(data.ID, data.color, data.missEncounters[i % data.missEncounters.Count]);
             else
-            {
-                tile.storyId = data.ID;
-                tile.storyEncounter = data.encounters[(i - data.nrDecoys) % data.encounters.Count];
-            }
+                tile.SetStoryInfo(data.ID, data.color, data.encounters[(i - data.nrDecoys) % data.encounters.Count]);
         }
 
-        condition = new CountingCondition(new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID, numValue = data.encounters.Count }, null, () => Debug.Log("issa complete"));
-        condition.Subscribe();
+        conditionClear = new ConditionCounting(
+            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID, numValue = data.encounters.Count }, 
+            null,
+            SegmentFinished);
+
+        conditionClear.Subscribe();
     }
 
 
+    private void SegmentFinished()
+    {
+        Debug.Log("segment finishi");
+        EventManager.StorySegmentCompleted(this);
+        ClearRemnants();
+        WorldSystem.instance.gridManager.StartCoroutine(encounter.SetupNextSegments());
+    }
 
+    private void ClearRemnants()
+    {
+        conditionClear.Unsubscribe();
+        foreach (Vector3Int vec in data.gridCoordinates)
+        {
+            HexTile tile = WorldSystem.instance.gridManager.GetTile(vec);
+            if (tile.tileState != TileState.Completed)
+                tile.RemoveStoryInfo();
+        }
+    }
+
+    private void CancelPrevious()
+    {
+        for (int i = 0; i < encounter.segments.Count; i++)
+            if (data.cancelSegmentsOnStart.Contains(encounter.segments[i].data.ID))
+                encounter.segments[i].ClearRemnants();
+    }
 
 }

@@ -9,6 +9,9 @@ public class EventManager : Manager
     public delegate void CompleteTileEvent(HexTile tile);
     public static event CompleteTileEvent OnCompleteTileEvent;
 
+    public delegate void CompleteStorySegmentEvent(WorldEncounterSegment segment);
+    public static event CompleteStorySegmentEvent OnCompleteStorySegmentEvent;
+
     public delegate void EncounterCompletedEvent(Encounter enc);
     public static event EncounterCompletedEvent OnEncounterCompletedEvent;
 
@@ -154,6 +157,10 @@ public class EventManager : Manager
             OnEncounterDataCompletedEvent?.Invoke(enc.encData);
     }
 
+    public static void StorySegmentCompleted(WorldEncounterSegment segment)
+    {
+        OnCompleteStorySegmentEvent?.Invoke(segment);
+    }
 
 
 }

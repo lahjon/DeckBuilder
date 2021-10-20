@@ -120,7 +120,8 @@ public enum ConditionType
     KillBoss,
     StoryTileCompleted,
     EncounterDataCompleted,
-    EncounterCompleted
+    EncounterCompleted,
+    StorySegmentCompleted
 }
 
 public enum Rarity

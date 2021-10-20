@@ -6,7 +6,7 @@ using TMPro;
 public class ItemUsable : Item, IEventSubscriber
 {
     bool _usable;
-    public CountingCondition itemCondition;
+    public ConditionCounting itemCondition;
     UseItemData _useItemData;
     public TMP_Text counterText; 
     public Effect effect; 
@@ -48,7 +48,7 @@ public class ItemUsable : Item, IEventSubscriber
         if (allData)
         {
             effect = Effect.GetEffect(gameObject, itemData.name, false);
-            itemCondition = new CountingCondition(itemData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
+            itemCondition = new ConditionCounting(itemData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             itemCondition.Subscribe();
             charges = 1;
             Subscribe();
