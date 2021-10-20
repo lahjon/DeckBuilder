@@ -61,7 +61,7 @@ public class CardEffectCarrier: ICardTextElement
     {
         return
             Type == data.Type
-            && condition.conditionStruct.type == data.conditionStruct.type
+            && condition.conditionData.type == data.conditionStruct.type
             && (int)Target <= (int)data.Target
             && (Times.propertyType == data.Times.linkedProp || data.Times.linkedProp == CardLinkablePropertyType.None)
             && (Value.propertyType == data.Value.linkedProp || data.Value.linkedProp == CardLinkablePropertyType.None);

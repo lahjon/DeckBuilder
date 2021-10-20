@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public struct ConditionStruct
+public class ConditionData
 {
     public ConditionType type;
     public string strParameter;
     public int numValue;
+
+    public List<string> strParameters = new List<string>();
 }
 
 public static class ConditionStructExtensions
 {
-    public static string GetMissionDescription(this ConditionStruct condition, int cAmount, int rAmount)
+    public static string GetMissionDescription(this ConditionData condition, int cAmount, int rAmount)
     {
         Debug.Log(rAmount);
         switch (condition.type)

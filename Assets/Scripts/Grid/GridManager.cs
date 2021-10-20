@@ -34,6 +34,8 @@ public class GridManager : Manager
     public int subAct;
     ConditionType conditionType;
     public TMP_Text conditionText;
+
+    public Encounter finishedEncounterToReport;
     
     TileEncounterType GetRandomEncounterType()
     {
@@ -149,7 +151,7 @@ public class GridManager : Manager
 
     IEnumerator CreateMap()
     {
-        if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc) enc.GetEncounterDescription();
+        WorldSystem.instance.worldMapManager.currentWorldEncounter?.GetEncounterDescription();
 
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;
@@ -201,7 +203,9 @@ public class GridManager : Manager
         hexMapController.disableZoom = false;
         initialized = true;
 
-        HighlightEntries(); 
+        HighlightEntries();
+
+        WorldSystem.instance.worldMapManager.currentWorldEncounter?.SetupInitialSegment();
     }
 
     public void ExpandMap()
@@ -253,8 +257,6 @@ public class GridManager : Manager
 
             currentTile.tileState = TileState.Completed;
             animator.SetBool("IsPlaying", false);
-
-            EventManager.CompleteTile();
             
             if (WorldSystem.instance.gridManager.CheckClearCondition()) return;
         }
@@ -545,9 +547,6 @@ public class GridManager : Manager
             return (0, null);
         }
 
-        //Debug.Log("EntryDir: " + tileDirections.IndexOf(entryTile.coord - tile.coord));
-        //Debug.Log(tileDirections.IndexOf(entryTile.coord - tile.coord));
-        //Debug.Log(entryHex);
 
         return (tileDirections.IndexOf(entryTile.coord - tile.coord), entryHex);
     }
@@ -558,22 +557,6 @@ public class GridManager : Manager
         // get all the neighbours of a tile and discard all inactive tiles
         List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
         neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
-
-        // bool freeExist = false;
-
-        // // look at all exists
-        // foreach (int dir in tile.availableDirections)
-        // {
-        //     // make sure that one exit connects to a inactive tile
-        //     //Debug.Log(tile.coord);
-        //     //Debug.Log(GetTileDirection(dir));
-        //     if (GetTile(tile.coord + GetTileDirection(dir)) is HexTile validTile && validTile.tileState == TileState.Inactive)
-        //     {
-        //         Debug.Log("One Exit");
-        //         freeExist = true;
-        //         break;
-        //     }
-        // }
         
         // look at all exists
         foreach (int dir in tile.availableDirections)
@@ -599,7 +582,7 @@ public class GridManager : Manager
         return false;
     }
 
-    HexTile GetTile(Vector3Int cellCoordinate)
+    public HexTile GetTile(Vector3Int cellCoordinate)
     {
         if (tiles.ContainsKey(cellCoordinate))
         {
@@ -634,26 +617,6 @@ public class GridManager : Manager
         {
             return null;
         }
-    }
-
-    HexTile GetRandomCompletedTile(int row)
-    {
-        if (completedTiles.Count == 0)
-            return null;
-
-        List<Vector3Int> result = new List<Vector3Int>();
-
-        foreach (Vector3Int tile in completedTiles.Select(x => x.coord))
-        {
-            HashSet<int> tileList = VectorToArray(tile);
-
-            if (tileList.Any(x => Mathf.Abs(x) == row) && tileList.All(x => Mathf.Abs(x) <= row))
-            {
-                result.Add(tile);
-            }
-        }
-
-        return GetTile(result[Random.Range(0, result.Count)]);
     }
 
     List<HexTile> GetTilesAtRow(int row)
@@ -797,5 +760,12 @@ public class GridManager : Manager
         tile.ContentVisible(false);
         
         return tile;
+    }
+
+    public void ReportEncounter()
+    {
+        if (finishedEncounterToReport is null) return;
+        EventManager.EncounterCompleted(finishedEncounterToReport);
+
     }
 }

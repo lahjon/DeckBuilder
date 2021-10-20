@@ -11,7 +11,7 @@ public struct CardActivityData
     public string strParameter;
     public int val;
 
-    public ConditionStruct conditionStruct;
+    public ConditionData conditionStruct;
 
     public CardComponentExecType execTime;
 }

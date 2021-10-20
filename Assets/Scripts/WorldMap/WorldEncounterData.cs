@@ -8,7 +8,9 @@ public class WorldEncounterData : ScriptableObject
     public string worldEncounterName;
     public EncounterDifficulty difficulty;
     public RewardStruct rewardStruct;
-    public ConditionStruct clearCondition;
+    public ConditionData clearCondition;
     public WorldEncounterType type;
     public WorldEncounterData[] unlockableEncounters;
+
+    public List<WorldEncounterSegmentData> SegmentDatas = new List<WorldEncounterSegmentData>();
 }

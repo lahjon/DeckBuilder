@@ -10,6 +10,7 @@ public class StateOverworld : WorldStateAnimator
         Init(TransitionType.Normal, WorldState.Overworld);
         if(hexMapController == null) hexMapController = world.gridManager.hexMapController;
         world.gridManager.content.SetActive(true);
+        world.gridManager.ReportEncounter();
         Debug.Log("Entering Overworld");
     }
 

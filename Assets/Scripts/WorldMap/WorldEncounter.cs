@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -11,6 +12,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public WorldEncounterData worldEncounterData;
     public Reward encounterReward;
     public CountingCondition condition;
+    public List<WorldEncounterSegment> segments = new List<WorldEncounterSegment>();
     bool _completed;
     public bool completed
     {
@@ -50,11 +52,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
-    void OnDestroy()
-    {
-        Debug.Log("Destroyed");
-    }
-
     public void ButtonOnClick()
     {
         WorldSystem.instance.worldMapManager.currentWorldEncounter = this;
@@ -69,6 +66,9 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             worldEncounterType = worldEncounterData.type;
             condition = new CountingCondition(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
+            segments.Clear();
+            foreach (WorldEncounterSegmentData segmentData in worldEncounterData.SegmentDatas)
+                segments.Add(new WorldEncounterSegment(segmentData));
         }
     }
 
@@ -114,12 +114,18 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPreconditionUpdate()
     {
-        Debug.Log("Updating Condition: " + this + " " + condition);
         GetEncounterDescription();
     }
 
     public void OnConditionTrue()
     {
         completed = true;
+    }
+
+    public void SetupInitialSegment()
+    {
+        Debug.Log("Starting setup" + segments.Count);
+        if(segments.Count > 0)
+            WorldSystem.instance.gridManager.StartCoroutine(segments[0].SetupSegment());
     }
 }

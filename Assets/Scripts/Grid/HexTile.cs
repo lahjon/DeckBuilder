@@ -19,6 +19,8 @@ public class HexTile : MonoBehaviour
     Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
+    public SpriteRenderer storyMark;
+
     public Transform encounterParent;
     public Transform roadParent;
     static Color highlightColorPrimary = new Color(1f, 1f, 1f, 1f);
@@ -31,8 +33,6 @@ public class HexTile : MonoBehaviour
     bool _highlightedSecondary;
     public TileEncounterType tileEncounterType;
     public TileBiome tileBiome;
-    public bool completed;
-
     public TileType type;
 
     public Dictionary<Vector3Int, Encounter> posToEncounter = new Dictionary<Vector3Int, Encounter>();
@@ -47,6 +47,16 @@ public class HexTile : MonoBehaviour
         new Vector3Int(-1, -1, 2)
     };
 
+    public static List<Vector3Int> positionsFixedTile = new List<Vector3Int>()
+    {
+        new Vector3Int(1, -1, 0),
+        new Vector3Int(1, -0, -1),
+        new Vector3Int(0, 1, -1),
+        new Vector3Int(-1, 1, 0),
+        new Vector3Int(-1, 0, 1),
+        new Vector3Int(0, -1, 1)
+    };
+
     public static List<Vector3Int> positionsInner = new List<Vector3Int>();
 
     public static float radiusInverse = 0.90f;
@@ -58,6 +68,9 @@ public class HexTile : MonoBehaviour
     public List<Encounter> encounters;
     public Encounter encounterEntry;
     public List<Encounter> encountersExits = new List<Encounter>();
+
+    public string storyId = "";
+    public EncounterData storyEncounter;
 
     public bool highlightedPrimary
     {
@@ -128,13 +141,12 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.Completed)
             {
-
-                // BYT GridMan till HashSet så går detta att göra utan if.
-                if (!completed)
+                if (!gridManager.completedTiles.Contains(this))
                 {
                     gridManager.completedTiles.Add(this);
-                    completed = true;
+                    EventManager.TileCompleted(this);
                 }
+
                 spriteRenderer.color = completedColor;
             }
             else if (_tileState == TileState.InactiveHighlight)
@@ -237,7 +249,7 @@ public class HexTile : MonoBehaviour
         gridManager = WorldSystem.instance.gridManager;
         hexMapController = gridManager.GetComponent<HexMapController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        EncountersInitializePositions(posToEncounter, gridWidth);
+        EncountersInitializePositions(gridWidth);
         if (coord == Vector3.zero)
         {
             if(Random.Range(0,2) == 0)
@@ -329,6 +341,8 @@ public class HexTile : MonoBehaviour
 
     public float BeginFlipUpNewTile(bool enterPlacement = false)
     {
+        storyMark.gameObject.SetActive(false);
+
         if (enterPlacement)
         {
             Debug.Log("tileType: " + type);
@@ -341,7 +355,7 @@ public class HexTile : MonoBehaviour
             entryDir = gridManager.GetEntry(this).Item1;
             tileState = TileState.Animation;
 
-            WorldSystem.instance.encounterManager.GenerateHexEncounters(this);
+            WorldSystem.instance.encounterManager.GenerateHexEncounters(this, storyEncounter);
 
             List<int> requiredExits = new List<int>();
             if (gridManager.bossStarted)
@@ -584,9 +598,8 @@ public class HexTile : MonoBehaviour
         
     }
 
-    public static void EncountersInitializePositions(Dictionary<Vector3Int, Encounter> encPos, int gridWidth)
+    public static void EncountersInitializePositions(int gridWidth)
     {
-        if (positionsInner.Count != 0) return; 
         for (int q = -gridWidth; q <= gridWidth; q++)
         {
             int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
@@ -595,7 +608,7 @@ public class HexTile : MonoBehaviour
             for (int r = r1; r <= r2; r++)
             {
                 Vector3Int coords = new Vector3Int(q, r, -q - r);
-                if(!positionsExit.Contains(coords))
+                if(!positionsExit.Contains(coords) && !positionsInner.Contains(coords))
                     positionsInner.Add(coords);
             }
         }

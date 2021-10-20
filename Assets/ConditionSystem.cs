@@ -21,7 +21,7 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
-    public static Func<ConditionStruct, bool> GetConditionChecker(ConditionType type)
+    public static Func<ConditionData, bool> GetConditionChecker(ConditionType type)
     {
         switch (type)
         {
@@ -36,18 +36,17 @@ public class ConditionSystem : MonoBehaviour
         }
     }
 
-    public static bool CheckCardsPlayedAtLeast(ConditionStruct conditionStruct)
+    public static bool CheckCardsPlayedAtLeast(ConditionData conditionStruct)
     {
-        Debug.Log("cards played vs value:" + CombatSystem.instance.cardsPlayedThisTurn.Count + "," + conditionStruct.numValue);
         return CombatSystem.instance.cardsPlayedThisTurn.Count >= conditionStruct.numValue;
     }
 
-    public static bool CheckCardsPlayedAtMost(ConditionStruct conditionStruct)
+    public static bool CheckCardsPlayedAtMost(ConditionData conditionStruct)
     {
         return CombatSystem.instance.cardsPlayedThisTurn.Count <= conditionStruct.numValue;
     }
 
-    public static bool CheckLastTypePlayedThisTurn(ConditionStruct conditionStruct)
+    public static bool CheckLastTypePlayedThisTurn(ConditionData conditionStruct)
     {
         if (CombatSystem.instance.cardsPlayedThisTurn.Count < 1) return false;
         CardType cardType;

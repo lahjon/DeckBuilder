@@ -14,7 +14,7 @@ public abstract class Progression : MonoBehaviour
     public void CreateGoals(ProgressionData aData)
     {
         if (aData == null) return;
-        foreach (ConditionStruct x in aData.conditionStructs)
+        foreach (ConditionData x in aData.conditionStructs)
         {
             CountingCondition countingCondition = new CountingCondition(x, ConditionOnUpdate, ConditionOnTrue);
             countingCondition.Subscribe();
