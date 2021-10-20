@@ -12,5 +12,7 @@ public class WorldEncounterData : ScriptableObject
     public WorldEncounterType type;
     public WorldEncounterData[] unlockableEncounters;
 
+    public string Description; 
+
     public List<WorldEncounterSegmentData> SegmentDatas = new List<WorldEncounterSegmentData>();
 }

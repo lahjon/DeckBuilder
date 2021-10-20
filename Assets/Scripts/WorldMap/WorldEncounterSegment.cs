@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using System.Linq;
+using TMPro;
 using System;
 
 public class WorldEncounterSegment
@@ -14,6 +12,8 @@ public class WorldEncounterSegment
     public ConditionCounting conditionClear;
     public ConditionCounting conditionStartAnd;
     public ConditionCounting conditionStartOr;
+
+    private TMP_Text txt_description;
 
     public WorldEncounterSegment(WorldEncounterSegmentData data, WorldEncounter encounter)
     {
@@ -72,6 +72,8 @@ public class WorldEncounterSegment
                 break;
         }
 
+        txt_description = WorldSystem.instance.gridManager.objectiveDisplayer.GetDescriptionSlot();
+        RefreshDescription();
         yield return null;
     }
 
@@ -82,7 +84,7 @@ public class WorldEncounterSegment
 
         conditionClear = new ConditionCounting(
             new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.ID, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
-            null,
+            RefreshDescription,
             SegmentFinished);
 
         conditionClear.Subscribe();
@@ -94,8 +96,8 @@ public class WorldEncounterSegment
             WorldSystem.instance.gridManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.ID, data.color, data.encounters[i]);
 
         conditionClear = new ConditionCounting(
-            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID , numValue = data.encounters.Count- data.nrSkippableTiles}, 
-            null,
+            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID , numValue = data.encounters.Count- data.nrSkippableTiles},
+            RefreshDescription,
             SegmentFinished);
 
         conditionClear.Subscribe();
@@ -112,14 +114,14 @@ public class WorldEncounterSegment
             coords.Remove(coord);
             HexTile tile = WorldSystem.instance.gridManager.GetTile(coord);
             if (misses++ < data.nrDecoys)
-                tile.SetStoryInfo(data.ID, data.color, data.missEncounters[i % data.missEncounters.Count]);
+                tile.SetStoryInfo(data.ID + "_miss", data.color, data.missEncounters[i % data.missEncounters.Count]);
             else
                 tile.SetStoryInfo(data.ID, data.color, data.encounters[(i - data.nrDecoys) % data.encounters.Count]);
         }
 
         conditionClear = new ConditionCounting(
-            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID, numValue = data.encounters.Count }, 
-            null,
+            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID, numValue = data.gridCoordinates.Count - data.nrDecoys },
+            RefreshDescription,
             SegmentFinished);
 
         conditionClear.Subscribe();
@@ -143,6 +145,7 @@ public class WorldEncounterSegment
             if (tile.tileState != TileState.Completed)
                 tile.RemoveStoryInfo();
         }
+        WorldSystem.instance.gridManager.objectiveDisplayer.ReturnDescriptionSlot(txt_description);
     }
 
     private void CancelPrevious()
@@ -150,6 +153,16 @@ public class WorldEncounterSegment
         for (int i = 0; i < encounter.segments.Count; i++)
             if (data.cancelSegmentsOnStart.Contains(encounter.segments[i].data.ID))
                 encounter.segments[i].ClearRemnants();
+    }
+
+    private void RefreshDescription()
+    {
+        if (txt_description == null) return;
+        txt_description.text = 
+            data.description.Replace("_COLOR_","#" + ColorUtility.ToHtmlStringRGB(data.color)) 
+            + (conditionClear.conditionData.numValue != 1 ? 
+            "\n" + conditionClear.currentAmount + "/" + conditionClear.conditionData.numValue 
+            : ""); 
     }
 
 }

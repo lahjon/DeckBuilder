@@ -9,6 +9,8 @@ public class WorldEncounterSegmentData
     public WorldEncounterSegmentType segmentType;
     public Color color = Color.magenta;
 
+    public string description;
+
     [NonReorderable]
     public List<Vector3Int> gridCoordinates = new List<Vector3Int>();
     [NonReorderable]

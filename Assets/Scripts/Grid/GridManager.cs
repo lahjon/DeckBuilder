@@ -36,6 +36,8 @@ public class GridManager : Manager
     public TMP_Text conditionText;
 
     public Encounter finishedEncounterToReport;
+
+    public ObjectiveDisplayer objectiveDisplayer;
     
     TileEncounterType GetRandomEncounterType()
     {
@@ -151,8 +153,6 @@ public class GridManager : Manager
 
     IEnumerator CreateMap()
     {
-        WorldSystem.instance.worldMapManager.currentWorldEncounter?.GetEncounterDescription();
-
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;
         hexMapController.disableZoom = true;

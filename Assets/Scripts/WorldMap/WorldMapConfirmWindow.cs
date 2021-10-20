@@ -32,7 +32,6 @@ public class WorldMapConfirmWindow : MonoBehaviour
 
     public void Confirm()
     {
-        WorldSystem.instance.worldMapManager.currentWorldEncounter.conditionClear.Subscribe();
         WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
         DatabaseSystem.instance.ResetEncountersCombatToDraw(null);
         DatabaseSystem.instance.ResetEncountersEventToDraw();
@@ -49,7 +48,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
         else
         {
             Debug.Log("Debug mode complete encounter");
-            WorldSystem.instance.worldMapManager.currentWorldEncounter.OnConditionTrue();
+            //kod för att klara worldencountern
             WorldSystem.instance.worldMapManager.UpdateMap();
         }
         

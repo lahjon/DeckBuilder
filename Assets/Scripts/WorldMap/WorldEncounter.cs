@@ -11,9 +11,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     WorldEncounterType _worldEncounterType;
     public WorldEncounterData worldEncounterData;
     public Reward encounterReward;
-    public ConditionCounting conditionClear;
-    public ConditionCounting conditionStartAnd;
-    public ConditionCounting conditionStartOr;
 
     public List<WorldEncounterSegment> segments = new List<WorldEncounterSegment>();
     bool _completed;
@@ -28,7 +25,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             _completed = value;
             EventManager.CompleteWorldEncounter();
             CollectReward();
-            conditionClear.Unsubscribe();
         }
     }
     public WorldEncounterType worldEncounterType
@@ -70,7 +66,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (worldEncounterType == WorldEncounterType.None)
         {
             worldEncounterType = worldEncounterData.type;
-            conditionClear = new ConditionCounting(worldEncounterData.clearCondition, OnPreconditionUpdate, OnConditionTrue);
             encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
             segments.Clear();
             foreach (WorldEncounterSegmentData segmentData in worldEncounterData.SegmentDatas)
@@ -80,7 +75,6 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void RemoveEncounter()
     {
-        conditionClear?.Unsubscribe();
         WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.worldEncounterName);
         WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.worldEncounterName);
         if (worldEncounterData.unlockableEncounters?.Any() == true)
@@ -113,20 +107,12 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
     }
 
-    public void GetEncounterDescription()
+
+    public void SetEncounterDescription()
     {
-        WorldSystem.instance.gridManager.conditionText.text = conditionClear?.GetDescription(true);
+        WorldSystem.instance.gridManager.conditionText.text = "hejhej";
     }
 
-    public void OnPreconditionUpdate()
-    {
-        GetEncounterDescription();
-    }
-
-    public void OnConditionTrue()
-    {
-        completed = true;
-    }
 
     public void SetupInitialSegments()
     {

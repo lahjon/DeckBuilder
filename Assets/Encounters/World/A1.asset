@@ -27,48 +27,38 @@ MonoBehaviour:
   unlockableEncounters:
   - {fileID: 11400000, guid: b7d4a3c5d7cfc3a4e8a17477539f18ce, type: 2}
   - {fileID: 11400000, guid: 5808e7ddf6ca7d7499e8d0e205dfc6c1, type: 2}
+  Description: Save the outpost from the story segments.
   SegmentDatas:
   - ID: StartA
-    segmentType: 0
+    segmentType: 2
     color: {r: 0, g: 0.6155896, b: 1, a: 1}
+    description: Find two <color=_COLOR_>skeleton keys</color>!
     gridCoordinates:
     - {x: 1, y: -1, z: 0}
-    encounters:
-    - {fileID: 11400000, guid: 5c1df954413f9f8438cbb8459d4fea9b, type: 2}
-    missEncounters:
-    - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
-    requiredSegmentsOR: []
-    requiredSegmentsAND: []
-    cancelSegmentsOnStart: []
-    nrSkippableTiles: 1
-    nrDecoys: 2
-  - ID: StartB
-    segmentType: 0
-    color: {r: 1, g: 0, b: 0.93706894, a: 1}
-    gridCoordinates:
     - {x: -1, y: 1, z: 0}
+    - {x: 0, y: -1, z: 1}
     encounters:
-    - {fileID: 11400000, guid: 5c1df954413f9f8438cbb8459d4fea9b, type: 2}
+    - {fileID: 11400000, guid: 8108d142ba8baf94a983de317c4be4e7, type: 2}
     missEncounters:
     - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
     requiredSegmentsOR: []
     requiredSegmentsAND: []
     cancelSegmentsOnStart: []
     nrSkippableTiles: 0
-    nrDecoys: 2
+    nrDecoys: 1
   - ID: Mid
     segmentType: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    description: Clear the skeleton tile
     gridCoordinates:
     - {x: -2, y: 2, z: 0}
     encounters:
     - {fileID: 11400000, guid: 5c1df954413f9f8438cbb8459d4fea9b, type: 2}
     missEncounters:
     - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
-    requiredSegmentsOR: []
-    requiredSegmentsAND:
+    requiredSegmentsOR:
     - StartA
-    - StartB
+    requiredSegmentsAND: []
     cancelSegmentsOnStart:
     - StartA
     - StartB

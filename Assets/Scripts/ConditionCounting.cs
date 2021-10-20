@@ -9,15 +9,15 @@ public class ConditionCounting : Condition
 
     public int requiredAmount => conditionData.numValue;
 
-    public ConditionCounting(ConditionData conditionStruct, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
-        : base(conditionStruct,OnPreConditionUpdate, null, OnConditionFlipTrue)
+    public ConditionCounting(ConditionData conditionData, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
+        : base(conditionData,OnPreConditionUpdate, null, OnConditionFlipTrue)
     {
         ConditionEvaluator = GreaterThanComparer;
     }
 
-    public bool GreaterThanComparer(ConditionData conditionStruct)
+    public bool GreaterThanComparer(ConditionData conditionData)
     {
-        return currentAmount >= conditionStruct.numValue;
+        return currentAmount >= conditionData.numValue;
     }
 
     public override void OnEventNotification()
