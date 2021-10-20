@@ -95,7 +95,7 @@ public class EncounterManager : Manager
         tile.OffsetRotation(true);
     }
 
-    public void GenerateHexEncounters(HexTile tile, List<Vector3Int> mandatoryInnerSlots =  null, int additional = -1)
+    public void GenerateHexEncounters(HexTile tile, EncounterData storyEncounter = null)
     {
         List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
@@ -111,20 +111,24 @@ public class EncounterManager : Manager
             }
         }
 
-
         tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
-        mandatoryInnerSlots?.ForEach(x => { chosenEncountersSlots.Add(x); EncounterSlots.Remove(x);});
 
-        int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count*2);
-        if(additional >= 0)
-            nrAdditional = additional;
-        //int nrAdditional = 100;
-
-        for(int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
+        if (storyEncounter == null)
         {
-            int index = Random.Range(0, EncounterSlots.Count);
-            chosenEncountersSlots.Add(EncounterSlots[index]);
-            EncounterSlots.RemoveAt(index);
+            int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count * 2);
+            //int nrAdditional = 100;
+
+            for (int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
+            {
+                int index = Random.Range(0, EncounterSlots.Count);
+                chosenEncountersSlots.Add(EncounterSlots[index]);
+                EncounterSlots.RemoveAt(index);
+            }
+        }
+        else
+        {
+            chosenEncountersSlots.Add(new Vector3Int(0, 0, 0));
+            tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.positionsFixedTile[x]));
         }
 
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
@@ -139,35 +143,53 @@ public class EncounterManager : Manager
             enc.tile = tile;
             tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
 
+            if (enc.coordinates == new Vector3Int(0, 0, 0) && storyEncounter != null)
+                enc.SetStoryEncounter(storyEncounter,tile.storyId);
         }
 
-
-        HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
-        // Create initital non-crossing Paths. Taking copy since arguments is destructive
-        edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
-
-        // Time to check if all nodes are connected to the same graph
-        List<List<Encounter>> graphs = FindBiGraphs(new List<Encounter>(tile.encounters));
-        if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, occupiedSpaces);
-
-        //Finally, time to see if it is possible to back into a corner
-        
-        List<Encounter> foundSubGraph = new List<Encounter>(); 
-        foreach(Encounter n in tile.encounters)
+        if (storyEncounter == null)
         {
-            n.status = EncounterHexStatus.Visited;
-            List<Encounter> neighs = new List<Encounter>(n.neighboors);
-            foreach(Encounter neigh in neighs)
-            {
-                if (!CanReachExitNode(neigh, tile.encountersExits.ToList(), foundSubGraph))
-                {
-                    Debug.Log("Subgraph size, first element:" + foundSubGraph.Count + "," + foundSubGraph[0].coordinates);
-                    Connect2Graphs(foundSubGraph, tile.encounters.Except(foundSubGraph).ToList(), edges, occupiedSpaces);
-                    foundSubGraph.Clear();
-                }
-            }
+            HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
+            // Create initital non-crossing Paths. Taking copy since arguments is destructive
+            edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
 
-            n.status = EncounterHexStatus.Idle;
+            // Time to check if all nodes are connected to the same graph
+            List<List<Encounter>> graphs = FindBiGraphs(new List<Encounter>(tile.encounters));
+            if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, occupiedSpaces);
+
+            //Finally, time to see if it is possible to back into a corner
+
+            List<Encounter> foundSubGraph = new List<Encounter>();
+            foreach (Encounter n in tile.encounters)
+            {
+                n.status = EncounterHexStatus.Visited;
+                List<Encounter> neighs = new List<Encounter>(n.neighboors);
+                foreach (Encounter neigh in neighs)
+                {
+                    if (!CanReachExitNode(neigh, tile.encountersExits.ToList(), foundSubGraph))
+                    {
+                        Connect2Graphs(foundSubGraph, tile.encounters.Except(foundSubGraph).ToList(), edges, occupiedSpaces);
+                        foundSubGraph.Clear();
+                    }
+                }
+
+                n.status = EncounterHexStatus.Idle;
+            }
+        }
+        else
+        {
+            edges = new List<EncounterEdge>();
+            Encounter middle = tile.posToEncounter[new Vector3Int(0, 0, 0)];
+            tile.availableDirections.ForEach(x =>
+           {
+               Encounter n1 = tile.posToEncounter[HexTile.positionsExit[x]];
+               Encounter n2 = tile.posToEncounter[HexTile.positionsFixedTile[x]];
+               n1.neighboors.Add(n2); n2.neighboors.Add(n1);
+               middle.neighboors.Add(n2); n2.neighboors.Add(middle);
+               edges.Add(new EncounterEdge(n1, n2));
+               edges.Add(new EncounterEdge(middle, n2));
+           }
+            );
         }
 
         foreach (EncounterEdge e in edges)
@@ -176,10 +198,15 @@ public class EncounterManager : Manager
         }
 
         HexOptimizer optimizer = new HexOptimizer();
-        optimizer.SetEncounters(tile.encounters.Except(tile.encountersExits).ToList(), tile.type);
+        List<Encounter> encountersToOptimize = tile.encounters.Except(tile.encountersExits).ToList();
+        if (storyEncounter != null) encountersToOptimize = encountersToOptimize.Where(x => x.coordinates != new Vector3Int(0, 0, 0)).ToList();
+
+        optimizer.SetEncounters(encountersToOptimize, tile.type);
         optimizer.Run();
         tile.OffsetRotation(true);
     }
+
+
 
     public void GenerateBossHexEncounter(HexTile tile)
     {
@@ -355,14 +382,11 @@ public class EncounterManager : Manager
         {
             foreach (Encounter g2n in g2) 
             {
-                Debug.Log("checking possible conn between:" + g1n.name + "," + g2n.name);
                 //if (g1n == exceptEnc || g2n == exceptEnc) continue;
                 EncounterEdge potentialEdge = new EncounterEdge(g1n, g2n);
                 if (currentEdges.Count(e => e.Equals(potentialEdge)) > 0) continue;
-                Debug.Log("edge didnt already exist");
                 if (NodeExistsBetween(g1n.coordinates, g2n.coordinates, coordsEncounters))
                     continue;
-                Debug.Log("Node didnt exist between");
 
                 bool crosses = false;
                 foreach (EncounterEdge edge in currentEdges)

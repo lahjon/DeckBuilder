@@ -22,6 +22,8 @@ public class Encounter : MonoBehaviour
     private Tween tweenAction1;
     private Tween tweenAction2;
 
+    public string storyID;
+    public EncounterData encData;
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     bool _highlighted;
@@ -149,7 +151,7 @@ public class Encounter : MonoBehaviour
         WorldSystem.instance.encounterManager.currentEncounter = this;
 
         if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
-            encounterType.Invoke();
+            StartEncounter();
     }
 
     public void HighlightReachable()
@@ -277,4 +279,58 @@ public class Encounter : MonoBehaviour
 
         return false;
     }
+
+    public void SetStoryEncounter(EncounterData enc, string ID)
+    {
+        encData = enc;
+        storyID = ID;
+        encounterType = OverworldEncounterType.Story;
+    }
+
+    public void StartEncounter()
+    {
+        if (!string.IsNullOrEmpty(storyID))
+        {
+            if(encData is EncounterDataCombat encComb)
+            {
+                CombatSystem.instance.encounterData = encComb;
+                WorldStateSystem.SetInCombat(true);
+                return;
+            }
+            else if(encData is EncounterDataRandomEvent encEvent)
+            {
+                WorldSystem.instance.uiManager.encounterUI.encounterData = encEvent;
+                WorldStateSystem.SetInEvent(true);
+            }
+        }
+
+        switch (encounterType)
+        {
+            case OverworldEncounterType.CombatNormal:
+            case OverworldEncounterType.CombatElite:
+            case OverworldEncounterType.CombatBoss:
+                encData = CombatSystem.instance.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(encounterType);
+                WorldStateSystem.SetInCombat(true);
+                break;
+            case OverworldEncounterType.Shop:
+                WorldStateSystem.SetInOverworldShop(true);
+                break;
+            case OverworldEncounterType.RandomEvent:
+                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterEvent();
+                WorldStateSystem.SetInEvent(true);
+                break;
+            case OverworldEncounterType.Exit:
+                WorldSystem.instance.gridManager.CompleteCurrentTile();
+                break;
+            case OverworldEncounterType.Bonfire:
+                WorldStateSystem.SetInBonfire(true);
+                break;
+            default:
+                break;
+        }
+
+        WorldSystem.instance.gridManager.finishedEncounterToReport = this;
+    }
+
+
 }

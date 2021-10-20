@@ -6,9 +6,9 @@ using System.Linq;
 
 public class Condition : IEventSubscriber
 {
-    public ConditionStruct conditionStruct;
+    public ConditionData conditionData;
     public bool value;
-    public Func<ConditionStruct, bool> ConditionEvaluator;
+    public Func<ConditionData, bool> ConditionEvaluator;
 
     public Action OnPreConditionUpdate;
     public Action OnConditionFlipTrue;
@@ -17,16 +17,16 @@ public class Condition : IEventSubscriber
 
     public static implicit operator bool(Condition c) => c.value;
 
-    public Condition(ConditionStruct conditionStruct, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
+    public Condition(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
     {
-        this.conditionStruct = conditionStruct;
-        if (conditionStruct.type == ConditionType.None)
+        this.conditionData = conditionData;
+        if (conditionData.type == ConditionType.None)
         {
             value = true;
             return;
         }
 
-        ConditionEvaluator = ConditionSystem.GetConditionChecker(conditionStruct.type);
+        ConditionEvaluator = ConditionSystem.GetConditionChecker(conditionData.type);
         this.OnPreConditionUpdate = OnPreConditionUpdate;
         this.OnConditionFlip = OnConditionFlip;
         this.OnConditionFlipTrue = OnConditionFlipTrue;
@@ -35,15 +35,15 @@ public class Condition : IEventSubscriber
 
     public Condition()
     {
-        conditionStruct = new ConditionStruct() { type = ConditionType.None };
+        conditionData = new ConditionData() { type = ConditionType.None };
         value = true;
     }
 
     public string GetTextCard()
     {
         string retString = "";
-        if (conditionStruct.type != ConditionType.None) retString += "If " + conditionStruct.type.ToString() + " " + conditionStruct.strParameter
-                + (conditionStruct.numValue == 0 ? "" : conditionStruct.numValue.ToString())
+        if (conditionData.type != ConditionType.None) retString += "If " + conditionData.type.ToString() + " " + conditionData.strParameter
+                + (conditionData.numValue == 0 ? "" : conditionData.numValue.ToString())
                     + " then: ";
 
         return retString;
@@ -51,7 +51,7 @@ public class Condition : IEventSubscriber
 
     public void Subscribe()
     {
-        switch (conditionStruct.type)
+        switch (conditionData.type)
         {
             case ConditionType.None:
                 return;
@@ -64,6 +64,7 @@ public class Condition : IEventSubscriber
                 EventManager.OnCombatWonEvent           += OnEventNotification;
                 break;
             case ConditionType.ClearTile:
+            case ConditionType.StoryTileCompleted:
                 EventManager.OnCompleteTileEvent        += OnEventNotification;
                 break;
             case ConditionType.KillEnemy:
@@ -72,7 +73,12 @@ public class Condition : IEventSubscriber
             case ConditionType.EnterBuilding:
                 EventManager.OnEnterBuildingEvent       += OnEventNotification;
                 break;
-
+            case ConditionType.EncounterDataCompleted:
+                EventManager.OnEncounterDataCompletedEvent += OnEventNotification;
+                break;
+            case ConditionType.EncounterCompleted:
+                EventManager.OnEncounterCompletedEvent += OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -83,7 +89,7 @@ public class Condition : IEventSubscriber
 
     public void Unsubscribe()
     {
-        switch (conditionStruct.type)
+        switch (conditionData.type)
         {
             case ConditionType.None:
                 return;
@@ -96,12 +102,21 @@ public class Condition : IEventSubscriber
                 EventManager.OnCombatWonEvent           -= OnEventNotification;
                 break;
             case ConditionType.ClearTile:
+            case ConditionType.StoryTileCompleted:
                 EventManager.OnCompleteTileEvent        -= OnEventNotification;
                 break;
             case ConditionType.KillEnemy:
                 EventManager.OnEnemyKilledEvent         -= OnEventNotification;
                 break;
-
+            case ConditionType.EnterBuilding:
+                EventManager.OnEnterBuildingEvent       -= OnEventNotification;
+                break;
+            case ConditionType.EncounterDataCompleted:
+                EventManager.OnEncounterDataCompletedEvent -= OnEventNotification;
+                break;
+            case ConditionType.EncounterCompleted:
+                EventManager.OnEncounterCompletedEvent -= OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -110,7 +125,7 @@ public class Condition : IEventSubscriber
     {
         if (ConditionEvaluator == null) return;
         bool oldVal = value;
-        value = ConditionEvaluator(conditionStruct);
+        value = ConditionEvaluator(conditionData);
 
         OnPreConditionUpdate?.Invoke();
 
@@ -124,14 +139,36 @@ public class Condition : IEventSubscriber
         }
     }
 
-    public virtual void OnEventNotification(EnemyData enemy)
+    public void OnEventNotification(EnemyData enemy)
     {
-        OnEventNotification();
+        if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyId == conditionData.strParameter || conditionData.strParameters.Contains(enemy.enemyId))
+            OnEventNotification();
     }
 
-    public virtual void OnEventNotification(BuildingType buildingType)
+    public void OnEventNotification(BuildingType buildingType)
     {
-        OnEventNotification();
+        if (string.IsNullOrEmpty(conditionData.strParameter) || buildingType.ToString() == conditionData.strParameter)
+            OnEventNotification();
+    }
+
+    public void OnEventNotification(HexTile tile)
+    {
+        if (string.IsNullOrEmpty(conditionData.strParameter) || tile.storyId == conditionData.strParameter)
+            OnEventNotification();
+    }
+
+    public void OnEventNotification(EncounterData data)
+    {
+        if (data.name == conditionData.strParameter || conditionData.strParameters.Contains(data.name))
+            OnEventNotification();
+    }
+
+    public void OnEventNotification(Encounter enc)
+    {
+        OverworldEncounterType type;
+        Enum.TryParse(conditionData.strParameter, out type);
+        if(type == enc.encounterType || enc.storyID == conditionData.strParameter)
+            OnEventNotification();
     }
 
 }

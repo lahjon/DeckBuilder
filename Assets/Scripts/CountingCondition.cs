@@ -7,15 +7,15 @@ public class CountingCondition : Condition
 {
     public int currentAmount = 0;
 
-    public int requiredAmount => conditionStruct.numValue;
+    public int requiredAmount => conditionData.numValue;
 
-    public CountingCondition(ConditionStruct conditionStruct, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
+    public CountingCondition(ConditionData conditionStruct, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
         : base(conditionStruct,OnPreConditionUpdate, null, OnConditionFlipTrue)
     {
         ConditionEvaluator = GreaterThanComparer;
     }
 
-    public bool GreaterThanComparer(ConditionStruct conditionStruct)
+    public bool GreaterThanComparer(ConditionData conditionStruct)
     {
         return currentAmount >= conditionStruct.numValue;
     }
@@ -27,25 +27,7 @@ public class CountingCondition : Condition
         base.OnEventNotification();
     }
 
-    public override void OnEventNotification(EnemyData enemy)
-    {
-        if (enemy.enemyId == conditionStruct.strParameter || string.IsNullOrEmpty(conditionStruct.strParameter))
-        {
-            Debug.Log("adding");
-            OnEventNotification();
-        }
-    }
-
-    public override void OnEventNotification(BuildingType buildingType)
-    {
-        if (buildingType.ToString() == conditionStruct.strParameter || string.IsNullOrEmpty(conditionStruct.strParameter))
-        {
-            Debug.Log("adding");
-            OnEventNotification();
-        }
-    }
-
-    public string GetDescription(bool getCurrentAmount) => conditionStruct.type switch
+    public string GetDescription(bool getCurrentAmount) => conditionData.type switch
     {
         ConditionType.None => "No Condition",
         ConditionType.KillEnemy => string.Format("<b>Kill Enemies (" + (getCurrentAmount ? Mathf.Abs(currentAmount - requiredAmount) : requiredAmount) + ")</b>"),

@@ -9,7 +9,7 @@ public struct CardEffectCarrierData
     public CardIntData Value;
     public CardIntData Times;
     public CardTargetType Target;
-    public ConditionStruct conditionStruct;
+    public ConditionData conditionStruct;
 
     public CardComponentExecType execTime;
 

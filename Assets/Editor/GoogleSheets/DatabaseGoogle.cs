@@ -182,7 +182,7 @@ public class DatabaseGoogle
             cardEffect.Times = CardInt.ParseInput((string)gt[i, "Times"]);
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
 
-            cardEffect.conditionStruct = new ConditionStruct();
+            cardEffect.conditionStruct = new ConditionData();
             Enum.TryParse((string)gt[i, "ConditionType"], out cardEffect.conditionStruct.type);
             cardEffect.conditionStruct.strParameter = (string)gt[i, "ConditionStrParam"];
             cardEffect.conditionStruct.numValue = (string)gt[i, "ConditionValue"] == "" ? 0 : Int32.Parse((string)gt[i, "ConditionValue"]);

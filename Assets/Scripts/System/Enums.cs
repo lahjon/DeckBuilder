@@ -94,34 +94,6 @@ public static class EnumExtenstions
         }
     } 
 
-    public static void Invoke(this OverworldEncounterType type)
-    {
-        switch (type)
-        {
-            case OverworldEncounterType.CombatNormal:
-            case OverworldEncounterType.CombatElite:
-            case OverworldEncounterType.CombatBoss:
-                Debug.Log(CombatSystem.instance);
-                CombatSystem.instance.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(type);
-                WorldStateSystem.SetInCombat(true);
-                break;
-            case OverworldEncounterType.Shop:
-                WorldStateSystem.SetInOverworldShop(true);
-                break;
-            case OverworldEncounterType.RandomEvent:
-                WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterEvent();
-                WorldStateSystem.SetInEvent(true);
-                break;
-            case OverworldEncounterType.Exit:
-                WorldSystem.instance.gridManager.CompleteCurrentTile();
-                break;
-            case OverworldEncounterType.Bonfire:
-                WorldStateSystem.SetInBonfire(true);
-                break;
-            default:
-                break;
-        }
-    }
 }
 
 
@@ -137,7 +109,10 @@ public enum ConditionType
     CardsPlayedAtMost,
     LastCardPlayedTurnType,
     Discharge,
-    KillBoss
+    KillBoss,
+    StoryTileCompleted,
+    EncounterDataCompleted,
+    EncounterCompleted
 }
 
 public enum Rarity
@@ -307,6 +282,13 @@ public enum WorldEncounterType
     Special
 }
 
+public enum WorldEncounterSegmentType
+{
+    ClearTiles,
+    ClearEncounters,
+    FindTheEncounters
+}
+
 public enum EncounterEventChoiceEffect
 {
     LifeCurrent,
@@ -472,7 +454,8 @@ public enum OverworldEncounterType
     CombatElite = 5,
     CombatBoss = 6,
     Cave,
-    Bonfire
+    Bonfire,
+    Story
 }
 
 public enum CombatEncounterType

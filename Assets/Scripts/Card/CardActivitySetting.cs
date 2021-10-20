@@ -41,7 +41,7 @@ public class CardActivitySetting : ICardTextElement
     {
         return      type == data.type && 
                     strParameter == data.strParameter && 
-                    condition.conditionStruct.type == data.conditionStruct.type; 
+                    condition.conditionData.type == data.conditionStruct.type; 
     }
 
     public void AbsorbModifierData(CardActivityData data)

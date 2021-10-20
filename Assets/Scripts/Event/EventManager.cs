@@ -6,8 +6,14 @@ public class EventManager : Manager
     public delegate void EnterBuildingEvent(BuildingType building);
     public static event EnterBuildingEvent OnEnterBuildingEvent;
 
-    public delegate void CompleteTileEvent();
+    public delegate void CompleteTileEvent(HexTile tile);
     public static event CompleteTileEvent OnCompleteTileEvent;
+
+    public delegate void EncounterCompletedEvent(Encounter enc);
+    public static event EncounterCompletedEvent OnEncounterCompletedEvent;
+
+    public delegate void EncounterDataCompletedEvent(EncounterData data);
+    public static event EncounterDataCompletedEvent OnEncounterDataCompletedEvent;
 
     public delegate void EnemyKilledEvent(EnemyData enemy);
     public static event EnemyKilledEvent OnEnemyKilledEvent;
@@ -50,6 +56,9 @@ public class EventManager : Manager
 
     public delegate void HandCountChangeEvent();
     public static event HandCountChangeEvent OnHandCountChangeEvent;
+
+    public delegate void WorldEncounterSegmentProgressEvent(string id);
+    public static event WorldEncounterSegmentProgressEvent OnWorldEncounterSegmentProgressEvent;
 
     public static void EnterBuilding(BuildingType building)
     {
@@ -102,9 +111,9 @@ public class EventManager : Manager
             EventManager.OnCombatWonEvent();
     }
 
-    public static void CompleteTile()
+    public static void TileCompleted(HexTile tile)
     {
-        OnCompleteTileEvent?.Invoke();
+        OnCompleteTileEvent?.Invoke(tile);
     }
 
     public static void CardFinished(Card card)
@@ -132,6 +141,20 @@ public class EventManager : Manager
     {
         OnHandCountChangeEvent?.Invoke();
     }
+
+    public static void WorldEncounterSegmentProgressed(string id)
+    {
+        OnWorldEncounterSegmentProgressEvent?.Invoke(id);
+    }
+
+    public static void EncounterCompleted(Encounter enc)
+    {
+        OnEncounterCompletedEvent?.Invoke(enc);
+        if (enc.encData != null)
+            OnEncounterDataCompletedEvent?.Invoke(enc.encData);
+    }
+
+
 
 }
 
