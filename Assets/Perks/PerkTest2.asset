@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6ff188aef1c7c44ca69ab5c36aacda5, type: 3}
-  m_Name: Perk1
+  m_Name: PerkTest2
   m_EditorClassIdentifier: 
-  perkId: 0
-  perkName: Big Dick Energy!
-  level: 1
+  perkId: 4
+  perkName: Perk Test +1
+  level: 2
   description: "Start the first turn extra hard! \n+2 Energy for the first turn"
   activeArtwork: {fileID: 21300000, guid: 47dafed5ccbfb6a42bac825b658e1b8e, type: 3}
   inactiveArtwork: {fileID: 21300000, guid: c83a6ac096c3c954b94f533ead1bf73d, type: 3}
   effect: LionsBlood
-  characterClassType: 1
+  characterClassType: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-public class Perk : MonoBehaviour
+public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Image image;
     public Button button;
@@ -63,7 +63,22 @@ public class Perk : MonoBehaviour
         image.sprite = perkData.inactiveArtwork;
         //button.interactable = false;
         image.material.SetInt("Active", 0);
-        
+    }
+
+    public void DestroyPerk()
+    {
+        DeactivePerk();
+        Destroy(gameObject);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        WorldSystem.instance.menuManager.menuCharacter.ActivateToolTip(perkData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        WorldSystem.instance.menuManager.menuCharacter.DeactivateToolTip();
     }
 
     public void DebugButton()

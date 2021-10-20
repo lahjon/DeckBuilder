@@ -9,6 +9,7 @@ public class PerkData : ScriptableObject
 {
     public int perkId;
     public string perkName;
+    public int level;
     [TextArea (5, 5)]public string description;
     public Sprite activeArtwork;
     public Sprite inactiveArtwork;

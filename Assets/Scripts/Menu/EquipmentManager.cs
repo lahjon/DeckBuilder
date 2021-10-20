@@ -20,6 +20,7 @@ public class EquipmentManager : Manager, ISaveableTemp
     }
     public void UpgradeEquipment(EquipmentType equipmentType)
     {
+        //Debug.Log(equipmentStruct);
         switch (equipmentType)
         {
             case EquipmentType.Head:
@@ -59,6 +60,7 @@ public class EquipmentManager : Manager, ISaveableTemp
             UpgradeEquipment(EquipmentType.Legs);
             UpgradeEquipment(EquipmentType.Feet);
         }
+        
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)

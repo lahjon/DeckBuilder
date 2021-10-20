@@ -17,7 +17,7 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
 
     void Start()
     {
-        allEquippedPerksDatas.ForEach(x => AddPerk(x));
+        allEquippedPerksDatas.ForEach(x => CreatePerk(x));
         allEquippedPerksDatas.Clear();
         DeactivateToolTip();
     }
@@ -28,12 +28,20 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
         tooltipName.text = data.equipmentName;
         tooltipDescription.text = data.description;
     }
+    public void ActivateToolTip(PerkData data)
+    {
+        if (data == null) return;
+        tooltipPanel.SetActive(true);
+        tooltipName.text = data.perkName;
+        tooltipDescription.text = data.description;
+    }
+    
     public void DeactivateToolTip()
     {
         tooltipPanel.SetActive(false);
     }
 
-    void AddPerk(PerkData data)
+    void CreatePerk(PerkData data)
     {
         Perk perk = Instantiate(perkPrefab, perkContent).GetComponent<Perk>();
         allEquippedPerks.Add(perk);
@@ -43,6 +51,22 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
     {
         AddPerk(data);
         WorldSystem.instance.SaveProgression();
+    }
+    public void AddPerk(PerkData data)
+    {
+        List<PerkData> perks = allPerkDatas.Where(x => x.name == data.name).ToList();
+        if (perks.FirstOrDefault(x => x.level == data.level - 1) is PerkData oldPerk && perks.FirstOrDefault(x => x.level == data.level) is PerkData newPerk)
+        {
+            if(allEquippedPerks.FirstOrDefault(x => x.perkData == oldPerk) is Perk aPerk)
+            {
+                allEquippedPerks.Remove(aPerk);
+                allEquippedPerksDatas.Remove(oldPerk);
+                aPerk?.DestroyPerk();
+                CreatePerk(data);
+            }
+        }
+        else
+            CreatePerk(data);
     }
     public void UpdatePerks()
     {
