@@ -15,7 +15,7 @@ public class HexMapController : MonoBehaviour
     public float minX, minY, maxX, maxY;
     public float panSpeed;
     public float panSensitivity;
-    GridManager gridManager;
+    ScenarioMapManager gridManager;
     [HideInInspector] float timer;
     public bool disablePanning;
     Vector3 cameraPosition;
@@ -27,7 +27,7 @@ public class HexMapController : MonoBehaviour
     {
         cameraOrigin = cam.transform.position;
         newPosition = cameraOrigin;
-        gridManager = GetComponent<GridManager>();
+        gridManager = GetComponent<ScenarioMapManager>();
         zoomIn = 7;
         zoomOut = cam.transform.localPosition.z;
         zoomStep = 1;

@@ -23,6 +23,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   - type: 0
     strParameter: 
@@ -31,6 +32,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   cardName: Idea
   cardType: 2

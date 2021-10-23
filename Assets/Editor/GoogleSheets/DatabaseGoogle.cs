@@ -20,11 +20,12 @@ public class DatabaseGoogle
     readonly string ApplicationName = "Dieathlon";
     Dictionary<string, string> SpreadSheetIDs = new Dictionary<string, string>();
 
-    readonly string CardPath = @"Assets\Cards";
-    readonly string EnemyPath = @"Assets\Enemies";
-    readonly string EncounterPath = @"Assets\Encounters\Overworld\Combat";
-    readonly string ArtifactPath = @"Assets\Artifacts";
-    readonly string ModifierPath = @"Assets\CardModifier";
+    readonly public static string CardPath = @"Assets\Cards";
+    readonly public static string EnemyPath = @"Assets\Enemies";
+    readonly public static string EncounterPath = @"Assets\Encounters\Overworld\Combat";
+    readonly public static string ArtifactPath = @"Assets\Artifacts";
+    readonly public static string ModifierPath = @"Assets\CardModifier";
+    readonly public static string ScenarioPath = @"Assets\Encounters\World";
 
     SheetsService service;
 
@@ -69,6 +70,11 @@ public class DatabaseGoogle
         ReadEntriesEncounterEffects("CombatEncounterEffects", "Z", "Main");
     }
 
+    public void DownloadScenarios()
+    {
+        ReadEntriesScenarios("Scenario", "Z");
+        ReadEntriesScenariosSegments("ScenarioSegments", "Z");
+    }
 
     #region CardDownload
 
@@ -580,6 +586,120 @@ public class DatabaseGoogle
 
     #endregion
 
+    public void ReadEntriesScenarios(string sheetName, string lastCol)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            string ScenarioName = (string)gt[i, "ScenarioName"];
+            if (ScenarioName.Equals(""))
+                break;
+
+            ScenarioData data = TDataNameToAsset<ScenarioData>(ScenarioName, new string[] { ScenarioPath });
+            if (data is null)
+            {
+                data = ScriptableObject.CreateInstance<ScenarioData>();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.CreateAsset(data, ScenarioPath + @"\" + ScenarioName + ".asset");
+            }
+
+            data.id = int.Parse((string)gt[i, "ID"]);
+            data.ScenarioName = ScenarioName;
+            Enum.TryParse((string)gt[i, "Difficulty"], out data.difficulty);
+            Enum.TryParse((string)gt[i, "RewardType"], out data.rewardStruct.type);
+            Enum.TryParse((string)gt[i, "ScenarioType"], out data.type);
+            
+            
+
+            data.rewardStruct.value = ((string)gt[i, "RewardValues"]).Split(';');
+            
+
+
+            data.unlocksScenarios.Clear(); 
+            string[] unlockableIDs = ((string)gt[i, "UnlockableScenarioIDs"]).Split(';');
+            for(int s = 0; s < unlockableIDs.Length; s++)
+            {
+                if (unlockableIDs[s].Equals("")) break;
+                ScenarioData linkedScenario = dbs.scenarios.Where(x => x.id == int.Parse(unlockableIDs[s])).FirstOrDefault();
+                if (linkedScenario != null) data.unlocksScenarios.Add(linkedScenario);
+            }
+
+            data.Description = (string)gt[i, "Description"];
+
+            data.SegmentDatas.Clear();
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
+
+    public void ReadEntriesScenariosSegments(string sheetName, string lastCol)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            int scenarioID  = int.Parse((string)gt[i, "ScenarioID"]);
+            string segmentName = (string)gt[i, "SegmentName"];
+            ScenarioData scenarioData = dbs.scenarios.Where(x => x.id == scenarioID).FirstOrDefault();
+            if (scenarioData == null || segmentName.Equals(string.Empty))
+            {
+                if(scenarioData == null) Debug.Log("No Such ScenarioID:" + scenarioID);
+                break;
+            }
+
+            ScenarioSegmentData data = new ScenarioSegmentData();
+
+            string[] colorVec = ((string)gt[i, "Color"]).Replace("(","").Replace(")","").Split(',');
+            data.color = new UnityEngine.Color(float.Parse(colorVec[0]), float.Parse(colorVec[1]), float.Parse(colorVec[2]));
+
+            ((string)gt[i, "GridCoordinates"]).Split(';').ToList().ForEach(x => data.gridCoordinates.Add(Vector3IntFromString(x)));
+
+            string[] encounters = ((string)gt[i, "Encounters"]).Split(';');
+            foreach(string s in encounters)
+            {
+                if (s.Equals(string.Empty)) break;
+                EncounterData encData = dbs.encountersCombat.Where(x => x.name == s).FirstOrDefault();
+                if(encData == null) encData = dbs.encounterEvent.Where(x => x.name == s).FirstOrDefault();
+                if (encData != null) data.encounters.Add(encData);
+            }
+
+            string[] encountersMiss = ((string)gt[i, "EncountersMiss"]).Split(';');
+            foreach (string s in encountersMiss)
+            {
+                if (s.Equals(string.Empty)) break;
+                EncounterData encData = dbs.encountersCombat.Where(x => x.name == s).FirstOrDefault();
+                if (encData == null) encData = dbs.encounterEvent.Where(x => x.name == s).FirstOrDefault();
+                if (encData != null) data.missEncounters.Add(encData);
+            }
+
+            data.nrSkippableTiles = ((string)gt[i, "nrSkippableTiles"]).Equals(string.Empty) ? 0 : int.Parse((string)gt[i, "nrSkippableTiles"]);
+            data.nrDecoys = ((string)gt[i, "nrDecoys"]).Equals(string.Empty) ? 0 :  int.Parse((string)gt[i, "nrDecoys"]);
+
+            data.SegmentName = segmentName;
+            data.description = (string)gt[i, "Description"];
+
+            ((string)gt[i, "RequiredSegmentsOR"]).Split(';').ToList().ForEach(x => { if (!x.Equals(string.Empty)) data.requiredSegmentsOR.Add(x); });
+            ((string)gt[i, "RequiredSegmentsAND"]).Split(';').ToList().ForEach(x => { if (!x.Equals(string.Empty)) data.requiredSegmentsAND.Add(x); });
+            ((string)gt[i, "CancelSegmentsOnStart"]).Split(';').ToList().ForEach(x => { if (!x.Equals(string.Empty)) data.cancelSegmentsOnStart.Add(x); });
+
+
+            scenarioData.SegmentDatas.Add(data);
+
+            EditorUtility.SetDirty(scenarioData);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
+
 
     public void ReadEntriesArtifacts()
     {
@@ -653,7 +773,7 @@ public class DatabaseGoogle
         List<ValueRange> updateData = new List<ValueRange>();
         var dataValueRange = new ValueRange();
         dataValueRange.Range = range;
-        dataValueRange.Values = data;
+        dataValueRange.Values = data; 
         updateData.Add(dataValueRange);
 
         BatchUpdateValuesRequest requestBody = new BatchUpdateValuesRequest
@@ -706,5 +826,14 @@ public class DatabaseGoogle
         }
 
         return data;
+    }
+
+    public Vector3Int Vector3IntFromString(string s)
+    {
+        List<int> vals = new List<int>();
+        string cleaned = s.Replace("(", "").Replace(")", "");
+        cleaned.Split(',').ToList().ForEach(x => vals.Add(int.Parse(x)));
+
+        return new Vector3Int(vals[0], vals[1],vals[2]);
     }
 }

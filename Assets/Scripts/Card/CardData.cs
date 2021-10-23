@@ -6,6 +6,7 @@ using System.Linq;
 [CreateAssetMenu(fileName = "New Card", menuName = "CardGame/Card")]
 public class CardData : CardFunctionalityData
 {
+    int ID;
     public string cardName;
 
     public CardType cardType;

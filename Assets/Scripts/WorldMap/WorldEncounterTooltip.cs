@@ -10,15 +10,15 @@ public class WorldEncounterTooltip : MonoBehaviour
     public TMP_Text descriptionText;
     Reward encounterReward;
     public Transform rewardAnchor;
-    public void EnableTooltip(WorldEncounter worldEncounter)
+    public void EnableTooltip(Scenario worldEncounter)
     {
         gameObject.SetActive(true);
-        if (encounterName.text != worldEncounter.worldEncounterData.worldEncounterName)
+        if (encounterName.text != worldEncounter.worldEncounterData.ScenarioName)
         {
             if (encounterReward != null) Destroy(encounterReward.gameObject);
 
             // descriptionText = worldEncounter.worldEncounterData.clearCondition.
-            encounterName.text = worldEncounter.worldEncounterData.worldEncounterName;
+            encounterName.text = worldEncounter.worldEncounterData.ScenarioName;
             encounterReward = Instantiate(worldEncounter.encounterReward, rewardAnchor).GetComponent<Reward>();
             encounterReward.transform.localPosition = Vector3.zero;
             encounterReward.SetWorldReward();

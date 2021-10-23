@@ -6,16 +6,16 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 
-public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     WorldEncounterType _worldEncounterType;
-    public WorldEncounterData worldEncounterData;
+    public ScenarioData worldEncounterData;
     public Reward encounterReward;
 
-    public List<WorldEncounterSegment> segments = new List<WorldEncounterSegment>();
+    public List<ScenarioSegment> segments = new List<ScenarioSegment>();
     bool _completed;
 
-    public List<WorldEncounterSegment> nextStorySegments = new List<WorldEncounterSegment>();
+    public List<ScenarioSegment> nextStorySegments = new List<ScenarioSegment>();
 
     public bool completed
     {
@@ -68,20 +68,20 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             worldEncounterType = worldEncounterData.type;
             encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
             segments.Clear();
-            foreach (WorldEncounterSegmentData segmentData in worldEncounterData.SegmentDatas)
-                segments.Add(new WorldEncounterSegment(segmentData,this));
+            foreach (ScenarioSegmentData segmentData in worldEncounterData.SegmentDatas)
+                segments.Add(new ScenarioSegment(segmentData,this));
         }
     }
 
     void RemoveEncounter()
     {
-        WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.worldEncounterName);
-        WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.worldEncounterName);
-        if (worldEncounterData.unlockableEncounters?.Any() == true)
+        WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.ScenarioName);
+        WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.ScenarioName);
+        if (worldEncounterData.unlocksScenarios?.Any() == true)
         {
-            foreach (WorldEncounterData enc in worldEncounterData.unlockableEncounters)
+            foreach (ScenarioData enc in worldEncounterData.unlocksScenarios)
             {
-                WorldSystem.instance.worldMapManager.availableWorldEncounters.Add(enc.worldEncounterName);
+                WorldSystem.instance.worldMapManager.availableWorldEncounters.Add(enc.ScenarioName);
             }
         }
 
@@ -116,7 +116,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void SetupInitialSegments()
     {
-        foreach (WorldEncounterSegment segment in segments)
+        foreach (ScenarioSegment segment in segments)
             if (segment.data.requiredSegmentsAND.Count == 0 && segment.data.requiredSegmentsOR.Count == 0)
                 nextStorySegments.Add(segment);
         WorldSystem.instance.gridManager.StartCoroutine(SetupNextSegments());
@@ -127,7 +127,7 @@ public class WorldEncounter : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         Debug.Log("Setup next segments: " + nextStorySegments.Count);
         for(int i = 0; i < nextStorySegments.Count;i++)
         {
-            WorldEncounterSegment segment = nextStorySegments[i];
+            ScenarioSegment segment = nextStorySegments[i];
             yield return WorldSystem.instance.gridManager.StartCoroutine(segment.SetupSegment());
         }
 

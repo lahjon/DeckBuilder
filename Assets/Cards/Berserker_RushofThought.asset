@@ -26,6 +26,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   cardName: Rush of Thought
   cardType: 2

@@ -37,6 +37,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 1
   activities: []
   cardName: Cheap Scare

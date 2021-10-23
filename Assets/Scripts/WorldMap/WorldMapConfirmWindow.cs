@@ -9,14 +9,14 @@ public class WorldMapConfirmWindow : MonoBehaviour
     public TMP_Text difficultyText;
     public Reward encounterReward;
     public Transform rewardAnchor;
-    public void OpenConfirmWindow(WorldEncounter worldEncounter)
+    public void OpenConfirmWindow(Scenario worldEncounter)
     {
         gameObject.SetActive(true);
-        if (encounterName.text != worldEncounter.worldEncounterData.worldEncounterName)
+        if (encounterName.text != worldEncounter.worldEncounterData.ScenarioName)
         {
             if (encounterReward != null) Destroy(encounterReward.gameObject);
 
-            encounterName.text = worldEncounter.worldEncounterData.worldEncounterName;
+            encounterName.text = worldEncounter.worldEncounterData.ScenarioName;
             encounterReward = Instantiate(worldEncounter.encounterReward, rewardAnchor).GetComponent<Reward>();
             encounterReward.SetWorldReward();
             encounterReward.transform.localPosition = Vector3.zero;
