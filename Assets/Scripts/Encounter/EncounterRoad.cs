@@ -9,11 +9,11 @@ public class EncounterRoad : MonoBehaviour
     public EncounterRoadStatus status { get { return _status; } set{
             _status = value;
             if (value == EncounterRoadStatus.Traversed)
-                roadSprites.ForEach(x => x.color = new Color32(255, 255, 255, 255));
+                roadSprites.ForEach(x => x.color = Color.white);
             else if (value == EncounterRoadStatus.Unreachable)
-                roadSprites.ForEach(x => x.color = new Color32(150, 150, 150, 255));
+                roadSprites.ForEach(x => x.color = Color.gray);
             else
-                roadSprites.ForEach(x => x.color = new Color32(255, 191,230 ,255));
+                roadSprites.ForEach(x => x.color = Color.white);
         } 
     }
 
@@ -31,7 +31,7 @@ public class EncounterRoad : MonoBehaviour
         if (hex != toEnc) roadSprites.Reverse();
         foreach (SpriteRenderer r in roadSprites)
         {
-            r.color = new Color32(255, 255, 255, 255);
+            r.color = Color.white;
             yield return new WaitForSeconds(0.10f);
         }
         _status = EncounterRoadStatus.Traversed;

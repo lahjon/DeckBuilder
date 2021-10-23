@@ -79,19 +79,19 @@ public class Encounter : MonoBehaviour
 
             if (_status == EncounterHexStatus.Selectable)
             {
-                spriteRenderer.color = new Color32(255, 255, 255, 255);
+                spriteRenderer.color = Color.white;
                 AnimateEncounter();
             }
             else if (_status == EncounterHexStatus.Visited)
-                spriteRenderer.color = new Color32(50, 50, 50, 255);
+                spriteRenderer.color = new Color(.6f, .6f, .6f);
             else if (_status == EncounterHexStatus.Unreachable)
             {
-                spriteRenderer.color = new Color32(200, 200, 200, 255);
+                spriteRenderer.color = new Color(.8f, .8f, .8f);
                 foreach (EncounterRoad road in roads)
                     road.status = EncounterRoadStatus.Unreachable;
             }
             else
-                spriteRenderer.color = new Color32(255, 255, 255, 255);
+                spriteRenderer.color = Color.white;
         }
     }
 
