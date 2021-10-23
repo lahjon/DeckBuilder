@@ -25,7 +25,7 @@ MonoBehaviour:
     cache of shards!
   SegmentDatas:
   - SegmentName: Start
-    segmentType: 0
+    segmentType: 2
     color: {r: 0, g: 0.6, b: 1, a: 1}
     description: Find the necromancers remains
     gridCoordinates:
