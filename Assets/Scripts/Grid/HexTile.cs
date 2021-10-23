@@ -316,6 +316,11 @@ public class HexTile : MonoBehaviour
     public void RevealTile(bool fromPlacement = false)
     {
         undiscoveredSpriteRenderer.material = gridManager.undiscoveredMaterial;
+        if (fromPlacement) 
+        {
+            hexMapController.FocusTile(this, ZoomState.Inner);
+            hexMapController.enableInput = false;
+        }
         undiscoveredSpriteRenderer.material.DOFloat(0f, "Dissolve", 1f).OnComplete(() =>  {
             undiscoveredSpriteRenderer.material.SetFloat("Dissolve", 1);
             undiscoveredSpriteRenderer.material = gridManager.discoveredMaterial;
@@ -385,9 +390,9 @@ public class HexTile : MonoBehaviour
 
     public void RotateTileExits()
     {
-        if (gridManager.rotateCounter > 6)
+        if (gridManager.rotateCounter++ > 6)
         {
-            Debug.Log("Shouldnt Happen");
+            Debug.LogWarning("Shouldnt Happen");
             gridManager.rotateCounter = 0;
             return;
         }
@@ -399,10 +404,7 @@ public class HexTile : MonoBehaviour
             encountersExits[i].coordinates = HexTile.positionsExit[(encountersExits[i].ExitDirection() + 6) % 6];
 
         if (!gridManager.TilePlacementValid(this))
-        {
             RotateTileExits();
-            gridManager.rotateCounter++;
-        }
     }
 
     public void RotateTile(bool clockwise, bool instant = false)
@@ -496,6 +498,7 @@ public class HexTile : MonoBehaviour
     {
         gridManager.ExitPlacement();
         hexMapController.disableZoom = true;
+        hexMapController.enableInput = true;
         if (encounterEntry == null)
         {
             Debug.LogError("No valid Entry!");
@@ -562,10 +565,6 @@ public class HexTile : MonoBehaviour
         //availableDirections.ForEach(x => Debug.Log(x));
         if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement)
             RevealTile(true);
-        else if(gridManager.gridState == GridState.Play && hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
-        {
-            hexMapController.FocusTile(this, ZoomState.Inner);
-        }
     }
     void OnMouseEnter()
     {

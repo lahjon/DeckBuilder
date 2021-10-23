@@ -165,6 +165,7 @@ public class ScenarioMapManager : Manager
         float timeMultiplier = .5f;
         hexMapController.disablePanning = true;
         hexMapController.disableZoom = true;
+        hexMapController.enableInput = false;
         gridState = GridState.Creating;
 
         // create a 0,0,0 start tile and activate it
@@ -210,6 +211,7 @@ public class ScenarioMapManager : Manager
         tiles.Values.ToList().ForEach(x => x.AddNeighbours());
 
         WorldSystem.instance.worldMapManager.currentWorldEncounter?.SetupInitialSegments();
+        hexMapController.enableInput = true;
     }
 
     public void ExpandMap()
@@ -543,30 +545,15 @@ public class ScenarioMapManager : Manager
     public bool TilePlacementValid(HexTile tile)
     {
         // get all the neighbours of a tile and discard all inactive tiles
-        List<Vector3Int> neighbours = GetNeighboursCoords(tile.coord);
-        neighbours = neighbours.Intersect(completedTiles.ConvertAll(x => x.coord)).ToList();
-        
+        List<HexTile> neighbours = tile.neighbours.Where(x => x.tileState == TileState.Completed).ToList();
+        HexTile maxTile = neighbours.Where(x => x.turnCompleted == neighbours.Select(x=> x.turnCompleted).Max()).First();
+         
         // look at all exists
         foreach (int dir in tile.availableDirections)
-        {
-            // look at all neighbours of the tile
-            foreach (Vector3Int neighbour in neighbours)
-            {
-                // get the neighbours of the tile that are connected
-                if (GetTile(neighbour) is HexTile neighbourTile && tile.coord + GetTileDirection(dir) == neighbourTile.coord)
-                {
-                    // look at all neighbours
-                    foreach (int neighDir in neighbourTile.availableDirections)
-                    {
-                        // neighbour connects to the piece, the piece is connected to at least one completed tile and there is one exit to an inactive tile
-                        if (neighbourTile.coord + GetTileDirection(neighDir) == tile.coord && completedTiles.Contains(neighbourTile))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
+            foreach (int neighDir in maxTile.availableDirections)
+                if (maxTile.coord + GetTileDirection(neighDir) == tile.coord && tile.coord + GetTileDirection(dir) == maxTile.coord)
+                    return true;
+
         return false;
     }
 

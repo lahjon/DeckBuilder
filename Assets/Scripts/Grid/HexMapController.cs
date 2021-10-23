@@ -21,6 +21,7 @@ public class HexMapController : MonoBehaviour
     Vector3 cameraPosition;
     public int zoomStep = 1;
     public bool disableZoom;
+    public bool enableInput = true;
 
 
     void Start()
@@ -54,6 +55,7 @@ public class HexMapController : MonoBehaviour
 
         disablePanning = true;
         disableZoom = true;
+        float panSpeed = 1f;
         timer = 0.5f;
         Vector3 zoomPosition;
         if (pos != null)
@@ -76,7 +78,7 @@ public class HexMapController : MonoBehaviour
             zoomStep = 0;
             zoomPosition.z = zoomOut + zoomIn;
 
-            cam.transform.DOMove(zoomPosition, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
+            cam.transform.DOMove(zoomPosition, panSpeed).SetEase(Ease.InExpo).OnComplete(() => {
                 ZoomCallback(endDisable, 3f);
                 if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)
                 {
@@ -88,7 +90,7 @@ public class HexMapController : MonoBehaviour
         {
             zoomStep = 1;
             zoomPosition.z = zoomOut;
-            cam.transform.DOMove(zoomPosition, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
+            cam.transform.DOMove(zoomPosition, panSpeed).SetEase(Ease.InExpo).OnComplete(() => {
                 ZoomCallback(endDisable, 5f);
                 if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)
                 {
@@ -99,7 +101,7 @@ public class HexMapController : MonoBehaviour
         else if (zoomState == ZoomState.Outer)
         {
             zoomStep = 2;
-            cam.transform.DOMoveZ(zoomOut - zoomIn, 1.0f).SetEase(Ease.InExpo).OnComplete(() => {
+            cam.transform.DOMoveZ(zoomOut - zoomIn, panSpeed).SetEase(Ease.InExpo).OnComplete(() => {
                 ZoomCallback(endDisable, 5f);
             });
         }
