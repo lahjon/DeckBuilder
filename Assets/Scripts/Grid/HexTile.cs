@@ -409,7 +409,7 @@ public class HexTile : MonoBehaviour
 
     public void RotateTile(bool clockwise, bool instant = false)
     {
-        if (gridManager.rotateCounter > 6)
+        if (gridManager.rotateCounter++ > 6)
         {
             Debug.Log("Shouldnt Happen");
             gridManager.rotateCounter = 0;
@@ -429,10 +429,8 @@ public class HexTile : MonoBehaviour
         gridManager.rotationAmount += sign*60;
 
         if (!gridManager.TilePlacementValid(this))
-        {
             RotateTile(clockwise, instant);
-            gridManager.rotateCounter++;
-        }
+
         else
         {
             if (instant)
