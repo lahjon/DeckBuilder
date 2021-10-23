@@ -16,7 +16,7 @@ MonoBehaviour:
   tier: 0
   layoutType: 0
   FindInRandom: 0
-  description: You dig and dig, and finally you find the wizards skull.
+  description: You dig and dig, and finally you find remains of the necromancer!
   choices:
   - label: Grab it for Power!
     outcome: 1

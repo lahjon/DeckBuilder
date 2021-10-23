@@ -658,6 +658,8 @@ public class DatabaseGoogle
 
             ScenarioSegmentData data = new ScenarioSegmentData();
 
+            Enum.TryParse((string)gt[i, "Type"], out data.segmentType);
+
             string[] colorVec = ((string)gt[i, "Color"]).Replace("(","").Replace(")","").Split(',');
             data.color = new UnityEngine.Color(float.Parse(colorVec[0]), float.Parse(colorVec[1]), float.Parse(colorVec[2]));
 

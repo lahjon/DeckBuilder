@@ -16,7 +16,7 @@ MonoBehaviour:
   tier: 0
   layoutType: 0
   FindInRandom: 0
-  description: You dug and dug. But it was not here.
+  description: You dug and dug. But the remains here seem ordinary....
   choices:
   - label: Push on..
     outcome: 1
