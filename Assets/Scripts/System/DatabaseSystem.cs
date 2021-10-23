@@ -7,21 +7,25 @@ public class DatabaseSystem : MonoBehaviour
 {
     public static DatabaseSystem instance;
 
+    [Header("=========== Cards ============")]
     public List<StartingCardSet> StartingCards = new List<StartingCardSet>();
-
     public List<CardData> cards = new List<CardData>();
 
+
+    [Header("=========== Encounters ============")]
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
-    public List<Sprite> allOverworldIcons = new List<Sprite>();
 
+    [Header("=========== Misc ============")]
     public List<ArtifactData> artifacts = new List<ArtifactData>();
+    public List<Sprite> allOverworldIcons = new List<Sprite>();
+    public List<ScenarioData> scenarios = new List<ScenarioData>();
 
 
+    [Header("=========== CurrentScenario ============")]
     public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encountersEventToDraw = new List<EncounterDataRandomEvent>();
 
-    public List<ScenarioData> scenarios = new List<ScenarioData>();
 
     private void Awake()
     {

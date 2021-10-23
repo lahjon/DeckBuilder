@@ -157,9 +157,10 @@ public class ScenarioSegment
 
     private void RefreshDescription()
     {
+        Debug.Log(ColorUtility.ToHtmlStringRGB(data.color).ToString());
         if (txt_description == null) return;
         txt_description.text = 
-            data.description.Replace("_COLOR_","#" + ColorUtility.ToHtmlStringRGB(data.color)) 
+            data.description.Replace("<color>","<color=#" + ColorUtility.ToHtmlStringRGB(data.color) + ">")
             + (conditionClear.conditionData.numValue != 1 ? 
             "\n" + conditionClear.currentAmount + "/" + conditionClear.conditionData.numValue 
             : ""); 

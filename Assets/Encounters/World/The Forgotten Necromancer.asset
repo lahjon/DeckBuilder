@@ -27,7 +27,7 @@ MonoBehaviour:
   - SegmentName: Start
     segmentType: 2
     color: {r: 0, g: 0.6, b: 1, a: 1}
-    description: Find the necromancers remains
+    description: Find the <color>necromancers</color> remains
     gridCoordinates:
     - {x: 1, y: -1, z: 0}
     - {x: -1, y: 1, z: 0}
