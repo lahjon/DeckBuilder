@@ -154,6 +154,12 @@ public class GridManager : Manager
         }
     }
 
+    public void SetRandomTileImage(HexTile tile)
+    {
+        tile.spriteRenderer.sprite = activeTilesSprite[Random.Range(0, activeTilesSprite.Count())];
+        tile.undiscoveredSpriteRenderer.sprite = inactiveTilesSprite[Random.Range(0, inactiveTilesSprite.Count())];
+    }
+
     IEnumerator CreateMap()
     {
         float timeMultiplier = .5f;
@@ -166,10 +172,9 @@ public class GridManager : Manager
         firstTile.transform.localScale = Vector3.one * hexScale;
         firstTile.gameObject.SetActive(true);
         firstTile.LockDirections();
-
+        SetRandomTileImage(firstTile);
         // flip it up
         float timer = 1 * timeMultiplier;
-        
 
         hexMapController.Zoom(ZoomState.Outer, null, true);
         yield return new WaitForSeconds(1);
@@ -181,6 +186,7 @@ public class GridManager : Manager
             foreach (HexTile tile in GetTilesAtRow(i))
             {
                 tile.gameObject.SetActive(true);
+                SetRandomTileImage(tile);
                 tile.transform.DOScale(hexScale, timer).SetEase(Ease.InExpo);
             }
             yield return new WaitForSeconds(timer);
@@ -327,22 +333,6 @@ public class GridManager : Manager
             {
                 AddRandomExit(furthestRowReached);
             }
-        }
-    }
-
-    public void UpdateIcons()
-    {
-        foreach (HexTile tile in tiles.Values.ToList())
-        {
-            if (tile.specialTile)
-            {
-                tile.SetSpecialImage();
-            }
-            else if (tile.tileState == TileState.Inactive)
-            {
-                tile.spriteRenderer.sprite = inactiveTilesSprite[0];
-            }
-
         }
     }
 
