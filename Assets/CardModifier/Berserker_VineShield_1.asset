@@ -31,6 +31,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   - Type: 14
     Value:
@@ -48,5 +49,6 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   activities: []

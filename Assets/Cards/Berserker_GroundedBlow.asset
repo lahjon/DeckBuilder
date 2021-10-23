@@ -31,6 +31,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   - Type: 4
     Value:
@@ -48,6 +49,7 @@ MonoBehaviour:
       type: 7
       strParameter: Order
       numValue: 0
+      strParameters: []
     execTime: 0
   activities: []
   cardName: Grounded Blow

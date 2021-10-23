@@ -6,7 +6,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class GridManager : Manager
+public class ScenarioMapManager : Manager
 {
     public Animator animator;
     public Canvas canvas;
@@ -102,7 +102,7 @@ public class GridManager : Manager
     public bool CheckClearCondition()
     {
         // each time the map enters idle this checks to see if the condition from the world encounter is completed
-        if (WorldSystem.instance.worldMapManager.currentWorldEncounter is WorldEncounter enc && enc.completed)
+        if (WorldSystem.instance.worldMapManager.currentWorldEncounter is Scenario enc && enc.completed)
         {
             DeleteMap();
             WorldStateSystem.SetInTown(true);

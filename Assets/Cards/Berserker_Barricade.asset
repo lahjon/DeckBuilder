@@ -34,6 +34,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   activities: []
   cardName: Barricade

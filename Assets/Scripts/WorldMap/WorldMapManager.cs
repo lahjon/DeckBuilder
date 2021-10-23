@@ -11,23 +11,23 @@ public class WorldMapManager : Manager, ISaveableWorld
     public HashSet<string> availableWorldEncounters = new HashSet<string>();
     public HashSet<string> completedWorldEncounters = new HashSet<string>();
     public List<string> allWorldEncounters = new List<string>();
-    public List<WorldEncounterData> startingEncounters = new List<WorldEncounterData>();
+    public List<ScenarioData> startingEncounters = new List<ScenarioData>();
     public GameObject worldEncounterPrefab;
     public Transform encounterParent;
-    public List<WorldEncounter> worldEncounters;
+    public List<Scenario> worldEncounters;
     public WorldEncounterTooltip worldEncounterTooltip;
     public WorldMapConfirmWindow worldMapConfirmWindow;
-    public WorldEncounter currentWorldEncounter;
+    public Scenario currentWorldEncounter;
     protected override void Awake()
     {
         base.Awake();
         world.worldMapManager = this;
         for (int i = 0; i < encounterParent.childCount; i++)
         {
-            WorldEncounter enc = encounterParent.GetChild(i).GetComponent<WorldEncounter>();
+            Scenario enc = encounterParent.GetChild(i).GetComponent<Scenario>();
             enc.gameObject.SetActive(false);
             worldEncounters.Add(enc);
-            allWorldEncounters.Add(enc.worldEncounterData.worldEncounterName);
+            allWorldEncounters.Add(enc.worldEncounterData.ScenarioName);
         }
     }
 
@@ -55,9 +55,9 @@ public class WorldMapManager : Manager, ISaveableWorld
 
     public void UpdateMap()
     {
-        foreach (WorldEncounter enc in worldEncounters)
+        foreach (Scenario enc in worldEncounters)
         {
-            if (availableWorldEncounters.Contains(enc.worldEncounterData.worldEncounterName))
+            if (availableWorldEncounters.Contains(enc.worldEncounterData.ScenarioName))
             {
                 enc.BindData();
                 enc.gameObject.SetActive(true);
@@ -69,7 +69,7 @@ public class WorldMapManager : Manager, ISaveableWorld
     {
         if (availableWorldEncounters == null || availableWorldEncounters.Count == 0) 
         {
-            startingEncounters.ForEach(x => availableWorldEncounters.Add(x.worldEncounterName));
+            startingEncounters.ForEach(x => availableWorldEncounters.Add(x.ScenarioName));
         }
     }
 

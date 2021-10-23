@@ -10,29 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
-  m_Name: A1
+  m_Name: The Forgotten Necromancer
   m_EditorClassIdentifier: 
-  worldEncounterName: Test1
+  id: 1
+  ScenarioName: The Forgotten Necromancer
   difficulty: 1
   rewardStruct:
     type: 2
     value:
     - 20
-  clearCondition:
-    type: 2
-    strParameter: 
-    numValue: 1000
-    strParameters: []
   type: 1
-  unlockableEncounters:
-  - {fileID: 11400000, guid: b7d4a3c5d7cfc3a4e8a17477539f18ce, type: 2}
-  - {fileID: 11400000, guid: 5808e7ddf6ca7d7499e8d0e205dfc6c1, type: 2}
-  Description: Save the outpost from the story segments.
+  unlocksScenarios: []
+  Description: If you could find the remains of the Necromancer, you could find his
+    cache of shards!
   SegmentDatas:
-  - ID: StartA
-    segmentType: 2
-    color: {r: 0, g: 0.6155896, b: 1, a: 1}
-    description: Find two <color=_COLOR_>skeleton keys</color>!
+  - SegmentName: Start
+    segmentType: 0
+    color: {r: 0, g: 0.6, b: 1, a: 1}
+    description: Find the necromancers remains
     gridCoordinates:
     - {x: 1, y: -1, z: 0}
     - {x: -1, y: 1, z: 0}
@@ -46,21 +41,17 @@ MonoBehaviour:
     cancelSegmentsOnStart: []
     nrSkippableTiles: 0
     nrDecoys: 1
-  - ID: Mid
+  - SegmentName: End
     segmentType: 0
     color: {r: 1, g: 1, b: 1, a: 1}
-    description: Clear the skeleton tile
+    description: Clear the necromancers tile
     gridCoordinates:
     - {x: -2, y: 2, z: 0}
-    encounters:
-    - {fileID: 11400000, guid: 5c1df954413f9f8438cbb8459d4fea9b, type: 2}
-    missEncounters:
-    - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
+    encounters: []
+    missEncounters: []
     requiredSegmentsOR:
-    - StartA
+    - Start
     requiredSegmentsAND: []
-    cancelSegmentsOnStart:
-    - StartA
-    - StartB
+    cancelSegmentsOnStart: []
     nrSkippableTiles: 0
-    nrDecoys: 2
+    nrDecoys: 0

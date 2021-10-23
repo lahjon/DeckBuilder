@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EncounterMapAnimator : StateMachineBehaviour
 {
-    protected static GridManager gridManager;
+    protected static ScenarioMapManager gridManager;
     protected HexTile tile;
     protected virtual void Init()
     {

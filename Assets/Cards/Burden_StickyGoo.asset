@@ -29,6 +29,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 1
   cardName: Sticky Goo
   cardType: 4

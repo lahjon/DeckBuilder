@@ -25,6 +25,7 @@ public static class DatabaseUpdateOnStart
         UpdateAllCharacters();
         UpdateUImanager();
         UpdateAllEncounterIcons();
+        UpdateAllScenarios();
 
         Debug.Log("Updated Database");
     }
@@ -47,7 +48,6 @@ public static class DatabaseUpdateOnStart
             string lAssetPathCard = AssetDatabase.GUIDToAssetPath(lGuids[i]);
             dbs.cards.Add(AssetDatabase.LoadAssetAtPath<CardData>(lAssetPathCard));
         }
-        string[] guids1 = AssetDatabase.FindAssets("l:CardDatabase", null);
 
         EditorUtility.SetDirty(dbs);
         AssetDatabase.SaveAssets();
@@ -101,6 +101,26 @@ public static class DatabaseUpdateOnStart
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
+
+    static void UpdateAllScenarios()
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.scenarios.Clear();
+
+        string[] lGuids = AssetDatabase.FindAssets("t:ScenarioData", new string[] { DatabaseGoogle.ScenarioPath});
+
+        for (int i = 0; i < lGuids.Length; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            dbs.scenarios.Add(AssetDatabase.LoadAssetAtPath<ScenarioData>(lAssetPath));
+        }
+
+        EditorUtility.SetDirty(dbs);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
 
     static void UpdateAllArtifacts()
     {
@@ -187,6 +207,16 @@ public static class DatabaseUpdateOnStart
         google.DownloadEncounters();
 
         Debug.Log("Googled the combatEncounters bro!");
+    }
+
+
+    [MenuItem("Edit/Download GoogleScenarios %#S")]
+    public static void UpdateFromGoogleScenarios()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadScenarios();
+
+        Debug.Log("Googled the scenarios bro!");
     }
 
 

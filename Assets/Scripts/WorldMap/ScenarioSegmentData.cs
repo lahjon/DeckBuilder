@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class WorldEncounterSegmentData
+public class ScenarioSegmentData
 {
-    public string ID;
-    public WorldEncounterSegmentType segmentType;
+    public string SegmentName;
+    public ScenarioSegmentType segmentType;
     public Color color = Color.magenta;
 
     public string description;

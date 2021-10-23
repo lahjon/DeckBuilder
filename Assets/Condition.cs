@@ -174,10 +174,10 @@ public class Condition : IEventSubscriber
             OnEventNotification();
     }
 
-    public void OnEventNotification(WorldEncounterSegment segment)
+    public void OnEventNotification(ScenarioSegment segment)
     {
         Debug.Log("Responded to complete segment");
-        if (segment.data.ID == conditionData.strParameter || conditionData.strParameters.Contains(segment.data.ID))
+        if (segment.data.SegmentName == conditionData.strParameter || conditionData.strParameters.Contains(segment.data.SegmentName))
             OnEventNotification();
     }
 }

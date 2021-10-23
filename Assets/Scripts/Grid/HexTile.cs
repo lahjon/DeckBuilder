@@ -11,7 +11,7 @@ public class HexTile : MonoBehaviour
     public List<int> availableDirections = new List<int>();
     public List<int> lockedDirections = new List<int>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
-    static GridManager gridManager;
+    static ScenarioMapManager gridManager;
     static HexMapController hexMapController;
     public int entryDir;
     bool _specialTile;

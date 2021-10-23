@@ -4,10 +4,10 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class WorldEncounterSegment
+public class ScenarioSegment
 {
-    public WorldEncounter encounter;
-    public WorldEncounterSegmentData data;
+    public Scenario scenario;
+    public ScenarioSegmentData data;
 
     public ConditionCounting conditionClear;
     public ConditionCounting conditionStartAnd;
@@ -15,9 +15,9 @@ public class WorldEncounterSegment
 
     private TMP_Text txt_description;
 
-    public WorldEncounterSegment(WorldEncounterSegmentData data, WorldEncounter encounter)
+    public ScenarioSegment(ScenarioSegmentData data, Scenario encounter)
     {
-        this.encounter = encounter;
+        this.scenario = encounter;
         this.data = data;
         SetupStartConditions();
     }
@@ -30,7 +30,7 @@ public class WorldEncounterSegment
                 new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = data.requiredSegmentsAND.Count, strParameters = data.requiredSegmentsAND },
                 null,
                 () => {
-                    encounter.nextStorySegments.Add(this);
+                    scenario.nextStorySegments.Add(this);
                     conditionStartAnd.Unsubscribe();
                     conditionStartOr?.Unsubscribe();
                     });
@@ -42,7 +42,7 @@ public class WorldEncounterSegment
                 new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = 1, strParameters = data.requiredSegmentsOR },
                 null,
                 () => {
-                    encounter.nextStorySegments.Add(this);
+                    scenario.nextStorySegments.Add(this);
                     conditionStartOr.Unsubscribe();
                     conditionStartAnd?.Unsubscribe();
                 });
@@ -58,13 +58,13 @@ public class WorldEncounterSegment
 
         switch (data.segmentType)
         {
-            case WorldEncounterSegmentType.ClearTiles:
+            case ScenarioSegmentType.ClearTiles:
                 SetupClearTiles();
                 break;
-            case WorldEncounterSegmentType.ClearEncounters:
+            case ScenarioSegmentType.ClearEncounters:
                 SetupClearEncounters();
                 break;
-            case WorldEncounterSegmentType.FindTheEncounters:
+            case ScenarioSegmentType.FindTheEncounters:
                 SetupFindEncounters();
                 break;
             default:
@@ -80,10 +80,10 @@ public class WorldEncounterSegment
     private void SetupClearTiles()
     {
         foreach (Vector3Int vec in data.gridCoordinates)
-            WorldSystem.instance.gridManager.GetTile(vec).SetStoryInfo(data.ID, data.color);
+            WorldSystem.instance.gridManager.GetTile(vec).SetStoryInfo(data.SegmentName, data.color);
 
         conditionClear = new ConditionCounting(
-            new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.ID, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
+            new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
             RefreshDescription,
             SegmentFinished);
 
@@ -93,10 +93,10 @@ public class WorldEncounterSegment
     public void SetupClearEncounters()
     {
         for(int i = 0; i < data.gridCoordinates.Count; i++)
-            WorldSystem.instance.gridManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.ID, data.color, data.encounters[i]);
+            WorldSystem.instance.gridManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.SegmentName, data.color, data.encounters[i]);
 
         conditionClear = new ConditionCounting(
-            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID , numValue = data.encounters.Count- data.nrSkippableTiles},
+            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName , numValue = data.encounters.Count- data.nrSkippableTiles},
             RefreshDescription,
             SegmentFinished);
 
@@ -114,13 +114,13 @@ public class WorldEncounterSegment
             coords.Remove(coord);
             HexTile tile = WorldSystem.instance.gridManager.GetTile(coord);
             if (misses++ < data.nrDecoys)
-                tile.SetStoryInfo(data.ID + "_miss", data.color, data.missEncounters[i % data.missEncounters.Count]);
+                tile.SetStoryInfo(data.SegmentName + "_miss", data.color, data.missEncounters[i % data.missEncounters.Count]);
             else
-                tile.SetStoryInfo(data.ID, data.color, data.encounters[(i - data.nrDecoys) % data.encounters.Count]);
+                tile.SetStoryInfo(data.SegmentName, data.color, data.encounters[(i - data.nrDecoys) % data.encounters.Count]);
         }
 
         conditionClear = new ConditionCounting(
-            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.ID, numValue = data.gridCoordinates.Count - data.nrDecoys },
+            new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count - data.nrDecoys },
             RefreshDescription,
             SegmentFinished);
 
@@ -133,7 +133,7 @@ public class WorldEncounterSegment
         Debug.Log("segment finishi");
         EventManager.StorySegmentCompleted(this);
         ClearRemnants();
-        WorldSystem.instance.gridManager.StartCoroutine(encounter.SetupNextSegments());
+        WorldSystem.instance.gridManager.StartCoroutine(scenario.SetupNextSegments());
     }
 
     private void ClearRemnants()
@@ -150,9 +150,9 @@ public class WorldEncounterSegment
 
     private void CancelPrevious()
     {
-        for (int i = 0; i < encounter.segments.Count; i++)
-            if (data.cancelSegmentsOnStart.Contains(encounter.segments[i].data.ID))
-                encounter.segments[i].ClearRemnants();
+        for (int i = 0; i < scenario.segments.Count; i++)
+            if (data.cancelSegmentsOnStart.Contains(scenario.segments[i].data.SegmentName))
+                scenario.segments[i].ClearRemnants();
     }
 
     private void RefreshDescription()

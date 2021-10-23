@@ -23,6 +23,7 @@ MonoBehaviour:
       type: 0
       strParameter: 
       numValue: 0
+      strParameters: []
     execTime: 0
   cardName: TricksterScare
   cardType: 1

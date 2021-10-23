@@ -291,7 +291,7 @@ public enum WorldEncounterType
     Special
 }
 
-public enum WorldEncounterSegmentType
+public enum ScenarioSegmentType
 {
     ClearTiles,
     ClearEncounters,
@@ -410,7 +410,7 @@ public enum TransitionType
 
 }
 
-public enum EncounterDifficulty
+public enum ScenarioDifficulty
 {
     None, 
     Easy, 
