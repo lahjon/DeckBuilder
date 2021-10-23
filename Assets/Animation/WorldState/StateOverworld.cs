@@ -22,17 +22,20 @@ public class StateOverworld : WorldStateAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!hexMapController.disablePanning)
+        if (hexMapController.enableInput)
         {
-            hexMapController.PanCamera();
-        }
-        if(!hexMapController.disableZoom)
-        {
-            hexMapController.ZoomCamera();
-        }
-        if (hexMapController.cam.transform.position != hexMapController.newPosition)
-        {
-            hexMapController.MoveCamera();
+            if (!hexMapController.disablePanning)
+            {
+                hexMapController.PanCamera();
+            }
+            if(!hexMapController.disableZoom)
+            {
+                hexMapController.ZoomCamera();
+            }
+            if (hexMapController.cam.transform.position != hexMapController.newPosition)
+            {
+                hexMapController.MoveCamera();
+            }
         }
     }
 
