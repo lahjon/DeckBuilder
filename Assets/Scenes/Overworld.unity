@@ -35085,6 +35085,7 @@ MonoBehaviour:
   artifacts: []
   encountersCombatToDraw: []
   encountersEventToDraw: []
+  scenarios: []
 --- !u!4 &1500454268
 Transform:
   m_ObjectHideFlags: 0
@@ -43110,7 +43111,7 @@ GameObject:
   - component: {fileID: 1848971792}
   - component: {fileID: 1848971793}
   m_Layer: 0
-  m_Name: GridManager
+  m_Name: ScenarioMapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
