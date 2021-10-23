@@ -62,7 +62,7 @@ Material:
     m_Ints: []
     m_Floats:
     - Center: 0
-    - Dissolve: 0.79
+    - Dissolve: 1
     - Hardness: 0.94
     - Radius: 1.26
     - _EnableExternalAlpha: 0

@@ -9,6 +9,7 @@ public class DebugWindow : EditorWindow
 {
     GameObject foundObject;
     GameObject myTarget;
+    
 
     [MenuItem("Window/Debug")]
     public static void ShowWindow()
@@ -108,6 +109,13 @@ public class DebugWindow : EditorWindow
         }
 
 
+        DrawLine(Color.black, 2, 10);
+
+        if (GUILayout.Button("CreateMap"))
+        {
+            CreateGridMap();
+        }
+
 
     }
     public void DrawLine(Color color, int thickness = 2, int padding = 10)
@@ -118,6 +126,38 @@ public class DebugWindow : EditorWindow
         r.x -= 2;
         r.width += 6;
         EditorGUI.DrawRect(r, color);
+    }
+    
+    public void CreateGridMap()
+    {
+        int gridWidth = 3;
+        
+        float hexscale = 0.3765092f;
+        for (int q = -gridWidth; q <= gridWidth; q++)
+        {
+            int r1 = Mathf.Max(-gridWidth, -q - gridWidth);
+            int r2 = Mathf.Min(gridWidth, -q + gridWidth);
+
+            for (int r = r1; r <= r2; r++)
+            {
+                GameObject obj = Instantiate(myTarget, CellPosToWorldPos(new Vector3Int(q, r, -q-r)), myTarget.transform.rotation, myTarget.transform);
+                obj.transform.localScale = -Vector3.one * hexscale;
+            }
+        }
+    
+    }
+
+    public Vector3 CellPosToWorldPos(Vector3Int coord)
+    {
+        // get world position of the coord
+        float tileSize = 1;
+        float tileGap = 0;
+        float width = Mathf.Sqrt(3) * (tileSize + tileGap);
+        float height = 1.5f * (tileSize + tileGap);
+        float x = (width * coord.x * 0.5f) - (width * coord.y * 0.5f);
+        float y = height * coord.z * -1;
+
+        return new Vector3(x, y, 0);
     }
 
     void ResetAllData()

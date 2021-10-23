@@ -13,6 +13,7 @@ public class HexTile : MonoBehaviour
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
     static ScenarioMapManager gridManager;
     static HexMapController hexMapController;
+    public List<HexTile> neighbours = new List<HexTile>();
     public int entryDir;
     bool _specialTile;
     public int turnCompleted;
@@ -20,14 +21,15 @@ public class HexTile : MonoBehaviour
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
     public SpriteRenderer storyMark;
+    public SpriteRenderer undiscoveredSpriteRenderer;
 
     public Transform encounterParent;
     public Transform roadParent;
     static Color highlightColorPrimary = new Color(1f, 1f, 1f, 1f);
-    static Color highlightColorSecondary = new Color(.7f, .7f, .7f, 1f);
-    static Color completedColor = new Color(.7f, .7f, .7f, 1f);
-    static Color inactiveColor = new Color(.4f, .4f, .4f, 1f);
-    static Color normalColor = new Color(.8f, .8f, .8f, 1f);
+    static Color highlightColorSecondary = new Color(.6f, .6f, .6f, 1f);
+    static Color completedColor = new Color(.8f, .8f, .8f, 1f);
+    static Color inactiveColor = new Color(.8f, .8f, .8f, 1f);
+    static Color normalColor = new Color(1f, 1f, 1f, 1f);
     Tween colorTween;
     bool _highlightedPrimary;
     bool _highlightedSecondary;
@@ -81,7 +83,7 @@ public class HexTile : MonoBehaviour
             if (value == true)
             {
                 colorTween?.Kill();
-                spriteRenderer.color = highlightColorPrimary;
+                undiscoveredSpriteRenderer.color = highlightColorPrimary;
             }
             else
             {
@@ -99,7 +101,7 @@ public class HexTile : MonoBehaviour
             if (value == true)
             {
                 colorTween?.Kill();
-                spriteRenderer.color = highlightColorSecondary;
+                undiscoveredSpriteRenderer.color = highlightColorSecondary;
             }
             else
             {
@@ -118,7 +120,6 @@ public class HexTile : MonoBehaviour
         {
             _specialTile = value;
             gridManager.specialTiles.Add(this);
-            SetSpecialImage();
         }
     }
 
@@ -155,7 +156,7 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.Inactive)
             {
-                spriteRenderer.color = inactiveColor;
+                undiscoveredSpriteRenderer.color = inactiveColor;
             }
             else if (_tileState == TileState.Current)
             {
@@ -180,15 +181,15 @@ public class HexTile : MonoBehaviour
     public void StartFadeInOutColor()
     {
         colorTween?.Kill();
-        if (spriteRenderer.color != inactiveColor)
+        if (undiscoveredSpriteRenderer.color != inactiveColor)
         {
-            spriteRenderer.color = highlightColorSecondary;
+            undiscoveredSpriteRenderer.color = highlightColorSecondary;
         }
-        float t = Helpers.InverseLerp(inactiveColor.r, highlightColorPrimary.r, spriteRenderer.color.r);
-        colorTween = spriteRenderer.DOColor(inactiveColor, t).SetEase(Ease.InSine).OnComplete(() => {
+        float t = Helpers.InverseLerp(inactiveColor.r, highlightColorPrimary.r, undiscoveredSpriteRenderer.color.r);
+        colorTween = undiscoveredSpriteRenderer.DOColor(inactiveColor, t).SetEase(Ease.InSine).OnComplete(() => {
 
-            spriteRenderer.color = inactiveColor;
-            colorTween = spriteRenderer.DOColor(highlightColorPrimary, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => tempColor = spriteRenderer.color);
+            undiscoveredSpriteRenderer.color = inactiveColor;
+            colorTween = undiscoveredSpriteRenderer.DOColor(highlightColorPrimary, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => tempColor = undiscoveredSpriteRenderer.color);
         });
     }
 
@@ -265,6 +266,11 @@ public class HexTile : MonoBehaviour
         //spriteRenderer.sprite = gridManager.activeTilesSprite[0];
     }
 
+    public void AddNeighbours()
+    {
+        neighbours = gridManager.GetNeighbours(this);
+    }
+
     public void CloseExits(int dir)
     {
         // close all exists not connecting to the placed hex
@@ -307,12 +313,51 @@ public class HexTile : MonoBehaviour
         availableDirections.Clear();
     }
 
+    public void RevealTile(bool fromPlacement = false)
+    {
+        undiscoveredSpriteRenderer.material = gridManager.undiscoveredMaterial;
+        undiscoveredSpriteRenderer.material.DOFloat(0f, "Dissolve", 1f).OnComplete(() =>  {
+            undiscoveredSpriteRenderer.material.SetFloat("Dissolve", 1);
+            undiscoveredSpriteRenderer.material = gridManager.discoveredMaterial;
+            undiscoveredSpriteRenderer.gameObject.SetActive(false);
+            if (fromPlacement)
+                EnterPlacement();
+            // else
+            // {
+            //     entryDir = gridManager.GetEntry(this).Item1;
+            //     WorldSystem.instance.encounterManager.GenerateFirstHexEncounters(this);
+            //     encountersExits.ForEach(x => x.RotationUpdateEntry());
+            // }
+        });
+    }
+
+    public void EnterPlacement()
+    {
+        RotateTileExits();
+        ContentVisible(true);
+        spriteRenderer.color = Color.white;
+        storyMark.gameObject.SetActive(false);
+        spriteRenderer.color = Color.white;
+        gridManager.animator.SetBool("IsPlacing", true);
+        hexMapController.FocusTile(this, ZoomState.Inner, true);
+        entryDir = gridManager.GetEntry(this).Item1;
+        tileState = TileState.Animation;
+
+        WorldSystem.instance.encounterManager.GenerateHexEncounters(this, storyEncounter);
+        gridManager.currentTurn++;
+        turnCompleted = gridManager.currentTurn;
+        hexMapController.disableZoom = false;
+        tileState = TileState.Placement;
+        startPosition = transform.position;
+        gridManager.activeTile = this;
+        gridManager.animator.SetBool("IsRotating", true);
+        encountersExits.ForEach(x => x.RotationUpdateEntry());
+        //StartCoroutine(AnimateVisible());
+    }
+
     public void FlipEmptyTile()
     {
-        // start flip
-        DeleteAllContent();
 
-        Debug.Log(type);
 
         spriteRenderer.color = Color.white;
             
@@ -325,7 +370,7 @@ public class HexTile : MonoBehaviour
         {
             // mid flip
             ContentVisible(true);
-            spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
+            //spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
 
             LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.2f).setEaseOutCubic().setOnComplete(() => 
             {
@@ -337,83 +382,29 @@ public class HexTile : MonoBehaviour
         );
         });
     }
-    
 
-    public float BeginFlipUpNewTile(bool enterPlacement = false)
+    public void RotateTileExits()
     {
-        storyMark.gameObject.SetActive(false);
-
-        if (enterPlacement)
+        if (gridManager.rotateCounter > 6)
         {
-            Debug.Log("tileType: " + type);
-            if (specialTile || gridManager.bossStarted)
-                spriteRenderer.sprite = gridManager.inactiveTilesSprite[0];
-
-            spriteRenderer.color = Color.white;
-            gridManager.animator.SetBool("IsPlacing", true);
-            hexMapController.FocusTile(this, ZoomState.Inner, true);
-            entryDir = gridManager.GetEntry(this).Item1;
-            tileState = TileState.Animation;
-
-            WorldSystem.instance.encounterManager.GenerateHexEncounters(this, storyEncounter);
-
-            List<int> requiredExits = new List<int>();
-            if (gridManager.bossStarted)
-            {
-                DeleteAllContent();
-                requiredExits = gridManager.GetNewExits(this);
-                availableDirections = requiredExits;
-                availableDirections.Add((requiredExits[0] + 2 + 6) % 6);
-                availableDirections.Add((requiredExits[0] + 4 + 6) % 6);
-                WorldSystem.instance.encounterManager.GenerateBossHexEncounter(this);
-                RotateTile(true, true);
-            }
-            else
-                RotateTile(true, true);
-        }
-        else
-        {
-            SetSpecialImage();
+            Debug.Log("Shouldnt Happen");
+            gridManager.rotateCounter = 0;
+            return;
         }
 
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.4f).setEaseInCubic().setOnComplete(() => EndFlipUpNewTile(enterPlacement));
-        return 1f;
-    }
+        for (int i = 0; i < availableDirections.Count; i++)
+            availableDirections[i] = (availableDirections[i] + 6) % 6;
 
-    public void SetSpecialImage()
-    {
-        spriteRenderer.sprite = gridManager.inactiveTilesSprite[(int)tileBiome];
-        //spriteRenderer.color = completedColor;
-    }
+        for (int i = 0; i < encountersExits.Count; i++)
+            encountersExits[i].coordinates = HexTile.positionsExit[(encountersExits[i].ExitDirection() + 6) % 6];
 
-    public void EndFlipUpNewTile(bool enterPlacement)
-    {
-        if (gridManager.bossStarted) gridManager.UpdateIcons();
-        if (enterPlacement)
+        if (!gridManager.TilePlacementValid(this))
         {
-            ContentVisible(true);
-            spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
-            gridManager.currentTurn++;
-            turnCompleted = gridManager.currentTurn;
-            encountersExits.ForEach(x => x.RotationUpdateEntry());
-        }
-        
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.2f).setEaseOutCubic().setOnComplete(
-            () => CompleteFlip(enterPlacement)
-        );
-    }
-
-    void CompleteFlip(bool enterPlacement)
-    {
-        if (enterPlacement)
-        {
-            hexMapController.disableZoom = false;
-            tileState = TileState.Placement;
-            startPosition = transform.position;
-            gridManager.activeTile = this;
-            gridManager.animator.SetBool("IsRotating", true);
+            RotateTileExits();
+            gridManager.rotateCounter++;
         }
     }
+
     public void RotateTile(bool clockwise, bool instant = false)
     {
         if (gridManager.rotateCounter > 6)
@@ -570,7 +561,7 @@ public class HexTile : MonoBehaviour
         //encountersExits.ForEach(x => Debug.Log(x));
         //availableDirections.ForEach(x => Debug.Log(x));
         if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement)
-            BeginFlipUpNewTile(true);
+            RevealTile(true);
         else if(gridManager.gridState == GridState.Play && hexMapController.zoomStep != 0 && tileState != TileState.Inactive)
         {
             hexMapController.FocusTile(this, ZoomState.Inner);

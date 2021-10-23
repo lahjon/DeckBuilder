@@ -16,6 +16,8 @@ public class ScenarioMapManager : Manager
     public int gridWidth;
     public float tileSize;
     public float tileGap;
+    public Material undiscoveredMaterial;
+    public Material discoveredMaterial;
     public Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
     public HexTile activeTile;
     public HexTile currentTile;
@@ -26,7 +28,8 @@ public class ScenarioMapManager : Manager
     public HexMapController hexMapController;
     public int currentTurn;
     public bool bossStarted;
-    public float hexScale = 0.3765092f;
+    //public float hexScale = 0.3765092f;
+    public float hexScale = 0.392f;
     public bool initialized;
     int furthestRowReached;
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
@@ -151,6 +154,12 @@ public class ScenarioMapManager : Manager
         }
     }
 
+    public void SetRandomTileImage(HexTile tile)
+    {
+        tile.spriteRenderer.sprite = activeTilesSprite[Random.Range(0, activeTilesSprite.Count())];
+        tile.undiscoveredSpriteRenderer.sprite = inactiveTilesSprite[Random.Range(0, inactiveTilesSprite.Count())];
+    }
+
     IEnumerator CreateMap()
     {
         float timeMultiplier = .5f;
@@ -160,16 +169,12 @@ public class ScenarioMapManager : Manager
 
         // create a 0,0,0 start tile and activate it
         HexTile firstTile = GetTile(Vector3Int.zero);
+        firstTile.transform.localScale = Vector3.one * hexScale;
         firstTile.gameObject.SetActive(true);
-        firstTile.spriteRenderer.sprite = activeTilesSprite[(int)firstTile.tileBiome];
         firstTile.LockDirections();
-
+        SetRandomTileImage(firstTile);
         // flip it up
         float timer = 1 * timeMultiplier;
-        firstTile.transform.DOScale(hexScale, timer).SetEase(Ease.OutExpo);
-        yield return new WaitForSeconds(timer);
-
-        yield return StartCoroutine(firstTile.AnimateVisible());
 
         hexMapController.Zoom(ZoomState.Outer, null, true);
         yield return new WaitForSeconds(1);
@@ -181,22 +186,19 @@ public class ScenarioMapManager : Manager
             foreach (HexTile tile in GetTilesAtRow(i))
             {
                 tile.gameObject.SetActive(true);
+                SetRandomTileImage(tile);
                 tile.transform.DOScale(hexScale, timer).SetEase(Ease.InExpo);
             }
             yield return new WaitForSeconds(timer);
         }
 
-        // create some randoms tiles spread out on third row
-        for (int i = 0; i < 4; i++)
-        {
-            HexTile tile = GetRandomTile(3);
-            tile.tileState = TileState.Inactive;
-            tile.specialTile = true;
-            timer = tile.BeginFlipUpNewTile() +.2f;
-            yield return new WaitForSeconds(timer * timeMultiplier); 
-        }
 
         yield return new WaitForSeconds(timer * timeMultiplier);
+
+        firstTile.RevealTile();
+        yield return new WaitForSeconds(timer);
+
+        yield return StartCoroutine(firstTile.AnimateVisible());
 
         firstTile.tileState = TileState.Completed;
         hexMapController.disablePanning = false;
@@ -204,6 +206,8 @@ public class ScenarioMapManager : Manager
         initialized = true;
 
         HighlightEntries();
+
+        tiles.Values.ToList().ForEach(x => x.AddNeighbours());
 
         WorldSystem.instance.worldMapManager.currentWorldEncounter?.SetupInitialSegments();
     }
@@ -332,22 +336,6 @@ public class ScenarioMapManager : Manager
         }
     }
 
-    public void UpdateIcons()
-    {
-        foreach (HexTile tile in tiles.Values.ToList())
-        {
-            if (tile.specialTile)
-            {
-                tile.SetSpecialImage();
-            }
-            else if (tile.tileState == TileState.Inactive)
-            {
-                tile.spriteRenderer.sprite = inactiveTilesSprite[0];
-            }
-
-        }
-    }
-
     public void ExitPlacement()
     {
         activeTile.tileState = TileState.Current;
@@ -360,7 +348,7 @@ public class ScenarioMapManager : Manager
     {
         // create a hex shaped map och inactive tiles
         subAct = 1;
-        gridWidth = 3;
+        //gridWidth = 3;
 
         HexTile tile;
         for (int q = -gridWidth; q <= gridWidth; q++)
@@ -730,7 +718,7 @@ public class ScenarioMapManager : Manager
         return new Vector3(x, y, transform.position.z);
     }
 
-    HexTile AddTile(Vector3Int coord)
+    public HexTile AddTile(Vector3Int coord)
     {
         System.Array tileTypes = System.Enum.GetValues(typeof(TileType));
 

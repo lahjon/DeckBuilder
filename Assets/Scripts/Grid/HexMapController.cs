@@ -22,22 +22,6 @@ public class HexMapController : MonoBehaviour
     public int zoomStep = 1;
     public bool disableZoom;
 
-    // void Update()
-    // {
-    //     if (!disablePanning)
-    //     {
-    //         PanCamera();
-    //     }
-    //     if(!disableZoom)
-    //     {
-    //         ZoomCamera();
-    //     }
-    //     if (cam.transform.position != newPosition)
-    //     {
-    //         MoveCamera();
-    //     }
-    // }
-
 
     void Start()
     {
