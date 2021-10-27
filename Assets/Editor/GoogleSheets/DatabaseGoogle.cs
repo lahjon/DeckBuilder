@@ -661,7 +661,10 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "Type"], out data.segmentType);
 
             string[] colorVec = ((string)gt[i, "Color"]).Replace("(","").Replace(")","").Split(',');
-            data.color = new UnityEngine.Color(float.Parse(colorVec[0]), float.Parse(colorVec[1]), float.Parse(colorVec[2]));
+            data.color = new UnityEngine.Color(
+                float.Parse(colorVec[0], System.Globalization.CultureInfo.InvariantCulture), 
+                float.Parse(colorVec[1], System.Globalization.CultureInfo.InvariantCulture), 
+                float.Parse(colorVec[2], System.Globalization.CultureInfo.InvariantCulture));
 
             ((string)gt[i, "GridCoordinates"]).Split(';').ToList().ForEach(x => data.gridCoordinates.Add(Vector3IntFromString(x)));
 
