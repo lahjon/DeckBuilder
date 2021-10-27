@@ -26,6 +26,7 @@ public class WorldMapManager : Manager, ISaveableWorld
         {
             Scenario enc = encounterParent.GetChild(i).GetComponent<Scenario>();
             enc.gameObject.SetActive(false);
+            enc.worldEncounterData = DatabaseSystem.instance.scenarios.FirstOrDefault(x => x.id.ToString() == enc.name);
             worldEncounters.Add(enc);
             allWorldEncounters.Add(enc.worldEncounterData.ScenarioName);
         }
@@ -57,11 +58,8 @@ public class WorldMapManager : Manager, ISaveableWorld
     {
         foreach (Scenario enc in worldEncounters)
         {
-            if (availableWorldEncounters.Contains(enc.worldEncounterData.ScenarioName))
-            {
+            if (enc.worldEncounterData != null && availableWorldEncounters.Contains(enc.worldEncounterData.ScenarioName))
                 enc.BindData();
-                enc.gameObject.SetActive(true);
-            }
         }
     }
 

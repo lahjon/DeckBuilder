@@ -18,7 +18,7 @@ MonoBehaviour:
   rewardStruct:
     type: 5
     value:
-    - 
+    - 0
   type: 1
   unlocksScenarios: []
   Description: asdasd

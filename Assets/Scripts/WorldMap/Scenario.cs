@@ -68,6 +68,7 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             worldEncounterType = worldEncounterData.type;
             encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
             segments.Clear();
+            gameObject.SetActive(true);
             foreach (ScenarioSegmentData segmentData in worldEncounterData.SegmentDatas)
                 segments.Add(new ScenarioSegment(segmentData,this));
         }
