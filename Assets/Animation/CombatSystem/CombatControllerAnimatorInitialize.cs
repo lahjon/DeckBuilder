@@ -15,8 +15,12 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
     public IEnumerator SetupCombat()
     {
         combat.BindCharacterData();
+
         foreach (CombatActor actor in combat.ActorsInScene)
             actor.InitializeCombat();
+
+        if (combat.hasCompanion)
+            combat.companion.InitializeCombat();
 
         foreach (Func<IEnumerator> func in combat.Hero.actionsStartCombat)
             yield return combat.StartCoroutine(func.Invoke());

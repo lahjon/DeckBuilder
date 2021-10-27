@@ -525,6 +525,13 @@ public enum CardActivityType
     DualWield
 }
 
+public enum CombatActorTypes
+{
+    Hero,
+    Companion,
+    Enemy
+}
+
 public enum Profession
 {
     Base,

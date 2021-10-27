@@ -11,6 +11,7 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         SetRefs(animator);
 
         combat.combatOverlay.AnimateEnemyTurn();
+        combat.actorTurn = CombatActorTypes.Enemy;
 
         enemy = combat.enemiesWaiting.Dequeue();
         combat.ActiveActor = enemy;

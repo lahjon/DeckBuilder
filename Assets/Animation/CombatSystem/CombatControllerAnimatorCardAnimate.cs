@@ -22,8 +22,13 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             animationSystem = null;
         }
 
-        layerName = combat.ActiveActor == combat.Hero ? "Resolve Card" : "EnemyCard";
-
+        if (combat.actorTurn == CombatActorTypes.Hero)
+            layerName = "Resolve Card";
+        else if(combat.actorTurn == CombatActorTypes.Enemy)
+            layerName = "EnemyCard";
+        else    
+            layerName = "CompanionCard";
+            
         if (card.Blocks.Any())
             nextState = "Block";
         else if (card.Attacks.Any())

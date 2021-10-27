@@ -20,13 +20,16 @@ public class CombatSystem : MonoBehaviour
     public Camera CombatCamera;
     public Transform cardPanel;
     public Transform cardHoldPos;
+    public bool hasCompanion;
     public Transform environmentAnchor;
     public GameObject[] environmentPrefabs;
     GameObject currentEnvironment;
+    public CombatActorTypes actorTurn;
 
     public CombatCardPresenter cardPresenter;
 
     public CombatActorHero Hero;
+    public CombatActorCompanion companion;
     public GameObject content;
 
     public GameObject txtDeck;
@@ -195,6 +198,19 @@ public class CombatSystem : MonoBehaviour
         createdCards.Clear();
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
+        
+        if (WorldSystem.instance.companionManager.currentCompanionData is CompanionData companionData)
+        {
+            companion.ReadCompanionData(companionData);
+            animator.SetBool("HasCompanion", true);
+            hasCompanion = true;
+        }
+        else    
+        {
+            companion.gameObject.SetActive(false);
+            animator.SetBool("HasCompanion", false);
+            hasCompanion = false;
+        }
 
         deckData = WorldSystem.instance.characterManager.deck;
 

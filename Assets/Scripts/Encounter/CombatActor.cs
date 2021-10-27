@@ -71,9 +71,12 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public void InitializeCombat()
     {
         AnchorToolTip.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.9f);
-        healthEffectsUI.UpdateShield(shield);
 
-        actionsNewTurn.Add(RemoveAllBlock);
+        if (!typeof(CombatActorCompanion).IsAssignableFrom(this.GetType()))
+        {
+            healthEffectsUI.UpdateShield(shield);
+            actionsNewTurn.Add(RemoveAllBlock);
+        }
         actionsNewTurn.Add(EffectsOnNewTurnBehavior);
 
         dealAttackLinear.Add(ApplyCombatStrength);
@@ -215,7 +218,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public IEnumerator GainBlock(int change)
     {
         shield += change;
-        yield return StartCoroutine(healthEffectsUI.UpdateShield(shield));
+        yield return StartCoroutine(healthEffectsUI?.UpdateShield(shield));
         List<Func<IEnumerator>> funcs = new List<Func<IEnumerator>>(OnBlockGained);
         foreach (Func<IEnumerator> funkie in funcs)
             if(funkie != null)
@@ -227,7 +230,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         //Debug.Log("Starting change of block with " + change);
         shield -= change;
         //Debug.Log("Shield now at  " + shield);
-        yield return StartCoroutine(healthEffectsUI.UpdateShield(shield));
+        yield return StartCoroutine(healthEffectsUI?.UpdateShield(shield));
     }
 
     public IEnumerator RemoveAllBlock()
