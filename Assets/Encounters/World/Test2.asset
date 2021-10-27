@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
   m_Name: Test2
   m_EditorClassIdentifier: 
-  id: 3
+  id: 2
   ScenarioName: Test2
   difficulty: 1
   rewardStruct:
     type: 5
     value:
-    - 0
+    - 
   type: 1
   unlocksScenarios: []
   Description: asdasd

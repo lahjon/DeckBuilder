@@ -63,6 +63,7 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void BindData()
     {
+        Debug.Log("Binding Data");
         if (worldEncounterType == WorldEncounterType.None)
         {
             worldEncounterType = worldEncounterData.type;
@@ -76,13 +77,13 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void RemoveEncounter()
     {
-        WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.ScenarioName);
-        WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.ScenarioName);
+        WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.id);
+        WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.id);
         if (worldEncounterData.unlocksScenarios?.Any() == true)
         {
             foreach (ScenarioData enc in worldEncounterData.unlocksScenarios)
             {
-                WorldSystem.instance.worldMapManager.availableWorldEncounters.Add(enc.ScenarioName);
+                WorldSystem.instance.worldMapManager.UnlockScenario(enc.id);
             }
         }
 

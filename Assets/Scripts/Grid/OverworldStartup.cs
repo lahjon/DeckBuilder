@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 
 public class OverworldStartup : MonoBehaviour
@@ -23,6 +24,7 @@ public class OverworldStartup : MonoBehaviour
         {
             WorldSystem.instance.characterManager.shard = 5;
         }
-        WorldSystem.instance.worldMapManager.UpdateMap();
+        //WorldSystem.instance.worldMapManager.UpdateMap();
+        WorldSystem.instance.worldMapManager.UnlockScenario(DatabaseSystem.instance.scenarios.FirstOrDefault(x => x.id == 0).id);
     }
 }

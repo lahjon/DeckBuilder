@@ -17,11 +17,9 @@ MonoBehaviour:
   description: This is nr 1'!
   conditionStructs:
   - type: 3
-    strParameter: Barracks
-    numValue: 1
-  - type: 3
     strParameter: TownHall
-    numValue: 2
+    numValue: 1
+    strParameters: []
   mainMission: 0
   startEvent: Event001
   endEvent: Event002

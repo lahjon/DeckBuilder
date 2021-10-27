@@ -8,9 +8,8 @@ public class WorldMapManager : Manager, ISaveableWorld
 {
     public Canvas canvas;
     public int actIndex;
-    public HashSet<string> availableWorldEncounters = new HashSet<string>();
-    public HashSet<string> completedWorldEncounters = new HashSet<string>();
-    public List<string> allWorldEncounters = new List<string>();
+    public HashSet<int> availableWorldEncounters = new HashSet<int>();
+    public HashSet<int> completedWorldEncounters = new HashSet<int>();
     public List<ScenarioData> startingEncounters = new List<ScenarioData>();
     public GameObject worldEncounterPrefab;
     public Transform encounterParent;
@@ -26,16 +25,17 @@ public class WorldMapManager : Manager, ISaveableWorld
         {
             Scenario enc = encounterParent.GetChild(i).GetComponent<Scenario>();
             enc.gameObject.SetActive(false);
-            enc.worldEncounterData = DatabaseSystem.instance.scenarios.FirstOrDefault(x => x.id.ToString() == enc.name);
-            worldEncounters.Add(enc);
-            allWorldEncounters.Add(enc.worldEncounterData.ScenarioName);
+            if (DatabaseSystem.instance.scenarios.FirstOrDefault(x => x.id.ToString() == enc.name) is ScenarioData scenarioData)
+            {
+                enc.worldEncounterData = scenarioData;
+                worldEncounters.Add(enc);
+            }
         }
     }
 
     protected override void Start()
     {
         base.Start();
-        //AddDefaultEncounters();
     }
 
     public void OpenMap()
@@ -54,31 +54,31 @@ public class WorldMapManager : Manager, ISaveableWorld
         WorldStateSystem.SetInTown(true);
     }
 
+    public void UnlockScenario(int id)
+    {
+        if (!completedWorldEncounters.Contains(id) && !availableWorldEncounters.Contains(id))
+            availableWorldEncounters.Add(id);
+    }
+
     public void UpdateMap()
     {
         foreach (Scenario enc in worldEncounters)
         {
-            if (enc.worldEncounterData != null && availableWorldEncounters.Contains(enc.worldEncounterData.ScenarioName))
+            availableWorldEncounters.ToList().ForEach(x => Debug.Log(x)); 
+            if (enc.worldEncounterData != null && availableWorldEncounters.Contains(enc.worldEncounterData.id))
                 enc.BindData();
-        }
-    }
-
-    void AddDefaultEncounters()
-    {
-        if (availableWorldEncounters == null || availableWorldEncounters.Count == 0) 
-        {
-            startingEncounters.ForEach(x => availableWorldEncounters.Add(x.ScenarioName));
         }
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.availableWorldEncounters = availableWorldEncounters.ToList();
+        a_SaveData.completedWorldEncounters = completedWorldEncounters.ToList();
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
         a_SaveData.availableWorldEncounters?.ForEach(x => availableWorldEncounters.Add(x));
-        AddDefaultEncounters();
+        a_SaveData.completedWorldEncounters?.ForEach(x => completedWorldEncounters.Add(x));
     }
 }

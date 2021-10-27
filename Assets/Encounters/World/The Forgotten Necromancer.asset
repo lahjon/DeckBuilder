@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
   m_Name: The Forgotten Necromancer
   m_EditorClassIdentifier: 
-  id: 1
+  id: 0
   ScenarioName: The Forgotten Necromancer
   difficulty: 1
   rewardStruct:
