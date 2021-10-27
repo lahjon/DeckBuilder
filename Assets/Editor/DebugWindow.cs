@@ -62,14 +62,15 @@ public class DebugWindow : EditorWindow
         #endregion
 
         #region database
-        if (GUILayout.Button("Update Database"))
-        {
-            DatabaseUpdateOnStart.UpdateDatabase();
-        }
+        // if (GUILayout.Button("Update Database"))
+        // {
+        //     DatabaseUpdateOnStart.UpdateDatabase();
+        // }
 
-        if (GUILayout.Button("Download from Google"))
+        if (GUILayout.Button("Download and Update Database"))
         {
-            DatabaseUpdateOnStart.UpdateFromGoogle();
+            DatabaseUpdateOnStart.DownloadDatabase();
+            DatabaseUpdateOnStart.UpdateDatabase();
         }
 
 

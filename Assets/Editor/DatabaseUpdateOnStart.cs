@@ -30,6 +30,16 @@ public static class DatabaseUpdateOnStart
         Debug.Log("Updated Database");
     }
 
+    public static void DownloadDatabase()
+    {
+        DownloadFromGoogleCards();
+        DownloadFromGoogleEncounters();
+        UpdateFromGoogleArtifacts();
+        DownloadFromGoogleScenarios();
+
+        Debug.Log("Updated Database");
+    }
+
     private static void UpdateAllEncounterIcons()
     {
         //DatabaseSystem.instance.allOverworldIcons;
@@ -183,7 +193,7 @@ public static class DatabaseUpdateOnStart
 
 
     [MenuItem("Edit/Download GoogleCards %#C")]
-    public static void UpdateFromGoogle()
+    public static void DownloadFromGoogleCards()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadCards(); 
@@ -192,7 +202,7 @@ public static class DatabaseUpdateOnStart
     }
 
     [MenuItem("Edit/Download GoogleEnemies %#E")]
-    public static void UpdateFromGoogleEnemies()
+    public static void DownloadFromGoogleEnemies()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadEnemies();
@@ -201,7 +211,7 @@ public static class DatabaseUpdateOnStart
     }
 
     [MenuItem("Edit/Download GoogleEncounters %#O")]
-    public static void UpdateFromGoogleEncounters()
+    public static void DownloadFromGoogleEncounters()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadEncounters();
@@ -211,7 +221,7 @@ public static class DatabaseUpdateOnStart
 
 
     [MenuItem("Edit/Download GoogleScenarios %#S")]
-    public static void UpdateFromGoogleScenarios()
+    public static void DownloadFromGoogleScenarios()
     {
         DatabaseGoogle google = new DatabaseGoogle();
         google.DownloadScenarios();
