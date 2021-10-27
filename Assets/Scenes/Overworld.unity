@@ -21846,7 +21846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_AnchorMax.x
@@ -21922,12 +21922,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_Name
-      value: WorldEncounter (1)
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224713, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: worldEncounterData
       value: 
-      objectReference: {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
 --- !u!1 &940243156
@@ -27198,11 +27198,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1397890754}
   - {fileID: 1324510783}
   - {fileID: 236474416}
   - {fileID: 1505430093}
   - {fileID: 1032184372}
-  - {fileID: 1397890754}
   m_Father: {fileID: 1004245086}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -35086,10 +35086,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c5702040bc543e34f846e7924b52784b, type: 3}
   - {fileID: 21300000, guid: 25997bc101f9b854fbb78c1087e94cf4, type: 3}
   scenarios:
-  - {fileID: 11400000, guid: b7d4a3c5d7cfc3a4e8a17477539f18ce, type: 2}
-  - {fileID: 11400000, guid: 5808e7ddf6ca7d7499e8d0e205dfc6c1, type: 2}
-  - {fileID: 11400000, guid: 56d35421374694f44ada7941556313e3, type: 2}
-  - {fileID: 11400000, guid: a2c12955224d74f43a25d7acf66a966d, type: 2}
+  - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
+  - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
   - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
   encountersCombatToDraw: []
   encountersEventToDraw: []
@@ -37729,10 +37727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1901636189}
   actIndex: 0
-  allWorldEncounters: []
-  startingEncounters:
-  - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
-  - {fileID: 11400000, guid: a2c12955224d74f43a25d7acf66a966d, type: 2}
+  startingEncounters: []
   worldEncounterPrefab: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
   encounterParent: {fileID: 1161349374}
   worldEncounters: []
@@ -38755,7 +38750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_AnchorMax.x
@@ -38831,12 +38826,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_Name
-      value: WorldEncounter (4)
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224713, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: worldEncounterData
       value: 
-      objectReference: {fileID: 11400000, guid: a2c12955224d74f43a25d7acf66a966d, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
 --- !u!1 &1685177171
@@ -40188,7 +40183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_AnchorMax.x
@@ -40264,12 +40259,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_Name
-      value: WorldEncounter (3)
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224713, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: worldEncounterData
       value: 
-      objectReference: {fileID: 11400000, guid: 5808e7ddf6ca7d7499e8d0e205dfc6c1, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
 --- !u!1 &1727426912
@@ -44664,7 +44659,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_AnchorMax.x
@@ -44740,12 +44735,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_Name
-      value: WorldEncounter (2)
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224713, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: worldEncounterData
       value: 
-      objectReference: {fileID: 11400000, guid: b7d4a3c5d7cfc3a4e8a17477539f18ce, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
 --- !u!1 &1925742813
@@ -92397,7 +92392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224692, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_AnchorMax.x
@@ -92473,7 +92468,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
       propertyPath: m_Name
-      value: WorldEncounter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7095544295134224713, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
+      propertyPath: worldEncounterData
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
