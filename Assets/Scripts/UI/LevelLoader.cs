@@ -13,7 +13,7 @@ public class LevelLoader : MonoBehaviour
     public int currentScene = 0;
 
     public CharacterClassType selectedCharacterClassType;
-    List<string> selectedTokens = new List<string>();
+    List<int> selectedTokens = new List<int>();
     public Slider slider;
     Tween tween;
     

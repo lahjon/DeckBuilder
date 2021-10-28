@@ -27,7 +27,7 @@ public class EventManager : Manager
     public delegate void StatsTrackerUpdatedEvent();
     public static event StatsTrackerUpdatedEvent OnStatsTrackerUpdatedEvent;
 
-    public delegate void CompleteSpecialEventEvent(string eventName);
+    public delegate void CompleteSpecialEventEvent(int eventId);
     public static event CompleteSpecialEventEvent OnCompleteSpecialEventEvent;
 
     public delegate void LevelUpEvent(CharacterClassType classType, int level);
@@ -97,10 +97,10 @@ public class EventManager : Manager
         OnCompleteWorldEncounterEvent?.Invoke();
     
     }
-    public static void CompleteSpecialEvent(string eventName)
+    public static void CompleteSpecialEvent(int eventId)
     {
         if(OnCompleteSpecialEventEvent != null)
-            EventManager.OnCompleteSpecialEventEvent(eventName);
+            EventManager.OnCompleteSpecialEventEvent(eventId);
     }
     public static void LevelUp(CharacterClassType classType, int level)
     {

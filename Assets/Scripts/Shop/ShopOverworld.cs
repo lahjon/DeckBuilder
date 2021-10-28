@@ -69,7 +69,7 @@ public class ShopOverworld : MonoBehaviour
         if (characterGold >= goldCost)
         {
             WorldSystem.instance.characterManager.gold -= goldCost;
-            WorldSystem.instance.artifactManager.AddArtifact(artifact.itemData.name);
+            WorldSystem.instance.artifactManager.AddArtifact(artifact.itemData.itemId);
             artifact.gameObject.SetActive(false);
             artifactPrices[artifactsInStock.IndexOf(artifact)].text = "Out of stock!";
             return true;

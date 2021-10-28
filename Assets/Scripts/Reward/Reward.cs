@@ -111,7 +111,7 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     public void RewardItem(string[] value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.useItemManager.GetItemData(value[0]) : WorldSystem.instance.useItemManager.GetItemData();
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.useItemManager.GetItemData(Int32.Parse(value[0])) : WorldSystem.instance.useItemManager.GetItemData();
 
         if (itemData == null)
         {
@@ -123,11 +123,11 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = itemData.artwork;
         reset = true;
 
-        callback = () => WorldSystem.instance.useItemManager.AddItem(itemData.name);
+        callback = () => WorldSystem.instance.useItemManager.AddItem(itemData.itemId);
     }
     public void RewardArtifact(string[] value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.artifactManager.GetSpecficArtifact(value[0]) : WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.artifactManager.GetSpecficArtifact(Int32.Parse(value[0])) : WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
 
         if (itemData == null)
         {
@@ -139,7 +139,7 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = itemData.artwork;
         reset = true;
 
-        callback = () => WorldSystem.instance.artifactManager.AddArtifact(itemData.name);
+        callback = () => WorldSystem.instance.artifactManager.AddArtifact(itemData.itemId);
     }
     public void RewardHeal(string[] value)
     {

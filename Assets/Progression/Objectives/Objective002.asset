@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dac0da79f050a442b630c71edd521f1, type: 3}
   m_Name: Objective002
   m_EditorClassIdentifier: 
-  id: Objective002
+  id: 1
   aName: second obj
+  description: no,. 2
   conditionStructs:
   - type: 3
     strParameter: 
     numValue: 3
-  description: no,. 2
+    strParameters: []
   nextObjective: {fileID: 0}
   endEvent: 

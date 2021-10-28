@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PowerPistol
   m_EditorClassIdentifier: 
   itemName: Power Pistol
-  itemId: 3
+  itemId: 2
   artwork: {fileID: 21300000, guid: 4bf48b3d55e8bdb49836c463923090bb, type: 3}
   description: You get +1 Energy! Very fantastic body!
   rarity: 13

@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecc6855db11290d4ab5e94dc8c84206e, type: 3}
   m_Name: Mission002
   m_EditorClassIdentifier: 
-  id: Mission002
+  id: 1
   aName: Second Mission
   description: nr 2!
   conditionStructs:
   - type: 9
     strParameter: BigBad Wolf
     numValue: 1
+    strParameters: []
   mainMission: 0
   startEvent: 
   endEvent: 

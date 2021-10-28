@@ -6,7 +6,7 @@ using System.Linq;
 [CreateAssetMenu(fileName = "NewProgressionData", menuName = "CardGame/ProgressionData")]
 public class ProgressionData : ScriptableObject
 {
-    public string id;
+    public int id;
     public string aName;
     [TextArea(5,5)]public string description;
     public List<ConditionData> conditionStructs;

@@ -5,10 +5,10 @@ using System.Linq;
 
 public class StatsTrackerSystem : MonoBehaviour, IEventSubscriber, ISaveableWorld
 {
-    public static Dictionary<string, int> enemyTracker = new Dictionary<string, int>();
+    public static Dictionary<int, int> enemyTracker = new Dictionary<int, int>();
     public static Dictionary<BuildingType, int> buildingTracker = new Dictionary<BuildingType, int>();
     public static Dictionary<CharacterClassType, int> characterLevels = new Dictionary<CharacterClassType, int>();
-    public static List<string> completedEvents = new List<string>();
+    public static List<int> completedEvents = new List<int>();
     public static StatsTrackerSystem instance;
 
     void Awake()
@@ -83,11 +83,11 @@ public class StatsTrackerSystem : MonoBehaviour, IEventSubscriber, ISaveableWorl
         EventManager.StatsTrackerUpdated();
     }
 
-    void CompleteSpecialEvent(string eventName)
+    void CompleteSpecialEvent(int eventId)
     {
-        if (eventName != null && !completedEvents.Contains(eventName))
+        if (eventId >= 0 && !completedEvents.Contains(eventId))
         {
-            completedEvents.Add(eventName);
+            completedEvents.Add(eventId);
         }
         
         EventManager.StatsTrackerUpdated();

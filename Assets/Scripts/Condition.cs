@@ -144,7 +144,7 @@ public class Condition : IEventSubscriber
 
     public void OnEventNotification(EnemyData enemy)
     {
-        if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyId == conditionData.strParameter || conditionData.strParameters.Contains(enemy.enemyId))
+        if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyId == Int32.Parse(conditionData.strParameter) || conditionData.strParameters.Contains(enemy.enemyId.ToString()))
             OnEventNotification();
     }
 

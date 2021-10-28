@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public abstract class Item : MonoBehaviour, IToolTipable
 {
+    public int id;
     protected Image image;
     public Button button;
     protected ItemData _itemData;
@@ -52,6 +53,7 @@ public abstract class Item : MonoBehaviour, IToolTipable
         if (itemData != null)
         {
             image.sprite = itemData.artwork;
+            id = itemData.itemId;
         }
     }
 }

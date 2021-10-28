@@ -101,7 +101,7 @@ public class CombatActorCompanion : CombatActor
     public void UpdateIntentDisplay(Card card)
     {
         int displayDamage = 0;
-        if (card.Attacks.Any()) displayDamage = RulesSystem.instance.CalculateDamage(card.Attacks[0].Value.value, this, CombatSystem.instance.EnemiesInScene[0]);
+        if (card.Attacks.Any()) displayDamage = RulesSystem.instance.CalculateDamage(card.Attacks[0].Value.value, this, CombatSystem.instance.TargetedEnemy);
         intentDisplay.RecieveIntent(card, displayDamage);   
     }
 

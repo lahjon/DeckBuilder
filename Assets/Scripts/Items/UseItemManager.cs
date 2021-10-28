@@ -22,10 +22,10 @@ public class UseItemManager : Manager, ISaveableTemp
         base.Start();
     }
 
-    public UseItemData GetItemData(string value = "")
+    public UseItemData GetItemData(int anId = -1)
     {
-        if (!string.IsNullOrEmpty(value))
-            return allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.name == value);
+        if (anId >= 0)
+            return allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.itemId == anId);
         else
         {
             UseItemData[] items = allItems.Except(equippedItems.Select(x => x.itemData)).ToArray();
@@ -55,7 +55,7 @@ public class UseItemManager : Manager, ISaveableTemp
         }
     }
 
-    public void AddItem(string itemName = "")
+    public void AddItem(int anId = -1)
     {
         if (usedItemSlots >= maxItemSlots)
         {
@@ -65,8 +65,8 @@ public class UseItemManager : Manager, ISaveableTemp
 
         UseItemData data;
 
-        if (!string.IsNullOrEmpty(itemName))
-            data = allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.name == itemName);
+        if (anId >= 0)
+            data = allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.itemId == anId);
         else
             data = GetItemData();
 
@@ -81,7 +81,7 @@ public class UseItemManager : Manager, ISaveableTemp
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.selectedUseItems = equippedItems.Select(x => x.itemData.name).ToList();
+        a_SaveData.selectedUseItems = equippedItems.Select(x => x.itemData.itemId).ToList();
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

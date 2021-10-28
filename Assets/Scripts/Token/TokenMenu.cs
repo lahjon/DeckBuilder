@@ -33,10 +33,10 @@ public class TokenMenu : MonoBehaviour
         tokenManager = WorldSystem.instance.tokenManager;
         world = WorldSystem.instance;
 
-        foreach (string tokenName in tokenManager.selectedTokens)
+        foreach (int tokenId in tokenManager.selectedTokens)
         {
-            GameObject token = tokenManager.GetTokenByName(tokenName, tokenManager.allTokens);
-            token.GetComponent<Token>().SetSelected(true);
+            Token token = tokenManager.GetTokenById(tokenId);
+            token.SetSelected(true);
         }
 
         for (int i = 0; i < contentPoints.transform.childCount; i++)
@@ -81,26 +81,26 @@ public class TokenMenu : MonoBehaviour
 
 
     
-    public void UpdateTokens(List<string> tokens)
+    public void UpdateTokens(List<int> tokenIds)
     {
-        foreach (GameObject token in tokenManager.allTokens)
+        foreach (Token token in tokenManager.allTokens)
         {
-            if (tokens.Contains(token.name))
+            if (tokenIds.Contains(token.id))
             {
-                token.GetComponent<Token>().UnlockToken();
+                token.UnlockToken();
             }
             token.transform.localScale = Vector3.one;
         }
     }
 
-    public void SelectToken(GameObject token)
+    public void SelectToken(Token token)
     {
         if (token == null)
         {
             return;
         }
 
-        GameObject activeToken = Instantiate(token);
+        GameObject activeToken = Instantiate(token.gameObject);
         activeToken.name = token.name;
         activeToken.transform.SetParent(contentActive);
         activeToken.transform.localScale = Vector3.one;
@@ -108,21 +108,17 @@ public class TokenMenu : MonoBehaviour
         activeToken.GetComponent<Token>().Init(true);
 
     }
-    public void UnselectToken(string tokenName)
+    public void UnselectToken(int tokenId)
     {
-        List<GameObject> tokens = new List<GameObject>();
+        // List<GameObject> tokens = new List<GameObject>();
 
-        for (int i = 0; i < contentActive.transform.childCount; i++)
-        {
-            tokens.Add(contentActive.transform.GetChild(i).gameObject);
-        }
+        // for (int i = 0; i < contentActive.transform.childCount; i++)
+        //     tokens.Add(contentActive.transform.GetChild(i).gameObject);
 
-        GameObject token = tokenManager.GetTokenByName(tokenName, tokens);
+        GameObject token = tokenManager.GetTokenById(tokenId)?.gameObject;
 
         if (token != null)
-        {
             Destroy(token);
-        }
 
     }
 

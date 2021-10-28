@@ -11,8 +11,8 @@ public class DebugUI : MonoBehaviour
     public GameObject canvas;
     public CardData cardData;
     public int strength;
-    public string tokenReward;
-    public string artifactReward = "TestArtifact1";
+    public int tokenReward = 0;
+    public int artifactReward = 1;
     public TMP_Text worldState;
     public TMP_Text overlayState;
     public TMP_Text worldTier;
@@ -153,7 +153,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugAddRandomArtifact()
     {
-        world.artifactManager.AddArtifact(world.artifactManager.GetRandomAvailableArtifact()?.name);
+        world.artifactManager.AddArtifact(world.artifactManager.GetRandomAvailableArtifact().itemId);
     }
 
     public void DebugRemoveRandomArtifact()

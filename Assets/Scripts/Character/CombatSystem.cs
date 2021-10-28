@@ -303,14 +303,22 @@ public class CombatSystem : MonoBehaviour
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
         TargetedEnemy = null;
-        ToggleTarget();
+        ToggleTargetForward();
     }
 
-    public void ToggleTarget()
+    public void ToggleTargetForward()
     {
         if (TargetedEnemy != null && EnemiesInScene.Count > 1)
         {
             int idx = (EnemiesInScene.IndexOf(TargetedEnemy) + 1 + EnemiesInScene.Count) % EnemiesInScene.Count;
+            TargetedEnemy = EnemiesInScene[idx]; 
+        }
+    }
+    public void ToggleTargetBackwards()
+    {
+        if (TargetedEnemy != null && EnemiesInScene.Count > 1)
+        {
+            int idx = (EnemiesInScene.IndexOf(TargetedEnemy) - 1 + EnemiesInScene.Count) % EnemiesInScene.Count;
             TargetedEnemy = EnemiesInScene[idx]; 
         }
     }
@@ -374,7 +382,7 @@ public class CombatSystem : MonoBehaviour
     {
         if (!EnemiesInScene.Any()) return value;
 
-        int possibleDamage = PreviewCalcDamageEnemy(value, EnemiesInScene[0]);
+        int possibleDamage = PreviewCalcDamageEnemy(value, TargetedEnemy);
         foreach (CombatActor enemy in EnemiesInScene)
             if (possibleDamage != PreviewCalcDamageEnemy(value, enemy))
                 return value;

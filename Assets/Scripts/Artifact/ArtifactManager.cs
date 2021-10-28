@@ -6,9 +6,9 @@ using System.Linq;
 public class ArtifactManager : Manager, ISaveableTemp
 {
     public List<ArtifactData> allArtifacts = new List<ArtifactData>();
-    List<string> allArtifactsNames = new List<string>();
-    public List<string> allActiveArtifactsNames = new List<string>();
-    public HashSet<string> allUnavailableArtifactsNames = new HashSet<string>();
+    List<int> allArtifactsIds = new List<int>();
+    public List<int> allActiveArtifactsIds = new List<int>();
+    public HashSet<int> allUnavailableArtifactsNames = new HashSet<int>();
 
     public ArtifactMenu artifactMenu;
 
@@ -27,54 +27,54 @@ public class ArtifactManager : Manager, ISaveableTemp
 
     public void Init()
     {
-        allArtifacts.ForEach(x => allArtifactsNames.Add(x.name));
-        allActiveArtifactsNames.ForEach(x => AddArtifactFromLoad(x));
+        allArtifacts.ForEach(x => allArtifactsIds.Add(x.itemId));
+        allActiveArtifactsIds.ForEach(x => AddArtifactFromLoad(x));
     }
 
-    public ArtifactData GetSpecficArtifact(string artifactName)
+    public ArtifactData GetSpecficArtifact(int artifactId)
     {
-        ArtifactData data = allArtifacts[allArtifactsNames.IndexOf(allArtifacts.FirstOrDefault(x => x.name == artifactName).itemName)];
-        allUnavailableArtifactsNames.Add(data.itemName);
+        ArtifactData data = allArtifacts[allArtifactsIds.IndexOf(allArtifacts.FirstOrDefault(x => x.itemId == artifactId).itemId)];
+        allUnavailableArtifactsNames.Add(data.itemId);
         return data;
     }
 
     public ArtifactData GetRandomAvailableArtifact()
     {
-        List<string> availbleArtifacts = allArtifactsNames.Except(allActiveArtifactsNames).Except(allUnavailableArtifactsNames).ToList();
+        List<int> availbleArtifacts = allArtifactsIds.Except(allActiveArtifactsIds).Except(allUnavailableArtifactsNames).ToList();
         //List<string> availbleArtifacts = allArtifactsNames;
 
         if (availbleArtifacts.Count <= 0)
         {
             // TODO: better handling for when no artifacts left
-            availbleArtifacts = allArtifactsNames;
+            availbleArtifacts = allArtifactsIds;
             //return null;
         }
 
-        string itemName = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
+        int artifactId = availbleArtifacts[Random.Range(0, availbleArtifacts.Count)];
 
-        allUnavailableArtifactsNames.Add(itemName);
+        allUnavailableArtifactsNames.Add(artifactId);
 
-        return allArtifacts[allArtifactsNames.IndexOf(itemName)];
+        return allArtifacts[allArtifactsIds.IndexOf(artifactId)];
     }
 
-    public string GetRandomActiveArtifact()
+    public int GetRandomActiveArtifact()
     {
-        if (allActiveArtifactsNames.Any())
+        if (allActiveArtifactsIds.Any())
         {
-            int range = Random.Range(0, allActiveArtifactsNames.Count);
-            return allActiveArtifactsNames[range];
+            int range = Random.Range(0, allActiveArtifactsIds.Count);
+            return allActiveArtifactsIds[range];
         }
-        return null;
+        return -1;
     }
-    public void AddArtifact(string artifactName, bool save = false)
+    public void AddArtifact(int artifactId, bool save = false)
     {
-        if (artifactName != null && artifactName.Length > 0 && !allActiveArtifactsNames.Contains(artifactName))
+        if (artifactId > -1 && !allActiveArtifactsIds.Contains(artifactId))
         {
-            ArtifactData artifactData = GetArtifactFromName(artifactName);
-            GameObject newArtifact = artifactMenu.AddUIArtifact(artifactData);
-            allActiveArtifactsNames.Add(artifactName);
+            ArtifactData artifactData = GetArtifactFromId(artifactId);
+            Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
+            allActiveArtifactsIds.Add(artifactId);
 
-            Effect.GetEffect(newArtifact, artifactData.name, true);
+            Effect.GetEffect(newArtifact.gameObject, artifactData.name, true);
 
             if (save)
             {
@@ -83,42 +83,42 @@ public class ArtifactManager : Manager, ISaveableTemp
         }
     }
 
-    public void AddArtifactFromLoad(string artifactName)
+    public void AddArtifactFromLoad(int artifactId)
     {
-        if (artifactName != null && artifactName.Length > 0)
+        if (artifactId > -1)
         {
-            ArtifactData artifactData = GetArtifactFromName(artifactName);
-            GameObject newArtifact = artifactMenu.AddUIArtifact(artifactData);
-            Effect.GetEffect(newArtifact, artifactData.name, true);
+            ArtifactData artifactData = GetArtifactFromId(artifactId);
+            Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
+            Effect.GetEffect(newArtifact.gameObject, artifactData.name, true);
         }
     }
 
 
-    public void RemoveArtifact(string artifactName)
+    public void RemoveArtifact(int artifactId)
     {
-        foreach (GameObject artifact in artifactMenu.allUIArtifacts)
+        foreach (Artifact artifact in artifactMenu.allUIArtifacts)
         {
-            if (artifact.name == artifactName)
+            if (artifact.id == artifactId)
             {
                 artifact.GetComponent<Effect>().RemoveEffect();
                 artifactMenu.RemoveUIArtifact(artifact);
-                allActiveArtifactsNames.Remove(artifactName);
+                allActiveArtifactsIds.Remove(artifactId);
                 break;
             }
         }
     }
 
-    public ArtifactData GetArtifactFromName(string artifactName)
+    public ArtifactData GetArtifactFromId(int artifactId)
     {
-        return allArtifacts[allArtifactsNames.IndexOf(artifactName)];
+        return allArtifacts[allArtifactsIds.IndexOf(artifactId)];
     }
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        allActiveArtifactsNames = a_SaveData.allActiveArtifactsNames;
+        allActiveArtifactsIds = a_SaveData.allActiveArtifactsNames;
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.allActiveArtifactsNames = allActiveArtifactsNames;
+        a_SaveData.allActiveArtifactsNames = allActiveArtifactsIds;
     }
 }

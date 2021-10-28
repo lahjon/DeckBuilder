@@ -9,13 +9,13 @@ using System;
 public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
 {
     public List<TokenData> tokenDatas = new List<TokenData>();
-    public List<GameObject> allTokens = new List<GameObject>();
-    public List<string> selectedTokens = new List<string>();
-    public List<string> unlockedTokens = new List<string>();
+    public List<Token> allTokens = new List<Token>();
+    public List<int> selectedTokens = new List<int>();
+    public List<int> unlockedTokens = new List<int>();
     public TokenMenu tokenMenu;
     public int tokenPoints;
     public int availableTokenPoints;
-    public List<string> tokensRequireUpdate = new List<string>();
+    public List<int> tokensRequireUpdate = new List<int>();
     int startingPoints = 1;
 
     protected override void Awake()
@@ -31,49 +31,43 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
     public void Init()
     { 
         for (int i = 0; i < tokenMenu.contentAll.transform.childCount; i++)
-        {
-            BindTokenData(tokenMenu.contentAll.transform.GetChild(i).gameObject, tokenDatas[i]);
-        }
+            BindTokenData(tokenMenu.contentAll.transform.GetChild(i).gameObject.GetComponent<Token>(), tokenDatas[i]);
 
         if (tokenPoints < startingPoints)
-        {
             tokenPoints = startingPoints;
-        }
+
 
         availableTokenPoints = tokenPoints;
-        
         tokenMenu.Init();
     }
-    void BindTokenData(GameObject aToken, TokenData tokenData)
+    void BindTokenData(Token token, TokenData tokenData)
     {
-        Token token = aToken.GetComponent<Token>();
         token.artwork = tokenData.artwork;
         token.description = tokenData.description;
         token.cost = tokenData.cost;
-        aToken.name = tokenData.name;
+        token.id = tokenData.itemId;
+        token.gameObject.name = tokenData.name;
 
-        if (tokenData.rarity == Rarity.Starting || unlockedTokens.Contains(aToken.name))
-        {
+        if (tokenData.rarity == Rarity.Starting || unlockedTokens.Contains(token.id))
             token.unlocked = true;
-        }
 
-        Effect.GetEffect(aToken, tokenData.name);
+        Effect.GetEffect(token.gameObject, tokenData.name);
 
-        allTokens.Add(aToken);
+        allTokens.Add(token);
         token.Init();
     }
 
-    public void UnlockNewToken(string tokenName)
+    public void UnlockNewToken(int tokenId)
     {
-        unlockedTokens.Add(tokenName);
-        tokensRequireUpdate.Add(tokenName);
-        GetTokenByName(tokenName, allTokens).GetComponent<Token>().unlocked = true;
+        unlockedTokens.Add(tokenId);
+        tokensRequireUpdate.Add(tokenId);
+        GetTokenById(tokenId).unlocked = true;
         world.SaveProgression();
     }
 
-    public GameObject GetTokenByName(string tokenName, List<GameObject> tokenList)
+    public Token GetTokenById(int tokenId)
     {
-        return tokenList.Where(x => x.name == tokenName).FirstOrDefault();
+        return allTokens.Where(x => x.id == tokenId).FirstOrDefault();
     }
 
     public void AddTokenPoint()
@@ -84,7 +78,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
         world.SaveProgression();
     }
 
-    public void AddSelectedToken(GameObject token, bool init = false)
+    public void AddSelectedToken(Token token, bool init = false)
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
@@ -92,21 +86,21 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
         }
         if (!init)
         {
-            selectedTokens.Add(token.name);
+            selectedTokens.Add(token.id);
         }
         tokenMenu.SelectToken(token); 
     }
 
-    public void RemoveSelectedToken(GameObject token)
+    public void RemoveSelectedToken(Token token)
     {
-        if (selectedTokens.Contains(token.name))
+        if (selectedTokens.Contains(token.id))
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
                 token.GetComponent<Effect>().RemoveEffect();
             }
-            selectedTokens.Remove(token.name);
-            tokenMenu.UnselectToken(token.name);
+            selectedTokens.Remove(token.id);
+            tokenMenu.UnselectToken(token.id);
         }
     }
     

@@ -40,7 +40,7 @@ public class ObjectiveManager : Manager, ISaveableWorld
         if (!fromLoad) currentObjectives.Add(data);
 
         Objective obj = Instantiate(objectivePrefab, transform).GetComponent<Objective>();
-        obj.name = data.id;
+        obj.name = data.aName;
         obj.StartObjetive(data);
         return obj;
     }

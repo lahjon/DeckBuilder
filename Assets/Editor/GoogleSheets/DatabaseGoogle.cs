@@ -389,7 +389,7 @@ public class DatabaseGoogle
 
 
             data.enemyName      = (string)gt[i, "Name"];
-            data.enemyId        = (string)gt[i, "EnemyID"];
+            data.enemyId        = (int)gt[i, "EnemyID"];
             data.StartingHP     = int.Parse((string)gt[i, "HP"]);
             data.tier           = int.Parse((string)gt[i, "Tier"]);
             data.experience     = int.Parse((string)gt[i, "Experience"]);

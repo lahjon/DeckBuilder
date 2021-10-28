@@ -17,7 +17,7 @@ public class CombatControllerAnimatorCompanionStart: CombatControllerAnimator
         // enemy = combat.enemiesWaiting.Dequeue();
         //combat.ActiveActor = companion;
         combat.InProcessCard = companion.hand;
-        combat.InProcessTarget = combat.EnemiesInScene[0];
+        combat.InProcessTarget = combat.TargetedEnemy;
         combat.StartCoroutine(CompanionTurn());
     }
 

@@ -23,28 +23,30 @@ public class StateCombat : WorldStateAnimator
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
-        for (int i = 0; i < AlphaNumSelectCards.Length && i < CombatSystem.instance.Hand.Count; i++)
+        // TODO: break all this to actions ASAP!
+        if (CombatSystem.instance.actorTurn == CombatActorTypes.Hero)
         {
-            if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+            for (int i = 0; i < AlphaNumSelectCards.Length && i < CombatSystem.instance.Hand.Count; i++)
             {
-                // if (CombatSystem.instance.ActiveCard == CombatSystem.instance.Hand[i])
-                // {
-                //     Debug.Log("AlphaNum Deselct");
-                //     CombatSystem.instance.ActiveCard.OnMouseRightClick(false);
-                // }
-                // else
-                CombatSystem.instance.Hand[i].OnMouseClick();
-
-                break;
+                if (Input.GetKeyDown(AlphaNumSelectCards[i]) && WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+                {
+                    CombatSystem.instance.Hand[i].OnMouseClick();
+                    break;
+                }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && CombatSystem.instance.acceptEndTurn == true)
-        {
-            CombatSystem.instance.PlayerInputEndTurn();
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            CombatSystem.instance.ToggleTarget();
+            if (Input.GetKeyDown(KeyCode.Space) && CombatSystem.instance.acceptEndTurn == true)
+            {
+                CombatSystem.instance.PlayerInputEndTurn();
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                CombatSystem.instance.ToggleTargetForward();
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Tab))
+            {
+                CombatSystem.instance.ToggleTargetBackwards();
+            }
+            
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CompanionManager : Manager
 {
     public CompanionData currentCompanionData;
+    public List<int> unlockedCompanions;
     protected override void Awake()
     {
         base.Awake();

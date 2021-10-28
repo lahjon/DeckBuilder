@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dac0da79f050a442b630c71edd521f1, type: 3}
   m_Name: Objective004
   m_EditorClassIdentifier: 
-  id: Objective004
+  id: 3
   aName: four
-  goalKillEnemy: []
-  goalEnterBuilding:
-  - buildingType: 5
-    requiredAmount: 1
   description: something words
+  conditionStructs: []
   nextObjective: {fileID: 0}
   endEvent: 

@@ -16,7 +16,7 @@ public class SaveDataWorld
     public int idxCounter;
 
     // token
-    public List<string> unlockedTokens;
+    public List<int> unlockedTokens;
 
     // world
     public List<int> availableWorldEncounters;
@@ -29,12 +29,12 @@ public class SaveDataWorld
     public List<int> unlockedPerks = new List<int>();
 
     //progressions
-    public List<string> clearedObjectives;
-    public List<string> currentObjectives;
+    public List<int> clearedObjectives;
+    public List<int> currentObjectives;
     public List<IntListWrapper> currentObjectiveGoals;
 
-    public List<string> clearedMissions;
-    public List<string> currentMissions;
+    public List<int> clearedMissions;
+    public List<int> currentMissions;
     public List<IntListWrapper> currentMissionGoals;
 
     // stats tracker
@@ -42,7 +42,7 @@ public class SaveDataWorld
     public List<int> buildingTrackerValues;
     public List<CharacterClassType> classTypes;
     public List<int> level;
-    public List<string> enemyId;
+    public List<int> enemyId;
     public List<int> enemyAmountKilled;
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public List<Profession> unlockedProfessions = new List<Profession>();

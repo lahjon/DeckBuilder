@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 public class ArtifactMenu : MonoBehaviour
 {
-    public List<GameObject> allUIArtifacts = new List<GameObject>();
+    public List<Artifact> allUIArtifacts = new List<Artifact>();
     public GameObject artifactUIPrefab;
     public Transform artifactContent;
     public Canvas canvas;
@@ -27,19 +27,18 @@ public class ArtifactMenu : MonoBehaviour
         }
     }
 
-    public GameObject AddUIArtifact(ArtifactData artifactData)
+    public Artifact AddUIArtifact(ArtifactData artifactData)
     {
-        GameObject newArtifact = Instantiate(artifactUIPrefab, artifactContent);   
-        Artifact artifact = newArtifact.GetComponent<Artifact>();
+        Artifact artifact = Instantiate(artifactUIPrefab, artifactContent).GetComponent<Artifact>();
         artifact.itemData = artifactData;
-        newArtifact.name = artifactData.itemName;
-        allUIArtifacts.Add(newArtifact);
-        return newArtifact;
+        artifact.gameObject.name = artifactData.itemName;
+        allUIArtifacts.Add(artifact);
+        return artifact;
     }
 
-    public void RemoveUIArtifact(GameObject anArtifact)
+    public void RemoveUIArtifact(Artifact anArtifact)
     {
-        foreach (GameObject artifact in allUIArtifacts)
+        foreach (Artifact artifact in allUIArtifacts)
         {
             if (anArtifact.name == artifact.name)
             {

@@ -5,7 +5,7 @@ using System.Linq;
 
 public abstract class Progression : MonoBehaviour
 {
-    public string id;
+    public int id;
     public string aName;
     public string description;
     public List<ConditionCounting> countingConditions = new List<ConditionCounting>();

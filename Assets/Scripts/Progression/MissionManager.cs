@@ -41,7 +41,7 @@ public class MissionManager : Manager, ISaveableWorld
         if (!fromLoad) currentMissions.Add(data);
 
         Mission mission = Instantiate(missionPrefab, missionParent).GetComponent<Mission>();
-        mission.name = data.id;
+        mission.name = data.aName;
         mission.StartMission(data);
         return mission;
     }

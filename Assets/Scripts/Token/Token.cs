@@ -13,6 +13,7 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool active = false;
     public Sprite artwork;
     [HideInInspector] public int cost;
+    public int id;
     Color colorUnselected = new Color(0.5f, 0.5f, 0.5f);
     Color colorSelected = new Color(1.0f, 1.0f, 1.0f);
     Color colorDisabled = new Color(0.0f, 0.0f, 0.0f);
@@ -72,7 +73,7 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         tokenManager.availableTokenPoints += cost;
         color.normalColor = colorUnselected;
         button.colors = color;
-        tokenManager.RemoveSelectedToken(this.gameObject);
+        tokenManager.RemoveSelectedToken(this);
         selected = false;
     }
 
@@ -81,7 +82,7 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         tokenManager.availableTokenPoints -= cost;
 
-        tokenManager.AddSelectedToken(this.gameObject, init);
+        tokenManager.AddSelectedToken(this, init);
 
         color.normalColor = colorSelected;
         button.colors = color;
@@ -108,12 +109,11 @@ public class Token : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         else
         {
-            foreach (GameObject token in tokenManager.allTokens)
+            foreach (Token token in tokenManager.allTokens)
             {
-                if (token.name == name)
+                if (token.id == id)
                 {
-                    Token aToken = token.GetComponent<Token>();
-                    aToken.SetUnselected();
+                    token.SetUnselected();
                     break;
                 }
             }
