@@ -9,19 +9,12 @@ public class EncounterMapConfirm : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Complete;
+
         animator.SetBool("Confirm", false);
         animator.SetBool("IsPlaying", true);
+
         gridManager.hexMapController.disablePanning = false;
         gridManager.hexMapController.disableZoom = false;
-
-    }
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //gridManager.ExitPlacement();
-    }
-
-    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
 
     }
 }

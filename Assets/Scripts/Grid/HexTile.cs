@@ -8,17 +8,15 @@ public class HexTile : MonoBehaviour
 {
     [SerializeField] TileState _tileState; 
     public Vector3Int coord;
-    public List<int> availableDirections = new List<int>();
-    public List<int> lockedDirections = new List<int>();
+    public List<GridDirection> availableDirections = new List<GridDirection>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
-    static ScenarioMapManager gridManager;
+    static ScenarioMapManager mapManager;
     static HexMapController hexMapController;
     public List<HexTile> neighbours = new List<HexTile>();
-    public int entryDir;
     bool _specialTile;
-    public int turnCompleted;
-    Vector3 startPosition;
     [HideInInspector] public SpriteRenderer spriteRenderer;
+
+    public GridDirection entryDirection; 
 
     public SpriteRenderer storyMark;
     public SpriteRenderer undiscoveredSpriteRenderer;
@@ -38,7 +36,9 @@ public class HexTile : MonoBehaviour
     public TileType type;
 
     public Dictionary<Vector3Int, Encounter> posToEncounter = new Dictionary<Vector3Int, Encounter>();
-    public Dictionary<Vector3Int, Encounter> posToEncountersExit = new Dictionary<Vector3Int, Encounter>();
+    public Dictionary<Vector3Int, Encounter> posToEncounterExit = new Dictionary<Vector3Int, Encounter>();
+    public Dictionary<Encounter, GridDirection> exitEncToDirection = new Dictionary<Encounter, GridDirection>();
+
     public static List<Vector3Int> positionsExit = new List<Vector3Int>()
     {
         new Vector3Int(1, -2, 1),
@@ -119,7 +119,7 @@ public class HexTile : MonoBehaviour
         set 
         {
             _specialTile = value;
-            gridManager.specialTiles.Add(this);
+            mapManager.specialTiles.Add(this);
         }
     }
 
@@ -142,9 +142,9 @@ public class HexTile : MonoBehaviour
             }
             else if (_tileState == TileState.Completed)
             {
-                if (!gridManager.completedTiles.Contains(this))
+                if (!mapManager.completedTiles.Contains(this))
                 {
-                    gridManager.completedTiles.Add(this);
+                    mapManager.completedTiles.Add(this);
                     EventManager.TileCompleted(this);
                 }
 
@@ -167,15 +167,11 @@ public class HexTile : MonoBehaviour
 
     public void SetCurrentTile()
     {
-        gridManager.currentTile = this;
+        mapManager.currentTile = this;
         if (hexMapController.zoomStep != 0)
-        {
             StartFadeInOutColor();
-        }
         else
-        {
             StopFadeInOutColor();
-        }
     }
 
     public void StartFadeInOutColor()
@@ -247,38 +243,27 @@ public class HexTile : MonoBehaviour
     }
     public void Init()
     {
-        gridManager = WorldSystem.instance.gridManager;
-        hexMapController = gridManager.GetComponent<HexMapController>();
+        mapManager = WorldSystem.instance.gridManager;
+        hexMapController = mapManager.GetComponent<HexMapController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         EncountersInitializePositions(gridWidth);
         if (coord == Vector3.zero)
         {
-            if(Random.Range(0,2) == 0)
-                availableDirections = new List<int>{0,2,4};
-            else
-                availableDirections = new List<int>{1,3,5};
+            int modder = Random.Range(0, 1);
+            for(int i = 0 + modder; i < 6; i = i + 2) 
+                availableDirections.Add(new GridDirection(i));
         }
         else
         {
-            availableDirections = gridManager.AddNeighbours(4,5);
+            List<int> pool = new List<int>() { 0, 1, 2, 3, 4, 5 };
+            int nrExits = Random.Range(4,6);
+            for (int i = 0; i < nrExits; i++)
+            {
+                int x = pool[Random.Range(0, pool.Count)];
+                pool.Remove(x);
+                availableDirections.Add(new GridDirection(x));
+            }
         }
-
-        //spriteRenderer.sprite = gridManager.activeTilesSprite[0];
-    }
-
-    public void AddNeighbours()
-    {
-        neighbours = gridManager.GetNeighbours(this);
-    }
-
-    public void CloseExits(int dir)
-    {
-        // close all exists not connecting to the placed hex
-        availableDirections = new List<int>{dir};
-        List<int> closedDirections = availableDirections.Except(lockedDirections).ToList();
-
-        // debug to display exists that are no longer available
-        closedDirections.ForEach(x => exits[x].GetComponent<SpriteRenderer>().color = Color.red);
     }
 
     public void ContentVisible(bool visibility)
@@ -287,35 +272,9 @@ public class HexTile : MonoBehaviour
         roadParent.gameObject.SetActive(visibility);
     }
 
-    public void LockDirections(List<int> directions = null)
-    {
-        if (directions == null)
-        {
-            lockedDirections = availableDirections;
-            return;
-        }
-        lockedDirections = directions;
-    }
-
-    void DeleteAllContent()
-    {
-        for (int i = 0; i < encounterParent.childCount; i++)
-        {
-            Destroy(encounterParent.GetChild(i).gameObject);
-        }
-        for (int i = 0; i < roadParent.childCount; i++)
-        {
-            Destroy(roadParent.GetChild(i).gameObject);
-        }
-        encounterEntry = null;
-        encountersExits.Clear();
-        encounters.Clear();
-        availableDirections.Clear();
-    }
-
     public void RevealTile(bool fromPlacement = false)
     {
-        undiscoveredSpriteRenderer.material = gridManager.undiscoveredMaterial;
+        undiscoveredSpriteRenderer.material = mapManager.undiscoveredMaterial;
         if (fromPlacement) 
         {
             hexMapController.FocusTile(this, ZoomState.Inner);
@@ -323,96 +282,41 @@ public class HexTile : MonoBehaviour
         }
         undiscoveredSpriteRenderer.material.DOFloat(0f, "Dissolve", 1f).OnComplete(() =>  {
             undiscoveredSpriteRenderer.material.SetFloat("Dissolve", 1);
-            undiscoveredSpriteRenderer.material = gridManager.discoveredMaterial;
+            undiscoveredSpriteRenderer.material = mapManager.discoveredMaterial;
             undiscoveredSpriteRenderer.gameObject.SetActive(false);
             if (fromPlacement)
                 EnterPlacement();
-            // else
-            // {
-            //     entryDir = gridManager.GetEntry(this).Item1;
-            //     WorldSystem.instance.encounterManager.GenerateFirstHexEncounters(this);
-            //     encountersExits.ForEach(x => x.RotationUpdateEntry());
-            // }
         });
     }
 
     public void EnterPlacement()
     {
-        RotateTileExits();
         ContentVisible(true);
-        spriteRenderer.color = Color.white;
         storyMark.gameObject.SetActive(false);
         spriteRenderer.color = Color.white;
-        gridManager.animator.SetBool("IsPlacing", true);
+        mapManager.animator.SetBool("IsPlacing", true);
+        mapManager.animator.SetBool("IsRotating", true);
+
         hexMapController.FocusTile(this, ZoomState.Inner, true);
-        entryDir = gridManager.GetEntry(this).Item1;
-        tileState = TileState.Animation;
 
         WorldSystem.instance.encounterManager.GenerateHexEncounters(this, storyEncounter);
-        gridManager.currentTurn++;
-        turnCompleted = gridManager.currentTurn;
         hexMapController.disableZoom = false;
+
         tileState = TileState.Placement;
-        startPosition = transform.position;
-        gridManager.activeTile = this;
-        gridManager.animator.SetBool("IsRotating", true);
-        encountersExits.ForEach(x => x.RotationUpdateEntry());
+        mapManager.activeTile = this;
+        mapManager.choosableTiles.Remove(this);
+
+        RotateTile(true,true);
+        encountersExits.ForEach(x => x.MarkEntryEncounter());
         //StartCoroutine(AnimateVisible());
-    }
-
-    public void FlipEmptyTile()
-    {
-
-
-        spriteRenderer.color = Color.white;
-            
-        WorldSystem.instance.encounterManager.GenerateFirstHexEncounters(this);
-        posToEncounter[Vector3Int.zero].encounterType = OverworldEncounterType.Cave;
-
-        encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
-
-        LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 270.0f, 0.4f).setEaseInCubic().setOnComplete(() => 
-        {
-            // mid flip
-            ContentVisible(true);
-            //spriteRenderer.sprite = gridManager.activeTilesSprite[(int)tileBiome];
-
-            LeanTween.rotateAround(gameObject, new Vector3(0,1,0), 90.0f, 0.2f).setEaseOutCubic().setOnComplete(() => 
-            {
-                //end flip
-                gridManager.CompleteEmptyTile(this);
-                gridManager.HighlightEntries();
-
-            }
-        );
-        });
-    }
-
-    public void RotateTileExits()
-    {
-        if (gridManager.rotateCounter++ > 6)
-        {
-            Debug.LogWarning("Shouldnt Happen");
-            gridManager.rotateCounter = 0;
-            return;
-        }
-
-        for (int i = 0; i < availableDirections.Count; i++)
-            availableDirections[i] = (availableDirections[i] + 6) % 6;
-
-        for (int i = 0; i < encountersExits.Count; i++)
-            encountersExits[i].coordinates = HexTile.positionsExit[(encountersExits[i].ExitDirection() + 6) % 6];
-
-        if (!gridManager.TilePlacementValid(this))
-            RotateTileExits();
     }
 
     public void RotateTile(bool clockwise, bool instant = false)
     {
-        if (gridManager.rotateCounter++ > 6)
+        if (mapManager.rotateCounter++ > 6)
         {
-            Debug.Log("Shouldnt Happen");
-            gridManager.rotateCounter = 0;
+            Debug.LogWarning("Shouldnt Happen");
+            mapManager.rotateCounter = 0;
             return;
         }
 
@@ -421,41 +325,37 @@ public class HexTile : MonoBehaviour
 
         int sign = clockwise ? 1 : -1;
         for (int i = 0; i < availableDirections.Count; i++)
-            availableDirections[i] = (availableDirections[i] + sign + 6) % 6;
+            availableDirections[i] = availableDirections[i].Turned(sign);
+        foreach (Encounter enc in encountersExits)
+            exitEncToDirection[enc] = exitEncToDirection[enc].Turned(sign);
 
-        for (int i = 0; i < encountersExits.Count; i++)
-            encountersExits[i].coordinates = HexTile.positionsExit[(encountersExits[i].ExitDirection() + sign + 6) % 6];
+        mapManager.rotationAmount += sign*60;
 
-        gridManager.rotationAmount += sign*60;
-
-        if (!gridManager.TilePlacementValid(this))
+        if (!mapManager.TilePlacementValid(this))
             RotateTile(clockwise, instant);
-
         else
         {
+            mapManager.rotateCounter = 0;
             if (instant)
             {
-                transform.Rotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + gridManager.rotationAmount));
-                gridManager.rotationAmount = 0;
-                gridManager.rotateCounter = 0;
+                Debug.Log("Startin instant");
+                transform.Rotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + mapManager.rotationAmount));
+                mapManager.rotationAmount = 0;
+                encountersExits.ForEach(x => x.MarkEntryEncounter());
+                encounterEntry.HighlightReachable();
                 MatchRotation();
             }
             else
             {
-                gridManager.buttonRotateConfirm.interactable = false;
-                gridManager.buttonRotateLeft.interactable = false;
-                gridManager.buttonRotateRight.interactable = false;
+                mapManager.SetButtonsInteractable(false);
                 OffsetRotation();
                 ResetRoadsEncounters();
                 float timer = 0.5f;
-                transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + gridManager.rotationAmount), timer, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
-                    gridManager.buttonRotateLeft.interactable = true;
-                    gridManager.buttonRotateRight.interactable = true;
-                    gridManager.buttonRotateConfirm.interactable = true;
-                    gridManager.rotationAmount = 0;
-                    gridManager.rotateCounter = 0;
-                    encountersExits.ForEach(x => x.RotationUpdateEntry());
-                    encountersExits.Where(x => x.encounterType == OverworldEncounterType.Start).FirstOrDefault().HighlightReachable();
+                transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + mapManager.rotationAmount), timer, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
+                    mapManager.SetButtonsInteractable(true);
+                    mapManager.rotationAmount = 0;
+                    encountersExits.ForEach(x => x.MarkEntryEncounter());
+                    encounterEntry.HighlightReachable();
                     MatchRotation();
                 });
             }
@@ -487,14 +387,12 @@ public class HexTile : MonoBehaviour
     {
         // have to have this function instead of OnComplete in OffsetRotation because it causes unknown errors
         for (int i = 0; i < encounterParent.childCount; i++)
-        {
             encounterParent.GetChild(i).transform.rotation = Quaternion.identity;
-        }
     }
 
     public void EndPlacement()
     {
-        gridManager.ExitPlacement();
+        mapManager.ExitPlacement();
         hexMapController.disableZoom = true;
         hexMapController.enableInput = true;
         if (encounterEntry == null)
@@ -505,86 +403,28 @@ public class HexTile : MonoBehaviour
         StartCoroutine(encounterEntry.Entering());
     }
 
-    public void CloseExists()
+    void Highlight(bool turnOn)
     {
-        List<int> dirs = new List<int>();
-
-        Debug.Log("amount of exits:" + encountersExits.Count);
-        for (int i = 0; i < encountersExits.Count; i++)
+        if(turnOn ^ highlightedPrimary)
         {
-            if (encountersExits[i].status == EncounterHexStatus.Visited)
-            {
-                dirs.Add(encountersExits[i].ExitDirection());
-                //Debug.Log("enc is visited: " + encountersExits.ElementAt(i).Value);
-            }
-        }
-
-        availableDirections = dirs.Union(lockedDirections).ToList();
-    }
-    void Highlight()
-    {
-        if(!highlightedPrimary)
-        {
-            highlightedPrimary = true;
-            if (this.tileState == TileState.InactiveHighlight)
-            {
-                foreach (HexTile tile in gridManager.highlightedTiles)
-                {
-                    if (tile != this)
-                    {
-                        tile.highlightedSecondary = true;
-                    }
-                }
-            }
-        }
-    }
-    void UnHighlight()
-    {
-        if(highlightedPrimary)
-        {
-            highlightedPrimary = false;
-            if (this.tileState == TileState.InactiveHighlight)
-            {
-                foreach (HexTile tile in gridManager.highlightedTiles)
-                {
-                    if (tile != this)
-                    {
-                        tile.highlightedSecondary = false;
-                    }
-                }
-            }
+            highlightedPrimary = turnOn;
+            if (tileState == TileState.InactiveHighlight && mapManager.highlightedTiles.Contains(this))
+                highlightedSecondary = turnOn;
         }
     }
 
     void OnMouseUp()
     {
-        //Debug.Log(entryDir);
-        //encountersExits.ForEach(x => Debug.Log(x));
-        //availableDirections.ForEach(x => Debug.Log(x));
-        if(tileState == TileState.InactiveHighlight && gridManager.gridState == GridState.Placement)
+        if(tileState == TileState.InactiveHighlight && mapManager.gridState == GridState.Placement)
             RevealTile(true);
     }
     void OnMouseEnter()
     {
         if (!hexMapController.disablePanning && hexMapController.zoomStep != 0)
-        {
-            Highlight();
-        }
-    }
-    void OnMouseOver()
-    {
-        // if (!gridManager.hexMapController.disableInput)
-        // {
-        //     Highlight();
-        // }
+            Highlight(true);
     }
 
-    void OnMouseExit()
-    {
-
-        UnHighlight();
-        
-    }
+    void OnMouseExit() => Highlight(false);
 
     public static void EncountersInitializePositions(int gridWidth)
     {
@@ -620,7 +460,6 @@ public class HexTile : MonoBehaviour
 
     #region Encounters 
 
-
     public static Vector3 EncounterPosToLocalCoord(Vector3Int encPos)
     {
         float x = (encPos.x * 0.5f) - (encPos.y * 0.5f);
@@ -634,17 +473,25 @@ public class HexTile : MonoBehaviour
         return positionsExit[dir];
     }
 
-    public void AddEncounter(Vector3Int pos, Encounter enc, bool exit = false)
+    public void AddEncounter(Encounter enc, bool exit = false)
     {
         if (exit)
         {
-            posToEncountersExit[pos] = enc;
+            posToEncounterExit[enc.coordinates] = enc;
             encountersExits.Add(enc);
+            exitEncToDirection[enc] = new GridDirection(positionsExit.IndexOf(enc.coordinates));
         }
 
-        posToEncounter[pos] = enc;
+        posToEncounter[enc.coordinates] = enc;
         encounters.Add(enc);
 
+    }
+
+    public void AddNeighboors()
+    {
+        foreach (GridDirection dir in ScenarioMapManager.tileDirections)
+            if (mapManager.GetTile(coord + dir) is HexTile neigh)
+                neighbours.Add(neigh);
     }
     #endregion
 }

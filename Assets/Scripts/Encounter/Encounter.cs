@@ -121,22 +121,20 @@ public class Encounter : MonoBehaviour
     {
         tweenAction1?.Kill();
         tweenAction2?.Kill();
-        //Debug.Log("Cancel animation " + this);
     }
 
     public IEnumerator Entering()
     {
         transform.localScale = startingScale*1.5f;
         status = EncounterHexStatus.Visited;
+        Encounter previous = WorldSystem.instance.encounterManager.currentEncounter;
 
-        tile.encounters.Remove(this);
-        if (encounterType == OverworldEncounterType.Start && WorldSystem.instance.gridManager.GetEntry(tile).Item2 is Encounter encEntry)
+        if (encounterType == OverworldEncounterType.Start && previous != null)
         {
-            EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(encEntry, this, true);
+            EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(previous, this, true);
             yield return StartCoroutine(intraHexRoad.AnimateTraverseRoad(this));
         }
 
-        Encounter previous = WorldSystem.instance.encounterManager.currentEncounter;
         if (previous != null)
         {
             previous.SetLeaving();
@@ -205,16 +203,12 @@ public class Encounter : MonoBehaviour
         return hs;
     }
 
-    public int ExitDirection()
-    {
-        return HexTile.positionsExit.IndexOf(coordinates);
-    }
 
-    public void RotationUpdateEntry()
+    public void MarkEntryEncounter()
     {
         //Debug.Log(HexTile.positionsExit[tile.encountersExits[this]]);
         //Debug.Log(tile.entryDir);
-        if (tile.encountersExits.IndexOf(this) >= 0 && tile.entryDir == ExitDirection())
+        if (tile.exitEncToDirection[this].IsOpposing(tile.entryDirection))
         {
             AnimateEncounter();
             tile.encounterEntry = this;

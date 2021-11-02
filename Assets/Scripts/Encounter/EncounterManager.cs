@@ -66,7 +66,7 @@ public class EncounterManager : Manager
     {
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
 
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x.nr)));
 
         chosenEncountersSlots.Add(Vector3Int.zero);
 
@@ -81,7 +81,7 @@ public class EncounterManager : Manager
             enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             enc.status = EncounterHexStatus.Visited;
-            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
+            tile.AddEncounter(enc, i < tile.availableDirections.Count);
         }
 
         Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
@@ -104,7 +104,7 @@ public class EncounterManager : Manager
         Debug.Log("Starting Hex generate for tile " + tile.name + ", nr directions " + tile.availableDirections.Count);
         for (int i = 0; i < 6; i++)
         {
-            if (!tile.availableDirections.Contains(i))
+            if (!tile.availableDirections.Any(x => x == i))
             {
                 Vector3Int v = HexTile.DirectionToDoorEncounter(i);
                 EncounterSlots.Add(v);
@@ -141,7 +141,7 @@ public class EncounterManager : Manager
             enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatNormal;
             enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
-            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
+            tile.AddEncounter(enc, i < tile.availableDirections.Count);
 
             if (enc.coordinates == new Vector3Int(0, 0, 0) && storyEncounter != null)
                 enc.SetStoryEncounter(storyEncounter,tile.storyId);
@@ -203,40 +203,6 @@ public class EncounterManager : Manager
 
         optimizer.SetEncounters(encountersToOptimize, tile.type);
         optimizer.Run();
-        tile.OffsetRotation(true);
-    }
-
-
-
-    public void GenerateBossHexEncounter(HexTile tile)
-    {
-        List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
-
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
-
-        chosenEncountersSlots.Add(Vector3Int.zero);
-
-        for (int i = 0; i < chosenEncountersSlots.Count; i++)
-        {
-            GameObject obj = Instantiate(templateEncounter, tile.encounterParent);
-            Encounter enc = obj.GetComponent<Encounter>();
-            enc.Init();
-            enc.coordinates = chosenEncountersSlots[i];
-            enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatBoss;
-            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
-            enc.tile = tile;
-            tile.AddEncounter(chosenEncountersSlots[i], enc, i < tile.availableDirections.Count);
-        }
-
-        Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
-
-        foreach (Encounter enc in tile.encountersExits)
-        {
-            enc.neighboors.Add(middleEnc);
-            middleEnc.neighboors.Add(enc);
-            EncounterRoad road = AddRoad(enc, middleEnc);
-        }
         tile.OffsetRotation(true);
     }
 

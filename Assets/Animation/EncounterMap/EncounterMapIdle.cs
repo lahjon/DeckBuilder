@@ -7,7 +7,7 @@ public class EncounterMapIdle : EncounterMapAnimator
 {
     bool _highlightedEntries;
 
-    public bool highlightedEntries
+    public bool highlightedChoosable
     {
         get => _highlightedEntries;
         set
@@ -20,10 +20,10 @@ public class EncounterMapIdle : EncounterMapAnimator
         base.Init();
         gridManager.gridState = GridState.Placement;
 
-        if (!highlightedEntries)
+        if (!highlightedChoosable)
         {
-            gridManager.HighlightEntries();
-            highlightedEntries = true;
+            gridManager.HighlightChoosable();
+            highlightedChoosable = true;
         }
 
     }
@@ -31,7 +31,7 @@ public class EncounterMapIdle : EncounterMapAnimator
     {
         if (!animator.GetBool("IsPanning") || animator.GetBool("IsPlacing"))
         {
-            highlightedEntries = false;
+            highlightedChoosable = false;
             //Debug.Log("REMOVING!");
         }
     }
