@@ -21,6 +21,8 @@ MonoBehaviour:
     - 20
   type: 1
   unlocksScenarios: 
+  DescriptionShort: If you could find the remains of the Necromancer, you could find
+    his cache of shards!
   Description: kk
   SegmentDatas:
   - SegmentName: Start

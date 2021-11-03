@@ -21,5 +21,6 @@ MonoBehaviour:
     - 
   type: 1
   unlocksScenarios: 04000000
+  DescriptionShort: asdasd
   Description: kk
   SegmentDatas: []

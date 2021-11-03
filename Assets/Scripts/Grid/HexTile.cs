@@ -10,7 +10,7 @@ public class HexTile : MonoBehaviour
     public Vector3Int coord;
     public List<GridDirection> availableDirections = new List<GridDirection>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
-    static ScenarioMapManager mapManager;
+    public static ScenarioMapManager mapManager;
     static HexMapController hexMapController;
     public List<HexTile> neighbours = new List<HexTile>();
     bool _specialTile;

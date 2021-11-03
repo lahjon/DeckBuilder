@@ -29,8 +29,6 @@ public class EncounterManager : Manager
     {
         base.Start();
         tileSizeInverse = 1 / world.gridManager.hexScale;
-        //encounterParent = canvas.transform.GetChild(0).GetChild(0).gameObject;
-        //roadParent = canvas.transform.GetChild(0).GetChild(1).gameObject;
     }
    
     private Vector3 getPositionNoise(float amplitude)
