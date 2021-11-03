@@ -16,7 +16,7 @@ public class HexTile : MonoBehaviour
     bool _specialTile;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
-    public GridDirection entryDirection; 
+    public GridDirection directionEntry; 
 
     public SpriteRenderer storyMark;
     public SpriteRenderer undiscoveredSpriteRenderer;
@@ -41,22 +41,12 @@ public class HexTile : MonoBehaviour
 
     public static List<Vector3Int> positionsExit = new List<Vector3Int>()
     {
-        new Vector3Int(1, -2, 1),
-        new Vector3Int(2, -1, -1),
-        new Vector3Int(1, 1, -2),
-        new Vector3Int(-1, 2, -1),
-        new Vector3Int(-2, 1, 1),
-        new Vector3Int(-1, -1, 2)
-    };
-
-    public static List<Vector3Int> positionsFixedTile = new List<Vector3Int>()
-    {
-        new Vector3Int(1, -1, 0),
-        new Vector3Int(1, -0, -1),
-        new Vector3Int(0, 1, -1),
-        new Vector3Int(-1, 1, 0),
-        new Vector3Int(-1, 0, 1),
-        new Vector3Int(0, -1, 1)
+        GridDirection.SouthEast + GridDirection.East,
+        GridDirection.East + GridDirection.NorthEast,
+        GridDirection.NorthWest+ GridDirection.NorthEast,
+        GridDirection.NorthEast + GridDirection.West,
+        GridDirection.West + GridDirection.SouthWest,
+        GridDirection.SouthWest + GridDirection.SouthEast
     };
 
     public static List<Vector3Int> positionsInner = new List<Vector3Int>();
@@ -340,26 +330,28 @@ public class HexTile : MonoBehaviour
             {
                 Debug.Log("Startin instant");
                 transform.Rotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + mapManager.rotationAmount));
-                mapManager.rotationAmount = 0;
-                encountersExits.ForEach(x => x.MarkEntryEncounter());
-                encounterEntry.HighlightReachable();
-                MatchRotation();
+                FinishRotation();
             }
             else
             {
                 mapManager.SetButtonsInteractable(false);
                 OffsetRotation();
-                ResetRoadsEncounters();
                 float timer = 0.5f;
                 transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + mapManager.rotationAmount), timer, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
                     mapManager.SetButtonsInteractable(true);
-                    mapManager.rotationAmount = 0;
-                    encountersExits.ForEach(x => x.MarkEntryEncounter());
-                    encounterEntry.HighlightReachable();
-                    MatchRotation();
+                    FinishRotation();
                 });
             }
         }
+    }
+
+    private void FinishRotation()
+    {
+        mapManager.rotationAmount = 0;
+        encountersExits.ForEach(x => x.MarkEntryEncounter());
+        ResetRoadsEncounters();
+        encounterEntry.HighlightReachable();
+        MatchRotation();
     }
 
     public void ResetRoadsEncounters()
@@ -385,7 +377,6 @@ public class HexTile : MonoBehaviour
 
     public void MatchRotation()
     {
-        // have to have this function instead of OnComplete in OffsetRotation because it causes unknown errors
         for (int i = 0; i < encounterParent.childCount; i++)
             encounterParent.GetChild(i).transform.rotation = Quaternion.identity;
     }
@@ -489,7 +480,7 @@ public class HexTile : MonoBehaviour
 
     public void AddNeighboors()
     {
-        foreach (GridDirection dir in ScenarioMapManager.tileDirections)
+        foreach (GridDirection dir in GridDirection.directions)
             if (mapManager.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }

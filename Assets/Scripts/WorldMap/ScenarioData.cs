@@ -12,6 +12,7 @@ public class ScenarioData : ScriptableObject
     public WorldEncounterType type;
     public List<int> unlocksScenarios = new List<int>();
 
+    public string DescriptionShort;
     public string Description; 
 
     public List<ScenarioSegmentData> SegmentDatas = new List<ScenarioSegmentData>();

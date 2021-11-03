@@ -625,6 +625,7 @@ public class DatabaseGoogle
                 if (!string.IsNullOrEmpty(unlockableIDs[s])) data.unlocksScenarios.Add(Int32.Parse(unlockableIDs[s]));
 
             data.Description = (string)gt[i, "Description"];
+            data.DescriptionShort = (string)gt[i, "DescriptionShort"];
 
             data.SegmentDatas.Clear();
 

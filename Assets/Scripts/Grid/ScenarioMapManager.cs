@@ -38,7 +38,7 @@ public class ScenarioMapManager : Manager
     ConditionType conditionType;
     public TMP_Text conditionText;
 
-    public List<HexTile> choosableTiles = new List<HexTile>();
+    public HashSet<HexTile> choosableTiles = new HashSet<HexTile>();
 
     public Encounter finishedEncounterToReport;
 
@@ -66,17 +66,6 @@ public class ScenarioMapManager : Manager
         return allTypes[Random.Range(0, allTypes.Count)];
     }
     
-    
-    public static List<GridDirection> tileDirections = new List<GridDirection>  {
-                                                                new GridDirection(GridDirection.DirectionName.East), 
-                                                                new GridDirection(GridDirection.DirectionName.NorthEast), 
-                                                                new GridDirection(GridDirection.DirectionName.NorthWest), 
-                                                                new GridDirection(GridDirection.DirectionName.West), 
-                                                                new GridDirection(GridDirection.DirectionName.SouthWest), 
-                                                                new GridDirection(GridDirection.DirectionName.SouthEast)
-                                                            };
-
-    List<int> nrDirections = new List<int>() { 0, 1, 2, 3, 4, 5 };
     public int rotateCounter;
     public float rotationAmount;
     public Button buttonRotateLeft, buttonRotateRight, buttonRotateConfirm; 
@@ -201,7 +190,7 @@ public class ScenarioMapManager : Manager
         {
             HexTile tile = GetTile(dir);
             choosableTiles.Add(tile);
-            tile.entryDirection = dir;
+            tile.directionEntry = dir.GetOpposing();
         }
 
         firstTile.tileState = TileState.Completed;
@@ -252,7 +241,7 @@ public class ScenarioMapManager : Manager
             if (currentEnc != null && GetTile(currentTile.coord + dir) is HexTile targetTile)
             {
                 choosableTiles.Add(targetTile);
-                targetTile.entryDirection = dir;
+                targetTile.directionEntry = dir.GetOpposing();
             }
 
             animator.SetBool("IsPlaying", false);
@@ -275,17 +264,10 @@ public class ScenarioMapManager : Manager
         highlightedTiles.Clear();
         if (initialized)
         {
-            if(choosableTiles.Count > 0)
+            foreach(HexTile tile in choosableTiles)
             {
-                choosableTiles.ForEach(x =>
-                {
-                    highlightedTiles.Add(x);
-                    x.tileState = TileState.InactiveHighlight;
-                });
-            }
-            else
-            {
-                AddRandomExit(furthestRowReached);
+                highlightedTiles.Add(tile);
+                tile.tileState = TileState.InactiveHighlight;
             }
         }
     }
@@ -353,7 +335,7 @@ public class ScenarioMapManager : Manager
         if (activeTile != null) activeTile.RotateTile(clockwise);
     }
 
-    public bool TilePlacementValid(HexTile tile) => tile.availableDirections.Contains(tile.entryDirection.GetOpposing());
+    public bool TilePlacementValid(HexTile tile) => tile.availableDirections.Contains(tile.directionEntry);
 
     public HexTile GetTile(Vector3Int cellCoordinate) => tiles.ContainsKey(cellCoordinate) ? tiles[cellCoordinate] : null;
     HexTile GetRandomTile(int row = 0)

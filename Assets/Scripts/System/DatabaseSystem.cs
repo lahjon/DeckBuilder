@@ -159,7 +159,7 @@ public class DatabaseSystem : MonoBehaviour
         return data;
     }
 
-    public EncounterDataRandomEvent GetRndEncounterEvent()
+    public EncounterDataRandomEvent GetRndEncounterChoice()
     {
         if (!encountersEventToDraw.Any()) ResetEncountersEventToDraw();
         int id = Random.Range(0, encountersEventToDraw.Count);
