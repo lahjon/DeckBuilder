@@ -37,10 +37,10 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (data != null) perkData = data;
             initialized = true;
-            image.sprite = perkData.activeArtwork;
+            image.sprite = perkData.artwork;
             characterClassType = perkData.characterClassType;
             effect = Effect.GetEffect(gameObject, perkData.effect);
-            perkName.text = data.perkName;
+            perkName.text = data.itemName;
             if (activate) Activated = true;
         }
     }
@@ -50,7 +50,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (!appliedEffect) effect?.AddEffect();
 
         appliedEffect = true;
-        image.sprite = perkData.activeArtwork;
+        image.sprite = perkData.artwork;
         //button.interactable = true;
         image.material.SetInt("Active", 1);
     }

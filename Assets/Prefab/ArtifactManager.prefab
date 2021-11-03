@@ -292,10 +292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fdac4f309b75b94b9016142d41152e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allArtifacts:
-  - {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
-  - {fileID: 11400000, guid: 84ec7dad53ad7e542a93ed3f63d8ad1d, type: 2}
-  - {fileID: 11400000, guid: 17c70f991f2f42b49992d81cfb67995f, type: 2}
-  - {fileID: 11400000, guid: 173c177d050afff4587662a691f4677f, type: 2}
-  allActiveArtifactsNames: []
+  allArtifacts: []
+  allActiveArtifactsIds: 
   artifactMenu: {fileID: 8242332177682655122}

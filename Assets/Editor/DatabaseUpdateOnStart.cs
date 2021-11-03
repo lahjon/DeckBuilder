@@ -98,7 +98,7 @@ public static class DatabaseUpdateOnStart
         List<TokenData> tokens = prefab.GetComponent<TokenManager>().tokenDatas;
         tokens.Clear();
 
-        string[] lGuids = AssetDatabase.FindAssets("t:TokenData", new string[] { "Assets/Tokens" });
+        string[] lGuids = AssetDatabase.FindAssets("t:TokenData", new string[] { "Assets/ItemData/Tokens" });
 
 
         for (int i = 0; i < lGuids.Length; i++)

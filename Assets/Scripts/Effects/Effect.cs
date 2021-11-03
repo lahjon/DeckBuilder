@@ -19,7 +19,7 @@ public abstract class Effect : MonoBehaviour
         /// create the effects in the format "EffectName" </summary>
 
         string effectName = string.Format("Effect" + name);
-        Debug.Log("Adding effect with name: " + effectName);
+        // Debug.Log("Adding effect with name: " + effectName);
         Effect effect = (Effect)obj.AddComponent(Type.GetType(effectName));
         //effect.Init();
 

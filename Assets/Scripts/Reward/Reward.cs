@@ -39,7 +39,6 @@ public class Reward : MonoBehaviour, IToolTipable
         {
             case RewardType.Gold:
                 RewardGold(aValue);
-
                 break;
             case RewardType.Shard:
                 RewardShard(aValue);
@@ -49,6 +48,9 @@ public class Reward : MonoBehaviour, IToolTipable
                 break;
             case RewardType.Card:
                 RewardCard(aValue);
+                break;
+            case RewardType.Perk:
+                RewardPerk(aValue);
                 break;
             case RewardType.Item:
                 RewardItem(aValue);
@@ -150,7 +152,22 @@ public class Reward : MonoBehaviour, IToolTipable
         rewardText.text = "Card";
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
 
-        callback = () => WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCard.GetComponent<RewardScreenCardSelection>().SetupRewards(GetCardData(value));
+        callback = () => WorldSystem.instance.rewardManager.rewardScreenCardSelection.SetupRewards(GetCardData(value));
+    }
+
+    public void RewardPerk(string[] value)
+    {
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.menuManager.menuCharacter.GetPerkById(Int32.Parse(value[0])) : null;
+        if (itemData == null)
+        {
+            Debug.LogWarning("No Perk found!");
+            return;
+        }
+
+        rewardText.text = "Perk";
+        image.sprite = WorldSystem.instance.rewardManager.icons[3];
+
+        callback = () => Debug.LogError("No Reward Implemented!");
     }
 
     public void RewardUnlockCard(string[] value)

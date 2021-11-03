@@ -10,7 +10,7 @@ public class ScenarioData : ScriptableObject
     public ScenarioDifficulty difficulty;
     public RewardStruct rewardStruct;
     public WorldEncounterType type;
-    public List<ScenarioData> unlocksScenarios = new List<ScenarioData>();
+    public List<int> unlocksScenarios = new List<int>();
 
     public string Description; 
 

@@ -12,16 +12,16 @@ public class WorldMapConfirmWindow : MonoBehaviour
     public void OpenConfirmWindow(Scenario worldEncounter)
     {
         gameObject.SetActive(true);
-        if (encounterName.text != worldEncounter.worldEncounterData.ScenarioName)
+        if (encounterName.text != worldEncounter.worldScenarioData.ScenarioName)
         {
             if (encounterReward != null) Destroy(encounterReward.gameObject);
 
-            encounterName.text = worldEncounter.worldEncounterData.ScenarioName;
-            encounterReward = Instantiate(worldEncounter.encounterReward, rewardAnchor).GetComponent<Reward>();
+            encounterName.text = worldEncounter.worldScenarioData.ScenarioName;
+            encounterReward = Instantiate(worldEncounter.scenarioReward, rewardAnchor).GetComponent<Reward>();
             encounterReward.SetWorldReward();
             encounterReward.transform.localPosition = Vector3.zero;
             encounterReward.transform.localScale *= 1.85f;
-            difficultyText.text = worldEncounter.worldEncounterData.difficulty.ToString();
+            difficultyText.text = worldEncounter.worldScenarioData.difficulty.ToString();
             encounterReward.gameObject.SetActive(true);
         }
     }
@@ -48,7 +48,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
         else
         {
             Debug.Log("Debug mode complete encounter");
-            //kod för att klara worldencountern
+            WorldSystem.instance.worldMapManager.CompleteScenario(false);
             WorldSystem.instance.worldMapManager.UpdateMap();
         }
         

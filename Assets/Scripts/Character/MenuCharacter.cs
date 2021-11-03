@@ -32,7 +32,7 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
     {
         if (data == null) return;
         tooltipPanel.SetActive(true);
-        tooltipName.text = data.perkName;
+        tooltipName.text = data.itemName;
         tooltipDescription.text = data.description;
     }
     
@@ -40,6 +40,8 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
     {
         tooltipPanel.SetActive(false);
     }
+
+    public PerkData GetPerkById(int anId) => allPerkDatas.FirstOrDefault(x => anId == x.itemId);
 
     void CreatePerk(PerkData data)
     {
@@ -74,10 +76,10 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
     }
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        allPerkDatas.Where(x => a_SaveData.unlockedPerks.Contains(x.perkId)).ToList().ForEach(x => allEquippedPerksDatas.Add(x));
+        allPerkDatas.Where(x => a_SaveData.unlockedPerks.Contains(x.itemId)).ToList().ForEach(x => allEquippedPerksDatas.Add(x));
     }
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.unlockedPerks = allEquippedPerks.Select(x => x.perkData.perkId).ToList();
+        a_SaveData.unlockedPerks = allEquippedPerks.Select(x => x.perkData.itemId).ToList();
     }
 }
