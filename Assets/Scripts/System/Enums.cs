@@ -457,7 +457,7 @@ public enum OverworldEncounterType
 {
     Start,
     Exit,
-    RandomEvent,
+    Choice,
     Shop,
     CombatNormal = 4,
     CombatElite = 5,

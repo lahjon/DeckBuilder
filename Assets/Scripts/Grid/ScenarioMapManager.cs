@@ -201,7 +201,7 @@ public class ScenarioMapManager : Manager
         {
             HexTile tile = GetTile(dir);
             choosableTiles.Add(tile);
-            tile.entryDirection = dir;
+            tile.directionEntry = dir.GetOpposing();
         }
 
         firstTile.tileState = TileState.Completed;
@@ -252,7 +252,7 @@ public class ScenarioMapManager : Manager
             if (currentEnc != null && GetTile(currentTile.coord + dir) is HexTile targetTile)
             {
                 choosableTiles.Add(targetTile);
-                targetTile.entryDirection = dir;
+                targetTile.directionEntry = dir.GetOpposing();
             }
 
             animator.SetBool("IsPlaying", false);
@@ -355,7 +355,7 @@ public class ScenarioMapManager : Manager
         if (activeTile != null) activeTile.RotateTile(clockwise);
     }
 
-    public bool TilePlacementValid(HexTile tile) => tile.availableDirections.Contains(tile.entryDirection.GetOpposing());
+    public bool TilePlacementValid(HexTile tile) => tile.availableDirections.Contains(tile.directionEntry);
 
     public HexTile GetTile(Vector3Int cellCoordinate) => tiles.ContainsKey(cellCoordinate) ? tiles[cellCoordinate] : null;
     HexTile GetRandomTile(int row = 0)

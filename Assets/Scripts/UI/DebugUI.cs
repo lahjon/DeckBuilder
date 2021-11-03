@@ -143,7 +143,7 @@ public class DebugUI : MonoBehaviour
             return;
         }
         WorldSystem.instance.uiManager.encounterUI.encounterData = data;
-        WorldStateSystem.SetInEvent(true);
+        WorldStateSystem.SetInChoice(true);
         WorldSystem.instance.uiManager.encounterUI.StartEncounter();
     }
 

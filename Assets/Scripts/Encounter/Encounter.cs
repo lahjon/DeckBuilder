@@ -48,9 +48,9 @@ public class Encounter : MonoBehaviour
         set
         {
             _highlighted = value;
+            CancelAnimation();
             if (_highlighted)
             {
-                CancelAnimation();
                 if (_status == EncounterHexStatus.Selectable)
                     AnimateEncounterHighlight();
                 else
@@ -58,7 +58,6 @@ public class Encounter : MonoBehaviour
             }
             else
             {
-                CancelAnimation();
                 if (_status == EncounterHexStatus.Selectable)
                     AnimateEncounter();
                 else
@@ -154,6 +153,7 @@ public class Encounter : MonoBehaviour
 
     public void HighlightReachable()
     {
+        //EncounterHexStatus origStatus = status;
         status = EncounterHexStatus.Visited; // needed when overworld map is just testing rotations
         HashSet<Encounter> reachable = FindAllReachableNodes(this);
 
@@ -177,6 +177,7 @@ public class Encounter : MonoBehaviour
             }
         }
 
+        //status = origStatus;
     }
 
     public static HashSet<Encounter> FindAllReachableNodes(Encounter enc)
@@ -206,19 +207,13 @@ public class Encounter : MonoBehaviour
 
     public void MarkEntryEncounter()
     {
-        //Debug.Log(HexTile.positionsExit[tile.encountersExits[this]]);
-        //Debug.Log(tile.entryDir);
-        if (tile.exitEncToDirection[this].IsOpposing(tile.entryDirection))
+        if (tile.exitEncToDirection[this].Equals(tile.directionEntry))
         {
-            AnimateEncounter();
             tile.encounterEntry = this;
             encounterType = OverworldEncounterType.Start;
         }
         else
-        {
             encounterType = OverworldEncounterType.Exit;
-        }
-
     }
 
 
@@ -285,7 +280,7 @@ public class Encounter : MonoBehaviour
     {
         storyID = null;
         encData = null;
-        encounterType = OverworldEncounterType.RandomEvent;
+        encounterType = OverworldEncounterType.Choice;
     }
 
     public void StartEncounter()
@@ -301,7 +296,7 @@ public class Encounter : MonoBehaviour
             else if(encData is EncounterDataRandomEvent encEvent)
             {
                 WorldSystem.instance.uiManager.encounterUI.encounterData = encEvent;
-                WorldStateSystem.SetInEvent(true);
+                WorldStateSystem.SetInChoice(true);
             }
         }
 
@@ -316,9 +311,9 @@ public class Encounter : MonoBehaviour
             case OverworldEncounterType.Shop:
                 WorldStateSystem.SetInOverworldShop(true);
                 break;
-            case OverworldEncounterType.RandomEvent:
-                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterEvent();
-                WorldStateSystem.SetInEvent(true);
+            case OverworldEncounterType.Choice:
+                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterChoice();
+                WorldStateSystem.SetInChoice(true);
                 break;
             case OverworldEncounterType.Exit:
                 WorldSystem.instance.gridManager.CompleteCurrentTile();

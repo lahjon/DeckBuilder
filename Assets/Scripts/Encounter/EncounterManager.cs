@@ -66,7 +66,7 @@ public class EncounterManager : Manager
     {
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
 
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x.nr)));
+        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
 
         chosenEncountersSlots.Add(Vector3Int.zero);
 

@@ -126,6 +126,8 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public IEnumerator SetupNextSegments()
     {
+        if (nextStorySegments.Count == 0) completed = true;
+
         Debug.Log("Setup next segments: " + nextStorySegments.Count);
         for(int i = 0; i < nextStorySegments.Count;i++)
         {

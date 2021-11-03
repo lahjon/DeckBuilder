@@ -16,7 +16,7 @@ public class HexTile : MonoBehaviour
     bool _specialTile;
     [HideInInspector] public SpriteRenderer spriteRenderer;
 
-    public GridDirection entryDirection; 
+    public GridDirection directionEntry; 
 
     public SpriteRenderer storyMark;
     public SpriteRenderer undiscoveredSpriteRenderer;
@@ -340,26 +340,28 @@ public class HexTile : MonoBehaviour
             {
                 Debug.Log("Startin instant");
                 transform.Rotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + mapManager.rotationAmount));
-                mapManager.rotationAmount = 0;
-                encountersExits.ForEach(x => x.MarkEntryEncounter());
-                encounterEntry.HighlightReachable();
-                MatchRotation();
+                FinishRotation();
             }
             else
             {
                 mapManager.SetButtonsInteractable(false);
                 OffsetRotation();
-                ResetRoadsEncounters();
                 float timer = 0.5f;
                 transform.DORotate(new Vector3(0, 0, transform.localRotation.eulerAngles.z + mapManager.rotationAmount), timer, RotateMode.FastBeyond360).SetEase(Ease.InExpo).OnComplete(() => {
                     mapManager.SetButtonsInteractable(true);
-                    mapManager.rotationAmount = 0;
-                    encountersExits.ForEach(x => x.MarkEntryEncounter());
-                    encounterEntry.HighlightReachable();
-                    MatchRotation();
+                    FinishRotation();
                 });
             }
         }
+    }
+
+    private void FinishRotation()
+    {
+        mapManager.rotationAmount = 0;
+        encountersExits.ForEach(x => x.MarkEntryEncounter());
+        ResetRoadsEncounters();
+        encounterEntry.HighlightReachable();
+        MatchRotation();
     }
 
     public void ResetRoadsEncounters()
@@ -385,7 +387,6 @@ public class HexTile : MonoBehaviour
 
     public void MatchRotation()
     {
-        // have to have this function instead of OnComplete in OffsetRotation because it causes unknown errors
         for (int i = 0; i < encounterParent.childCount; i++)
             encounterParent.GetChild(i).transform.rotation = Quaternion.identity;
     }

@@ -16,7 +16,7 @@ public class HexOptimizer
     public int targetScore = 0;
 
     public OverworldEncounterType[] types = {
-        OverworldEncounterType.RandomEvent,
+        OverworldEncounterType.Choice,
         OverworldEncounterType.CombatNormal,
         OverworldEncounterType.CombatElite,
         OverworldEncounterType.Bonfire,
@@ -28,7 +28,7 @@ public class HexOptimizer
 
     public List<OverworldEncounterType> commons = new List<OverworldEncounterType>() {
         OverworldEncounterType.CombatNormal,
-        OverworldEncounterType.RandomEvent
+        OverworldEncounterType.Choice
     };
 
     public List<OverworldEncounterType> uncommons = new List<OverworldEncounterType>() {
