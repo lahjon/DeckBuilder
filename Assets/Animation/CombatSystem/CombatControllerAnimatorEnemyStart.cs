@@ -13,22 +13,14 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         combat.combatOverlay.AnimateEnemyTurn();
         combat.actorTurn = CombatActorTypes.Enemy;
 
-        enemy = combat.enemiesWaiting.Dequeue();
-        combat.ActiveActor = enemy;
-        combat.InProcessCard = enemy.hand;
-        combat.InProcessTarget = combat.Hero;
         combat.StartCoroutine(EnemyTurn());
     }
 
 
     public IEnumerator EnemyTurn()
     {
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
-        enemy.ShowMoveDisplay(false);
-        for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
-            yield return combat.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
-
-        combat.animator.SetTrigger("EnemyPlayCard");
+        yield return new WaitForSeconds(.5f);
+        combat.animator.SetTrigger("EnemyTurnStart");
     }
  
 

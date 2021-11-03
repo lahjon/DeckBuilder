@@ -7371,7 +7371,39 @@ MonoBehaviour:
   encounterUI: {fileID: 0}
   debugUI: {fileID: 347953519859478627}
   escapeMenu: {fileID: 347953519846195028}
-  namedEffectIcons: []
+  namedEffectIcons:
+  - name: Barricade
+    sprite: {fileID: 21300000, guid: 65b12d49f1b4630438027b2122a366f4, type: 3}
+  - name: Block
+    sprite: {fileID: 21300000, guid: 09c1c92591f02f7489bb2cfc53286b82, type: 3}
+  - name: Challenge
+    sprite: {fileID: 21300000, guid: 668cb9c1f148a234cb6ae299b9671a36, type: 3}
+  - name: Confused
+    sprite: {fileID: 21300000, guid: bc24c488d02c2814aa8eb5f2a6f346ed, type: 3}
+  - name: Damage
+    sprite: {fileID: 21300000, guid: 5992a4cbdf6ded34c8745c56835e5222, type: 3}
+  - name: DamageWithEffect
+    sprite: {fileID: 21300000, guid: 20f66431b4865fe4dac24a1ccbe23fa1, type: 3}
+  - name: Dazed
+    sprite: {fileID: 21300000, guid: 376c0bb365ba4034196b58f37410e6a4, type: 3}
+  - name: Envenom
+    sprite: {fileID: 21300000, guid: 86aa6f7c28398ea4ea93421f1b3f7868, type: 3}
+  - name: Poison
+    sprite: {fileID: 21300000, guid: 7d5d02684ea1a8f44ad4047d6cc4ade6, type: 3}
+  - name: Spiked
+    sprite: {fileID: 21300000, guid: 5171040f72e3c744fb277a838d0e17d5, type: 3}
+  - name: Splice
+    sprite: {fileID: 21300000, guid: 0e7a1753883b6da47a523712e5ac11ea, type: 3}
+  - name: Strength
+    sprite: {fileID: 21300000, guid: 6f021c04763616b4e98b5e9f5851b899, type: 3}
+  - name: StrengthTemp
+    sprite: {fileID: 21300000, guid: 2c1494bf3f99da44d9fd3acf03af151a, type: 3}
+  - name: Thorns
+    sprite: {fileID: 21300000, guid: a6236c64064ece542af152759e418864, type: 3}
+  - name: Vulnerable
+    sprite: {fileID: 21300000, guid: 0f54148581f0974478c5f762be97ab47, type: 3}
+  - name: Weak
+    sprite: {fileID: 21300000, guid: e6bfada06c20ed94d97a9f6652c6bbd3, type: 3}
 --- !u!1 &347953518847618314
 GameObject:
   m_ObjectHideFlags: 0

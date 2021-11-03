@@ -177,7 +177,7 @@ public static class DatabaseUpdateOnStart
         UIManager manager = prefab.GetComponent<UIManager>();
         manager.namedEffectIcons.Clear();
 
-        string[] lGuids = AssetDatabase.FindAssets("t:Sprite", new string[] { "Assets/Artwork/Effects" });
+        string[] lGuids = AssetDatabase.FindAssets("t:Sprite", new string[] { "Assets/Art/Artwork/Effects" });
 
         for (int i = 0; i < lGuids.Length; i++)
         {
