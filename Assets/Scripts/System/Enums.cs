@@ -153,11 +153,9 @@ public enum CardLocation
 public enum TileState
 {
     Inactive,
-    Inventory,
     Placement,
     InactiveHighlight,
     Current,
-    Active,
     Completed,
     Animation
 }

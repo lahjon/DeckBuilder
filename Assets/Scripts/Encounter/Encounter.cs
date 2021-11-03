@@ -87,7 +87,8 @@ public class Encounter : MonoBehaviour
             {
                 spriteRenderer.color = new Color(.8f, .8f, .8f);
                 foreach (EncounterRoad road in roads)
-                    road.status = EncounterRoadStatus.Unreachable;
+                    if(road.status == EncounterRoadStatus.Idle)
+                        road.status = EncounterRoadStatus.Unreachable;
             }
             else
                 spriteRenderer.color = Color.white;
@@ -171,6 +172,7 @@ public class Encounter : MonoBehaviour
         {
             foreach (EncounterRoad road in enc.roads)
             {
+                if (road.status == EncounterRoadStatus.Traversed) continue;
                 Encounter otherEnc = road.OtherEnd(enc);
                 if (otherEnc.status == EncounterHexStatus.Visited && otherEnc != this)
                     road.status = EncounterRoadStatus.Unreachable;
