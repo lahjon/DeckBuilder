@@ -278,7 +278,7 @@ public class DatabaseGoogle
 
     public void BindArt(CardData cardData, string name)
     {
-        string folder = @"Assets/Artwork/Cards/";
+        string folder = @"Assets/Art/Artwork/Cards/";
         Sprite artWork = (Sprite)AssetDatabase.LoadAssetAtPath<Sprite>(folder + name + ".png");
 
         if (artWork is null)
@@ -296,7 +296,7 @@ public class DatabaseGoogle
 
     public void BindCharacterModel(EnemyData enemyData)
     {
-        string folder = @"Assets/Artwork/Enemies/";
+        string folder = @"Assets/Art/Artwork/Enemies/";
         string name = enemyData.name;
         GameObject artWork = AssetDatabase.LoadAssetAtPath<GameObject>(folder + name + @"/" + name + "_Complete.prefab");
 

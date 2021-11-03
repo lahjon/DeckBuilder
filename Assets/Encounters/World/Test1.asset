@@ -21,5 +21,6 @@ MonoBehaviour:
     - 
   type: 1
   unlocksScenarios: 03000000
+  DescriptionShort: BABAB
   Description: kk
   SegmentDatas: []
