@@ -24,11 +24,7 @@ public class WorldEncounterTooltip : MonoBehaviour
             encounterReward.SetWorldReward();
 
             transform.position = worldEncounter.transform.position + new Vector3(0, encounterReward.GetComponent<RectTransform>().sizeDelta.x + 1, 0);;
-<<<<<<< HEAD
             descriptionText.text = worldEncounter.worldScenarioData.Description;
-=======
-            descriptionText.text = worldEncounter.worldEncounterData.DescriptionShort;
->>>>>>> 5580eb90ed9690b7db8cfdcaacc4c572a3da1a8d
             encounterReward.transform.localScale *= 1.85f;
             difficultyText.text = worldEncounter.worldScenarioData.difficulty.ToString();
             encounterReward.gameObject.SetActive(true);
