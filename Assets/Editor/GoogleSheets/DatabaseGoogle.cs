@@ -629,6 +629,7 @@ public class DatabaseGoogle
             }
 
             data.Description = (string)gt[i, "Description"];
+            data.DescriptionShort = (string)gt[i, "DescriptionShort"];
 
             data.SegmentDatas.Clear();
 

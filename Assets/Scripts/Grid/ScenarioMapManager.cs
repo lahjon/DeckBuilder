@@ -72,7 +72,7 @@ public class ScenarioMapManager : Manager
                                                                 new GridDirection(GridDirection.DirectionName.NorthEast), 
                                                                 new GridDirection(GridDirection.DirectionName.NorthWest), 
                                                                 new GridDirection(GridDirection.DirectionName.West), 
-                                                                new GridDirection(GridDirection.DirectionName.SouthWest), 
+                                                                GridDirection.SouthEast, 
                                                                 new GridDirection(GridDirection.DirectionName.SouthEast)
                                                             };
 
