@@ -35,6 +35,8 @@ public class HexTile : MonoBehaviour
     public TileBiome tileBiome;
     public TileType type;
 
+    public bool encountersSelectable = false;
+
     public Dictionary<Vector3Int, Encounter> posToEncounter = new Dictionary<Vector3Int, Encounter>();
     public Dictionary<Vector3Int, Encounter> posToEncounterExit = new Dictionary<Vector3Int, Encounter>();
     public Dictionary<Encounter, GridDirection> exitEncToDirection = new Dictionary<Encounter, GridDirection>();
@@ -43,8 +45,8 @@ public class HexTile : MonoBehaviour
     {
         GridDirection.SouthEast + GridDirection.East,
         GridDirection.East + GridDirection.NorthEast,
-        GridDirection.NorthWest+ GridDirection.NorthEast,
-        GridDirection.NorthEast + GridDirection.West,
+        GridDirection.NorthEast + GridDirection.NorthWest,
+        GridDirection.NorthWest + GridDirection.West,
         GridDirection.West + GridDirection.SouthWest,
         GridDirection.SouthWest + GridDirection.SouthEast
     };
@@ -347,11 +349,12 @@ public class HexTile : MonoBehaviour
 
     private void FinishRotation()
     {
+        ResetRoadsEncounters();
         mapManager.rotationAmount = 0;
         encountersExits.ForEach(x => x.MarkEntryEncounter());
-        ResetRoadsEncounters();
-        encounterEntry.HighlightReachable();
+        encounterEntry.HighlightReachable(true);
         MatchRotation();
+        encounterEntry.status = EncounterHexStatus.Selectable;
     }
 
     public void ResetRoadsEncounters()

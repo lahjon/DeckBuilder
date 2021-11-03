@@ -151,10 +151,10 @@ public class Encounter : MonoBehaviour
             StartEncounter();
     }
 
-    public void HighlightReachable()
+    public void HighlightReachable(bool silentCheck = false)
     {
-        //EncounterHexStatus origStatus = status;
-        status = EncounterHexStatus.Visited; // needed when overworld map is just testing rotations
+        EncounterHexStatus origStatus = status;
+        _status = EncounterHexStatus.Visited; // needed when overworld map is just testing rotations
         HashSet<Encounter> reachable = FindAllReachableNodes(this);
 
         foreach (Encounter enc in tile.encounters)
@@ -162,7 +162,7 @@ public class Encounter : MonoBehaviour
             if (enc == this) continue; 
 
             if (reachable.Contains(enc))
-                enc.status = neighboors.Contains(enc) ? EncounterHexStatus.Selectable : EncounterHexStatus.Idle;
+                enc.status = !silentCheck && neighboors.Contains(enc) ? EncounterHexStatus.Selectable : EncounterHexStatus.Idle;
             else if (enc.status != EncounterHexStatus.Unreachable)
                 enc.status = EncounterHexStatus.Unreachable;
         }
@@ -177,7 +177,7 @@ public class Encounter : MonoBehaviour
             }
         }
 
-        //status = origStatus;
+        _status = origStatus;
     }
 
     public static HashSet<Encounter> FindAllReachableNodes(Encounter enc)
@@ -230,7 +230,7 @@ public class Encounter : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (status != EncounterHexStatus.Selectable) return;
+        if (tile.tileState != TileState.Current || status != EncounterHexStatus.Selectable) return;
         //Debug.Log("starting click");
         StartCoroutine(Entering());
     }
