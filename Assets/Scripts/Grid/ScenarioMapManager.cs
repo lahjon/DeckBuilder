@@ -106,10 +106,10 @@ public class ScenarioMapManager : Manager
     public void CheckClearCondition()
     {
         // each time the map enters idle this checks to see if the condition from the world encounter is completed
-        if (WorldSystem.instance.worldMapManager.currentWorldEncounter is Scenario enc && enc.completed)
+        if (WorldSystem.instance.worldMapManager.currentWorldScenario is Scenario enc && enc.completed)
         {
             DeleteMap();
-            WorldStateSystem.SetInTown(true);
+            
         }
     }
   
@@ -211,7 +211,7 @@ public class ScenarioMapManager : Manager
 
         HighlightChoosable();
 
-        WorldSystem.instance.worldMapManager.currentWorldEncounter?.SetupInitialSegments();
+        WorldSystem.instance.worldMapManager.currentWorldScenario?.SetupInitialSegments();
         hexMapController.enableInput = true;
     }
 
@@ -256,8 +256,6 @@ public class ScenarioMapManager : Manager
             }
 
             animator.SetBool("IsPlaying", false);
-
-            CheckClearCondition();
         }
     }
     
