@@ -10,7 +10,7 @@ public class HexTile : MonoBehaviour
     public Vector3Int coord;
     public List<GridDirection> availableDirections = new List<GridDirection>();
     public List<SpriteRenderer> exits = new List<SpriteRenderer>();
-    static ScenarioMapManager mapManager;
+    public static ScenarioMapManager mapManager;
     static HexMapController hexMapController;
     public List<HexTile> neighbours = new List<HexTile>();
     bool _specialTile;
@@ -128,11 +128,8 @@ public class HexTile : MonoBehaviour
             _tileState = value;
             colorTween?.Kill();
 
-            if (_tileState == TileState.Active)
-            {
-                Debug.Log("Not used atm");
-            }
-            else if (_tileState == TileState.Completed)
+
+            if (_tileState == TileState.Completed)
             {
                 if (!mapManager.completedTiles.Contains(this))
                 {
@@ -400,13 +397,19 @@ public class HexTile : MonoBehaviour
         StartCoroutine(encounterEntry.Entering());
     }
 
-    void Highlight(bool turnOn)
+    void Highlight(bool turnOn, HexTile tileTargeted)
     {
-        if(turnOn ^ highlightedPrimary)
+        if (turnOn)
         {
-            highlightedPrimary = turnOn;
-            if (tileState == TileState.InactiveHighlight && mapManager.highlightedTiles.Contains(this))
+            if (this == tileTargeted)
+                highlightedPrimary = turnOn;
+            else
                 highlightedSecondary = turnOn;
+        }
+        else
+        {
+            highlightedPrimary = false;
+            highlightedSecondary = false;
         }
     }
 
@@ -417,11 +420,27 @@ public class HexTile : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        if (!hexMapController.disablePanning && hexMapController.zoomStep != 0)
-            Highlight(true);
+        if (hexMapController.disablePanning || hexMapController.zoomStep == 0) return;
+
+        if (tileState == TileState.InactiveHighlight)
+        {
+            foreach (HexTile tile in mapManager.choosableTiles)
+                tile.Highlight(true, this);
+        }
+        else
+            Highlight(true,this);
     }
 
-    void OnMouseExit() => Highlight(false);
+    void OnMouseExit()
+    {
+        if (tileState == TileState.InactiveHighlight)
+        {
+            foreach (HexTile tile in mapManager.choosableTiles)
+                tile.Highlight(false, this);
+        }
+        else
+            Highlight(false, this);
+    }
 
     public static void EncountersInitializePositions(int gridWidth)
     {

@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class EncounterRoad : MonoBehaviour
 {
+    private static Color colTraversed = new Color(1.0f, 0.75f, 0.75f);
+    private static Color colUnreachable = new Color(0.3f, 0.3f, 0.3f);
+    private static Color colIdle = new Color(1f, 1f, 1f);
+
+
+
     public GameObject roadSegmentTemplate;
     private EncounterRoadStatus _status = EncounterRoadStatus.Idle;
     public EncounterRoadStatus status { get { return _status; } set{
             _status = value;
             if (value == EncounterRoadStatus.Traversed)
-                roadSprites.ForEach(x => x.color = Color.white);
+                roadSprites.ForEach(x => x.color =colTraversed);
             else if (value == EncounterRoadStatus.Unreachable)
-                roadSprites.ForEach(x => x.color = Color.gray);
+                roadSprites.ForEach(x => x.color = colUnreachable);
             else
-                roadSprites.ForEach(x => x.color = Color.white);
+                roadSprites.ForEach(x => x.color = colIdle);
         } 
     }
 
@@ -28,13 +34,13 @@ public class EncounterRoad : MonoBehaviour
 
     public IEnumerator AnimateTraverseRoad(Encounter hex)
     {
+        _status = EncounterRoadStatus.Traversed;
         if (hex != toEnc) roadSprites.Reverse();
         foreach (SpriteRenderer r in roadSprites)
         {
-            r.color = Color.white;
+            r.color = colTraversed;
             yield return new WaitForSeconds(0.10f);
         }
-        _status = EncounterRoadStatus.Traversed;
         yield return null;
     }
 

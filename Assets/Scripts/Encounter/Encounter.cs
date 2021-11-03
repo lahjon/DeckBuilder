@@ -87,7 +87,8 @@ public class Encounter : MonoBehaviour
             {
                 spriteRenderer.color = new Color(.8f, .8f, .8f);
                 foreach (EncounterRoad road in roads)
-                    road.status = EncounterRoadStatus.Unreachable;
+                    if(road.status == EncounterRoadStatus.Idle)
+                        road.status = EncounterRoadStatus.Unreachable;
             }
             else
                 spriteRenderer.color = Color.white;
@@ -128,19 +129,19 @@ public class Encounter : MonoBehaviour
         status = EncounterHexStatus.Visited;
         Encounter previous = WorldSystem.instance.encounterManager.currentEncounter;
 
-        if (encounterType == OverworldEncounterType.Start && previous != null)
+        if (encounterType == OverworldEncounterType.Start)
         {
-            EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(previous, this, true);
+            HexTile prevTile = HexTile.mapManager.GetTile(tile.coord + tile.directionEntry);
+            Encounter prevEnc = prevTile.encountersExits.Where(x => prevTile.exitEncToDirection[x].IsOpposing(tile.directionEntry)).FirstOrDefault();
+            EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(prevEnc, this, true);
             yield return StartCoroutine(intraHexRoad.AnimateTraverseRoad(this));
         }
-
-        if (previous != null)
+        else if (previous != null)
         {
             previous.SetLeaving();
             foreach (EncounterRoad road in roads)
                 if ((road.fromEnc == this && road.toEnc == previous) || (road.fromEnc == previous && road.toEnc == this))
                     yield return StartCoroutine(road.AnimateTraverseRoad(this));
-                
         }
 
         HighlightReachable();
@@ -171,6 +172,7 @@ public class Encounter : MonoBehaviour
         {
             foreach (EncounterRoad road in enc.roads)
             {
+                if (road.status == EncounterRoadStatus.Traversed) continue;
                 Encounter otherEnc = road.OtherEnd(enc);
                 if (otherEnc.status == EncounterHexStatus.Visited && otherEnc != this)
                     road.status = EncounterRoadStatus.Unreachable;
