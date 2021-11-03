@@ -41,22 +41,12 @@ public class HexTile : MonoBehaviour
 
     public static List<Vector3Int> positionsExit = new List<Vector3Int>()
     {
-        new Vector3Int(1, -2, 1),
-        new Vector3Int(2, -1, -1),
-        new Vector3Int(1, 1, -2),
-        new Vector3Int(-1, 2, -1),
-        new Vector3Int(-2, 1, 1),
-        new Vector3Int(-1, -1, 2)
-    };
-
-    public static List<Vector3Int> positionsFixedTile = new List<Vector3Int>()
-    {
-        new Vector3Int(1, -1, 0),
-        new Vector3Int(1, -0, -1),
-        new Vector3Int(0, 1, -1),
-        new Vector3Int(-1, 1, 0),
-        new Vector3Int(-1, 0, 1),
-        new Vector3Int(0, -1, 1)
+        GridDirection.SouthEast + GridDirection.East,
+        GridDirection.East + GridDirection.NorthEast,
+        GridDirection.NorthWest+ GridDirection.NorthEast,
+        GridDirection.NorthEast + GridDirection.West,
+        GridDirection.West + GridDirection.SouthWest,
+        GridDirection.SouthWest + GridDirection.SouthEast
     };
 
     public static List<Vector3Int> positionsInner = new List<Vector3Int>();
@@ -490,7 +480,7 @@ public class HexTile : MonoBehaviour
 
     public void AddNeighboors()
     {
-        foreach (GridDirection dir in ScenarioMapManager.tileDirections)
+        foreach (GridDirection dir in GridDirection.directions)
             if (mapManager.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }

@@ -128,7 +128,7 @@ public class EncounterManager : Manager
         else
         {
             chosenEncountersSlots.Add(new Vector3Int(0, 0, 0));
-            tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.positionsFixedTile[x]));
+            tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(GridDirection.directions[x]));
         }
 
         for (int i = 0; i < chosenEncountersSlots.Count; i++)
@@ -183,7 +183,7 @@ public class EncounterManager : Manager
             tile.availableDirections.ForEach(x =>
            {
                Encounter n1 = tile.posToEncounter[HexTile.positionsExit[x]];
-               Encounter n2 = tile.posToEncounter[HexTile.positionsFixedTile[x]];
+               Encounter n2 = tile.posToEncounter[GridDirection.directions[x]];
                n1.neighboors.Add(n2); n2.neighboors.Add(n1);
                middle.neighboors.Add(n2); n2.neighboors.Add(middle);
                edges.Add(new EncounterEdge(n1, n2));
