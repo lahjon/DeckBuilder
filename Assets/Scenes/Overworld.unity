@@ -26688,6 +26688,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 68b920c5d4fd23540bc7d6da66986ee3, type: 3}
   - {fileID: 21300000, guid: add4390cbcefe3c4cb9ea10a0eaca707, type: 3}
   - {fileID: 21300000, guid: b4b586b6a96ff56488b4f80fa5f69c86, type: 3}
+  - {fileID: 21300000, guid: 3f01c0fc1aa0f4348a2097df6337211f, type: 3}
   rewardScreenCombat: {fileID: 1764640840}
   rewardScreen: {fileID: 1894293934}
   rewardScreenCardSelection: {fileID: 1186353786}
@@ -27278,7 +27279,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1161349374}
   m_Layer: 0
-  m_Name: Encounters
+  m_Name: Scenarios
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37824,13 +37825,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1901636189}
   actIndex: 0
-  startingEncounters: []
-  worldEncounterPrefab: {fileID: 7095544295134224693, guid: 8bc314406f1061e45968f632b3cacd60, type: 3}
-  encounterParent: {fileID: 1161349374}
-  worldEncounters: []
-  worldEncounterTooltip: {fileID: 2016413690}
+  scenarioParent: {fileID: 1161349374}
+  worldScenarios: []
+  worldScenarioTooltip: {fileID: 2016413690}
   worldMapConfirmWindow: {fileID: 922834138}
-  currentWorldEncounter: {fileID: 433371439}
+  currentWorldScenario: {fileID: 0}
 --- !u!1001 &1647991983
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41710,6 +41709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCompanionData: {fileID: 11400000, guid: 403cc6d43442a9942b9a3bd4d9c8eed8, type: 2}
+  unlockedCompanions: 
 --- !u!1 &1764640838
 GameObject:
   m_ObjectHideFlags: 0
@@ -50806,8 +50806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: 4, z: -4}
-  availableDirections: 0400000003000000050000000000000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 5669282013913267717}
   - {fileID: 2393205580335251606}
@@ -50819,9 +50818,11 @@ MonoBehaviour:
   - {fileID: 5235799260088812722}
   - {fileID: 5517825663968915991}
   - {fileID: 1759252340798755432}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8624908538556072044}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 8060013427441283607}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4403852065539618949}
@@ -50829,6 +50830,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -50985,8 +50987,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: 3, z: -2}
-  availableDirections: 04000000020000000300000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8078407843090887379}
   - {fileID: 8361363613177399126}
@@ -51001,9 +51002,11 @@ MonoBehaviour:
   - {fileID: 6202457887538213702}
   - {fileID: 1667959459728649228}
   - {fileID: 8040215617448832803}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 4129391759336285622}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 8846252465906336742}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6257101836182432596}
@@ -51011,6 +51014,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -53715,8 +53719,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -4, y: 1, z: 3}
-  availableDirections: 02000000000000000300000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 9109658176335024683}
   - {fileID: 4591287437456139876}
@@ -53729,9 +53732,11 @@ MonoBehaviour:
   - {fileID: 6797812328142946773}
   - {fileID: 6277485384665235798}
   - {fileID: 8318540717408279789}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 2517794757737422006}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 7347576765475988439}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6056736175159399958}
@@ -53739,6 +53744,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -56840,8 +56846,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 4, y: -4, z: 0}
-  availableDirections: 0000000002000000040000000500000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 3869440628485780776}
   - {fileID: 1422303182866513442}
@@ -56853,9 +56858,11 @@ MonoBehaviour:
   - {fileID: 4194801097117794941}
   - {fileID: 6105722879199819273}
   - {fileID: 6369216263134977728}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1866747538550454041}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 715681890448848204}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4842017752267122604}
@@ -56863,6 +56870,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -57565,8 +57573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 3, y: -2, z: -1}
-  availableDirections: 0400000005000000020000000300000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2101038162409084355}
   - {fileID: 3908484440409367441}
@@ -57581,9 +57588,11 @@ MonoBehaviour:
   - {fileID: 3364548419509785316}
   - {fileID: 1874736088832141401}
   - {fileID: 6105722879199819273}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 758557372213045957}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5571264351477994226}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4569797085518714721}
@@ -57591,6 +57600,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -59985,8 +59995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: -2, z: 4}
-  availableDirections: 00000000010000000400000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2736272229983825915}
   - {fileID: 3917840569402675871}
@@ -59999,9 +60008,11 @@ MonoBehaviour:
   - {fileID: 5730588954908991049}
   - {fileID: 2599765098353793255}
   - {fileID: 8183306239207873871}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8946814482752339008}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3694596648198440871}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5734325285332354568}
@@ -60009,6 +60020,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -60248,8 +60260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: 3, z: -1}
-  availableDirections: 0200000005000000040000000100000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2629829272347327847}
   - {fileID: 6684636817383559689}
@@ -60264,9 +60275,11 @@ MonoBehaviour:
   - {fileID: 7448120636202053660}
   - {fileID: 7082367038738189514}
   - {fileID: 4831474360674652613}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 172557350078639985}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 7110322542577007621}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7618720413540000284}
@@ -60274,6 +60287,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -60679,8 +60693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: 3, z: -3}
-  availableDirections: 0200000004000000000000000100000005000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 6867774321904340470}
   - {fileID: 3847218432928165471}
@@ -60695,9 +60708,11 @@ MonoBehaviour:
   - {fileID: 5517825663968915991}
   - {fileID: 249580450947488224}
   - {fileID: 4489267070039454798}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 2440680674233847895}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 1791770422283819965}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2321866783346200202}
@@ -60705,6 +60720,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -61480,8 +61496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: -2, z: 0}
-  availableDirections: 02000000010000000500000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4752935448005642172}
   - {fileID: 534195275772722342}
@@ -61496,9 +61511,11 @@ MonoBehaviour:
   - {fileID: 3302918342335527252}
   - {fileID: 2431906011382178338}
   - {fileID: 5727240209362944938}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 4198913410777892704}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3725009103060666246}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8173845245442807217}
@@ -61506,6 +61523,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -61591,8 +61609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: -4, z: 3}
-  availableDirections: 0100000000000000030000000400000005000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 6035470503709098383}
   - {fileID: 8301650186499092921}
@@ -61605,9 +61622,11 @@ MonoBehaviour:
   - {fileID: 8732325702344389236}
   - {fileID: 8140383264544761939}
   - {fileID: 4939480447905110404}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8708126069368847192}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 8263264737745248232}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3099282045966696838}
@@ -61615,6 +61634,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -61648,8 +61668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 4, y: 0, z: -4}
-  availableDirections: 0000000003000000050000000200000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1096329071621860475}
   - {fileID: 7998650256180463481}
@@ -61661,9 +61680,11 @@ MonoBehaviour:
   - {fileID: 9145307085613868658}
   - {fileID: 2649289950198211726}
   - {fileID: 6311929000331132019}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1841524567793855897}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2673508562342321451}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5739531025677274607}
@@ -61671,6 +61692,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -63010,8 +63032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: -3, z: 4}
-  availableDirections: 0300000001000000040000000000000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2270421415447496458}
   - {fileID: 2523435895278789956}
@@ -63024,9 +63045,11 @@ MonoBehaviour:
   - {fileID: 8140383264544761939}
   - {fileID: 5730588954908991049}
   - {fileID: 1651580216864847265}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 2590228990584229119}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 102038366049140513}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2653314936101556746}
@@ -63034,6 +63057,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -63258,8 +63282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -3, y: 0, z: 3}
-  availableDirections: 01000000050000000000000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4724837910946400399}
   - {fileID: 8734937605690245826}
@@ -63274,9 +63297,11 @@ MonoBehaviour:
   - {fileID: 383780727592260365}
   - {fileID: 8318540717408279789}
   - {fileID: 8183306239207873871}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5974315746407697391}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4961377970532618578}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4977782172813999421}
@@ -63284,6 +63309,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -65575,8 +65601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: -2, z: 2}
-  availableDirections: 03000000000000000200000005000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4680547041618525565}
   - {fileID: 6941852465345176675}
@@ -65591,9 +65616,11 @@ MonoBehaviour:
   - {fileID: 4154651127641914210}
   - {fileID: 5730588954908991049}
   - {fileID: 8140383264544761939}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 813106596396429545}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6854977514983350431}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3614777306533024717}
@@ -65601,6 +65628,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -65688,8 +65716,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: -2, z: 1}
-  availableDirections: 0300000000000000010000000400000005000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 5138842548195354956}
   - {fileID: 2759685564149882705}
@@ -65704,9 +65731,11 @@ MonoBehaviour:
   - {fileID: 8684281876903785097}
   - {fileID: 2417408328383901765}
   - {fileID: 8732325702344389236}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7012090610745990083}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5894401062994227804}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5635915678141408843}
@@ -65714,6 +65743,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -66671,8 +66701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: -1, z: 3}
-  availableDirections: 0300000000000000020000000500000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 655631091596382108}
   - {fileID: 3295152705769458115}
@@ -66687,9 +66716,11 @@ MonoBehaviour:
   - {fileID: 2186021027609738536}
   - {fileID: 8183306239207873871}
   - {fileID: 1651580216864847265}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7848022117855335215}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6123275941239331928}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2600198989490135786}
@@ -66697,6 +66728,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -67194,8 +67226,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 3, y: 0, z: -3}
-  availableDirections: 0100000005000000000000000200000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7535578530271531080}
   - {fileID: 190912467337802158}
@@ -67210,9 +67241,11 @@ MonoBehaviour:
   - {fileID: 8985763297280098318}
   - {fileID: 6075633312762083668}
   - {fileID: 8395566237746527705}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 3026238929356128185}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2238740693808679135}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8834492280369970155}
@@ -67220,6 +67253,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -67271,8 +67305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 4, y: -2, z: -2}
-  availableDirections: 0500000002000000030000000400000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1884175871294454581}
   - {fileID: 2436088732604158429}
@@ -67285,9 +67318,11 @@ MonoBehaviour:
   - {fileID: 8395566237746527705}
   - {fileID: 1193830208359589982}
   - {fileID: 4194801097117794941}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5107731197424608631}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 8912701556758438259}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3067838142246609700}
@@ -67295,6 +67330,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -71042,8 +71078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: -1, z: 0}
-  availableDirections: 0300000005000000020000000400000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4218826246417974783}
   - {fileID: 8981019394517963694}
@@ -71058,9 +71093,11 @@ MonoBehaviour:
   - {fileID: 8506347029091468866}
   - {fileID: 8684281876903785097}
   - {fileID: 2431906011382178338}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 3457426894031987757}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6200091454101629326}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3969373003240242345}
@@ -71068,6 +71105,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -71488,8 +71526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: -1, z: -1}
-  availableDirections: 02000000040000000100000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 3311091310672552130}
   - {fileID: 4287417694343231051}
@@ -71504,9 +71541,11 @@ MonoBehaviour:
   - {fileID: 8476995565426754380}
   - {fileID: 3302918342335527252}
   - {fileID: 1874736088832141401}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5888549914217853120}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 993097475095861492}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 128531797855785646}
@@ -71514,6 +71553,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -74169,8 +74209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: 1, z: -1}
-  availableDirections: 03000000040000000100000000000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1766473000964855458}
   - {fileID: 5322241449838960873}
@@ -74185,9 +74224,11 @@ MonoBehaviour:
   - {fileID: 8040215617448832803}
   - {fileID: 6195875450178561880}
   - {fileID: 8506347029091468866}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1653044319367460228}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2750805136256124689}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4983936514068798967}
@@ -74195,6 +74236,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -75104,8 +75146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -3, y: 2, z: 1}
-  availableDirections: 0200000000000000030000000500000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7620688156289080505}
   - {fileID: 7178987699025297492}
@@ -75120,9 +75161,11 @@ MonoBehaviour:
   - {fileID: 7775849039300678137}
   - {fileID: 6277485384665235798}
   - {fileID: 6797812328142946773}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8202837766981084895}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3782575281488127260}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4378873148428205561}
@@ -75130,6 +75173,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -75163,8 +75207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: 1, z: 1}
-  availableDirections: 02000000030000000000000005000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1458460603724449979}
   - {fileID: 519201723256682094}
@@ -75179,9 +75222,11 @@ MonoBehaviour:
   - {fileID: 4109647056312250989}
   - {fileID: 6797812328142946773}
   - {fileID: 4963313500526705244}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 6730448838449860214}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4007314945768114736}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1883762105658075195}
@@ -75189,6 +75234,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -75647,8 +75693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: -1, z: 2}
-  availableDirections: 05000000030000000000000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8921328226572833667}
   - {fileID: 6184519505016682957}
@@ -75663,9 +75708,11 @@ MonoBehaviour:
   - {fileID: 4963313500526705244}
   - {fileID: 2599765098353793255}
   - {fileID: 5730588954908991049}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 548178957316585037}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 851580148640551061}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8351348541384181227}
@@ -75673,6 +75720,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -75757,8 +75805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 4, y: -3, z: -1}
-  availableDirections: 01000000000000000300000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1574378329321357818}
   - {fileID: 8439030879995323654}
@@ -75771,9 +75818,11 @@ MonoBehaviour:
   - {fileID: 1193830208359589982}
   - {fileID: 6105722879199819273}
   - {fileID: 1047551193145080193}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5624630183220661870}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 8207594253276190094}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 69106911113149788}
@@ -75781,6 +75830,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -77288,8 +77338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: 2, z: -2}
-  availableDirections: 0100000002000000050000000300000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1988616710273198719}
   - {fileID: 7584607183227041247}
@@ -77304,9 +77353,11 @@ MonoBehaviour:
   - {fileID: 249580450947488224}
   - {fileID: 8040215617448832803}
   - {fileID: 3928281763563394118}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7138567234660961101}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5831627659643256910}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 9036601459241528799}
@@ -77314,6 +77365,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -79642,8 +79694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: 2, z: 0}
-  availableDirections: 01000000020000000300000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8930515171133320734}
   - {fileID: 8949699090233133677}
@@ -79658,9 +79709,11 @@ MonoBehaviour:
   - {fileID: 7082367038738189514}
   - {fileID: 4109647056312250989}
   - {fileID: 4118276295182123424}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 3305172752541523850}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6316911992903775746}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4909902259682215295}
@@ -79668,6 +79721,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -80557,8 +80611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: -4, z: 4}
-  availableDirections: 0000000002000000030000000500000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4134102744401532134}
   - {fileID: 3785477404811765417}
@@ -80570,9 +80623,11 @@ MonoBehaviour:
   - {fileID: 1886559588822147809}
   - {fileID: 8140383264544761939}
   - {fileID: 2150361161761903632}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 3298061419112852095}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5578681653429941244}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7243421389588116310}
@@ -80580,6 +80635,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -80767,8 +80823,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: 0, z: 2}
-  availableDirections: 05000000020000000000000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1702518005183164629}
   - {fileID: 2530589846900501972}
@@ -80783,9 +80838,11 @@ MonoBehaviour:
   - {fileID: 6797812328142946773}
   - {fileID: 2186021027609738536}
   - {fileID: 2599765098353793255}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8601120304666672999}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3317140875769273082}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2686919730352239929}
@@ -80793,6 +80850,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -81994,8 +82052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -4, y: 4, z: 0}
-  availableDirections: 05000000020000000100000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2045664236804174303}
   - {fileID: 6974325680215882830}
@@ -82007,9 +82064,11 @@ MonoBehaviour:
   - {fileID: 7082367038738189514}
   - {fileID: 7448120636202053660}
   - {fileID: 7775849039300678137}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5201288652881494939}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3559486164195814559}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6218099139440364540}
@@ -82017,6 +82076,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -82506,8 +82566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: 3, z: -4}
-  availableDirections: 0300000005000000020000000000000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 12947634794174808}
   - {fileID: 289368728007793019}
@@ -82520,9 +82579,11 @@ MonoBehaviour:
   - {fileID: 195034842581557641}
   - {fileID: 1759252340798755432}
   - {fileID: 8609323813034967092}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 9198980522823319644}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 1860359642132815516}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1529527741342040804}
@@ -82530,6 +82591,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -83804,8 +83866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: 4, z: -3}
-  availableDirections: 02000000010000000500000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2974165648852362684}
   - {fileID: 4824176117982655327}
@@ -83818,9 +83879,11 @@ MonoBehaviour:
   - {fileID: 195034842581557641}
   - {fileID: 6202457887538213702}
   - {fileID: 249580450947488224}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 4540452421041488292}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 1685942053038669540}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 840621512280809893}
@@ -83828,6 +83891,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -84966,8 +85030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: -3, z: 1}
-  availableDirections: 02000000050000000000000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7990103095677211989}
   - {fileID: 1536119975607695610}
@@ -84982,9 +85045,11 @@ MonoBehaviour:
   - {fileID: 2431906011382178338}
   - {fileID: 8732325702344389236}
   - {fileID: 7835025080595290295}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5755472324657697901}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4541009714368176057}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5509879550279989653}
@@ -84992,6 +85057,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -85025,8 +85091,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: -2, z: 3}
-  availableDirections: 05000000040000000300000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 9112171680848164567}
   - {fileID: 1762900676425264568}
@@ -85041,9 +85106,11 @@ MonoBehaviour:
   - {fileID: 2599765098353793255}
   - {fileID: 1651580216864847265}
   - {fileID: 2150361161761903632}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 2678340420080243700}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5407218812305159552}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7057821826812800630}
@@ -85051,6 +85118,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -87160,8 +87228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: 0, z: -2}
-  availableDirections: 0200000001000000030000000400000000000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2947171732579695594}
   - {fileID: 3942018176727684221}
@@ -87176,9 +87243,11 @@ MonoBehaviour:
   - {fileID: 6584283913932621939}
   - {fileID: 8476995565426754380}
   - {fileID: 3364548419509785316}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1154981478148486658}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5831249764821705030}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3308244308554156772}
@@ -87186,6 +87255,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -87319,8 +87389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 3, y: -3, z: 0}
-  availableDirections: 0200000001000000050000000300000000000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8722382562726521931}
   - {fileID: 4119298370091363212}
@@ -87335,9 +87404,11 @@ MonoBehaviour:
   - {fileID: 1874736088832141401}
   - {fileID: 5727240209362944938}
   - {fileID: 6369216263134977728}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 9018738188907461466}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3210430181158605486}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8197706035112393058}
@@ -87345,6 +87416,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -87759,8 +87831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 3
   coord: {x: -1, y: 1, z: 0}
-  availableDirections: 0100000002000000000000000400000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 1261541392551150191}
   - {fileID: 8432845910589108435}
@@ -87775,9 +87846,11 @@ MonoBehaviour:
   - {fileID: 4831474360674652613}
   - {fileID: 4118276295182123424}
   - {fileID: 7695734126826010703}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7419456417551917094}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6354885637261676957}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5670078535875864724}
@@ -87785,6 +87858,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -87887,8 +87961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -2, y: 4, z: -2}
-  availableDirections: 00000000040000000500000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 588429450952221642}
   - {fileID: 7099118729057795638}
@@ -87901,9 +87974,11 @@ MonoBehaviour:
   - {fileID: 5517825663968915991}
   - {fileID: 7448120636202053660}
   - {fileID: 1667959459728649228}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 2626070680933572662}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 1130739812651355325}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3867211989245378645}
@@ -87911,6 +87986,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -88078,8 +88154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -4, y: 2, z: 2}
-  availableDirections: 03000000050000000100000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 6010236964041356103}
   - {fileID: 3092866998058776484}
@@ -88092,9 +88167,11 @@ MonoBehaviour:
   - {fileID: 4109647056312250989}
   - {fileID: 7775849039300678137}
   - {fileID: 383780727592260365}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8982164440992752751}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6075601463345250454}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5293732283120670462}
@@ -88102,6 +88179,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -88185,8 +88263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 4, y: -1, z: -3}
-  availableDirections: 0000000005000000020000000100000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 5692855669895530569}
   - {fileID: 6060925671930989760}
@@ -88199,9 +88276,11 @@ MonoBehaviour:
   - {fileID: 2649289950198211726}
   - {fileID: 8395566237746527705}
   - {fileID: 2658585155342124126}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 3278795139410772645}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6920928859117176392}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4034824836922091440}
@@ -88209,6 +88288,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -88398,8 +88478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 3, y: -4, z: 1}
-  availableDirections: 04000000030000000000000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 9157060878876137987}
   - {fileID: 5368366679610435826}
@@ -88412,9 +88491,11 @@ MonoBehaviour:
   - {fileID: 6105722879199819273}
   - {fileID: 5727240209362944938}
   - {fileID: 7835025080595290295}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7507387000540574456}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6000908663269909591}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6976787492397550055}
@@ -88422,6 +88503,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -89298,8 +89380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: 1, z: -2}
-  availableDirections: 05000000040000000100000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8139176218434832350}
   - {fileID: 3145205752539366108}
@@ -89314,9 +89395,11 @@ MonoBehaviour:
   - {fileID: 4489267070039454798}
   - {fileID: 3928281763563394118}
   - {fileID: 8476995565426754380}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 5309817844478747637}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 1152212694375462125}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5106154635144908416}
@@ -89324,6 +89407,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -90500,8 +90584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -3, y: 1, z: 2}
-  availableDirections: 02000000050000000400000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4042327014232094880}
   - {fileID: 2181312278770539034}
@@ -90516,9 +90599,11 @@ MonoBehaviour:
   - {fileID: 6277485384665235798}
   - {fileID: 383780727592260365}
   - {fileID: 2186021027609738536}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 2192602530970341488}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2739887747760230456}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8647484153657963654}
@@ -90526,6 +90611,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -92390,8 +92476,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -3, y: 3, z: 0}
-  availableDirections: 0000000005000000040000000100000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7390047051674213692}
   - {fileID: 2909748070619929145}
@@ -92406,9 +92491,11 @@ MonoBehaviour:
   - {fileID: 5140767433467972896}
   - {fileID: 7775849039300678137}
   - {fileID: 4109647056312250989}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 6629239560008182736}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4027698788209473558}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6921175016128556600}
@@ -92416,6 +92503,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -94252,8 +94340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: 2, z: -4}
-  availableDirections: 03000000000000000200000005000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7699845137390945046}
   - {fileID: 3101412717202683554}
@@ -94266,9 +94353,11 @@ MonoBehaviour:
   - {fileID: 5235799260088812722}
   - {fileID: 8609323813034967092}
   - {fileID: 8985763297280098318}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 108543738799865743}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 1543871739434550420}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 9097948858383390605}
@@ -94276,6 +94365,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -94638,8 +94728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -3, y: 4, z: -1}
-  availableDirections: 00000000020000000100000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 4931174368407893531}
   - {fileID: 6476550471323332609}
@@ -94652,9 +94741,11 @@ MonoBehaviour:
   - {fileID: 6202457887538213702}
   - {fileID: 5140767433467972896}
   - {fileID: 7082367038738189514}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8875287119879249532}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 8747985196221721880}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4931560702828087758}
@@ -94662,6 +94753,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -96170,8 +96262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: 0, z: 1}
-  availableDirections: 03000000020000000500000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 3601034936175244497}
   - {fileID: 7094703609612943435}
@@ -96186,9 +96277,11 @@ MonoBehaviour:
   - {fileID: 4118276295182123424}
   - {fileID: 4963313500526705244}
   - {fileID: 4154651127641914210}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 6057361652981245470}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 138330533465206747}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5634987325734854507}
@@ -96196,6 +96289,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -96753,8 +96847,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -4, y: 3, z: 1}
-  availableDirections: 02000000000000000500000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2811646267569542555}
   - {fileID: 572158600564646996}
@@ -96767,9 +96860,11 @@ MonoBehaviour:
   - {fileID: 7082367038738189514}
   - {fileID: 5140767433467972896}
   - {fileID: 6277485384665235798}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1988551655765285626}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3878481880206388726}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7920558024030362236}
@@ -96777,6 +96872,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -97077,8 +97173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: -4, z: 2}
-  availableDirections: 04000000050000000300000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 9114654338728512903}
   - {fileID: 1632404443300288094}
@@ -97091,9 +97186,11 @@ MonoBehaviour:
   - {fileID: 5727240209362944938}
   - {fileID: 8732325702344389236}
   - {fileID: 1886559588822147809}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 6944954469535256367}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 7165143549960717017}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4047534989594020614}
@@ -97101,6 +97198,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -98426,8 +98524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -1, y: 2, z: -1}
-  availableDirections: 0400000003000000020000000500000000000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7109412155491133679}
   - {fileID: 2742375764275581125}
@@ -98442,9 +98539,11 @@ MonoBehaviour:
   - {fileID: 1667959459728649228}
   - {fileID: 4831474360674652613}
   - {fileID: 6195875450178561880}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1942200673820244277}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 3743396199179655465}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7100233355306066168}
@@ -98452,6 +98551,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -99084,8 +99184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 0, y: -3, z: 3}
-  availableDirections: 05000000010000000200000000000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 7283005623588505314}
   - {fileID: 6055926183447247541}
@@ -99100,9 +99199,11 @@ MonoBehaviour:
   - {fileID: 5730588954908991049}
   - {fileID: 2150361161761903632}
   - {fileID: 4939480447905110404}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8225908610348899814}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2917567771868508474}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6812856658731176607}
@@ -99110,6 +99211,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -99402,8 +99504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -3, y: -1, z: 4}
-  availableDirections: 0000000005000000010000000300000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8149494867110390717}
   - {fileID: 4338897027989004874}
@@ -99416,9 +99517,11 @@ MonoBehaviour:
   - {fileID: 2599765098353793255}
   - {fileID: 2186021027609738536}
   - {fileID: 8318540717408279789}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 1555511647025587638}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2882072448353068767}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1957290208698482483}
@@ -99426,6 +99529,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -99858,6 +99962,30 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -1500627289
       objectReference: {fileID: 0}
+    - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: allArtifacts.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: allArtifacts.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 173c177d050afff4587662a691f4677f, type: 2}
+    - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: allArtifacts.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 17c70f991f2f42b49992d81cfb67995f, type: 2}
+    - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: allArtifacts.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 84ec7dad53ad7e542a93ed3f63d8ad1d, type: 2}
+    - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: allArtifacts.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
+    - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: allArtifacts.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
     - target: {fileID: 8242332178346982482, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -100507,8 +100635,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: -4, y: 0, z: 4}
-  availableDirections: 01000000030000000000000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 770548451879391559}
   - {fileID: 284010894601644965}
@@ -100520,9 +100647,11 @@ MonoBehaviour:
   - {fileID: 8183306239207873871}
   - {fileID: 2186021027609738536}
   - {fileID: 383780727592260365}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7454324277477443565}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4757629668098439887}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6123224620603189635}
@@ -100530,6 +100659,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -100832,8 +100962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 3, y: -1, z: -2}
-  availableDirections: 03000000040000000500000000000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2162246062256147902}
   - {fileID: 2860745423666177709}
@@ -100848,9 +100977,11 @@ MonoBehaviour:
   - {fileID: 6075633312762083668}
   - {fileID: 3364548419509785316}
   - {fileID: 1193830208359589982}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8248872576647162150}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 9166395306117349178}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2883697092085337278}
@@ -100858,6 +100989,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -101279,8 +101411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 3
   coord: {x: 1, y: 0, z: -1}
-  availableDirections: 01000000050000000000000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 5430270308961244347}
   - {fileID: 395044737679707993}
@@ -101295,9 +101426,11 @@ MonoBehaviour:
   - {fileID: 3928281763563394118}
   - {fileID: 8506347029091468866}
   - {fileID: 3302918342335527252}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 6636899619705934973}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 5713948551743591035}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4103952392779408091}
@@ -101305,6 +101438,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -101324,8 +101458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 6
   coord: {x: 0, y: 0, z: 0}
-  availableDirections: 010000000300000005000000
-  lockedDirections: 010000000300000005000000
+  availableDirections: []
   exits:
   - {fileID: 4216362851781551017}
   - {fileID: 7315859868967592651}
@@ -101340,9 +101473,11 @@ MonoBehaviour:
   - {fileID: 6195875450178561880}
   - {fileID: 7695734126826010703}
   - {fileID: 8684281876903785097}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 8507509329209811793}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 7822495993472344230}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1767131936465672640}
@@ -101350,6 +101485,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters:
   - {fileID: 0}
   - {fileID: 0}
@@ -101765,8 +101901,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: 2, z: -3}
-  availableDirections: 0500000001000000000000000400000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 8088304361812096722}
   - {fileID: 3143073120652753142}
@@ -101781,9 +101916,11 @@ MonoBehaviour:
   - {fileID: 1759252340798755432}
   - {fileID: 4489267070039454798}
   - {fileID: 6584283913932621939}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 7572411835666535463}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 26701920381696720}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3477547441836273247}
@@ -101791,6 +101928,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -102239,8 +102377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 3
   coord: {x: 0, y: -1, z: 1}
-  availableDirections: 03000000010000000400000002000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 96355489542682404}
   - {fileID: 2264571744892306745}
@@ -102255,9 +102392,11 @@ MonoBehaviour:
   - {fileID: 7695734126826010703}
   - {fileID: 4154651127641914210}
   - {fileID: 2417408328383901765}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 9006844472396909084}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4303895799983297871}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8232042106282731459}
@@ -102265,6 +102404,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -102588,8 +102728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 1, y: -3, z: 2}
-  availableDirections: 0200000000000000030000000100000004000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 5429604871234731604}
   - {fileID: 4806939380760984483}
@@ -102604,9 +102743,11 @@ MonoBehaviour:
   - {fileID: 2417408328383901765}
   - {fileID: 8140383264544761939}
   - {fileID: 1886559588822147809}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 381438564812553228}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 6943656020504760751}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7299410306757863672}
@@ -102614,6 +102755,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -104238,8 +104380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 2, y: 1, z: -3}
-  availableDirections: 05000000020000000300000001000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 2417455448414055399}
   - {fileID: 704935997444678829}
@@ -104254,9 +104395,11 @@ MonoBehaviour:
   - {fileID: 8609323813034967092}
   - {fileID: 6584283913932621939}
   - {fileID: 6075633312762083668}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 4138286774424077958}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 4581189636089337397}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2730623583523828048}
@@ -104264,6 +104407,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []
@@ -105594,8 +105738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tileState: 0
   coord: {x: 3, y: 1, z: -4}
-  availableDirections: 01000000020000000400000003000000
-  lockedDirections: 
+  availableDirections: []
   exits:
   - {fileID: 5607970743195515830}
   - {fileID: 3935809701543660664}
@@ -105608,9 +105751,11 @@ MonoBehaviour:
   - {fileID: 7402186954298967930}
   - {fileID: 8985763297280098318}
   - {fileID: 2649289950198211726}
-  entryDir: 0
-  turnCompleted: 0
   spriteRenderer: {fileID: 3849951451081863445}
+  directionEntry:
+    coords: {x: 0, y: 0, z: 0}
+    Name: 0
+    nr: 0
   storyMark: {fileID: 2129522389792529153}
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 38108424266830388}
@@ -105618,6 +105763,7 @@ MonoBehaviour:
   tileEncounterType: 0
   tileBiome: 0
   type: 0
+  encountersSelectable: 0
   encounters: []
   encounterEntry: {fileID: 0}
   encountersExits: []

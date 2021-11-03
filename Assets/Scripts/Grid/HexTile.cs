@@ -266,6 +266,7 @@ public class HexTile : MonoBehaviour
 
     public void RevealTile(bool fromPlacement = false)
     {
+        tileState = TileState.Animation;
         undiscoveredSpriteRenderer.material = mapManager.undiscoveredMaterial;
         if (fromPlacement) 
         {
@@ -278,6 +279,8 @@ public class HexTile : MonoBehaviour
             undiscoveredSpriteRenderer.gameObject.SetActive(false);
             if (fromPlacement)
                 EnterPlacement();
+            else
+                tileState = TileState.Completed;
         });
     }
 

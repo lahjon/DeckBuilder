@@ -49,8 +49,11 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
         allEquippedPerks.Add(perk);
         perk.BindData(data);
     }
+    public void UnlockPerk(int id) => UnlockPerk(allPerkDatas.FirstOrDefault(x => x.itemId == id));
+
     public void UnlockPerk(PerkData data)
     {
+        if (data == null) return;
         AddPerk(data);
         WorldSystem.instance.SaveProgression();
     }

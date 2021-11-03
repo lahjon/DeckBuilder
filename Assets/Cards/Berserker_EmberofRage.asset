@@ -39,7 +39,7 @@ MonoBehaviour:
   activities: []
   cardName: Ember of Rage
   cardType: 3
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 7b093034a495b9c4cb78369129853d79, type: 3}
   cost:
     linkedProp: 0
     baseVal: 1

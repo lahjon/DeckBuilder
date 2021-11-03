@@ -193,7 +193,6 @@ public class ScenarioMapManager : Manager
             tile.directionEntry = dir.GetOpposing();
         }
 
-        firstTile.tileState = TileState.Completed;
         hexMapController.disablePanning = false;
         hexMapController.disableZoom = false;
         initialized = true;

@@ -115,7 +115,7 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public IEnumerator SetupNextSegments()
     {
-        if (nextStorySegments.Count == 0) completed = true;
+        if (nextStorySegments.Count == 0) WorldSystem.instance.worldMapManager.CompleteScenario(this);
 
         Debug.Log("Setup next segments: " + nextStorySegments.Count);
         for(int i = 0; i < nextStorySegments.Count;i++)

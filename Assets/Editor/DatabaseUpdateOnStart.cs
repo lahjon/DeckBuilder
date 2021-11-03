@@ -138,7 +138,7 @@ public static class DatabaseUpdateOnStart
         List<ArtifactData> artifacts = prefab.GetComponent<ArtifactManager>().allArtifacts;
         artifacts.Clear();
 
-        string[] lGuids = AssetDatabase.FindAssets("t:ArtifactData", new string[] { "Assets/Artifacts" });
+        string[] lGuids = AssetDatabase.FindAssets("t:ArtifactData", new string[] { "Assets/ItemData/Artifacts" });
 
         for (int i = 0; i < lGuids.Length; i++)
         {

@@ -60,6 +60,7 @@ public class WorldMapManager : Manager, ISaveableWorld
 
     public void CompleteScenario(bool toTown = true)
     {
+        //if(aScenario != currentWorldScenario) return;
         currentWorldScenario.completed = true;
         EventManager.CompleteWorldEncounter();
         currentWorldScenario?.CollectReward();

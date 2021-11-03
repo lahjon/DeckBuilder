@@ -167,7 +167,7 @@ public class Reward : MonoBehaviour, IToolTipable
         rewardText.text = "Perk";
         image.sprite = WorldSystem.instance.rewardManager.icons[3];
 
-        callback = () => Debug.LogError("No Reward Implemented!");
+        callback = () => WorldSystem.instance.menuManager.menuCharacter.UnlockPerk(itemData.itemId);
     }
 
     public void RewardUnlockCard(string[] value)
