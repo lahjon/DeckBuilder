@@ -36,7 +36,7 @@ MonoBehaviour:
   activities: []
   cardName: Slash and Thrust
   cardType: 0
-  artwork: {fileID: 21300000, guid: 0e093df838203f04a89e25a5ce69ed9a, type: 3}
+  artwork: {fileID: 0}
   cost:
     linkedProp: 0
     baseVal: 1

@@ -5,13 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New PerkData", menuName = "CardGame/PerkData")]
-public class PerkData : ScriptableObject
+public class PerkData : ItemData
 {
-    public int perkId;
-    public string perkName;
     public int level;
-    [TextArea (5, 5)]public string description;
-    public Sprite activeArtwork;
     public Sprite inactiveArtwork;
     public string effect;
     public CharacterClassType characterClassType;

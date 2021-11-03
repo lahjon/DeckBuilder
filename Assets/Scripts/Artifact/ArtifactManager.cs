@@ -74,7 +74,7 @@ public class ArtifactManager : Manager, ISaveableTemp
             Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
             allActiveArtifactsIds.Add(artifactId);
 
-            Effect.GetEffect(newArtifact.gameObject, artifactData.name, true);
+            newArtifact.effect = Effect.GetEffect(newArtifact.gameObject, artifactData.name, true);
 
             if (save)
             {
@@ -100,7 +100,7 @@ public class ArtifactManager : Manager, ISaveableTemp
         {
             if (artifact.id == artifactId)
             {
-                artifact.GetComponent<Effect>().RemoveEffect();
+                artifact.effect.RemoveEffect();
                 artifactMenu.RemoveUIArtifact(artifact);
                 allActiveArtifactsIds.Remove(artifactId);
                 break;

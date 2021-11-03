@@ -20,6 +20,6 @@ MonoBehaviour:
     value:
     - 
   type: 1
-  unlocksScenarios: []
-  Description: asdasd
+  unlocksScenarios: 04000000
+  Description: kk
   SegmentDatas: []

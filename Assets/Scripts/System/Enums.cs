@@ -253,7 +253,8 @@ public enum RewardType
     Heal,
     UnlockCard,
     Item = 10,
-    Artifact = 11
+    Artifact = 11,
+    Perk = 12
 }
 
 public enum CurrencyType

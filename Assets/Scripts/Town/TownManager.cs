@@ -48,13 +48,13 @@ public class TownManager : Manager, ISaveableWorld
         }
         else
         {
-            Debug.Log("Already own this building!");
+            //Debug.Log("Already own this building!");
             return false;
         }
     }
     public void EnterTown()
     {
-        Debug.Log("Entering Town!");
+        //Debug.Log("Entering Town!");
         List<BuildingType> allBuildings = unlockedBuildings.Union(startingBuildings).ToList();
 
         foreach (TownInteractable townInt in townInteractables)

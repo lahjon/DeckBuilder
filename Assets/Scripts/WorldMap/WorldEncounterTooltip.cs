@@ -13,20 +13,20 @@ public class WorldEncounterTooltip : MonoBehaviour
     public void EnableTooltip(Scenario worldEncounter)
     {
         gameObject.SetActive(true);
-        if (encounterName.text != worldEncounter.worldEncounterData.ScenarioName)
+        if (encounterName.text != worldEncounter.worldScenarioData.ScenarioName)
         {
             if (encounterReward != null) Destroy(encounterReward.gameObject);
 
             // descriptionText = worldEncounter.worldEncounterData.clearCondition.
-            encounterName.text = worldEncounter.worldEncounterData.ScenarioName;
-            encounterReward = Instantiate(worldEncounter.encounterReward, rewardAnchor).GetComponent<Reward>();
+            encounterName.text = worldEncounter.worldScenarioData.ScenarioName;
+            encounterReward = Instantiate(worldEncounter.scenarioReward, rewardAnchor).GetComponent<Reward>();
             encounterReward.transform.localPosition = Vector3.zero;
             encounterReward.SetWorldReward();
 
             transform.position = worldEncounter.transform.position + new Vector3(0, encounterReward.GetComponent<RectTransform>().sizeDelta.x + 1, 0);;
-            descriptionText.text = worldEncounter.worldEncounterData.DescriptionShort;
+            descriptionText.text = worldEncounter.worldScenarioData.Description;
             encounterReward.transform.localScale *= 1.85f;
-            difficultyText.text = worldEncounter.worldEncounterData.difficulty.ToString();
+            difficultyText.text = worldEncounter.worldScenarioData.difficulty.ToString();
             encounterReward.gameObject.SetActive(true);
         }
     }

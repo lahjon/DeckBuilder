@@ -8,33 +8,23 @@ using System;
 
 public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    WorldEncounterType _worldEncounterType;
-    public ScenarioData worldEncounterData;
-    public Reward encounterReward;
+    WorldEncounterType _worldScenarioType;
+    public ScenarioData worldScenarioData;
+    public Reward scenarioReward;
 
     public List<ScenarioSegment> segments = new List<ScenarioSegment>();
-    bool _completed;
+    public bool completed;
 
     public List<ScenarioSegment> nextStorySegments = new List<ScenarioSegment>();
 
-    public bool completed
-    {
-        get => _completed;
-        set
-        {
-            _completed = value;
-            EventManager.CompleteWorldEncounter();
-            CollectReward();
-        }
-    }
     public WorldEncounterType worldEncounterType
     {
-        get => _worldEncounterType;
+        get => _worldScenarioType;
         set
         {
-            _worldEncounterType = value;
+            _worldScenarioType = value;
             
-            switch (_worldEncounterType)
+            switch (_worldScenarioType)
             {
                 case WorldEncounterType.Main:
                     GetComponent<RectTransform>().sizeDelta = new Vector2(50, 50);
@@ -56,9 +46,9 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void ButtonOnClick()
     {
-        WorldSystem.instance.worldMapManager.currentWorldEncounter = this;
+        WorldSystem.instance.worldMapManager.currentWorldScenario = this;
         WorldSystem.instance.worldMapManager.worldMapConfirmWindow.OpenConfirmWindow(this);
-        WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
+        WorldSystem.instance.worldMapManager.worldScenarioTooltip.DisableTooltip();
     }
 
     public void BindData()
@@ -66,55 +56,54 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Debug.Log("Binding Data");
         if (worldEncounterType == WorldEncounterType.None)
         {
-            worldEncounterType = worldEncounterData.type;
-            encounterReward = WorldSystem.instance.rewardManager.CreateReward(worldEncounterData.rewardStruct.type, worldEncounterData.rewardStruct.value, transform, false);
+            worldEncounterType = worldScenarioData.type;
+            scenarioReward = WorldSystem.instance.rewardManager.CreateReward(worldScenarioData.rewardStruct.type, worldScenarioData.rewardStruct.value, transform, false);
             segments.Clear();
             gameObject.SetActive(true);
-            foreach (ScenarioSegmentData segmentData in worldEncounterData.SegmentDatas)
+            foreach (ScenarioSegmentData segmentData in worldScenarioData.SegmentDatas)
                 segments.Add(new ScenarioSegment(segmentData,this));
         }
     }
 
-    void RemoveEncounter()
+    void RemoveScenario()
     {
-        WorldSystem.instance.worldMapManager.availableWorldEncounters.Remove(worldEncounterData.id);
-        WorldSystem.instance.worldMapManager.completedWorldEncounters.Add(worldEncounterData.id);
-        if (worldEncounterData.unlocksScenarios?.Any() == true)
+        WorldSystem.instance.worldMapManager.availableWorldScenarios.Remove(worldScenarioData.id);
+        WorldSystem.instance.worldMapManager.completedWorldScenarios.Add(worldScenarioData.id);
+        if (worldScenarioData.unlocksScenarios?.Any() == true)
         {
-            foreach (ScenarioData enc in worldEncounterData.unlocksScenarios)
+            foreach (int id in worldScenarioData.unlocksScenarios)
             {
-                WorldSystem.instance.worldMapManager.UnlockScenario(enc.id);
+                WorldSystem.instance.worldMapManager.UnlockScenario(id);
             }
         }
-
+        if (WorldSystem.instance.worldMapManager.worldScenarios.FirstOrDefault(x => x == this) is Scenario scenario) WorldSystem.instance.worldMapManager.worldScenarios.Remove(scenario);
+        WorldSystem.instance.worldMapManager.currentWorldScenario = null;
         Destroy(gameObject);
     }
 
     public void CollectReward()
     {
         Debug.Log("Collect Reward");
-        encounterReward.AddReward();
-        RemoveEncounter();
+        scenarioReward.AddReward();
+        RemoveScenario();
         WorldStateSystem.SetInTownReward(true);
     }
 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        WorldSystem.instance.worldMapManager.worldEncounterTooltip.EnableTooltip(this);
+        WorldSystem.instance.worldMapManager.worldScenarioTooltip.EnableTooltip(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        WorldSystem.instance.worldMapManager.worldEncounterTooltip.DisableTooltip();
+        WorldSystem.instance.worldMapManager.worldScenarioTooltip.DisableTooltip();
     }
 
-
-    public void SetEncounterDescription()
+    public void SetScenariosDescription()
     {
         WorldSystem.instance.gridManager.conditionText.text = "hejhej";
     }
-
 
     public void SetupInitialSegments()
     {

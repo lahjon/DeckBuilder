@@ -16,7 +16,7 @@ public static class ConditionStructExtensions
 {
     public static string GetMissionDescription(this ConditionData condition, int cAmount, int rAmount)
     {
-        Debug.Log(rAmount);
+        //Debug.Log(rAmount);
         switch (condition.type)
         {
             case ConditionType.EnterBuilding:

@@ -48,12 +48,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d343699d067a05047981bfa8c1686f9f, type: 2}
   - {fileID: 11400000, guid: f720c59a42117054da71d17992eb5684, type: 2}
   allTokens: []
-  selectedTokens: []
-  unlockedTokens: []
+  selectedTokens: 
+  unlockedTokens: 
   tokenMenu: {fileID: 6100970878442831019}
   tokenPoints: 1
   availableTokenPoints: 1
-  tokensRequireUpdate: []
+  tokensRequireUpdate: 
 --- !u!1001 &3770874272216076272
 PrefabInstance:
   m_ObjectHideFlags: 0

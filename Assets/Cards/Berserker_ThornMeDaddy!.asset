@@ -36,7 +36,7 @@ MonoBehaviour:
   activities: []
   cardName: Thorn Me Daddy!
   cardType: 3
-  artwork: {fileID: 21300000, guid: 6f9fe871be21da84e872c716720905ec, type: 3}
+  artwork: {fileID: 0}
   cost:
     linkedProp: 0
     baseVal: 1

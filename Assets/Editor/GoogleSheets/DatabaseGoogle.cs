@@ -23,7 +23,7 @@ public class DatabaseGoogle
     readonly public static string CardPath = @"Assets\Cards";
     readonly public static string EnemyPath = @"Assets\Enemies";
     readonly public static string EncounterPath = @"Assets\Encounters\Overworld\Combat";
-    readonly public static string ArtifactPath = @"Assets\Artifacts";
+    readonly public static string ArtifactPath = @"Assets\ItemData\Artifacts";
     readonly public static string ModifierPath = @"Assets\CardModifier";
     readonly public static string ScenarioPath = @"Assets\Encounters\World";
 
@@ -622,11 +622,7 @@ public class DatabaseGoogle
             data.unlocksScenarios.Clear(); 
             string[] unlockableIDs = ((string)gt[i, "UnlockableScenarioIDs"]).Split(';');
             for(int s = 0; s < unlockableIDs.Length; s++)
-            {
-                if (unlockableIDs[s].Equals("")) break;
-                ScenarioData linkedScenario = dbs.scenarios.Where(x => x.id == int.Parse(unlockableIDs[s])).FirstOrDefault();
-                if (linkedScenario != null) data.unlocksScenarios.Add(linkedScenario);
-            }
+                if (!string.IsNullOrEmpty(unlockableIDs[s])) data.unlocksScenarios.Add(Int32.Parse(unlockableIDs[s]));
 
             data.Description = (string)gt[i, "Description"];
             data.DescriptionShort = (string)gt[i, "DescriptionShort"];
