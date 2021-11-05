@@ -294,7 +294,7 @@ public class HexTile : MonoBehaviour
         hexMapController.disableZoom = false;
 
         tileState = TileState.Placement;
-        mapManager.activeTile = this;
+        mapManager.currentTile = this;
         mapManager.choosableTiles.Remove(this);
 
         RotateTile(true,true);
