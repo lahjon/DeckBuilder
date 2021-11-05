@@ -287,7 +287,6 @@ public class HexTile : MonoBehaviour
         storyMark.gameObject.SetActive(false);
         spriteRenderer.color = Color.white;
         mapManager.animator.SetBool("IsPlacing", true);
-        mapManager.animator.SetBool("IsRotating", true);
 
         hexMapController.FocusTile(this, ZoomState.Inner);
 
@@ -413,7 +412,7 @@ public class HexTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        if(tileState == TileState.InactiveHighlight && mapManager.gridState == GridState.Placement)
+        if(tileState == TileState.InactiveHighlight && mapManager.gridState == GridState.Placing)
             RevealTile(true);
     }
     void OnMouseEnter()

@@ -20,7 +20,7 @@ public class Condition : IEventSubscriber
     public Condition(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
     {
         this.conditionData = conditionData;
-        if (conditionData.type == ConditionType.None)
+        if (conditionData == null || conditionData.type == ConditionType.None)
         {
             value = true;
             return;

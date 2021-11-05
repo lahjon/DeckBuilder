@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
+public class CardCombatAnimatorSelected : CardCombatAnimator
 {
     (Vector3 pos, Vector3 scale, Vector3 angles) TargetTransInfo;
     (Vector3 pos, Vector3 scale, Vector3 angles) StartTransInfo;
@@ -19,7 +19,7 @@ public class CardCombatAnimatorSelectedTarget : CardCombatAnimator
         card.transform.SetAsLastSibling();
 
         StartTransInfo = (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
-        TargetTransInfo = (new Vector3(0, 150, 0), Vector3.one, Vector3.zero);
+        TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), 1.1f * Vector3.one, Vector3.zero);
         time = 0;
 
         WorldSystem.instance.toolTipManager.canShow = false;

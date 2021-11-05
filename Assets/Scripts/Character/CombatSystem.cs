@@ -164,10 +164,7 @@ public class CombatSystem : MonoBehaviour
                 if (card != value) card.MouseReact = (value is null);
 
             if (_activeCard != null)
-            {
                 _activeCard.selected = true;
-                _activeCard.animator.SetBool("HasTarget", _targetedEnemy != null);
-            }
         }
     }
 
@@ -722,7 +719,7 @@ public class CombatSystem : MonoBehaviour
         // }
         
         Debug.Log("Clicky");
-        ActiveCard.animator.SetTrigger("MouseClicked");
+        ActiveCard.animator.SetTrigger("Confirmed");
         ActiveCard = null;
     }
 

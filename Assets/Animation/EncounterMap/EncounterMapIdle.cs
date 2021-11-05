@@ -18,7 +18,7 @@ public class EncounterMapIdle : EncounterMapAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.Init();
-        gridManager.gridState = GridState.Placement;
+        gridManager.gridState = GridState.Placing;
 
         if (!highlightedChoosable)
         {
