@@ -10,7 +10,7 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
         SetRefs(animator);
         Debug.Log("Entered activities & discard");
 
-        if (combat.ActiveActor == combat.Hero && combat.actorTurn == CombatActorTypes.Hero)
+        if (combat.ActiveActor == combat.Hero && combat.actorTurn == CombatActorType.Hero)
         {
             combat.NoteCardFinished(card);
             EventManager.CardFinished(card);

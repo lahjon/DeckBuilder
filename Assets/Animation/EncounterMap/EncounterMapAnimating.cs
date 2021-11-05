@@ -9,13 +9,13 @@ public class EncounterMapAnimating : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Animating;
-        gridManager.hexMapController.disablePanning = true;
-        gridManager.hexMapController.disableZoom = true;
+        //gridManager.hexMapController.disablePanning = true;
+        //gridManager.hexMapController.disableZoom = true;
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        gridManager.hexMapController.disablePanning = false;
-        gridManager.hexMapController.disableZoom = false;
+        //gridManager.hexMapController.disablePanning = false;
+        //gridManager.hexMapController.disableZoom = false;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -117,7 +117,7 @@ public class ScenarioMapManager : Manager
         // flip it up
         float timer = 0.3f * timeMultiplier;
 
-        hexMapController.Zoom(ZoomState.Outer, null, true);
+        hexMapController.Zoom(ZoomState.Outer, null);
         yield return new WaitForSeconds(1);
 
         for (int i = 0; i <= gridWidth; i++)
@@ -141,8 +141,8 @@ public class ScenarioMapManager : Manager
             tile.directionEntry = dir.GetOpposing();
         }
 
-        hexMapController.disablePanning = false;
-        hexMapController.disableZoom = false;
+        //hexMapController.disablePanning = false;
+        //hexMapController.disableZoom = false;
         initialized = true;
 
         HighlightChoosable();
@@ -153,11 +153,11 @@ public class ScenarioMapManager : Manager
 
     public void ExpandMap()
     {
-        hexMapController.disablePanning = true;
+        //hexMapController.disablePanning = true;
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
-            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.disablePanning = false)
+            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.enableInput = false)
         );
     }
 
@@ -209,7 +209,7 @@ public class ScenarioMapManager : Manager
     public void ExitPlacement()
     {
         currentTile.tileState = TileState.Current;
-        hexMapController.disablePanning = false;
+        hexMapController.enableInput = true;
         animator.SetBool("Confirm", true);
     }
 

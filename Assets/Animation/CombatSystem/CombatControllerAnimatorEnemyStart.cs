@@ -11,7 +11,7 @@ public class CombatControllerAnimatorEnemyStart: CombatControllerAnimator
         SetRefs(animator);
 
         combat.combatOverlay.AnimateEnemyTurn();
-        combat.actorTurn = CombatActorTypes.Enemy;
+        combat.actorTurn = CombatActorType.Enemy;
 
         combat.StartCoroutine(EnemyTurn());
     }

@@ -13,8 +13,8 @@ public class EncounterMapConfirm : EncounterMapAnimator
         animator.SetBool("Confirm", false);
         animator.SetBool("IsPlaying", true);
 
-        gridManager.hexMapController.disablePanning = false;
-        gridManager.hexMapController.disableZoom = false;
+        //gridManager.hexMapController.disablePanning = false;
+        //gridManager.hexMapController.disableZoom = false;
 
     }
 }

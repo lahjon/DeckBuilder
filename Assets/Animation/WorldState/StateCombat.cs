@@ -24,7 +24,7 @@ public class StateCombat : WorldStateAnimator
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
         // TODO: break all this to actions ASAP!
-        if (CombatSystem.instance.actorTurn == CombatActorTypes.Hero)
+        if (CombatSystem.instance.actorTurn == CombatActorType.Hero)
         {
             for (int i = 0; i < AlphaNumSelectCards.Length && i < CombatSystem.instance.Hand.Count; i++)
             {
@@ -41,6 +41,10 @@ public class StateCombat : WorldStateAnimator
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 CombatSystem.instance.ToggleTargetForward();
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                CombatSystem.instance.ButtonPlayCompanion();
             }
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Tab))
             {
