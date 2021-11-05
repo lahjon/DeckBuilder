@@ -487,7 +487,7 @@ public class HexTile : MonoBehaviour
 
     public void AddNeighboors()
     {
-        foreach (GridDirection dir in GridDirection.ccPositions)
+        foreach (GridDirection dir in GridDirection.Directions)
             if (mapManager.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }

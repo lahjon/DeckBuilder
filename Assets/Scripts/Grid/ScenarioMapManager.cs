@@ -202,8 +202,8 @@ public class ScenarioMapManager : Manager
     {
         if(row == 0) AddTile(Vector3Int.zero);
 
-        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.East) * row;
-        foreach (GridDirection dir in GridDirection.ccDirections)
+        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.SouthWest) * row;
+        foreach (GridDirection dir in GridDirection.Directions)
             for (int i = 0; i < row; i++)
                 AddTile(currentCoord += dir);
     }
@@ -236,8 +236,8 @@ public class ScenarioMapManager : Manager
         if (row == 0) return new List<HexTile>() {GetTile(Vector3Int.zero)};
         List<HexTile> retList = new List<HexTile>();
         
-        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.East) * row;
-        foreach (GridDirection dir in GridDirection.ccDirections)
+        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.SouthWest) * row;
+        foreach (GridDirection dir in GridDirection.Directions)
             for(int i = 0; i < row; i++)
                 retList.Add(GetTile(currentCoord += dir));
 
