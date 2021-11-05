@@ -12,6 +12,6 @@ public class EncounterMapAnimator : StateMachineBehaviour
         {
             gridManager = WorldSystem.instance.gridManager;
         }
-        tile = gridManager.activeTile;
+        tile = gridManager.currentTile;
     }
 }

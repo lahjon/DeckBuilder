@@ -43438,7 +43438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   canvas: {fileID: 955537519}
-  prefab: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+  HexTilePrefab: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
   inactiveTilesSprite:
   - {fileID: 21300000, guid: 9b5386d3336c0bb45a3cef005eebe6ac, type: 3}
   - {fileID: 21300000, guid: 47a971b0871968246a907f1820e199bc, type: 3}
@@ -43465,7 +43465,6 @@ MonoBehaviour:
   initialized: 0
   tileParent: {fileID: 624123282}
   roadParent: {fileID: 1113844811}
-  subAct: 0
   conditionText: {fileID: 0}
   finishedEncounterToReport: {fileID: 0}
   objectiveDisplayer: {fileID: 342744266}

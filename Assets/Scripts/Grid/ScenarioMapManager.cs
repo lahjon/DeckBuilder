@@ -10,16 +10,13 @@ public class ScenarioMapManager : Manager
 {
     public Animator animator;
     public Canvas canvas;
-    public GameObject prefab; 
+    public GameObject HexTilePrefab; 
     public List<Sprite> inactiveTilesSprite = new List<Sprite>();
     public List<Sprite> activeTilesSprite = new List<Sprite>();
     public int gridWidth;
-    public float tileSize;
-    public float tileGap;
-    public Material undiscoveredMaterial;
-    public Material discoveredMaterial;
+    public float tileSize, tileGap;
+    public Material undiscoveredMaterial, discoveredMaterial;
     public Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
-    public HexTile activeTile;
     public HexTile currentTile;
     public List<HexTile> completedTiles = new List<HexTile>();
     public List<HexTile> specialTiles = new List<HexTile>();
@@ -28,20 +25,17 @@ public class ScenarioMapManager : Manager
     public HexMapController hexMapController;
     public int currentTurn;
     public bool bossStarted;
-    //public float hexScale = 0.3765092f;
     public float hexScale = 0.392f;
     public bool initialized;
     int furthestRowReached;
     public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public Transform tileParent, roadParent;
-    public int subAct;
-    ConditionType conditionType;
     public TMP_Text conditionText;
 
     public HashSet<HexTile> choosableTiles = new HashSet<HexTile>();
 
+    [HideInInspector]
     public Encounter finishedEncounterToReport;
-
     public ObjectiveDisplayer objectiveDisplayer;
     
     TileEncounterType GetRandomEncounterType()
@@ -109,20 +103,15 @@ public class ScenarioMapManager : Manager
     }
     public void ButtonConfirm()
     {
-        if (TilePlacementValid(activeTile))
-        {
-            activeTile.EndPlacement();
-        }
+        if (TilePlacementValid(currentTile))
+            currentTile.EndPlacement();
         else
-        {
-            Debug.Log("FAIL");
-        }
+            Debug.Log("FAIL!");
     }
 
     public void DeleteMap()
     {
         initialized = false;
-        activeTile = null;
         currentTile = null;
         tiles.Clear();
         completedTiles.Clear();
@@ -130,7 +119,6 @@ public class ScenarioMapManager : Manager
         highlightedTiles.Clear();
         gridState = GridState.Creating;
         furthestRowReached = 0;
-        subAct = 0;
         for (int i = 0; i < tileParent.childCount; i++)
         {
             Destroy(tileParent.GetChild(i).gameObject);
@@ -273,18 +261,13 @@ public class ScenarioMapManager : Manager
 
     public void ExitPlacement()
     {
-        activeTile.tileState = TileState.Current;
+        currentTile.tileState = TileState.Current;
         hexMapController.enableInput = true;
-        activeTile = null;
         animator.SetBool("Confirm", true);
     }
 
     void InitializeMap()
     {
-        // create a hex shaped map och inactive tiles
-        subAct = 1;
-        //gridWidth = 3;
-
         HexTile tile;
         for (int q = -gridWidth; q <= gridWidth; q++)
         {
@@ -331,7 +314,7 @@ public class ScenarioMapManager : Manager
 
     public void ButtonRotate(bool clockwise)
     {
-        if (activeTile != null) activeTile.RotateTile(clockwise);
+        if (currentTile != null) currentTile.RotateTile(clockwise);
     }
 
     public bool TilePlacementValid(HexTile tile) => tile.availableDirections.Contains(tile.directionEntry);
@@ -414,7 +397,7 @@ public class ScenarioMapManager : Manager
             return null;
         }
         
-        GameObject obj = Instantiate(prefab, CellPosToWorldPos(coord), transform.rotation, tileParent);
+        GameObject obj = Instantiate(HexTilePrefab, CellPosToWorldPos(coord), transform.rotation, tileParent);
         obj.name = string.Format("Tile_{0}_{1}_{2}", coord.x, coord.y, coord.z);
     
         HexTile tile = obj.GetComponent<HexTile>();
@@ -438,6 +421,5 @@ public class ScenarioMapManager : Manager
     {
         if (finishedEncounterToReport is null) return;
         EventManager.EncounterCompleted(finishedEncounterToReport);
-
     }
 }
