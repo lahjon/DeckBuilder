@@ -20,7 +20,7 @@ public class CardActivitySetting : ICardTextElement
 
         condition = new Condition(data.conditionStruct, OnPreConditionUpdate);
 
-        if (data.conditionStruct.type != ConditionType.None)
+        if (data.conditionStruct != null && data.conditionStruct.type != ConditionType.None)
         {
             card.registeredConditions.Add(condition);
             card.registeredSubscribers.Add(condition);

@@ -28,8 +28,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
 
         // ugly but dont know what else todo
         card.transform.SetAsLastSibling();
-
-        TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), new Vector3(1.1f, 1.1f, 1.1f), new Vector3(0, 0, 0));
+        TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), 1.1f*Vector3.one, Vector3.zero);
         if (time* enlargementSpeed < 1)
             CardLerp(StartTransInfo, TargetTransInfo, 1f); //fucking time.Deltatime??? messed up.
     }
