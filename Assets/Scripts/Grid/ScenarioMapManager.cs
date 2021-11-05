@@ -104,9 +104,6 @@ public class ScenarioMapManager : Manager
             CreateRow(i);
 
         tiles.Values.ToList().ForEach(x => x.AddNeighboors());
-
-        hexMapController.disablePanning = true;
-        hexMapController.disableZoom = true;
         hexMapController.enableInput = false;
         gridState = GridState.Creating;
 
@@ -141,8 +138,6 @@ public class ScenarioMapManager : Manager
             tile.directionEntry = dir.GetOpposing();
         }
 
-        //hexMapController.disablePanning = false;
-        //hexMapController.disableZoom = false;
         initialized = true;
 
         HighlightChoosable();
@@ -153,7 +148,6 @@ public class ScenarioMapManager : Manager
 
     public void ExpandMap()
     {
-        //hexMapController.disablePanning = true;
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
