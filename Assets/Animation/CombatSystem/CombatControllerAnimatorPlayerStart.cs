@@ -10,7 +10,7 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
     {
         SetRefs(animator);
         //Debug.Log("Entered Player Start");
-        combat.actorTurn = CombatActorTypes.Hero;
+        combat.actorTurn = CombatActorType.Hero;
         hero = combat.ActiveActor = combat.Hero;
         combat.StartCoroutine(StartPlayerTurn());
         combat.combatOverlay.AnimatePlayerTurn();
@@ -33,6 +33,8 @@ public class CombatControllerAnimatorPlayerStart : CombatControllerAnimator
         {
             combat.companion.DrawCard();
             combat.companion.ShowMoveDisplay(true);
+            combat.companionButton.interactable = true;
+            combat.animator.SetBool("CompanionTurnStartedByPlayer", false);
         }
 
         combat.animator.SetTrigger("PlayerTurnStarted");

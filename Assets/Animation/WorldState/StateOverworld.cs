@@ -24,14 +24,14 @@ public class StateOverworld : WorldStateAnimator
     {
         if (hexMapController.enableInput)
         {
-            if (!hexMapController.disablePanning)
-            {
-                hexMapController.PanCamera();
-            }
-            if(!hexMapController.disableZoom)
-            {
-                hexMapController.ZoomCamera();
-            }
+            hexMapController.PanCamera();
+            hexMapController.ZoomCamera();
+            // if (!hexMapController.disablePanning)
+            // {
+            // }
+            // if(!hexMapController.disableZoom)
+            // {
+            // }
             if (hexMapController.cam.transform.position != hexMapController.newPosition)
             {
                 hexMapController.MoveCamera();

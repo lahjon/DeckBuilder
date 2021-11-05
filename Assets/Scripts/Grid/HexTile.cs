@@ -289,10 +289,9 @@ public class HexTile : MonoBehaviour
         mapManager.animator.SetBool("IsPlacing", true);
         mapManager.animator.SetBool("IsRotating", true);
 
-        hexMapController.FocusTile(this, ZoomState.Inner, true);
+        hexMapController.FocusTile(this, ZoomState.Inner);
 
         WorldSystem.instance.encounterManager.GenerateHexEncounters(this, storyEncounter);
-        hexMapController.disableZoom = false;
 
         tileState = TileState.Placement;
         mapManager.activeTile = this;
@@ -387,7 +386,6 @@ public class HexTile : MonoBehaviour
     public void EndPlacement()
     {
         mapManager.ExitPlacement();
-        hexMapController.disableZoom = true;
         hexMapController.enableInput = true;
         if (encounterEntry == null)
         {
@@ -420,7 +418,7 @@ public class HexTile : MonoBehaviour
     }
     void OnMouseEnter()
     {
-        if (hexMapController.disablePanning || hexMapController.zoomStep == 0) return;
+        if (!hexMapController.enableInput || hexMapController.zoomStep == 0) return;
 
         if (tileState == TileState.InactiveHighlight)
         {

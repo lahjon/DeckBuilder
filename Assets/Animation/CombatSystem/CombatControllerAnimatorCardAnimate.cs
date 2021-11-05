@@ -22,9 +22,9 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
             animationSystem = null;
         }
 
-        if (combat.actorTurn == CombatActorTypes.Hero)
+        if (combat.actorTurn == CombatActorType.Hero)
             layerName = "Resolve Card";
-        else if(combat.actorTurn == CombatActorTypes.Enemy)
+        else if(combat.actorTurn == CombatActorType.Enemy)
             layerName = "EnemyCard";
         else    
             layerName = "CompanionCard";

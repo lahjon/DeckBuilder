@@ -20,6 +20,7 @@ public class CombatControllerAnimatorCompanionEnd: CombatControllerAnimator
 
         yield return combat.StartCoroutine(companion.EffectsOnEndTurnBehavior());
         combat.animator.SetTrigger("CompanionTurnEnded");
+        if (combat.animator.GetBool("CompanionTurnStartedByPlayer")) combat.actorTurn = CombatActorType.Hero;
     }
  
 

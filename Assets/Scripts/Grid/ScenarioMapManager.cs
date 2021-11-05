@@ -150,8 +150,8 @@ public class ScenarioMapManager : Manager
     IEnumerator CreateMap()
     {
         float timeMultiplier = .5f;
-        hexMapController.disablePanning = true;
-        hexMapController.disableZoom = true;
+        //hexMapController.disablePanning = true;
+        //hexMapController.disableZoom = true;
         hexMapController.enableInput = false;
         gridState = GridState.Creating;
 
@@ -163,7 +163,7 @@ public class ScenarioMapManager : Manager
         // flip it up
         float timer = 0.3f * timeMultiplier;
 
-        hexMapController.Zoom(ZoomState.Outer, null, true);
+        hexMapController.Zoom(ZoomState.Outer, null);
         yield return new WaitForSeconds(1);
 
         for (int i = 1; i <= 4; i++)
@@ -193,8 +193,8 @@ public class ScenarioMapManager : Manager
             tile.directionEntry = dir.GetOpposing();
         }
 
-        hexMapController.disablePanning = false;
-        hexMapController.disableZoom = false;
+        //hexMapController.disablePanning = false;
+        //hexMapController.disableZoom = false;
         initialized = true;
 
         HighlightChoosable();
@@ -205,11 +205,11 @@ public class ScenarioMapManager : Manager
 
     public void ExpandMap()
     {
-        hexMapController.disablePanning = true;
+        //hexMapController.disablePanning = true;
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
-            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.disablePanning = false)
+            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.enableInput = false)
         );
     }
 
@@ -274,7 +274,7 @@ public class ScenarioMapManager : Manager
     public void ExitPlacement()
     {
         activeTile.tileState = TileState.Current;
-        hexMapController.disablePanning = false;
+        hexMapController.enableInput = true;
         activeTile = null;
         animator.SetBool("Confirm", true);
     }

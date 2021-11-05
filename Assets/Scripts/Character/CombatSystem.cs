@@ -21,10 +21,12 @@ public class CombatSystem : MonoBehaviour
     public Transform cardPanel;
     public Transform cardHoldPos;
     public bool hasCompanion;
+    public CombatStateType combatStateType;
     public Transform environmentAnchor;
     public GameObject[] environmentPrefabs;
     GameObject currentEnvironment;
-    public CombatActorTypes actorTurn;
+    public CombatActorType actorTurn;
+    public Button companionButton;
 
     public CombatCardPresenter cardPresenter;
 
@@ -199,17 +201,21 @@ public class CombatSystem : MonoBehaviour
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
         
+        animator.SetBool("CompanionTurnStartedByPlayer", false);
         if (WorldSystem.instance.companionManager.currentCompanionData is CompanionData companionData)
         {
             companion.ReadCompanionData(companionData);
             animator.SetBool("HasCompanion", true);
             hasCompanion = true;
+            companionButton.gameObject.SetActive(true);
+            companionButton.interactable = false;
         }
         else    
         {
             companion.gameObject.SetActive(false);
             animator.SetBool("HasCompanion", false);
             hasCompanion = false;
+            companionButton.gameObject.SetActive(false);
         }
 
         deckData = WorldSystem.instance.characterManager.deck;
@@ -304,6 +310,16 @@ public class CombatSystem : MonoBehaviour
         EnemiesInScene.Remove(enemy);
         TargetedEnemy = null;
         ToggleTargetForward();
+    }
+
+    public void ButtonPlayCompanion()
+    {
+        if (combatStateType == CombatStateType.Idle)
+        {
+            companionButton.interactable = false;
+            animator.SetBool("CompanionTurnStartedByPlayer", true);
+            animator.SetTrigger("CompanionTurnStart");
+        }
     }
 
     public void ToggleTargetForward()

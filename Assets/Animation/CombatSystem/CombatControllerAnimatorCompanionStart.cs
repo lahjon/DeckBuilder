@@ -10,7 +10,7 @@ public class CombatControllerAnimatorCompanionStart: CombatControllerAnimator
         Debug.Log("Entered companion start state");
         SetRefs(animator);
         companion = combat.companion;
-        combat.actorTurn = CombatActorTypes.Companion;
+        combat.actorTurn = CombatActorType.Companion;
 
         // combat.combatOverlay.AnimateEnemyTurn();
 
