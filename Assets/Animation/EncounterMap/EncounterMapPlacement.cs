@@ -8,7 +8,7 @@ public class EncounterMapPlacement : EncounterMapAnimator
     {
         base.Init();
         
-        gridManager.gridState = GridState.Placement;
+        gridManager.gridState = GridState.Placing;
         gridManager.hexMapController.disablePanning = true;
         gridManager.hexMapController.disableZoom = true;
         foreach (HexTile tile in gridManager.highlightedTiles)

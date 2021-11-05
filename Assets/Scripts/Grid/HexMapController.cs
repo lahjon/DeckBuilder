@@ -71,7 +71,7 @@ public class HexMapController : MonoBehaviour
             zoomPosition = cam.transform.position;
         }
 
-        if (gridManager.gridState == GridState.Rotating) zoomPosition = cam.transform.position;
+        if (gridManager.gridState == GridState.Placing) zoomPosition = cam.transform.position;
         
         if (zoomState == ZoomState.Inner)
         {

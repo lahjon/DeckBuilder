@@ -164,14 +164,10 @@ public enum GridState
 {
     Creating,
     Animating,
-    Placement,
+    Placing,
     Play,
     Panning,
-    Overview,
-    Dragging,
-    Rotating,
     Complete,
-    Encounter
 }
 
 public enum CardType
