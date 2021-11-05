@@ -36,7 +36,7 @@ public class BossCounter : MonoBehaviour, IToolTipable
             {
                 tween = transform.DOScale(new Vector3(textScale, textScale, textScale), 0.6f).SetEase(Ease.InOutSine).SetLoops(-1);
                 bossCounterText.text = "";
-                WorldSystem.instance.gridManager.StartBoss();
+                //WorldSystem.instance.gridManager.StartBoss();
             }
             else if (_counter < tilesUntilBoss)
             {

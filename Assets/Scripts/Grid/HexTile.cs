@@ -101,22 +101,7 @@ public class HexTile : MonoBehaviour
             }
         }
     }
-
-    public bool specialTile
-    {
-        get
-        {
-            return _specialTile;
-        }
-        set 
-        {
-            _specialTile = value;
-            mapManager.specialTiles.Add(this);
-        }
-    }
-
     
-
     public TileState tileState
     {
         get
@@ -504,7 +489,7 @@ public class HexTile : MonoBehaviour
 
     public void AddNeighboors()
     {
-        foreach (GridDirection dir in GridDirection.directions)
+        foreach (GridDirection dir in GridDirection.ccPositions)
             if (mapManager.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }
