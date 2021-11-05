@@ -11,7 +11,7 @@ public class EncounterMapPlacement : EncounterMapAnimator
         gridManager.gridState = GridState.Placing;
         //gridManager.hexMapController.disablePanning = true;
         //gridManager.hexMapController.disableZoom = true;
-        foreach (HexTile tile in gridManager.highlightedTiles)
+        foreach (HexTile tile in gridManager.choosableTiles)
         {
             if (tile.tileState == TileState.InactiveHighlight)
             {

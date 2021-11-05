@@ -26,7 +26,6 @@ public class ScenarioMapManager : Manager
     public float hexScale = 0.392f;
     public bool initialized;
     int furthestRowReached;
-    public HashSet<HexTile> highlightedTiles = new HashSet<HexTile>();
     public Transform tileParent, roadParent;
     public TMP_Text conditionText;
 
@@ -77,7 +76,6 @@ public class ScenarioMapManager : Manager
         currentTile = null;
         tiles.Clear();
         completedTiles.Clear();
-        highlightedTiles.Clear();
         gridState = GridState.Creating;
         furthestRowReached = 0;
         for (int i = 0; i < tileParent.childCount; i++)
@@ -189,15 +187,8 @@ public class ScenarioMapManager : Manager
     }
     public void HighlightChoosable()
     {
-        highlightedTiles.Clear();
-        if (initialized)
-        {
-            foreach(HexTile tile in choosableTiles)
-            {
-                highlightedTiles.Add(tile);
-                tile.tileState = TileState.InactiveHighlight;
-            }
-        }
+        foreach(HexTile tile in choosableTiles)
+            tile.tileState = TileState.InactiveHighlight;
     }
 
     public void ExitPlacement()
