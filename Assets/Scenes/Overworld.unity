@@ -43452,7 +43452,6 @@ MonoBehaviour:
   tileGap: 0
   undiscoveredMaterial: {fileID: 2100000, guid: e419d847beaa16d43852f448c7efea92, type: 2}
   discoveredMaterial: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
-  activeTile: {fileID: 0}
   currentTile: {fileID: 0}
   completedTiles: []
   specialTiles: []
@@ -43513,9 +43512,7 @@ MonoBehaviour:
   maxY: 8
   panSpeed: 7
   panSensitivity: 1
-  disablePanning: 0
   zoomStep: 1
-  disableZoom: 0
   enableInput: 1
 --- !u!114 &1848971792
 MonoBehaviour:
@@ -47507,7 +47504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2011069082
 MonoBehaviour:
   m_ObjectHideFlags: 0

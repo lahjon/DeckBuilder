@@ -450,7 +450,7 @@ public enum BuildingType
 
 public enum OverworldEncounterType
 {
-    Start,
+    None,
     Exit,
     Choice,
     Shop,
@@ -459,7 +459,8 @@ public enum OverworldEncounterType
     CombatBoss = 6,
     Cave,
     Bonfire,
-    Story
+    Story,
+    Start
 }
 
 public enum CombatEncounterType
