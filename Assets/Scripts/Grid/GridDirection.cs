@@ -33,7 +33,7 @@ public struct GridDirection : IEquatable<GridDirection>
     public static GridDirection SouthWest = new GridDirection(DirectionName.SouthWest);
     public static GridDirection SouthEast = new GridDirection(DirectionName.SouthEast);
 
-    public static List<GridDirection> directions = new List<GridDirection>()
+    public static List<GridDirection> Directions = new List<GridDirection>()
     {
         East, NorthEast, NorthWest, West, SouthWest, SouthEast
     };
