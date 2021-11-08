@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31bce648fddcd64c9608d80db47b8ad, type: 3}
   m_Name: DemoStart01
   m_EditorClassIdentifier: 
+  index: 0
   sentences:
   - dialogueParticipant: 7
     sentence: Hello there! Im the major. Explore the town before you leave. When
@@ -22,5 +23,5 @@ MonoBehaviour:
     sentence: Alright, back to work.
   - dialogueParticipant: 7
     sentence: Thats right, walk away.
-  startEvent: Event003
-  endEvent: Event004
+  stateToTrigger: 
+  endEvent: []

@@ -7,8 +7,9 @@ using System.Linq;
 public class MissionData : ProgressionData
 {
     public bool mainMission;
-    public string startEvent;
-    public string endEvent;
+    public List<GameEventStruct> gameEventsOnStart;
+    public List<GameEventStruct> gameEventsOnEnd;
+    public List<int> addDialogueIdx = new List<int>();
     public MissionData nextMission;
 
 }

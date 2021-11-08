@@ -2,27 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class GameEventManager : Manager
 {
-    public GameEvent currentGameEvent;
-    public GameObject gameEventObject;
-    List<string> allGameEvents = new List<string>();
     protected override void Awake()
     {
         base.Awake();
         world.gameEventManager = this;
     }
-    void CreateEvent(string eventName)
+    public void CreateEvent(GameEventStruct gameEventStruct)
     {
-        currentGameEvent = (GameEvent)gameObject.AddComponent(System.Type.GetType(eventName));
+        if (InstanceObject(string.Format("GameEvent{0}", gameEventStruct.type.ToString())) is GameEvent gameEvent)
+        {
+            gameEvent.world = world;
+            gameEvent.TriggerGameEvent(gameEventStruct);
+        }
     }
-    public void StartEvent(string eventName)
-    {
-        if (currentGameEvent != null) Destroy(currentGameEvent);
-        if (string.IsNullOrEmpty(eventName)) return;
 
-        CreateEvent(eventName);
-        currentGameEvent.StartGameEvent();
+    GameEvent InstanceObject(string aName)
+    {
+        if (Type.GetType(aName) is Type type && (GameEvent)Activator.CreateInstance(type, world) is GameEvent gameEvent)
+            return gameEvent;
+        else
+            return null;
+    }
+}
+
+[System.Serializable]
+public struct GameEventStruct
+{
+    public GameEventType type;
+    public string parameter;
+    public string value;
+    public GameEventStruct(GameEventType aType, string aParm, string aValue)
+    {
+        type = aType;
+        parameter = aParm;
+        value = aValue;
     }
 }

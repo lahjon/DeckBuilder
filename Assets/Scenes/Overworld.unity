@@ -7322,11 +7322,11 @@ MonoBehaviour:
   allDialogueData:
   - {fileID: 11400000, guid: f3ba3166ee04f5a4f9590fef8e56747b, type: 2}
   - {fileID: 11400000, guid: 1523bca06ad66e44eb1a6fe44c131d75, type: 2}
-  currentDialogue: 0
-  dialogueData: {fileID: 0}
-  currentArtwork: {fileID: 0}
+  completedDialogues: 
+  availableDialogues: 
   currentSentence: 
   dialogue: {fileID: 1535269972}
+  dialogueData: {fileID: 0}
   index: 0
   activeDialogue: 0
 --- !u!1 &257500714
@@ -10839,8 +10839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74217a74710f0c8419cf3813031b1bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGameEvent: {fileID: 0}
-  gameEventObject: {fileID: 2132530893}
 --- !u!1 &401366667
 GameObject:
   m_ObjectHideFlags: 0
@@ -41898,27 +41896,25 @@ MonoBehaviour:
   canvasCard: {fileID: 358462543}
   combatRewardNormal:
   - type: 1
-    value: []
+    value: 
   - type: 3
-    value: []
+    value: 
   combatRewardElite:
   - type: 1
-    value: []
+    value: 
   - type: 3
-    value:
-    - rarity=0.4;0.3
+    value: 
   - type: 11
-    value: []
+    value: 
   combatRewardBoss:
   - type: 1
-    value: []
+    value: 
   - type: 3
-    value:
-    - rarity=0;1
+    value: 
   - type: 2
-    value: []
+    value: 
   - type: 11
-    value: []
+    value: 
   cardDisplayPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
 --- !u!1 &1767147678
 GameObject:
@@ -43454,12 +43450,10 @@ MonoBehaviour:
   discoveredMaterial: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   currentTile: {fileID: 0}
   completedTiles: []
-  specialTiles: []
   gridState: 0
   content: {fileID: 1380248318}
   hexMapController: {fileID: 0}
   currentTurn: 0
-  bossStarted: 0
   hexScale: 0.392
   initialized: 0
   tileParent: {fileID: 624123282}
@@ -47504,7 +47498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2011069082
 MonoBehaviour:
   m_ObjectHideFlags: 0

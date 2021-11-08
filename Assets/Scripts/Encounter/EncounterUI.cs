@@ -117,7 +117,7 @@ public class EncounterUI : MonoBehaviour
                 break;
             case EncounterEventChoiceEffect.GetCards:
                 CardClassType cardClassType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
-                WorldSystem.instance.rewardManager.CreateReward(RewardType.Card, new string[1]{effectStruct.parameter});
+                WorldSystem.instance.rewardManager.CreateReward(RewardType.Card, effectStruct.parameter);
                 break;
         }
     }

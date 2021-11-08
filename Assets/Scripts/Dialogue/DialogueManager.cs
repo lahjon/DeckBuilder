@@ -8,13 +8,12 @@ public class DialogueManager : Manager, ISaveableWorld
     public List<CharacterData> characterDatas = new List<CharacterData>();
 
     public List<DialogueData> allDialogueData = new List<DialogueData>();
-    public int currentDialogue;
-    public DialogueData dialogueData;
-    [HideInInspector]
-    public Sprite currentArtwork;
+    public List<int> completedDialogues = new List<int>();
+    public List<int> availableDialogues = new List<int>();
     [HideInInspector]
     public string currentSentence;
     public Dialogue dialogue;
+    public DialogueData dialogueData;
     public int index;
     public bool activeDialogue;
     protected override void Awake()
@@ -26,8 +25,22 @@ public class DialogueManager : Manager, ISaveableWorld
     protected override void Start()
     {
         base.Start();
-        if(currentDialogue == 0)
-            dialogueData = allDialogueData[0];
+    }
+
+    public void AddDialogue(int idx)
+    {
+        Debug.Log("adding");
+        if (!availableDialogues.Contains(idx) && !completedDialogues.Contains(idx))
+            availableDialogues.Add(idx);
+    }
+
+    public void CompleteDialogue()
+    {
+        if (dialogueData != null)
+        {
+            availableDialogues.Remove(dialogueData.index);
+            completedDialogues.Add(dialogueData.index);
+        }
     }
 
     CharacterData GetParticipantData(DialogueParticipant aParticipant)
@@ -42,7 +55,6 @@ public class DialogueManager : Manager, ISaveableWorld
             {
                 if (characterDatas[i].dialogueParticipant == aParticipant)
                     return characterDatas[i];
-
             }
         }
         return null;
@@ -69,26 +81,22 @@ public class DialogueManager : Manager, ISaveableWorld
         dialogue.EndSentence();
     }
 
-    public void SetDataFromString(string dialogueName)
-    {
-        Debug.Log(allDialogueData[0].name);
-        Debug.Log(allDialogueData[1].name);
-        DialogueData data = allDialogueData.Where(x => x.name == dialogueName).FirstOrDefault();
-        if (data != null) dialogueData = data;
-    }
-
     public void StartDialogue()
     {
-        
-        if (dialogueData != null && dialogueData.sentences.Any() && !activeDialogue)
+        if (availableDialogues.Any() && allDialogueData.FirstOrDefault(x => x.index == availableDialogues[0]) is DialogueData aDialogueData)
         {
-            if (!string.IsNullOrEmpty(dialogueData.startEvent))
-                WorldSystem.instance.gameEventManager.StartEvent(dialogueData.startEvent);
-
-            WorldStateSystem.SetInDialogue();
-            dialogue.gameObject.SetActive(true);
-            activeDialogue = true;
-            NextSentence();
+            dialogueData = aDialogueData; 
+            if (!activeDialogue)
+            {
+                WorldStateSystem.SetInDialogue();
+                dialogue.gameObject.SetActive(true);
+                activeDialogue = true;
+                NextSentence();
+            }
+            else
+            {
+                Debug.LogWarning("Dialogue ongoing, should not happen!");
+            }
         }
         else
         {
@@ -101,20 +109,24 @@ public class DialogueManager : Manager, ISaveableWorld
         index = 0;
         activeDialogue = false;
         dialogue.gameObject.SetActive(false);
-        currentDialogue++;
+        CompleteDialogue();
         WorldStateSystem.TriggerClear();
-        if (!string.IsNullOrEmpty(dialogueData.endEvent))
-            WorldSystem.instance.gameEventManager.StartEvent(dialogueData.endEvent);
+        if (dialogueData.endEvent?.Any() == true)
+            for (int i = 0; i < dialogueData.endEvent.Count; i++)
+                WorldSystem.instance.gameEventManager.CreateEvent(dialogueData.endEvent[i]);
+
         dialogueData = null;
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.completedDialogue = currentDialogue;
+        a_SaveData.completedDialogues = completedDialogues;
+        a_SaveData.availableDialogues = availableDialogues;
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        currentDialogue = a_SaveData.completedDialogue;
+        a_SaveData.completedDialogues = completedDialogues;
+        a_SaveData.availableDialogues = availableDialogues;
     }
 }

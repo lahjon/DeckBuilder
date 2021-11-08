@@ -20,7 +20,8 @@ MonoBehaviour:
     strParameter: BigBad Wolf
     numValue: 1
     strParameters: []
-  mainMission: 0
-  startEvent: 
-  endEvent: 
+  mainMission: 1
+  gameEventsOnStart: []
+  gameEventsOnEnd: []
+  addDialogueIdx: 01000000
   nextMission: {fileID: 0}

@@ -615,7 +615,7 @@ public class DatabaseGoogle
             
             
 
-            data.rewardStruct.value = ((string)gt[i, "RewardValues"]).Split(';');
+            data.rewardStruct.value = ((string)gt[i, "RewardValues"]);
             
 
 

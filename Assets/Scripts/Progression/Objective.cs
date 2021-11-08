@@ -9,7 +9,7 @@ public class Objective : Progression
     public string objectiveName;
     public ObjectiveData data;
     public ObjectiveData nextObjective;
-    public string endEvent;
+    public GameEventStruct endEvent;
     public void StartObjetive(ObjectiveData aData)
     {
         data = aData;
@@ -30,7 +30,7 @@ public class Objective : Progression
         base.Complete();
         WorldSystem.instance.objectiveManager.StartObjective(nextObjective);
 
-        WorldSystem.instance.gameEventManager.StartEvent(endEvent);
+        WorldSystem.instance.gameEventManager.CreateEvent(endEvent);
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning(description);
         WorldSystem.instance.objectiveManager.AddCompleteObjective(this);
         Destroy(gameObject);
