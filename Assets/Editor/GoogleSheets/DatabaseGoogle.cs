@@ -26,6 +26,7 @@ public class DatabaseGoogle
     readonly public static string ArtifactPath = @"Assets\ItemData\Artifacts";
     readonly public static string ModifierPath = @"Assets\CardModifier";
     readonly public static string ScenarioPath = @"Assets\Encounters\World";
+    readonly public static string DialoguePath = @"Assets\Dialogues";
 
     SheetsService service;
 
@@ -74,6 +75,13 @@ public class DatabaseGoogle
     {
         ReadEntriesScenarios("Scenario", "Z");
         ReadEntriesScenariosSegments("ScenarioSegments", "Z");
+    }
+
+    public void DownloadDialogues()
+    {
+        ReadEntriesDialogue("Dialogue", "Z");
+        ReadEntriesDialogueSentences("DialogueSentences", "Z");
+        ReadEntriesDialoguEvents("DialogueEvents", "Z");
     }
 
     #region CardDownload
@@ -141,7 +149,6 @@ public class DatabaseGoogle
             AssetDatabase.Refresh();
         }
     }
-
 
     public void ReadEntriesCardFields(string sheetName, string lastCol)
     {
@@ -586,10 +593,107 @@ public class DatabaseGoogle
 
     #endregion
 
+    #region Dialogue
+    public void ReadEntriesDialogue(string sheetName, string lastCol)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.dialogues.Clear();
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            string databaseName = (string)gt[i, "Name"];
+            if (databaseName.Equals(""))
+                break;
+
+            DialogueData data = TDataNameToAsset<DialogueData>(databaseName, new string[] { DialoguePath });
+            if (data is null)
+            {
+                data = ScriptableObject.CreateInstance<DialogueData>();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.CreateAsset(data, DialoguePath + @"\" + databaseName + ".asset");
+            }
+
+            data.index = int.Parse((string)gt[i, "Id"]);
+            data.sentences.Clear();
+            data.endEvent.Clear();
+
+            dbs.dialogues.Add(data);
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
+
+    public void ReadEntriesDialogueSentences(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            int id = int.Parse((string)gt[i, "DialogueId"]);
+            DialogueData data = dbs.dialogues.Where(x => x.index == id).FirstOrDefault();
+            if (data  == null)
+            {
+                Debug.Log("No Such DialogueID:" + id);
+                break;
+            }
+
+            Sentence sentence = new Sentence();
+            Enum.TryParse((string)gt[i, "Participant"], out sentence.dialogueParticipant);
+            sentence.sentence = (string)gt[i, "Sentence"];
+            data.sentences.Add(sentence);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+    public void ReadEntriesDialoguEvents(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            int id = int.Parse((string)gt[i, "DialogueId"]);
+            DialogueData data = dbs.dialogues.Where(x => x.index == id).FirstOrDefault();
+            if (data == null)
+            {
+                Debug.Log("No Such DialogueID:" + id);
+                break;
+            }
+
+            GameEventStruct eventInfo = new GameEventStruct();
+            Enum.TryParse((string)gt[i, "Type"], out eventInfo.type);
+            eventInfo.parameter = (string)gt[i, "parameter"];
+            eventInfo.value = (string)gt[i, "value"];
+
+            data.endEvent.Add(eventInfo);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+    #endregion
+
     public void ReadEntriesScenarios(string sheetName, string lastCol)
     {
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
         DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.scenarios.Clear();
 
         GoogleTable gt = getGoogleTable(sheetName, lastCol);
         for (int i = 1; i < gt.values.Count; i++)
@@ -613,12 +717,7 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "RewardType"], out data.rewardStruct.type);
             Enum.TryParse((string)gt[i, "ScenarioType"], out data.type);
             
-            
-
             data.rewardStruct.value = ((string)gt[i, "RewardValues"]);
-            
-
-
             data.unlocksScenarios.Clear(); 
             string[] unlockableIDs = ((string)gt[i, "UnlockableScenarioIDs"]).Split(';');
             for(int s = 0; s < unlockableIDs.Length; s++)
@@ -628,6 +727,7 @@ public class DatabaseGoogle
             data.DescriptionShort = (string)gt[i, "DescriptionShort"];
 
             data.SegmentDatas.Clear();
+            dbs.scenarios.Add(data);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
