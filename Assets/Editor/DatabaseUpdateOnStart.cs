@@ -201,6 +201,15 @@ public static class DatabaseUpdateOnStart
         Debug.Log("Googled the cards bro!");
     }
 
+    [MenuItem("Edit/Download Dialogues %#D")]
+    public static void DownloadFromGoogleDialogues()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadDialogues();
+
+        Debug.Log("Googled the dialogues bro!");
+    }
+
     [MenuItem("Edit/Download GoogleEnemies %#E")]
     public static void DownloadFromGoogleEnemies()
     {

@@ -25,6 +25,8 @@ public class DatabaseSystem : MonoBehaviour
     public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encountersEventToDraw = new List<EncounterDataRandomEvent>();
 
+    [Header("=========== CurrentScenario ============")]
+    public List<DialogueData> dialogues = new List<DialogueData>();
 
     private void Awake()
     {

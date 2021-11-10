@@ -443,7 +443,6 @@ MonoBehaviour:
   offset: 50
   handDistance: 150
   handHeight: 75
-  energyTurn: 0
   origoCardRot: 1000
   origoCardPos: 1000
   baseDegreeBetweenCards: 10
@@ -460,6 +459,8 @@ MonoBehaviour:
   - {fileID: 1074241189}
   - {fileID: 1586522419}
   formationPositions: []
+  energyMax: 5
+  energyTurn: 3
   backingEnergy: 0
   _targetedEnemy: {fileID: 0}
   deckData: []
@@ -7317,9 +7318,6 @@ MonoBehaviour:
   characterDatas:
   - {fileID: 11400000, guid: d68e50ed05a31e24d9af1e4bc4133b40, type: 2}
   - {fileID: 11400000, guid: 906ab24d0a8f1004e8b8ff8f37c1308e, type: 2}
-  allDialogueData:
-  - {fileID: 11400000, guid: f3ba3166ee04f5a4f9590fef8e56747b, type: 2}
-  - {fileID: 11400000, guid: 1523bca06ad66e44eb1a6fe44c131d75, type: 2}
   completedDialogues: 
   availableDialogues: 
   currentSentence: 
@@ -35318,6 +35316,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
   encountersCombatToDraw: []
   encountersEventToDraw: []
+  dialogues:
+  - {fileID: 11400000, guid: f3ba3166ee04f5a4f9590fef8e56747b, type: 2}
+  - {fileID: 11400000, guid: 1523bca06ad66e44eb1a6fe44c131d75, type: 2}
 --- !u!4 &1500454268
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,6 @@ public class DialogueManager : Manager, ISaveableWorld
 {
     public List<CharacterData> characterDatas = new List<CharacterData>();
 
-    public List<DialogueData> allDialogueData = new List<DialogueData>();
     public List<int> completedDialogues = new List<int>();
     public List<int> availableDialogues = new List<int>();
     [HideInInspector]
@@ -83,7 +82,7 @@ public class DialogueManager : Manager, ISaveableWorld
 
     public void StartDialogue()
     {
-        if (availableDialogues.Any() && allDialogueData.FirstOrDefault(x => x.index == availableDialogues[0]) is DialogueData aDialogueData)
+        if (availableDialogues.Any() && DatabaseSystem.instance.dialogues.FirstOrDefault(x => x.index == availableDialogues[0]) is DialogueData aDialogueData)
         {
             dialogueData = aDialogueData; 
             if (!activeDialogue)

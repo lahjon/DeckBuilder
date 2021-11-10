@@ -15,13 +15,12 @@ MonoBehaviour:
   index: 0
   sentences:
   - dialogueParticipant: 7
-    sentence: Hello there! Im the major. Explore the town before you leave. When
-      you are done, ill give you more stuff to do.
-  - dialogueParticipant: 7
-    sentence: Now go one, stop slacking.
+    sentence: Cuttrefish or assparagus?
   - dialogueParticipant: 1
-    sentence: Alright, back to work.
+    sentence: mmmMMMMISH
   - dialogueParticipant: 7
-    sentence: Thats right, walk away.
+    sentence: Cuttrefish?
+  - dialogueParticipant: 1
+    sentence: MMMMM!!!!
   stateToTrigger: 
   endEvent: []

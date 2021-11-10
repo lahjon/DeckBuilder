@@ -15,13 +15,11 @@ MonoBehaviour:
   index: 1
   sentences:
   - dialogueParticipant: 7
-    sentence: Hurray! You are amazing at exploring. Now go out and kill Seth Nielsen!
+    sentence: So good you made it. Now assparagus
   - dialogueParticipant: 1
-    sentence: Ooooh reeearry?
-  - dialogueParticipant: 7
-    sentence: Yes. And take this artifact! May it help you!
+    sentence: Please dont
   stateToTrigger: 
   endEvent:
-  - type: 3
-    parameter: 51
+  - type: 2
+    parameter: Item
     value: 0

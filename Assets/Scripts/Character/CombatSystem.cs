@@ -41,7 +41,6 @@ public class CombatSystem : MonoBehaviour
     public float offset = 50;
     public float handDistance = 150;
     public float handHeight = 75;
-    public int energyTurn;
     public float origoCardRot = 1000f;
     public float origoCardPos = 1000f;
     public float baseDegreeBetweenCards = 10f;
@@ -61,17 +60,19 @@ public class CombatSystem : MonoBehaviour
 
     Queue<object> drawnToResolve = new Queue<object>();
 
-    [HideInInspector] public int backingEnergy;
+    public int energyMax = 5;
+    public int energyTurn = 3;
+    [HideInInspector] public int _cEnergy;
     [HideInInspector] public int cEnergy
     {
-        get { return backingEnergy; }
+        get { return _cEnergy; }
         set {
             bool energyChanged = false;
             value = Mathf.Max(0, value);
-            if (backingEnergy != value)
+            if (_cEnergy != value)
                 energyChanged = true;
-            backingEnergy = value; 
-            lblEnergy.text = backingEnergy.ToString(); 
+            _cEnergy = value; 
+            lblEnergy.text = _cEnergy.ToString(); 
             if(energyChanged)
                 EventManager.EnergyChanged();
         }
@@ -393,8 +394,6 @@ public class CombatSystem : MonoBehaviour
 
     public int PreviewCalcDamageAllEnemies(int value)
     {
-        if (!EnemiesInScene.Any()) return value;
-
         int possibleDamage = PreviewCalcDamageEnemy(value, TargetedEnemy);
         foreach (CombatActor enemy in EnemiesInScene)
             if (possibleDamage != PreviewCalcDamageEnemy(value, enemy))
