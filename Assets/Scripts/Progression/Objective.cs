@@ -30,7 +30,7 @@ public class Objective : Progression
         base.Complete();
         WorldSystem.instance.objectiveManager.StartObjective(nextObjective);
 
-        WorldSystem.instance.gameEventManager.CreateEvent(endEvent);
+        GameEventManager.CreateEvent(endEvent);
         WorldSystem.instance.uiManager.UIWarningController.CreateWarning(description);
         WorldSystem.instance.objectiveManager.AddCompleteObjective(this);
         Destroy(gameObject);

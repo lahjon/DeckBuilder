@@ -8,7 +8,7 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public EquipmentData equipmentData;
     public Image image;
-    public Effect effect;
+    public ItemEffect itemEffect;
     public void BindData(EquipmentData data)
     {
         if (data == null) return;
@@ -16,14 +16,7 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!image.enabled) image.enabled = true;
         equipmentData = data;
         image.sprite = data.artwork;
-        if (effect == null)
-            effect = Effect.GetEffect(gameObject, data.effect, true);
-        else
-        {
-            effect.RemoveEffect();
-            Destroy(effect);
-            effect = Effect.GetEffect(gameObject, data.effect, true);
-        }
+        itemEffect = ItemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -4,5 +4,6 @@ using UnityEngine;
 public abstract class GameEvent
 {
     public WorldSystem world;
-    public abstract void TriggerGameEvent(GameEventStruct gameEventStruct);
+    public GameEventStruct gameEventStruct;
+    public abstract void TriggerGameEvent();
 }

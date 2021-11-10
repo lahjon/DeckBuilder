@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GameEventHighlightBuilding : GameEvent
 {
-    public override void TriggerGameEvent(GameEventStruct gameEventStruct)
+    public override void TriggerGameEvent()
     { 
         
         if (int.Parse(gameEventStruct.parameter) is int anInt && (BuildingType)anInt is BuildingType buildingType)

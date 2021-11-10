@@ -92,7 +92,7 @@ public class EventManager : Manager
         if (OnStatsTrackerUpdatedEvent != null)
             EventManager.OnStatsTrackerUpdatedEvent();
     }
-    public static void CompleteWorldEncounter()
+    public static void CompleteWorldScenario()
     {
         OnCompleteWorldEncounterEvent?.Invoke();
     

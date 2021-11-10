@@ -51,8 +51,6 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
         if (tokenData.rarity == Rarity.Starting || unlockedTokens.Contains(token.id))
             token.unlocked = true;
 
-        Effect.GetEffect(token.gameObject, tokenData.name);
-
         allTokens.Add(token);
         token.Init();
     }
@@ -82,7 +80,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            token.GetComponent<Effect>().AddEffect();
+            token.itemEffect.AddItemEffect();
         }
         if (!init)
         {
@@ -97,7 +95,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                token.GetComponent<Effect>().RemoveEffect();
+                token.itemEffect.RemoveItemEffect();
             }
             selectedTokens.Remove(token.id);
             tokenMenu.UnselectToken(token.id);

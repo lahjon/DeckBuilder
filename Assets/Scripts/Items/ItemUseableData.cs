@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "CardGame/Item")][System.Serializable]
-public class UseItemData : ItemData
+public class ItemUseableData : ItemData
 {
     public ConditionData itemCondition;
-    public List<WorldState> itemUseCondition;
+    public List<WorldState> itemUseableDataCondition;
 
 }

@@ -11,16 +11,17 @@ public class GameEventManager : Manager
         base.Awake();
         world.gameEventManager = this;
     }
-    public void CreateEvent(GameEventStruct gameEventStruct)
+    public static void CreateEvent(GameEventStruct gameEventStruct)
     {
         if (InstanceObject(string.Format("GameEvent{0}", gameEventStruct.type.ToString())) is GameEvent gameEvent)
         {
             gameEvent.world = world;
-            gameEvent.TriggerGameEvent(gameEventStruct);
+            gameEvent.gameEventStruct = gameEventStruct;
+            gameEvent.TriggerGameEvent();
         }
     }
 
-    GameEvent InstanceObject(string aName)
+    static GameEvent InstanceObject(string aName)
     {
         if (Type.GetType(aName) is Type type && (GameEvent)Activator.CreateInstance(type, world) is GameEvent gameEvent)
             return gameEvent;

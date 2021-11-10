@@ -310,12 +310,21 @@ public enum EncounterEventChoiceEffect
 public enum GameEventType
 {
     None,
-    HighlightBuilding,          // parm = int (BuildingType) | value = bool, ex: (0, true)
-    GetReward,                  // parm = int (RewardType) | value = idx (int), ex1: (51, 0) ex1: (3, 5)
-    GetRewardAndTrigger,        // same as GetReward but also triggers it instantly
+    Custom,                     // parm = name of event | value = whatever needed by your custom event
+    HighlightBuilding,          // parm = string (BuildingType) | value = bool, ex: (0, true)
+    GetReward,                  // parm = string (RewardType) | value = id (int), ex1: (Item, 0)
+    TriggerState,               // parm = string (WorldState)
     ToggleWorldMap,             // parm = None | value = bool, ex: (true)
     UnlockScenario              // parm = None | value = idx (int), ex: (0)
 }
+public enum ItemEffectType
+{
+    None = 0,
+    Custom,
+    AddStat
+}
+
+
 
 public enum EncounterHexStatus
 {

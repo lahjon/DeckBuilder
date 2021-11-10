@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class UseItemManager : Manager, ISaveableTemp
+public class ItemUseableManager : Manager, ISaveableTemp
 {
     public GameObject itemPrefab;
     public Canvas canvas;
     public Transform content;
-    public List<UseItemData> allItems = new List<UseItemData>(); 
+    public List<ItemUseableData> allItems = new List<ItemUseableData>(); 
     public List<ItemUsable> equippedItems = new List<ItemUsable>(); 
     public int maxItemSlots;
     public int usedItemSlots;
     protected override void Awake()
     {
         base.Awake();
-        world.useItemManager = this;
-}
+        world.itemUseableManager = this;
+    }
     protected override void Start()
     {
         base.Start();
     }
 
-    public UseItemData GetItemData(int anId = -1)
+    public ItemUseableData GetItemData(int anId = -1)
     {
         if (anId >= 0)
             return allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.itemId == anId);
         else
         {
-            UseItemData[] items = allItems.Except(equippedItems.Select(x => x.itemData)).ToArray();
+            ItemUseableData[] items = allItems.Except(equippedItems.Select(x => x.itemData)).ToArray();
             if (items.Count() > 0)
                 return items[Random.Range(0, items.Count())];
 
@@ -63,7 +63,7 @@ public class UseItemManager : Manager, ISaveableTemp
             return;
         }
 
-        UseItemData data;
+        ItemUseableData data;
 
         if (anId >= 0)
             data = allItems.Except(equippedItems.Select(x => x.itemData)).FirstOrDefault(x => x.itemId == anId);

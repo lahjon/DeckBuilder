@@ -49,7 +49,7 @@ public class TownInteractable : MonoBehaviour, IToolTipable
     {
         if (gameEvent.type != GameEventType.None)
         {
-            WorldSystem.instance.gameEventManager.CreateEvent(gameEvent);
+            GameEventManager.CreateEvent(gameEvent);
         }
         else
         {

@@ -17,7 +17,7 @@ public class Mission : Progression
 
         CreateGoals(data);
         for (int i = 0; i < data.gameEventsOnStart.Count(); i++)
-            WorldSystem.instance.gameEventManager.CreateEvent(data.gameEventsOnStart[i]);
+            GameEventManager.CreateEvent(data.gameEventsOnStart[i]);
 
         WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
     }
@@ -25,7 +25,7 @@ public class Mission : Progression
     {
         base.Complete();
         for (int i = 0; i < data.gameEventsOnEnd.Count(); i++)
-            WorldSystem.instance.gameEventManager.CreateEvent(data.gameEventsOnEnd[i]);
+            GameEventManager.CreateEvent(data.gameEventsOnEnd[i]);
 
         if (data.nextMission != null)
         {

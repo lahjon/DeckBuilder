@@ -20,8 +20,8 @@ public class SaveDataWorld
     public List<int> unlockedTokens;
 
     // world
-    public List<int> availableWorldEncounters;
-    public List<int> completedWorldEncounters;
+    public List<int> availableScenarios;
+    public List<int> completedScenarios;
 
     // town
     public List<BuildingType> unlockedBuildings;

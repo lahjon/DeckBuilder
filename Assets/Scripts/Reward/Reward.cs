@@ -113,14 +113,14 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     public void RewardItem(string value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.useItemManager.GetItemData(Int32.Parse(value)) : WorldSystem.instance.useItemManager.GetItemData();
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.itemUseableManager.GetItemData(Int32.Parse(value)) : WorldSystem.instance.itemUseableManager.GetItemData();
 
         if (itemData == null)
         {
             Debug.LogWarning("No Item found!");
             return;
         }
-        if (WorldSystem.instance.useItemManager.equippedItems.Select(x => x.id).Contains(itemData.itemId))
+        if (WorldSystem.instance.itemUseableManager.equippedItems.Select(x => x.id).Contains(itemData.itemId))
         {
             Debug.LogWarning("Already have that item!");
             return;
@@ -130,7 +130,7 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = itemData.artwork;
         reset = true;
 
-        callback = () => WorldSystem.instance.useItemManager.AddItem(itemData.itemId);
+        callback = () => WorldSystem.instance.itemUseableManager.AddItem(itemData.itemId);
     }
     public void RewardArtifact(string value)
     {

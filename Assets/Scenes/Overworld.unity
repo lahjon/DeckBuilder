@@ -2887,7 +2887,7 @@ GameObject:
   - component: {fileID: 108230818}
   - component: {fileID: 108230819}
   m_Layer: 0
-  m_Name: ItemManager
+  m_Name: ItemUsableManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2917,17 +2917,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 108230817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fcd609a1b6bc554191f77d7f64e253c, type: 3}
+  m_Script: {fileID: 11500000, guid: b2ff31519ad1f58498655037744ac169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 1192229189984560938, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
   canvas: {fileID: 789297799}
   content: {fileID: 1009999312}
-  allItems:
-  - {fileID: 11400000, guid: 4f6bc39e6ac28264ca5b829d742075bb, type: 2}
-  - {fileID: 11400000, guid: 60db3a087d132ba4591bcdd1db02a9cf, type: 2}
+  allItems: []
   equippedItems: []
-  maxItemSlots: 2
+  maxItemSlots: 1
   usedItemSlots: 0
 --- !u!1 &113228504
 GameObject:
@@ -13157,6 +13155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldState: 8
+  itemEffectManager: {fileID: 0}
   encounterManager: {fileID: 0}
   characterManager: {fileID: 0}
   shopManager: {fileID: 0}
@@ -13178,7 +13177,7 @@ MonoBehaviour:
   rewardManager: {fileID: 0}
   levelManager: {fileID: 0}
   gridManager: {fileID: 0}
-  useItemManager: {fileID: 0}
+  itemUseableManager: {fileID: 0}
   toolTipManager: {fileID: 0}
   act: 1
   subAct: 0
@@ -32391,11 +32390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allPerkDatas:
-  - {fileID: 11400000, guid: 392255223aefb524ab5f6b8819ebbb22, type: 2}
-  - {fileID: 11400000, guid: 218aa2f8352671f44aea91cf9f1737c0, type: 2}
   - {fileID: 11400000, guid: f83368083c9bde148a8335a4d4d00f22, type: 2}
-  - {fileID: 11400000, guid: 299d3c4cc9ea74e4bab19288b9baf33e, type: 2}
-  - {fileID: 11400000, guid: 2a0d50d53e667fe4f832d5d25f13386c, type: 2}
   allEquippedPerksDatas: []
   allEquippedPerks: []
   perkContent: {fileID: 209450902}
@@ -34413,7 +34408,7 @@ GameObject:
   - component: {fileID: 1481866920}
   - component: {fileID: 1481866919}
   m_Layer: 0
-  m_Name: EncounterName
+  m_Name: ScenarioName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34458,7 +34453,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Encounter Name
+  m_text: Scenario Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -47625,7 +47620,7 @@ GameObject:
   - component: {fileID: 2016413689}
   - component: {fileID: 2016413690}
   m_Layer: 0
-  m_Name: WorldEncounterTooltip
+  m_Name: WorldScenarioTooltip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47660,11 +47655,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2016413688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d1fec432f5833341ac75058dabb94fe, type: 3}
+  m_Script: {fileID: 11500000, guid: bee7bb258d4542847b002000158708dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   difficultyText: {fileID: 291142137}
-  encounterName: {fileID: 1481866919}
+  scenarioName: {fileID: 1481866919}
   descriptionText: {fileID: 1696343843}
   rewardAnchor: {fileID: 538345804}
 --- !u!1 &2024262895

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GameEventToggleWorldMap : GameEvent
 {
-    public override void TriggerGameEvent(GameEventStruct gameEventStruct)
+    public override void TriggerGameEvent()
     { 
         if (gameEventStruct.value == "true")
             world.townManager.worldMapButton.interactable = true;

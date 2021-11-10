@@ -10,5 +10,5 @@ public abstract class ItemData : ScriptableObject
     [TextArea(5,5)]
     public string description;
     public Rarity rarity;
-    public int goldValue;
+    public ItemEffectStruct itemEffectStruct;
 }

@@ -13,7 +13,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TMP_Text perkName;
     bool initialized;
     CharacterClassType characterClassType;
-    Effect effect;
+    ItemEffect itemEffect;
     bool appliedEffect;
     bool _activated;
     public bool Activated
@@ -31,7 +31,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             }
         }
     }
-    public void BindData(PerkData data = null, bool activate = true)
+    public void BindData(PerkData data = null)
     {   
         if (!initialized)
         {
@@ -39,15 +39,15 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             initialized = true;
             image.sprite = perkData.artwork;
             characterClassType = perkData.characterClassType;
-            effect = Effect.GetEffect(gameObject, perkData.effect);
+            itemEffect = ItemEffectManager.CreateItemEffect(perkData.itemEffectStruct);
             perkName.text = data.itemName;
-            if (activate) Activated = true;
+            Activated = true;
         }
     }
 
     void ActivatePerk()
     {
-        if (!appliedEffect) effect?.AddEffect();
+        if (!appliedEffect) itemEffect?.AddItemEffect();
 
         appliedEffect = true;
         image.sprite = perkData.artwork;
@@ -57,7 +57,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void DeactivePerk()
     {
-        if (appliedEffect) effect?.RemoveEffect();
+        if (appliedEffect) itemEffect?.RemoveItemEffect();
 
         appliedEffect = false;
         image.sprite = perkData.inactiveArtwork;

@@ -113,7 +113,7 @@ public class DialogueManager : Manager, ISaveableWorld
         WorldStateSystem.TriggerClear();
         if (dialogueData.endEvent?.Any() == true)
             for (int i = 0; i < dialogueData.endEvent.Count; i++)
-                WorldSystem.instance.gameEventManager.CreateEvent(dialogueData.endEvent[i]);
+                GameEventManager.CreateEvent(dialogueData.endEvent[i]);
 
         dialogueData = null;
     }

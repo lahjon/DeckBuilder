@@ -25,7 +25,7 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
     {
         if (data == null) return;
         tooltipPanel.SetActive(true);
-        tooltipName.text = data.equipmentName;
+        tooltipName.text = data.itemName;
         tooltipDescription.text = data.description;
     }
     public void ActivateToolTip(PerkData data)

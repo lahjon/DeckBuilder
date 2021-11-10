@@ -60,7 +60,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugCreateNewItem()
     {
-        world.useItemManager.AddItem();
+        world.itemUseableManager.AddItem();
     }
     public void DebugTakeDamage(int amount)
     {
@@ -191,7 +191,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugRemoveRandomItem()
     {
-        world.useItemManager.RemoveItem();
+        world.itemUseableManager.RemoveItem();
     }
 
     public void DebugUnlockCardInScribe()
