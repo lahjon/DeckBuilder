@@ -37,8 +37,8 @@ public struct ItemEffectStruct
 {
     public ItemEffectType type;
     public string parameter;
-    public string value;
-    public ItemEffectStruct(ItemEffectType aType, string aParm, string aValue)
+    public int value;
+    public ItemEffectStruct(ItemEffectType aType, string aParm, int aValue)
     {
         type = aType;
         parameter = aParm;

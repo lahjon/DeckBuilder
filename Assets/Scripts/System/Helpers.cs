@@ -203,10 +203,9 @@ public static class Helpers
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
-    public static T ParseEnum<T>(string value)
-    {
-        return (T) Enum.Parse(typeof(T), value, true);
-
+    public static T ToEnum<T>(this string str) 
+    { 
+        return (T)Enum.Parse(typeof(T), str);
     }
 
     public static float Remap(this float value, float from1, float to1, float from2, float to2) 
