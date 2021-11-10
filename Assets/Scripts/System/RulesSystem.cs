@@ -28,7 +28,7 @@ public class RulesSystem : MonoBehaviour
 
     public void Start()
     {
-        actionsStartTurnEnum.Add(ResetRemainingEnergy);
+        actionsStartTurnEnum.Add(RegainEnergy);
         actionsStartTurnEnum.Add(DrawCardsNewTurn);
 
     }
@@ -44,10 +44,10 @@ public class RulesSystem : MonoBehaviour
     }
 
 
-    public IEnumerator ResetRemainingEnergy()
+    public IEnumerator RegainEnergy()
     {
         //Debug.Log("Start Energy Reset");
-        CombatSystem.instance.cEnergy = CombatSystem.instance.energyTurn;
+        CombatSystem.instance.cEnergy = Mathf.Min(CombatSystem.instance.cEnergy + CombatSystem.instance.energyTurn, CombatSystem.instance.energyMax);
         yield return new WaitForSeconds(1);
         //Debug.Log("Leaving Energy Reset");
     }
