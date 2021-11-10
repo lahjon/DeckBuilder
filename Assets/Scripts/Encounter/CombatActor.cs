@@ -252,6 +252,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     }
 
     public void ModifyStrength(int x) => strengthCombat += x;
-    
+
+    public abstract int GetStat(StatType stat);
 
 }

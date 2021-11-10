@@ -151,4 +151,9 @@ public class CombatActorCompanion : CombatActor
     {
         UpdateIntentDisplay(hand);
     }
+
+    public override int GetStat(StatType stat)
+    {
+        return 0;
+    }
 }
