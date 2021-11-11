@@ -126,6 +126,7 @@ MonoBehaviour:
   energyColor: {fileID: 2530593107824974637}
   TooltipAnchor: {fileID: 5262464430781879494}
   toolTipTextBits: []
+  cardPrefab: {fileID: 0}
   energyObjects: {fileID: 7054377862404620958}
   costText: {fileID: 6468055499818804120}
   permanentUpgrade: 0

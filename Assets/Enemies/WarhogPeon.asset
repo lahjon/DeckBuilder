@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WarhogPeon
   m_EditorClassIdentifier: 
   StartingHP: 92
-  enemyId: 00007
+  enemyId: 7
   enemyName: Warhog Peon
   artwork: {fileID: 0}
   characterArt: {fileID: 4830542341670345602, guid: 317fbf9caee2e6147875640197c87032, type: 3}

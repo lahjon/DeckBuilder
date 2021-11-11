@@ -97,6 +97,9 @@ public class DatabaseGoogle
 
     public void ReadEntriesCard(string sheetName, string lastCol)
     {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.cards.Clear();
         GoogleTable gt = getGoogleTable(sheetName, lastCol);
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -144,6 +147,7 @@ public class DatabaseGoogle
 
             BindArt(data, databaseName);
 
+            dbs.cards.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -380,6 +384,9 @@ public class DatabaseGoogle
     public void ReadEntriesEnemy(string sheetName, string lastCol, string sheet)
     {
         GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.enemies.Clear();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -396,7 +403,7 @@ public class DatabaseGoogle
 
 
             data.enemyName      = (string)gt[i, "Name"];
-            data.enemyId        = (int)gt[i, "EnemyID"];
+            data.enemyId        = int.Parse((string)gt[i, "EnemyID"]);
             data.StartingHP     = int.Parse((string)gt[i, "HP"]);
             data.tier           = int.Parse((string)gt[i, "Tier"]);
             data.experience     = int.Parse((string)gt[i, "Experience"]);
@@ -408,7 +415,7 @@ public class DatabaseGoogle
             data.startingEffects.Clear();
 
             BindCharacterModel(data);
-
+            dbs.enemies.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -418,6 +425,8 @@ public class DatabaseGoogle
     public void ReadEntriesEnemyCards(string sheetName, string lastCol, string sheet)
     {
         GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -425,25 +434,26 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { EnemyPath });
-            if(data == null)
+            EnemyData enemy = dbs.enemies.Where(x => x.name == databaseName).FirstOrDefault();
+            if (enemy == null)
             {
-                Debug.LogError("SKIPPED: Card assigned to non-existant enemy named: " + databaseName);
+                Debug.Log("No such enemy named" + databaseName);
                 continue;
             }
 
             string CardName = (string)gt[i, "CardName"];
 
-            CardData cardData = TDataNameToAsset<CardData>(CardName, new string[] { CardPath });
-            if(cardData == null)
+            CardData card = dbs.cards.Where(x => x.name == CardName).FirstOrDefault();
+            if (card == null)
             {
                 Debug.LogError("SKIPPED: Enemy assigned non-existant card: " + CardName);
                 continue;
             }
 
-            data.deck.Add(cardData);
+
+            enemy.deck.Add(card);
             
-            EditorUtility.SetDirty(data);
+            EditorUtility.SetDirty(enemy);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
@@ -524,6 +534,8 @@ public class DatabaseGoogle
     {
         GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
 
+
+
         for (int i = 1; i < gt.values.Count; i++)
         {
             string databaseName = (string)gt[i, "DatabaseName"];
@@ -586,10 +598,6 @@ public class DatabaseGoogle
             AssetDatabase.Refresh();
         }
     }
-
-
-
-
 
     #endregion
 
@@ -688,6 +696,41 @@ public class DatabaseGoogle
     }
 
     #endregion
+
+    public void ReadEntriesItemUsable(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        dbs.itemUsable.Clear();
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            int id = (string)gt[i, "Name"];
+            if (databaseName.Equals(""))
+                break;
+
+            DialogueData data = TDataNameToAsset<DialogueData>(databaseName, new string[] { DialoguePath });
+            if (data is null)
+            {
+                data = ScriptableObject.CreateInstance<DialogueData>();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.CreateAsset(data, DialoguePath + @"\" + databaseName + ".asset");
+            }
+
+            data.index = int.Parse((string)gt[i, "Id"]);
+            data.sentences.Clear();
+            data.endEvent.Clear();
+
+            dbs.dialogues.Add(data);
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
 
     public void ReadEntriesScenarios(string sheetName, string lastCol)
     {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WarhogBrute
   m_EditorClassIdentifier: 
   StartingHP: 64
-  enemyId: 00006
+  enemyId: 5
   enemyName: Warhog Brute
   artwork: {fileID: 0}
   characterArt: {fileID: 6800447553058185354, guid: 789b1361eb98dd942a8ad7a086e51d18, type: 3}
@@ -21,7 +21,7 @@ MonoBehaviour:
   experience: 10
   deck:
   - {fileID: 11400000, guid: ece646c1670b7f64e8b0b36499fcd8f3, type: 2}
-  - {fileID: 11400000, guid: 428e44f0bb552f64abeb36bd7931f0d5, type: 2}
+  - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
   - {fileID: 11400000, guid: ece646c1670b7f64e8b0b36499fcd8f3, type: 2}
   - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
   startingEffects: []

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RathyenMage
   m_EditorClassIdentifier: 
   StartingHP: 20
-  enemyId: 00010
+  enemyId: 3
   enemyName: Rathyen Mage
   artwork: {fileID: 0}
   characterArt: {fileID: 3863941427301800595, guid: 1203d84e917a16b449c2982225d9b4c2, type: 3}

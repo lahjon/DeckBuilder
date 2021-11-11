@@ -13,17 +13,13 @@ MonoBehaviour:
   m_Name: NullcasterMageApprentice
   m_EditorClassIdentifier: 
   StartingHP: 28
-  enemyId: 00001
+  enemyId: 1
   enemyName: Mage Apprentice
   artwork: {fileID: 0}
   characterArt: {fileID: 7908035891764426735, guid: 9b6934dcc74555c4fadcec6f0828dd5f, type: 3}
   tier: 1
   experience: 0
-  deck:
-  - {fileID: 11400000, guid: f821df087d75e2d40abf79bbd14ce960, type: 2}
-  - {fileID: 11400000, guid: 64d13cd39e49f1447ad19eeee2eaa8c1, type: 2}
-  - {fileID: 11400000, guid: f821df087d75e2d40abf79bbd14ce960, type: 2}
-  - {fileID: 11400000, guid: 64d13cd39e49f1447ad19eeee2eaa8c1, type: 2}
+  deck: []
   startingEffects: []
   shuffleInit: 1
   stochasticReshuffle: 1
