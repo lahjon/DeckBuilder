@@ -23,6 +23,8 @@ public class CardCombat : CardVisual, IEventSubscriber
     public float fanDegreeCurrent;
     public float fanDegreeTarget;
 
+    public Transform UIobjectTrans;
+
     public BoxCollider2D boxCollider2D;
     public Image image;
 
@@ -210,6 +212,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseEnter()
     {
+        Debug.Log("Mouse is over card" + cardName);
         animator.SetBool("MouseIsOver", true);
     }
 
@@ -230,6 +233,11 @@ public class CardCombat : CardVisual, IEventSubscriber
         CombatSystem.instance.CardClicked(this);
 
         if (CombatSystem.instance.quickPlayCards) Helpers.DelayForSeconds(.1f, () => CombatSystem.instance.CardClicked(this));
+    }
+
+    public void OnMouseOver()
+    {
+        Debug.Log("hej hej hemskt mycket hej");
     }
 
     public override void ResetScale()
@@ -263,9 +271,6 @@ public class CardCombat : CardVisual, IEventSubscriber
         EventManager.OnEnergyChangedEvent += EvaluateHighlightNotSelected;
     }
 
-    public override void OnPointerEnter(PointerEventData eventData)
-    {
-        Debug.Log("hejhejhej");
-    }
+   
 
 }

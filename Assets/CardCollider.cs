@@ -6,9 +6,10 @@ public class CardCollider : MonoBehaviour
 {
     public CardCombat card;
 
-    // Update is called once per frame
-    void Update()
-    {
-        (Vector3 position, Vector3 angles) posInfo = CombatSystem.instance.GetPositionInHand(card);
-    }
+    public void OnMouseEnter() => card.OnMouseEnter();
+
+
+    public void OnMouseExit() => card.OnMouseExit();
+
+    public void OnMouseOver() => card.OnMouseOver();
 }

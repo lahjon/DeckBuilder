@@ -193,6 +193,7 @@ MonoBehaviour:
   animator: {fileID: 248037277262318977}
   fanDegreeCurrent: 0
   fanDegreeTarget: 0
+  UIobjectTrans: {fileID: 5282765989163047793}
   boxCollider2D: {fileID: 0}
   image: {fileID: 0}
 --- !u!114 &1252811712759400481
@@ -309,6 +310,7 @@ GameObject:
   - component: {fileID: 1702515777701207148}
   - component: {fileID: 3933439140910290549}
   - component: {fileID: 7669164313130517674}
+  - component: {fileID: 984044184296294743}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -356,7 +358,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -2.4924927, y: -6.3759766}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -367,8 +369,21 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 280.6, y: 389.5}
+  m_Size: {x: 271.3407, y: 376.74805}
   m_EdgeRadius: 0
+--- !u!114 &984044184296294743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6424006095086697163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00ad99efeff6ae478e80fec69f9f28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 3722490455436591505}
 --- !u!1001 &6680579575582242689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -376,14 +391,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5402730520789720186}
     m_Modifications:
-    - target: {fileID: 1568275771, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1568275771, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -472,35 +479,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card
       objectReference: {fileID: 0}
-    - target: {fileID: 1585533817112109306, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986589687261366727, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_Color.b
-      value: 0.07843137
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986589687261366727, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_Color.g
-      value: 0.51343054
-      objectReference: {fileID: 0}
-    - target: {fileID: 1986589687261366727, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3011326098856066596, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4351699317947991874, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1568275767, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-    - {fileID: 1444776756510993332, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-    - {fileID: -7657001135678937236, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-    - {fileID: 1568275771, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
 --- !u!224 &5282765989163047793 stripped
 RectTransform:
