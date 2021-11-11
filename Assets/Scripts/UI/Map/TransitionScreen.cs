@@ -49,14 +49,13 @@ public class TransitionScreen : MonoBehaviour
     void TriggerCallback()
     {
         // called from animator when transition completes
-        WorldStateSystem.TriggerClear();
+        WorldStateSystem.SetInTransition(false);
     }
 
     void EnterTownCallback()
     {
         // called from animator when transition completes
-
-        WorldStateSystem.TriggerClear();
+        WorldStateSystem.SetInTransition(false);
         WorldSystem.instance.dialogueManager.StartDialogue();
         
     }

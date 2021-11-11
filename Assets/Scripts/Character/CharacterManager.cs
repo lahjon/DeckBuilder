@@ -37,7 +37,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     protected override void Start()
     {
         base.Start(); 
-        characterStats = character.GetComponent<CharacterStats>();
+        
 
         SetupCharacterData();
 

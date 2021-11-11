@@ -17,8 +17,9 @@ public class CharacterStats : MonoBehaviour
 
     public int GetStat(StatType aStatType)
     {
-        int value = stats.Where(x => x.type == aStatType).FirstOrDefault().value;
-        return value;
+        if (stats?.Any() == true)
+            return stats.Where(x => x.type == aStatType).FirstOrDefault().value;;
+        return 0;
     }
 
     public void ModifyHealth(int aValue)

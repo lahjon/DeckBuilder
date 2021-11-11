@@ -37,11 +37,13 @@ public struct ItemEffectStruct
 {
     public ItemEffectType type;
     public string parameter;
+    public bool instant;
     public int value;
-    public ItemEffectStruct(ItemEffectType aType, string aParm, int aValue)
+    public ItemEffectStruct(ItemEffectType aType, string aParm, int aValue, bool anInstant)
     {
         type = aType;
         parameter = aParm;
         value = aValue;
+        instant = anInstant;
     }
 }

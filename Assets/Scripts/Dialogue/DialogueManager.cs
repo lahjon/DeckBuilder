@@ -87,7 +87,7 @@ public class DialogueManager : Manager, ISaveableWorld
             dialogueData = aDialogueData; 
             if (!activeDialogue)
             {
-                WorldStateSystem.SetInDialogue();
+                WorldStateSystem.SetInDialogue(true);
                 dialogue.gameObject.SetActive(true);
                 activeDialogue = true;
                 NextSentence();
@@ -109,7 +109,7 @@ public class DialogueManager : Manager, ISaveableWorld
         activeDialogue = false;
         dialogue.gameObject.SetActive(false);
         CompleteDialogue();
-        WorldStateSystem.TriggerClear();
+        WorldStateSystem.SetInDialogue(false);
         if (dialogueData.endEvent?.Any() == true)
             for (int i = 0; i < dialogueData.endEvent.Count; i++)
                 GameEventManager.CreateEvent(dialogueData.endEvent[i]);

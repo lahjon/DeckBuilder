@@ -461,7 +461,7 @@ MonoBehaviour:
   formationPositions: []
   energyMax: 5
   energyTurn: 3
-  backingEnergy: 0
+  _cEnergy: 0
   _targetedEnemy: {fileID: 0}
   deckData: []
   createdCards: []
@@ -58104,6 +58104,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1127980673}
+    - target: {fileID: 1230108494971754154, guid: b47c14ef8e4b78d468ccd44d7a43c0a1, type: 3}
+      propertyPath: stats.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1230108494992700169, guid: b47c14ef8e4b78d468ccd44d7a43c0a1, type: 3}
       propertyPath: m_RootOrder
       value: 0

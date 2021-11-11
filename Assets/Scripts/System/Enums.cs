@@ -321,7 +321,9 @@ public enum ItemEffectType
 {
     None = 0,
     Custom,
-    AddStat
+    AddStat,
+    AddCombatEffect,
+    Heal
 }
 
 

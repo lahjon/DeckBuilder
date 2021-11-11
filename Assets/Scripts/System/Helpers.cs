@@ -203,7 +203,7 @@ public static class Helpers
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
-    public static T ToEnum<T>(this string str) 
+    public static T ToEnum<T>(this string str) where T : struct, IConvertible
     { 
         return (T)Enum.Parse(typeof(T), str);
     }

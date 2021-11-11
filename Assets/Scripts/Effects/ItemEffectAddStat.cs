@@ -14,17 +14,9 @@ public class ItemEffectAddStat : ItemEffect
     }
     void StatSwitch(StatType statType, int amount)
     {
-        switch (statType)
-        {
-            case StatType.Health:
-                WorldSystem.instance.characterManager.characterStats.ModifyHealth(amount);
-                break;
-            case StatType.Endurance:
-                WorldSystem.instance.characterManager.characterStats.ModifyStat(statType, amount);
-                break;
-            default:
-                Debug.LogWarning(string.Format("No case implemented for {0}!", statType.ToString()));
-                break;
-        }
+        if (statType == StatType.Health)
+            WorldSystem.instance.characterManager.characterStats.ModifyHealth(amount);
+        else
+            WorldSystem.instance.characterManager.characterStats.ModifyStat(statType, amount);
     }
 }
