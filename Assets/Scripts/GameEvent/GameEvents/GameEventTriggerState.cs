@@ -5,8 +5,6 @@ public class GameEventTriggerState : GameEvent
 {
     public override void TriggerGameEvent()
     { 
-
         world.rewardManager.TriggerReward();
-        
     }
 }
