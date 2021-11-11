@@ -21,18 +21,9 @@ MonoBehaviour:
     numValue: 1
     strParameters: []
   mainMission: 1
-  gameEventsOnStart:
-  - type: 1
-    parameter: 3
-    value: true
-  - type: 4
-    parameter: 
-    value: false
+  gameEventsOnStart: []
   gameEventsOnEnd:
-  - type: 4
-    parameter: 
-    value: true
-  - type: 5
+  - type: 6
     parameter: 
     value: 0
   addDialogueIdx: 00000000

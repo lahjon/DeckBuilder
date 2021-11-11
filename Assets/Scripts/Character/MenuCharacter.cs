@@ -8,18 +8,18 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
 {
     public List<PerkData> allPerkDatas = new List<PerkData>();
     public List<PerkData> allEquippedPerksDatas = new List<PerkData>();
-    public List<Perk> allEquippedPerks;
+    public List<Perk> allEquippedPerks = new List<Perk>();
     public Transform perkContent;
     public GameObject perkPrefab;
     public GameObject tooltipPanel;
     public TMP_Text tooltipName;
     public TMP_Text tooltipDescription;
 
-    void Start()
+    public void Init()
     {
+        DeactivateToolTip();
         allEquippedPerksDatas.ForEach(x => CreatePerk(x));
         allEquippedPerksDatas.Clear();
-        DeactivateToolTip();
     }
     public void ActivateToolTip(EquipmentData data)
     {
@@ -65,7 +65,6 @@ public class MenuCharacter : MonoBehaviour, ISaveableWorld
             if(allEquippedPerks.FirstOrDefault(x => x.perkData == oldPerk) is Perk aPerk)
             {
                 allEquippedPerks.Remove(aPerk);
-                allEquippedPerksDatas.Remove(oldPerk);
                 aPerk?.DestroyPerk();
                 CreatePerk(data);
             }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class GameEventTriggerState : GameEvent
+public class GameEventTriggerReward : GameEvent
 {
     public override void TriggerGameEvent()
     { 

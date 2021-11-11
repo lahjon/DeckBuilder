@@ -46,4 +46,36 @@ public struct ItemEffectStruct
         value = aValue;
         instant = anInstant;
     }
+
+    public bool ValidateStruct()
+    {
+        bool result = false;
+        try
+        {
+            switch (type)
+            {
+                case ItemEffectType.None:
+                    break;
+                case ItemEffectType.Custom:
+                    break;
+                case ItemEffectType.Heal:
+                    break;
+                case ItemEffectType.AddStat:
+                    parameter.ToEnum<StatType>();
+                    break;
+                case ItemEffectType.AddCombatEffect:
+                    parameter.ToEnum<EffectType>();
+                    break;
+
+                default:
+                    break;
+            }
+            result = true;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Exception Message: " + ex.Message);
+        }
+        return result;
+    }
 }

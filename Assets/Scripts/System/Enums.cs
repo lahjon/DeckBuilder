@@ -313,7 +313,7 @@ public enum GameEventType
     Custom,                     // parm = name of event | value = whatever needed by your custom event
     HighlightBuilding,          // parm = string (BuildingType) | value = bool, ex: (0, true)
     GetReward,                  // parm = string (RewardType) | value = id (int), ex1: (Item, 0)
-    TriggerState,               // parm = string (WorldState)
+    TriggerReward,               // parm = string (WorldState) ändra, orkar inte göra det nu
     ToggleWorldMap,             // parm = None | value = bool, ex: (true)
     UnlockScenario              // parm = None | value = idx (int), ex: (0)
 }

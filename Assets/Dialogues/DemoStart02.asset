@@ -19,7 +19,4 @@ MonoBehaviour:
   - dialogueParticipant: 1
     sentence: Please dont
   stateToTrigger: 
-  endEvent:
-  - type: 2
-    parameter: Item
-    value: 0
+  endEvent: []

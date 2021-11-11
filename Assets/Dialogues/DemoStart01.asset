@@ -23,4 +23,7 @@ MonoBehaviour:
   - dialogueParticipant: 1
     sentence: MMMMM!!!!
   stateToTrigger: 
-  endEvent: []
+  endEvent:
+  - type: 2
+    parameter: TownHall
+    value: true

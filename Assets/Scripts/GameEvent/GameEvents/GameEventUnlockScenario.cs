@@ -5,7 +5,6 @@ public class GameEventUnlockScenario : GameEvent
 {
     public override void TriggerGameEvent()
     { 
-        if (int.Parse(gameEventStruct.value) is int id)
-            WorldSystem.instance.worldMapManager.UnlockScenario(id);
+        WorldSystem.instance.worldMapManager.UnlockScenario(int.Parse(gameEventStruct.value));
     }
 }

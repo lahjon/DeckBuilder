@@ -102,7 +102,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugUnlockPerk()
     {
-        PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerksDatas).ToList().Count)];
+        PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerks.Select(x => x.perkData)).ToList().Count)];
         world.menuManager.menuCharacter.UnlockPerk(data);
     }
     public void DebugAddLevel()
@@ -198,12 +198,6 @@ public class DebugUI : MonoBehaviour
     {
         world.townManager.scribe.UnlockCard(cardData);
     }
-    // public void DebugUpgradeCardPermanent()
-    // { 
-
-    //     string value = world.townManager.scribe.unlockedCards[Random.Range(0, world.townManager.scribe.unlockedCards.Count)].cardId;
-    //     world.townManager.scribe.UpgradeCardPermanent(value);
-    // }
 
     public void DebugRewardGetCard()
     {

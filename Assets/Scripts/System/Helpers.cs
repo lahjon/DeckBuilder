@@ -213,6 +213,11 @@ public static class Helpers
         return String.IsNullOrEmpty(str) ? 0 : int.Parse(str);
     }
 
+    public static bool ToBool(this string str) 
+    { 
+        return !String.IsNullOrEmpty(str) && str == "true" ? true : false;
+    }
+
     public static float Remap(this float value, float from1, float to1, float from2, float to2) 
     {
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;

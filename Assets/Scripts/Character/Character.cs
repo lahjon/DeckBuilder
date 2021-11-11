@@ -9,8 +9,6 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public int experience;
     public CharacterClassType classType;
     public PlayableCharacterData characterData;
-    public bool unlocked;
-    public List<string> selectedTokens = new List<string>();
     public Profession profession;
 
     public void SetCharacterData(int index)

@@ -19,7 +19,7 @@ MonoBehaviour:
   rarity: 0
   itemEffectStruct:
     type: 2
-    parameter: HP
+    parameter: Health
     instant: 0
     value: 5
   level: 1

@@ -5,9 +5,6 @@ public class GameEventToggleWorldMap : GameEvent
 {
     public override void TriggerGameEvent()
     { 
-        if (gameEventStruct.value == "true")
-            world.townManager.worldMapButton.interactable = true;
-        else
-            world.townManager.worldMapButton.interactable = false;
+        world.townManager.worldMapButton.interactable = gameEventStruct.value.ToBool();
     }
 }
