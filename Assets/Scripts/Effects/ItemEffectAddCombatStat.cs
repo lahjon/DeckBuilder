@@ -6,22 +6,24 @@ public class ItemEffectAddCombatStat : ItemEffect
 {
     public override void AddItemEffect()
     {
-        //itemEffectStruct.type;
-        //StatSwitch();
+        EffectSwitch(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value);
     }
     public override void RemoveItemEffect()
     {
-        WorldSystem.instance.characterManager.characterStats.ModifyHealth(-7);
+        EffectSwitch(itemEffectStruct.parameter.ToEnum<EffectType>(), -itemEffectStruct.value);
     }
-    void StatSwitch(EffectType effect, int amount)
+    void EffectSwitch(EffectType effect, int amount)
     {
-        switch (EffectType.Strength)
+        switch (effect)
         {
             case EffectType.Strength:
-                CombatSystem.instance.StartCoroutine(
-                CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Strength, amount)));
+                CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Strength, amount)));
+                break;
+            case EffectType.StrengthTemp:
+                CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.StrengthTemp, amount)));
                 break;
             default:
+                Debug.LogWarning(string.Format("No case implemented for {0}!", effect.ToString()));
                 break;
         }
     }
