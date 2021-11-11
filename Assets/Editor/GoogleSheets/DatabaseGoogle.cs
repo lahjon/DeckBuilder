@@ -27,6 +27,8 @@ public class DatabaseGoogle
     readonly public static string ModifierPath = @"Assets\CardModifier";
     readonly public static string ScenarioPath = @"Assets\Encounters\World";
     readonly public static string DialoguePath = @"Assets\Dialogues";
+    readonly public static string ItemPath = @"Assets\ItemData\ItemUsable";
+    readonly public static string ItemArtPath = @"Assets\Art\Artwork\Items";
 
     SheetsService service;
 
@@ -82,6 +84,11 @@ public class DatabaseGoogle
         ReadEntriesDialogue("Dialogue", "Z");
         ReadEntriesDialogueSentences("DialogueSentences", "Z");
         ReadEntriesDialoguEvents("DialogueEvents", "Z");
+    }
+
+    public void DownloadItemUsables()
+    {
+        ReadEntriesItemUsable("ItemUsable","Z");
     }
 
     #region CardDownload
@@ -142,8 +149,6 @@ public class DatabaseGoogle
                 mod.id = data.id + "_" + j;
                 EditorUtility.SetDirty(mod);
             }
-
-
 
             BindArt(data, databaseName);
 
@@ -703,28 +708,48 @@ public class DatabaseGoogle
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
         DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
 
-        dbs.itemUsable.Clear();
+        dbs.itemUsables.Clear();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
             AssetDatabase.SaveAssets();
-            int id = (string)gt[i, "Name"];
-            if (databaseName.Equals(""))
-                break;
+            int id = ((string)gt[i, "Id"]).ToInt();
 
-            DialogueData data = TDataNameToAsset<DialogueData>(databaseName, new string[] { DialoguePath });
+            ItemUseableData data = TDataNameToAsset<ItemUseableData>("Item" + id, new string[] { ItemPath });
             if (data is null)
             {
-                data = ScriptableObject.CreateInstance<DialogueData>();
+                data = ScriptableObject.CreateInstance<ItemUseableData>();
                 AssetDatabase.SaveAssets();
-                AssetDatabase.CreateAsset(data, DialoguePath + @"\" + databaseName + ".asset");
+                AssetDatabase.CreateAsset(data, ItemPath + @"\" + "Item" + id.ToString() + ".asset");
             }
 
-            data.index = int.Parse((string)gt[i, "Id"]);
-            data.sentences.Clear();
-            data.endEvent.Clear();
+            data.itemId = id;
+            data.itemName = (string)gt[i, "ItemName"];
+            data.description = (string)gt[i, "Description"];
+            data.rarity = ((string)gt[i, "Rarity"]).ToEnum<Rarity>();
+            data.itemEffectStruct = new ItemEffectStruct();
+            data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
+            data.itemEffectStruct.parameter= (string)gt[i, "EffectParameter"];
+            data.itemEffectStruct.value= ((string)gt[i, "EffectValue"]).ToInt();
+            
+            data.itemCondition = new ConditionData();
+            data.itemCondition.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
+            data.itemCondition.strParameter = (string)gt[i, "ConditionStrParam"];
+            data.itemCondition.numValue = ((string)gt[i, "ConditionValue"]).ToInt();
 
-            dbs.dialogues.Add(data);
+            data.statesUsable.Clear();
+            string[] worldStates = ((string)gt[i, "StatesUsable"]).Split(';');
+            if (!String.IsNullOrEmpty(worldStates[0]))
+                for (int s = 0; s < worldStates.Length; s++)
+                    data.statesUsable.Add(worldStates[s].ToEnum<WorldState>());
+
+            Sprite sprite = TDataNameToAsset<Sprite>("Item" + id.ToString() + "Art", new string[] { ItemArtPath });
+            if (sprite != null)
+                data.artwork = sprite;
+            else
+                Debug.Log("Art: " + "Item" + id.ToString() + "Art" + " not found");
+
+            dbs.itemUsables.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

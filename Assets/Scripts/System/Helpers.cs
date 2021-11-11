@@ -203,14 +203,14 @@ public static class Helpers
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
-    public static T ToEnum<T>(this string str) where T : struct, IConvertible
-    { 
+    public static T ToEnum<T>(this string str) where T: Enum
+    {
         return (T)Enum.Parse(typeof(T), str);
     }
 
     public static int ToInt(this string str) 
     { 
-        return int.Parse(str);
+        return String.IsNullOrEmpty(str) ? 0 : int.Parse(str);
     }
 
     public static float Remap(this float value, float from1, float to1, float from2, float to2) 

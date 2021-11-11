@@ -262,4 +262,10 @@ public class CardCombat : CardVisual, IEventSubscriber
         playCondition.Subscribe();
         EventManager.OnEnergyChangedEvent += EvaluateHighlightNotSelected;
     }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("hejhejhej");
+    }
+
 }

@@ -83,7 +83,7 @@ public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
 
     public void CheckItemUseCondition(WorldState state)
     {
-        usable = (itemData.itemUseableDataCondition.Contains(state) && charges > 0);
+        usable = (itemData.statesUsable.Contains(state) && charges > 0);
     }
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()

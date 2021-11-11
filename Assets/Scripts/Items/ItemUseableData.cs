@@ -7,6 +7,6 @@ using UnityEngine.UI;
 public class ItemUseableData : ItemData
 {
     public ConditionData itemCondition;
-    public List<WorldState> itemUseableDataCondition;
+    public List<WorldState> statesUsable = new List<WorldState>();
 
 }

@@ -228,6 +228,15 @@ public static class DatabaseUpdateOnStart
         Debug.Log("Googled the combatEncounters bro!");
     }
 
+    [MenuItem("Edit/Download GoogleItemUsables %#I")]
+    public static void DownloadFromGoogleItemUsables()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadItemUsables();
+
+        Debug.Log("Googled the usable items bro!");
+    }
+
 
     [MenuItem("Edit/Download GoogleScenarios %#S")]
     public static void DownloadFromGoogleScenarios()

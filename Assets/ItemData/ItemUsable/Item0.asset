@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 939c869bab4691045aa1e66083a81a75, type: 3}
-  m_Name: Item1
+  m_Name: Item0
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Seths Booner
   itemId: 0
-  artwork: {fileID: 0}
-  description: 
-  rarity: 0
+  artwork: {fileID: 21300000, guid: caf28dde35d70e8429fce88379950caf, type: 3}
+  description: Heal 8 HP
+  rarity: 11
   itemEffectStruct:
     type: 0
-    parameter: 
-    value: 
+    parameter: Hej
+    value: 0
   itemCondition:
     type: 0
     strParameter: 
     numValue: 0
     strParameters: []
-  itemUseableDataCondition: 
+  statesUsable: 0e0000000b000000
