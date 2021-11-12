@@ -237,9 +237,10 @@ public class CombatActorEnemy : CombatActor
         //if(CombatSystem.instance.TargetedEnemy != this) CombatSystem.instance.TargetedEnemy = this;
     }
 
-    public void OnMouseUp()
+    public void OnMouseDown()
     {
         CombatSystem.instance.TargetedEnemy = this;
+        
     }
 
 
