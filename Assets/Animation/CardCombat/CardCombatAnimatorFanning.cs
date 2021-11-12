@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardCombatAnimatorIdle : CardCombatAnimator
+public class CardCombatAnimatorFanning : CardCombatAnimator
 {
     private static float speed = 40f;
     private static float limit = 0.5f;
@@ -10,10 +10,9 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Debug.Log("Idle OnStateEnter:" + Time.frameCount);
-        SetRefs(animator);        
+        SetRefs(animator);
         card.fanDegreeCurrent = CombatSystem.instance.GetCurrentDegree(card);
-        //card.boxCollider2D.enabled = true;
-        card.image.raycastTarget = true;
+        card.cardCollider.gameObject.SetActive(true);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -35,6 +34,7 @@ public class CardCombatAnimatorIdle : CardCombatAnimator
             CombatSystem.instance.SetCardTransFromDegree(card, card.fanDegreeTarget);
             animator.SetBool("NeedFan", false);
         }
+        card.cardCollider.MirrorCardTrans();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

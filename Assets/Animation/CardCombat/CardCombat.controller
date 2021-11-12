@@ -343,6 +343,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-3373747071416414931
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c287ad120dc6fd34ab456f0d6da1a998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 0}
 --- !u!1101 &-3201685517521860675
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -743,6 +756,23 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 980, y: -230, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 5086222079824970459}
+--- !u!1109 &1388898556148242126
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: MouseIsOver
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -7625437411583698406}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
 --- !u!1101 &1426256486296706517
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -767,7 +797,7 @@ AnimatorStateTransition:
   m_HasFixedDuration: 0
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
+  m_CanTransitionToSelf: 0
 --- !u!114 &1684894467125683077
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -963,10 +993,11 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions:
   - {fileID: 482029848346506533}
+  - {fileID: 1388898556148242126}
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 160, y: -180, z: 0}
-  m_EntryPosition: {x: -90, y: 110, z: 0}
+  m_EntryPosition: {x: -70, y: 100, z: 0}
   m_ExitPosition: {x: 880, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: -110, y: -20, z: 0}
   m_DefaultState: {fileID: 4148299990208862353}
@@ -1181,7 +1212,8 @@ AnimatorState:
   m_Transitions:
   - {fileID: -2858425517250183662}
   - {fileID: 5935485276257931647}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -3373747071416414931}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1228,7 +1260,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fan
+  m_Name: Fanning
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

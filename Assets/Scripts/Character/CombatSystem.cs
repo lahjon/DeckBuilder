@@ -498,9 +498,14 @@ public class CombatSystem : MonoBehaviour
     internal void ResetSiblingIndexes()
     {
         int cursor = 0;
-        foreach(CardCombat card in Hand)
+        foreach (CardCombat card in Hand)
+        {
             if (card != ActiveCard)
-                card.transform.SetSiblingIndex(cursor++);
+            {
+                card.transform.SetSiblingIndex(cursor);
+                card.cardCollider.transform.SetSiblingIndex(Hand.Count + cursor++);
+            }
+        }
     }
 
 

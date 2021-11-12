@@ -23,15 +23,12 @@ public class CardCombat : CardVisual, IEventSubscriber
     public float fanDegreeCurrent;
     public float fanDegreeTarget;
 
-    public Transform UIobjectTrans;
-
-    public BoxCollider2D boxCollider2D;
-    public Image image;
-
     public Condition playCondition = new Condition();
 
     public delegate void DamageRecalcEvent();
     public event DamageRecalcEvent OnDamageRecalcEvent;
+
+    public CardCollider cardCollider;
 
     public void DamageNeedsRecalc()
     {
@@ -65,6 +62,7 @@ public class CardCombat : CardVisual, IEventSubscriber
             if(_selected == true)
             {
                 transform.SetAsLastSibling();
+                cardCollider.transform.SetAsLastSibling();
                 cardHighlightType = CardHighlightType.Selected;
             }
             else
@@ -108,13 +106,6 @@ public class CardCombat : CardVisual, IEventSubscriber
         }
     }
 
-    void Start()
-    {
-        animator.SetBool("NeedTarget",targetRequired);
-        boxCollider2D = GetComponent<BoxCollider2D>();
-        image = GetComponent<Image>();
-    }
-
     public static CardCombat Factory(CardVisual cardVisual)
     {
         CardCombat card = Factory(cardVisual.cardData);
@@ -135,6 +126,9 @@ public class CardCombat : CardVisual, IEventSubscriber
         card.BindCardData();
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.Hero;
+        card.cardCollider = CardColliderManager.instance.GetCollider();
+        card.cardCollider.SetOwner(card);
+
         CombatSystem.instance.createdCards.Add(card);
 
         if (card.singleFieldProperties.Any(s => s == CardSingleFieldPropertyType.Unplayable)) card.playCondition = new Condition() { value = false };
@@ -154,6 +148,8 @@ public class CardCombat : CardVisual, IEventSubscriber
         card.classType = a.classType;
         card.BindCardVisualData();
         card.owner = CombatSystem.instance.ActiveActor;
+        card.cardCollider = CardColliderManager.instance.GetCollider();
+        card.cardCollider.SetOwner(card);
         return card;
     }
     public void StartBezierAnimation(int path)
@@ -212,12 +208,13 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseEnter()
     {
-        Debug.Log("Mouse is over card" + cardName);
+        Debug.Log("Mouse is over card " + cardName);
         animator.SetBool("MouseIsOver", true);
     }
 
     public override void OnMouseExit()
     {
+        Debug.Log("Mouse left card " + cardName);
         animator.SetBool("MouseIsOver", false);
     }
 
@@ -229,6 +226,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseClick()
     {
+        Debug.Log("Card clicked: " + cardName);
         base.OnMouseClick();
         CombatSystem.instance.CardClicked(this);
 
@@ -237,7 +235,6 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public void OnMouseOver()
     {
-        Debug.Log("hej hej hemskt mycket hej");
     }
 
     public override void ResetScale()
@@ -270,7 +267,5 @@ public class CardCombat : CardVisual, IEventSubscriber
         playCondition.Subscribe();
         EventManager.OnEnergyChangedEvent += EvaluateHighlightNotSelected;
     }
-
-   
 
 }

@@ -17,6 +17,9 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
         CombatSystem.instance.ResetSiblingIndexes();
         curve = card.transitionCurveReturn;
         StartTransInfo = TransSnapshot();
+
+        card.cardCollider.gameObject.SetActive(true);
+
         time = 0;
         speed = 3.5f;
     }
@@ -28,11 +31,13 @@ public class CardCombatAnimatorReturning : CardCombatAnimator
         //Moving this here as card drawing makes this vulnerable to lock down;
         (Vector3 pos, Vector3 angles) tempTransInfo = CombatSystem.instance.GetPositionInHand(card);
         TargetTransInfo = (tempTransInfo.pos, Vector3.one, tempTransInfo.angles);
+        card.cardCollider.SetTransform(TargetTransInfo);
+
         CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
 
-        if (Vector3.Distance(card.transform.localPosition, TargetTransInfo.pos) < 0.5f || time > 1)
+        if (Vector3.Distance(TargetTransInfo.pos, card.transform.position) < 0.5f || time > 1)
         {
-            if (time < 1) CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time));
+            CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(1));
             animator.SetTrigger("ReturnedToIdle");
         }
     }

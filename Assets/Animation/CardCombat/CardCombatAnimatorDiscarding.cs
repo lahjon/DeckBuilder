@@ -11,7 +11,6 @@ public class CardCombatAnimatorDiscarding : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        card.animator.SetBool("HasTarget", false);
 
         if (card.animator.GetBool("Resolved"))
         {

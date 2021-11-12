@@ -11,22 +11,15 @@ public class CardCombatAnimatorSelected : CardCombatAnimator
 
     float duration = 0.2f;
     float time;
-    SelectionPath selectionPath;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        card.transform.SetAsLastSibling();
-
         StartTransInfo = (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
         TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), 1.1f * Vector3.one, Vector3.zero);
         time = 0;
 
         WorldSystem.instance.toolTipManager.canShow = false;
-
-        //selectionPath = CombatSystem.instance.selectionPath;
-        //DOTween.To(() => 0, x => { }, 0, timeDelay).OnComplete( () => selectionPath.StartFollow());
-        //selectionPath.StartFollow(card);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,13 +31,13 @@ public class CardCombatAnimatorSelected : CardCombatAnimator
         else
             CardLerp(StartTransInfo, TargetTransInfo, 1);
 
-        //selectionPath.FollowPath();
+        card.cardCollider.MirrorCardTrans();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         card.selected = false;
         WorldSystem.instance.toolTipManager.canShow = true;
-        //selectionPath.StopFollow(card);
+        card.cardCollider.gameObject.SetActive(false);
     }
 }
