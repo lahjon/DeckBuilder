@@ -216,6 +216,7 @@ public class CardCombat : CardVisual, IEventSubscriber
     {
         Debug.Log("Mouse left card " + cardName);
         animator.SetBool("MouseIsOver", false);
+        if(CombatSystem.instance.deSelectOnMouseLeave && selected) CombatSystem.instance.CancelCardSelection();
     }
 
     public override void OnMouseRightClick(bool allowDisplay = true)

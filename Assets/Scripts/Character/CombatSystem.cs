@@ -29,6 +29,7 @@ public class CombatSystem : MonoBehaviour
     public Button companionButton;
 
     public CombatCardPresenter cardPresenter;
+    public bool deSelectOnMouseLeave = true;
 
     public CombatActorHero Hero;
     public CombatActorCompanion companion;
