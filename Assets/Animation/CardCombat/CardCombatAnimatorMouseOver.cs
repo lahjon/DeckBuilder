@@ -30,12 +30,16 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
         card.transform.SetAsLastSibling();
         TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), 1.1f*Vector3.one, Vector3.zero);
         if (time* enlargementSpeed < 1)
-            CardLerp(StartTransInfo, TargetTransInfo, 1f); //fucking time.Deltatime??? messed up.
+            CardLerp(StartTransInfo, TargetTransInfo, 1f, true); //fucking time.Deltatime??? messed up.
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         //Debug.Log("MouseOver StateExit: Sending Refresh idle trigger" + Time.frameCount);
+        
+
+
+
         CombatSystem.instance.ResetSiblingIndexes();
     }
 

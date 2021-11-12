@@ -201,6 +201,15 @@ public static class DatabaseUpdateOnStart
         Debug.Log("Googled the cards bro!");
     }
 
+    [MenuItem("Edit/Download Dialogues %#D")]
+    public static void DownloadFromGoogleDialogues()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadDialogues();
+
+        Debug.Log("Googled the dialogues bro!");
+    }
+
     [MenuItem("Edit/Download GoogleEnemies %#E")]
     public static void DownloadFromGoogleEnemies()
     {
@@ -217,6 +226,15 @@ public static class DatabaseUpdateOnStart
         google.DownloadEncounters();
 
         Debug.Log("Googled the combatEncounters bro!");
+    }
+
+    [MenuItem("Edit/Download GoogleItemUsables %#I")]
+    public static void DownloadFromGoogleItemUsables()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadItemUsables();
+
+        Debug.Log("Googled the usable items bro!");
     }
 
 

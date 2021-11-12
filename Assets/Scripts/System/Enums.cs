@@ -240,15 +240,17 @@ public enum CardComponentExecType
 
 public enum RewardType
 {
-    None,
-    Gold,
-    Shard,
-    Card,
-    Heal,
-    UnlockCard,
-    Item = 10,
-    Artifact = 11,
-    Perk = 12
+    // overworld reward
+    None = 0,
+    Gold = 1,
+    Card = 2,
+    Heal = 3,
+    Shard = 4,
+    // permanent reward
+    UnlockCard = 50,
+    Item = 51,
+    Artifact = 52,
+    Perk = 53
 }
 
 public enum CurrencyType
@@ -304,6 +306,27 @@ public enum EncounterEventChoiceEffect
     SelectionCards,
     Artifact
 }
+
+public enum GameEventType
+{
+    None,
+    Custom,                     // parm = name of event | value = whatever needed by your custom event
+    HighlightBuilding,          // parm = string (BuildingType) | value = bool, ex: (0, true)
+    GetReward,                  // parm = string (RewardType) | value = id (int), ex1: (Item, 0)
+    TriggerReward,               // parm = string (WorldState) ändra, orkar inte göra det nu
+    ToggleWorldMap,             // parm = None | value = bool, ex: (true)
+    UnlockScenario              // parm = None | value = idx (int), ex: (0)
+}
+public enum ItemEffectType
+{
+    None = 0,
+    Custom,
+    AddStat,
+    AddCombatEffect,
+    Heal
+}
+
+
 
 public enum EncounterHexStatus
 {
@@ -438,19 +461,19 @@ public enum ProgressionGoalType
 
 public enum BuildingType
 {
-    Shop,           // buy stuff for permanent progress
-    Tavern,         // hopefully used for companions
-    Church,         // no idea, maybe remove
-    TownHall,       // manage town and upgrade town, adding new buildings, story stuff, quests etc
-    Scribe,         // manage the side deck, upgrade cards etc
-    Barracks,       // manage characters, swap proffession
-    Jeweler,        // manage tokens
-    Any
+    Shop = 0,           // buy stuff for permanent progress
+    Tavern = 1,         // hopefully used for companions
+    Church = 2,         // no idea, maybe remove
+    TownHall = 3,       // manage town and upgrade town, adding new buildings, story stuff, quests etc
+    Scribe = 4,         // manage the side deck, upgrade cards etc
+    Barracks = 5,       // manage characters, swap proffession
+    Jeweler = 6,        // manage tokens
+    Any = 20
 }
 
 public enum OverworldEncounterType
 {
-    Start,
+    None,
     Exit,
     Choice,
     Shop,
@@ -459,7 +482,8 @@ public enum OverworldEncounterType
     CombatBoss = 6,
     Cave,
     Bonfire,
-    Story
+    Story,
+    Start
 }
 
 public enum CombatEncounterType

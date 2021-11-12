@@ -67,8 +67,8 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void RemoveScenario()
     {
-        WorldSystem.instance.worldMapManager.availableWorldScenarios.Remove(worldScenarioData.id);
-        WorldSystem.instance.worldMapManager.completedWorldScenarios.Add(worldScenarioData.id);
+        WorldSystem.instance.worldMapManager.availableScenarios.Remove(worldScenarioData.id);
+        WorldSystem.instance.worldMapManager.completedScenarios.Add(worldScenarioData.id);
         if (worldScenarioData.unlocksScenarios?.Any() == true)
         {
             foreach (int id in worldScenarioData.unlocksScenarios)

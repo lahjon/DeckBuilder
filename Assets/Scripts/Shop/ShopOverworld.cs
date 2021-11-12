@@ -33,14 +33,14 @@ public class ShopOverworld : MonoBehaviour
     {
         foreach (Artifact a in artifactsInStock)
         {
-            a.itemData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
-            if (a.itemData == null)
+            a.artifactData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
+            if (a.artifactData == null)
             {
                 a.gameObject.SetActive(false);
                 artifactPrices[artifactsInStock.IndexOf(a)].text = "Out of stock!";
                 continue;
             }
-            artifactPrices[artifactsInStock.IndexOf(a)].text = artifactsInStock[artifactsInStock.IndexOf(a)].itemData.goldValue.ToString() + " g";
+            artifactPrices[artifactsInStock.IndexOf(a)].text = artifactsInStock[artifactsInStock.IndexOf(a)].artifactData.goldValue.ToString() + " g";
             a.button.interactable = true;
             a.button.onClick.RemoveAllListeners();
             a.button.onClick.AddListener(() => PurchaseArtifact(a));
@@ -65,11 +65,11 @@ public class ShopOverworld : MonoBehaviour
     public bool PurchaseArtifact(Artifact artifact)
     {
         int characterGold = WorldSystem.instance.characterManager.gold;
-        int goldCost = artifact.itemData.goldValue;
+        int goldCost = artifact.artifactData.goldValue;
         if (characterGold >= goldCost)
         {
             WorldSystem.instance.characterManager.gold -= goldCost;
-            WorldSystem.instance.artifactManager.AddArtifact(artifact.itemData.itemId);
+            WorldSystem.instance.artifactManager.AddArtifact(artifact.artifactData.itemId);
             artifact.gameObject.SetActive(false);
             artifactPrices[artifactsInStock.IndexOf(artifact)].text = "Out of stock!";
             return true;

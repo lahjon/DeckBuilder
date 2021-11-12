@@ -5,8 +5,7 @@ using System.Linq;
 
 public class Mission : Progression
 {
-    public string endEvent;
-    public string startEvent;
+
     public MissionData data;
 
     public void StartMission(MissionData aData)
@@ -15,18 +14,19 @@ public class Mission : Progression
         aName = data.aName;
         id = data.id;
         description = data.description;
-        endEvent = data.endEvent;
-        startEvent = data.startEvent;
 
         CreateGoals(data);
+        for (int i = 0; i < data.gameEventsOnStart.Count(); i++)
+            GameEventManager.CreateEvent(data.gameEventsOnStart[i]);
 
         WorldSystem.instance.missionManager.missionUI.UpdateUI(true);
-        WorldSystem.instance.gameEventManager.StartEvent(startEvent);
     }
     protected override void Complete()
     {
         base.Complete();
-        WorldSystem.instance.gameEventManager.StartEvent(endEvent);
+        for (int i = 0; i < data.gameEventsOnEnd.Count(); i++)
+            GameEventManager.CreateEvent(data.gameEventsOnEnd[i]);
+
         if (data.nextMission != null)
         {
             WorldSystem.instance.missionManager.StartMission(data.nextMission);

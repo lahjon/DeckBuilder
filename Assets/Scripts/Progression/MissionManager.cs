@@ -42,13 +42,16 @@ public class MissionManager : Manager, ISaveableWorld
 
         Mission mission = Instantiate(missionPrefab, missionParent).GetComponent<Mission>();
         mission.name = data.aName;
+        for (int i = 0; i < data.addDialogueIdx.Count; i++)
+            world.dialogueManager.AddDialogue(data.addDialogueIdx[i]);
+        
         mission.StartMission(data);
         return mission;
     }
 
-    public void StartMission(string missionId)
+    public void StartMission(int missionId)
     {
-        if (!string.IsNullOrEmpty(missionId) && allMissionDatas.FirstOrDefault(x => x.name == missionId) is MissionData data)
+        if (allMissionDatas.FirstOrDefault(x => x.id == missionId) is MissionData data && !clearedMissions.Contains(data) && !currentMissions.Contains(data))
             StartMission(data);
     }
     void RegisterMissions()

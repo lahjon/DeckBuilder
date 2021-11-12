@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31bce648fddcd64c9608d80db47b8ad, type: 3}
   m_Name: DemoStart01
   m_EditorClassIdentifier: 
+  index: 0
   sentences:
   - dialogueParticipant: 7
-    sentence: Hello there! Im the major. Explore the town before you leave. When
-      you are done, ill give you more stuff to do.
-  - dialogueParticipant: 7
-    sentence: Now go one, stop slacking.
+    sentence: Cuttrefish or assparagus?
   - dialogueParticipant: 1
-    sentence: Alright, back to work.
+    sentence: mmmMMMMISH
   - dialogueParticipant: 7
-    sentence: Thats right, walk away.
-  startEvent: Event003
-  endEvent: Event004
+    sentence: Cuttrefish?
+  - dialogueParticipant: 1
+    sentence: MMMMM!!!!
+  stateToTrigger: 
+  endEvent:
+  - type: 2
+    parameter: TownHall
+    value: true

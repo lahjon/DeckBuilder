@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31bce648fddcd64c9608d80db47b8ad, type: 3}
   m_Name: DemoStart02
   m_EditorClassIdentifier: 
+  index: 1
   sentences:
   - dialogueParticipant: 7
-    sentence: Hurray! You are amazing at exploring. Now go out and kill Seth Nielsen!
+    sentence: So good you made it. Now assparagus
   - dialogueParticipant: 1
-    sentence: Ooooh reeearry?
-  - dialogueParticipant: 7
-    sentence: Yes. And take this artifact! May it help you!
-  startEvent: Event002
-  endEvent: Event005
+    sentence: Please dont
+  stateToTrigger: 
+  endEvent: []

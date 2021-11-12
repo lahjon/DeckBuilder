@@ -17,7 +17,7 @@ public class Reward : MonoBehaviour, IToolTipable
     public RewardType rewardType;
     public TMP_Text rewardCountText;
     bool reset;
-    public string[] value;
+    public string value;
     public Action callback;
     public int rewardAmount;
     public void OnClick()
@@ -30,7 +30,7 @@ public class Reward : MonoBehaviour, IToolTipable
         if(reset)
             WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
     }
-    public void SetupReward(RewardType aRewardType, string[] aValue = null)
+    public void SetupReward(RewardType aRewardType, string aValue = null)
     {
         rewardType = aRewardType;
         value = aValue;
@@ -86,38 +86,43 @@ public class Reward : MonoBehaviour, IToolTipable
     }
 
     #region RewardTypes
-    public void RewardGold(string[] value)
+    public void RewardGold(string value)
     {
         float startRange = 15;
         float endRange = 25;
 
-        int amount = (value != null && value.Count() > 0) ? int.Parse(value[0]) : (int)UnityEngine.Random.Range(startRange, endRange);
-        rewardText.text = string.Format("Gold: " + amount.ToString());
+        int amount = (value != null && value.Count() > 0) ? int.Parse(value) : (int)UnityEngine.Random.Range(startRange, endRange);
+        rewardText.text = string.Format("Gold: {0}", amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[0];
         reset = true;
         rewardAmount = amount;
         
         callback = () => WorldSystem.instance.characterManager.gold += amount;
     }
-    public void RewardShard(string[] value)
+    public void RewardShard(string value)
     {
         float startRange = 3;
         float endRange = 5;
-        int amount = (value != null && value.Count() > 0) ? int.Parse(value[0]) : (int)UnityEngine.Random.Range(startRange, endRange);
-        rewardText.text = string.Format("Shard: " + amount.ToString());
+        int amount = (value != null && value.Count() > 0) ? int.Parse(value) : (int)UnityEngine.Random.Range(startRange, endRange);
+        rewardText.text = string.Format("Shard: {0}", amount.ToString());
         image.sprite = WorldSystem.instance.rewardManager.icons[1];
         reset = true;
         rewardAmount = amount;
 
         callback = () => WorldSystem.instance.characterManager.shard += amount;
     }
-    public void RewardItem(string[] value)
+    public void RewardItem(string value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.useItemManager.GetItemData(Int32.Parse(value[0])) : WorldSystem.instance.useItemManager.GetItemData();
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.itemUseableManager.GetItemData(Int32.Parse(value)) : WorldSystem.instance.itemUseableManager.GetItemData();
 
         if (itemData == null)
         {
             Debug.LogWarning("No Item found!");
+            return;
+        }
+        if (WorldSystem.instance.itemUseableManager.equippedItems.Select(x => x.id).Contains(itemData.itemId))
+        {
+            Debug.LogWarning("Already have that item!");
             return;
         }
 
@@ -125,11 +130,11 @@ public class Reward : MonoBehaviour, IToolTipable
         image.sprite = itemData.artwork;
         reset = true;
 
-        callback = () => WorldSystem.instance.useItemManager.AddItem(itemData.itemId);
+        callback = () => WorldSystem.instance.itemUseableManager.AddItem(itemData.itemId);
     }
-    public void RewardArtifact(string[] value)
+    public void RewardArtifact(string value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.artifactManager.GetSpecficArtifact(Int32.Parse(value[0])) : WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.artifactManager.GetSpecficArtifact(Int32.Parse(value)) : WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
 
         if (itemData == null)
         {
@@ -143,11 +148,11 @@ public class Reward : MonoBehaviour, IToolTipable
 
         callback = () => WorldSystem.instance.artifactManager.AddArtifact(itemData.itemId);
     }
-    public void RewardHeal(string[] value)
+    public void RewardHeal(string value)
     {
         callback = () => Debug.LogError("No Reward Implemented!");
     }
-    public void RewardCard(string[] value)
+    public void RewardCard(string value)
     {
         rewardText.text = "Card";
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
@@ -155,9 +160,9 @@ public class Reward : MonoBehaviour, IToolTipable
         callback = () => WorldSystem.instance.rewardManager.rewardScreenCardSelection.SetupRewards(GetCardData(value));
     }
 
-    public void RewardPerk(string[] value)
+    public void RewardPerk(string value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.menuManager.menuCharacter.GetPerkById(Int32.Parse(value[0])) : null;
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.menuManager.menuCharacter.GetPerkById(Int32.Parse(value)) : null;
         if (itemData == null)
         {
             Debug.LogWarning("No Perk found!");
@@ -170,7 +175,7 @@ public class Reward : MonoBehaviour, IToolTipable
         callback = () => WorldSystem.instance.menuManager.menuCharacter.UnlockPerk(itemData.itemId);
     }
 
-    public void RewardUnlockCard(string[] value)
+    public void RewardUnlockCard(string value)
     {
         image.sprite = WorldSystem.instance.rewardManager.icons[2];
         callback = () => {
@@ -186,47 +191,45 @@ public class Reward : MonoBehaviour, IToolTipable
     }
     #endregion
 
-    public static List<CardData> GetCardData(string[] value)
+    public static List<CardData> GetCardData(string value)
     {
         List<CardData> cardDatas = new List<CardData>();
 
         if (value != null && value.Count() > 0)
         {
             CardFilter cardFilter = new CardFilter();
-            foreach (string item in value)
+
+            if (value.Contains("name"))
             {
-                if (item.Contains("name"))
+                cardDatas.Clear();
+                string[] cardNames = value.Split('=')[1].Split(';');
+                foreach (string card in cardNames)
                 {
-                    cardDatas.Clear();
-                    string[] cardNames = item.Split('=')[1].Split(';');
-                    foreach (string card in cardNames)
-                    {
-                        cardFilter.name = card;
-                        cardDatas.Add(DatabaseSystem.instance.GetRandomCard(cardFilter));
-                    }
-                    break;
-                }
-                else
-                {
-                    if (item.Contains("rarity"))
-                    {
-                        string[] rarity = item.Split('=')[1].Split(';');
-                        float x = float.Parse(rarity[0], CultureInfo.InvariantCulture.NumberFormat);
-                        float y = float.Parse(rarity[1], CultureInfo.InvariantCulture.NumberFormat);
-                        cardFilter.rarity = Helpers.DrawRarity(x, y);
-                    }
-                    else if (item.Contains("cost"))
-                    {
-                        cardFilter.costArr = Array.ConvertAll(item.Split('=')[1].Split(';'), x => int.Parse(x));
-                    }
-                    else if (item.Contains("notClassType"))
-                    {
-                        cardFilter.notClassTypeArr = Array.ConvertAll(item.Split('=')[1].Split(';'), x => (CardClassType)System.Enum.Parse(typeof(CardClassType), x));
-                    }
-                    else if (item.Contains("classType"))
-                        cardFilter.classTypeArr = Array.ConvertAll(item.Split('=')[1].Split(';'), x => (CardClassType)System.Enum.Parse(typeof(CardClassType), x));
+                    cardFilter.name = card;
+                    cardDatas.Add(DatabaseSystem.instance.GetRandomCard(cardFilter));
                 }
             }
+            else
+            {
+                if (value.Contains("rarity"))
+                {
+                    string[] rarity = value.Split('=')[1].Split(';');
+                    float x = float.Parse(rarity[0], CultureInfo.InvariantCulture.NumberFormat);
+                    float y = float.Parse(rarity[1], CultureInfo.InvariantCulture.NumberFormat);
+                    cardFilter.rarity = Helpers.DrawRarity(x, y);
+                }
+                else if (value.Contains("cost"))
+                {
+                    cardFilter.costArr = Array.ConvertAll(value.Split('=')[1].Split(';'), x => int.Parse(x));
+                }
+                else if (value.Contains("notClassType"))
+                {
+                    cardFilter.notClassTypeArr = Array.ConvertAll(value.Split('=')[1].Split(';'), x => (CardClassType)System.Enum.Parse(typeof(CardClassType), x));
+                }
+                else if (value.Contains("classType"))
+                    cardFilter.classTypeArr = Array.ConvertAll(value.Split('=')[1].Split(';'), x => (CardClassType)System.Enum.Parse(typeof(CardClassType), x));
+            }
+            
             if (cardDatas.Count == 0) 
             {
                 if (cardFilter.classTypeArr == null)
@@ -260,19 +263,19 @@ public class Reward : MonoBehaviour, IToolTipable
             case RewardType.Item:
             case RewardType.Artifact:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-                desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
+                desc = string.Format("<b>{0}{1}/<b>", itemData.itemName, itemData.description);
                 return (new List<string>{desc} , pos);
             case RewardType.UnlockCard:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-                desc = string.Format("<b>" + "Unlock a new card" + "</b>");
+                desc = "<b>Unlock a new card</b>";
                 return (new List<string>{desc} , pos);
             case RewardType.Gold:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-                desc = string.Format("<b>" + rewardAmount.ToString() + " Gold" + "</b>");
+                desc = string.Format("<b>{0} Gold</b>", rewardAmount.ToString());
                 return (new List<string>{desc} , pos);
             case RewardType.Shard:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-                desc = string.Format("<b>" + rewardAmount.ToString() + " Shards" + "</b>");
+                desc = string.Format("<b>{0} Shards</b>", rewardAmount.ToString());
                 return (new List<string>{desc} , pos);
             
             default:
@@ -284,5 +287,5 @@ public class Reward : MonoBehaviour, IToolTipable
 [System.Serializable] public struct RewardStruct
 {
     public RewardType type;
-    public string[] value;
+    public string value;
 }

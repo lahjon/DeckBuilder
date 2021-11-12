@@ -7,5 +7,5 @@ using System.Linq;
 public class ObjectiveData : ProgressionData
 {
     public ObjectiveData nextObjective;
-    public string endEvent;
+    public GameEventStruct endEvent;
 }

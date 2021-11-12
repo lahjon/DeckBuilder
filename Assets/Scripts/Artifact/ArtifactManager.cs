@@ -70,15 +70,16 @@ public class ArtifactManager : Manager, ISaveableTemp
     {
         if (artifactId > -1 && !allActiveArtifactsIds.Contains(artifactId))
         {
-            ArtifactData artifactData = GetArtifactFromId(artifactId);
-            Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
-            allActiveArtifactsIds.Add(artifactId);
-
-            newArtifact.effect = Effect.GetEffect(newArtifact.gameObject, artifactData.name, true);
-
-            if (save)
+            if (GetArtifactFromId(artifactId) is ArtifactData artifactData)
             {
-                world.SaveProgression();
+                Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
+                allActiveArtifactsIds.Add(artifactId);
+
+                newArtifact.effect = ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct);
+
+                if (save)
+                    world.SaveProgression();
+                
             }
         }
     }
@@ -87,9 +88,11 @@ public class ArtifactManager : Manager, ISaveableTemp
     {
         if (artifactId > -1)
         {
-            ArtifactData artifactData = GetArtifactFromId(artifactId);
-            Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
-            Effect.GetEffect(newArtifact.gameObject, artifactData.name, true);
+            if (GetArtifactFromId(artifactId) is ArtifactData artifactData)
+            {
+                Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
+                ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct);
+            }
         }
     }
 
@@ -100,7 +103,7 @@ public class ArtifactManager : Manager, ISaveableTemp
         {
             if (artifact.id == artifactId)
             {
-                artifact.effect.RemoveEffect();
+                artifact.effect.RemoveItemEffect();
                 artifactMenu.RemoveUIArtifact(artifact);
                 allActiveArtifactsIds.Remove(artifactId);
                 break;

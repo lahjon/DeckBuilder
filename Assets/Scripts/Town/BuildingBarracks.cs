@@ -112,7 +112,7 @@ public class BuildingBarracks : Building
                 currentSelectedCharacter = aCharacter;
         }
 
-        selectedItems = WorldSystem.instance.useItemManager.equippedItems;
+        selectedItems = WorldSystem.instance.itemUseableManager.equippedItems;
 
         useItems.ForEach(x => x.gameObject.SetActive(false));
         for (int i = 0; i < selectedItems.Count; i++)

@@ -28,7 +28,6 @@ public class Dialogue : MonoBehaviour
 
     public void EndSentence()
     {
-        //speed = 0;
         StopAllCoroutines();
         textField.text = sentence;
         sentenceDone = true;

@@ -24,12 +24,20 @@ public class CardCombatAnimator : StateMachineBehaviour
         return (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
     }
 
-    public void CardLerp((Vector3 pos,Vector3 scale ,Vector3 angles) startTransInfo, (Vector3 pos, Vector3 scale, Vector3 angles) targetTransInfo, float percent, AnimationCurve curve = null)
+    public void CardLerp((Vector3 pos, Vector3 scale, Vector3 angles) startTransInfo, (Vector3 pos, Vector3 scale, Vector3 angles) targetTransInfo, float percent, bool onlyUIobject = false)
     {
-        if (!(curve is null)) percent = curve.Evaluate(percent);
-        card.transform.localPosition    = Vector3.Lerp(startTransInfo.pos,      targetTransInfo.pos,    percent);
-        card.transform.localScale       = Vector3.Lerp(startTransInfo.scale,    targetTransInfo.scale,  percent);
-        card.transform.localEulerAngles = AngleLerp(   startTransInfo.angles,   targetTransInfo.angles, percent);
+        if (!onlyUIobject) 
+        { 
+            card.transform.localPosition    = Vector3.Lerp(startTransInfo.pos,      targetTransInfo.pos,    percent);
+            card.transform.localScale       = Vector3.Lerp(startTransInfo.scale,    targetTransInfo.scale,  percent);
+            card.transform.localEulerAngles = AngleLerp(   startTransInfo.angles,   targetTransInfo.angles, percent);
+        }
+        else
+        {
+            card.UIobjectTrans.position = card.transform.parent.TransformPoint(Vector3.Lerp(startTransInfo.pos, targetTransInfo.pos, percent));
+            //card.UIobjectTrans.localScale = Vector3.Lerp(startTransInfo.scale, targetTransInfo.scale, percent);
+            card.UIobjectTrans.localEulerAngles = AngleLerp(startTransInfo.angles, targetTransInfo.angles, percent) - card.transform.localEulerAngles;
+        }
 
     }
 }

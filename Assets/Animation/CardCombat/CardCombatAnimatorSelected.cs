@@ -34,7 +34,7 @@ public class CardCombatAnimatorSelected : CardCombatAnimator
         time += Time.deltaTime;
 
         if (time < duration)
-            CardLerp(StartTransInfo, TargetTransInfo, time/duration, card.transitionCurveReturn); //fucking time.Deltatime??? messed up.
+            CardLerp(StartTransInfo, TargetTransInfo, card.transitionCurveReturn.Evaluate(time / duration)); //fucking time.Deltatime??? messed up.
         else
             CardLerp(StartTransInfo, TargetTransInfo, 1);
 

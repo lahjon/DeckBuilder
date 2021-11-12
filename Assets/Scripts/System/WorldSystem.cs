@@ -11,6 +11,7 @@ public class WorldSystem : MonoBehaviour
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
     private PlayableCharacterData characterData;
+    public ItemEffectManager itemEffectManager;
     public EncounterManager encounterManager;
     public CharacterManager characterManager;
     public ShopManager shopManager;
@@ -32,7 +33,7 @@ public class WorldSystem : MonoBehaviour
     public RewardManager rewardManager;
     public LevelManager levelManager;
     public ScenarioMapManager gridManager;
-    public UseItemManager useItemManager;
+    public ItemUseableManager itemUseableManager;
     public ToolTipManager toolTipManager;
     public int act;
     public int subAct;

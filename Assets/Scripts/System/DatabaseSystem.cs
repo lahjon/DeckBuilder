@@ -20,10 +20,17 @@ public class DatabaseSystem : MonoBehaviour
     public List<ArtifactData> artifacts = new List<ArtifactData>();
     public List<Sprite> allOverworldIcons = new List<Sprite>();
     public List<ScenarioData> scenarios = new List<ScenarioData>();
+    public List<EnemyData> enemies = new List<EnemyData>();
+    public List<ItemUseableData> itemUsables = new List<ItemUseableData>();
 
     [Header("=========== CurrentScenario ============")]
     public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encountersEventToDraw = new List<EncounterDataRandomEvent>();
+
+    [Header("=========== Dialogue ============")]
+    public List<DialogueData> dialogues = new List<DialogueData>();
+
+
 
 
     private void Awake()

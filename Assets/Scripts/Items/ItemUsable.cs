@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ItemUsable : Item, IEventSubscriber
+public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
 {
     bool _usable;
     public ConditionCounting itemCondition;
-    UseItemData _useItemData;
+    ItemUseableData _useItemData;
     public TMP_Text counterText; 
-    public Effect effect; 
+    public ItemEffect itemEffect; 
+    public int id;
+    public Image image;
+    public Button button;
+    public Transform tooltipAnchor;
+    bool initialized;
     int _charges;
-    public new UseItemData itemData 
+    public ItemUseableData itemData 
     {
         get => _useItemData;
         set 
@@ -38,8 +43,17 @@ public class ItemUsable : Item, IEventSubscriber
             button.interactable = _usable;  
         }
     }
+    void Initialize()
+    {
+        if (!initialized)
+        {
+            image = GetComponent<Image>();
+            button = GetComponent<Button>();
+            initialized = true;   
+        }
+    }
 
-    public override void BindData(bool allData = true)
+    public void BindData(bool allData = true)
     {
         if (itemData == null) return;
         Initialize();
@@ -47,7 +61,7 @@ public class ItemUsable : Item, IEventSubscriber
         image.sprite = itemData.artwork;
         if (allData)
         {
-            effect = Effect.GetEffect(gameObject, itemData.name, false);
+            itemEffect = ItemEffectManager.CreateItemEffect(itemData.itemEffectStruct);
             itemCondition = new ConditionCounting(itemData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             itemCondition.Subscribe();
             charges = 1;
@@ -56,7 +70,7 @@ public class ItemUsable : Item, IEventSubscriber
     }
     public void RemoveItem()
     {
-        WorldSystem.instance.useItemManager.usedItemSlots--;
+        WorldSystem.instance.itemUseableManager.usedItemSlots--;
         itemCondition.Unsubscribe();
         Unsubscribe();
         Destroy(gameObject);
@@ -69,10 +83,10 @@ public class ItemUsable : Item, IEventSubscriber
 
     public void CheckItemUseCondition(WorldState state)
     {
-        usable = (itemData.itemUseCondition.Contains(state) && charges > 0);
+        usable = (itemData.statesUsable.Contains(state) && charges > 0);
     }
 
-    public override (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
         string desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
@@ -89,9 +103,9 @@ public class ItemUsable : Item, IEventSubscriber
     {
         EventManager.OnNewWorldStateEvent -= CheckItemUseCondition;
     }
-    public override void OnClick()
+    public void OnClick()
     {
-        effect?.AddEffect();
+        itemEffect?.AddItemEffect();
         Debug.Log("Using Item!");
         counterText.text = (itemCondition.requiredAmount - itemCondition.currentAmount).ToString();
         charges--;

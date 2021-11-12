@@ -37,7 +37,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     protected override void Start()
     {
         base.Start(); 
-        characterStats = character.GetComponent<CharacterStats>();
+        
 
         SetupCharacterData();
 
@@ -59,6 +59,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
             unlockedProfessions.Add(Profession.Rogue1);
             unlockedProfessions.Add(Profession.Beastmaster1);
         }
+
+        world.menuManager.menuCharacter.Init();
     }
     public int shard 
     {

@@ -256,4 +256,6 @@ public class CombatActorEnemy : CombatActor
     {
         UpdateIntentDisplay(hand);
     }
+
+    public override int GetStat(StatType stat) => 0;
 }

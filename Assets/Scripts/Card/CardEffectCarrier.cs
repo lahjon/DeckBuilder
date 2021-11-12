@@ -87,7 +87,8 @@ public class CardEffectCarrier: ICardTextElement
             if (Value is CardIntLinkedProperty cip)
                 description += cip.GetTextForValue();
             else
-                description += Helpers.ValueColorWrapper(Value.value, CombatSystem.instance.CalculateDisplayDamage(Value));
+                description += Helpers.ValueColorWrapper(Value.value + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Strength), 
+                                                            CombatSystem.instance.CalculateDisplayDamage(Value));
         }
         else
             description += Value.GetTextForValue();

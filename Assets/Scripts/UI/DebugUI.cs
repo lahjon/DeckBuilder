@@ -60,7 +60,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugCreateNewItem()
     {
-        world.useItemManager.AddItem();
+        world.itemUseableManager.AddItem();
     }
     public void DebugTakeDamage(int amount)
     {
@@ -102,7 +102,7 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugUnlockPerk()
     {
-        PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerksDatas).ToList().Count)];
+        PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerks.Select(x => x.perkData)).ToList().Count)];
         world.menuManager.menuCharacter.UnlockPerk(data);
     }
     public void DebugAddLevel()
@@ -191,24 +191,18 @@ public class DebugUI : MonoBehaviour
 
     public void DebugRemoveRandomItem()
     {
-        world.useItemManager.RemoveItem();
+        world.itemUseableManager.RemoveItem();
     }
 
     public void DebugUnlockCardInScribe()
     {
         world.townManager.scribe.UnlockCard(cardData);
     }
-    // public void DebugUpgradeCardPermanent()
-    // { 
-
-    //     string value = world.townManager.scribe.unlockedCards[Random.Range(0, world.townManager.scribe.unlockedCards.Count)].cardId;
-    //     world.townManager.scribe.UpgradeCardPermanent(value);
-    // }
 
     public void DebugRewardGetCard()
     {
         Debug.Log("Get Card");
-        world.rewardManager.CreateReward(RewardType.UnlockCard, new string[1]{"name=Berserker_NewCard"});
+        world.rewardManager.CreateReward(RewardType.UnlockCard, "name=Berserker_NewCard");
         WorldStateSystem.SetInTownReward(true);
     }
 

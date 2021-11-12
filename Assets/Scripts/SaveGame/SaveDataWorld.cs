@@ -11,7 +11,8 @@ public class SaveDataWorld
     // character
     public int shard;
     public CharacterClassType classType;
-    public int completedDialogue;
+    public List<int> completedDialogues = new List<int>();
+    public List<int> availableDialogues = new List<int>();
     public List<CardWrapper> unlockedCards;
     public int idxCounter;
 
@@ -19,8 +20,8 @@ public class SaveDataWorld
     public List<int> unlockedTokens;
 
     // world
-    public List<int> availableWorldEncounters;
-    public List<int> completedWorldEncounters;
+    public List<int> availableScenarios;
+    public List<int> completedScenarios;
 
     // town
     public List<BuildingType> unlockedBuildings;

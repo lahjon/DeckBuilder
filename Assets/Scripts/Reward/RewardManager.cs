@@ -48,7 +48,7 @@ public class RewardManager : Manager, IEventSubscriber
         else  ClearRewardScreen();
     }
 
-    public Reward CreateReward(RewardType type, string[] value = null, Transform parent = null, bool addReward = true)
+    public Reward CreateReward(RewardType type, string value = null, Transform parent = null, bool addReward = true)
     {
         if (parent == null) parent = rewardParent;
 
@@ -59,6 +59,10 @@ public class RewardManager : Manager, IEventSubscriber
         return reward;
     }
 
+    public void TriggerReward()
+    {
+        WorldStateSystem.SetInTownReward(true);
+    }
 
     public void CopyReward(Reward aReward)
     {

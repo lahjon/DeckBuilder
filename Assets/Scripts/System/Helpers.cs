@@ -203,30 +203,20 @@ public static class Helpers
         return new Vector3(xLerp, yLerp, zLerp);
     }
 
-    // public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
-    // {
-    //     List<T> assets = new List<T>();
-    //     string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
-    //     for( int i = 0; i < guids.Length; i++ )
-    //     {
-    //         string assetPath = AssetDatabase.GUIDToAssetPath( guids[i] );
-    //         T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
-    //         if( asset != null )
-    //         {
-    //             assets.Add(asset);
-    //         }
-    //     }
-    //     return assets;
-    // }
+    public static T ToEnum<T>(this string str) where T: Enum
+    {
+        return (T)Enum.Parse(typeof(T), str);
+    }
 
-    // public static List<string> GetAllFilesInDirectory(string relativeAssetPath, string extension = "*.cs")
-    // {
-    //     string path = Application.dataPath;
-    //     path = path.Replace("Assets", "");
-    //     path += relativeAssetPath;
-    //     List<string> allFiles = Directory.GetFiles(path, extension).Select(file => Path.GetFileNameWithoutExtension(file)).ToList();
-    //     return allFiles;
-    // }
+    public static int ToInt(this string str) 
+    { 
+        return String.IsNullOrEmpty(str) ? 0 : int.Parse(str);
+    }
+
+    public static bool ToBool(this string str) 
+    { 
+        return !String.IsNullOrEmpty(str) && str == "true" ? true : false;
+    }
 
     public static float Remap(this float value, float from1, float to1, float from2, float to2) 
     {

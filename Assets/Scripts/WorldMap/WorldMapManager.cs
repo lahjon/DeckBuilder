@@ -8,11 +8,11 @@ public class WorldMapManager : Manager, ISaveableWorld
 {
     public Canvas canvas;
     public int actIndex;
-    public HashSet<int> availableWorldScenarios = new HashSet<int>();
-    public HashSet<int> completedWorldScenarios = new HashSet<int>();
+    public HashSet<int> availableScenarios = new HashSet<int>();
+    public HashSet<int> completedScenarios = new HashSet<int>();
     public Transform scenarioParent;
     public List<Scenario> worldScenarios;
-    public WorldEncounterTooltip worldScenarioTooltip;
+    public WorldScenarioTooltip worldScenarioTooltip;
     public WorldMapConfirmWindow worldMapConfirmWindow;
     public Scenario currentWorldScenario;
     protected override void Awake()
@@ -54,15 +54,15 @@ public class WorldMapManager : Manager, ISaveableWorld
 
     public void UnlockScenario(int id)
     {
-        if (!completedWorldScenarios.Contains(id) && !availableWorldScenarios.Contains(id))
-            availableWorldScenarios.Add(id);
+        if (!completedScenarios.Contains(id) && !availableScenarios.Contains(id))
+            availableScenarios.Add(id);
     }
 
     public void CompleteScenario(bool toTown = true)
     {
         //if(aScenario != currentWorldScenario) return;
         currentWorldScenario.completed = true;
-        EventManager.CompleteWorldEncounter();
+        EventManager.CompleteWorldScenario();
         currentWorldScenario?.CollectReward();
         if(toTown) WorldStateSystem.SetInTown(true);
     }
@@ -71,20 +71,20 @@ public class WorldMapManager : Manager, ISaveableWorld
     {
         foreach (Scenario enc in worldScenarios)
         {
-            if (enc.worldScenarioData != null && availableWorldScenarios.Contains(enc.worldScenarioData.id))
+            if (enc.worldScenarioData != null && availableScenarios.Contains(enc.worldScenarioData.id))
                 enc.BindData();
         }
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.availableWorldEncounters = availableWorldScenarios.ToList();
-        a_SaveData.completedWorldEncounters = completedWorldScenarios.ToList();
+        a_SaveData.availableScenarios = availableScenarios.ToList();
+        a_SaveData.completedScenarios = completedScenarios.ToList();
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.availableWorldEncounters?.ForEach(x => availableWorldScenarios.Add(x));
-        a_SaveData.completedWorldEncounters?.ForEach(x => completedWorldScenarios.Add(x));
+        a_SaveData.availableScenarios?.ForEach(x => availableScenarios.Add(x));
+        a_SaveData.completedScenarios?.ForEach(x => completedScenarios.Add(x));
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossJesterRat
   m_EditorClassIdentifier: 
   StartingHP: 92
-  enemyId: 20001
+  enemyId: 6
   enemyName: Jester Rat
   artwork: {fileID: 0}
   characterArt: {fileID: 7705115383787346044, guid: 662f6b8bdf8095643a7fb063d68125c0, type: 3}

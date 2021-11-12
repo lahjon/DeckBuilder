@@ -8,7 +8,7 @@ using DG.Tweening;
 public class TownInteractable : MonoBehaviour, IToolTipable
 {
     [HideInInspector] public string buildingName;
-    public string gameEvent;
+    public GameEventStruct gameEvent;
     public BuildingType buildingType;
     public Transform tooltipAnchor;
     Image highlightImage;
@@ -16,6 +16,26 @@ public class TownInteractable : MonoBehaviour, IToolTipable
     Button button;
     Tween tween;
     static Color color = Color.black;
+    [SerializeField] bool _highlighted;
+    public bool Highlighted
+    {
+        get => _highlighted;
+        set
+        {
+            _highlighted = value;
+            if (_highlighted)
+            {
+                highlightImage.enabled = true;
+                tween = highlightImage.DOColor(Color.blue, 1f).SetEase(Ease.OutSine).SetLoops(-1, LoopType.Yoyo);
+            }
+            else
+            {
+                tween.Kill();
+                highlightImage.color = color;
+                highlightImage.enabled = false;
+            }
+        }
+    }
 
     void Awake()
     {
@@ -27,9 +47,9 @@ public class TownInteractable : MonoBehaviour, IToolTipable
     }
     public virtual void ButtonPress()
     {
-        if (!string.IsNullOrEmpty(gameEvent))
+        if (gameEvent.type != GameEventType.None)
         {
-            WorldSystem.instance.gameEventManager.StartEvent(gameEvent);
+            GameEventManager.CreateEvent(gameEvent);
         }
         else
         {
@@ -40,7 +60,11 @@ public class TownInteractable : MonoBehaviour, IToolTipable
 
     void EnterBuilding()
     {
-        if (WorldSystem.instance.townManager.buildings.FirstOrDefault(x => x.buildingType == buildingType) is BuildingStruct buildingStruct) buildingStruct.building.EnterBuilding();
+        if (WorldSystem.instance.townManager.buildings.FirstOrDefault(x => x.buildingType == buildingType) is BuildingStruct buildingStruct)
+        {
+            buildingStruct.building.EnterBuilding();
+            Highlighted = false;
+        }
     }
 
     public void DisableBuilding()
@@ -51,18 +75,6 @@ public class TownInteractable : MonoBehaviour, IToolTipable
     public void EnableBuilding()
     {
         button.interactable = true;
-    }
-
-    public void HighlightBuilding()
-    {
-        highlightImage.enabled = true;
-        tween = highlightImage.DOColor(Color.blue, 1f).SetEase(Ease.OutSine).SetLoops(-1, LoopType.Yoyo);
-    }
-    public void UnhighlightBuilding()
-    {
-        tween.Kill();
-        highlightImage.color = color;
-        highlightImage.enabled = false;
     }
 
     public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()

@@ -131,6 +131,7 @@ public class WorldStateSystem : MonoBehaviour
     public static void SetInTransition(bool aBool)
     {
         overlayAnimator.SetBool("InTransition", aBool);
+        Debug.Log("trans");
     }
     public static void SetInDisplay()
     {
@@ -143,9 +144,9 @@ public class WorldStateSystem : MonoBehaviour
             overlayAnimator.SetTrigger("InDisplay");
         }
     }
-    public static void SetInDialogue()
+    public static void SetInDialogue(bool value)
     {
-        overlayAnimator.SetTrigger("InDialogue");
+        overlayAnimator.SetBool("InDialogue", value);
     }
     // public static void SetInRewardScreen()
     // {
@@ -191,6 +192,7 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void TriggerClear()
     {
+        Debug.Log("clear");
         overlayAnimator.SetTrigger("Clear");
     }
 }
