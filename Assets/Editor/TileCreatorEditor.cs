@@ -94,6 +94,7 @@ public class TileCreatorEditor : Editor
                     Undo.RecordObject(tileCreator, "Add Roads");
                     tileCreator.MakeNeighbour(hitEnc);
                     tileCreator.currentEnc = hitEnc;
+                    Debug.Log(hitEnc.idx);
                     guiEvent.Use();
                 }
             }
@@ -114,6 +115,7 @@ public class TileCreatorEditor : Editor
                 {
                     Undo.RecordObject(tileCreator, "Start Road Placement");
                     tileCreator.currentEnc = hitEnc;
+                    Debug.Log(hitEnc.idx);
                     guiEvent.Use();
                 }
 

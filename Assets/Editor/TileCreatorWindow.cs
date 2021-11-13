@@ -65,8 +65,21 @@ public class TileCreatorWindow : EditorWindow
                 SceneVisibilityManager.instance.DisablePicking(tileCreator.gameObject, true);
                 SceneView.RepaintAll();
                 active = true;
+                SetStartEncounters();
             }
     }   
+
+    void SetStartEncounters()
+    {
+        tileCreator.allEncounters = new List<TileCreatorEncounter>();
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.6f, 0, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.East), 0));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.3f, 0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.NorthEast), 1));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.3f, 0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.NorthWest), 2));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.6f, 0, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.West), 3));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.3f, -0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.SouthWest), 4));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.3f, -0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.SouthEast), 5));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(Vector3.zero, OverworldEncounterType.Start, new GridDirection(GridDirection.DirectionName.East), 6));
+    }
 
     void ShowTextLabels()
     {
@@ -121,8 +134,8 @@ public class TileCreatorWindow : EditorWindow
     {
         if(GUILayout.Button("Reset"))
         {
-            Debug.Log("Reset");
             tileCreator.ResetEncounters();
+            SetStartEncounters();
             SceneView.RepaintAll();
         }
     }

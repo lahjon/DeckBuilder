@@ -434,6 +434,7 @@ MonoBehaviour:
   actorTurn: 0
   companionButton: {fileID: 1931752324}
   cardPresenter: {fileID: 1823196869}
+  deSelectOnMouseLeave: 1
   Hero: {fileID: 73432731}
   companion: {fileID: 882416113}
   content: {fileID: 2143486278}
@@ -2082,6 +2083,128 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 56433178}
   m_CullTransparentMesh: 1
+--- !u!1 &57811645
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 57811649}
+  - component: {fileID: 57811648}
+  - component: {fileID: 57811647}
+  - component: {fileID: 57811646}
+  m_Layer: 0
+  m_Name: HexEncounter(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &57811646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57811645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad259b7536245f4e8bd9ed15bdee719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tile: {fileID: 0}
+  neighboors: []
+  roads: []
+  _encounterType: 0
+  coordinates: {x: 0, y: 0, z: 0}
+  startingScale: {x: 0, y: 0, z: 0}
+  storyID: 
+  encData: {fileID: 0}
+  _status: 3
+--- !u!58 &57811647
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57811645}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2.56
+--- !u!212 &57811648
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57811645}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 120520623
+  m_SortingLayer: 10
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 4eaafd3ae080ba4439426a120c04307f, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 5.12, y: 5.12}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &57811649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 57811645}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.09069669, y: 0.27291378, z: 0}
+  m_LocalScale: {x: 0.07, y: 0.07, z: 0.07}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 24
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &58678656
 GameObject:
   m_ObjectHideFlags: 0
@@ -23226,6 +23349,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &973683983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1230108495791436715, guid: b47c14ef8e4b78d468ccd44d7a43c0a1, type: 3}
+  m_PrefabInstance: {fileID: 1230108496291723919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &987553942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6207417422054994661, guid: 684b184f5fef17844946fd97162d69e5, type: 3}
@@ -35282,6 +35410,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: fb5a2231fcc976f4492c4d6de3813048, type: 3}
   - {fileID: 21300000, guid: c5702040bc543e34f846e7924b52784b, type: 3}
   - {fileID: 21300000, guid: 25997bc101f9b854fbb78c1087e94cf4, type: 3}
+  - {fileID: 21300000, guid: c588478c88cabda4cb84f56d6b438182, type: 3}
   scenarios:
   - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
   - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
@@ -41878,23 +42007,23 @@ MonoBehaviour:
   combatRewardNormal:
   - type: 1
     value: 
-  - type: 3
+  - type: 2
     value: 
   combatRewardElite:
   - type: 1
     value: 
-  - type: 3
+  - type: 2
     value: 
-  - type: 11
+  - type: 52
     value: 
   combatRewardBoss:
   - type: 1
     value: 
-  - type: 3
-    value: 
   - type: 2
     value: 
-  - type: 11
+  - type: 52
+    value: 
+  - type: 4
     value: 
   cardDisplayPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
 --- !u!1 &1767147678
@@ -43889,7 +44018,7 @@ MonoBehaviour:
   length: 7
   placementNoise: 10
   branshProb: 0.25
-  tileSizeInverse: 0
+  tileSizeInverse: 2.5510204
   templateEncounter: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
   templateRoad: {fileID: 3358915619704755654, guid: 990a8fe1d3b58a34db6e3c0541f9ce21, type: 3}
   encounterParent: {fileID: 0}
@@ -51047,13 +51176,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: 4, z: -4}
   availableDirections: []
-  exits:
-  - {fileID: 5669282013913267717}
-  - {fileID: 2393205580335251606}
-  - {fileID: 1636316484430396383}
-  - {fileID: 6621062784041367709}
-  - {fileID: 3848551387276548344}
-  - {fileID: 6579564708902245962}
   neighbours:
   - {fileID: 5235799260088812722}
   - {fileID: 5517825663968915991}
@@ -51067,7 +51189,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4403852065539618949}
   roadParent: {fileID: 601128644847113914}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -51228,13 +51349,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: 3, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 8078407843090887379}
-  - {fileID: 8361363613177399126}
-  - {fileID: 5504873718515325375}
-  - {fileID: 4917639476269793567}
-  - {fileID: 5478306275767248100}
-  - {fileID: 7727999035893542176}
   neighbours:
   - {fileID: 4489267070039454798}
   - {fileID: 1759252340798755432}
@@ -51251,7 +51365,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6257101836182432596}
   roadParent: {fileID: 4470369360047555989}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -53962,13 +54075,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -4, y: 1, z: 3}
   availableDirections: []
-  exits:
-  - {fileID: 9109658176335024683}
-  - {fileID: 4591287437456139876}
-  - {fileID: 1217097554509498143}
-  - {fileID: 2078473235953032755}
-  - {fileID: 641520278243204771}
-  - {fileID: 1571044213397176122}
   neighbours:
   - {fileID: 2186021027609738536}
   - {fileID: 6797812328142946773}
@@ -53983,7 +54089,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6056736175159399958}
   roadParent: {fileID: 7426267111650456882}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -57089,13 +57194,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 4, y: -4, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 3869440628485780776}
-  - {fileID: 1422303182866513442}
-  - {fileID: 7991577630753590488}
-  - {fileID: 7594762608694916442}
-  - {fileID: 8468993237899363016}
-  - {fileID: 1224321966847929367}
   neighbours:
   - {fileID: 4194801097117794941}
   - {fileID: 6105722879199819273}
@@ -57109,7 +57207,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4842017752267122604}
   roadParent: {fileID: 4903748911435169849}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -57816,13 +57913,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 3, y: -2, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 2101038162409084355}
-  - {fileID: 3908484440409367441}
-  - {fileID: 9151178493208040681}
-  - {fileID: 4799738574146298064}
-  - {fileID: 847122944927198297}
-  - {fileID: 4561238181665883529}
   neighbours:
   - {fileID: 4194801097117794941}
   - {fileID: 2658585155342124126}
@@ -57839,7 +57929,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4569797085518714721}
   roadParent: {fileID: 4771227978536922205}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -58086,6 +58175,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1673503173}
     m_Modifications:
+    - target: {fileID: 1552755417, guid: b47c14ef8e4b78d468ccd44d7a43c0a1, type: 3}
+      propertyPath: topBar
+      value: 
+      objectReference: {fileID: 973683983}
     - target: {fileID: 1230108494536984967, guid: b47c14ef8e4b78d468ccd44d7a43c0a1, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -60242,13 +60335,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: -2, z: 4}
   availableDirections: []
-  exits:
-  - {fileID: 2736272229983825915}
-  - {fileID: 3917840569402675871}
-  - {fileID: 1631348302340651024}
-  - {fileID: 8751759412141236105}
-  - {fileID: 4306745710977301627}
-  - {fileID: 2640387134353664464}
   neighbours:
   - {fileID: 2150361161761903632}
   - {fileID: 5730588954908991049}
@@ -60263,7 +60349,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5734325285332354568}
   roadParent: {fileID: 1781676603301101827}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -60507,13 +60592,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: 3, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 2629829272347327847}
-  - {fileID: 6684636817383559689}
-  - {fileID: 1228753981733041407}
-  - {fileID: 5536519313352680263}
-  - {fileID: 8026462173682908528}
-  - {fileID: 6843098247494779428}
   neighbours:
   - {fileID: 8040215617448832803}
   - {fileID: 249580450947488224}
@@ -60530,7 +60608,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7618720413540000284}
   roadParent: {fileID: 2559434544868379826}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -60940,13 +61017,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: 3, z: -3}
   availableDirections: []
-  exits:
-  - {fileID: 6867774321904340470}
-  - {fileID: 3847218432928165471}
-  - {fileID: 7477853486446073965}
-  - {fileID: 9086053814093894639}
-  - {fileID: 4812995755975042002}
-  - {fileID: 5636503191706034256}
   neighbours:
   - {fileID: 8609323813034967092}
   - {fileID: 5235799260088812722}
@@ -60963,7 +61033,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2321866783346200202}
   roadParent: {fileID: 3749814327628063394}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -61743,13 +61812,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: -2, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 4752935448005642172}
-  - {fileID: 534195275772722342}
-  - {fileID: 6588362038112854406}
-  - {fileID: 3712656589670023334}
-  - {fileID: 1749921074860039567}
-  - {fileID: 4496920533567850350}
   neighbours:
   - {fileID: 6105722879199819273}
   - {fileID: 1193830208359589982}
@@ -61766,7 +61828,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8173845245442807217}
   roadParent: {fileID: 2542858461449433597}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -61856,13 +61917,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: -4, z: 3}
   availableDirections: []
-  exits:
-  - {fileID: 6035470503709098383}
-  - {fileID: 8301650186499092921}
-  - {fileID: 5598031034266959700}
-  - {fileID: 7881627765584632994}
-  - {fileID: 4920526434649743516}
-  - {fileID: 3853075225488178502}
   neighbours:
   - {fileID: 7835025080595290295}
   - {fileID: 8732325702344389236}
@@ -61877,7 +61931,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3099282045966696838}
   roadParent: {fileID: 469949630663530785}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -61915,13 +61968,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 4, y: 0, z: -4}
   availableDirections: []
-  exits:
-  - {fileID: 1096329071621860475}
-  - {fileID: 7998650256180463481}
-  - {fileID: 28473848702516046}
-  - {fileID: 7418233517787825134}
-  - {fileID: 7009831487578951388}
-  - {fileID: 2681458533913251543}
   neighbours:
   - {fileID: 9145307085613868658}
   - {fileID: 2649289950198211726}
@@ -61935,7 +61981,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5739531025677274607}
   roadParent: {fileID: 365415068135380317}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -63279,13 +63324,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: -3, z: 4}
   availableDirections: []
-  exits:
-  - {fileID: 2270421415447496458}
-  - {fileID: 2523435895278789956}
-  - {fileID: 7492847610963897162}
-  - {fileID: 6522111843161626373}
-  - {fileID: 2133587473138251856}
-  - {fileID: 7182987409456915945}
   neighbours:
   - {fileID: 4939480447905110404}
   - {fileID: 8140383264544761939}
@@ -63300,7 +63338,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2653314936101556746}
   roadParent: {fileID: 8911982949685812623}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -63529,13 +63566,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -3, y: 0, z: 3}
   availableDirections: []
-  exits:
-  - {fileID: 4724837910946400399}
-  - {fileID: 8734937605690245826}
-  - {fileID: 1161659296891813445}
-  - {fileID: 4871451440809886477}
-  - {fileID: 376292170425265118}
-  - {fileID: 164749874817937279}
   neighbours:
   - {fileID: 2599765098353793255}
   - {fileID: 4963313500526705244}
@@ -63552,7 +63582,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4977782172813999421}
   roadParent: {fileID: 6007414401297156902}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -65848,13 +65877,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: -2, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 4680547041618525565}
-  - {fileID: 6941852465345176675}
-  - {fileID: 7530606884430932393}
-  - {fileID: 8707942908818573914}
-  - {fileID: 3281349788211752125}
-  - {fileID: 2270895080705205145}
   neighbours:
   - {fileID: 8732325702344389236}
   - {fileID: 2431906011382178338}
@@ -65871,7 +65893,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3614777306533024717}
   roadParent: {fileID: 4674840972224299590}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -65963,13 +65984,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: -2, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 5138842548195354956}
-  - {fileID: 2759685564149882705}
-  - {fileID: 2542194215458879542}
-  - {fileID: 4858984946864523065}
-  - {fileID: 6980161334182908405}
-  - {fileID: 3351051502215845963}
   neighbours:
   - {fileID: 5727240209362944938}
   - {fileID: 1874736088832141401}
@@ -65986,7 +66000,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5635915678141408843}
   roadParent: {fileID: 229366137433527533}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -66948,13 +66961,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: -1, z: 3}
   availableDirections: []
-  exits:
-  - {fileID: 655631091596382108}
-  - {fileID: 3295152705769458115}
-  - {fileID: 443909891633935983}
-  - {fileID: 8315670024633550649}
-  - {fileID: 4445527386912905030}
-  - {fileID: 5051459570267299229}
   neighbours:
   - {fileID: 5730588954908991049}
   - {fileID: 4154651127641914210}
@@ -66971,7 +66977,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2600198989490135786}
   roadParent: {fileID: 6779254563320247925}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -67473,13 +67478,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 3, y: 0, z: -3}
   availableDirections: []
-  exits:
-  - {fileID: 7535578530271531080}
-  - {fileID: 190912467337802158}
-  - {fileID: 1444588971927415148}
-  - {fileID: 4308577669403350771}
-  - {fileID: 6568152736522866647}
-  - {fileID: 4854598753053018892}
   neighbours:
   - {fileID: 6311929000331132019}
   - {fileID: 1913076638518652232}
@@ -67496,7 +67494,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8834492280369970155}
   roadParent: {fileID: 6523045267813138096}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -67552,13 +67549,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 4, y: -2, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 1884175871294454581}
-  - {fileID: 2436088732604158429}
-  - {fileID: 1382546565574421498}
-  - {fileID: 2585895446123299292}
-  - {fileID: 7541148366704417687}
-  - {fileID: 5408170186392972256}
   neighbours:
   - {fileID: 6311929000331132019}
   - {fileID: 8395566237746527705}
@@ -67573,7 +67563,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3067838142246609700}
   roadParent: {fileID: 588429201124603243}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -71325,13 +71314,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: -1, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 4218826246417974783}
-  - {fileID: 8981019394517963694}
-  - {fileID: 882671348198237693}
-  - {fileID: 4622064476265532131}
-  - {fileID: 9137133025031255257}
-  - {fileID: 6561753541180058756}
   neighbours:
   - {fileID: 1874736088832141401}
   - {fileID: 3364548419509785316}
@@ -71348,7 +71330,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3969373003240242345}
   roadParent: {fileID: 5116110118378244418}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -71773,13 +71754,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: -1, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 3311091310672552130}
-  - {fileID: 4287417694343231051}
-  - {fileID: 4459783357081477225}
-  - {fileID: 81829120313241059}
-  - {fileID: 2649083254645799282}
-  - {fileID: 9099035547402203852}
   neighbours:
   - {fileID: 1193830208359589982}
   - {fileID: 8395566237746527705}
@@ -71796,7 +71770,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 128531797855785646}
   roadParent: {fileID: 2833616219318175522}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -74456,13 +74429,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: 1, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 1766473000964855458}
-  - {fileID: 5322241449838960873}
-  - {fileID: 5599255428370296499}
-  - {fileID: 6068251691395935844}
-  - {fileID: 4782421274263215595}
-  - {fileID: 908120041756441929}
   neighbours:
   - {fileID: 8476995565426754380}
   - {fileID: 6584283913932621939}
@@ -74479,7 +74445,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4983936514068798967}
   roadParent: {fileID: 4018654251769785502}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -75393,13 +75358,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -3, y: 2, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 7620688156289080505}
-  - {fileID: 7178987699025297492}
-  - {fileID: 4876172190462199175}
-  - {fileID: 8683789986890743765}
-  - {fileID: 4783880670278814729}
-  - {fileID: 3765790942629396287}
   neighbours:
   - {fileID: 4118276295182123424}
   - {fileID: 4831474360674652613}
@@ -75416,7 +75374,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4378873148428205561}
   roadParent: {fileID: 2585776675041701099}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -75454,13 +75411,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: 1, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 1458460603724449979}
-  - {fileID: 519201723256682094}
-  - {fileID: 2241370753262912819}
-  - {fileID: 4994234181336780111}
-  - {fileID: 2388680480850349200}
-  - {fileID: 742197948328074063}
   neighbours:
   - {fileID: 7695734126826010703}
   - {fileID: 6195875450178561880}
@@ -75477,7 +75427,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1883762105658075195}
   roadParent: {fileID: 2616394772518880408}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -75940,13 +75889,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: -1, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 8921328226572833667}
-  - {fileID: 6184519505016682957}
-  - {fileID: 8292324561355304448}
-  - {fileID: 6841932789685116195}
-  - {fileID: 8619979911199716766}
-  - {fileID: 8401475815851798444}
   neighbours:
   - {fileID: 2417408328383901765}
   - {fileID: 8684281876903785097}
@@ -75963,7 +75905,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8351348541384181227}
   roadParent: {fileID: 2963369669313258341}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -76052,13 +75993,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 4, y: -3, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 1574378329321357818}
-  - {fileID: 8439030879995323654}
-  - {fileID: 8099637492798475047}
-  - {fileID: 7487052155780829962}
-  - {fileID: 3435463103346169556}
-  - {fileID: 6910672329848335195}
   neighbours:
   - {fileID: 2658585155342124126}
   - {fileID: 1193830208359589982}
@@ -76073,7 +76007,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 69106911113149788}
   roadParent: {fileID: 205351245255699952}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -77585,13 +77518,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: 2, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 1988616710273198719}
-  - {fileID: 7584607183227041247}
-  - {fileID: 5123841671031643265}
-  - {fileID: 9050060061446706540}
-  - {fileID: 1629904115413473949}
-  - {fileID: 3290153222730653141}
   neighbours:
   - {fileID: 6584283913932621939}
   - {fileID: 8609323813034967092}
@@ -77608,7 +77534,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 9036601459241528799}
   roadParent: {fileID: 2623338824454271729}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -79941,13 +79866,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: 2, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 8930515171133320734}
-  - {fileID: 8949699090233133677}
-  - {fileID: 1161628679439417679}
-  - {fileID: 8097784154420832804}
-  - {fileID: 2330007539844034048}
-  - {fileID: 8128143350806774410}
   neighbours:
   - {fileID: 6195875450178561880}
   - {fileID: 8040215617448832803}
@@ -79964,7 +79882,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4909902259682215295}
   roadParent: {fileID: 5998677591437315373}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -80858,13 +80775,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: -4, z: 4}
   availableDirections: []
-  exits:
-  - {fileID: 4134102744401532134}
-  - {fileID: 3785477404811765417}
-  - {fileID: 552885656901830566}
-  - {fileID: 5312017759727553701}
-  - {fileID: 4217246505639321892}
-  - {fileID: 9141685133914778019}
   neighbours:
   - {fileID: 1886559588822147809}
   - {fileID: 8140383264544761939}
@@ -80878,7 +80788,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7243421389588116310}
   roadParent: {fileID: 5640969202056829362}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -81070,13 +80979,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: 0, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 1702518005183164629}
-  - {fileID: 2530589846900501972}
-  - {fileID: 5962966886277019136}
-  - {fileID: 5993830535456957420}
-  - {fileID: 5033988287148270374}
-  - {fileID: 411171432593697946}
   neighbours:
   - {fileID: 4154651127641914210}
   - {fileID: 7695734126826010703}
@@ -81093,7 +80995,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2686919730352239929}
   roadParent: {fileID: 6404211069509390949}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -82299,13 +82200,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -4, y: 4, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 2045664236804174303}
-  - {fileID: 6974325680215882830}
-  - {fileID: 4524913129097166414}
-  - {fileID: 2813215144284315198}
-  - {fileID: 2005578112478591904}
-  - {fileID: 4642208599383076399}
   neighbours:
   - {fileID: 7082367038738189514}
   - {fileID: 7448120636202053660}
@@ -82319,7 +82213,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6218099139440364540}
   roadParent: {fileID: 658318611592793741}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -82813,13 +82706,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: 3, z: -4}
   availableDirections: []
-  exits:
-  - {fileID: 12947634794174808}
-  - {fileID: 289368728007793019}
-  - {fileID: 6754158021318338736}
-  - {fileID: 5110471416342376087}
-  - {fileID: 2462602371534493903}
-  - {fileID: 8940890488393099989}
   neighbours:
   - {fileID: 7402186954298967930}
   - {fileID: 195034842581557641}
@@ -82834,7 +82720,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1529527741342040804}
   roadParent: {fileID: 2200102604970857546}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -84113,13 +83998,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: 4, z: -3}
   availableDirections: []
-  exits:
-  - {fileID: 2974165648852362684}
-  - {fileID: 4824176117982655327}
-  - {fileID: 4557504349885810160}
-  - {fileID: 4886114473817936403}
-  - {fileID: 5154858312257215366}
-  - {fileID: 823103876963697687}
   neighbours:
   - {fileID: 1759252340798755432}
   - {fileID: 195034842581557641}
@@ -84134,7 +84012,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 840621512280809893}
   roadParent: {fileID: 180875670407277246}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -85277,13 +85154,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: -3, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 7990103095677211989}
-  - {fileID: 1536119975607695610}
-  - {fileID: 6078907907521422421}
-  - {fileID: 8298287970405778607}
-  - {fileID: 2232097560314458738}
-  - {fileID: 4640577312105001966}
   neighbours:
   - {fileID: 6369216263134977728}
   - {fileID: 6105722879199819273}
@@ -85300,7 +85170,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5509879550279989653}
   roadParent: {fileID: 145374982519320502}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -85338,13 +85207,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: -2, z: 3}
   availableDirections: []
-  exits:
-  - {fileID: 9112171680848164567}
-  - {fileID: 1762900676425264568}
-  - {fileID: 8105738062158794307}
-  - {fileID: 7463473862903225458}
-  - {fileID: 7186398991987940579}
-  - {fileID: 1341961002657724004}
   neighbours:
   - {fileID: 8140383264544761939}
   - {fileID: 2417408328383901765}
@@ -85361,7 +85223,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7057821826812800630}
   roadParent: {fileID: 4131064433513697409}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -87475,13 +87336,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: 0, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 2947171732579695594}
-  - {fileID: 3942018176727684221}
-  - {fileID: 8623818651655600377}
-  - {fileID: 9137379286115334017}
-  - {fileID: 5297382770220802905}
-  - {fileID: 4911094175242746773}
   neighbours:
   - {fileID: 8395566237746527705}
   - {fileID: 2649289950198211726}
@@ -87498,7 +87352,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3308244308554156772}
   roadParent: {fileID: 7073504626606226628}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -87636,13 +87489,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 3, y: -3, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 8722382562726521931}
-  - {fileID: 4119298370091363212}
-  - {fileID: 6889500294764668672}
-  - {fileID: 8372012851497861789}
-  - {fileID: 4953538828658828848}
-  - {fileID: 4561921610388146969}
   neighbours:
   - {fileID: 1047551193145080193}
   - {fileID: 4194801097117794941}
@@ -87659,7 +87505,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8197706035112393058}
   roadParent: {fileID: 6391405386547737791}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -88078,13 +87923,6 @@ MonoBehaviour:
   _tileState: 3
   coord: {x: -1, y: 1, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 1261541392551150191}
-  - {fileID: 8432845910589108435}
-  - {fileID: 466495613420295146}
-  - {fileID: 2488280839385458177}
-  - {fileID: 2617516309641378135}
-  - {fileID: 6634412493039427354}
   neighbours:
   - {fileID: 8506347029091468866}
   - {fileID: 3928281763563394118}
@@ -88101,7 +87939,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5670078535875864724}
   roadParent: {fileID: 877757917520767105}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -88208,13 +88045,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -2, y: 4, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 588429450952221642}
-  - {fileID: 7099118729057795638}
-  - {fileID: 5277316472506790477}
-  - {fileID: 8996206511122988147}
-  - {fileID: 9174780257754773964}
-  - {fileID: 6000163045549286239}
   neighbours:
   - {fileID: 249580450947488224}
   - {fileID: 5517825663968915991}
@@ -88229,7 +88059,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3867211989245378645}
   roadParent: {fileID: 8921430919577685591}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -88401,13 +88230,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -4, y: 2, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 6010236964041356103}
-  - {fileID: 3092866998058776484}
-  - {fileID: 7833027405655828624}
-  - {fileID: 6486658728912468543}
-  - {fileID: 7803603873178153445}
-  - {fileID: 3212796416671835206}
   neighbours:
   - {fileID: 6797812328142946773}
   - {fileID: 4109647056312250989}
@@ -88422,7 +88244,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5293732283120670462}
   roadParent: {fileID: 5078976574960449770}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -88510,13 +88331,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 4, y: -1, z: -3}
   availableDirections: []
-  exits:
-  - {fileID: 5692855669895530569}
-  - {fileID: 6060925671930989760}
-  - {fileID: 5186844899669541924}
-  - {fileID: 3004341791392991482}
-  - {fileID: 8034724425563033704}
-  - {fileID: 4274901692289453489}
   neighbours:
   - {fileID: 1913076638518652232}
   - {fileID: 2649289950198211726}
@@ -88531,7 +88345,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4034824836922091440}
   roadParent: {fileID: 4830718317809498997}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -88725,13 +88538,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 3, y: -4, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 9157060878876137987}
-  - {fileID: 5368366679610435826}
-  - {fileID: 1556232850620599726}
-  - {fileID: 6769510132827572479}
-  - {fileID: 2289985098833250288}
-  - {fileID: 6770489767455023219}
   neighbours:
   - {fileID: 1047551193145080193}
   - {fileID: 6105722879199819273}
@@ -88746,7 +88552,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6976787492397550055}
   roadParent: {fileID: 6451276018169493897}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -89627,13 +89432,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: 1, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 8139176218434832350}
-  - {fileID: 3145205752539366108}
-  - {fileID: 1542428940323042051}
-  - {fileID: 1434687548800769250}
-  - {fileID: 1115393619995422651}
-  - {fileID: 2258502315125913920}
   neighbours:
   - {fileID: 6075633312762083668}
   - {fileID: 8985763297280098318}
@@ -89650,7 +89448,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5106154635144908416}
   roadParent: {fileID: 1968522116850240767}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -90831,13 +90628,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -3, y: 1, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 4042327014232094880}
-  - {fileID: 2181312278770539034}
-  - {fileID: 4712628531045612590}
-  - {fileID: 2929150294710520615}
-  - {fileID: 3098624471551519892}
-  - {fileID: 1662436376604248725}
   neighbours:
   - {fileID: 4963313500526705244}
   - {fileID: 4118276295182123424}
@@ -90854,7 +90644,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8647484153657963654}
   roadParent: {fileID: 7574426286656522374}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -92723,13 +92512,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -3, y: 3, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 7390047051674213692}
-  - {fileID: 2909748070619929145}
-  - {fileID: 2284442678886703295}
-  - {fileID: 4566865929837371920}
-  - {fileID: 1289459792306252946}
-  - {fileID: 5995402754180011971}
   neighbours:
   - {fileID: 4831474360674652613}
   - {fileID: 1667959459728649228}
@@ -92746,7 +92528,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6921175016128556600}
   roadParent: {fileID: 1897419683039849614}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -94587,13 +94368,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: 2, z: -4}
   availableDirections: []
-  exits:
-  - {fileID: 7699845137390945046}
-  - {fileID: 3101412717202683554}
-  - {fileID: 5124997897899934954}
-  - {fileID: 3179290474572646414}
-  - {fileID: 6843394089016117286}
-  - {fileID: 8606089485924219794}
   neighbours:
   - {fileID: 9145307085613868658}
   - {fileID: 5235799260088812722}
@@ -94608,7 +94382,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 9097948858383390605}
   roadParent: {fileID: 7308667946577556205}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -94975,13 +94748,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -3, y: 4, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 4931174368407893531}
-  - {fileID: 6476550471323332609}
-  - {fileID: 2890147981007862188}
-  - {fileID: 5037316510770371687}
-  - {fileID: 1848681003814333658}
-  - {fileID: 1310919219570061826}
   neighbours:
   - {fileID: 1667959459728649228}
   - {fileID: 6202457887538213702}
@@ -94996,7 +94762,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4931560702828087758}
   roadParent: {fileID: 967264967760871411}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -96509,13 +96274,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: 0, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 3601034936175244497}
-  - {fileID: 7094703609612943435}
-  - {fileID: 143875602415957785}
-  - {fileID: 669686029681504381}
-  - {fileID: 8917652655879976769}
-  - {fileID: 2000652685835427409}
   neighbours:
   - {fileID: 8684281876903785097}
   - {fileID: 8506347029091468866}
@@ -96532,7 +96290,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 5634987325734854507}
   roadParent: {fileID: 4089051751997979496}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -97094,13 +96851,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -4, y: 3, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 2811646267569542555}
-  - {fileID: 572158600564646996}
-  - {fileID: 4776371847603459902}
-  - {fileID: 1042200642036312752}
-  - {fileID: 6569584575051936944}
-  - {fileID: 150580544704345598}
   neighbours:
   - {fileID: 4109647056312250989}
   - {fileID: 7082367038738189514}
@@ -97115,7 +96865,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7920558024030362236}
   roadParent: {fileID: 4226607349181717147}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -97420,13 +97169,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: -4, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 9114654338728512903}
-  - {fileID: 1632404443300288094}
-  - {fileID: 500300005703380037}
-  - {fileID: 2906518357747214354}
-  - {fileID: 4420517386618998004}
-  - {fileID: 47342476367120025}
   neighbours:
   - {fileID: 6369216263134977728}
   - {fileID: 5727240209362944938}
@@ -97441,7 +97183,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4047534989594020614}
   roadParent: {fileID: 6085575992572979800}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -98771,13 +98512,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -1, y: 2, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 7109412155491133679}
-  - {fileID: 2742375764275581125}
-  - {fileID: 3024751647949648940}
-  - {fileID: 275631680035374433}
-  - {fileID: 7616141117984272985}
-  - {fileID: 8427085372348792007}
   neighbours:
   - {fileID: 3928281763563394118}
   - {fileID: 4489267070039454798}
@@ -98794,7 +98528,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7100233355306066168}
   roadParent: {fileID: 4012373311996854237}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -99431,13 +99164,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 0, y: -3, z: 3}
   availableDirections: []
-  exits:
-  - {fileID: 7283005623588505314}
-  - {fileID: 6055926183447247541}
-  - {fileID: 6836303536005607173}
-  - {fileID: 3457863044461603069}
-  - {fileID: 5107497151850096383}
-  - {fileID: 7368926574172767033}
   neighbours:
   - {fileID: 1886559588822147809}
   - {fileID: 8732325702344389236}
@@ -99454,7 +99180,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6812856658731176607}
   roadParent: {fileID: 5672954927913778661}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -99751,13 +99476,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -3, y: -1, z: 4}
   availableDirections: []
-  exits:
-  - {fileID: 8149494867110390717}
-  - {fileID: 4338897027989004874}
-  - {fileID: 3313304789222270052}
-  - {fileID: 4562723341495710985}
-  - {fileID: 6680768404076648098}
-  - {fileID: 3812060431316913564}
   neighbours:
   - {fileID: 1651580216864847265}
   - {fileID: 2599765098353793255}
@@ -99772,7 +99490,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1957290208698482483}
   roadParent: {fileID: 4614685851969734644}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -100882,13 +100599,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: -4, y: 0, z: 4}
   availableDirections: []
-  exits:
-  - {fileID: 770548451879391559}
-  - {fileID: 284010894601644965}
-  - {fileID: 4488091589208491866}
-  - {fileID: 2955730159968341825}
-  - {fileID: 7709242237919528361}
-  - {fileID: 4199530666708669115}
   neighbours:
   - {fileID: 8183306239207873871}
   - {fileID: 2186021027609738536}
@@ -100902,7 +100612,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 6123224620603189635}
   roadParent: {fileID: 9118767577651981723}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -101209,13 +100918,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 3, y: -1, z: -2}
   availableDirections: []
-  exits:
-  - {fileID: 2162246062256147902}
-  - {fileID: 2860745423666177709}
-  - {fileID: 2740330972990137079}
-  - {fileID: 7676768030498760686}
-  - {fileID: 8214492737715610750}
-  - {fileID: 2074169844609454770}
   neighbours:
   - {fileID: 2658585155342124126}
   - {fileID: 6311929000331132019}
@@ -101232,7 +100934,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2883697092085337278}
   roadParent: {fileID: 4127523373509631933}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -101658,13 +101359,6 @@ MonoBehaviour:
   _tileState: 3
   coord: {x: 1, y: 0, z: -1}
   availableDirections: []
-  exits:
-  - {fileID: 5430270308961244347}
-  - {fileID: 395044737679707993}
-  - {fileID: 8195492155669504070}
-  - {fileID: 8806958586027348374}
-  - {fileID: 8319781628718049314}
-  - {fileID: 8712596691288582469}
   neighbours:
   - {fileID: 3364548419509785316}
   - {fileID: 6075633312762083668}
@@ -101681,7 +101375,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 4103952392779408091}
   roadParent: {fileID: 6565232775078134682}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -101705,13 +101398,6 @@ MonoBehaviour:
   _tileState: 6
   coord: {x: 0, y: 0, z: 0}
   availableDirections: []
-  exits:
-  - {fileID: 4216362851781551017}
-  - {fileID: 7315859868967592651}
-  - {fileID: 2483824865358743810}
-  - {fileID: 2366020876341435090}
-  - {fileID: 6042281076758771669}
-  - {fileID: 5205889661814266620}
   neighbours:
   - {fileID: 3302918342335527252}
   - {fileID: 8476995565426754380}
@@ -101728,7 +101414,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 1767131936465672640}
   roadParent: {fileID: 8807039840288054611}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -102148,13 +101833,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: 2, z: -3}
   availableDirections: []
-  exits:
-  - {fileID: 8088304361812096722}
-  - {fileID: 3143073120652753142}
-  - {fileID: 8252584063590558897}
-  - {fileID: 26308775641034038}
-  - {fileID: 2539027479527594335}
-  - {fileID: 5110477755238675297}
   neighbours:
   - {fileID: 8985763297280098318}
   - {fileID: 7402186954298967930}
@@ -102171,7 +101849,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 3477547441836273247}
   roadParent: {fileID: 5175744996231520097}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -102624,13 +102301,6 @@ MonoBehaviour:
   _tileState: 3
   coord: {x: 0, y: -1, z: 1}
   availableDirections: []
-  exits:
-  - {fileID: 96355489542682404}
-  - {fileID: 2264571744892306745}
-  - {fileID: 7232880014493395329}
-  - {fileID: 819520008063725098}
-  - {fileID: 4804796822999678087}
-  - {fileID: 1185006032885119757}
   neighbours:
   - {fileID: 2431906011382178338}
   - {fileID: 3302918342335527252}
@@ -102647,7 +102317,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 8232042106282731459}
   roadParent: {fileID: 7904128971378636501}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -102975,13 +102644,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 1, y: -3, z: 2}
   availableDirections: []
-  exits:
-  - {fileID: 5429604871234731604}
-  - {fileID: 4806939380760984483}
-  - {fileID: 7100341894595245615}
-  - {fileID: 6843694905840130434}
-  - {fileID: 6899170241526339532}
-  - {fileID: 1170657059197326832}
   neighbours:
   - {fileID: 7835025080595290295}
   - {fileID: 5727240209362944938}
@@ -102998,7 +102660,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 7299410306757863672}
   roadParent: {fileID: 8677159114025966868}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -104627,13 +104288,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 2, y: 1, z: -3}
   availableDirections: []
-  exits:
-  - {fileID: 2417455448414055399}
-  - {fileID: 704935997444678829}
-  - {fileID: 6589879065373549375}
-  - {fileID: 7466637723101507950}
-  - {fileID: 1038437859226613979}
-  - {fileID: 6410926821675758445}
   neighbours:
   - {fileID: 2649289950198211726}
   - {fileID: 9145307085613868658}
@@ -104650,7 +104304,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 2730623583523828048}
   roadParent: {fileID: 648063655369465596}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
@@ -105985,13 +105638,6 @@ MonoBehaviour:
   _tileState: 0
   coord: {x: 3, y: 1, z: -4}
   availableDirections: []
-  exits:
-  - {fileID: 5607970743195515830}
-  - {fileID: 3935809701543660664}
-  - {fileID: 8778026158713081152}
-  - {fileID: 1319684455729863902}
-  - {fileID: 6001585528925907614}
-  - {fileID: 8951033360596388345}
   neighbours:
   - {fileID: 1913076638518652232}
   - {fileID: 7402186954298967930}
@@ -106006,7 +105652,6 @@ MonoBehaviour:
   undiscoveredSpriteRenderer: {fileID: 0}
   encounterParent: {fileID: 38108424266830388}
   roadParent: {fileID: 8806421789710739777}
-  tileEncounterType: 0
   tileBiome: 0
   type: 0
   encountersSelectable: 0
