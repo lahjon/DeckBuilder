@@ -28,6 +28,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 
     IEnumerator PerformAttack()
     {
+        activeActor.AttackAnimation();
         foreach (CardEffectCarrier attack in attacks)
         {
             List<CombatActor> targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);

@@ -583,6 +583,7 @@ public enum EncounterEventLayoutType
 
 public enum TileType
 {
+    None,
     Forest,
     Cave,
     Plains,

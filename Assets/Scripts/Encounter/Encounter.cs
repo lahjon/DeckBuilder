@@ -39,6 +39,18 @@ public class Encounter : MonoBehaviour
             spriteRenderer.sprite = DatabaseSystem.instance.GetOverWorldIcon(value);
         }
     }
+
+    public void SetEncounterType(OverworldEncounterType type)
+    {
+        _encounterType = type;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        List<Sprite> allSprites = GameObject.Find("DatabaseSystem").GetComponent<DatabaseSystem>().allOverworldIcons;
+        Debug.Log(allSprites);
+        Sprite sprite = allSprites.Where(x => x.name == string.Format("Overworld{0}", type.ToString())).FirstOrDefault();
+        if (sprite == null)
+            sprite = allSprites.FirstOrDefault(x => x.name == "OverworldPlain");
+        spriteRenderer.sprite = sprite;
+    }
     public bool highlighted
     {
         get

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.Text;
 
 [CustomEditor (typeof(TileCreator))]
 public class TileCreatorEditor : Editor
@@ -39,11 +40,25 @@ public class TileCreatorEditor : Editor
                 tileCreator.encounterPosition = enc.position;
                 tileCreator.encounterType = enc.overworldEncounterType.ToString();
                 tileCreator.encounterDirection = enc.direction.Name.ToString();
+                if ( enc.neighbourIndex.Count > 0)
+                {
+                    var sb = new StringBuilder();
+                    for (int i = 0; i < enc.neighbourIndex.Count; i++)
+                    {
+                        sb.Append(enc.neighbourIndex[i]);
+                        if (i < enc.neighbourIndex.Count - 1)
+                            sb.Append(" | ");
+                    }
+                    tileCreator.encounterNeighbours = sb.ToString();
+                }
+                else
+                    tileCreator.encounterNeighbours = "None";
             }
             else
             {
                 tileCreator.encounterPosition = Vector3.zero;
                 tileCreator.encounterType = "None";
+                tileCreator.encounterNeighbours = "None";
             }
         }
 
@@ -133,6 +148,12 @@ public class TileCreatorEditor : Editor
     {
         for (int i = 0; i < tileCreator.allEncounters.Count; i++)
         {
+            // draw roads
+            foreach (int idx in tileCreator.allEncounters[i].neighbourIndex)
+            {
+                Handles.color = Color.green;
+                Handles.DrawLine(tileCreator.allEncounters[i].position, tileCreator.allEncounters[idx].position, 5f);
+            }
             if (tileCreator.allEncounters[i].overworldEncounterType == OverworldEncounterType.Exit)
                 Handles.color = Color.red;
             else if(tileCreator.allEncounters[i].overworldEncounterType == OverworldEncounterType.Start)
@@ -147,11 +168,8 @@ public class TileCreatorEditor : Editor
                 Undo.RecordObject(tileCreator, "Move Point");
                 tileCreator.MovePoint(i, newPos);
             }
-            foreach (int idx in tileCreator.allEncounters[i].neighbourIndex)
-            {
-                Handles.color = Color.green;
-                Handles.DrawLine(tileCreator.allEncounters[i].position, tileCreator.allEncounters[idx].position, 5f);
-            }
+            Handles.color = Color.green;
+            Handles.Label(tileCreator.allEncounters[i].position + new Vector3(0.06f,-0.06f,0), string.Format("{0}", i));
         }
     }
 

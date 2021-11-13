@@ -5,16 +5,21 @@ using System.Linq;
 
 public class TileCreator : MonoBehaviour
 {
-    [SerializeField] public List<TileCreatorEncounter> allEncounters = new List<TileCreatorEncounter>();
+    [HideInInspector][SerializeField] public List<TileCreatorEncounter> allEncounters = new List<TileCreatorEncounter>();
+    [SerializeField] public List<TileCreatorEncounter> allRemovedEncounters = new List<TileCreatorEncounter>();
     [HideInInspector][Range(.1f,1f)]public float minDistBetweenEnc;
     [HideInInspector]public Vector3 encounterPosition = Vector3.zero;
     [HideInInspector]public string encounterType = "None";
     [HideInInspector]public string encounterDirection = "";
+    [HideInInspector]public string encounterNeighbours = "";
     [HideInInspector]public bool active;
     [HideInInspector]public int optionMode;
     [HideInInspector]public int optionType;
     [HideInInspector]public int optionExitDirection;
     [HideInInspector]public TileCreatorEncounter currentEnc;
+    public GameObject encounterPrefab;
+    public Transform encounterParent;
+    public HexTile hexTile;
 
 
     public void AddEncounter(Vector3 encPos)
@@ -113,10 +118,7 @@ public class TileCreator : MonoBehaviour
     {
         if (PositionToObject(encPos) is TileCreatorEncounter obj)
         {
-            if (obj.overworldEncounterType != GetEncounterType())
-                obj.overworldEncounterType = GetEncounterType();
-            else
-                obj.overworldEncounterType = OverworldEncounterType.None;
+            obj.overworldEncounterType = GetEncounterType();
             if (obj.overworldEncounterType == OverworldEncounterType.Exit)
                 obj.direction = GetGridDirection();
             

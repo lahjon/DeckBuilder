@@ -116,7 +116,7 @@ public class DatabaseSystem : MonoBehaviour
 
     public Sprite GetOverWorldIcon(OverworldEncounterType type)
     {
-        return allOverworldIcons.Where(x => x.name == "Overworld" + type.ToString()).First();
+        return allOverworldIcons.Where(x => x.name == string.Format("Overworld{0}",type.ToString())).First();
     }
 
     public List<CardData> GetStartingProfessionCards(Profession profession)

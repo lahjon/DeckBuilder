@@ -8,7 +8,7 @@ public class CharacterVariablesUI : MonoBehaviour
 {
     public TMP_Text healthValue, goldValue, shardValue, classValue;
     public Image levelUpImage;
-    public GameObject leftBar;
+    public GameObject leftBar, topBar;
     Vector3 startPos;
     Vector3 offset = new Vector3(-0.4f,0,0);
     float moveSpeed = 0.2f;
@@ -23,9 +23,19 @@ public class CharacterVariablesUI : MonoBehaviour
     void Start()
     {
         startPos = leftBar.transform.position;
+        
         active = true;
-        //HideBar();
+        EventManager.OnNewWorldStateEvent += ToggleBar;
     }
+
+    void ToggleBar(WorldState worldState)
+    {
+        if (worldState == WorldState.Overworld)
+            topBar.SetActive(false);
+        if (worldState == WorldState.Town)
+            topBar.SetActive(false);
+    }
+
 
     public void UpdateCharacterHUD()
     {

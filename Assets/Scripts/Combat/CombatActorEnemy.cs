@@ -160,6 +160,16 @@ public class CombatActorEnemy : CombatActor
 
         UpdateIntentDisplay(hand);
     }
+    public override void TakeDamageAnimation()
+    {
+        Helpers.DelayForSeconds(.2f, () => {
+            transform.DOMoveX(transform.position.x + 2f, .05f).SetLoops(2, LoopType.Yoyo);
+        });
+    }
+    public override void AttackAnimation()
+    {
+        transform.DOMoveX(transform.position.x + -2f, .05f).SetLoops(2, LoopType.Yoyo);
+    }
 
     public void OnDeath()
     {

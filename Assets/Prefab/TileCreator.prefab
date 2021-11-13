@@ -45,127 +45,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allEncounters:
-  - position: {x: 0.6902007, y: 0.03521797, z: -0.003383875}
+  - position: {x: 0.025543407, y: 0.6238306, z: 0}
     direction:
       coords: {x: 1, y: -1, z: 0}
       Name: 0
       nr: 0
-    neighbourIndex: 09000000
+    neighbourIndex: 
     idx: 0
     overworldEncounterType: 1
-  - position: {x: 0.08530235, y: 0.69413805, z: 0.020702839}
+  - position: {x: 0.051841438, y: -0.98577404, z: 0}
     direction:
-      coords: {x: 1, y: 0, z: -1}
-      Name: 1
-      nr: 1
-    neighbourIndex: 0700000009000000
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
     idx: 1
     overworldEncounterType: 1
-  - position: {x: -0.6831337, y: 0.02644816, z: 0.004247904}
+  - position: {x: 0.5746022, y: 0.13145941, z: 0}
     direction:
-      coords: {x: -1, y: 1, z: 0}
-      Name: 3
-      nr: 3
-    neighbourIndex: 0600000005000000
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
     idx: 2
     overworldEncounterType: 1
-  - position: {x: 0.37296247, y: -0.5486594, z: -0.007266283}
+  - position: {x: 0.53719777, y: -0.42391914, z: 0}
     direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 0a000000
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
     idx: 3
     overworldEncounterType: 1
-  - position: {x: -0.4214736, y: -0.5163415, z: 0.000086545944}
+  allRemovedEncounters:
+  - position: {x: 0.4180027, y: 0.41879502, z: 0}
     direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 06000000
-    idx: 4
-    overworldEncounterType: 10
-  - position: {x: -0.36976704, y: 0.5379303, z: 0.0091536045}
-    direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 0200000007000000
-    idx: 5
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
+    idx: 2
     overworldEncounterType: 0
-  - position: {x: -0.32488328, y: -0.18029785, z: -0.008791208}
+  - position: {x: 0.53730196, y: -0.24011254, z: 0}
     direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 0400000002000000080000000c0000000b000000
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
+    idx: 3
+    overworldEncounterType: 0
+  - position: {x: 0.15635744, y: 0.599559, z: 0}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
     idx: 6
     overworldEncounterType: 0
-  - position: {x: -0.034676284, y: 0.48013952, z: 0.015776873}
+  - position: {x: 0.2610954, y: 0.23047018, z: 0.00000011920929}
     direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 080000000500000001000000
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 
     idx: 7
-    overworldEncounterType: 9
-  - position: {x: 0.19513874, y: 0.04108116, z: 0.008792162}
-    direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 0600000007000000090000000a0000000c0000000b000000
-    idx: 8
-    overworldEncounterType: 9
-  - position: {x: 0.57336533, y: 0.40330523, z: 0.011810541}
-    direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 000000000100000008000000
-    idx: 9
-    overworldEncounterType: 0
-  - position: {x: 0.35576054, y: -0.20757782, z: 0}
-    direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 08000000030000000b000000
-    idx: 10
-    overworldEncounterType: 0
-  - position: {x: -0.058009803, y: -0.49972814, z: -0.016974926}
-    direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 08000000060000000a000000
-    idx: 11
-    overworldEncounterType: 0
-  - position: {x: -0.25914648, y: 0.21479863, z: 0.020179272}
-    direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 0600000008000000
-    idx: 12
     overworldEncounterType: 0
   minDistBetweenEnc: 0.197
-  encounterPosition: {x: -0.07861537, y: -0.36164033, z: 0}
+  encounterPosition: {x: 0, y: 0, z: 0}
   encounterType: None
-  encounterDirection: SouthEast
+  encounterDirection: East
+  encounterNeighbours: None
   active: 1
   optionMode: 0
-  optionType: 0
-  optionExitDirection: 5
+  optionType: 1
+  optionExitDirection: 0
   currentEnc:
-    position: {x: 0.35576054, y: -0.20757782, z: 0}
+    position: {x: 0.657749, y: 0.009569824, z: -0.04981315}
     direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 08000000030000000b000000
-    idx: 10
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 0000000001000000
+    idx: 2
     overworldEncounterType: 0
+  encounterPrefab: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
+  encounterParent: {fileID: 1134813334400006117}
+  hexTile: {fileID: 6830565746737643503}
 --- !u!1001 &112193953449451933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -221,10 +186,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: HexTile
       objectReference: {fileID: 0}
+    - target: {fileID: 6865065371573050994, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: availableDirections.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6865065371573050994, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: availableDirections.Array.data[1].nr
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
 --- !u!4 &1260691847132341324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1220606617167381969, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+  m_PrefabInstance: {fileID: 112193953449451933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6830565746737643503 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6865065371573050994, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+  m_PrefabInstance: {fileID: 112193953449451933}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5158f17e467f61a4bb1f2bcea5bc4f31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1134813334400006117 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1022666182270178936, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
   m_PrefabInstance: {fileID: 112193953449451933}
   m_PrefabAsset: {fileID: 0}

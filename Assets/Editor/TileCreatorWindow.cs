@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 public class TileCreatorWindow : EditorWindow
 {
@@ -33,12 +34,24 @@ public class TileCreatorWindow : EditorWindow
         GetWindow(typeof(TileCreatorWindow));
     }
 
-    void OnGUI()
+    void ResetTile()
     {
+        HexTile tile = tileCreator.hexTile;
+        tile.encounters.ForEach(x => DestroyImmediate(x.gameObject));
+        for (int i = 0; i < tile.roadParent.childCount; i++)
+            DestroyImmediate(tile.roadParent.GetChild(i).gameObject);
+            
+        tile.encounters.Clear();
+        tile.encountersExits.Clear();
+        tile.neighbours.Clear();
+        tile.encounterEntry = null;
+        tile.type = TileType.None;
+        tileCreator.hexTile.availableDirections.Clear();
+    }
 
-        if (!active)
-        {
-            if(GUILayout.Button("Start"))
+    void ButtonStart()
+    {
+        if(GUILayout.Button("Start"))
             {
                 AssetDatabase.OpenAsset(AssetDatabase.LoadAssetAtPath("Assets/Prefab/TileCreator.prefab", typeof(GameObject)));
                 GameObject rootParent = (GameObject)Selection.objects[0];
@@ -53,52 +66,109 @@ public class TileCreatorWindow : EditorWindow
                 SceneView.RepaintAll();
                 active = true;
             }
+    }   
+
+    void ShowTextLabels()
+    {
+        string tileText = tileCreator.encounterPosition == Vector3.zero ? "None" : tileCreator.GetEncounterIndex().ToString();
+        EditorGUILayout.LabelField("Index: " + tileText, EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Position: " + tileCreator.encounterPosition.ToString(), EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Type: " + tileCreator.encounterType, EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Neighbours: " + tileCreator.encounterNeighbours, EditorStyles.boldLabel);
+        if (tileCreator.encounterType == "Exit")
+            EditorGUILayout.LabelField("Exit Direction: " + tileCreator.encounterDirection, EditorStyles.boldLabel);
+    }
+
+    void ButtonCreate()
+    {
+        if(GUILayout.Button("Create Tile"))
+        {
+            List<Encounter> newEncs = new List<Encounter>();
+            foreach (var enc in tileCreator.allEncounters)
+            {
+                Encounter newEnc = Instantiate(tileCreator.encounterPrefab, enc.position, Quaternion.identity, tileCreator.encounterParent).GetComponent<Encounter>();
+                newEncs.Add(newEnc);
+                newEnc.tile = tileCreator.hexTile;
+                newEnc.SetEncounterType(enc.overworldEncounterType);
+            }
+            for (int i = 0; i < tileCreator.allEncounters.Count; i++)
+            {
+                newEncs[i].neighboors = tileCreator.allEncounters[i].neighbourIndex.Select(x => newEncs[x]).ToList();
+                if (newEncs[i].encounterType == OverworldEncounterType.Exit)
+                    tileCreator.hexTile.encountersExits.Add(newEncs[i]);
+            }
+            tileCreator.hexTile.encounters = newEncs;
+            GameObject.Find("EncounterManager")?.GetComponent<EncounterManager>().AddRoad(newEncs[0], newEncs[1], false, 1f / 0.392f);
+            foreach (TileCreatorEncounter exit in tileCreator.allEncounters.Where(x => x.overworldEncounterType  == OverworldEncounterType.Exit))
+                tileCreator.hexTile.availableDirections.Add(exit.direction);
+
+            bool success;
+            int tileNumber = System.IO.Directory.GetFiles(Application.dataPath + "/Prefab/HexTiles/").Count() / 2;
+            string newPath = string.Format("Assets/Prefab/HexTiles/HexTile{0}.prefab", tileNumber);
+            PrefabUtility.SaveAsPrefabAsset(tileCreator.hexTile.gameObject, newPath, out success);
+            if (success)
+                Debug.Log("Creating new tile successful!");
+            else
+                Debug.LogWarning("Creating new tile failed!");
+
+
+
+            ResetTile();
         }
+    }
+
+    void ButtonReset()
+    {
+        if(GUILayout.Button("Reset"))
+        {
+            Debug.Log("Reset");
+            tileCreator.ResetEncounters();
+            SceneView.RepaintAll();
+        }
+    }
+    void ButtonEnd()
+    {
+        if(GUILayout.Button("End"))
+        {
+            ActiveEditorTracker.sharedTracker.isLocked = false;
+            SceneView.RepaintAll();
+            if (tileCreator != null) SceneVisibilityManager.instance.EnablePicking(tileCreator.gameObject, true);
+            active = false;
+        }
+    }
+
+    void EncountePopups()
+    {
+        selectedOptions = EditorGUILayout.Popup("Encounter Options: ", selectedOptions, options); 
+        if (tileCreator != null && tileCreator.optionMode != selectedOptions)
+            tileCreator.optionMode = selectedOptions;
+        if (tileCreator != null && tileCreator.optionExitDirection != selectedEncDirectionOptions)
+            tileCreator.optionExitDirection = selectedEncDirectionOptions;
+
+        selectedEncOptions = EditorGUILayout.Popup("Encounter Type: ", selectedEncOptions, encTypeOptions); 
+        if (tileCreator != null && tileCreator.optionType != selectedEncOptions)
+            tileCreator.optionType = selectedEncOptions;
+        
+        if (tileCreator.encounterType == "Exit" || tileCreator.optionType == 1)
+            selectedEncDirectionOptions = EditorGUILayout.Popup("Exit Direction: ", selectedEncDirectionOptions, encDirectionOptions); 
+    }
+
+    void OnGUI()
+    {
+        if (!active)
+            ButtonStart();
 
         if (active)
         {
-            string tileText = tileCreator.encounterPosition == Vector3.zero ? "None" : tileCreator.GetEncounterIndex().ToString();
-            EditorGUILayout.LabelField("Index: " + tileText, EditorStyles.boldLabel);
-            
-            EditorGUILayout.LabelField("Position: " + tileCreator.encounterPosition.ToString(), EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Type: " + tileCreator.encounterType, EditorStyles.boldLabel);
-            if (tileCreator.encounterType == "Exit")
-                EditorGUILayout.LabelField("Exit Direction: " + tileCreator.encounterDirection, EditorStyles.boldLabel);
-            
+            ShowTextLabels();
             GUILayout.Space(20);
-
-            selectedOptions = EditorGUILayout.Popup("Encounter Options: ", selectedOptions, options); 
-            if (tileCreator != null && tileCreator.optionMode != selectedOptions)
-                tileCreator.optionMode = selectedOptions;
-
-            if (tileCreator != null && tileCreator.optionExitDirection != selectedEncDirectionOptions)
-                tileCreator.optionExitDirection = selectedEncDirectionOptions;
-
-            selectedEncOptions = EditorGUILayout.Popup("Encounter Type: ", selectedEncOptions, encTypeOptions); 
-            if (tileCreator != null && tileCreator.optionType != selectedEncOptions)
-                tileCreator.optionType = selectedEncOptions;
-            
-            if (tileCreator.encounterType == "Exit" || tileCreator.optionType == 1)
-                selectedEncDirectionOptions = EditorGUILayout.Popup("Exit Direction: ", selectedEncDirectionOptions, encDirectionOptions); 
-
+            EncountePopups();
             GUILayout.Space(20);
-
-            if(GUILayout.Button("Reset"))
-            {
-                Debug.Log("Reset");
-                tileCreator.ResetEncounters();
-                SceneView.RepaintAll();
-            }
-            if(GUILayout.Button("End"))
-            {
-                ActiveEditorTracker.sharedTracker.isLocked = false;
-                SceneView.RepaintAll();
-                if (tileCreator != null) SceneVisibilityManager.instance.EnablePicking(tileCreator.gameObject, true);
-                active = false;
-            }
+            ButtonCreate();
+            ButtonReset();
+            ButtonEnd();
+            
         }
-        
-
         Repaint();
     }
 }

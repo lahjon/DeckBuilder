@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Linq;
+using DG.Tweening;
 
 public abstract class CombatActor : MonoBehaviour, IToolTipable
 {
@@ -137,6 +138,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public IEnumerator GetAttacked(int damage, CombatActor sourceActor)
     {
         int unblockedDamage = TakeDamage(damage);
+        TakeDamageAnimation();
 
         for (int i = 0; i < onAttackRecieved.Count; i++)
             yield return onAttackRecieved[i].Invoke(sourceActor);
@@ -146,6 +148,16 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
                 yield return sourceActor.onUnblockedDmgDealt[i].Invoke(this);
     }
 
+    public virtual void TakeDamageAnimation()
+    {
+        // Helpers.DelayForSeconds(.5f, () => {
+        //     transform.DOMoveX(transform.position.x + -2f, .05f).SetLoops(2, LoopType.Yoyo);
+        // });
+    }
+    public virtual void AttackAnimation()
+    {
+        
+    }
 
     public int TakeDamage(int damage)
     {
@@ -168,7 +180,6 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         if (this == CombatSystem.instance.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
-        //Debug.Log("Starting LifeLoss");
         healthEffectsUI.StartLifeLossNotification(lifeToLose);
 
         if (hitPoints <= 0)

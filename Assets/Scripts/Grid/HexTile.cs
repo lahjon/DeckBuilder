@@ -9,7 +9,6 @@ public class HexTile : MonoBehaviour
     [SerializeField] TileState _tileState; 
     public Vector3Int coord;
     public List<GridDirection> availableDirections = new List<GridDirection>();
-    public List<SpriteRenderer> exits = new List<SpriteRenderer>();
     public static ScenarioMapManager mapManager;
     static HexMapController hexMapController;
     public List<HexTile> neighbours = new List<HexTile>();
@@ -31,7 +30,6 @@ public class HexTile : MonoBehaviour
     Tween colorTween;
     bool _highlightedPrimary;
     bool _highlightedSecondary;
-    public TileEncounterType tileEncounterType;
     public TileBiome tileBiome;
     public TileType type;
 
