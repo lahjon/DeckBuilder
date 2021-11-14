@@ -45,62 +45,110 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allEncounters:
-  - position: {x: 0.6, y: 0, z: 0}
+  - position: {x: 0.6901789, y: -0.11556792, z: -0.01817894}
     direction:
       coords: {x: 1, y: -1, z: 0}
       Name: 0
       nr: 0
-    neighbourIndex: 0600000001000000
+    neighbourIndex: 0c000000
     idx: 0
     overworldEncounterType: 1
-  - position: {x: 0.3, y: 0.6, z: 0}
+  - position: {x: 0.3823473, y: 0.5493191, z: -0.014998674}
     direction:
       coords: {x: 1, y: 0, z: -1}
       Name: 1
       nr: 1
-    neighbourIndex: 0200000000000000
+    neighbourIndex: 0c000000
     idx: 1
     overworldEncounterType: 1
-  - position: {x: -0.3, y: 0.6, z: 0}
+  - position: {x: -0.23664536, y: 0.6858354, z: -0.007894754}
     direction:
       coords: {x: 0, y: 1, z: -1}
       Name: 2
       nr: 2
-    neighbourIndex: 0300000001000000
+    neighbourIndex: 0200000007000000
     idx: 2
     overworldEncounterType: 1
-  - position: {x: -0.6, y: 0, z: 0}
+  - position: {x: -0.7137283, y: 0.1810483, z: 0.023956299}
     direction:
       coords: {x: -1, y: 1, z: 0}
       Name: 3
       nr: 3
-    neighbourIndex: 060000000400000002000000
+    neighbourIndex: 0800000009000000
     idx: 3
     overworldEncounterType: 1
-  - position: {x: -0.3, y: -0.6, z: 0}
+  - position: {x: -0.5256995, y: -0.51710045, z: 0.039473057}
     direction:
       coords: {x: -1, y: 0, z: 1}
       Name: 4
       nr: 4
-    neighbourIndex: 0600000003000000
+    neighbourIndex: 09000000
     idx: 4
     overworldEncounterType: 1
-  - position: {x: 0.39066774, y: -0.52351475, z: 0.0005068779}
+  - position: {x: 0.30033264, y: -0.6367475, z: -0.0011279583}
     direction:
       coords: {x: 0, y: -1, z: 1}
       Name: 5
       nr: 5
-    neighbourIndex: 06000000
+    neighbourIndex: 0a000000
     idx: 5
     overworldEncounterType: 1
-  - position: {x: 0.009617999, y: 0.08975883, z: 0.0053584576}
+  - position: {x: -0.054986507, y: -0.072505176, z: 0.0069100857}
     direction:
       coords: {x: 1, y: -1, z: 0}
       Name: 0
       nr: 0
-    neighbourIndex: 00000000050000000300000004000000
+    neighbourIndex: 08000000090000000c0000000b000000
     idx: 6
     overworldEncounterType: 10
+  - position: {x: 0.11652982, y: 0.5681411, z: -0.017787695}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 02000000080000000c000000
+    idx: 7
+    overworldEncounterType: 9
+  - position: {x: -0.52076197, y: 0.51457405, z: 0.043506622}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 070000000600000003000000
+    idx: 8
+    overworldEncounterType: 0
+  - position: {x: -0.34095126, y: -0.28734282, z: 0}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 060000000a0000000300000004000000
+    idx: 9
+    overworldEncounterType: 0
+  - position: {x: -0.10364586, y: -0.64130867, z: 0.009847879}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 090000000b00000005000000
+    idx: 10
+    overworldEncounterType: 0
+  - position: {x: 0.47160757, y: -0.359655, z: -0.036126137}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 0a0000000c00000006000000
+    idx: 11
+    overworldEncounterType: 0
+  - position: {x: 0.5218642, y: 0.19931707, z: -0.012295246}
+    direction:
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 0b00000006000000000000000700000001000000
+    idx: 12
+    overworldEncounterType: 0
   allRemovedEncounters:
   - position: {x: 0.4180027, y: 0.41879502, z: 0}
     direction:
@@ -135,23 +183,23 @@ MonoBehaviour:
     idx: 7
     overworldEncounterType: 0
   minDistBetweenEnc: 0.197
-  encounterPosition: {x: 0, y: 0, z: 0}
-  encounterType: None
+  encounterPosition: {x: -0.054986507, y: -0.072505176, z: 0.0069100857}
+  encounterType: Start
   encounterDirection: East
-  encounterNeighbours: None
+  encounterNeighbours: 8 | 9 | 12
   active: 1
-  optionMode: 0
+  optionMode: 1
   optionType: 3
   optionExitDirection: 0
   currentEnc:
-    position: {x: 0.39066774, y: -0.52351475, z: 0.0005068779}
+    position: {x: -0.054986507, y: -0.072505176, z: 0.0069100857}
     direction:
-      coords: {x: 0, y: -1, z: 1}
-      Name: 5
-      nr: 5
-    neighbourIndex: 06000000
-    idx: 5
-    overworldEncounterType: 1
+      coords: {x: 1, y: -1, z: 0}
+      Name: 0
+      nr: 0
+    neighbourIndex: 08000000090000000c0000000b000000
+    idx: 6
+    overworldEncounterType: 10
   encounterPrefab: {fileID: 1514214933025952111, guid: b18767c6abd76c0418232337313bc421, type: 3}
   encounterParent: {fileID: 1134813334400006117}
   hexTile: {fileID: 6830565746737643503}
@@ -209,6 +257,26 @@ PrefabInstance:
     - target: {fileID: 1220606617167381971, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
       propertyPath: m_Name
       value: HexTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280407079951247, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280407079951247, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280407079951247, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280407079951247, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6047280407079951247, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6865065371573050994, guid: c9bbd43deb86bdf4aa17b8c0542cca3a, type: 3}
       propertyPath: availableDirections.Array.size

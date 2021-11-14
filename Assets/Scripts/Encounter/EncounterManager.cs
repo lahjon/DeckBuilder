@@ -37,7 +37,7 @@ public class EncounterManager : Manager
     }
 
 
-    public EncounterRoad AddRoad(Encounter fromEnc, Encounter toEnc, bool animate = false, float tileSize = 0)
+    public EncounterRoad AddRoad(Encounter fromEnc, Encounter toEnc, bool animate = false, float tileSize = 0, bool fromEditor = false)
     {
         GameObject roadObj = Instantiate(templateRoad, fromEnc.tile.roadParent);
         EncounterRoad road = roadObj.GetComponent<EncounterRoad>();
@@ -45,7 +45,7 @@ public class EncounterManager : Manager
         if (tileSize != 0f)
             tileSizeInverse = tileSize;
 
-        road.DrawRoad(fromEnc, toEnc, tileSizeInverse, animate);
+        road.DrawRoad(fromEnc, toEnc, tileSizeInverse, animate, fromEditor);
         fromEnc.roads.Add(road);
         toEnc.roads.Add(road);
         return road;

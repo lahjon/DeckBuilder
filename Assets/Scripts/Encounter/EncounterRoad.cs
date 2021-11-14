@@ -44,7 +44,7 @@ public class EncounterRoad : MonoBehaviour
         yield return null;
     }
 
-    public void DrawRoad(Encounter fromEnc, Encounter toEnc, float tileSizeInverse, bool animate = false)
+    public void DrawRoad(Encounter fromEnc, Encounter toEnc, float tileSizeInverse, bool animate = false, bool fromEditor = false)
     {
         this.fromEnc = fromEnc;
         this.toEnc = toEnc;
@@ -64,7 +64,9 @@ public class EncounterRoad : MonoBehaviour
             roadSegment.transform.localScale = roadSegment.transform.localScale * tileSizeInverse;
             roadSprites.Add(roadSegment.GetComponent<SpriteRenderer>());
             roadSegment.transform.position = from + dir * dist_t;
-            roadSegment.transform.rotation = Quaternion.LookRotation(from, to);
+            //if (!fromEditor)
+            roadSegment.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
+
             dist_t += gap + width;
             count++;
             if (animate) roadSegment.SetActive(false);

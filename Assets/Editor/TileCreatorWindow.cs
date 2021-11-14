@@ -99,6 +99,7 @@ public class TileCreatorWindow : EditorWindow
             List<Encounter> newEncs = new List<Encounter>();
             foreach (var enc in tileCreator.allEncounters)
             {
+                enc.position.z = 0;
                 Encounter newEnc = Instantiate(tileCreator.encounterPrefab, enc.position, Quaternion.identity, tileCreator.encounterParent).GetComponent<Encounter>();
                 newEncs.Add(newEnc);
                 newEnc.tile = tileCreator.hexTile;
@@ -111,7 +112,30 @@ public class TileCreatorWindow : EditorWindow
                     tileCreator.hexTile.encountersExits.Add(newEncs[i]);
             }
             tileCreator.hexTile.encounters = newEncs;
-            GameObject.Find("EncounterManager")?.GetComponent<EncounterManager>().AddRoad(newEncs[0], newEncs[1], false, 1f / 0.392f);
+
+
+            bool add;
+            List<EncounterEdge> edges = new List<EncounterEdge>();
+            for (int i = 0; i < newEncs.Count; i++)
+            {
+                List<EncounterEdge> tempEdges = new List<EncounterEdge>();
+                newEncs[i].neighboors.ForEach(x => tempEdges.Add(new EncounterEdge(newEncs[i], x)));
+                foreach (var tEdge in tempEdges)
+                {
+                    add = true;
+                    foreach (var edge in edges)
+                        if (edge.Equals(tEdge))
+                            add = false;
+                    if (add)
+                        edges.Add(tEdge);
+                }
+            }
+
+            EncounterManager encounterManager = GameObject.Find("EncounterManager")?.GetComponent<EncounterManager>();
+
+            foreach (var item in edges)
+                encounterManager.AddRoad(item.n1, item.n2, false, 1f / 0.392f, true);
+            
             foreach (TileCreatorEncounter exit in tileCreator.allEncounters.Where(x => x.overworldEncounterType  == OverworldEncounterType.Exit))
                 tileCreator.hexTile.availableDirections.Add(exit.direction);
 
