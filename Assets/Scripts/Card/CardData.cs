@@ -11,7 +11,9 @@ public class CardData : CardFunctionalityData
     public CardType cardType;
 
     public Sprite artwork;
-    public CardIntData cost;
+
+    [SerializeField]
+    public List<EnergyData> costDatas = new List<EnergyData>();
     public bool visibleCost = true;
     
     public string upgradeCostFullEmber;
@@ -27,4 +29,11 @@ public class CardData : CardFunctionalityData
 
     
     public int goldValue;
+}
+
+[System.Serializable]
+public class EnergyData
+{
+    public EnergyType type;
+    public CardIntData data;
 }

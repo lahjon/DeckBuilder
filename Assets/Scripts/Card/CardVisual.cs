@@ -18,16 +18,10 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public Image highlightSelected, highlightNormal, hightlightSpecial;
     public Image border, cardBackground;
     public Image rarityBorder;
-    public Image energyColor;
     public RectTransform TooltipAnchor;
     public List<string> toolTipTextBits = new List<string>();
 
     public GameObject cardPrefab;
-
-    public GameObject energyObjects;
-
-    public TMP_Text costText;
-
     public List<ICardTextElement> cardTextElements = new List<ICardTextElement>();
 
     private string displayText = "";
@@ -35,8 +29,13 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public bool isBroken = false;
     Tween highlightTween;
+
+    public Transform costParent;
+    public GameObject templateCostUI;
+    public Dictionary<EnergyType, CardCostDisplay> energyToCostUI = new Dictionary<EnergyType, CardCostDisplay>();
     
     CardHighlightType _cardHighlightType;
+
     public CardHighlightType cardHighlightType
     {
         get => _cardHighlightType;
@@ -92,13 +91,21 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         artworkImage.sprite = artwork;
         typeText.text = cardType.ToString();
 
-        costText.text = cost.GetTextForCost();
-        energyObjects.SetActive(visibleCost);
+        foreach (EnergyType eType in cost.energyCosts.Keys)
+            RegisterCostUI(eType);
+
+        cost.UpdateTextsForCosts();
 
         ResetCardTextElementsList();
         SetBorderColor();
         RefreshDescriptionText();
         SetToolTips();
+    }
+
+    private void RegisterCostUI(EnergyType eType)
+    {
+        energyToCostUI[eType] = Instantiate(templateCostUI, costParent).GetComponent<CardCostDisplay>();
+        energyToCostUI[eType].SetType(eType);
     }
 
     public void Mimic(CardVisual card)
@@ -109,9 +116,8 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         typeText.text = card.typeText.text;
         cardBackground.color = card.cardBackground.color;
 
-        costText.text = card.costText.text;
-        energyObjects.SetActive(card.visibleCost);
-
+        //costText.text = card.costText.text;
+      
         ResetCardTextElementsList();
         SetBorderColor();
         RefreshDescriptionText(true);
@@ -216,7 +222,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         if (timesUpgraded < 1) cardBackground.color = new Color(0.7f, 0.7f, 0.7f);
         border.color = Helpers.borderColors[classType];
         rarityBorder.color = Helpers.rarityBorderColors[rarity];
-        energyColor.color = Helpers.borderColors[classType];
     }
 
     public virtual void OnMouseEnter()

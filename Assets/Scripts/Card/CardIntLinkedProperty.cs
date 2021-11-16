@@ -96,8 +96,8 @@ public class CardIntLinkedProperty: CardInt
     private int ValueGetterSizeHand() => CombatSystem.instance.Hand.Count - (card is CardCombat c ? (CombatSystem.instance.Hand.Contains(c) ? 1 : 0) : 0);
     private static int ValueGetterSizeDeck() => CombatSystem.instance.Hero.deck.Count;
     private static int ValueGetterSizeDiscard() => CombatSystem.instance.Hero.discard.Count;
-    private static int ValueGetterEnergy() => CombatSystem.instance.cEnergy;
-    private int ValueGetterSpentEnergyCard() => card.cost.PaidEnergy;
+    private static int ValueGetterEnergy() => CombatSystem.instance.GetEnergy(EnergyType.Standard);
+    private int ValueGetterSpentEnergyCard() => card.cost.GetPaidEnergy(EnergyType.Standard);
     private int ValueGetterSameName() => CombatSystem.instance.playHistory.Count(x=> x.cardId == card.cardId);
 
 

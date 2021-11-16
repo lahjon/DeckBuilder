@@ -16,7 +16,6 @@ public class CombatSystem : MonoBehaviour
     public BezierController bezierController;
     public SelectionPath selectionPath;
     public GameObject TemplateEnemy;
-    public TMP_Text lblEnergy;
     public Camera CombatCamera;
     public Transform cardPanel;
     public Transform cardHoldPos;
@@ -61,23 +60,45 @@ public class CombatSystem : MonoBehaviour
 
     Queue<object> drawnToResolve = new Queue<object>();
 
-    public int energyMax = 5;
-    public int energyTurn = 3;
-    [HideInInspector] public int _cEnergy;
-    [HideInInspector] public int cEnergy
+    public GameObject templateEnergyDisplay;
+    public Transform energyParent;
+
+    public Dictionary<EnergyType, int>  energyMax   = new Dictionary<EnergyType, int>();
+    public Dictionary<EnergyType, int>  energyTurn  = new Dictionary<EnergyType, int>();
+    Dictionary<EnergyType, int>         cEnergy     = new Dictionary<EnergyType, int>();
+
+    Dictionary<EnergyType, CardCostDisplay> displayEnergies = new Dictionary<EnergyType, CardCostDisplay>();
+
+    public int GetEnergy(EnergyType type) => cEnergy.ContainsKey(type) ? cEnergy[type] : 0;
+    public void ModifyEnergy(Dictionary<EnergyType, int> changes, bool enforceMax = false)
     {
-        get { return _cEnergy; }
-        set {
-            bool energyChanged = false;
-            value = Mathf.Max(0, value);
-            if (_cEnergy != value)
-                energyChanged = true;
-            _cEnergy = value; 
-            lblEnergy.text = _cEnergy.ToString(); 
-            if(energyChanged)
-                EventManager.EnergyChanged();
+        bool changedAny = false;
+        foreach (EnergyType type in changes.Keys)
+        {
+            int valPre = (cEnergy.ContainsKey(type) ? cEnergy[type] : 0);
+            cEnergy[type] = changes[type] + valPre;
+
+            if (enforceMax) cEnergy[type] = Mathf.Min(cEnergy[type], energyMax[type]);
+
+            if (cEnergy[type] - valPre != 0) changedAny = true;
+            if (!displayEnergies.ContainsKey(type)) RegisterEnergyType(type);
+            displayEnergies[type].lblEnergy.text = cEnergy[type].ToString();
         }
+
+        if (changedAny) EventManager.EnergyChanged();
     }
+
+    public void ModifyEnergy(EnergyType type, int change, bool enforceMax = false)
+    {
+        int valPre = (cEnergy.ContainsKey(type) ? cEnergy[type] : 0);
+        cEnergy[type] = change + valPre;
+        if (enforceMax) cEnergy[type] = Mathf.Max(cEnergy[type], energyMax[type]);
+        if (cEnergy[type] - valPre != 0) EventManager.EnergyChanged();
+
+        if (!displayEnergies.ContainsKey(type)) RegisterEnergyType(type);
+        displayEnergies[type].lblEnergy.text = cEnergy[type].ToString();
+    }
+
     [SerializeField] private CombatActorEnemy _targetedEnemy;
 
     public List<CardVisual> deckData;
@@ -219,6 +240,11 @@ public class CombatSystem : MonoBehaviour
 
         deckData = WorldSystem.instance.characterManager.deck.ToList();
 
+        HashSet<EnergyType> energyTypes = new HashSet<EnergyType>();
+        deckData.ForEach(d => energyTypes.UnionWith(d.energyToCostUI.Keys));
+        foreach (EnergyType type in energyTypes)
+            RegisterEnergyType(type);
+
         foreach(CardVisual cv in deckData)
         {
             CardCombat card = CardCombat.Factory(cv);
@@ -243,6 +269,12 @@ public class CombatSystem : MonoBehaviour
             }
         }
         animator.SetTrigger("StartSetup");
+    }
+
+    private void RegisterEnergyType(EnergyType type)
+    {
+        displayEnergies[type] = Instantiate(templateEnergyDisplay, energyParent).GetComponent<CardCostDisplay>();
+        displayEnergies[type].SetType(type);
     }
 
     void CreateEnvironment()
@@ -278,7 +310,11 @@ public class CombatSystem : MonoBehaviour
 
     public void BindCharacterData()
     {
-        energyTurn = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Energy);
+        energyTurn[EnergyType.Standard] = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Energy);
+
+        energyMax[EnergyType.Standard] = 4;
+        energyMax[EnergyType.Rage] = 3;
+
         drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Wit);
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
@@ -673,7 +709,7 @@ public class CombatSystem : MonoBehaviour
             SelectedCardTriggered();
         else if (card.selectable)
             ActiveCard = card;
-        else if (!card.cost.Payable)
+        else if (!card.cost.Payable())
             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Cannot pay for this card!");
     }
 

@@ -55,11 +55,13 @@ MonoBehaviour:
   cardName: Weakening Scratch
   cardType: 0
   artwork: {fileID: 21300000, guid: 3ef5bfa79cba62d4fafde967b7401a3d, type: 3}
-  cost:
-    linkedProp: 0
-    baseVal: 1
-    scalar: 1
-    inverseScalar: 0
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

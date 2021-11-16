@@ -38,7 +38,7 @@ public class CardActivityDualWield : CardActivity
             for(int i = 0; i < data.val; i++)
             {
                 CardCombat card = CombatSystem.instance.Hand[CombatSystem.instance.Hand.Count - 1 - i];
-                card.cost.ModifyCardCost(-1);
+                card.cost.ModifyCardCost(EnergyType.Standard,-1);
                 for(int j = 0; j< modData.Count; j++)
                     card.AddModifierToCard(modData[j]);
             }

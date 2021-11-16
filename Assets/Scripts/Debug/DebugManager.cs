@@ -84,7 +84,7 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
-                    CombatSystem.instance.energyTurn += x;
+                    CombatSystem.instance.energyTurn[EnergyType.Standard] += x;
                     Debug.Log("Added energy per turn: " + x);
                 }
             }
@@ -93,7 +93,7 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
-                    CombatSystem.instance.cEnergy += x;
+                    CombatSystem.instance.ModifyEnergy(new Dictionary<EnergyType, int>() {{EnergyType.Standard, x}});
                     Debug.Log("added energy: " + x);
                 }
             }
