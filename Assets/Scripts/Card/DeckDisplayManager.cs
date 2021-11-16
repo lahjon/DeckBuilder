@@ -19,7 +19,6 @@ public class DeckDisplayManager : Manager
     public Transform deckDisplayPos;
     public CardDisplay animatedCard;
     public TMP_Text titleText;
-    public System.Action exitCallback;
     public TMP_Text upgradeLevel;
     public Toggle toggleUpgrade;
     public GameObject upgradesViewer, upgradeConfirm;
@@ -49,7 +48,7 @@ public class DeckDisplayManager : Manager
     public void OpenUpgrade(System.Action callback)
     {
         titleText.text = "Pick a card to upgrade";
-        exitCallback = callback;
+        confirmCallback = callback;
         WorldStateSystem.SetInDisplay();
         deckDisplay.SetActive(true);
         SetCallBacks(1);   
@@ -130,9 +129,6 @@ public class DeckDisplayManager : Manager
     {
         selectedCard.UpgradeCard();
         DeactivateDisplayCard();
-        CloseDeckDisplay();
-        exitCallback?.Invoke();
-        exitCallback = null;
     }
 
     public void ResetPlaceHolderCard()
@@ -168,7 +164,6 @@ public class DeckDisplayManager : Manager
 
     public void DeactivateDisplayCard()
     {
-        Debug.Log("deactivate");
         inspectCard.SetActive(false);
         toggleUpgrade.isOn = false;
         scroller.enabled = true;
@@ -182,7 +177,6 @@ public class DeckDisplayManager : Manager
         inspectCard.SetActive(false);
         deckDisplay.SetActive(false);
         selectedCard = null;
-        confirmCallback = null;
     }
 
     public void ConfirmCallback()
@@ -196,6 +190,7 @@ public class DeckDisplayManager : Manager
 
     public void ButtonClose()
     {
+        ConfirmCallback();
         world.deckDisplayManager.CloseDeckDisplay();
     }
 

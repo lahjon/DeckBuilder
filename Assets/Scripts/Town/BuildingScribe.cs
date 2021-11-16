@@ -99,23 +99,23 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             display.AddModifierToCard(data.upgrades[i]);
 
         display.idx = cw.idx;
-        display.shopCost.SetCost(CurrencyType.Shard, cw.timesUpgraded < data.maxUpgrades ? int.Parse(display.cardData.upgradeCostShards) * (cw.timesUpgraded + 1) : 0);
+        display.shopCost.SetCost(CurrencyType.FullEmber, cw.timesUpgraded < data.maxUpgrades ? int.Parse(display.cardData.upgradeCostFullEmber) * (cw.timesUpgraded + 1) : 0);
     }
 
     void PreviewUpgradeCard(CardDisplay card)
     {   
         if (unlockedCards.FirstOrDefault(x => x.idx == card.idx && x.cardId == card.cardId) is CardWrapper cw)
         {
-            int upgradeCost = int.Parse(card.cardData.upgradeCostShards) * (cw.timesUpgraded + 1);
+            int upgradeCost = int.Parse(card.cardData.upgradeCostFullEmber) * (cw.timesUpgraded + 1);
             
             if (cw.timesUpgraded >= card.cardData.upgrades.Count)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Card is fully upgraded!");
                 return;
             }
-            else if(WorldSystem.instance.characterManager.shard < upgradeCost)
+            else if(WorldSystem.instance.characterManager.fullEmber < upgradeCost)
             {
-                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough shards!");
+                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough full embers!");
                 return;
             }
 
@@ -132,14 +132,14 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public void ButtonUpgradeCard()
     {
         if (currentCw == null || selectedCard == null) return;
-        int upgradeCost = int.Parse(selectedCard.cardData.upgradeCostShards) * (currentCw.timesUpgraded + 1);
-        WorldSystem.instance.characterManager.shard -= upgradeCost;
+        int upgradeCost = int.Parse(selectedCard.cardData.upgradeCostFullEmber) * (currentCw.timesUpgraded + 1);
+        WorldSystem.instance.characterManager.fullEmber -= upgradeCost;
         CardFunctionalityData cardModifierData = selectedCard.cardData.upgrades[currentCw.timesUpgraded];
         currentCw.RegisterUpgrade(cardModifierData.id);
         //selectedCard.UpgradeCard();
         selectedCard.UpgradeCard();
         if ((CardDisplay)selectedCard is CardDisplay display)
-            display.shopCost.SetCost(CurrencyType.Shard, display.timesUpgraded < display.cardData.maxUpgrades ? int.Parse(display.cardData.upgradeCostShards) * (display.timesUpgraded + 1) : 0);
+            display.shopCost.SetCost(CurrencyType.FullEmber, display.timesUpgraded < display.cardData.maxUpgrades ? int.Parse(display.cardData.upgradeCostFullEmber) * (display.timesUpgraded + 1) : 0);
         ButtonCloseUpgrade();
         WorldSystem.instance.SaveProgression();
     }
@@ -271,6 +271,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         ConfirmDeck();
         base.CloseBuilding();
+        WorldSystem.instance.characterManager.characterVariablesUI.currencyBar.SetActive(false);
     }
 
     void PromptWarning()
@@ -280,6 +281,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public override void EnterBuilding()
     {
         base.EnterBuilding();
+        WorldSystem.instance.characterManager.characterVariablesUI.currencyBar.SetActive(true);
         UpdateScribe();
         UpdateDeck();
         StepInto(scribe);

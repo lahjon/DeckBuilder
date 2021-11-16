@@ -11,6 +11,7 @@ public class OverlayStateTransition : OverlayStateAnimator
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        WorldSystem.instance.dialogueManager.StartDialogue();
         base.OnStateExit(animator, stateInfo, layerIndex);
     }
 

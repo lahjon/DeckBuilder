@@ -329,6 +329,9 @@ public class Encounter : MonoBehaviour
                 encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterChoice();
                 WorldStateSystem.SetInChoice(true);
                 break;
+            case OverworldEncounterType.Blacksmith:
+                //NOTHING YET
+                break;
             case OverworldEncounterType.Exit:
                 WorldSystem.instance.gridManager.CompleteCurrentTile();
                 break;

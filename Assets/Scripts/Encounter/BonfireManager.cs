@@ -28,7 +28,7 @@ public class BonfireManager : Manager
         tween = bonfireImage.transform.DOScale(1.3f, 2f).SetLoops(-1, LoopType.Yoyo);
         canvas.gameObject.SetActive(true);
         float hp = ((float)world.characterManager.characterStats.GetStat(StatType.Health)) * healPercentage;
-        text.text = string.Format("Rest to heal " + hp.ToString() + "HP.");
+        text.text = string.Format("Rest to heal {0} HP", hp.ToString());
     }
 
     public void LeaveBonfire()
@@ -44,11 +44,6 @@ public class BonfireManager : Manager
         world.characterManager.Heal((int)hp);
         WorldStateSystem.SetInBonfire(false);
     }
-
-    // IEnumerator Rest()
-    // {
-
-    // }
 
     public void ButtonRest()
     {

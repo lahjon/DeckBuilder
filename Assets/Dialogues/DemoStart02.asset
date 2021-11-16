@@ -18,5 +18,5 @@ MonoBehaviour:
     sentence: So good you made it. Now assparagus
   - dialogueParticipant: 1
     sentence: Please dont
-  stateToTrigger: 
+  stateToTrigger: 0c000000
   endEvent: []

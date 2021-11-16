@@ -14,7 +14,7 @@ public class CardData : CardFunctionalityData
     public CardIntData cost;
     public bool visibleCost = true;
     
-    public string upgradeCostShards;
+    public string upgradeCostFullEmber;
 
     public int maxUpgrades;
     public List<CardFunctionalityData> upgrades = new List<CardFunctionalityData>();

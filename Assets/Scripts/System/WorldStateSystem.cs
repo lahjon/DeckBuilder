@@ -116,7 +116,6 @@ public class WorldStateSystem : MonoBehaviour
     public static void SetInTown(bool aBool)
     {
         worldAnimator.SetBool("TriggerTown", aBool);
-        WorldSystem.instance.characterManager.ResetDeck();
     }
     public static void SetInChoice(bool aBool)
     {

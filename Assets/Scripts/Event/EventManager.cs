@@ -33,6 +33,9 @@ public class EventManager : Manager
     public delegate void LevelUpEvent(CharacterClassType classType, int level);
     public static event LevelUpEvent OnLevelUpEvent;
 
+    public delegate void CurrencyChangedEvent(CurrencyType classType, int currentAmount);
+    public static event CurrencyChangedEvent OnCurrencyChanged;
+
     public delegate void NewWorldStateEvent(WorldState worldState);
     public static event NewWorldStateEvent OnNewWorldStateEvent;
     public delegate void NewOverlayStateEvent(OverlayState overlayState);
@@ -67,6 +70,12 @@ public class EventManager : Manager
     {
         if(OnEnterBuildingEvent != null)
             EventManager.OnEnterBuildingEvent(building);
+    }
+
+    public static void CurrencyChanged(CurrencyType currencyType, int currentAmount)
+    {
+        if(OnCurrencyChanged != null)
+            EventManager.OnCurrencyChanged(currencyType, currentAmount);
     }
 
     public static void EnemyKilled(EnemyData enemy)

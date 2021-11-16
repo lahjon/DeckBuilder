@@ -22,6 +22,7 @@ public class DatabaseSystem : MonoBehaviour
     public List<ScenarioData> scenarios = new List<ScenarioData>();
     public List<EnemyData> enemies = new List<EnemyData>();
     public List<ItemUseableData> itemUsables = new List<ItemUseableData>();
+    public List<Sprite> allCurrencyIcons = new List<Sprite>();
 
     [Header("=========== CurrentScenario ============")]
     public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();

@@ -6,9 +6,9 @@ using TMPro;
 
 public class CharacterVariablesUI : MonoBehaviour
 {
-    public TMP_Text healthValue, goldValue, shardValue, classValue;
+    public TMP_Text healthValue, goldValue, classValue;
     public Image levelUpImage;
-    public GameObject leftBar, topBar;
+    public GameObject leftBar, topBar, currencyBar;
     Vector3 startPos;
     Vector3 offset = new Vector3(-0.4f,0,0);
     float moveSpeed = 0.2f;
@@ -31,7 +31,7 @@ public class CharacterVariablesUI : MonoBehaviour
     void ToggleBar(WorldState worldState)
     {
         if (worldState == WorldState.Overworld)
-            topBar.SetActive(false);
+            topBar.SetActive(true);
         if (worldState == WorldState.Town)
             topBar.SetActive(false);
     }
@@ -43,11 +43,7 @@ public class CharacterVariablesUI : MonoBehaviour
         {
             int currentHealth = WorldSystem.instance.characterManager.currentHealth;
             int maxHealth = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
-            int gold = WorldSystem.instance.characterManager.gold;
-            int shards = WorldSystem.instance.characterManager.shard;
             healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
-            goldValue.text = gold.ToString();
-            shardValue.text = shards.ToString();
             classValue.text = WorldSystem.instance.characterManager.selectedCharacterClassType.ToString();
             
             SetStats();

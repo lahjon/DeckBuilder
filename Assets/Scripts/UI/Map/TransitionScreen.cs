@@ -56,7 +56,5 @@ public class TransitionScreen : MonoBehaviour
     {
         // called from animator when transition completes
         WorldStateSystem.SetInTransition(false);
-        WorldSystem.instance.dialogueManager.StartDialogue();
-        
     }
 }

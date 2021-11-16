@@ -64,7 +64,11 @@ public class WorldMapManager : Manager, ISaveableWorld
         currentWorldScenario.completed = true;
         EventManager.CompleteWorldScenario();
         currentWorldScenario?.CollectReward();
-        if(toTown) WorldStateSystem.SetInTown(true);
+        if(toTown) 
+        {
+            world.characterManager.ResetDeck();
+            WorldStateSystem.SetInTown(true);
+        }
     }
 
     public void UpdateMap()

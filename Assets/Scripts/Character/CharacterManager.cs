@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 {
-    int _shard;
-    int _gold;
+    int _shard, _gold, _fullEmber, _ember, _armorShard ;
     
     [HideInInspector] public int maxCardReward;
     [HideInInspector] public int defaultDrawCardAmount;
@@ -62,6 +61,19 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         world.menuManager.menuCharacter.Init();
     }
+    public int fullEmber 
+    {
+        get
+        {
+            return _fullEmber;
+        }
+        set
+        {
+            _fullEmber = value;
+            EventManager.CurrencyChanged(CurrencyType.FullEmber, value);
+            characterVariablesUI.UpdateCharacterHUD();
+        }
+    }
     public int shard 
     {
         get
@@ -71,6 +83,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         set
         {
             _shard = value;
+            EventManager.CurrencyChanged(CurrencyType.Shard, value);
             characterVariablesUI.UpdateCharacterHUD();
         }
     }
@@ -83,6 +96,33 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         set
         {
             _gold = value;
+            EventManager.CurrencyChanged(CurrencyType.Gold, value);
+            characterVariablesUI?.UpdateCharacterHUD();
+        }
+    }
+    public int armorShard 
+    {
+        get
+        {
+            return _armorShard;
+        }
+        set
+        {
+            _armorShard = value;
+            EventManager.CurrencyChanged(CurrencyType.ArmorShard, value);
+            characterVariablesUI?.UpdateCharacterHUD();
+        }
+    }
+    public int ember 
+    {
+        get
+        {
+            return _ember;
+        }
+        set
+        {
+            _ember = value;
+            EventManager.CurrencyChanged(CurrencyType.Ember, value);
             characterVariablesUI?.UpdateCharacterHUD();
         }
     }

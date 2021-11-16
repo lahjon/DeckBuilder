@@ -8,7 +8,6 @@ public class StateBonfire : WorldStateAnimator
     {
         Init(TransitionType.Normal, WorldState.OverworldBonfire);
         world.bonfireManager.EnterBonfire();
-        //WorldSystem.instance.uiManager.encounterUI.StartEncounter();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

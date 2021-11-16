@@ -257,7 +257,10 @@ public enum CurrencyType
 {
     None, 
     Gold, 
-    Shard
+    Shard,
+    ArmorShard,
+    Ember,
+    FullEmber
 }
 
 public enum DialogueParticipant
@@ -483,7 +486,8 @@ public enum OverworldEncounterType
     Cave,
     Bonfire,
     Story,
-    Start
+    Start,
+    Blacksmith
 }
 
 public enum CombatEncounterType

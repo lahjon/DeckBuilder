@@ -43,7 +43,7 @@ MonoBehaviour:
     scalar: 1
     inverseScalar: 0
   visibleCost: 1
-  upgradeCostShards: 4
+  upgradeCostFullEmber: 1
   maxUpgrades: 0
   upgrades: []
   rarity: 1

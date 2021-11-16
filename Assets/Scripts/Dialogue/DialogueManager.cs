@@ -28,7 +28,6 @@ public class DialogueManager : Manager, ISaveableWorld
 
     public void AddDialogue(int idx)
     {
-        Debug.Log("adding");
         if (!availableDialogues.Contains(idx) && !completedDialogues.Contains(idx))
             availableDialogues.Add(idx);
     }
@@ -85,21 +84,13 @@ public class DialogueManager : Manager, ISaveableWorld
         if (availableDialogues.Any() && DatabaseSystem.instance.dialogues.FirstOrDefault(x => x.index == availableDialogues[0]) is DialogueData aDialogueData)
         {
             dialogueData = aDialogueData; 
-            if (!activeDialogue)
+            if (!activeDialogue && dialogueData.stateToTrigger.Contains(WorldStateSystem.instance.currentWorldState))
             {
                 WorldStateSystem.SetInDialogue(true);
                 dialogue.gameObject.SetActive(true);
                 activeDialogue = true;
                 NextSentence();
             }
-            else
-            {
-                Debug.LogWarning("Dialogue ongoing, should not happen!");
-            }
-        }
-        else
-        {
-            Debug.Log("No dialogue or no sentences");
         }
     }
 
@@ -115,6 +106,7 @@ public class DialogueManager : Manager, ISaveableWorld
                 GameEventManager.CreateEvent(dialogueData.endEvent[i]);
 
         dialogueData = null;
+        StartDialogue();
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)

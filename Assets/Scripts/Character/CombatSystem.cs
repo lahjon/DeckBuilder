@@ -176,7 +176,7 @@ public class CombatSystem : MonoBehaviour
         {
             instance = this;
             EventManager.OnDeckCountChangeEvent += UpdateDeckTexts;
-            deckData = WorldSystem.instance.characterManager.deck;
+            deckData = WorldSystem.instance.characterManager.deck.ToList();
         }
         else
         {
@@ -217,7 +217,7 @@ public class CombatSystem : MonoBehaviour
             companionButton.gameObject.SetActive(false);
         }
 
-        deckData = WorldSystem.instance.characterManager.deck;
+        deckData = WorldSystem.instance.characterManager.deck.ToList();
 
         foreach(CardVisual cv in deckData)
         {

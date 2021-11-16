@@ -41,7 +41,6 @@ public class WorldStateAnimator : StateMachineBehaviour
             {
                 case TransitionType.Normal:
                     worldStateSystem.transitionScreen.NormalTransitionStart();
-                    Debug.Log(this);
                     break;
 
                 case TransitionType.EnterMap:

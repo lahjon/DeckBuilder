@@ -22,7 +22,7 @@ MonoBehaviour:
     sentence: Cuttrefish?
   - dialogueParticipant: 1
     sentence: MMMMM!!!!
-  stateToTrigger: 
+  stateToTrigger: 0b000000
   endEvent:
   - type: 2
     parameter: TownHall

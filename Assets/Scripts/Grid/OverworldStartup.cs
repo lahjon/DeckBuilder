@@ -24,7 +24,13 @@ public class OverworldStartup : MonoBehaviour
         {
             WorldSystem.instance.characterManager.shard = 5;
         }
+        if (WorldSystem.instance.characterManager.fullEmber == 0)
+        {
+            WorldSystem.instance.characterManager.fullEmber = 2;
+        }
         //WorldSystem.instance.worldMapManager.UpdateMap();
         WorldSystem.instance.missionManager.StartMission(0);
+
+        WorldSystem.instance.worldMapManager.UnlockScenario(0);
     }
 }

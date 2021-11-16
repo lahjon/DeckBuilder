@@ -138,7 +138,7 @@ public class DatabaseGoogle
             data.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
 
             data.maxUpgrades = Int32.Parse((string)gt[i, "Upgrades"]);
-            data.upgradeCostShards = (string)gt[i, "UpgradeCost"];
+            data.upgradeCostFullEmber = (string)gt[i, "UpgradeCost"];
             data.upgrades.Clear();
 
             for (int j = 1; j <= data.maxUpgrades; j++)

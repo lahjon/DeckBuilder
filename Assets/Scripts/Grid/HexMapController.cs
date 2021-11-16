@@ -109,8 +109,6 @@ public class HexMapController : MonoBehaviour
 
     void ZoomCallback(float panSensitivity)
     {
-        //disablePanning = endDisable;
-        //disableZoom = false;
         enableInput = true;
         panSensitivity = 5f;
         newPosition = cam.transform.position;
