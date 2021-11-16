@@ -113,6 +113,8 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         Debug.Log("insert card in exhaust");
         exhaust.Insert(0, card);
         card.Exhaust();
+        if (card is CardCombat cc)
+            cc.cardCollider.gameObject.SetActive(false);
     }
 
     public virtual void CardResolved(Card card)

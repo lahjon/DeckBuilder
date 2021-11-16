@@ -55,11 +55,13 @@ MonoBehaviour:
   cardName: Bash
   cardType: 0
   artwork: {fileID: 21300000, guid: c03d5658f42504949be1b5b76dc24b8a, type: 3}
-  cost:
-    linkedProp: 0
-    baseVal: 1
-    scalar: 1
-    inverseScalar: 0
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
   visibleCost: 1
   upgradeCostShards: 4
   maxUpgrades: 0

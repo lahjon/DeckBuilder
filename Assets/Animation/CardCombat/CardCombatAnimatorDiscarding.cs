@@ -11,7 +11,7 @@ public class CardCombatAnimatorDiscarding : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-
+        card.cardCollider.gameObject.SetActive(false);
         if (card.animator.GetBool("Resolved"))
         {
             if (card.HasProperty(CardSingleFieldPropertyType.Exhaust))

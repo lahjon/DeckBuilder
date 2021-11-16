@@ -10,55 +10,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Splicer_MiscalculatedBlast
+  m_Name: Berserker_SpearCombo
   m_EditorClassIdentifier: 
-  id: 35
+  id: 56
   singleFieldProperties: []
   effects:
   - Type: 0
     Value:
       linkedProp: 0
-      baseVal: 10
+      baseVal: 8
       scalar: 1
       inverseScalar: 0
     Times:
-      linkedProp: 0
-      baseVal: 1
+      linkedProp: 5
+      baseVal: 0
       scalar: 1
       inverseScalar: 0
-    Target: 6
+    Target: 3
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
       strParameters: []
     execTime: 0
-  activities:
-  - type: 2
-    strParameter: 
-    val: 1
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-      strParameters: []
-    execTime: 0
-  cardName: Miscalculated Blast
+  activities: []
+  cardName: Spear Combo
   cardType: 0
-  artwork: {fileID: 21300000, guid: de0a0675d65e8244bbb039769aa51c1b, type: 3}
+  artwork: {fileID: 21300000, guid: 20da4ad399f717448840eb118ed532a9, type: 3}
   costDatas:
   - type: 0
     data:
-      linkedProp: 0
-      baseVal: 1
+      linkedProp: 4
+      baseVal: 0
       scalar: 1
       inverseScalar: 0
   visibleCost: 1
-  upgradeCostShards: 8
+  upgradeCostShards: 4
   maxUpgrades: 0
   upgrades: []
-  rarity: 12
-  cardClass: 3
+  rarity: 11
+  cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
-  goldValue: 10
+  goldValue: 35

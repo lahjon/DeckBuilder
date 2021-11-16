@@ -75,7 +75,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public bool selectable
     {
-        get => _selectable && cost.Payable && playCondition;
+        get => _selectable && cost.Payable() && playCondition;
         set
         {
             _selectable = value;
@@ -84,7 +84,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         }
     }
 
-    public bool isPlayable => playCondition.value && cost.Payable;
+    public bool isPlayable => playCondition.value && cost.Payable();
 
     public void EvaluateHighlightNotSelected()
     {

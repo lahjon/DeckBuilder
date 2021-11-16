@@ -47,7 +47,7 @@ public class RulesSystem : MonoBehaviour
     public IEnumerator RegainEnergy()
     {
         //Debug.Log("Start Energy Reset");
-        CombatSystem.instance.cEnergy = Mathf.Min(CombatSystem.instance.cEnergy + CombatSystem.instance.energyTurn, CombatSystem.instance.energyMax);
+        CombatSystem.instance.ModifyEnergy(CombatSystem.instance.energyTurn, true);
         yield return new WaitForSeconds(1);
         //Debug.Log("Leaving Energy Reset");
     }

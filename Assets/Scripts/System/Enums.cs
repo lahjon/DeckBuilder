@@ -591,3 +591,9 @@ public enum TileType
     Town,
     Caravan
 }
+
+public enum EnergyType
+{
+    Standard,
+    Rage
+}

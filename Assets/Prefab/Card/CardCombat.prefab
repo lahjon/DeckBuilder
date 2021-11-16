@@ -122,14 +122,16 @@ MonoBehaviour:
   border: {fileID: 7695902140003894457}
   cardBackground: {fileID: 7782639723755105423}
   rarityBorder: {fileID: 1349982126223333926}
-  energyColor: {fileID: 2530593107824974637}
+  energyColor: {fileID: 0}
   TooltipAnchor: {fileID: 5262464430781879494}
   toolTipTextBits: []
   cardPrefab: {fileID: 0}
-  energyObjects: {fileID: 7054377862404620958}
-  costText: {fileID: 6468055499818804120}
+  energyObjects: {fileID: 0}
+  costText: {fileID: 0}
   permanentUpgrade: 0
   isBroken: 0
+  costParent: {fileID: 3706565610332188154}
+  templateCostUI: {fileID: 7263350202331094, guid: 40c9fcad6bd08704296409c173854e27, type: 3}
   cardPanel: {fileID: 0}
   transitionCurveDraw:
     serializedVersion: 2
@@ -191,8 +193,6 @@ MonoBehaviour:
   animator: {fileID: 248037277262318977}
   fanDegreeCurrent: 0
   fanDegreeTarget: 0
-  boxCollider2D: {fileID: 0}
-  image: {fileID: 0}
   cardCollider: {fileID: 0}
 --- !u!95 &248037277262318977
 Animator:
@@ -493,30 +493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &7054377862404620958 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4418032268871660831, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+--- !u!224 &3706565610332188154 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8054250819107183227, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2530593107824974637 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9198697606752677036, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-  m_PrefabInstance: {fileID: 6680579575582242689}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6468055499818804120 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 393231055042712601, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-  m_PrefabInstance: {fileID: 6680579575582242689}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

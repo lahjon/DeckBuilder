@@ -8,7 +8,7 @@ public class CardActivityModifyEnergy : CardActivity
 {
     public override IEnumerator Execute(CardActivitySetting data)
     {
-        CombatSystem.instance.cEnergy += data.val;
+        CombatSystem.instance.ModifyEnergy(EnergyType.Standard, data.val);
         yield return new WaitForSeconds(0.2f); // byt mot energy effekt
     }
 

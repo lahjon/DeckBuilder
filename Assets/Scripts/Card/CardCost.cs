@@ -8,47 +8,68 @@ using UnityEngine;
 
 public class CardCost
 {
-    public CardInt EnergyCost;
-    public int PaidEnergy;
-
     Card card;
 
-    public CardCost(Card card, CardIntData energyData)
+    public Dictionary<EnergyType, CardInt> energyCosts = new Dictionary<EnergyType, CardInt>();
+    Dictionary<EnergyType, int> paidEnergy = new Dictionary<EnergyType, int>();
+
+    public CardCost(Card card, List<EnergyData> energyDatas)
     {
         this.card = card;
-        EnergyCost = CardInt.Factory(energyData, card);
-        EnergyCost.limitLower = 0;
+        foreach (EnergyData d in energyDatas)
+        {
+            energyCosts[d.type] = CardInt.Factory(d.data, card);
+            energyCosts[d.type].limitLower = 0;
+        }
     }
 
-    public bool Payable
+    public bool Payable()
     {
-        get { return CombatSystem.instance.cEnergy >= EnergyCost; }
+        foreach (EnergyType type in energyCosts.Keys)
+            if (energyCosts[type] > CombatSystem.instance.GetEnergy(type)) return false;
+
+        return true;
     }
 
     public void Pay()
     {
         if (!(card.owner == CombatSystem.instance.Hero)) return;
+        Dictionary<EnergyType, int> frozenCost = new Dictionary<EnergyType, int>();
+        foreach (EnergyType type in energyCosts.Keys)
+        {
+            frozenCost[type] = -energyCosts[type];
+            paidEnergy[type] = energyCosts[type];
+        }
 
-        PaidEnergy = EnergyCost; // ändra till mer avancerat sen när vi har fler energytyper;
-        CombatSystem.instance.cEnergy -= EnergyCost.value;
+        CombatSystem.instance.ModifyEnergy(frozenCost);
     }
 
     public void Refund()
     {
-        CombatSystem.instance.cEnergy += PaidEnergy;
-        PaidEnergy = 0;
+        CombatSystem.instance.ModifyEnergy(paidEnergy);
+        paidEnergy.Clear();
     }
 
-    public string GetTextForCost()
+    public void ModifyCardCost(EnergyType type, int energyModify)
     {
-        return EnergyCost.GetTextForCost();
-    }
+        if (!energyCosts.ContainsKey(type)) return;
 
-    public void ModifyCardCost(int energyModify)
-    {
-        EnergyCost.modifier += energyModify;
+        energyCosts[type].modifier += energyModify;
+
         if (card is CardVisual cv)
-            cv.costText.text = GetTextForCost();
+            UpdateTextsForCosts();
     }
+
+    public void UpdateTextsForCosts()
+    {
+        if (card is CardVisual cv) {
+            foreach (EnergyType type in energyCosts.Keys)
+                cv.energyToCostUI[type].lblEnergy.text = energyCosts[type].GetTextForCost();
+        }
+    }
+
+    public int GetPaidEnergy(EnergyType type) => paidEnergy.ContainsKey(type) ? paidEnergy[type] : 0;
+
+
 }
 

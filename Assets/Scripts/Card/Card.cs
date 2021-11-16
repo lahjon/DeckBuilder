@@ -19,7 +19,6 @@ public class Card : MonoBehaviour
     public CardType cardType;
 
     public CardCost cost;
-    public bool visibleCost = true;
 
     public CardData cardData;
     public int idx;
@@ -66,7 +65,7 @@ public class Card : MonoBehaviour
         rarity          = cardData.rarity;
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
-        cost            = new CardCost(this,cardData.cost);
+        cost            = new CardCost(this,cardData.costDatas);
         cardData.singleFieldProperties.OrderBy(s => (int)s.prop).ToList().ForEach(s => RegisterSingleField(s));
 
         PostSingleFieldSetup();
@@ -96,7 +95,6 @@ public class Card : MonoBehaviour
         animationPrefab = cardData.animationPrefab;
 
         classType       = cardData.cardClass;
-        visibleCost     = cardData.visibleCost;
     }
 
     public bool UpgradeCard()
@@ -206,7 +204,6 @@ public class Card : MonoBehaviour
         activitiesOnDraw = new List<CardActivitySetting>(card.activitiesOnDraw);
         animationPrefab = card.animationPrefab;
         classType = card.classType;
-        visibleCost = card.visibleCost;
     }
 
     public CardEffectCarrier SetupEffectcarrier(CardEffectCarrierData data)

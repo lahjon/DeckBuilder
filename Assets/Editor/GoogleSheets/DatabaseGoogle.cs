@@ -132,12 +132,15 @@ public class DatabaseGoogle
             data.id = (string)gt[i, "ID"];
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
-            data.cost = CardInt.ParseInput((string)gt[i, "Cost"]);
+            data.costDatas.Clear();
+            if(!String.IsNullOrEmpty((string)gt[i, "CostStandard"]))
+                data.costDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostStandard"])});
+            if (!String.IsNullOrEmpty((string)gt[i, "CostRage"]))
+                data.costDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostRage"])});
+              
+            data.goldValue = int.Parse((string)gt[i, "GoldValue"]);
 
-            data.visibleCost = (string)gt[i, "VisibleCost"] == "TRUE";
-            data.goldValue = Int32.Parse((string)gt[i, "GoldValue"]);
-
-            data.maxUpgrades = Int32.Parse((string)gt[i, "Upgrades"]);
+            data.maxUpgrades = int.Parse((string)gt[i, "Upgrades"]);
             data.upgradeCostShards = (string)gt[i, "UpgradeCost"];
             data.upgrades.Clear();
 
@@ -344,7 +347,7 @@ public class DatabaseGoogle
             cDataCard.Add(cardData.cardClass.ToString());
             cDataCard.Add(cardData.name);
             cDataCard.Add(cardData.cardName);
-            cDataCard.Add(cardData.cost);
+            cDataCard.Add(cardData.costDatas);
 
             InputDataCard.Add(cDataCard);
 
