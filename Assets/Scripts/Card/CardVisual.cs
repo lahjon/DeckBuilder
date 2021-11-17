@@ -33,6 +33,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public Transform costParent;
     public GameObject templateCostUI;
     public Dictionary<EnergyType, CardCostDisplay> energyToCostUI = new Dictionary<EnergyType, CardCostDisplay>();
+    public Dictionary<EnergyType, CardCostDisplay> energyToCostOptionalUI = new Dictionary<EnergyType, CardCostDisplay>();
     
     CardHighlightType _cardHighlightType;
 
@@ -92,7 +93,10 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         typeText.text = cardType.ToString();
 
         foreach (EnergyType eType in cost.energyCosts.Keys)
-            RegisterCostUI(eType);
+            RegisterCostUI(eType,true);
+
+        foreach (EnergyType eType in cost.energyCostsOptional.Keys)
+            RegisterCostUI(eType,false);
 
         cost.UpdateTextsForCosts();
 
@@ -102,10 +106,12 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         SetToolTips();
     }
 
-    private void RegisterCostUI(EnergyType eType)
+    private void RegisterCostUI(EnergyType eType, bool mandatory)
     {
-        energyToCostUI[eType] = Instantiate(templateCostUI, costParent).GetComponent<CardCostDisplay>();
-        energyToCostUI[eType].SetType(eType);
+        Dictionary<EnergyType, CardCostDisplay> dickie = mandatory ? energyToCostUI : energyToCostOptionalUI;
+
+        dickie[eType] = Instantiate(templateCostUI, costParent).GetComponent<CardCostDisplay>();
+        dickie[eType].SetType(eType);
     }
 
     public void Mimic(CardVisual card)

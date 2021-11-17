@@ -34,6 +34,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public List<Func<float>> takeAttackMult = new List<Func<float>>();
 
     public List<Func<int>> dealAttackLinear = new List<Func<int>>();
+    public List<Func<int,int>> looseLifeTransform = new List<Func<int,int>>();
 
     public Dictionary<CombatActor, List<Func<float>>> dealAttackActorMods = new Dictionary<CombatActor, List<Func<float>>>();
 
@@ -145,6 +146,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         for (int i = 0; i < onAttackRecieved.Count; i++)
             yield return onAttackRecieved[i].Invoke(sourceActor);
 
+
         if (unblockedDamage > 0)
             for (int i = 0; i < sourceActor.onUnblockedDmgDealt.Count; i++)
                 yield return sourceActor.onUnblockedDmgDealt[i].Invoke(this);
@@ -170,15 +172,25 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
             damage -= shieldDamage;
         }
 
-        int unblockedDamage = LooseLife(Mathf.Min(damage));
+        int unblockedDamage = LooseLife(damage);
         return unblockedDamage;
     }
 
     public int LooseLife(int lifeToLose)
     {
         if (lifeToLose == 0) return 0;
+
+        List<Func<int, int>> snapShot = new List<Func<int, int>>(looseLifeTransform); 
+        foreach (Func<int, int> func in snapShot)
+            if(func != null)
+                lifeToLose = func(lifeToLose);
+
+        if (lifeToLose == 0) return 0;
+
         lifeToLose = Mathf.Min(lifeToLose, hitPoints);
+
         hitPoints -= lifeToLose;
+
         if (this == CombatSystem.instance.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 

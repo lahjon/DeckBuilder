@@ -60200,7 +60200,7 @@ PrefabInstance:
       objectReference: {fileID: 1541008555}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.size
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.data[14].name
@@ -60219,6 +60219,10 @@ PrefabInstance:
       value: Weak
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[18].name
+      value: Barrier
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.data[14].sprite
       value: 
       objectReference: {fileID: 21300000, guid: 376c0bb365ba4034196b58f37410e6a4, type: 3}
@@ -60234,6 +60238,10 @@ PrefabInstance:
       propertyPath: namedEffectIcons.Array.data[17].sprite
       value: 
       objectReference: {fileID: 21300000, guid: e6bfada06c20ed94d97a9f6652c6bbd3, type: 3}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[18].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f0c0c19f0a03ed04ba55b7fa9480e2ce, type: 3}
     - target: {fileID: 347953518813682204, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_Name
       value: UIManager

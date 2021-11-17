@@ -65,7 +65,7 @@ public class Card : MonoBehaviour
         rarity          = cardData.rarity;
         cardName        = cardData.cardName;
         artwork         = cardData.artwork;
-        cost            = new CardCost(this,cardData.costDatas);
+        cost            = new CardCost(this,cardData.costDatas, cardData.costOptionalDatas);
         cardData.singleFieldProperties.OrderBy(s => (int)s.prop).ToList().ForEach(s => RegisterSingleField(s));
 
         PostSingleFieldSetup();

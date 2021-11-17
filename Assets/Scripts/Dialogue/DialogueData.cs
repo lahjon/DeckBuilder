@@ -7,6 +7,6 @@ public class DialogueData : ScriptableObject
 {
     public int index;
     public List<Sentence> sentences = new List<Sentence>();
-    public List<WorldState> stateToTrigger = new List<WorldState>();
+    public WorldState stateToTriggerIn;
     public List<GameEventStruct> endEvent = new List<GameEventStruct>();
 }

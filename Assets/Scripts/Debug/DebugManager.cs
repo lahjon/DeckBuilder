@@ -10,7 +10,7 @@ public class DebugManager : MonoBehaviour
     bool showHelp;
     string input;
     public static DebugCommand SaveGame, LoadGame, Help;
-    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn;
+    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn;
     public static DebugCommand<string> AddCard, RemoveCard;
     public List<object> commandList;
     public string lastCommand;
@@ -84,10 +84,21 @@ public class DebugManager : MonoBehaviour
             {
                 if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
                 {
+                    CombatSystem.instance.ModifyEnergy(new Dictionary<EnergyType, int>() { { EnergyType.Standard, x } });
                     CombatSystem.instance.energyTurn[EnergyType.Standard] += x;
                     Debug.Log("Added energy per turn: " + x);
                 }
             }
+        );
+        AddRageTurn = new DebugCommand<int>("add_rage_turn", "add rage per turn", "add_rage_turn <value>", (x) =>
+        {
+            if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+            {
+                CombatSystem.instance.ModifyEnergy(new Dictionary<EnergyType, int>() { { EnergyType.Rage, x } });
+                CombatSystem.instance.energyTurn[EnergyType.Rage] += x;
+                Debug.Log("Added energy per turn: " + x);
+            }
+        }
         );
         AddEnergy = new DebugCommand<int>("add_energy", "add energy to player", "add_energy <amount>", (x) =>
             {
@@ -110,7 +121,9 @@ public class DebugManager : MonoBehaviour
             AddCard,
             RemoveCard,
             AddEnergy,
-            AddEnergyTurn
+            AddEnergyTurn,
+            AddRageTurn
+
         };
 
         for (int i = 0; i < commandList.Count; i++)

@@ -22,8 +22,5 @@ MonoBehaviour:
     sentence: Cuttrefish?
   - dialogueParticipant: 1
     sentence: MMMMM!!!!
-  stateToTrigger: 0b000000
-  endEvent:
-  - type: 2
-    parameter: TownHall
-    value: true
+  stateToTriggerIn: 11
+  endEvent: []

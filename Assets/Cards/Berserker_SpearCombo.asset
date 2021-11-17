@@ -44,8 +44,9 @@ MonoBehaviour:
       baseVal: 0
       scalar: 1
       inverseScalar: 0
+  costOptionalDatas: []
   visibleCost: 1
-  upgradeCostShards: 4
+  upgradeCostFullEmber: 1
   maxUpgrades: 0
   upgrades: []
   rarity: 11

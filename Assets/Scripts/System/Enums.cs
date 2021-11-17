@@ -36,6 +36,8 @@ public static class EnumExtenstions
                 return $"<b>Dazed</b>\nThe next time you would gain block this turn, gain 0 block instead.";
             case EffectType.Spiked:
                 return $"<b>Spiked</b>\nUntil your next turn, retailate when attacked.";
+            case EffectType.Barrier:
+                return $"<b>Barrier</b>\nNegate the next time you would loose life.";
             default:
                 return $"<b>{type}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
@@ -89,6 +91,8 @@ public static class EnumExtenstions
                 return new CardEffectDazed();
             case EffectType.Spiked:
                 return new CardEffectSpiked();
+            case EffectType.Barrier:
+                return new CardEffectBarrier();
             default:
                 return null;
         }
@@ -121,7 +125,8 @@ public enum ConditionType
     StoryTileCompleted,
     EncounterDataCompleted,
     EncounterCompleted,
-    StorySegmentCompleted
+    StorySegmentCompleted,
+    OptionalCardCostPaid
 }
 
 public enum Rarity
@@ -384,7 +389,8 @@ public enum EffectType
     Confused,
     Envenom,
     Dazed,
-    Spiked
+    Spiked,
+    Barrier
 }
 
 public enum OverlayState
