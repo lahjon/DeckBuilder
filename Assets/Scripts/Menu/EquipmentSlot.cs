@@ -16,7 +16,7 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!image.enabled) image.enabled = true;
         equipmentData = data;
         image.sprite = data.artwork;
-        itemEffect = ItemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct);
+        itemEffect = ItemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct, data.itemName);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

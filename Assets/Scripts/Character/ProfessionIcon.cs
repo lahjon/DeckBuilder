@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProfessionIcon : MonoBehaviour, IToolTipable
 {
-    public Profession profession;
+    public ProfessionType profession;
     public Transform tooltipAnchor;
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {

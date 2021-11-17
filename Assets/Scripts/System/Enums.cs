@@ -41,11 +41,11 @@ public static class EnumExtenstions
         }
     }
 
-    public static string GetDescription(this Profession type)
+    public static string GetDescription(this ProfessionType type)
     {
         switch (type)
         {
-            case Profession.Base:
+            case ProfessionType.Base:
                 return "<b>Base</b>\nThis is the base profession.";
             default:
                 return string.Format("<b>{0}</b>\nMissing Description!", type.ToString());
@@ -316,9 +316,10 @@ public enum GameEventType
     Custom,                     // parm = name of event | value = whatever needed by your custom event
     HighlightBuilding,          // parm = string (BuildingType) | value = bool, ex: (0, true)
     GetReward,                  // parm = string (RewardType) | value = id (int), ex1: (Item, 0)
-    TriggerReward,               // parm = string (WorldState) ändra, orkar inte göra det nu
+    TriggerReward,              // parm = string (WorldState) ändra, orkar inte göra det nu
     ToggleWorldMap,             // parm = None | value = bool, ex: (true)
-    UnlockScenario              // parm = None | value = idx (int), ex: (0)
+    UnlockScenario,             // parm = None | value = idx (int), ex: (0)
+    UnlockProfession            // parm = string (Profession)
 }
 public enum ItemEffectType
 {
@@ -414,6 +415,11 @@ public enum WorldState
     WorldMapAnimation,
     Town,
     Building,
+    BuildingScribe,
+    BuildingTownHall,
+    BuildingBarracks,
+    BuildingJeweler,
+    BuildingTavern,
     Dialogue,
     Overworld,
     Transition,
@@ -471,7 +477,8 @@ public enum BuildingType
     Scribe = 4,         // manage the side deck, upgrade cards etc
     Barracks = 5,       // manage characters, swap proffession
     Jeweler = 6,        // manage tokens
-    Any = 20
+    Any = 20,
+    None
 }
 
 public enum OverworldEncounterType
@@ -561,7 +568,7 @@ public enum CombatStateType
     NotIdle
 }
 
-public enum Profession
+public enum ProfessionType
 {
     Base,
     Berserker1 = 11,

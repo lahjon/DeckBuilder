@@ -64,7 +64,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         SortDeck();
     }
 
-    public void UnlockProfessionCard(Profession profession)
+    public void UnlockProfessionCard(ProfessionType profession)
     {
         DatabaseSystem.instance.GetStartingProfessionCards(profession).Concat(DatabaseSystem.instance.GetStartingDeck(true)).ToList().ForEach(x => UnlockCard(x, false));
     }
@@ -357,7 +357,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         }
         else
         {
-            UnlockProfessionCard(Profession.Berserker1);
+            UnlockProfessionCard(ProfessionType.Berserker1);
             deckCards.AddRange(unlockedCards);
         }
     }

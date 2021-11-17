@@ -6,10 +6,12 @@ public class ItemEffectAddStat : ItemEffect
 {
     public override void AddItemEffect()
     {
+        base.AddItemEffect();
         StatSwitch(itemEffectStruct.parameter.ToEnum<StatType>(), itemEffectStruct.value);
     }
     public override void RemoveItemEffect()
     {
+        base.RemoveItemEffect();
         StatSwitch(itemEffectStruct.parameter.ToEnum<StatType>(), -itemEffectStruct.value);
     }
     void StatSwitch(StatType statType, int amount)

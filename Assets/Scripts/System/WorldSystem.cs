@@ -33,7 +33,7 @@ public class WorldSystem : MonoBehaviour
     public RewardManager rewardManager;
     public LevelManager levelManager;
     public ScenarioMapManager gridManager;
-    public ItemUseableManager itemUseableManager;
+    public AbilityManager abilityManager;
     public ToolTipManager toolTipManager;
     public int act;
     public int subAct;

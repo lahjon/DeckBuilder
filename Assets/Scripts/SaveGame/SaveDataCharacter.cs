@@ -6,7 +6,7 @@ using System.Linq;
 public class SaveDataCharacter
 {   
     public int level;
-    public Profession profession;
+    public ProfessionType profession;
     public List<CardWrapper> deckCards;
     public List<CardWrapper> sideCards;
     public string ToJson()

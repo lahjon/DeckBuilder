@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 1192229189984560977}
   - component: {fileID: 5425397356630488440}
   m_Layer: 0
-  m_Name: Item
+  m_Name: Ability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,13 +168,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1192229189984560938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f273a299334e647a0ffab19ed3bf54, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipAnchor: {fileID: 1192229189302013021}
-  itemData: {fileID: 0}
   counterText: {fileID: 4240493772922030931}
-  effect: {fileID: 0}
+  id: 0
+  image: {fileID: 0}
+  button: {fileID: 0}
+  tooltipAnchor: {fileID: 1192229189302013021}
 --- !u!114 &5425397356630488440
 MonoBehaviour:
   m_ObjectHideFlags: 0

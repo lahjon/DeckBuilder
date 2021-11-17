@@ -17,9 +17,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
-    public List<Profession> unlockedProfessions = new List<Profession>();
+    public List<ProfessionType> unlockedProfessions = new List<ProfessionType>();
+    public ProfessionType currentProfession;
     public CharacterSheet characterSheet;
     public CharacterStats characterStats;
+    public List<ItemEffect> professionEffects = new List<ItemEffect>();
     public int currentHealth;
     public Transform cardParent;
     public GameObject cardPrefab;
@@ -49,14 +51,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         if (unlockedCharacters.Count == 0)
         {
             unlockedCharacters = allCharacterData.Where(x => x.unlocked == true).Select(x => x.classType).ToList();
-        }
-
-        if (unlockedProfessions.Count == 0)
-        {
-            unlockedProfessions.Add(Profession.Berserker1);
-            unlockedProfessions.Add(Profession.Splicer1);
-            unlockedProfessions.Add(Profession.Rogue1);
-            unlockedProfessions.Add(Profession.Beastmaster1);
         }
 
         world.menuManager.menuCharacter.Init();
@@ -125,6 +119,39 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
             EventManager.CurrencyChanged(CurrencyType.Ember, value);
             characterVariablesUI?.UpdateCharacterHUD();
         }
+    }
+
+    public void UnlockProfession(ProfessionType profession)
+    {
+        if (!unlockedProfessions.Contains(profession))
+        {
+            unlockedProfessions.Add(profession);    
+        }
+    }
+
+    void RemoveProfession()
+    {
+        if (currentProfession != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == currentProfession) is ProfessionData data)
+        {
+            professionEffects.ForEach(x => x.RemoveItemEffect());
+            professionEffects.Clear();
+        } 
+    }
+
+    public void SwapProfession(ProfessionType profession)
+    {
+        if (unlockedProfessions.Contains(profession) && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == profession) is ProfessionData data)
+        {
+            RemoveProfession();
+            AddProfession(data);
+        }
+    }
+
+    void AddProfession(ProfessionData professionData)
+    {
+        for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
+            professionEffects.Add(ItemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], professionData.professionName, true));
+        currentProfession = professionData.profession;
     }
 
     public void TakeDamage(int amount)
@@ -206,9 +233,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         List<CardFunctionalityData> modifiers = new List<CardFunctionalityData>();
         for (int i = 0; i < cw.timesUpgraded; i++)
             modifiers.Add(data.upgrades[i]);
-
         CardVisual card = CardVisual.Factory(data, cardParent, modifiers);
-
         deck.Add(card);
         WorldSystem.instance.deckDisplayManager.Add(card);
     }
@@ -239,10 +264,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.gold = gold;
-
         a_SaveData.currentHealth = currentHealth;
         a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
-    
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

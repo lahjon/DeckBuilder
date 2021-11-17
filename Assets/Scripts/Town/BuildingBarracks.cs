@@ -8,9 +8,9 @@ public class BuildingBarracks : Building
 {
     public Image characterArtwork;
     public SelectableCharacter currentSelectedCharacter;
-    public Profession currentProfession;
-    public List<ItemUsable> selectedItems;
-    public List<ItemUsable> useItems = new List<ItemUsable>();
+    public ProfessionType currentProfession;
+    public List<Ability> selectedAbilities;
+    public List<Ability> abilities = new List<Ability>();
     public GameObject barracks, characterSelection; // rooms
     List<SelectableCharacter> selectableCharacters = new List<SelectableCharacter>();
     public Transform characterParent;
@@ -46,21 +46,21 @@ public class BuildingBarracks : Building
         WorldSystem.instance.characterManager.SetupCharacterData(true);
         currentProfession = WorldSystem.instance.characterManager.character.profession;
 
-        if (currentProfession == Profession.Base)
+        if (currentProfession == ProfessionType.Base)
         {
             switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
             {
                 case CharacterClassType.Berserker:
-                    currentProfession = Profession.Berserker1;
+                    currentProfession = ProfessionType.Berserker1;
                     break;
                 case CharacterClassType.Rogue:
-                    currentProfession = Profession.Rogue1;
+                    currentProfession = ProfessionType.Rogue1;
                     break;
                 case CharacterClassType.Splicer:
-                    currentProfession = Profession.Splicer1;
+                    currentProfession = ProfessionType.Splicer1;
                     break;
                 case CharacterClassType.Beastmaster:
-                    currentProfession = Profession.Beastmaster1;
+                    currentProfession = ProfessionType.Beastmaster1;
                     break;
                 
                 default:
@@ -112,15 +112,15 @@ public class BuildingBarracks : Building
                 currentSelectedCharacter = aCharacter;
         }
 
-        selectedItems = WorldSystem.instance.itemUseableManager.equippedItems;
+        selectedAbilities = WorldSystem.instance.abilityManager.currentAbilities;
 
-        useItems.ForEach(x => x.gameObject.SetActive(false));
-        for (int i = 0; i < selectedItems.Count; i++)
+        abilities.ForEach(x => x.gameObject.SetActive(false));
+        for (int i = 0; i < selectedAbilities.Count; i++)
         {
-            Debug.Log(selectedItems[i]);
-            useItems[i].gameObject.SetActive(true);
-            useItems[i] = selectedItems[i];
-            useItems[i].BindData(false);
+            Debug.Log(selectedAbilities[i]);
+            abilities[i].gameObject.SetActive(true);
+            abilities[i] = selectedAbilities[i];
+            abilities[i].BindData(false);
         }
     }
 }

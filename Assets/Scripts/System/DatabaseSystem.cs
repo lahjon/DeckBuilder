@@ -16,12 +16,15 @@ public class DatabaseSystem : MonoBehaviour
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
 
+    [Header("=========== Character ============")]
+    public List<ProfessionData> professionDatas = new List<ProfessionData>();
+    public List<AbilityData> abilityDatas = new List<AbilityData>();
+    public List<ArtifactData> arifactDatas = new List<ArtifactData>();
+
     [Header("=========== Misc ============")]
-    public List<ArtifactData> artifacts = new List<ArtifactData>();
     public List<Sprite> allOverworldIcons = new List<Sprite>();
     public List<ScenarioData> scenarios = new List<ScenarioData>();
     public List<EnemyData> enemies = new List<EnemyData>();
-    public List<ItemUseableData> itemUsables = new List<ItemUseableData>();
     public List<Sprite> allCurrencyIcons = new List<Sprite>();
 
     [Header("=========== CurrentScenario ============")]
@@ -120,7 +123,7 @@ public class DatabaseSystem : MonoBehaviour
         return allOverworldIcons.Where(x => x.name == string.Format("Overworld{0}",type.ToString())).First();
     }
 
-    public List<CardData> GetStartingProfessionCards(Profession profession)
+    public List<CardData> GetStartingProfessionCards(ProfessionType profession)
     {
         return StartingCards.Where(x => x.profession == profession).SelectMany(x => x.startingCards).ToList();
     }
@@ -128,7 +131,7 @@ public class DatabaseSystem : MonoBehaviour
     {
         if (baseProf)
         {
-            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == Profession.Base).First().startingCards;
+            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == ProfessionType.Base).First().startingCards;
         }
         else
         {

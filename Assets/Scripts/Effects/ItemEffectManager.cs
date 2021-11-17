@@ -6,12 +6,13 @@ using System;
 
 public class ItemEffectManager : Manager
 {
+    public List<ItemEffect> itemEffects = new List<ItemEffect>();
     protected override void Awake()
     {
         base.Awake();
         world.itemEffectManager = this;
     }
-    public static ItemEffect CreateItemEffect(ItemEffectStruct itemEffectStruct, bool triggerInstant = true)
+    public static ItemEffect CreateItemEffect(ItemEffectStruct itemEffectStruct, string sourceName, bool triggerInstant = true)
     {
         if (InstanceObject(string.Format("ItemEffect{0}", itemEffectStruct.type.ToString())) is ItemEffect itemEffect)
         {

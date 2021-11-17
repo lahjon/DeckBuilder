@@ -67,6 +67,9 @@ public struct GameEventStruct
                 case GameEventType.UnlockScenario:
                     int.Parse(value);
                     break;
+                case GameEventType.UnlockProfession:
+                    parameter.ToEnum<ProfessionType>();
+                    break;
                 case GameEventType.TriggerReward:
                     break;
 

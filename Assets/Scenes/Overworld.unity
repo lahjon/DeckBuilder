@@ -3623,7 +3623,7 @@ GameObject:
   - component: {fileID: 108230818}
   - component: {fileID: 108230819}
   m_Layer: 0
-  m_Name: ItemUsableManager
+  m_Name: AbilityManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3653,16 +3653,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 108230817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2ff31519ad1f58498655037744ac169, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e3b66a8f6f0f95499196b9e1e2a62e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 1192229189984560938, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
+  abilityPrefab: {fileID: 1192229189984560938, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
   canvas: {fileID: 789297799}
   content: {fileID: 1009999312}
-  allItems: []
-  equippedItems: []
-  maxItemSlots: 1
-  usedItemSlots: 0
+  allAbilities: []
+  currentAbilities: []
+  maxAbilitySlots: 1
+  usedAbilitySlots: 0
 --- !u!1 &113228504
 GameObject:
   m_ObjectHideFlags: 0
@@ -4178,7 +4178,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f273a299334e647a0ffab19ed3bf54, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &132272580
@@ -14900,7 +14900,7 @@ MonoBehaviour:
   rewardManager: {fileID: 0}
   levelManager: {fileID: 0}
   gridManager: {fileID: 0}
-  itemUseableManager: {fileID: 0}
+  abilityManager: {fileID: 0}
   toolTipManager: {fileID: 0}
   act: 1
   subAct: 0
@@ -36958,6 +36958,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0ebe5ae71004f0541a635f613b0348b5, type: 2}
   unlockedCharacters: 
   unlockedProfessions: 
+  currentProfession: 0
   characterSheet: {fileID: 705174902}
   characterStats: {fileID: 39653335}
   currentHealth: 0
@@ -40068,7 +40069,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81f410e56069985459a32aa6b4115c05, type: 2}
   - {fileID: 11400000, guid: 93b9c1a5ace9201488f728de8468f766, type: 2}
   - {fileID: 11400000, guid: b7e17f8faf6fe9944bb6b4e02d8a9edf, type: 2}
-  artifacts: []
+  professionDatas: []
+  abilityDatas: []
+  arifactDatas: []
   allOverworldIcons:
   - {fileID: 21300000, guid: 3bf70c908aa73124a8d2f14af72ce739, type: 3}
   - {fileID: 21300000, guid: dde104ad52dfd5e4b904381dba1072c1, type: 3}
@@ -40087,7 +40090,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
   - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
   enemies: []
-  itemUsables: []
   allCurrencyIcons:
   - {fileID: 21300000, guid: e54665ffb9b077f4593fc994dc66e993, type: 3}
   - {fileID: 21300000, guid: 488d23d021ad492409357db2e1f5cf9f, type: 3}
@@ -49680,7 +49682,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f273a299334e647a0ffab19ed3bf54, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1852914833
@@ -55906,7 +55908,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f273a299334e647a0ffab19ed3bf54, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &2131066957 stripped

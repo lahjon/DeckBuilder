@@ -12,13 +12,15 @@ public abstract class Building : MonoBehaviour
         canvas.gameObject.SetActive(false);
         currentSelection.Clear();
         WorldSystem.instance.SaveProgression();
+        WorldSystem.instance.townManager.currentBuilding = BuildingType.None;
         WorldStateSystem.SetInBuilding(false);
     }
     public virtual void EnterBuilding()
     {
         WorldStateSystem.SetInBuilding(true);
         canvas.gameObject.SetActive(true);
-        EventManager.EnterBuilding(this.buildingType);
+        WorldSystem.instance.townManager.currentBuilding = buildingType;
+        EventManager.EnterBuilding(buildingType);
     }
 
     protected virtual void StepInto(GameObject room)

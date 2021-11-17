@@ -4,7 +4,14 @@ using UnityEngine;
 public abstract class ItemEffect
 {
     public WorldSystem world;
+    public string sourceName; 
     public ItemEffectStruct itemEffectStruct;
-    public abstract void AddItemEffect();
-    public abstract void RemoveItemEffect();
+    public virtual void AddItemEffect()
+    {
+        world.itemEffectManager.itemEffects.Add(this);
+    }
+    public virtual void RemoveItemEffect()
+    {
+        world.itemEffectManager.itemEffects.Remove(this);
+    }
 }

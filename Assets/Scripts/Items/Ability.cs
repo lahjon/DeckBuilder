@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
+public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
 {
     bool _usable;
-    public ConditionCounting itemCondition;
-    ItemUseableData _useItemData;
+    public ConditionCounting abilityCondition;
+    AbilityData _abilityData;
     public TMP_Text counterText; 
     public ItemEffect itemEffect; 
     public int id;
@@ -16,12 +16,12 @@ public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
     public Transform tooltipAnchor;
     bool initialized;
     int _charges;
-    public ItemUseableData itemData 
+    public AbilityData abilityData 
     {
-        get => _useItemData;
+        get => _abilityData;
         set 
         {
-            _useItemData = value;
+            _abilityData = value;
             BindData();
         }
     }
@@ -55,23 +55,23 @@ public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
 
     public void BindData(bool allData = true)
     {
-        if (itemData == null) return;
+        if (abilityData == null) return;
         Initialize();
         
-        image.sprite = itemData.artwork;
+        image.sprite = abilityData.artwork;
         if (allData)
         {
-            itemEffect = ItemEffectManager.CreateItemEffect(itemData.itemEffectStruct);
-            itemCondition = new ConditionCounting(itemData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
-            itemCondition.Subscribe();
+            itemEffect = ItemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, abilityData.itemName);
+            abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
+            abilityCondition.Subscribe();
             charges = 1;
             Subscribe();
         }
     }
     public void RemoveItem()
     {
-        WorldSystem.instance.itemUseableManager.usedItemSlots--;
-        itemCondition.Unsubscribe();
+        WorldSystem.instance.abilityManager.usedAbilitySlots--;
+        abilityCondition.Unsubscribe();
         Unsubscribe();
         Destroy(gameObject);
     }
@@ -83,14 +83,14 @@ public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
 
     public void CheckItemUseCondition(WorldState state)
     {
-        usable = (itemData.statesUsable.Contains(state) && charges > 0);
+        usable = (abilityData.statesUsable.Contains(state) && charges > 0);
     }
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-        string desc = string.Format("<b>" + itemData.itemName + "</b>\n" + itemData.description);
-        string condition = itemCondition.GetDescription(false);
+        string desc = string.Format("<b>" + abilityData.itemName + "</b>\n" + abilityData.description);
+        string condition = abilityCondition.GetDescription(false);
         return (new List<string>{desc, condition} , pos);
     }
 
@@ -107,21 +107,21 @@ public class ItemUsable : MonoBehaviour, IEventSubscriber, IToolTipable
     {
         itemEffect?.AddItemEffect();
         Debug.Log("Using Item!");
-        counterText.text = (itemCondition.requiredAmount - itemCondition.currentAmount).ToString();
+        counterText.text = (abilityCondition.requiredAmount - abilityCondition.currentAmount).ToString();
         charges--;
     }
 
     public void OnPreconditionUpdate()
     {
         Debug.Log("Dick");
-        counterText.text = (itemCondition.requiredAmount - itemCondition.currentAmount).ToString();
+        counterText.text = (abilityCondition.requiredAmount - abilityCondition.currentAmount).ToString();
     }
 
     public void OnConditionTrue()
     {
         Debug.Log("Dick2");
         counterText.text = "";
-        itemCondition.currentAmount = 0;
+        abilityCondition.currentAmount = 0;
         charges++;
     }
 }

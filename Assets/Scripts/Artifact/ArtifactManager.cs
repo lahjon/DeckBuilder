@@ -75,7 +75,7 @@ public class ArtifactManager : Manager, ISaveableTemp
                 Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
                 allActiveArtifactsIds.Add(artifactId);
 
-                newArtifact.effect = ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct);
+                newArtifact.effect = ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, artifactData.itemName);
 
                 if (save)
                     world.SaveProgression();
@@ -91,7 +91,7 @@ public class ArtifactManager : Manager, ISaveableTemp
             if (GetArtifactFromId(artifactId) is ArtifactData artifactData)
             {
                 Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
-                ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct);
+                ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, artifactData.itemName);
             }
         }
     }

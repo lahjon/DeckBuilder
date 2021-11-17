@@ -6,6 +6,7 @@ public class ItemEffectAddCombatEffect : ItemEffect
 {
     public override void AddItemEffect()
     {
+        base.AddItemEffect();
         if (itemEffectStruct.instant)
             CombatSystem.instance.StartCoroutine(CombatEffectAdd());
         else
@@ -13,6 +14,7 @@ public class ItemEffectAddCombatEffect : ItemEffect
     }
     public override void RemoveItemEffect()
     {
+        base.RemoveItemEffect();
         if (itemEffectStruct.instant)
             CombatSystem.instance.StartCoroutine(CombatEffectRemove());
         else

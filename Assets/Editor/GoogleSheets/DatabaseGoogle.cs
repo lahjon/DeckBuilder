@@ -277,7 +277,7 @@ public class DatabaseGoogle
 
             CharacterClassType classType;
             Enum.TryParse((string)gt[i, "CharacterClass"], out classType);
-            Profession profession;
+            ProfessionType profession;
             Enum.TryParse((string)gt[i, "Profession"], out profession);
 
             StartingCardSet scs = dbs.StartingCards.Where(x => x.characterClass == classType && x.profession == profession).FirstOrDefault();
@@ -711,19 +711,19 @@ public class DatabaseGoogle
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
         DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
 
-        dbs.itemUsables.Clear();
+        dbs.abilityDatas.Clear();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
             AssetDatabase.SaveAssets();
             int id = ((string)gt[i, "Id"]).ToInt();
 
-            ItemUseableData data = TDataNameToAsset<ItemUseableData>("Item" + id, new string[] { ItemPath });
+            AbilityData data = TDataNameToAsset<AbilityData>("Ability" + id, new string[] { ItemPath });
             if (data is null)
             {
-                data = ScriptableObject.CreateInstance<ItemUseableData>();
+                data = ScriptableObject.CreateInstance<AbilityData>();
                 AssetDatabase.SaveAssets();
-                AssetDatabase.CreateAsset(data, ItemPath + @"\" + "Item" + id.ToString() + ".asset");
+                AssetDatabase.CreateAsset(data, ItemPath + @"\" + "Ability" + id.ToString() + ".asset");
             }
 
             data.itemId = id;
@@ -750,9 +750,9 @@ public class DatabaseGoogle
             if (sprite != null)
                 data.artwork = sprite;
             else
-                Debug.Log("Art: " + "Item" + id.ToString() + "Art" + " not found");
+                Debug.Log("Art: " + "Ability" + id.ToString() + "Art" + " not found");
 
-            dbs.itemUsables.Add(data);
+            dbs.abilityDatas.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

@@ -39,7 +39,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             initialized = true;
             image.sprite = perkData.artwork;
             characterClassType = perkData.characterClassType;
-            itemEffect = ItemEffectManager.CreateItemEffect(perkData.itemEffectStruct);
+            itemEffect = ItemEffectManager.CreateItemEffect(perkData.itemEffectStruct, data.itemName);
             Debug.Log(itemEffect);
             perkName.text = data.itemName;
             Activated = true;

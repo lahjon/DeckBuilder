@@ -9,7 +9,7 @@ public class StartingCardSet
 {
     public string name;
     public CharacterClassType characterClass;
-    public Profession profession = Profession.Base;
+    public ProfessionType profession = ProfessionType.Base;
     public List<CardData> startingCards = new List<CardData>();
 }
 

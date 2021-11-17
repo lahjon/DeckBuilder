@@ -9,7 +9,7 @@ public class Character : MonoBehaviour, ISaveableCharacter
     public int experience;
     public CharacterClassType classType;
     public PlayableCharacterData characterData;
-    public Profession profession;
+    public ProfessionType profession;
 
     public void SetCharacterData(int index)
     {
@@ -22,7 +22,7 @@ public class Character : MonoBehaviour, ISaveableCharacter
     {
         level = a_SaveData.level;
         
-        if (a_SaveData.profession != Profession.Base)
+        if (a_SaveData.profession != ProfessionType.Base)
         {
             profession = a_SaveData.profession;
         }
@@ -31,16 +31,16 @@ public class Character : MonoBehaviour, ISaveableCharacter
             switch (WorldSystem.instance.characterManager.selectedCharacterClassType)
             {
                 case CharacterClassType.Berserker:
-                    profession = Profession.Berserker1;
+                    profession = ProfessionType.Berserker1;
                     break;
                 case CharacterClassType.Rogue:
-                    profession = Profession.Rogue1;
+                    profession = ProfessionType.Rogue1;
                     break;
                 case CharacterClassType.Splicer:
-                    profession = Profession.Splicer1;
+                    profession = ProfessionType.Splicer1;
                     break;
                 case CharacterClassType.Beastmaster:
-                    profession = Profession.Beastmaster1;
+                    profession = ProfessionType.Beastmaster1;
                     break;
                 
                 default:
