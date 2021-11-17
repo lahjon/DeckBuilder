@@ -85,7 +85,7 @@ public class DialogueManager : Manager, ISaveableWorld
         if (availableDialogues.Any() && DatabaseSystem.instance.dialogues.FirstOrDefault(x => x.index == availableDialogues[0]) is DialogueData aDialogueData)
         {
             dialogueData = aDialogueData; 
-            if (!activeDialogue && dialogueData.stateToTrigger.Contains(WorldStateSystem.instance.currentWorldState))
+            if (!activeDialogue && dialogueData.stateToTriggerIn == WorldStateSystem.instance.currentWorldState)
             {
                 WorldStateSystem.SetInDialogue(true);
                 dialogue.gameObject.SetActive(true);

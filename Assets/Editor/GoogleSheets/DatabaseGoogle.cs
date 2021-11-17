@@ -133,10 +133,15 @@ public class DatabaseGoogle
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
             data.costDatas.Clear();
+            data.costOptionalDatas.Clear();
             if(!String.IsNullOrEmpty((string)gt[i, "CostStandard"]))
                 data.costDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostStandard"])});
             if (!String.IsNullOrEmpty((string)gt[i, "CostRage"]))
                 data.costDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostRage"])});
+            if(!String.IsNullOrEmpty((string)gt[i, "CostOptionalStandard"]))
+                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostOptionalStandard"])});
+            if (!String.IsNullOrEmpty((string)gt[i, "CostOptionalRage"]))
+                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostOptionalRage"])});
               
             data.goldValue = int.Parse((string)gt[i, "GoldValue"]);
 
@@ -633,8 +638,11 @@ public class DatabaseGoogle
             }
 
             data.index = int.Parse((string)gt[i, "Id"]);
+            data.stateToTriggerIn = ((string)gt[i, "StateToTriggerIn"]).ToEnum<WorldState>();
+
             data.sentences.Clear();
             data.endEvent.Clear();
+            
 
             dbs.dialogues.Add(data);
             EditorUtility.SetDirty(data);

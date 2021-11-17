@@ -44,6 +44,7 @@ MonoBehaviour:
   cardType: 4
   artwork: {fileID: 21300000, guid: 84644664f5367b34d86fe71fbe1a5de1, type: 3}
   costDatas: []
+  costOptionalDatas: []
   visibleCost: 0
   upgradeCostFullEmber: 1
   maxUpgrades: 0

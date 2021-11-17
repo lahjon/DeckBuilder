@@ -75,13 +75,14 @@ public class CombatSystem : MonoBehaviour
         bool changedAny = false;
         foreach (EnergyType type in changes.Keys)
         {
+            if (!displayEnergies.ContainsKey(type)) RegisterEnergyType(type);
+            
             int valPre = (cEnergy.ContainsKey(type) ? cEnergy[type] : 0);
             cEnergy[type] = changes[type] + valPre;
 
             if (enforceMax) cEnergy[type] = Mathf.Min(cEnergy[type], energyMax[type]);
 
             if (cEnergy[type] - valPre != 0) changedAny = true;
-            if (!displayEnergies.ContainsKey(type)) RegisterEnergyType(type);
             displayEnergies[type].lblEnergy.text = cEnergy[type].ToString();
         }
 
@@ -275,6 +276,10 @@ public class CombatSystem : MonoBehaviour
     {
         displayEnergies[type] = Instantiate(templateEnergyDisplay, energyParent).GetComponent<CardCostDisplay>();
         displayEnergies[type].SetType(type);
+        displayEnergies[type].lblEnergy.text = "0";
+
+        if (!energyMax.ContainsKey(type)) energyMax[type] = 0;
+        if (!energyTurn.ContainsKey(type)) energyTurn[type] = 0;
     }
 
     void CreateEnvironment()

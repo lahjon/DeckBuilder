@@ -31,6 +31,8 @@ public class ConditionSystem : MonoBehaviour
                 return CheckCardsPlayedAtMost;
             case ConditionType.LastCardPlayedTurnType:
                 return CheckLastTypePlayedThisTurn;
+            case ConditionType.OptionalCardCostPaid:
+                return CheckOptionalCardCostPaid;
             default:
                 return null;
         }
@@ -54,5 +56,8 @@ public class ConditionSystem : MonoBehaviour
         return CombatSystem.instance.cardsPlayedThisTurn[CombatSystem.instance.cardsPlayedThisTurn.Count -1].cardType == cardType;
     }
 
-
+    public static bool CheckOptionalCardCostPaid(ConditionData conditionStruct)
+    {
+        return CombatSystem.instance.InProcessCard is Card card ? card.cost.optionalPaid : false;
+    }
 }

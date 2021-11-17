@@ -18,6 +18,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
 
         foreach (CardEffectCarrier e in card.effectsOnPlay)
         {
+            e.condition.OnEventNotification();
             if (!e.condition) continue;
 
             targets = combat.GetTargets(combat.ActiveActor, e.Target, suppliedTarget);
