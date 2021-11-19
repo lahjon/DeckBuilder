@@ -4170,17 +4170,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1192229189984560941, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
   m_PrefabInstance: {fileID: 212385647}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &131183588 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1192229189984560977, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
-  m_PrefabInstance: {fileID: 212385647}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &132272580
 GameObject:
   m_ObjectHideFlags: 0
@@ -22275,6 +22264,7 @@ MonoBehaviour:
     building: {fileID: 78362567}
   unlockedBuildings: 
   startingBuildings: 03000000020000000400000006000000
+  currentBuilding: 0
   townMapCanvas: {fileID: 955117132}
   encounters: {fileID: 51815188}
   worldMapButton: {fileID: 706717438}
@@ -40047,6 +40037,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00a3282a466924d4882167d9a109214c, type: 2}
   - {fileID: 11400000, guid: a85be5b2fbbdee146b815dff0e6444b8, type: 2}
   - {fileID: 11400000, guid: 3a44bb673321e0b4ca0e5911994e528e, type: 2}
+  - {fileID: 11400000, guid: 0bf9075b075fba54f8984818f54ed802, type: 2}
+  - {fileID: 11400000, guid: 2ec4f70d578c28f45846dfbfe09868f9, type: 2}
+  - {fileID: 11400000, guid: 1acea0dcc832e5e4ca7697022da9fedb, type: 2}
+  - {fileID: 11400000, guid: 8295e5917d2ecda419a3debc5980dd1c, type: 2}
+  - {fileID: 11400000, guid: c48f86adaf2a0ef459c521fda68b3588, type: 2}
+  - {fileID: 11400000, guid: 24b42347ca6eeef45b28e4c202b06f60, type: 2}
   encountersCombat:
   - {fileID: 11400000, guid: 1f10bc2789ff2454fa79eadd94e84cad, type: 2}
   - {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
@@ -40069,6 +40065,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 81f410e56069985459a32aa6b4115c05, type: 2}
   - {fileID: 11400000, guid: 93b9c1a5ace9201488f728de8468f766, type: 2}
   - {fileID: 11400000, guid: b7e17f8faf6fe9944bb6b4e02d8a9edf, type: 2}
+  enemies: []
   professionDatas: []
   abilityDatas: []
   arifactDatas: []
@@ -40085,17 +40082,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c5702040bc543e34f846e7924b52784b, type: 3}
   - {fileID: 21300000, guid: 25997bc101f9b854fbb78c1087e94cf4, type: 3}
   - {fileID: 21300000, guid: c588478c88cabda4cb84f56d6b438182, type: 3}
-  scenarios:
-  - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
-  - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
-  - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
-  enemies: []
   allCurrencyIcons:
   - {fileID: 21300000, guid: e54665ffb9b077f4593fc994dc66e993, type: 3}
   - {fileID: 21300000, guid: 488d23d021ad492409357db2e1f5cf9f, type: 3}
   - {fileID: 21300000, guid: 1e78eaf26ad39404f91372b170f3150b, type: 3}
   - {fileID: 21300000, guid: add4390cbcefe3c4cb9ea10a0eaca707, type: 3}
   - {fileID: 21300000, guid: 68b920c5d4fd23540bc7d6da66986ee3, type: 3}
+  scenarios:
+  - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
+  - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
+  - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
+  missions:
+  - {fileID: 11400000, guid: d898c3c755efecb468e5f3ee5e9cb98c, type: 2}
   encountersCombatToDraw: []
   encountersEventToDraw: []
   dialogues:
@@ -49674,17 +49672,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1192229189984560941, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
   m_PrefabInstance: {fileID: 129670319}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1850766409 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1192229189984560977, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
-  m_PrefabInstance: {fileID: 129670319}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1852914833
 GameObject:
   m_ObjectHideFlags: 0
@@ -51406,9 +51393,6 @@ MonoBehaviour:
   currentMissions: []
   missionUI: {fileID: 1349354580}
   missionParent: {fileID: 2081887510}
-  allMissionDatas:
-  - {fileID: 11400000, guid: 4555f9e054f1c144daf9ca0cc24dc22b, type: 2}
-  - {fileID: 11400000, guid: ec502b26ab884b94593b6f6384b0e284, type: 2}
   missionPrefab: {fileID: 5822805253468838531, guid: 2047ba4b13842d2469d0dc3c734b06a0, type: 3}
 --- !u!1 &1931022357
 GameObject:
@@ -54646,11 +54630,8 @@ MonoBehaviour:
   characterArtwork: {fileID: 239663720}
   currentSelectedCharacter: {fileID: 0}
   currentProfession: 0
-  selectedItems: []
-  useItems:
-  - {fileID: 131183588}
-  - {fileID: 1850766409}
-  - {fileID: 2131066956}
+  selectedAbilities: []
+  abilities: []
   barracks: {fileID: 1058738005}
   characterSelection: {fileID: 464014491}
   characterParent: {fileID: 230290738}
@@ -55900,17 +55881,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129711216}
   m_CullTransparentMesh: 1
---- !u!114 &2131066956 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1192229189984560977, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}
-  m_PrefabInstance: {fileID: 214280757}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1058786fc56d340bfe9d33e36e545d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &2131066957 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1192229189984560941, guid: 4b1d5b9e47ba73341b26872b581c452d, type: 3}

@@ -217,7 +217,8 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     {
         if (!effectTypeToRule.ContainsKey(effectInfo.Type))
         {
-            effectTypeToRule[effectInfo.Type] = effectInfo.Type.GetRuleEffect();
+            effectTypeToRule[effectInfo.Type] = effectInfo.Type.constructor.Invoke();
+            effectTypeToRule[effectInfo.Type].type = effectInfo.Type;
             effectTypeToRule[effectInfo.Type].actor = this;
         }
 
@@ -272,7 +273,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
-        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetToolTip()); });
+        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetEffectTypeStruct().toolTip); });
         return (toolTipTextBits, AnchorToolTip.position);
     }
 

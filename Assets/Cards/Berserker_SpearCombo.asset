@@ -22,7 +22,7 @@ MonoBehaviour:
       scalar: 1
       inverseScalar: 0
     Times:
-      linkedProp: 0
+      linkedProp: 5
       baseVal: 0
       scalar: 1
       inverseScalar: 0
@@ -40,7 +40,7 @@ MonoBehaviour:
   costDatas:
   - type: 0
     data:
-      linkedProp: 0
+      linkedProp: 4
       baseVal: 0
       scalar: 1
       inverseScalar: 0

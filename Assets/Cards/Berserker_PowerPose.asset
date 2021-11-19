@@ -29,7 +29,7 @@ MonoBehaviour:
       baseVal: 1
       scalar: 1
       inverseScalar: 0
-    Target: 3
+    Target: 4
     conditionStruct:
       type: 0
       strParameter: 

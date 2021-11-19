@@ -16,17 +16,17 @@ public abstract class CardEffect
     public Func<IEnumerator> OnNewTurn;
     public Func<IEnumerator> OnEndTurn;
 
-    public EffectType type
-    {
-        get
-        {
-            EffectType retType;
-            Enum.TryParse<EffectType>(effectName, out retType);
-            return retType;
-        }
-    }
+    public EffectDisplay UI;
+    public EffectTypeInfo type;
 
-    public int nrStacked;
+    private int _nrStacked;
+    public int nrStacked { get => _nrStacked; set
+        {
+            int oldVal = _nrStacked;
+            _nrStacked = value;
+            if (oldVal != value)
+                UpdateEffectUI();
+        } }
 
     public CardEffect()
     {
@@ -41,8 +41,6 @@ public abstract class CardEffect
             int nrStackedPre = nrStacked;
 
             nrStacked += stackUpdate;
-
-            actor.healthEffectsUI.UpdateEffectUI(this);
 
             RespondStackUpdate(stackUpdate);
 
@@ -105,5 +103,23 @@ public abstract class CardEffect
         actor.effectTypeToRule.Remove(type);
     }
 
+    public void UpdateEffectUI()
+    {
+        if (nrStacked == 0)
+        {
+            if (UI == null) return;
+            UI.CancelAnimation();
+            CombatActor.Destroy(UI.gameObject);
+            actor.healthEffectsUI.StartEffectNotification(type.effectType + " wore off");
+            return;
+        }
+        else if(UI == null)
+        {
+            UI = actor.healthEffectsUI.GetEffectDisplay();
+            UI.SetBackingEffect(this);
+            actor.healthEffectsUI.StartEffectNotification(type.effectType.ToString());
+        }
+        UI.RefreshLabel();
+    }
 
 }

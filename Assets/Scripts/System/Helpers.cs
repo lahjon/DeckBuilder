@@ -189,7 +189,6 @@ public static class Helpers
     
     public static IEnumerable<T> FindInterfacesOfType<T>(bool includeInactive = true)
     {
-        
         var objs = SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));
 
         return SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(go => go.GetComponentsInChildren<T>(includeInactive));

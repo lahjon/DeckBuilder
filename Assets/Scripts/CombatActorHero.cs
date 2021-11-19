@@ -49,14 +49,7 @@ public class CombatActorHero : CombatActor
         effectTypeToRule.Clear();
 
         foreach(CardEffect effect in effects)
-        {
-            if (healthEffectsUI.effectToDisplay[effect.type].gameObject != null)
-                Destroy(healthEffectsUI.effectToDisplay[effect.type].gameObject);
-
             effect.Dismantle();
-        }
-
-        healthEffectsUI.effectToDisplay.Clear();
     }
 
     public override void RecalcDamage()
