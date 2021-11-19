@@ -106,13 +106,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         SetToolTips();
     }
 
-    private void RegisterCostUI(EnergyType eType, bool mandatory)
-    {
-        Dictionary<EnergyType, CardCostDisplay> dickie = mandatory ? energyToCostUI : energyToCostOptionalUI;
-
-        dickie[eType] = Instantiate(templateCostUI, costParent).GetComponent<CardCostDisplay>();
-        dickie[eType].SetType(eType);
-    }
 
     public void Mimic(CardVisual card)
     {
@@ -122,14 +115,41 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         typeText.text = card.typeText.text;
         cardBackground.color = card.cardBackground.color;
 
-        //costText.text = card.costText.text;
-      
+        /*
+        foreach (EnergyType eType in cost.energyCosts.Keys)
+            RegisterCostUI(eType, true);
+
+        foreach (EnergyType eType in cost.energyCostsOptional.Keys)
+            RegisterCostUI(eType, false);
+
+        cost.UpdateTextsForCosts();
+        */
+
+        foreach (EnergyType eType in cost.energyCosts.Keys)
+        {
+            RegisterCostUI(eType, true);
+            energyToCostUI[eType].lblEnergy.text = card.energyToCostUI[eType].lblEnergy.text;
+        }
+
+        foreach (EnergyType eType in cost.energyCostsOptional.Keys)
+        {
+            RegisterCostUI(eType, false);
+            energyToCostOptionalUI[eType].lblEnergy.text = card.energyToCostOptionalUI[eType].lblEnergy.text;
+        }
+
         ResetCardTextElementsList();
         SetBorderColor();
         RefreshDescriptionText(true);
         SetToolTips();
     }
 
+    private void RegisterCostUI(EnergyType eType, bool mandatory)
+    {
+        Dictionary<EnergyType, CardCostDisplay> dickie = mandatory ? energyToCostUI : energyToCostOptionalUI;
+
+        dickie[eType] = Instantiate(templateCostUI, costParent).GetComponent<CardCostDisplay>();
+        dickie[eType].SetType(eType);
+    }
     public void ResetCardTextElementsList()
     {
         cardTextElements.Clear();

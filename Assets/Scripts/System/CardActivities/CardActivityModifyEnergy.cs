@@ -8,13 +8,13 @@ public class CardActivityModifyEnergy : CardActivity
 {
     public override IEnumerator Execute(CardActivitySetting data)
     {
-        CombatSystem.instance.ModifyEnergy(EnergyType.Standard, data.val);
+        CombatSystem.instance.ModifyEnergy(data.strParameter.ToEnum<EnergyType>(), data.val);
         yield return new WaitForSeconds(0.2f); // byt mot energy effekt
     }
 
     public override string GetDescription(CardActivitySetting data)
     {
-        return (data.val < 0 ? "Loose " : "Gain ") + data.val + " energy";
+        return (data.val < 0 ? "Loose " : "Gain ") + data.val + " " + data.strParameter + " Energy";
     }
 
     public override string GetToolTip(CardActivitySetting data)

@@ -33,7 +33,7 @@ MonoBehaviour:
       numValue: 0
       strParameters: []
     execTime: 0
-  - Type: 0
+  - Type: 16
     Value:
       linkedProp: 0
       baseVal: 1

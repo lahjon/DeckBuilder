@@ -38,6 +38,8 @@ public static class EnumExtenstions
                 return $"<b>Spiked</b>\nUntil your next turn, retailate when attacked.";
             case EffectType.Barrier:
                 return $"<b>Barrier</b>\nNegate the next time you would loose life.";
+            case EffectType.Steaming:
+                return $"<b>Steaming</b>\nUntil next turn, gain Rage when attacked.";
             default:
                 return $"<b>{type}</b>\nSeth is a very lazy man and has not written a tip for this effect. <i>(Also Fredrik smokes dicks.)</i>";
         }
@@ -93,6 +95,8 @@ public static class EnumExtenstions
                 return new CardEffectSpiked();
             case EffectType.Barrier:
                 return new CardEffectBarrier();
+            case EffectType.Steaming:
+                return new CardEffectSteaming();
             default:
                 return null;
         }
@@ -391,7 +395,8 @@ public enum EffectType
     Envenom,
     Dazed,
     Spiked,
-    Barrier
+    Barrier,
+    Steaming
 }
 
 public enum OverlayState
