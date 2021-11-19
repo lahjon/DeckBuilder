@@ -236,9 +236,11 @@ public enum CardLinkablePropertyType
     Handsize,
     NrCardsDeck,
     NrCardsDiscard,
-    EnergyAvailable,
-    CardEnergySpent,
-    CountPlayedCardsSameName
+    EnergyAvailableStandard,
+    CardEnergySpentStandard,
+    CountPlayedCardsSameName,
+    EnergyAvailableRage,
+    CardEnergySpentRage
 }
 
 public enum CardComponentExecType

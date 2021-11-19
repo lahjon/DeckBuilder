@@ -22,7 +22,7 @@ MonoBehaviour:
       scalar: 1
       inverseScalar: 0
     Times:
-      linkedProp: 0
+      linkedProp: 8
       baseVal: 0
       scalar: 1
       inverseScalar: 0
@@ -36,11 +36,11 @@ MonoBehaviour:
   activities: []
   cardName: Vent Frustration
   cardType: 0
-  artwork: {fileID: 21300000, guid: d7249c029548be64c948d56ddefa772f, type: 3}
+  artwork: {fileID: 21300000, guid: cc10628bedf591b458598a018473fd79, type: 3}
   costDatas:
   - type: 1
     data:
-      linkedProp: 0
+      linkedProp: 7
       baseVal: 0
       scalar: 1
       inverseScalar: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
   upgradeCostFullEmber: 1
   maxUpgrades: 0
   upgrades: []
-  rarity: 12
+  rarity: 11
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}

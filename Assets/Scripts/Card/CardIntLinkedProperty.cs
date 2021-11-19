@@ -82,10 +82,14 @@ public class CardIntLinkedProperty: CardInt
                 return ValueGetterSizeDeck;
             case CardLinkablePropertyType.NrCardsDiscard:
                 return ValueGetterSizeDiscard;
-            case CardLinkablePropertyType.EnergyAvailable:
+            case CardLinkablePropertyType.EnergyAvailableStandard:
                 return ValueGetterEnergy;
-            case CardLinkablePropertyType.CardEnergySpent:
+            case CardLinkablePropertyType.CardEnergySpentStandard:
                 return ValueGetterSpentEnergyCard;
+            case CardLinkablePropertyType.EnergyAvailableRage:
+                return ValueGetterEnergyRage;
+            case CardLinkablePropertyType.CardEnergySpentRage:
+                return ValueGetterSpentEnergyCardRage;
             case CardLinkablePropertyType.CountPlayedCardsSameName:
                 return ValueGetterSameName;
             default:
@@ -98,6 +102,8 @@ public class CardIntLinkedProperty: CardInt
     private static int ValueGetterSizeDiscard() => CombatSystem.instance.Hero.discard.Count;
     private static int ValueGetterEnergy() => CombatSystem.instance.GetEnergy(EnergyType.Standard);
     private int ValueGetterSpentEnergyCard() => card.cost.GetPaidEnergy(EnergyType.Standard);
+    private static int ValueGetterEnergyRage() => CombatSystem.instance.GetEnergy(EnergyType.Rage);
+    private int ValueGetterSpentEnergyCardRage() => card.cost.GetPaidEnergy(EnergyType.Rage);
     private int ValueGetterSameName() => CombatSystem.instance.playHistory.Count(x=> x.cardId == card.cardId);
 
 
@@ -142,7 +148,8 @@ public class CardIntLinkedProperty: CardInt
     {
         switch (propertyType)
         {
-            case CardLinkablePropertyType.CardEnergySpent:
+            case CardLinkablePropertyType.CardEnergySpentStandard:
+            case CardLinkablePropertyType.CardEnergySpentRage:
                 return "X";
             default:
                 return "Only set energy spent as times!";
@@ -153,7 +160,8 @@ public class CardIntLinkedProperty: CardInt
     {
         switch (propertyType)
         {
-            case CardLinkablePropertyType.EnergyAvailable:
+            case CardLinkablePropertyType.EnergyAvailableStandard:
+            case CardLinkablePropertyType.EnergyAvailableRage:
                 return "X";
             default:
                 return "N/A";
