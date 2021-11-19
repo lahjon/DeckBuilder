@@ -10,7 +10,7 @@ public class MissionManager : Manager, ISaveableWorld
     public List<MissionData> currentMissions = new List<MissionData>();
     public MissionUI missionUI;
     public Transform missionParent;
-    public List<MissionData> allMissionDatas;
+    public List<MissionData> allMissionDatas { get => DatabaseSystem.instance.missions; }
     public GameObject missionPrefab;
 
     protected override void Awake()

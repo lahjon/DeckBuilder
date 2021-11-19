@@ -237,6 +237,14 @@ public static class DatabaseUpdateOnStart
         Debug.Log("Googled the usable items bro!");
     }
 
+    [MenuItem("Edit/Download GoogleItemUsables %#M")]
+    public static void DownloadFromGoogleMissions()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.DownloadMissions();
+
+        Debug.Log("Googled the missions bro!");
+    }
 
     [MenuItem("Edit/Download GoogleScenarios %#S")]
     public static void DownloadFromGoogleScenarios()

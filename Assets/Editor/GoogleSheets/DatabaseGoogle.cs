@@ -25,10 +25,11 @@ public class DatabaseGoogle
     readonly public static string EncounterPath = @"Assets\Encounters\Overworld\Combat";
     readonly public static string ArtifactPath = @"Assets\ItemData\Artifacts";
     readonly public static string ModifierPath = @"Assets\CardModifier";
-    readonly public static string ScenarioPath = @"Assets\Encounters\World";
+    readonly public static string ScenarioPath = @"Assets\Scenarios";
     readonly public static string DialoguePath = @"Assets\Dialogues";
     readonly public static string ItemPath = @"Assets\ItemData\ItemUsable";
     readonly public static string ItemArtPath = @"Assets\Art\Artwork\Items";
+    readonly public static string MissionPath = @"Assets\Progression\Missions";
 
     SheetsService service;
 
@@ -89,6 +90,13 @@ public class DatabaseGoogle
     public void DownloadItemUsables()
     {
         ReadEntriesItemUsable("ItemUsable","Z");
+    }
+
+    public void DownloadMissions()
+    {
+        ReadEntriesMissions("Mission", "Z");
+        ReadEntriesMissionsEvents("MissionEvents", "Z");
+        ReadEntriesMissionsConditions("MissionConditions", "Z");
     }
 
     #region CardDownload
@@ -876,6 +884,125 @@ public class DatabaseGoogle
             scenarioData.SegmentDatas.Add(data);
 
             EditorUtility.SetDirty(scenarioData);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
+
+    public void ReadEntriesMissions(string sheetName, string lastCol)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.missions.Clear();
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            string name = (string)gt[i, "Name"];
+            if (name.Equals(""))
+                break;
+
+            int id = int.Parse((string)gt[i, "Id"]);
+            MissionData data = TDataNameToAsset<MissionData>("Mission" + id.ToString(), new string[] { MissionPath });
+            if (data is null)
+            {
+                data = ScriptableObject.CreateInstance<MissionData>();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.CreateAsset(data, MissionPath + @"\" + "Mission" + id.ToString() + ".asset");
+            }
+
+            data.id = id;
+            data.aName = (string)gt[i, "Name"];
+            data.mainMission = (string)gt[i, "Name"] == "TRUE";
+
+            data.addDialogueIdx.Clear();
+
+            string[] unlockableIDs = ((string)gt[i, "DialogueIds"]).Split(';');
+            for (int s = 0; s < unlockableIDs.Length; s++)
+                if (!string.IsNullOrEmpty(unlockableIDs[s])) data.addDialogueIdx.Add(unlockableIDs[s].ToInt());
+
+
+            data.description = (string)gt[i, "Description"];
+
+            if (string.IsNullOrEmpty((string)gt[i, "NextMissionId"]))
+                data.nextMissionId = -1;
+            else
+                data.nextMissionId = ((string)gt[i, "NextMissionId"]).ToInt();
+
+            data.gameEventsOnEnd.Clear();
+            data.gameEventsOnEnd.Clear();
+            data.conditionStructs.Clear();
+            
+            dbs.missions.Add(data);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
+
+
+    public void ReadEntriesMissionsEvents(string sheetName, string lastCol)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            int id = int.Parse((string)gt[i, "MissionId"]);
+            MissionData missionData = dbs.missions.Where(x => x.id == id).FirstOrDefault();
+            if (missionData == null)
+            {
+                if (missionData == null) Debug.Log("No Such MissionId:" + id);
+                break;
+            }
+
+            GameEventStruct data = new GameEventStruct();
+
+            data.type = ((string)gt[i, "EventType"]).ToEnum<GameEventType>();
+            data.parameter = ((string)gt[i, "EventParameter"]);
+            data.value = ((string)gt[i, "EventValue"]);
+
+            if ((string)gt[i, "OnStart"] == "TRUE")
+                missionData.gameEventsOnStart.Add(data);
+            else
+                missionData.gameEventsOnEnd.Add(data);
+
+            EditorUtility.SetDirty(missionData);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
+
+    public void ReadEntriesMissionsConditions(string sheetName, string lastCol)
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            int id = int.Parse((string)gt[i, "MissionId"]);
+            MissionData missionData = dbs.missions.Where(x => x.id == id).FirstOrDefault();
+            if (missionData == null)
+            {
+                if (missionData == null) Debug.Log("No Such MissionId:" + id);
+                break;
+            }
+
+            ConditionData data = new ConditionData();
+
+            data.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
+            data.strParameter = ((string)gt[i, "StrParameter"]);
+            data.numValue = ((string)gt[i, "NumValue"]).ToInt();
+
+            missionData.conditionStructs.Add(data);
+
+            EditorUtility.SetDirty(missionData);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
