@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecc6855db11290d4ab5e94dc8c84206e, type: 3}
-  m_Name: Mission001
+  m_Name: Mission0
   m_EditorClassIdentifier: 
   id: 0
   aName: First Mission
-  description: This is nr 1'!
+  description: This is nr 1!
   conditionStructs:
   - type: 3
     strParameter: TownHall
     numValue: 1
     strParameters: []
-  mainMission: 1
+  mainMission: 0
   gameEventsOnStart: []
   gameEventsOnEnd:
   - type: 6
     parameter: 
     value: 0
   addDialogueIdx: 00000000
-  nextMission: {fileID: 11400000, guid: ec502b26ab884b94593b6f6384b0e284, type: 2}
+  nextMissionId: -1

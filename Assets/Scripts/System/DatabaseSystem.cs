@@ -14,6 +14,7 @@ public class DatabaseSystem : MonoBehaviour
     [Header("=========== Encounters ============")]
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
+    public List<EnemyData> enemies = new List<EnemyData>();
 
     [Header("=========== Character ============")]
     public List<ProfessionData> professionDatas = new List<ProfessionData>();
@@ -21,12 +22,14 @@ public class DatabaseSystem : MonoBehaviour
     public List<ArtifactData> arifactDatas = new List<ArtifactData>();
     public List<PlayableCharacterData> allCharacterDatas = new List<PlayableCharacterData>();
 
-    [Header("=========== Misc ============")]
+    [Header("=========== Icons ============")]
     public List<Sprite> allOverworldIcons = new List<Sprite>();
-    public List<ScenarioData> scenarios = new List<ScenarioData>();
-    public List<EnemyData> enemies = new List<EnemyData>();
     public List<Sprite> allCurrencyIcons = new List<Sprite>();
     public List<HexTile> allHexTiles = new List<HexTile>();
+
+    [Header("=========== Progression ============")]
+    public List<ScenarioData> scenarios = new List<ScenarioData>();
+    public List<MissionData> missions = new List<MissionData>();
 
     [Header("=========== CurrentScenario ============")]
     public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();

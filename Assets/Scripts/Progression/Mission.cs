@@ -27,9 +27,9 @@ public class Mission : Progression
         for (int i = 0; i < data.gameEventsOnEnd.Count(); i++)
             GameEventManager.CreateEvent(data.gameEventsOnEnd[i]);
 
-        if (data.nextMission != null)
+        if (DatabaseSystem.instance.missions.Where(x => x.id == data.nextMissionId).FirstOrDefault() is MissionData md)
         {
-            WorldSystem.instance.missionManager.StartMission(data.nextMission);
+            WorldSystem.instance.missionManager.StartMission(md);
             Debug.Log("Starting new mission");
         }
 

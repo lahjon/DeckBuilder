@@ -10,39 +10,47 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Berserker_GoalDrive
+  m_Name: Berserker_VentFrustration
   m_EditorClassIdentifier: 
-  id: 49
+  id: 59
   singleFieldProperties: []
-  effects: []
-  activities:
-  - type: 7
-    strParameter: Standard
-    val: 1
+  effects:
+  - Type: 0
+    Value:
+      linkedProp: 0
+      baseVal: 8
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 8
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+    Target: 3
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
       strParameters: []
     execTime: 0
-  cardName: Goal Drive
-  cardType: 2
-  artwork: {fileID: 21300000, guid: 65a586c1fb7831141919cfd326400dfa, type: 3}
+  activities: []
+  cardName: Vent Frustration
+  cardType: 0
+  artwork: {fileID: 21300000, guid: cc10628bedf591b458598a018473fd79, type: 3}
   costDatas:
-  - type: 0
+  - type: 1
     data:
-      linkedProp: 0
+      linkedProp: 7
       baseVal: 0
       scalar: 1
       inverseScalar: 0
   costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
-  maxUpgrades: 1
-  upgrades:
-  - {fileID: 11400000, guid: 0337183050d959740b4257cd8ed4b7a8, type: 2}
-  rarity: 13
+  maxUpgrades: 0
+  upgrades: []
+  rarity: 12
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
-  goldValue: 20
+  goldValue: 35

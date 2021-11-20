@@ -83,7 +83,6 @@ public struct GridDirection : IEquatable<GridDirection>
 
     public override bool Equals(object obj) => obj is GridDirection other && Equals(other);
     public bool Equals(GridDirection other) => Name == other.Name;
-    public bool Equals(Vector3Int other) => coords == other;
     public override int GetHashCode() => Name.GetHashCode();
 
     public static Vector3Int operator +(GridDirection a, GridDirection b) => a.coords + b.coords;

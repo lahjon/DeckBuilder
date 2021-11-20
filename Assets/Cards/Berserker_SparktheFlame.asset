@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Berserker_GoalDrive
+  m_Name: Berserker_SparktheFlame
   m_EditorClassIdentifier: 
-  id: 49
-  singleFieldProperties: []
+  id: 63
+  singleFieldProperties:
+  - Name: Exhaust, True
+    prop: 0
+    val: 1
   effects: []
   activities:
   - type: 7
-    strParameter: Standard
+    strParameter: Rage
     val: 1
     conditionStruct:
       type: 0
@@ -25,9 +28,9 @@ MonoBehaviour:
       numValue: 0
       strParameters: []
     execTime: 0
-  cardName: Goal Drive
-  cardType: 2
-  artwork: {fileID: 21300000, guid: 65a586c1fb7831141919cfd326400dfa, type: 3}
+  cardName: Spark the Flame
+  cardType: 1
+  artwork: {fileID: 21300000, guid: ba091721116ed80488571f162a9b78bf, type: 3}
   costDatas:
   - type: 0
     data:
@@ -40,9 +43,9 @@ MonoBehaviour:
   upgradeCostFullEmber: 1
   maxUpgrades: 1
   upgrades:
-  - {fileID: 11400000, guid: 0337183050d959740b4257cd8ed4b7a8, type: 2}
-  rarity: 13
+  - {fileID: 11400000, guid: 80a3141a4a63a6f40bd8d8a5a6013a1a, type: 2}
+  rarity: 11
   cardClass: 1
   animationPrefab: {fileID: 0}
   audio: {fileID: 0}
-  goldValue: 20
+  goldValue: 35

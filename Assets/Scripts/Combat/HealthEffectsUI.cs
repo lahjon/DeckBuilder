@@ -10,7 +10,6 @@ public class HealthEffectsUI : MonoBehaviour
 {
     public GameObject cAnchorHealthEffects;
     public CombatActor combatActor;
-    private LTDescr healthAction;
 
     private GameObject aAnchorHealthEffects;
     public GameObject intentDisplayAnchor;
@@ -23,10 +22,8 @@ public class HealthEffectsUI : MonoBehaviour
     public Slider sldShield;
     public TMP_Text txtShield;
     public Canvas canvas;
-    IEnumerator Decay;
 
     public Transform EffectsAnchor;
-    public Dictionary<EffectType, EffectDisplay> effectToDisplay = new Dictionary<EffectType, EffectDisplay>();
     public GameObject templateEffectDisplay;
     public GameObject templateNotification;
 
@@ -85,39 +82,7 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public void UpdateEffectUI(CardEffect effect)
-    {
-        EffectType effectType = effect.type;
-
-        if(effect.nrStacked == 0 && effectToDisplay.ContainsKey(effectType))
-        {
-            if (effectToDisplay[effectType] is EffectDisplay tempEffect)
-            {
-                tempEffect.CancelAnimation();
-            }
-            Destroy(effectToDisplay[effectType].gameObject);
-            effectToDisplay.Remove(effectType);
-            StartEffectNotification(effect.effectName + " wore off");
-            return;
-        }
-
-        if (effectToDisplay.ContainsKey(effectType))
-        {
-            effectToDisplay[effectType].SetLabel(effect.strStacked());
-        }
-        else if (effect.nrStacked != 0)
-        {
-            GameObject effectObject = Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor);
-            effectToDisplay[effectType] = effectObject.GetComponent<EffectDisplay>();
-            effectToDisplay[effectType].SetSprite(WorldSystem.instance.uiManager.GetSpriteByName(effect.effectName));
-            effectToDisplay[effectType].SetLabel(effect.strStacked());
-            effectToDisplay[effectType].backingType = effect.type;
-            effectToDisplay[effectType].image.color = effect.isBuff ? Color.green : Color.red; // REMOVE WHEN FINAL ICONS
-
-            StartEffectNotification(effect.effectName);
-        }
-
-    }
+    public EffectDisplay GetEffectDisplay() => Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor).GetComponent<EffectDisplay>();
 
     public void StartEffectNotification(string notification)
     {

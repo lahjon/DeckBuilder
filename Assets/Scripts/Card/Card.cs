@@ -194,15 +194,15 @@ public class Card : MonoBehaviour
         cost = card.cost;
         idx = card.idx;
         timesUpgraded = card.timesUpgraded;
-        cardModifiers = new List<CardFunctionalityData>(card.cardModifiers);
-        singleFieldProperties = new List<CardSingleFieldProperty>(card.singleFieldProperties);
-        Attacks = new List<CardEffectCarrier>(card.Attacks);
-        Blocks = new List<CardEffectCarrier>(card.Blocks);
-        effectsOnPlay = new List<CardEffectCarrier>(card.effectsOnPlay);
-        effectsOnDraw = new List<CardEffectCarrier>(card.effectsOnDraw);
-        activitiesOnPlay = new List<CardActivitySetting>(card.activitiesOnPlay);
-        activitiesOnDraw = new List<CardActivitySetting>(card.activitiesOnDraw);
-        animationPrefab = card.animationPrefab;
+        cardModifiers               = new List<CardFunctionalityData>(card.cardModifiers);
+        singleFieldProperties       = new List<CardSingleFieldProperty>(card.singleFieldProperties);
+        Attacks                     = new List<CardEffectCarrier>(card.Attacks);
+        Blocks                      = new List<CardEffectCarrier>(card.Blocks);
+        effectsOnPlay               = new List<CardEffectCarrier>(card.effectsOnPlay);
+        effectsOnDraw               = new List<CardEffectCarrier>(card.effectsOnDraw);
+        activitiesOnPlay            = new List<CardActivitySetting>(card.activitiesOnPlay);
+        activitiesOnDraw            = new List<CardActivitySetting>(card.activitiesOnDraw);
+        animationPrefab             = card.animationPrefab;
         classType = card.classType;
     }
 
@@ -252,7 +252,7 @@ public class Card : MonoBehaviour
 
     public List<CardEffectCarrier> GetEffectsByType(EffectType type)
     {
-        return effectsOnPlay.Where(x => x.Type == type).ToList();
+        return effectsOnPlay.Where(x => x.Type.Equals(type)).ToList();
     }
 
     public CardActivitySetting GetactivityByType(CardActivityType type)
@@ -278,8 +278,8 @@ public class Card : MonoBehaviour
         //Target.Damage = a.Damage + b.Damage;
         //Target.Block = a.Block + b.Block;
 
-        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type));
-        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type));
+        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.effectType));
+        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.effectType));
 
         foreach(EffectType type in effectTypes)
         {

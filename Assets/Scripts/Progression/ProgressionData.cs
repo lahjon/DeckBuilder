@@ -9,6 +9,6 @@ public class ProgressionData : ScriptableObject
     public int id;
     public string aName;
     [TextArea(5,5)]public string description;
-    public List<ConditionData> conditionStructs;
+    public List<ConditionData> conditionStructs = new List<ConditionData>();
 
 }
