@@ -96,19 +96,19 @@ public class DebugUI : MonoBehaviour
     {
         world.artifactManager.AddArtifact(artifactReward);
     }
-    public void DebugAddExperience(int amount)
-    {
-        world.levelManager.AddExperience(amount);
-    }
+    // public void DebugAddExperience(int amount)
+    // {
+    //     world.levelManager.AddExperience(amount);
+    // }
     public void DebugUnlockPerk()
     {
         PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerks.Select(x => x.perkData)).ToList().Count)];
         world.menuManager.menuCharacter.UnlockPerk(data);
     }
-    public void DebugAddLevel()
-    {
-        world.levelManager.AddLevel();
-    }
+    // public void DebugAddLevel()
+    // {
+    //     world.levelManager.AddLevel();
+    // }
 
     public void DebugStartCombat()
     {
@@ -182,7 +182,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugGetShards()
     {
-        world.characterManager.shard += 5;
+        world.characterManager.characterCurrency.shard += 5;
     }
     public void DebugInRewardScreen()
     {

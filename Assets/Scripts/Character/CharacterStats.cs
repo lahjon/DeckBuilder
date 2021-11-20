@@ -12,7 +12,7 @@ public class CharacterStats : MonoBehaviour
     {
         characterManager = WorldSystem.instance.characterManager;
         stats.Clear();
-        characterManager.character.characterData.stats.ForEach(x => stats.Add(new Stat(x.value, x.type)));
+        characterManager.characterData.stats.ForEach(x => stats.Add(new Stat(x.value, x.type)));
     }
 
     public int GetStat(StatType aStatType)

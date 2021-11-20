@@ -11,7 +11,6 @@ public class DatabaseSystem : MonoBehaviour
     public List<StartingCardSet> StartingCards = new List<StartingCardSet>();
     public List<CardData> cards = new List<CardData>();
 
-
     [Header("=========== Encounters ============")]
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();
     public List<EncounterDataRandomEvent> encounterEvent = new List<EncounterDataRandomEvent>();
@@ -20,12 +19,14 @@ public class DatabaseSystem : MonoBehaviour
     public List<ProfessionData> professionDatas = new List<ProfessionData>();
     public List<AbilityData> abilityDatas = new List<AbilityData>();
     public List<ArtifactData> arifactDatas = new List<ArtifactData>();
+    public List<PlayableCharacterData> allCharacterDatas = new List<PlayableCharacterData>();
 
     [Header("=========== Misc ============")]
     public List<Sprite> allOverworldIcons = new List<Sprite>();
     public List<ScenarioData> scenarios = new List<ScenarioData>();
     public List<EnemyData> enemies = new List<EnemyData>();
     public List<Sprite> allCurrencyIcons = new List<Sprite>();
+    public List<HexTile> allHexTiles = new List<HexTile>();
 
     [Header("=========== CurrentScenario ============")]
     public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
@@ -135,7 +136,7 @@ public class DatabaseSystem : MonoBehaviour
         }
         else
         {
-            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.character.profession).First().startingCards;
+            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.profession).First().startingCards;
         }
     }
 

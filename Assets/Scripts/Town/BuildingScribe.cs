@@ -113,7 +113,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Card is fully upgraded!");
                 return;
             }
-            else if(WorldSystem.instance.characterManager.fullEmber < upgradeCost)
+            else if(WorldSystem.instance.characterManager.characterCurrency.fullEmber < upgradeCost)
             {
                 WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough full embers!");
                 return;
@@ -133,7 +133,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         if (currentCw == null || selectedCard == null) return;
         int upgradeCost = int.Parse(selectedCard.cardData.upgradeCostFullEmber) * (currentCw.timesUpgraded + 1);
-        WorldSystem.instance.characterManager.fullEmber -= upgradeCost;
+        WorldSystem.instance.characterManager.characterCurrency.fullEmber -= upgradeCost;
         CardFunctionalityData cardModifierData = selectedCard.cardData.upgrades[currentCw.timesUpgraded];
         currentCw.RegisterUpgrade(cardModifierData.id);
         //selectedCard.UpgradeCard();

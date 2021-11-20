@@ -41,13 +41,13 @@ public class DebugManager : MonoBehaviour
         );
         AddGold = new DebugCommand<int>("add_gold", "add x gold", "add_gold <shard_amount>", (x) =>
             {
-                world.characterManager.gold += x;
+                world.characterManager.characterCurrency.gold += x;
                 Debug.Log("Gold: " + x);
             }
         );
         AddShards = new DebugCommand<int>("add_shards", "add x shards.", "add_shards <gold_amount>", (x) =>
             {
-                world.characterManager.shard += x;
+                world.characterManager.characterCurrency.shard += x;
                 Debug.Log("Shards: " + x);
             }
         );

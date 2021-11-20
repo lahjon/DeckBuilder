@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class HexTile : MonoBehaviour
 {
+    public int id;
     [SerializeField] TileState _tileState; 
     public Vector3Int coord;
     public List<GridDirection> availableDirections = new List<GridDirection>();

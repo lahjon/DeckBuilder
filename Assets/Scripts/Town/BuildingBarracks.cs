@@ -14,6 +14,7 @@ public class BuildingBarracks : Building
     public GameObject barracks, characterSelection; // rooms
     List<SelectableCharacter> selectableCharacters = new List<SelectableCharacter>();
     public Transform characterParent;
+    public ProfessionTooltip professionTooltip;
     
     public override void CloseBuilding()
     {
@@ -44,7 +45,7 @@ public class BuildingBarracks : Building
     {
         WorldSystem.instance.characterManager.selectedCharacterClassType = currentSelectedCharacter.characterClassType;
         WorldSystem.instance.characterManager.SetupCharacterData(true);
-        currentProfession = WorldSystem.instance.characterManager.character.profession;
+        currentProfession = WorldSystem.instance.characterManager.profession;
 
         if (currentProfession == ProfessionType.Base)
         {
@@ -67,11 +68,8 @@ public class BuildingBarracks : Building
                     break;
             }
             
-            WorldSystem.instance.characterManager.character.profession = currentProfession;
+            WorldSystem.instance.characterManager.profession = currentProfession;
         }
-
-        //WorldSystem.instance.townManager.scribe?.UpdateDeckManagement();
-
         Debug.Log("Update selected character");
     }
 
@@ -98,8 +96,8 @@ public class BuildingBarracks : Building
 
     void UpdateBarracks()
     {
-        characterArtwork.sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
-        currentProfession = WorldSystem.instance.characterManager.character.profession;
+        characterArtwork.sprite = WorldSystem.instance.characterManager.characterData.artwork;
+        currentProfession = WorldSystem.instance.characterManager.profession;
 
         foreach (SelectableCharacter aCharacter in selectableCharacters)
         {
@@ -108,7 +106,7 @@ public class BuildingBarracks : Building
             else 
                 aCharacter.unlocked = true;
 
-            if (aCharacter.characterClassType == WorldSystem.instance.characterManager.character.characterData.classType)
+            if (aCharacter.characterClassType == WorldSystem.instance.characterManager.characterData.classType)
                 currentSelectedCharacter = aCharacter;
         }
 
@@ -122,5 +120,10 @@ public class BuildingBarracks : Building
             abilities[i] = selectedAbilities[i];
             abilities[i].BindData(false);
         }
+    }
+
+    void UpdateProfessions()
+    {
+
     }
 }

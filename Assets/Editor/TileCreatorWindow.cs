@@ -131,7 +131,10 @@ public class TileCreatorWindow : EditorWindow
                 }
             }
 
+            int id = System.IO.Directory.GetFiles(Application.dataPath + "/Prefab/HexTiles/").Count() / 2;
+            tileCreator.hexTile.id = id;
             EncounterManager encounterManager = GameObject.Find("EncounterManager")?.GetComponent<EncounterManager>();
+            DatabaseSystem db = GameObject.Find("DatabaseSystem")?.GetComponent<DatabaseSystem>();
 
             foreach (var item in edges)
                 encounterManager.AddRoad(item.n1, item.n2, false, 1f / 0.392f, true);
@@ -140,11 +143,15 @@ public class TileCreatorWindow : EditorWindow
                 tileCreator.hexTile.availableDirections.Add(exit.direction);
 
             bool success;
-            int tileNumber = System.IO.Directory.GetFiles(Application.dataPath + "/Prefab/HexTiles/").Count() / 2;
+            int tileNumber = id;
             string newPath = string.Format("Assets/Prefab/HexTiles/HexTile{0}.prefab", tileNumber);
-            PrefabUtility.SaveAsPrefabAsset(tileCreator.hexTile.gameObject, newPath, out success);
+            GameObject newPrefab = PrefabUtility.SaveAsPrefabAsset(tileCreator.hexTile.gameObject, newPath, out success);
+
             if (success)
+            {
+                DatabaseUpdateOnStart.UpdateAllHexTiles();
                 Debug.Log("Creating new tile successful!");
+            }
             else
                 Debug.LogWarning("Creating new tile failed!");
 

@@ -97,7 +97,7 @@ public class Reward : MonoBehaviour, IToolTipable
         reset = true;
         rewardAmount = amount;
         
-        callback = () => WorldSystem.instance.characterManager.gold += amount;
+        callback = () => WorldSystem.instance.characterManager.characterCurrency.gold += amount;
     }
     public void RewardShard(string value)
     {
@@ -109,7 +109,7 @@ public class Reward : MonoBehaviour, IToolTipable
         reset = true;
         rewardAmount = amount;
 
-        callback = () => WorldSystem.instance.characterManager.shard += amount;
+        callback = () => WorldSystem.instance.characterManager.characterCurrency.shard += amount;
     }
     public void RewardItem(string value)
     {

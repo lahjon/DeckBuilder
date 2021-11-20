@@ -20,7 +20,7 @@ public class CombatActorHero : CombatActor
 
     void Start()
     {
-        spriteRenderer.sprite = WorldSystem.instance.characterManager.character.characterData.artwork;
+        spriteRenderer.sprite = WorldSystem.instance.characterManager.characterData.artwork;
         collision = gameObject.AddComponent<BoxCollider2D>();
     }
 

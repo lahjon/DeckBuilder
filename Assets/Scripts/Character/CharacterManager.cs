@@ -6,21 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 {
-    int _shard, _gold, _fullEmber, _ember, _armorShard ;
-    
     [HideInInspector] public int maxCardReward;
     [HideInInspector] public int defaultDrawCardAmount;
 
     public CharacterVariablesUI characterVariablesUI;
-    public Character character;
     public List<CardVisual> deck = new List<CardVisual>();
     public CharacterClassType selectedCharacterClassType;
-    public List<PlayableCharacterData> allCharacterData = new List<PlayableCharacterData>();
+    public List<PlayableCharacterData> allCharacterData { get => DatabaseSystem.instance.allCharacterDatas; }
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public List<ProfessionType> unlockedProfessions = new List<ProfessionType>();
-    public ProfessionType currentProfession;
-    public CharacterSheet characterSheet;
+    public ProfessionType profession;
+    public PlayableCharacterData characterData;
     public CharacterStats characterStats;
+    public CharacterCurrency characterCurrency;
     public List<ItemEffect> professionEffects = new List<ItemEffect>();
     public int currentHealth;
     public Transform cardParent;
@@ -55,71 +53,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         world.menuManager.menuCharacter.Init();
     }
-    public int fullEmber 
-    {
-        get
-        {
-            return _fullEmber;
-        }
-        set
-        {
-            _fullEmber = value;
-            EventManager.CurrencyChanged(CurrencyType.FullEmber, value);
-            characterVariablesUI.UpdateCharacterHUD();
-        }
-    }
-    public int shard 
-    {
-        get
-        {
-            return _shard;
-        }
-        set
-        {
-            _shard = value;
-            EventManager.CurrencyChanged(CurrencyType.Shard, value);
-            characterVariablesUI.UpdateCharacterHUD();
-        }
-    }
-    public int gold 
-    {
-        get
-        {
-            return _gold;
-        }
-        set
-        {
-            _gold = value;
-            EventManager.CurrencyChanged(CurrencyType.Gold, value);
-            characterVariablesUI?.UpdateCharacterHUD();
-        }
-    }
-    public int armorShard 
-    {
-        get
-        {
-            return _armorShard;
-        }
-        set
-        {
-            _armorShard = value;
-            EventManager.CurrencyChanged(CurrencyType.ArmorShard, value);
-            characterVariablesUI?.UpdateCharacterHUD();
-        }
-    }
-    public int ember 
-    {
-        get
-        {
-            return _ember;
-        }
-        set
-        {
-            _ember = value;
-            EventManager.CurrencyChanged(CurrencyType.Ember, value);
-            characterVariablesUI?.UpdateCharacterHUD();
-        }
-    }
 
     public void UnlockProfession(ProfessionType profession)
     {
@@ -131,7 +64,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     void RemoveProfession()
     {
-        if (currentProfession != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == currentProfession) is ProfessionData data)
+        if (profession != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == profession) is ProfessionData data)
         {
             professionEffects.ForEach(x => x.RemoveItemEffect());
             professionEffects.Clear();
@@ -151,7 +84,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
             professionEffects.Add(ItemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], professionData.professionName, true));
-        currentProfession = professionData.profession;
+        profession = professionData.profession;
     }
 
     public void TakeDamage(int amount)
@@ -190,14 +123,13 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     }
     public void SetupCharacterData(bool fromTown = false)
     {
-        character.SetCharacterData((int)selectedCharacterClassType);
-        character.name = character.characterData.classType.ToString();
+        characterData = WorldSystem.instance.characterManager.allCharacterData[(int)selectedCharacterClassType];
+        characterStats.Init();
 
         if (fromTown) currentHealth = characterStats.GetStat(StatType.Health);
 
         characterVariablesUI.UpdateCharacterHUD();
     }
-
     public void ClearDeck()
     {
         while (deck.Any())
@@ -245,14 +177,12 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.shard = _shard;
         a_SaveData.unlockedCharacters = unlockedCharacters;
         a_SaveData.unlockedProfessions = unlockedProfessions;
     }
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        _shard = a_SaveData.shard;
         unlockedCharacters = a_SaveData.unlockedCharacters;
         unlockedProfessions = a_SaveData.unlockedProfessions;
     }
@@ -263,9 +193,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         deck.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
-        a_SaveData.gold = gold;
         a_SaveData.currentHealth = currentHealth;
-        a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - character.characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
+        a_SaveData.addedHealth = characterStats.GetStat(StatType.Health) - characterData.stats.Where(x => x.type == StatType.Health).FirstOrDefault().value;
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
@@ -277,8 +206,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
             selectedCharacterClassType = a_SaveData.selectedCharacterClassType;
         else
             selectedCharacterClassType = CharacterClassType.Berserker;
-
-        _gold = a_SaveData.gold;
 
         currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
     }

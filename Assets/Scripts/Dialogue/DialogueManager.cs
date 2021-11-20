@@ -45,7 +45,7 @@ public class DialogueManager : Manager, ISaveableWorld
     {
         int idx = (int)aParticipant;
         if (idx <= 6)
-            return world.characterManager.character.characterData;
+            return world.characterManager.characterData;
         
         else
         {
@@ -118,7 +118,7 @@ public class DialogueManager : Manager, ISaveableWorld
 
     public void LoadFromSaveDataWorld(SaveDataWorld a_SaveData)
     {
-        a_SaveData.completedDialogues = completedDialogues;
-        a_SaveData.availableDialogues = availableDialogues;
+        completedDialogues = a_SaveData.completedDialogues;
+        availableDialogues = a_SaveData.availableDialogues;
     }
 }

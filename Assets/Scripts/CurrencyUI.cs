@@ -36,19 +36,19 @@ public class CurrencyUI : MonoBehaviour, IToolTipable, IEventSubscriber
         switch (currencyType)
         {
             case CurrencyType.Gold:
-                text.text = WorldSystem.instance.characterManager.gold.ToString();
+                text.text = WorldSystem.instance.characterManager.characterCurrency.gold.ToString();
                 break;
             case CurrencyType.Ember:
-                text.text = WorldSystem.instance.characterManager.ember.ToString();
+                text.text = WorldSystem.instance.characterManager.characterCurrency.ember.ToString();
                 break;
             case CurrencyType.FullEmber:
-                text.text = WorldSystem.instance.characterManager.fullEmber.ToString();
+                text.text = WorldSystem.instance.characterManager.characterCurrency.fullEmber.ToString();
                 break;
             case CurrencyType.ArmorShard:
-                text.text = WorldSystem.instance.characterManager.armorShard.ToString();
+                text.text = WorldSystem.instance.characterManager.characterCurrency.armorShard.ToString();
                 break;
             case CurrencyType.Shard:
-                text.text = WorldSystem.instance.characterManager.shard.ToString();
+                text.text = WorldSystem.instance.characterManager.characterCurrency.shard.ToString();
                 break;
             default:
                 break;

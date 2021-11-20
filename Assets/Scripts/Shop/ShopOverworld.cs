@@ -64,11 +64,11 @@ public class ShopOverworld : MonoBehaviour
 
     public bool PurchaseArtifact(Artifact artifact)
     {
-        int characterGold = WorldSystem.instance.characterManager.gold;
+        int characterGold = WorldSystem.instance.characterManager.characterCurrency.gold;
         int goldCost = artifact.artifactData.goldValue;
         if (characterGold >= goldCost)
         {
-            WorldSystem.instance.characterManager.gold -= goldCost;
+            WorldSystem.instance.characterManager.characterCurrency.gold -= goldCost;
             WorldSystem.instance.artifactManager.AddArtifact(artifact.artifactData.itemId);
             artifact.gameObject.SetActive(false);
             artifactPrices[artifactsInStock.IndexOf(artifact)].text = "Out of stock!";
@@ -82,11 +82,11 @@ public class ShopOverworld : MonoBehaviour
     }
     public bool PurchaseCard(CardDisplay clickedCard)
     {
-        int characterGold = WorldSystem.instance.characterManager.gold;
+        int characterGold = WorldSystem.instance.characterManager.characterCurrency.gold;
         int goldCost = clickedCard.cardData.goldValue;
         if (characterGold >= goldCost)
         {
-            WorldSystem.instance.characterManager.gold -= goldCost;
+            WorldSystem.instance.characterManager.characterCurrency.gold -= goldCost;
             WorldSystem.instance.characterManager.AddCardToDeck(clickedCard);
             clickedCard.gameObject.SetActive(false);
             clickedCard.ResetScale();
@@ -101,7 +101,7 @@ public class ShopOverworld : MonoBehaviour
     }
     public void DebugAddGold()
     {
-        WorldSystem.instance.characterManager.gold += 100;
+        WorldSystem.instance.characterManager.characterCurrency.gold += 100;
         WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
     }
 

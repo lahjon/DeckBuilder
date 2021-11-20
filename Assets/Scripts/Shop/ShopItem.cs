@@ -26,9 +26,9 @@ public class ShopItem : MonoBehaviour
 
     public void BuyItem()
     {
-        if (shardCost <= characterManager.shard && townManager.UnlockBuilding(building))
+        if (shardCost <= characterManager.characterCurrency.shard && townManager.UnlockBuilding(building))
         {
-            characterManager.shard -= shardCost;
+            characterManager.characterCurrency.shard -= shardCost;
 
             Transform parent = gameObject.transform.parent;
             

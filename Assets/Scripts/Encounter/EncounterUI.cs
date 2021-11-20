@@ -110,7 +110,7 @@ public class EncounterUI : MonoBehaviour
                 break;
             case EncounterEventChoiceEffect.Gold:
                 x = int.Parse(effectStruct.parameter);
-                WorldSystem.instance.characterManager.gold += x;
+                WorldSystem.instance.characterManager.characterCurrency.gold += x;
                 break;
             case EncounterEventChoiceEffect.Artifact:
                 WorldSystem.instance.rewardManager.CreateReward(RewardType.Artifact, null);

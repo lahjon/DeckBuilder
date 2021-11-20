@@ -7,6 +7,7 @@ public class ProfessionData : ScriptableObject
 {
     public int id;
     public string professionName;
+    public string professionDescription;
     public ProfessionType profession;
     public List<AbilityData> abilityDatas;
     public List<ItemEffectStruct> itemEffectStructs;

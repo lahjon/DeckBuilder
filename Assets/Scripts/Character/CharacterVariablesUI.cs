@@ -39,7 +39,7 @@ public class CharacterVariablesUI : MonoBehaviour
 
     public void UpdateCharacterHUD()
     {
-        if (WorldSystem.instance.characterManager != null && WorldSystem.instance.characterManager.character != null)
+        if (WorldSystem.instance.characterManager != null)
         {
             int currentHealth = WorldSystem.instance.characterManager.currentHealth;
             int maxHealth = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);

@@ -112,6 +112,25 @@ public static class DatabaseUpdateOnStart
         AssetDatabase.Refresh();
     }
 
+    public static void UpdateAllHexTiles()
+    {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.allHexTiles.Clear();
+
+        string[] lGuids = AssetDatabase.FindAssets("t:Prefab", new string[] { "Assets/Prefab/HexTiles" });
+
+        for (int i = 0; i < lGuids.Length; i++)
+        {
+            string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
+            dbs.allHexTiles.Add(AssetDatabase.LoadAssetAtPath<GameObject>(lAssetPath).GetComponent<HexTile>());
+        }
+
+        EditorUtility.SetDirty(dbs);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+    }
+
     static void UpdateAllScenarios()
     {
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
