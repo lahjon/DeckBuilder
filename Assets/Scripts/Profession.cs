@@ -10,19 +10,39 @@ public class Profession : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Button button;
     public Image image;
     public GameObject tooltip;
-    public ProfessionType professionType;
-
-    void Start()
+    public ProfessionData professionData;
+    bool _unlocked;
+    public bool Unlocked
     {
-        
+        get => _unlocked;
+        set
+        {
+            _unlocked = value;
+            if (_unlocked)
+                button.interactable = true;
+            else
+                button.interactable = false;
+        }
     }
 
-    public void ButtonSwapProfession()
+    public void BindData(ProfessionData aProfessionData)
     {
-        WorldSystem.instance.characterManager.SwapProfession(professionType);
+        if (aProfessionData != null)
+        {
+            professionData = aProfessionData;
+            image.sprite = professionData.artwork;
+            if (WorldSystem.instance.characterManager.unlockedProfessions.Contains(aProfessionData.professionType))
+                Unlocked = true;
+            else
+                Unlocked = false;
+        }
     }
 
-    
+    public void ButtonSelectProfession()
+    {
+        if (professionData != null)
+            WorldSystem.instance.townManager.barracks.selectedProfessionType = professionData.professionType;
+    }
     public void OnPointerExit(PointerEventData eventData)
     {
         WorldSystem.instance.townManager.barracks.professionTooltip.DisableTooltip();
@@ -30,7 +50,7 @@ public class Profession : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("ASd");
-        WorldSystem.instance.townManager.barracks.professionTooltip.EnableTooltip(professionType);
+        if (professionData != null)
+            WorldSystem.instance.townManager.barracks.professionTooltip.EnableTooltip(professionData);
     }
 }
