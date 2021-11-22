@@ -23,7 +23,8 @@ public class HealthEffectsUI : MonoBehaviour
     public TMP_Text txtShield;
     public Canvas canvas;
 
-    public Transform EffectsAnchor;
+    public Transform EffectsAnchorOath;
+    public Transform EffectsAnchorOther;
     public GameObject templateEffectDisplay;
     public GameObject templateNotification;
 
@@ -82,9 +83,29 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public EffectDisplay GetEffectDisplay() => Instantiate(templateEffectDisplay, EffectsAnchor.position, Quaternion.Euler(0, 0, 0), EffectsAnchor).GetComponent<EffectDisplay>();
+    public EffectDisplay GetEffectDisplay(CardEffect effect) 
+    {
+        Transform parent = effect.type.isOath ? EffectsAnchorOath : EffectsAnchorOther;
+        parent.gameObject.SetActive(true);
+        EffectDisplay display = Instantiate(templateEffectDisplay, parent).GetComponent<EffectDisplay>();
+        display.SetBackingEffect(effect);
+        StartEffectNotification(effect.type.effectType.ToString());
+        return display;
+    }
 
-    public void StartEffectNotification(string notification)
+    public void RetireEffectDisplay(EffectDisplay display)
+    {
+        display.CancelAnimation();
+        Destroy(display.gameObject);
+        Transform parent = display.backingEffect.type.isOath ? EffectsAnchorOath : EffectsAnchorOther;
+        if (parent.childCount == 0)
+        {
+            StartEffectNotification(string.Format("{0} wore off", display.backingEffect.type.effectType));
+            parent.gameObject.SetActive(false);
+        }
+    }
+
+    private void StartEffectNotification(string notification)
     {
         HealtUINotification noti = GetNotification();
         noti.Kinetor = noti.DecreasingRise;

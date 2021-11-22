@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 
@@ -80,25 +81,30 @@ public class CardEffectCarrier: ICardTextElement
     public string GetElementText()
     {
         if (!description.Equals(string.Empty)) return description;
+        if (!string.IsNullOrEmpty(Type.txtOverride)) return Type.txtOverride;
 
-        description = condition.GetTextCard();
+        StringBuilder sb = new StringBuilder(100);
 
-        description += "<b>" + Type.ToString() + "</b> ";
+        sb.Append(condition.GetTextCard());
+        sb.Append(Type.verb);
+        sb.Append(" ");
+
         if (Type.Equals(EffectType.Damage))
         {
             if (Value is CardIntLinkedProperty cip)
-                description += cip.GetTextForValue();
+                sb.Append(cip.GetTextForValue());
             else
-                description += Helpers.ValueColorWrapper(Value.value + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Strength), 
-                                                            CombatSystem.instance.CalculateDisplayDamage(Value));
+                sb.Append(Helpers.ValueColorWrapper(Value.value + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Strength), CombatSystem.instance.CalculateDisplayDamage(Value)));
         }
         else
-            description += Value.GetTextForValue();
+            sb.Append(Value.GetTextForValue());
 
-        if (Times != 1) description += " " + Times.GetTextForTimes() + " times";
-        if ((Type.Equals(EffectType.Damage) && Target != CardTargetType.EnemySingle) || (Type.Equals(EffectType.Block) && Target != CardTargetType.Self)) description += " " + Target.ToString();
+        sb.Append(String.Format(" <b>{0}</b>",Type.ToString()));
 
+        if (Times != 1) sb.Append(string.Format(" {0} times",Times.GetTextForTimes()));
+        if ((Type.Equals(EffectType.Damage) && Target != CardTargetType.EnemySingle) || (Type.Equals(EffectType.Block) && Target != CardTargetType.Self)) sb.Append(" " + Target.ToString());
 
+        description = sb.ToString();
         return description;
     }
 

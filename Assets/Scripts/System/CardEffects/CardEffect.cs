@@ -108,17 +108,12 @@ public abstract class CardEffect
         if (nrStacked == 0)
         {
             if (UI == null) return;
-            UI.CancelAnimation();
-            CombatActor.Destroy(UI.gameObject);
-            actor.healthEffectsUI.StartEffectNotification(type.effectType + " wore off");
+            actor.healthEffectsUI.RetireEffectDisplay(UI);
             return;
         }
         else if(UI == null)
-        {
-            UI = actor.healthEffectsUI.GetEffectDisplay();
-            UI.SetBackingEffect(this);
-            actor.healthEffectsUI.StartEffectNotification(type.effectType.ToString());
-        }
+            UI = actor.healthEffectsUI.GetEffectDisplay(this);
+
         UI.RefreshLabel();
     }
 

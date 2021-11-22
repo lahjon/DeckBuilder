@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: Berserker_Barricade
   m_EditorClassIdentifier: 
   id: 5
-  singleFieldProperties:
-  - Name: Exhaust, True
-    prop: 0
-    val: 1
+  singleFieldProperties: []
   effects:
   - Type: 5
     Value:

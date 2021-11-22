@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class CardCombatAnimatorMouseOver : CardCombatAnimator
 {
-    public float enlargementSpeed = 40f;
+    public float enlargementSpeed = 4f;
 
     (Vector3 pos, Vector3 scale, Vector3 angles) TargetTransInfo;
     (Vector3 pos, Vector3 scale, Vector3 angles) StartTransInfo;
+    AnimationCurve curve;
 
     float time;
 
@@ -16,6 +17,7 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
+        curve = card.transitionCurveReturn;
         card.transform.SetAsLastSibling();
         StartTransInfo = (card.transform.localPosition, card.transform.localScale, card.transform.localEulerAngles);
 
@@ -28,13 +30,13 @@ public class CardCombatAnimatorMouseOver : CardCombatAnimator
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        time += Time.deltaTime;
+        time += enlargementSpeed*Time.deltaTime;
 
         // ugly but dont know what else todo
         card.transform.SetAsLastSibling();
         TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), 1.1f*Vector3.one, Vector3.zero);
-        if (time* enlargementSpeed < 1)
-            CardLerp(StartTransInfo, TargetTransInfo, 1f); //fucking time.Deltatime??? messed up.
+        if (time < 1)
+            CardLerp(StartTransInfo, TargetTransInfo, curve.Evaluate(time)); //fucking time.Deltatime??? messed up.
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
