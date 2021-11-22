@@ -64,7 +64,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     void RemoveProfession()
     {
-        if (profession != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == profession) is ProfessionData data)
+        if (profession != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == profession) is ProfessionData data)
         {
             professionEffects.ForEach(x => x.RemoveItemEffect());
             professionEffects.Clear();
@@ -73,7 +73,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void SwapProfession(ProfessionType profession)
     {
-        if (unlockedProfessions.Contains(profession) && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == profession) is ProfessionData data)
+        if (unlockedProfessions.Contains(profession) && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == profession) is ProfessionData data)
         {
             RemoveProfession();
             AddProfession(data);
@@ -84,7 +84,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
             professionEffects.Add(ItemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], professionData.professionName, true));
-        profession = professionData.profession;
+        profession = professionData.professionType;
     }
 
     public void TakeDamage(int amount)

@@ -19,9 +19,9 @@ public class ProfessionTooltip : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    public void EnableTooltip(ProfessionType professionType)
+    public void EnableTooltip(ProfessionData data)
     {
-        if (DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.profession == professionType) is ProfessionData data)
+        if (data != null)
         {
             gameObject.SetActive(true);
             titleText.text = data.professionName;
