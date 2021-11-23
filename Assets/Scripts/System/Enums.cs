@@ -247,10 +247,12 @@ public enum GameEventType
     Custom,                     // parm = name of event | value = whatever needed by your custom event
     HighlightBuilding,          // parm = string (BuildingType) | value = bool, ex: (0, true)
     GetReward,                  // parm = string (RewardType) | value = id (int), ex1: (Item, 0)
-    TriggerReward,              // parm = string (WorldState) ändra, orkar inte göra det nu
+    TriggerState,               // parm = None | value = WorldState
     ToggleWorldMap,             // parm = None | value = bool, ex: (true)
     UnlockScenario,             // parm = None | value = idx (int), ex: (0)
-    UnlockProfession            // parm = string (Profession)
+    UnlockCharacter,            // parm = None | value = CharacterClassType
+    UnlockBuilding,             // parm = None | value = BuildingType
+    UnlockProfession            // parm = None | value = ProfessionType
 }
 public enum ItemEffectType
 {

@@ -11,7 +11,7 @@ public class DebugManager : MonoBehaviour
     string input;
     public static DebugCommand SaveGame, LoadGame, Help;
     public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn;
-    public static DebugCommand<string> AddCard, RemoveCard;
+    public static DebugCommand<string> AddCard, RemoveCard, UnlockProfession;
     public List<object> commandList;
     public string lastCommand;
     public Dictionary<string, string> words = new Dictionary<string, string>();
@@ -109,6 +109,17 @@ public class DebugManager : MonoBehaviour
                 }
             }
         );
+        UnlockProfession = new DebugCommand<string>("unlock_profession", "unlock a profession", "unlock_profession <profession_type>", (x) =>
+            {
+                ProfessionType professionType;
+                if (System.Enum.TryParse<ProfessionType>(x, out professionType))
+                {
+                    Debug.Log(professionType);
+                    world.characterManager.UnlockProfession(professionType);
+                    Debug.Log("unlocked profession: " + x);
+                }
+            }
+        );
 
         commandList = new List<object>
         {
@@ -122,7 +133,8 @@ public class DebugManager : MonoBehaviour
             RemoveCard,
             AddEnergy,
             AddEnergyTurn,
-            AddRageTurn
+            AddRageTurn,
+            UnlockProfession
 
         };
 
@@ -165,8 +177,6 @@ public class DebugManager : MonoBehaviour
             {
                 string[] output = found[0].Split(' ');
                 input = output[0];
-                
-                Debug.Log(found[0]);
             }
         }
     }

@@ -72,6 +72,37 @@ public class WorldStateSystem : MonoBehaviour
         worldAnimator.SetBool("InEvent", false);
     }
 
+    public static void SetInState(WorldState aWorldState, bool aBool = true)
+    {
+        // called from game event only
+        switch (aWorldState)
+        {
+            case WorldState.OverworldEvent:
+                worldAnimator.SetBool("InOverworldEvent", aBool);
+                break;
+            case WorldState.Combat:
+                worldAnimator.SetBool("InCombat", aBool);
+                break;
+            case WorldState.TownReward:
+                worldAnimator.SetBool("InTownReward", aBool);
+                break;
+            case WorldState.EventReward:
+                worldAnimator.SetBool("InEventReward", aBool);
+                break;
+            case WorldState.Town:
+                worldAnimator.SetBool("InTown", aBool);
+                break;
+            case WorldState.Overworld:
+                worldAnimator.SetBool("InOverworld", aBool);
+                break;
+            case WorldState.WorldMap:
+                worldAnimator.SetBool("WorldMap", aBool);
+                break;
+            default:
+                break;
+        }
+    }
+
     public static void SetInCombat(bool aBool)
     {
         worldAnimator.SetBool("InCombat", aBool);

@@ -54,6 +54,14 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         world.menuManager.menuCharacter.Init();
     }
 
+    public void UnlockCharacter(CharacterClassType aCharacterClassType)
+    {
+        if (!unlockedCharacters.Contains(aCharacterClassType))
+        {
+            unlockedCharacters.Add(aCharacterClassType);    
+        }
+    }
+
     public void UnlockProfession(ProfessionType profession)
     {
         if (!unlockedProfessions.Contains(profession))

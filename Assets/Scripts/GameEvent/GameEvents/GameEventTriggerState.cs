@@ -5,6 +5,6 @@ public class GameEventTriggerReward : GameEvent
 {
     public override void TriggerGameEvent()
     { 
-        world.rewardManager.TriggerReward();
+        WorldStateSystem.SetInState(gameEventStruct.parameter.ToEnum<WorldState>());
     }
 }
