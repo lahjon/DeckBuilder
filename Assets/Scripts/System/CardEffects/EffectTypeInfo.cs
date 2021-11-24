@@ -69,3 +69,25 @@ public class EffectTypeInfo : IEquatable<EffectTypeInfo>
     public override string ToString() => effectType.ToString(); 
 }
 
+public enum EffectType
+{
+    Damage,
+    Poison,
+    Block,
+    Weak,
+    Vulnerable,
+    Barricade,
+    Thorns,
+    Splice,
+    Challenge,
+    Strength,
+    StrengthTemp,
+    Confused,
+    Envenom,
+    Dazed,
+    Spiked,
+    Barrier,
+    Steaming,
+    Loaded
+}
+

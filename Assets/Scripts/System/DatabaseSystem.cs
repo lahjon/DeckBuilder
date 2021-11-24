@@ -8,8 +8,9 @@ public class DatabaseSystem : MonoBehaviour
     public static DatabaseSystem instance;
 
     [Header("=========== Cards ============")]
-    public List<StartingCardSet> StartingCards = new List<StartingCardSet>();
-    public List<CardData> cards = new List<CardData>();
+    public List<StartingCardSet>        StartingCards   = new List<StartingCardSet>();
+    public List<CardData>               cards           = new List<CardData>();
+    public List<CardFunctionalityData>  cardModifiers   = new List<CardFunctionalityData>();
 
     [Header("=========== Encounters ============")]
     public List<EncounterDataCombat> encountersCombat = new List<EncounterDataCombat>();

@@ -303,28 +303,6 @@ public enum EncounterRoadStatus
     Unreachable
 } 
 
-public enum EffectType
-{
-    Damage,
-    Poison,
-    Block,
-    Weak,
-    Vulnerable,
-    Barricade,
-    Thorns,
-    Splice,
-    Challenge,
-    Strength,
-    StrengthTemp,
-    Confused,
-    Envenom,
-    Dazed,
-    Spiked,
-    Barrier,
-    Steaming,
-    Loaded
-}
-
 public enum OverlayState
 {
     None,
@@ -335,6 +313,13 @@ public enum OverlayState
     Display,
     RewardScreen,
     CharacterSheet
+}
+
+public enum ModifierType
+{
+    Upgrade,
+    UpgradePermanent,
+    Cursed
 }
 
 public enum WorldState
@@ -490,7 +475,8 @@ public enum CardActivityType
     ModifyEnergy,
     DrawDiscard,
     DualWield,
-    EmptySavedEnergy
+    EmptySavedEnergy,
+    EN_AddCardModifier
 }
 
 public enum CombatActorType

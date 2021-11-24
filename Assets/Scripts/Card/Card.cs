@@ -33,8 +33,6 @@ public class Card : MonoBehaviour
     public List<CardActivitySetting> activitiesOnPlay = new List<CardActivitySetting>();
     public List<CardActivitySetting> activitiesOnDraw = new List<CardActivitySetting>();
 
-
-
     public GameObject animationPrefab;
     public CombatActor owner; 
     public Material material;
@@ -117,9 +115,9 @@ public class Card : MonoBehaviour
 
         return true;
     }
-    public void AddModifierToCard(CardFunctionalityData data)
+    public void AddModifierToCard(CardFunctionalityData data, ModifierType type = ModifierType.Upgrade, bool supressVisualUpdate = false)
     {
-        timesUpgraded++;
+        if(type != ModifierType.Cursed) timesUpgraded++;
         cardModifiers.Add(data);
 
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
@@ -147,8 +145,8 @@ public class Card : MonoBehaviour
 
         cost.AbsorbModifier(data.costDatas, data.costOptionalDatas);
 
-        if (this is CardVisual card)
-            card.UpdateCardVisual();
+        if (this is CardVisual card && !supressVisualUpdate)
+            card.UpdateAfterModifier(type);
     }
 
     void AddUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)

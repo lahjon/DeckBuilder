@@ -20,6 +20,7 @@ public class CardActivitySystem : MonoBehaviour
         { CardActivityType.DrawDiscard, new CardActivityDrawDiscard()},
         { CardActivityType.DualWield, new CardActivityDualWield()},
         { CardActivityType.EmptySavedEnergy, new CardActivityEmptySavedEnergy()},
+        { CardActivityType.EN_AddCardModifier, new CardActivityEN_AddCardModifier()},
     };
 
 
