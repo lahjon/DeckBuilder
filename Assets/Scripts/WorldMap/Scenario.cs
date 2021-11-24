@@ -57,7 +57,7 @@ public class Scenario : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (worldEncounterType == WorldEncounterType.None)
         {
             worldEncounterType = worldScenarioData.type;
-            scenarioReward = WorldSystem.instance.rewardManager.CreateReward(worldScenarioData.rewardStruct.type, worldScenarioData.rewardStruct.value, transform, false);
+            scenarioReward = WorldSystem.instance.rewardManager.CreateRewardNormal(worldScenarioData.rewardStruct.type, worldScenarioData.rewardStruct.value, transform);
             segments.Clear();
             gameObject.SetActive(true);
             foreach (ScenarioSegmentData segmentData in worldScenarioData.SegmentDatas)

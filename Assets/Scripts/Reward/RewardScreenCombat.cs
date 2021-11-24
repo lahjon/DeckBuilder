@@ -13,9 +13,9 @@ public class RewardScreenCombat : MonoBehaviour
     public GameObject canvas;
     public GameObject canvasCard;
     public System.Action callback;
-    public RewardStruct[] combatRewardNormal;
-    public RewardStruct[] combatRewardElite;
-    public RewardStruct[] combatRewardBoss;
+    public RewardCombatStruct[] combatRewardNormal;
+    public RewardCombatStruct[] combatRewardElite;
+    public RewardCombatStruct[] combatRewardBoss;
     public GameObject cardDisplayPrefab;
     public void SetupRewards()
     {
@@ -32,13 +32,13 @@ public class RewardScreenCombat : MonoBehaviour
         switch (type)
         {
             case CombatEncounterType.Normal:
-                CreateRewards(combatRewardNormal);
+                CreateCombatRewards(combatRewardNormal);
                 break;
             case CombatEncounterType.Elite:
-                CreateRewards(combatRewardElite);
+                CreateCombatRewards(combatRewardElite);
                 break;
             case CombatEncounterType.Boss:
-                CreateRewards(combatRewardBoss);
+                CreateCombatRewards(combatRewardBoss);
                 break;
             default:
                 break;
@@ -62,11 +62,11 @@ public class RewardScreenCombat : MonoBehaviour
         WorldStateSystem.SetInCombatReward(false);
     }
 
-    private void CreateRewards(RewardStruct[] rewards)
+    private void CreateCombatRewards(RewardCombatStruct[] rewards)
     {
-        foreach (RewardStruct reward in rewards)
+        foreach (RewardCombatStruct reward in rewards)
         {
-            Reward newReward = WorldSystem.instance.rewardManager.CreateReward(reward.type, reward.value, content.transform, false);
+            Reward newReward = WorldSystem.instance.rewardManager.CreateRewardCombat(reward.type, reward.value, content.transform);
             newReward.gameObject.SetActive(true);
             rewardCount++;
         }

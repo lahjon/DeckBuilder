@@ -7,12 +7,12 @@ using System.Linq;
 
 public class RewardManager : Manager, IEventSubscriber
 {
-    public GameObject rewardPrefab;
+    public GameObject rewardNormalPrefab, rewardCombatPrefab;
     public Sprite[] icons;
     public RewardScreenCombat rewardScreenCombat;
     [SerializeField] RewardScreen rewardScreen;
     public RewardScreenCardSelection rewardScreenCardSelection;
-    public List<Reward> uncollectedReward;
+    public List<RewardCombat> uncollectedReward;
     public Transform rewardParent;
     protected override void Awake()
     {
@@ -48,14 +48,24 @@ public class RewardManager : Manager, IEventSubscriber
         else  ClearRewardScreen();
     }
 
-    public Reward CreateReward(RewardType type, string value = null, Transform parent = null, bool addReward = true)
+    public RewardCombat CreateRewardCombat(RewardCombatType type, string value = null, Transform parent = null)
     {
         if (parent == null) parent = rewardParent;
 
-        Reward reward = Instantiate(WorldSystem.instance.rewardManager.rewardPrefab, parent).GetComponent<Reward>();
+        RewardCombat reward = Instantiate(WorldSystem.instance.rewardManager.rewardCombatPrefab, parent).GetComponent<RewardCombat>();
         reward.gameObject.SetActive(false);
         reward.SetupReward(type, value);
-        if (addReward) reward.AddReward();
+        reward.AddReward();
+        return reward;
+    }
+    public RewardNormal CreateRewardNormal(RewardNormalType type, string value = null, Transform parent = null)
+    {
+        if (parent == null) parent = rewardParent;
+
+        RewardNormal reward = Instantiate(WorldSystem.instance.rewardManager.rewardNormalPrefab, parent).GetComponent<RewardNormal>();
+        reward.gameObject.SetActive(false);
+        reward.SetupReward(type, value);
+        reward.AddReward();
         return reward;
     }
 
@@ -64,7 +74,7 @@ public class RewardManager : Manager, IEventSubscriber
         WorldStateSystem.SetInTownReward(true);
     }
 
-    public void CopyReward(Reward aReward)
+    public void CopyReward(RewardCombat aReward)
     {
         rewardScreen.CollectReward(aReward);
     }
@@ -91,4 +101,11 @@ public class RewardManager : Manager, IEventSubscriber
     {
         EventManager.OnEnemyKilledEvent -= EnemyKilled;
     }
+}
+
+
+[System.Serializable] public struct RewardNormalStruct
+{
+    public RewardNormalType type;
+    public string value;
 }

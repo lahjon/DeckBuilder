@@ -33,18 +33,20 @@ public class ShopOverworld : MonoBehaviour
     {
         foreach (Artifact a in artifactsInStock)
         {
-            a.artifactData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
-            if (a.artifactData == null)
+            ArtifactData artifactData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
+            if (artifactData == null)
             {
                 a.gameObject.SetActive(false);
                 artifactPrices[artifactsInStock.IndexOf(a)].text = "Out of stock!";
                 continue;
             }
+            else
+                a.BindData(artifactData);
+                
             artifactPrices[artifactsInStock.IndexOf(a)].text = artifactsInStock[artifactsInStock.IndexOf(a)].artifactData.goldValue.ToString() + " g";
             a.button.interactable = true;
             a.button.onClick.RemoveAllListeners();
             a.button.onClick.AddListener(() => PurchaseArtifact(a));
-            a.BindData();
         }
     }
     public void RestockShop()

@@ -22,7 +22,7 @@ public class AbilityManager : Manager
         base.Start();
     }
 
-    public AbilityData GetItemData(int anId = -1)
+    public AbilityData GetAbilityData(int anId = -1)
     {
         if (anId >= 0)
             return allAbilities.Except(currentAbilities.Select(x => x.abilityData)).FirstOrDefault(x => x.itemId == anId);
@@ -36,26 +36,26 @@ public class AbilityManager : Manager
         }
     }
 
-    public void RemoveItem(Ability ability)
+    public void RemoveAbility(Ability ability)
     {
         if (currentAbilities.Contains(ability))
         {
             currentAbilities.Remove(ability);
-            ability.RemoveItem();
+            ability.RemoveAbility();
         }
     }
 
-    public void RemoveItem()
+    public void RemoveAbility()
     {
         Ability ability = currentAbilities[Random.Range(0, currentAbilities.Count - 1)];
         if (ability != null)
         {
             currentAbilities.Remove(ability);
-            ability.RemoveItem();
+            ability.RemoveAbility();
         }
     }
 
-    public void AddItem(int anId = -1)
+    public void AddAbility(int anId = -1)
     {
         if (usedAbilitySlots >= maxAbilitySlots)
         {
@@ -68,7 +68,7 @@ public class AbilityManager : Manager
         if (anId >= 0)
             data = allAbilities.Except(currentAbilities.Select(x => x.abilityData)).FirstOrDefault(x => x.itemId == anId);
         else
-            data = GetItemData();
+            data = GetAbilityData();
 
         if (data == null)
             return;

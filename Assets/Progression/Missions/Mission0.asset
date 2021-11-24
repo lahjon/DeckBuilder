@@ -23,8 +23,8 @@ MonoBehaviour:
   mainMission: 0
   gameEventsOnStart: []
   gameEventsOnEnd:
-  - type: 6
-    parameter: 
-    value: 0
+  - type: 2
+    parameter: TownHall
+    value: 1
   addDialogueIdx: 00000000
   nextMissionId: -1

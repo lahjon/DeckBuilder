@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
+public class Ability : Item, IEventSubscriber, IToolTipable
 {
     bool _usable;
     public ConditionCounting abilityCondition;
     AbilityData _abilityData;
     public TMP_Text counterText; 
-    public ItemEffect itemEffect; 
     public int id;
     public Image image;
     public Button button;
@@ -31,7 +30,7 @@ public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
         set
         {
             _charges = value;
-            CheckItemUseCondition(WorldStateSystem.instance.currentWorldState);
+            CheckAbilityUseCondition(WorldStateSystem.instance.currentWorldState);
         }
     }
     public bool usable
@@ -61,14 +60,14 @@ public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
         image.sprite = abilityData.artwork;
         if (allData)
         {
-            itemEffect = ItemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, abilityData.itemName);
+            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, this, abilityData.itemName);
             abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             abilityCondition.Subscribe();
             charges = 1;
             Subscribe();
         }
     }
-    public void RemoveItem()
+    public void RemoveAbility()
     {
         WorldSystem.instance.abilityManager.usedAbilitySlots--;
         abilityCondition.Unsubscribe();
@@ -81,7 +80,7 @@ public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
 
     }
 
-    public void CheckItemUseCondition(WorldState state)
+    public void CheckAbilityUseCondition(WorldState state)
     {
         usable = (abilityData.statesUsable.Contains(state) && charges > 0);
     }
@@ -96,12 +95,12 @@ public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
 
     public void Subscribe()
     {
-        EventManager.OnNewWorldStateEvent += CheckItemUseCondition;
+        EventManager.OnNewWorldStateEvent += CheckAbilityUseCondition;
     }
 
     public void Unsubscribe()
     {
-        EventManager.OnNewWorldStateEvent -= CheckItemUseCondition;
+        EventManager.OnNewWorldStateEvent -= CheckAbilityUseCondition;
     }
     public void OnClick()
     {
@@ -113,15 +112,17 @@ public class Ability : MonoBehaviour, IEventSubscriber, IToolTipable
 
     public void OnPreconditionUpdate()
     {
-        Debug.Log("Dick");
         counterText.text = (abilityCondition.requiredAmount - abilityCondition.currentAmount).ToString();
     }
 
     public void OnConditionTrue()
     {
-        Debug.Log("Dick2");
         counterText.text = "";
         abilityCondition.currentAmount = 0;
         charges++;
+    }
+    public override void NotifyUsed()
+    {
+        throw new System.NotImplementedException();
     }
 }

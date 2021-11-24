@@ -66,7 +66,7 @@ public class ArtifactManager : Manager, ISaveableTemp
         }
         return -1;
     }
-    public void AddArtifact(int artifactId, bool save = false)
+    public void AddArtifact(int artifactId)
     {
         if (artifactId > -1 && !allActiveArtifactsIds.Contains(artifactId))
         {
@@ -74,12 +74,6 @@ public class ArtifactManager : Manager, ISaveableTemp
             {
                 Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
                 allActiveArtifactsIds.Add(artifactId);
-
-                newArtifact.effect = ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, artifactData.itemName);
-
-                if (save)
-                    world.SaveProgression();
-                
             }
         }
     }
@@ -91,7 +85,7 @@ public class ArtifactManager : Manager, ISaveableTemp
             if (GetArtifactFromId(artifactId) is ArtifactData artifactData)
             {
                 Artifact newArtifact = artifactMenu.AddUIArtifact(artifactData);
-                ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, artifactData.itemName);
+                //ItemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, artifactData.itemName);
             }
         }
     }
@@ -103,7 +97,7 @@ public class ArtifactManager : Manager, ISaveableTemp
         {
             if (artifact.id == artifactId)
             {
-                artifact.effect.RemoveItemEffect();
+                artifact.itemEffect.RemoveItemEffect();
                 artifactMenu.RemoveUIArtifact(artifact);
                 allActiveArtifactsIds.Remove(artifactId);
                 break;

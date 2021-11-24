@@ -315,9 +315,9 @@ GameObject:
   - component: {fileID: 8237644298160242555}
   - component: {fileID: 8237644298160242554}
   - component: {fileID: 631090014377730173}
-  - component: {fileID: 8463052654213933328}
+  - component: {fileID: 8401491616312773571}
   m_Layer: 0
-  m_Name: Reward
+  m_Name: RewardNormal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -423,7 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeDelay: 0.5
---- !u!114 &8463052654213933328
+--- !u!114 &8401491616312773571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -432,16 +432,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8237644298160242557}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35d4d8cfe278714fb77e47fc9045b14, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e7034316186bcc4ea80eb1d8238c548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 0}
   tooltipAnchor: {fileID: 9054000054686262071}
   rewardText: {fileID: 8237644298025503043}
   image: {fileID: 8237644298767203290}
-  rewardType: 0
   rewardCountText: {fileID: 1481895519515996927}
+  value: 
   rewardAmount: 0
+  rewardType: 0
 --- !u!1 &8237644298767203292
 GameObject:
   m_ObjectHideFlags: 0

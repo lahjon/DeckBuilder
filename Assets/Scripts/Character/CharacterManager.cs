@@ -15,11 +15,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public List<PlayableCharacterData> allCharacterData { get => DatabaseSystem.instance.allCharacterDatas; }
     public List<CharacterClassType> unlockedCharacters = new List<CharacterClassType>();
     public List<ProfessionType> unlockedProfessions = new List<ProfessionType>();
-    public ProfessionType profession;
+    public ProfessionType professionType;
     public PlayableCharacterData characterData;
     public CharacterStats characterStats;
     public CharacterCurrency characterCurrency;
-    public List<ItemEffect> professionEffects = new List<ItemEffect>();
+    public List<Profession> professions = new List<Profession>();
     public int currentHealth;
     public Transform cardParent;
     public GameObject cardPrefab;
@@ -72,10 +72,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     void RemoveProfession()
     {
-        if (profession != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == profession) is ProfessionData data)
+        if (professionType != ProfessionType.Base && DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == professionType) is ProfessionData data)
         {
-            professionEffects.ForEach(x => x.RemoveItemEffect());
-            professionEffects.Clear();
+            professions.ForEach(x => x.RemoveEffects());
+            professions.Clear();
         } 
     }
 
@@ -90,9 +90,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     void AddProfession(ProfessionData professionData)
     {
-        for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
-            professionEffects.Add(ItemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], professionData.professionName, true));
-        profession = professionData.professionType;
+        professions.Add(Profession.AddProfession(professionData));
+        professionType = professionData.professionType;
     }
 
     public void TakeDamage(int amount)

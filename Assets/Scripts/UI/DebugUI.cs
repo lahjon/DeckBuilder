@@ -60,7 +60,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugCreateNewItem()
     {
-        world.abilityManager.AddItem();
+        world.abilityManager.AddAbility();
     }
     public void DebugTakeDamage(int amount)
     {
@@ -184,26 +184,15 @@ public class DebugUI : MonoBehaviour
     {
         world.characterManager.characterCurrency.shard += 5;
     }
-    public void DebugInRewardScreen()
-    {
-        world.rewardManager.CreateReward(RewardType.Artifact, null, null);
-    }
 
     public void DebugRemoveRandomItem()
     {
-        world.abilityManager.RemoveItem();
+        world.abilityManager.RemoveAbility();
     }
 
     public void DebugUnlockCardInScribe()
     {
         world.townManager.scribe.UnlockCard(cardData);
-    }
-
-    public void DebugRewardGetCard()
-    {
-        Debug.Log("Get Card");
-        world.rewardManager.CreateReward(RewardType.UnlockCard, "name=Berserker_NewCard");
-        WorldStateSystem.SetInTownReward(true);
     }
 
     public void DebugResetAllData()

@@ -169,19 +169,23 @@ public enum CardComponentExecType
     OnDraw
 }
 
-public enum RewardType
+public enum RewardCombatType
 {
-    // overworld reward
     None = 0,
     Gold = 1,
     Card = 2,
     Heal = 3,
-    Shard = 4,
-    // permanent reward
-    UnlockCard = 50,
-    Item = 51,
-    Artifact = 52,
-    Perk = 53
+    Shard,
+    Artifact
+}
+
+public enum RewardNormalType
+{
+    None = 0,
+    UnlockCard = 1,
+    Ability = 2,
+    Perk = 4,
+    Shard
 }
 
 public enum CurrencyType
@@ -241,30 +245,6 @@ public enum EncounterEventChoiceEffect
     Artifact
 }
 
-public enum GameEventType
-{
-    None,
-    Custom,                     // parm = name of event | value = whatever needed by your custom event
-    HighlightBuilding,          // parm = string (BuildingType) | value = bool, ex: (0, true)
-    GetReward,                  // parm = string (RewardType) | value = id (int), ex1: (Item, 0)
-    TriggerState,               // parm = None | value = WorldState
-    ToggleWorldMap,             // parm = None | value = bool, ex: (true)
-    UnlockScenario,             // parm = None | value = idx (int), ex: (0)
-    UnlockCharacter,            // parm = None | value = CharacterClassType
-    UnlockBuilding,             // parm = None | value = BuildingType
-    UnlockProfession            // parm = None | value = ProfessionType
-}
-public enum ItemEffectType
-{
-    None = 0,
-    Custom,
-    AddStat,
-    AddCombatEffect,
-    Heal
-}
-
-
-
 public enum EncounterHexStatus
 {
     Visited,
@@ -289,9 +269,9 @@ public enum CharacterAbility
 public enum StatType
 {
     Health,
-    Strength,   // attack
-    Endurance,  // block
-    Wit,        // draw cards amount
+    Strength,   
+    Endurance,  
+    Wit,        
     Energy
 }
 

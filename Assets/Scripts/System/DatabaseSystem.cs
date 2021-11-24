@@ -139,7 +139,7 @@ public class DatabaseSystem : MonoBehaviour
         }
         else
         {
-            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.profession).First().startingCards;
+            return StartingCards.Where(x => x.characterClass == WorldSystem.instance.characterManager.selectedCharacterClassType && x.profession == WorldSystem.instance.characterManager.professionType).First().startingCards;
         }
     }
 

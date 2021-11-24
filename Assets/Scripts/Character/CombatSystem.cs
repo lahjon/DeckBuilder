@@ -26,6 +26,7 @@ public class CombatSystem : MonoBehaviour
     GameObject currentEnvironment;
     public CombatActorType actorTurn;
     public Button companionButton;
+    public List<IEffect> effectOnCombatStart = new List<IEffect>();
 
     public CombatCardPresenter cardPresenter;
     public bool deSelectOnMouseLeave = true;

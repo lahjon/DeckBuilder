@@ -2,35 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemEffectAddCombatEffect : ItemEffect
+public class ItemEffectAddCombatEffect : ItemEffect, IEffect
 {
     public override void AddItemEffect()
     {
         base.AddItemEffect();
-        if (itemEffectStruct.instant)
-            CombatSystem.instance.StartCoroutine(CombatEffectAdd());
+        if (!itemEffectStruct.addOnStart)
+            CombatSystem.instance.StartCoroutine(TriggerEffect());
         else
-            CombatSystem.instance.Hero.actionsStartCombat.Add(CombatEffectAdd);
+            CombatSystem.instance.effectOnCombatStart.Add(this);
     }
     public override void RemoveItemEffect()
     {
         base.RemoveItemEffect();
-        if (itemEffectStruct.instant)
-            CombatSystem.instance.StartCoroutine(CombatEffectRemove());
+        if (!itemEffectStruct.addOnStart)
+            CombatSystem.instance.StartCoroutine(RemoveEffect());
         else
-            CombatSystem.instance.Hero.actionsStartCombat.Add(CombatEffectRemove);
+            CombatSystem.instance.effectOnCombatStart.Remove(this);
     }
-    IEnumerator CombatEffectAdd()
+    public IEnumerator TriggerEffect()
     {
         CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value)));
         yield return null;
     }
 
-    IEnumerator CombatEffectRemove()
+    public IEnumerator RemoveEffect()
     {
         CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), -itemEffectStruct.value)));
         yield return null;
     }
+    public IEffectAdder EffectAdder() => effectAdder;
 }
-
-

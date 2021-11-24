@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IEffectAdder
 {
     public EquipmentData equipmentData;
     public Image image;
@@ -16,7 +16,11 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!image.enabled) image.enabled = true;
         equipmentData = data;
         image.sprite = data.artwork;
-        itemEffect = ItemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct, data.itemName);
+        itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct, this, data.itemName);
+    }
+    public void NotifyUsed()
+    {
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -27,5 +31,10 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerExit(PointerEventData eventData)
     {
         WorldSystem.instance.menuManager.menuCharacter.DeactivateToolTip();
+    }
+
+    public void RemoveEffect()
+    {
+        throw new System.NotImplementedException();
     }
 }
