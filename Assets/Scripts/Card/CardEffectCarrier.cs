@@ -36,9 +36,7 @@ public class CardEffectCarrier: ICardTextElement
     public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnConditionFlip = null)
     {
         this.card = card;
-        Debug.Log(data.Type);
         Type = data.Type.GetEffectTypeStruct();
-        Debug.Log(Type);
         Value = CardInt.Factory(data.Value,card, ForceTextRefresh);
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;

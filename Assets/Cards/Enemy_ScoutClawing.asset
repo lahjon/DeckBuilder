@@ -41,7 +41,16 @@ MonoBehaviour:
       numValue: 0
       strParameters: []
     execTime: 0
-  activities: []
+  activities:
+  - type: 11
+    strParameter: -1_1
+    val: 3
+    conditionStruct:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
   cardName: Scout Clawing
   cardType: 0
   artwork: {fileID: 21300000, guid: aae78abf43f15c34cb1022b9941d5425, type: 3}

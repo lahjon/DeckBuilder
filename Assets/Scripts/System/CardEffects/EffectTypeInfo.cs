@@ -53,12 +53,7 @@ public class EffectTypeInfo : IEquatable<EffectTypeInfo>
         { EffectType.Loaded, Loaded},
     };
 
-    public static EffectTypeInfo GetEffectTypeInfo(EffectType type){
-
-        Debug.Log(type.ToString());
-        Debug.Log(TypeToStruct.ContainsKey(type));
-        return TypeToStruct[type];
-    }
+    public static EffectTypeInfo GetEffectTypeInfo(EffectType type) => TypeToStruct[type];
 
     public bool Equals(EffectType other) => effectType == other;
 

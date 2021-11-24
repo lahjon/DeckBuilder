@@ -11,6 +11,10 @@ public class CombatControllerAnimatorCardAnimate : CombatControllerAnimatorCard
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
+
+        if (combat.ActiveActor != combat.Hero)
+            combat.ActiveActor.healthEffectsUI.StartNotificationCardName(card.name);
+
         if (card.animationPrefab != null) // has animation
         {
             CreateAnimation();

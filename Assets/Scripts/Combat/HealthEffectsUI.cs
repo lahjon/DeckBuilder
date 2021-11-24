@@ -33,7 +33,8 @@ public class HealthEffectsUI : MonoBehaviour
     public Transform AnchorHealthNotifications;
 
     private Color32 lifeRed = new Color32(255, 0, 0, 255);
-    private Color32 generealWhite = new Color32(0, 0, 0, 255);
+    private Color32 generealBlack = new Color32(0, 0, 0, 255);
+    private Color32 generealWhite = new Color32(255, 255, 255, 255);
     public Image fillArea;
 
     public void Start()
@@ -89,7 +90,7 @@ public class HealthEffectsUI : MonoBehaviour
         parent.gameObject.SetActive(true);
         EffectDisplay display = Instantiate(templateEffectDisplay, parent).GetComponent<EffectDisplay>();
         display.SetBackingEffect(effect);
-        StartEffectNotification(effect.type.effectType.ToString());
+        StartNotificationEffect(effect.type.effectType.ToString());
         return display;
     }
 
@@ -100,23 +101,32 @@ public class HealthEffectsUI : MonoBehaviour
         Transform parent = display.backingEffect.type.isOath ? EffectsAnchorOath : EffectsAnchorOther;
         if (parent.childCount == 0)
         {
-            StartEffectNotification(string.Format("{0} wore off", display.backingEffect.type.effectType));
+            StartNotificationEffect(string.Format("{0} wore off", display.backingEffect.type.effectType));
             parent.gameObject.SetActive(false);
         }
     }
 
-    private void StartEffectNotification(string notification)
+    public void StartNotificationEffect(string notification)
     {
         HealtUINotification noti = GetNotification();
         noti.Kinetor = noti.DecreasingRise;
-        noti.ResetLabel(notification, generealWhite, AnchorEffectNotifications);
+        noti.ResetLabel(notification, generealBlack, AnchorEffectNotifications);
     }
 
-    public void StartLifeLossNotification(int lifeChange)
+    public void StartNotificationLifeLoss(int lifeChange)
     {
         HealtUINotification noti = GetNotification();
         noti.Kinetor = noti.Poly2Rise;
         noti.ResetLabel(lifeChange.ToString(), lifeRed, AnchorHealthNotifications,1.5f);
+    }
+
+    public void StartNotificationCardName(string notification)
+    {
+        Debug.Log("Starting cardname print");
+        HealtUINotification noti = GetNotification();
+        noti.Kinetor = noti.DecreasingRise;
+        noti.ResetLabel(notification, generealWhite, AnchorEffectNotifications);
+        noti.label.fontSize = 1200;
     }
 
     private HealtUINotification GetNotification()
