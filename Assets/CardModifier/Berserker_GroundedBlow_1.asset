@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_GroundedBlow_1
   m_EditorClassIdentifier: 
   id: 46_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties: []
   effects:
   - Type: 0

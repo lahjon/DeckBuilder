@@ -14,8 +14,8 @@ public class CardCombatAnimatorQueued : CardCombatAnimator
         card.transform.localEulerAngles = Vector3.zero;
 
         CombatSystem.instance.CardQueue.Enqueue((card, CombatSystem.instance.TargetedEnemy));
-        card.cost.Pay(); //Pre-paid here
         CombatSystem.instance.HeroCardsWaiting.Enqueue(card);
+        card.cost.Pay(); //Pre-paid here
         CombatSystem.instance.animator.SetBool("CardsQueued", true);
     }
 

@@ -34,6 +34,8 @@ public class CardSingleFieldProperty : ICardTextElement, IEquatable<CardSingleFi
                 return "<b>Exhaust</b>\nThis card disappears when played.";
             case CardSingleFieldPropertyType.Fortify:
                 return "<b>Fortify</b>\nThe power of this Oath increases for every Oath already played with the same name.";
+            case CardSingleFieldPropertyType.Inescapable:
+                return "<b>Inescapable</b>\nThis card plays itself at the end of turn.";
             default:
                 return "<b>" + type.ToString() + "</b>" + " Who knows?"; 
         }

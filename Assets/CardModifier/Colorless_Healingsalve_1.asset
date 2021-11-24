@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Colorless_Healingsalve_1
   m_EditorClassIdentifier: 
   id: 32_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties: []
   effects: []
   activities:

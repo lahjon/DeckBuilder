@@ -36,6 +36,8 @@ public class CardCost
 
     public bool Payable()
     {
+        if (energyCosts.Count == 0) return false;
+
         foreach (EnergyType type in energyCosts.Keys)
             if (energyCosts[type] > CombatSystem.instance.GetEnergy(type)) return false;
 
@@ -91,6 +93,31 @@ public class CardCost
                 cv.energyToCostUI[type].lblEnergy.text = energyCosts[type].GetTextForCost();
             foreach (EnergyType type in energyCostsOptional.Keys)
                 cv.energyToCostOptionalUI[type].lblEnergy.text = String.Format("({0})", energyCostsOptional[type].GetTextForCost());
+        }
+    }
+
+    public void AbsorbModifier(List<EnergyData> energyDatas, List<EnergyData> energyOptionalDatas)
+    {
+        foreach (EnergyData d in energyDatas)
+        {
+            if (energyCosts.ContainsKey(d.type))
+                energyCosts[d.type].AbsorbModifier(d.data);
+            else
+            {
+                energyCosts[d.type] = CardInt.Factory(d.data, card);
+                energyCosts[d.type].limitLower = 0;
+            }
+        }
+
+        foreach (EnergyData d in energyOptionalDatas)
+        {
+            if (energyCostsOptional.ContainsKey(d.type))
+                energyCostsOptional[d.type].AbsorbModifier(d.data);
+            else
+            {
+                energyCostsOptional[d.type] = CardInt.Factory(d.data, card);
+                energyCostsOptional[d.type].limitLower = 0;
+            }
         }
     }
 

@@ -143,11 +143,12 @@ public enum CardClassType
 
 public enum CardSingleFieldPropertyType
 {
+    Inescapable = -5,
     Fortify = -4,
     Immediate = -3,
     Unplayable = -2,
     Unstable = -1,
-    Exhaust = 0
+    Exhaust = 0,
 }
 
 public enum CardLinkablePropertyType
@@ -282,27 +283,6 @@ public enum EncounterRoadStatus
     Unreachable
 } 
 
-public enum EffectType
-{
-    Damage,
-    Poison,
-    Block,
-    Weak,
-    Vulnerable,
-    Barricade,
-    Thorns,
-    Splice,
-    Challenge,
-    Strength,
-    StrengthTemp,
-    Confused,
-    Envenom,
-    Dazed,
-    Spiked,
-    Barrier,
-    Steaming
-}
-
 public enum OverlayState
 {
     None,
@@ -313,6 +293,13 @@ public enum OverlayState
     Display,
     RewardScreen,
     CharacterSheet
+}
+
+public enum ModifierType
+{
+    Upgrade,
+    UpgradePermanent,
+    Cursed
 }
 
 public enum WorldState
@@ -464,10 +451,12 @@ public enum CardActivityType
     ExhaustDiscard,
     CombatCostChange,
     SetRandomBroken,
-    Heal,
+    ModifyLife,
     ModifyEnergy,
     DrawDiscard,
-    DualWield
+    DualWield,
+    EmptySavedEnergy,
+    EN_AddCardModifier
 }
 
 public enum CombatActorType

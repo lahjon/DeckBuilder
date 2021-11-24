@@ -31,8 +31,7 @@ public class CardActivityDualWield : CardActivity
             yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(activity));
 
             List<CardFunctionalityData> modData = new List<CardFunctionalityData>(display.selectedCards[0].cardModifiers);
-            CardFunctionalityData exhauster = new CardFunctionalityData();
-            exhauster.singleFieldProperties.Add(new CardSingleFieldPropertyTypeWrapper(CardSingleFieldPropertyType.Exhaust, true));
+            CardFunctionalityData exhauster = DatabaseSystem.instance.cardModifiers.Where(x => x.id == "-1_2").FirstOrDefault();
             modData.Add(exhauster);
 
             for(int i = 0; i < data.val; i++)

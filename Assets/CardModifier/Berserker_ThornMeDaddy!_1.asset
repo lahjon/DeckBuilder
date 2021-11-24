@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_ThornMeDaddy!_1
   m_EditorClassIdentifier: 
   id: 7_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties: []
   effects:
   - Type: 6

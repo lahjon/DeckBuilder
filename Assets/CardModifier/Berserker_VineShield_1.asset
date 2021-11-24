@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_VineShield_1
   m_EditorClassIdentifier: 
   id: 55_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties: []
   effects:
   - Type: 2

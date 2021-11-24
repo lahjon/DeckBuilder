@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Berserker_VentFrustration
   m_EditorClassIdentifier: 
   id: 59
+  costDatas:
+  - type: 1
+    data:
+      linkedProp: 7
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties: []
   effects:
   - Type: 0
@@ -37,14 +45,6 @@ MonoBehaviour:
   cardName: Vent Frustration
   cardType: 0
   artwork: {fileID: 21300000, guid: cc10628bedf591b458598a018473fd79, type: 3}
-  costDatas:
-  - type: 1
-    data:
-      linkedProp: 7
-      baseVal: 0
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

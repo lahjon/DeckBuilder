@@ -7,6 +7,11 @@ public class CardFunctionalityData : ScriptableObject
 {
     public string id;
 
+    [SerializeField]
+    public List<EnergyData> costDatas = new List<EnergyData>();
+    [SerializeField]
+    public List<EnergyData> costOptionalDatas = new List<EnergyData>();
+
     public List<CardSingleFieldPropertyTypeWrapper> singleFieldProperties   = new List<CardSingleFieldPropertyTypeWrapper>();
     public List<CardEffectCarrierData>              effects                 = new List<CardEffectCarrierData>();
     public List<CardActivityData>                   activities              = new List<CardActivityData>();

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Burden_CheapScare
   m_EditorClassIdentifier: 
   id: 20
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Unstable, True
     prop: -1
@@ -43,8 +45,6 @@ MonoBehaviour:
   cardName: Cheap Scare
   cardType: 4
   artwork: {fileID: 21300000, guid: 84644664f5367b34d86fe71fbe1a5de1, type: 3}
-  costDatas: []
-  costOptionalDatas: []
   visibleCost: 0
   upgradeCostFullEmber: 1
   maxUpgrades: 0

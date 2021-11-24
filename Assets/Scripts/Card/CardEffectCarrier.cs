@@ -102,13 +102,13 @@ public class CardEffectCarrier: ICardTextElement
         sb.Append(String.Format(" <b>{0}</b>",Type.ToString()));
 
         if (Times != 1) sb.Append(string.Format(" {0} times",Times.GetTextForTimes()));
-        if ((Type.Equals(EffectType.Damage) && Target != CardTargetType.EnemySingle) || (Type.Equals(EffectType.Block) && Target != CardTargetType.Self)) sb.Append(" " + Target.ToString());
+        if (Target != CardTargetType.Self && Target != CardTargetType.EnemySingle) sb.Append(" " + Target.ToString());
 
         description = sb.ToString();
         return description;
     }
 
-    public string GetElementToolTip() => Type.toolTip;
+    public string GetElementToolTip() => Type.toolTipCard;
 
     public void ForceTextRefresh()
     {

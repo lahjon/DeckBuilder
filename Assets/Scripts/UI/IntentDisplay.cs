@@ -63,7 +63,6 @@ public class IntentDisplay : MonoBehaviour
             // attackSprite.GetComponent<Intent>().DisableTween();
             // defendSprite.GetComponent<Intent>().DisableTween();
             // otherSprite.GetComponent<Intent>().DisableTween();
-
         }
 
         gameObject.SetActive(enabled);

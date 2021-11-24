@@ -55,6 +55,17 @@ public class Card : MonoBehaviour
         activitiesOnPlay.Clear();
         singleFieldProperties.Clear();
         cardModifiers.Clear();
+
+        if(this is CardVisual cv)
+        {
+            foreach (CardCostDisplay display in cv.energyToCostUI.Values)
+                Destroy(display.gameObject);
+            foreach (CardCostDisplay display in cv.energyToCostOptionalUI.Values)
+                Destroy(display.gameObject);
+
+            cv.energyToCostUI.Clear();
+            cv.energyToCostOptionalUI.Clear();
+        }
     }
     public void BindCardData()
     {
@@ -104,9 +115,9 @@ public class Card : MonoBehaviour
 
         return true;
     }
-    public void AddModifierToCard(CardFunctionalityData data)
+    public void AddModifierToCard(CardFunctionalityData data, ModifierType type = ModifierType.Upgrade, bool supressVisualUpdate = false)
     {
-        timesUpgraded++;
+        if(type != ModifierType.Cursed) timesUpgraded++;
         cardModifiers.Add(data);
 
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
@@ -129,11 +140,13 @@ public class Card : MonoBehaviour
             if (activity.execTime == CardComponentExecType.OnPlay)
                 AddUpgradeActivityToList(activitiesOnPlay, activity);
             else if (activity.execTime == CardComponentExecType.OnDraw)
-                AddUpgradeActivityToList(activitiesOnDraw, activity);
+                AddUpgradeActivityToList(activitiesOnDraw, activity);            
         }
 
-        if (this is CardVisual card)
-            card.UpdateCardVisual();
+        cost.AbsorbModifier(data.costDatas, data.costOptionalDatas);
+
+        if (this is CardVisual card && !supressVisualUpdate)
+            card.UpdateAfterModifier(type);
     }
 
     void AddUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)

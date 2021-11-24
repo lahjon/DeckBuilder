@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Berserker_MrPoison
   m_EditorClassIdentifier: 
   id: 6
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties: []
   effects:
   - Type: 1
@@ -37,14 +45,6 @@ MonoBehaviour:
   cardName: Mr Poison
   cardType: 1
   artwork: {fileID: 21300000, guid: e93575ea839f3374aa60632ea657d4b3, type: 3}
-  costDatas:
-  - type: 0
-    data:
-      linkedProp: 0
-      baseVal: 1
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 1

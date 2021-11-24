@@ -57,6 +57,7 @@ public class DatabaseGoogle
         ReadEntriesCardEffects("CardEffects", "Z");
         ReadEntriesCardActivites("CardActivities", "K");
         ReadEntriesCardFields("CardSingleFields", "F");
+        ReadEntriesCardCosts("CardCosts", "Z");
         ReadEntriesCardStarting("CardsStarting", "E");
     }
 
@@ -115,6 +116,8 @@ public class DatabaseGoogle
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
         DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
         dbs.cards.Clear();
+        dbs.cardModifiers.Clear();
+
         GoogleTable gt = getGoogleTable(sheetName, lastCol);
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -140,17 +143,6 @@ public class DatabaseGoogle
             data.id = (string)gt[i, "ID"];
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
-            data.costDatas.Clear();
-            data.costOptionalDatas.Clear();
-            if(!String.IsNullOrEmpty((string)gt[i, "CostStandard"]))
-                data.costDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostStandard"])});
-            if (!String.IsNullOrEmpty((string)gt[i, "CostRage"]))
-                data.costDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostRage"])});
-            if(!String.IsNullOrEmpty((string)gt[i, "CostOptionalStandard"]))
-                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostOptionalStandard"])});
-            if (!String.IsNullOrEmpty((string)gt[i, "CostOptionalRage"]))
-                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostOptionalRage"])});
-              
             data.goldValue = int.Parse((string)gt[i, "GoldValue"]);
 
             data.maxUpgrades = int.Parse((string)gt[i, "Upgrades"]);
@@ -177,6 +169,8 @@ public class DatabaseGoogle
 
     public void ReadEntriesCardFields(string sheetName, string lastCol)
     {
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
         GoogleTable gt = getGoogleTable(sheetName, lastCol);
 
         for (int i = 1; i < gt.values.Count; i++)
@@ -190,11 +184,54 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "Property"], out type);
 
 
+            string id = (string)gt[i, "CardId"];
             int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
             CardFunctionalityData data = level == 0 ?
-                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
+                                            dbs.cards.Where(x=> x.id == id).FirstOrDefault() :
                                             FunctionalityAt(databaseName, level);
             data.singleFieldProperties.Add(new CardSingleFieldPropertyTypeWrapper(type, bool.Parse((string)gt[i, "Add"])));
+
+            if (level != 0 && !dbs.cardModifiers.Contains(data))
+                dbs.cardModifiers.Add(data);
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+    public void ReadEntriesCardCosts(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            string id = (string)gt[i, "CardId"];
+            int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
+            CardFunctionalityData data = level == 0 ?
+                                            dbs.cards.Where(x => x.id == id).FirstOrDefault() :
+                                            FunctionalityAt(databaseName, level);
+
+            data.costDatas.Clear();
+            data.costOptionalDatas.Clear();
+            if (!string.IsNullOrEmpty((string)gt[i, "CostStandard"]))
+                data.costDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostStandard"]) });
+            if (!string.IsNullOrEmpty((string)gt[i, "CostRage"]))
+                data.costDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostRage"]) });
+            if (!string.IsNullOrEmpty((string)gt[i, "CostOptionalStandard"]))
+                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostOptionalStandard"]) });
+            if (!string.IsNullOrEmpty((string)gt[i, "CostOptionalRage"]))
+                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostOptionalRage"]) });
+
+            if (level != 0 && !dbs.cardModifiers.Contains(data))
+                dbs.cardModifiers.Add(data);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
@@ -205,7 +242,9 @@ public class DatabaseGoogle
 
     public void ReadEntriesCardEffects(string sheetName, string lastCol)
     {
-        GoogleTable gt = getGoogleTable(sheetName, lastCol);  
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -227,13 +266,17 @@ public class DatabaseGoogle
 
             Enum.TryParse((string)gt[i, "ExecutionTime"], out cardEffect.execTime);
 
-
+            string id = (string)gt[i, "CardId"];
             int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
-            CardFunctionalityData data = level == 0 ? 
-                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
-                                            FunctionalityAt(databaseName,level);
+            CardFunctionalityData data = level == 0 ?
+                                            dbs.cards.Where(x => x.id == id).FirstOrDefault() :
+                                            FunctionalityAt(databaseName, level);
 
             data.effects.Add(cardEffect);
+
+            if (level != 0 && !dbs.cardModifiers.Contains(data))
+                dbs.cardModifiers.Add(data);
+
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -244,6 +287,8 @@ public class DatabaseGoogle
     public void ReadEntriesCardActivites(string sheetName, string lastCol)
     {
         GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -258,12 +303,15 @@ public class DatabaseGoogle
             activity.strParameter = (string)gt[i, "strParameter"];
             activity.val = Int32.Parse((string)gt[i, "val"]);
 
+            string id = (string)gt[i, "CardId"];
             int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
-            
             CardFunctionalityData data = level == 0 ?
-                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
+                                            dbs.cards.Where(x => x.id == id).FirstOrDefault() :
                                             FunctionalityAt(databaseName, level);
             data.activities.Add(activity);
+
+            if (level != 0 && !dbs.cardModifiers.Contains(data))
+                dbs.cardModifiers.Add(data);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();

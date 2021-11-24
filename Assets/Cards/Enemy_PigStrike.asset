@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Enemy_PigStrike
   m_EditorClassIdentifier: 
   id: 18
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties: []
   effects:
   - Type: 0
@@ -37,14 +45,6 @@ MonoBehaviour:
   cardName: PigStrike
   cardType: 0
   artwork: {fileID: 21300000, guid: 12c056a1ee0c1dd469c83d549d056759, type: 3}
-  costDatas:
-  - type: 0
-    data:
-      linkedProp: 0
-      baseVal: 1
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0
