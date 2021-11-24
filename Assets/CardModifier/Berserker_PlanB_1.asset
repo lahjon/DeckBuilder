@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_PlanB_1
   m_EditorClassIdentifier: 
   id: 51_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties: []
   effects: []
   activities:

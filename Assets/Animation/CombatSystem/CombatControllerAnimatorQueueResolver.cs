@@ -9,7 +9,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetRefs(animator);
-        
+           
     }
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -21,7 +21,7 @@ public class CombatControllerAnimatorQueueResolver : CombatControllerAnimator
         cardWaiting = combat.CardQueue.Dequeue();
         Debug.Log("Starting processing of card" + cardWaiting.card.cardName);
         animator.SetBool("CardsQueued", combat.CardQueue.Count != 0);
-        if (cardWaiting.card.targetRequired && !combat.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
+        if (!combat.forcePlayCards && cardWaiting.card.targetRequired && !combat.EnemiesInScene.Contains((CombatActorEnemy)cardWaiting.suppliedTarget))
         {
             combat.Hand.Add(cardWaiting.card);
             cardWaiting.card.selectable = true;

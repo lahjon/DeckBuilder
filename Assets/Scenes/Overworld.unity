@@ -379,6 +379,7 @@ MonoBehaviour:
   formationPositions: []
   templateEnergyDisplay: {fileID: 7263350202331094, guid: 40c9fcad6bd08704296409c173854e27, type: 3}
   energyParent: {fileID: 265525352803360177}
+  forcePlayCards: 0
   _targetedEnemy: {fileID: 0}
   deckData: []
   createdCards: []
@@ -35309,9 +35310,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0bf9075b075fba54f8984818f54ed802, type: 2}
   - {fileID: 11400000, guid: 2ec4f70d578c28f45846dfbfe09868f9, type: 2}
   - {fileID: 11400000, guid: 1acea0dcc832e5e4ca7697022da9fedb, type: 2}
-  - {fileID: 11400000, guid: 8295e5917d2ecda419a3debc5980dd1c, type: 2}
+  - {fileID: 11400000, guid: 753c0402f9721ae4cafd6338d796921e, type: 2}
   - {fileID: 11400000, guid: c48f86adaf2a0ef459c521fda68b3588, type: 2}
   - {fileID: 11400000, guid: 24b42347ca6eeef45b28e4c202b06f60, type: 2}
+  - {fileID: 11400000, guid: 317cbe73c91a2b6448b63079d21eaed6, type: 2}
+  - {fileID: 11400000, guid: 8295e5917d2ecda419a3debc5980dd1c, type: 2}
+  - {fileID: 11400000, guid: 3f5ea660e7a87244c8042afbbefbb0b2, type: 2}
   encountersCombat:
   - {fileID: 11400000, guid: 1f10bc2789ff2454fa79eadd94e84cad, type: 2}
   - {fileID: 11400000, guid: aff1a841e3af36b458aa3fc59d8686f5, type: 2}
@@ -51742,7 +51746,7 @@ PrefabInstance:
       objectReference: {fileID: 1541008555}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.size
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.data[14].name
@@ -51765,6 +51769,10 @@ PrefabInstance:
       value: Barrier
       objectReference: {fileID: 0}
     - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[19].name
+      value: Loaded
+      objectReference: {fileID: 0}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: namedEffectIcons.Array.data[14].sprite
       value: 
       objectReference: {fileID: 21300000, guid: 376c0bb365ba4034196b58f37410e6a4, type: 3}
@@ -51784,6 +51792,10 @@ PrefabInstance:
       propertyPath: namedEffectIcons.Array.data[18].sprite
       value: 
       objectReference: {fileID: 21300000, guid: f0c0c19f0a03ed04ba55b7fa9480e2ce, type: 3}
+    - target: {fileID: 347953518813682178, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
+      propertyPath: namedEffectIcons.Array.data[19].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8e875cada1a86894a93ba464a0fc5889, type: 3}
     - target: {fileID: 347953518813682204, guid: 6e1e19e7d79193846bb7ce8a293930f8, type: 3}
       propertyPath: m_Name
       value: UIManager

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_NewCard_1
   m_EditorClassIdentifier: 
   id: 53_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Immediate, True
     prop: -3

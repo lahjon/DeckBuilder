@@ -8,13 +8,13 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
     {
         Debug.Log("Entered Turn End");
         SetRefs(animator);
+        combat.forcePlayCards = false;
         combat.StartCoroutine(EndPlayerturn());
     }
 
 
     public IEnumerator EndPlayerturn()
     {
-        combat.acceptEndTurn = false;
         yield return combat.StartCoroutine(combat.Hero.EffectsOnEndTurnBehavior());
         for (int i = 0; i < combat.Hero.actionsEndTurn.Count; i++)
             yield return combat.StartCoroutine(combat.Hero.actionsEndTurn[i].Invoke());
@@ -26,6 +26,7 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
         combat.enemiesWaiting.Clear();
         combat.EnemiesInScene.ForEach(x => combat.enemiesWaiting.Enqueue(x));
         combat.animator.SetTrigger("PlayerTurnEnded");
+        combat.animator.SetBool("PlayerEndRequested", false);
         yield return null;
     }
 

@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: Berserker_RageTester
   m_EditorClassIdentifier: 
   id: 57
-  singleFieldProperties: []
-  effects: []
-  activities: []
-  cardName: RageTester
-  cardType: 2
-  artwork: {fileID: 21300000, guid: ff756dc73829dc14abcc41648b67e75a, type: 3}
   costDatas:
   - type: 0
     data:
@@ -33,6 +27,12 @@ MonoBehaviour:
       scalar: 1
       inverseScalar: 0
   costOptionalDatas: []
+  singleFieldProperties: []
+  effects: []
+  activities: []
+  cardName: RageTester
+  cardType: 2
+  artwork: {fileID: 21300000, guid: ff756dc73829dc14abcc41648b67e75a, type: 3}
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

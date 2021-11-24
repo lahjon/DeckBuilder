@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Berserker_RushofThought
   m_EditorClassIdentifier: 
   id: 48
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Exhaust, True
     prop: 0
@@ -31,14 +39,6 @@ MonoBehaviour:
   cardName: Rush of Thought
   cardType: 2
   artwork: {fileID: 21300000, guid: 81cc2096260fe1b4288f75ea4f29c4be, type: 3}
-  costDatas:
-  - type: 0
-    data:
-      linkedProp: 0
-      baseVal: 0
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 1

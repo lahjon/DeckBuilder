@@ -69,6 +69,8 @@ public class CombatSystem : MonoBehaviour
 
     Dictionary<EnergyType, CardCostDisplay> displayEnergies = new Dictionary<EnergyType, CardCostDisplay>();
 
+    public bool forcePlayCards = false;
+
     public int GetEnergy(EnergyType type) => cEnergy.ContainsKey(type) ? cEnergy[type] : 0;
     public void ModifyEnergy(Dictionary<EnergyType, int> changes, bool enforceMax = false)
     {
@@ -705,7 +707,7 @@ public class CombatSystem : MonoBehaviour
     public void PlayerInputEndTurn()
     {
         // have to ahve a function for the ui button
-        animator.SetTrigger("PlayerTurnEnd");
+        animator.SetBool("PlayerEndRequested",true);
     }
 
     public void CardClicked(CardCombat card)

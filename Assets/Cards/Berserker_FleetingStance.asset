@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Berserker_FleetingStance
   m_EditorClassIdentifier: 
   id: 45
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Unstable, True
     prop: -1
@@ -40,14 +48,6 @@ MonoBehaviour:
   cardName: Fleeting Stance
   cardType: 2
   artwork: {fileID: 21300000, guid: adb159001981b514cbdc8dbb7a4158e9, type: 3}
-  costDatas:
-  - type: 0
-    data:
-      linkedProp: 0
-      baseVal: 1
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_SparktheFlame_1
   m_EditorClassIdentifier: 
   id: 63_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Exhaust, False
     prop: 0

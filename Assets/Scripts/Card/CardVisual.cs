@@ -80,6 +80,10 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         nameText.text = newCardName;
         cardName = newCardName;
         cardBackground.color = timesUpgraded > 0 ? Helpers.upgradeCardColor : Helpers.normalCardColor;
+
+        CheckEnergyIcons();
+        cost.UpdateTextsForCosts();
+
         ResetCardTextElementsList();
         RefreshDescriptionText(true);
         SetToolTips();
@@ -92,12 +96,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         artworkImage.sprite = artwork;
         typeText.text = cardType.ToString();
 
-        foreach (EnergyType eType in cost.energyCosts.Keys)
-            RegisterCostUI(eType,true);
-
-        foreach (EnergyType eType in cost.energyCostsOptional.Keys)
-            RegisterCostUI(eType,false);
-
+        CheckEnergyIcons();
         cost.UpdateTextsForCosts();
 
         ResetCardTextElementsList();
@@ -114,17 +113,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         artworkImage.sprite = card.artwork;
         typeText.text = card.typeText.text;
         cardBackground.color = card.cardBackground.color;
-
-        /*
-        foreach (EnergyType eType in cost.energyCosts.Keys)
-            RegisterCostUI(eType, true);
-
-        foreach (EnergyType eType in cost.energyCostsOptional.Keys)
-            RegisterCostUI(eType, false);
-
-        cost.UpdateTextsForCosts();
-        */
-
+        
         foreach (EnergyType eType in cost.energyCosts.Keys)
         {
             RegisterCostUI(eType, true);
@@ -146,7 +135,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     private void RegisterCostUI(EnergyType eType, bool mandatory)
     {
         Dictionary<EnergyType, CardCostDisplay> dickie = mandatory ? energyToCostUI : energyToCostOptionalUI;
-
         dickie[eType] = Instantiate(templateCostUI, costParent).GetComponent<CardCostDisplay>();
         dickie[eType].SetType(eType);
     }
@@ -168,6 +156,17 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
                 cardTextElements.Add(singleFieldProperties[i]);
         }
 
+    }
+
+    public void CheckEnergyIcons()
+    {
+        foreach (EnergyType eType in cost.energyCosts.Keys)
+            if(!energyToCostUI.ContainsKey(eType))
+                RegisterCostUI(eType, true);
+
+        foreach (EnergyType eType in cost.energyCostsOptional.Keys)
+            if (!energyToCostOptionalUI.ContainsKey(eType))
+                RegisterCostUI(eType, false);
     }
 
     public static CardVisual Factory(CardVisual cardVisual, Transform parent) => Factory(cardVisual.cardData, parent, cardVisual.cardModifiers);
@@ -215,7 +214,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             string element = cardTextElements[i].GetElementText();
             if (element == null || element.Equals(string.Empty)) continue;
             if (textDeriver.Length != 0) textDeriver.AppendLine();
-            if (effectsOnDraw.Contains(cardTextElements[i]) || activitiesOnDraw.Contains(cardTextElements[i])) textDeriver.Append("On Draw ");
+            if (effectsOnDraw.Contains(cardTextElements[i]) || activitiesOnDraw.Contains(cardTextElements[i])) textDeriver.Append("On Draw: ");
             textDeriver.Append(cardTextElements[i].GetElementText());
         }
 

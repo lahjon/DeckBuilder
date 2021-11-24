@@ -204,7 +204,6 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public void HealLife(int x)
     {
-        Debug.Log("Starting heal of:" + x + ". Life/Max: " + hitPoints + "," + maxHitPoints);
         if (x == 0) return;
         x = Mathf.Min(x, maxHitPoints - hitPoints);
         hitPoints += x;
@@ -273,7 +272,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
-        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetEffectTypeStruct().toolTip); });
+        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetEffectTypeStruct().toolTipCard); });
         return (toolTipTextBits, AnchorToolTip.position);
     }
 

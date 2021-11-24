@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_NewCard_2
   m_EditorClassIdentifier: 
   id: 53_2
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Exhaust, False
     prop: 0

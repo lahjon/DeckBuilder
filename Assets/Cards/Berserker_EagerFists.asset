@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Berserker_EagerFists
   m_EditorClassIdentifier: 
   id: 43
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties:
   - Name: Immediate, True
     prop: -3
@@ -43,14 +51,6 @@ MonoBehaviour:
   cardName: Eager Fists
   cardType: 0
   artwork: {fileID: 21300000, guid: 5740242c75ca43142910c354252f4cd7, type: 3}
-  costDatas:
-  - type: 0
-    data:
-      linkedProp: 0
-      baseVal: 0
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 1

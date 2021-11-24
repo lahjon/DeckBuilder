@@ -143,11 +143,12 @@ public enum CardClassType
 
 public enum CardSingleFieldPropertyType
 {
+    Inescapable = -5,
     Fortify = -4,
     Immediate = -3,
     Unplayable = -2,
     Unstable = -1,
-    Exhaust = 0
+    Exhaust = 0,
 }
 
 public enum CardLinkablePropertyType
@@ -318,7 +319,8 @@ public enum EffectType
     Dazed,
     Spiked,
     Barrier,
-    Steaming
+    Steaming,
+    Loaded
 }
 
 public enum OverlayState
@@ -482,10 +484,11 @@ public enum CardActivityType
     ExhaustDiscard,
     CombatCostChange,
     SetRandomBroken,
-    Heal,
+    ModifyLife,
     ModifyEnergy,
     DrawDiscard,
-    DualWield
+    DualWield,
+    EmptySavedEnergy
 }
 
 public enum CombatActorType

@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardActivityHeal : CardActivity
+public class CardActivityModifyLife : CardActivity
 {
     public override IEnumerator Execute(CardActivitySetting data)
     {
-        CombatSystem.instance.ActiveActor.HealLife(data.val);
+        if (data.val >= 0)
+            CombatSystem.instance.ActiveActor.HealLife(data.val);
+        else
+            CombatSystem.instance.ActiveActor.LooseLife(-data.val);
+
         yield return null;
     }
 
     public override string GetDescription(CardActivitySetting data)
     {
-        return "Heal " + data.val + " life";
+        return string.Format("{0} {1} life",data.val >= 0 ? "Heal" : "Loose", -data.val);
     }
 
     public override string GetToolTip(CardActivitySetting data)

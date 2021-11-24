@@ -12,9 +12,6 @@ public class CardData : CardFunctionalityData
 
     public Sprite artwork;
 
-    [SerializeField]
-    public List<EnergyData> costDatas = new List<EnergyData>();
-    public List<EnergyData> costOptionalDatas = new List<EnergyData>();
     public bool visibleCost = true;
     
     public string upgradeCostFullEmber;

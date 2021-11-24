@@ -7,7 +7,20 @@ using System.Linq;
 public class CardActivitySystem : MonoBehaviour
 {
     public static CardActivitySystem instance = null;
-    public Dictionary<CardActivityType, CardActivity> ActivityTypeToAction = new Dictionary<CardActivityType, CardActivity>();
+    public static Dictionary<CardActivityType, CardActivity> ActivityTypeToAction = new Dictionary<CardActivityType, CardActivity>
+    {
+        { CardActivityType.DrawCard, new CardActivityDrawCard()},
+        { CardActivityType.AddCardToCombat, new CardActivityAddCardToCombat()},
+        { CardActivityType.Splice, new CardActivitySplice()},
+        { CardActivityType.ExhaustDiscard, new CardActivityExhaustDiscard()},
+        { CardActivityType.CombatCostChange, new CardActivityCombatCostChange()},
+        { CardActivityType.SetRandomBroken, new CardActivitySetRandomBroken()},
+        { CardActivityType.ModifyLife, new CardActivityModifyLife()},
+        { CardActivityType.ModifyEnergy, new CardActivityModifyEnergy()},
+        { CardActivityType.DrawDiscard, new CardActivityDrawDiscard()},
+        { CardActivityType.DualWield, new CardActivityDualWield()},
+        { CardActivityType.EmptySavedEnergy, new CardActivityEmptySavedEnergy()},
+    };
 
 
     private void Awake()
@@ -15,20 +28,6 @@ public class CardActivitySystem : MonoBehaviour
         if (instance != null) Destroy(gameObject);
         else instance = this;
         CardActivity.ActivitySystem = this;
-        ActivityTypeToAction[CardActivityType.DrawCard] = new CardActivityDrawCard();
-        ActivityTypeToAction[CardActivityType.AddCardToCombat] = new CardActivityAddCardToCombat();
-        ActivityTypeToAction[CardActivityType.Splice] = new CardActivitySplice();
-        ActivityTypeToAction[CardActivityType.ExhaustDiscard] = new CardActivityExhaustDiscard();
-        ActivityTypeToAction[CardActivityType.CombatCostChange] = new CardActivityCombatCostChange();
-        ActivityTypeToAction[CardActivityType.SetRandomBroken] = new CardActivitySetRandomBroken();
-        ActivityTypeToAction[CardActivityType.Heal] = new CardActivityHeal();
-        ActivityTypeToAction[CardActivityType.ModifyEnergy] = new CardActivityModifyEnergy();
-        ActivityTypeToAction[CardActivityType.DrawDiscard] = new CardActivityDrawDiscard();
-        ActivityTypeToAction[CardActivityType.DualWield] = new CardActivityDualWield();
-    }
-
-    public void Start()
-    {
     }
 
     public IEnumerator StartByCardActivity(CardActivitySetting cardActivity)

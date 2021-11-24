@@ -33,6 +33,8 @@ public class Card : MonoBehaviour
     public List<CardActivitySetting> activitiesOnPlay = new List<CardActivitySetting>();
     public List<CardActivitySetting> activitiesOnDraw = new List<CardActivitySetting>();
 
+
+
     public GameObject animationPrefab;
     public CombatActor owner; 
     public Material material;
@@ -55,6 +57,17 @@ public class Card : MonoBehaviour
         activitiesOnPlay.Clear();
         singleFieldProperties.Clear();
         cardModifiers.Clear();
+
+        if(this is CardVisual cv)
+        {
+            foreach (CardCostDisplay display in cv.energyToCostUI.Values)
+                Destroy(display.gameObject);
+            foreach (CardCostDisplay display in cv.energyToCostOptionalUI.Values)
+                Destroy(display.gameObject);
+
+            cv.energyToCostUI.Clear();
+            cv.energyToCostOptionalUI.Clear();
+        }
     }
     public void BindCardData()
     {
@@ -129,8 +142,10 @@ public class Card : MonoBehaviour
             if (activity.execTime == CardComponentExecType.OnPlay)
                 AddUpgradeActivityToList(activitiesOnPlay, activity);
             else if (activity.execTime == CardComponentExecType.OnDraw)
-                AddUpgradeActivityToList(activitiesOnDraw, activity);
+                AddUpgradeActivityToList(activitiesOnDraw, activity);            
         }
+
+        cost.AbsorbModifier(data.costDatas, data.costOptionalDatas);
 
         if (this is CardVisual card)
             card.UpdateCardVisual();

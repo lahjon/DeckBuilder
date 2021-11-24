@@ -57,6 +57,7 @@ public class DatabaseGoogle
         ReadEntriesCardEffects("CardEffects", "Z");
         ReadEntriesCardActivites("CardActivities", "K");
         ReadEntriesCardFields("CardSingleFields", "F");
+        ReadEntriesCardCosts("CardCosts", "Z");
         ReadEntriesCardStarting("CardsStarting", "E");
     }
 
@@ -140,17 +141,6 @@ public class DatabaseGoogle
             data.id = (string)gt[i, "ID"];
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
-            data.costDatas.Clear();
-            data.costOptionalDatas.Clear();
-            if(!String.IsNullOrEmpty((string)gt[i, "CostStandard"]))
-                data.costDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostStandard"])});
-            if (!String.IsNullOrEmpty((string)gt[i, "CostRage"]))
-                data.costDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostRage"])});
-            if(!String.IsNullOrEmpty((string)gt[i, "CostOptionalStandard"]))
-                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostOptionalStandard"])});
-            if (!String.IsNullOrEmpty((string)gt[i, "CostOptionalRage"]))
-                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostOptionalRage"])});
-              
             data.goldValue = int.Parse((string)gt[i, "GoldValue"]);
 
             data.maxUpgrades = int.Parse((string)gt[i, "Upgrades"]);
@@ -195,6 +185,39 @@ public class DatabaseGoogle
                                             TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
                                             FunctionalityAt(databaseName, level);
             data.singleFieldProperties.Add(new CardSingleFieldPropertyTypeWrapper(type, bool.Parse((string)gt[i, "Add"])));
+
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+    public void ReadEntriesCardCosts(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            int level = Int32.Parse((string)gt[i, "UpgradeLevel"]);
+            CardFunctionalityData data = level == 0 ?
+                                            TDataNameToAsset<CardFunctionalityData>(databaseName, new string[] { CardPath }) :
+                                            FunctionalityAt(databaseName, level);
+
+            data.costDatas.Clear();
+            data.costOptionalDatas.Clear();
+            if (!string.IsNullOrEmpty((string)gt[i, "CostStandard"]))
+                data.costDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostStandard"]) });
+            if (!string.IsNullOrEmpty((string)gt[i, "CostRage"]))
+                data.costDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostRage"]) });
+            if (!string.IsNullOrEmpty((string)gt[i, "CostOptionalStandard"]))
+                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Standard, data = CardInt.ParseInput((string)gt[i, "CostOptionalStandard"]) });
+            if (!string.IsNullOrEmpty((string)gt[i, "CostOptionalRage"]))
+                data.costOptionalDatas.Add(new EnergyData() { type = EnergyType.Rage, data = CardInt.ParseInput((string)gt[i, "CostOptionalRage"]) });
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();

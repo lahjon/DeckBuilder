@@ -94,6 +94,31 @@ public class CardCost
         }
     }
 
+    public void AbsorbModifier(List<EnergyData> energyDatas, List<EnergyData> energyOptionalDatas)
+    {
+        foreach (EnergyData d in energyDatas)
+        {
+            if (energyCosts.ContainsKey(d.type))
+                energyCosts[d.type].AbsorbModifier(d.data);
+            else
+            {
+                energyCosts[d.type] = CardInt.Factory(d.data, card);
+                energyCosts[d.type].limitLower = 0;
+            }
+        }
+
+        foreach (EnergyData d in energyOptionalDatas)
+        {
+            if (energyCostsOptional.ContainsKey(d.type))
+                energyCostsOptional[d.type].AbsorbModifier(d.data);
+            else
+            {
+                energyCostsOptional[d.type] = CardInt.Factory(d.data, card);
+                energyCostsOptional[d.type].limitLower = 0;
+            }
+        }
+    }
+
     public int GetPaidEnergy(EnergyType type) => paidEnergy.ContainsKey(type) ? paidEnergy[type] : 0;
 
 

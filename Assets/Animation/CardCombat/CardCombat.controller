@@ -1,5 +1,30 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1101 &-9159417528495496264
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: CanPlay
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -2849272332709662535}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 0
+  m_HasFixedDuration: 0
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 0
 --- !u!114 &-8768659947384484909
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,7 +326,6 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5513496007438640726}
-  - {fileID: -969352786353928541}
   m_StateMachineBehaviours:
   - {fileID: 1738590024481121722}
   m_Position: {x: 50, y: 50, z: 0}
@@ -746,6 +770,7 @@ AnimatorStateMachine:
   - {fileID: -1819696976461658742}
   - {fileID: -7229274924996711845}
   - {fileID: 1426256486296706517}
+  - {fileID: -9159417528495496264}
   m_EntryTransitions: []
   m_StateMachineTransitions:
   - first: {fileID: 3197450803056620463}

@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: Splicer_Idea
   m_EditorClassIdentifier: 
   id: 9
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
   singleFieldProperties: []
   effects: []
   activities:
@@ -37,14 +45,6 @@ MonoBehaviour:
   cardName: Idea
   cardType: 2
   artwork: {fileID: 21300000, guid: 08272c7d187faa848abb523d404282d0, type: 3}
-  costDatas:
-  - type: 0
-    data:
-      linkedProp: 0
-      baseVal: 0
-      scalar: 1
-      inverseScalar: 0
-  costOptionalDatas: []
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

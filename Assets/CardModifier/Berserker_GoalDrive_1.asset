@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Berserker_GoalDrive_1
   m_EditorClassIdentifier: 
   id: 49_1
+  costDatas: []
+  costOptionalDatas: []
   singleFieldProperties: []
   effects: []
   activities:
