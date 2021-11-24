@@ -36,6 +36,8 @@ public class CardCost
 
     public bool Payable()
     {
+        if (energyCosts.Count == 0) return false;
+
         foreach (EnergyType type in energyCosts.Keys)
             if (energyCosts[type] > CombatSystem.instance.GetEnergy(type)) return false;
 
