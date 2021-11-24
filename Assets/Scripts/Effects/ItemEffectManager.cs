@@ -6,17 +6,22 @@ using System;
 
 public class ItemEffectManager : Manager
 {
-    public List<ItemEffect> itemEffects = new List<ItemEffect>();
+    public HashSet<ItemEffect> allAddedItemEffects = new HashSet<ItemEffect>();
     protected override void Awake()
     {
         base.Awake();
         world.itemEffectManager = this;
     }
-    public static ItemEffect CreateItemEffect(ItemEffectStruct itemEffectStruct, string sourceName, bool triggerInstant = true)
+    public ItemEffect CreateItemEffect(ItemEffectStruct itemEffectStruct, IEffectAdder itemEffectAdder, string sourceName, bool triggerInstant = true)
     {
-        if (InstanceObject(string.Format("ItemEffect{0}", itemEffectStruct.type.ToString())) is ItemEffect itemEffect)
+        string effectName = itemEffectStruct.type.ToString();
+        if (itemEffectStruct.type == ItemEffectType.Custom)
+            effectName = itemEffectStruct.parameter;
+
+        if (InstanceObject(string.Format("ItemEffect{0}", effectName)) is ItemEffect itemEffect)
         {
             itemEffect.world = world;
+            itemEffect.effectAdder = itemEffectAdder;
             itemEffect.itemEffectStruct = itemEffectStruct;
             if (triggerInstant) itemEffect.AddItemEffect();
             return itemEffect;
@@ -38,16 +43,15 @@ public struct ItemEffectStruct
 {
     public ItemEffectType type;
     public string parameter;
-    public bool instant;
+    public bool addOnStart;
     public int value;
     public ItemEffectStruct(ItemEffectType aType, string aParm, int aValue, bool anInstant)
     {
         type = aType;
         parameter = aParm;
         value = aValue;
-        instant = anInstant;
+        addOnStart = anInstant;
     }
-
     public bool ValidateStruct()
     {
         bool result = false;
@@ -79,4 +83,25 @@ public struct ItemEffectStruct
         }
         return result;
     }
+}
+
+public enum ItemEffectType
+{
+    None = 0,
+    Custom,
+    AddStat, // parm = StatType | value = value
+    AddCombatEffect,
+    TakeDamage,
+    Heal
+}
+
+public interface IEffectAdder
+{
+    public void NotifyUsed();
+}
+
+public interface IEffect
+{
+    public IEnumerator TriggerEffect();
+    public IEffectAdder EffectAdder();
 }

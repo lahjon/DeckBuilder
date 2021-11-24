@@ -58,8 +58,11 @@ public struct GameEventStruct
                     parameter.ToEnum<BuildingType>();
                     value.ToBool();
                     break;
-                case GameEventType.GetReward:
-                    parameter.ToEnum<RewardType>();
+                case GameEventType.GetRewardNormal:
+                    parameter.ToEnum<RewardNormalType>();
+                    break;
+                case GameEventType.GetRewardCombat:
+                    parameter.ToEnum<RewardCombatType>();
                     break;
                 case GameEventType.ToggleWorldMap:
                     value.ToBool();
@@ -91,5 +94,19 @@ public struct GameEventStruct
         }
         return result;
     }
+}
 
+public enum GameEventType
+{
+    None,
+    Custom,                     // parm = name of event | value = whatever needed by your custom event
+    HighlightBuilding,          // parm = string (BuildingType) | value = int, ex: (0, true)
+    GetRewardCombat,            // parm = string (RewardTypeCombat) | value = id (int), ex1: (Item, 0)
+    GetRewardNormal,            // parm = string (RewardTypeNormal) | value = id (int), ex1: (Item, 0)
+    TriggerState,               // parm = None | value = WorldState
+    ToggleWorldMap,             // parm = None | value = bool, ex: (true)
+    UnlockScenario,             // parm = None | value = idx (int), ex: (0)
+    UnlockCharacter,            // parm = None | value = CharacterClassType
+    UnlockBuilding,             // parm = None | value = BuildingType
+    UnlockProfession            // parm = None | value = ProfessionType
 }

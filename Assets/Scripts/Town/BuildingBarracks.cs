@@ -16,7 +16,7 @@ public class BuildingBarracks : Building
     public Transform characterParent;
     public ProfessionTooltip professionTooltip;
     public ProfessionType selectedProfessionType;
-    public Profession profession1, profession2, profession3, selectedProfession;
+    public ProfessionUI profession1, profession2, profession3, selectedProfession;
     
     public override void CloseBuilding()
     {
@@ -62,7 +62,7 @@ public class BuildingBarracks : Building
     public void ButtonConfirmProfessionSelection()
     {
         WorldSystem.instance.characterManager.SwapProfession(selectedProfessionType);
-        selectedProfession.BindData(DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == WorldSystem.instance.characterManager.profession));
+        selectedProfession.BindData(DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == WorldSystem.instance.characterManager.professionType));
         StepBack();
     }
 
@@ -70,7 +70,7 @@ public class BuildingBarracks : Building
     {
         WorldSystem.instance.characterManager.selectedCharacterClassType = currentSelectedCharacter.characterClassType;
         WorldSystem.instance.characterManager.SetupCharacterData(true);
-        currentProfession = WorldSystem.instance.characterManager.profession;
+        currentProfession = WorldSystem.instance.characterManager.professionType;
 
         if (currentProfession == ProfessionType.Base)
         {
@@ -93,7 +93,7 @@ public class BuildingBarracks : Building
                     break;
             }
             
-            WorldSystem.instance.characterManager.profession = currentProfession;
+            WorldSystem.instance.characterManager.professionType = currentProfession;
         }
         Debug.Log("Update selected character");
     }
@@ -122,7 +122,7 @@ public class BuildingBarracks : Building
     void UpdateBarracks()
     {
         characterArtwork.sprite = WorldSystem.instance.characterManager.characterData.artwork;
-        currentProfession = WorldSystem.instance.characterManager.profession;
+        currentProfession = WorldSystem.instance.characterManager.professionType;
 
         foreach (SelectableCharacter aCharacter in selectableCharacters)
         {
@@ -136,7 +136,7 @@ public class BuildingBarracks : Building
         }
 
         selectedAbilities = WorldSystem.instance.abilityManager.currentAbilities;
-        selectedProfession.BindData(DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == WorldSystem.instance.characterManager.profession));
+        selectedProfession.BindData(DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == WorldSystem.instance.characterManager.professionType));
 
         abilities.ForEach(x => x.gameObject.SetActive(false));
         for (int i = 0; i < selectedAbilities.Count; i++)

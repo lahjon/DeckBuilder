@@ -15,17 +15,30 @@ public class RewardScreen : MonoBehaviour
     public GameObject cardPanel;
     public TMP_Text headerText;
 
-    public void CollectReward(Reward aReward) // takes an existing reward and copies it over to the reward screen
+    public void CollectReward(RewardCombat aReward) // takes an existing reward and copies it over to the reward screen
     {
         SetHeader(aReward.rewardType);
         currentReward = aReward;
         switch (aReward.rewardType)
         {
-            case RewardType.Card:
+            case RewardCombatType.Card:
                 CreateCardReward(aReward);
                 break;
 
-            case RewardType.UnlockCard:
+            default:
+                currentReward.transform.SetParent(anchor);
+                currentReward.gameObject.SetActive(true);
+                AddRewardToScreen(currentReward);
+                break;
+        }
+    }
+    public void CollectReward(RewardNormal aReward) // takes an existing reward and copies it over to the reward screen
+    {
+        SetHeader(aReward.rewardType);
+        currentReward = aReward;
+        switch (aReward.rewardType)
+        {
+            case RewardNormalType.UnlockCard:
                 CreateUnlockCardReward(aReward);
                 break;
 
@@ -36,6 +49,7 @@ public class RewardScreen : MonoBehaviour
                 break;
         }
     }
+
 
     void CreateCardReward(Reward aReward)
     {
@@ -60,7 +74,6 @@ public class RewardScreen : MonoBehaviour
                 cardDisplay.gameObject.SetActive(true);
 
                 Helpers.DelayForSeconds(.3f, () => {
-                    Debug.Log("1");
                     cardDisplay.OnClick = () => {
                         WorldSystem.instance.characterManager.AddCardToDeck(cardDisplay);
                         WorldSystem.instance.deckDisplayManager.StartCoroutine(cardDisplay.AnimateCardToDeck());
@@ -105,15 +118,24 @@ public class RewardScreen : MonoBehaviour
         }
     }
 
-    void SetHeader(RewardType aRewardType)
+    void SetHeader(RewardCombatType aRewardType)
     {
         switch (aRewardType)
         {
-            case RewardType.UnlockCard:
-                headerText.text = "New card unlocked!";
-                break;
-            case RewardType.Card:
+            case RewardCombatType.Card:
                 headerText.text = "New card!";
+                break;
+            default:
+                headerText.text = "New reward!";
+                break;
+        }
+    }
+    void SetHeader(RewardNormalType aRewardType)
+    {
+        switch (aRewardType)
+        {
+            case RewardNormalType.UnlockCard:
+                headerText.text = "New card unlocked!";
                 break;
             default:
                 headerText.text = "New reward!";

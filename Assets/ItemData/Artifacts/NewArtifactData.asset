@@ -9,22 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fbc414863b12254b9fb394194d32a52, type: 3}
-  m_Name: New Ability
+  m_Script: {fileID: 11500000, guid: af4f463819841664b9c993d594b0265d, type: 3}
+  m_Name: NewArtifactData
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: A
   itemId: 0
   artwork: {fileID: 0}
   description: 
   rarity: 0
   itemEffectStruct:
-    type: 3
-    parameter: TempStrength
+    type: 2
+    parameter: Strength
     addOnStart: 0
     value: 2
-  itemCondition:
-    type: 0
-    strParameter: 
-    numValue: 0
-    strParameters: []
-  statesUsable: 
+  goldValue: 0

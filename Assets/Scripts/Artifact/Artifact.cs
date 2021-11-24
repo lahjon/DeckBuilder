@@ -4,24 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Artifact : MonoBehaviour, IToolTipable
+public class Artifact : Item, IToolTipable
 {
-    public ItemEffect effect;
     public int id;
     protected Image image;
     public Button button;
     protected ArtifactData _artifactData;
     public Transform tooltipAnchor;
     bool initialized;
-    public ArtifactData artifactData
-    {
-        get => _artifactData;
-        set
-        {
-            _artifactData = value;
-            BindData();
-        }
-    }
+    public ArtifactData artifactData;
     protected void Awake()
     {
         Initialize();
@@ -52,14 +43,20 @@ public class Artifact : MonoBehaviour, IToolTipable
     {
 
     }
-    public virtual void BindData(bool allData = true)
+    public virtual void BindData(ArtifactData anArtifactData)
     {   
         Initialize();
         if (artifactData != null)
         {
+            artifactData = anArtifactData;
             image.sprite = artifactData.artwork;
             id = artifactData.itemId;
+            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, this, artifactData.itemName); 
         }
+    }
+    public override void NotifyUsed()
+    {
+        throw new System.NotImplementedException();
     }
 }
 

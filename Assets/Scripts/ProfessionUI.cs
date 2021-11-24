@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Profession : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ProfessionUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public int professionIdx;
     public Button button;

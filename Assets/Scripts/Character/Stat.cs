@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Stat
 {
+    public List<IEffectAdder> allEffects = new List<IEffectAdder>();
     public Stat(int aValue, StatType aType)
     {
         value = aValue;

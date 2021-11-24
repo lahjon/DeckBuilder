@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
 {
     public Image image;
     public Button button;
@@ -13,7 +13,6 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TMP_Text perkName;
     bool initialized;
     CharacterClassType characterClassType;
-    ItemEffect itemEffect;
     bool appliedEffect;
     bool _activated;
     public bool Activated
@@ -39,8 +38,7 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             initialized = true;
             image.sprite = perkData.artwork;
             characterClassType = perkData.characterClassType;
-            itemEffect = ItemEffectManager.CreateItemEffect(perkData.itemEffectStruct, data.itemName);
-            Debug.Log(itemEffect);
+            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(perkData.itemEffectStruct, this, data.itemName);
             perkName.text = data.itemName;
             Activated = true;
         }
@@ -85,5 +83,9 @@ public class Perk : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void DebugButton()
     {
         Activated = !Activated;
+    }
+    public override void NotifyUsed()
+    {
+        
     }
 }
