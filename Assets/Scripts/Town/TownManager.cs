@@ -49,7 +49,6 @@ public class TownManager : Manager, ISaveableWorld
         }
         else
         {
-            //Debug.Log("Already own this building!");
             return false;
         }
     }

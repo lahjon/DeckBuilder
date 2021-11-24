@@ -62,6 +62,7 @@ public class BuildingBarracks : Building
     public void ButtonConfirmProfessionSelection()
     {
         WorldSystem.instance.characterManager.SwapProfession(selectedProfessionType);
+        selectedProfession.BindData(DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == WorldSystem.instance.characterManager.profession));
         StepBack();
     }
 

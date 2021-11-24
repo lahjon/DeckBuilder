@@ -1,0 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class GameEventUnlockBuilding : GameEvent
+{
+    public override void TriggerGameEvent()
+    { 
+        world.townManager.UnlockBuilding(gameEventStruct.parameter.ToEnum<BuildingType>());
+    }
+}
