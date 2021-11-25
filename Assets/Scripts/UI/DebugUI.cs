@@ -84,12 +84,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugAddStat(int amount)
     {
-        world.characterManager.characterStats.ModifyHealth(amount);
-    }
-
-    public void DebugRemoveStat(int amount)
-    {
-        world.characterManager.characterStats.ModifyHealth(-amount);
+        WorldSystem.instance.itemEffectManager.CreateItemEffect(new ItemEffectStruct(ItemEffectType.AddStat, "Health", amount, true), new IEffectAdderStruct("Debug", amount));
     }
 
     public void DebugAddSpecficArtifact()

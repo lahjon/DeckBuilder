@@ -19,15 +19,15 @@ MonoBehaviour:
   artworkAnimated: {fileID: 0}
   stats:
   - value: 100
-    type: 0
+    statType: 1
   - value: 0
-    type: 1
+    statType: 0
   - value: 1
-    type: 2
+    statType: 0
   - value: 0
-    type: 3
+    statType: 0
   - value: 3
-    type: 4
+    statType: 0
   classType: 4
   startingItem: HealingPotion
   unlocked: 0

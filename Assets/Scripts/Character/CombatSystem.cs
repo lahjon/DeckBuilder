@@ -222,7 +222,7 @@ public class CombatSystem : MonoBehaviour
         cardsPlayedThisTurn.Clear();
         playHistory.Clear();
         createdCards.Clear();
-        Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
+        Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
         
         animator.SetBool("CompanionTurnStartedByPlayer", false);
@@ -318,13 +318,13 @@ public class CombatSystem : MonoBehaviour
 
     public void BindCharacterData()
     {
-        energyTurn[EnergyType.Standard] = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Energy);
+        energyTurn[EnergyType.Standard] = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Syphon);
 
         energyMax[EnergyType.Standard] = 4;
         energyMax[EnergyType.Rage] = 3;
 
-        drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Wit);
-        Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Health);
+        drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Wit);
+        Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Health);
         Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
     }
 

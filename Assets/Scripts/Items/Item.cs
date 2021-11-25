@@ -23,4 +23,15 @@ public abstract class Item : MonoBehaviour, IEffectAdder
     {
         RemoveEffect();
     }
+
+    //public int GetValue() => itemEffect.itemEffectStruct.value;
+    public int GetValue()
+    {
+        if (itemEffect != null)
+            return itemEffect.itemEffectStruct.value;
+        else
+            return 0;
+    }
+
+    public string GetName() => itemName;
 }

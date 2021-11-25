@@ -59,6 +59,6 @@ public class CombatActorHero : CombatActor
 
     public override int GetStat(StatType stat)
     {
-        return WorldSystem.instance.characterManager.characterStats.GetStat(stat);
+        return WorldSystem.instance.characterManager.characterStats.GetStatValue(stat);
     }
 }

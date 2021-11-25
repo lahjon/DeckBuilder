@@ -62,7 +62,7 @@ public class RulesSystem : MonoBehaviour
 
         float x = startingValue;
         x += source.strengthCombat;
-        x += source.GetStat(StatType.Strength);
+        x += source.GetStat(StatType.Power);
 
         x = Mathf.Max(x, 0f);
 

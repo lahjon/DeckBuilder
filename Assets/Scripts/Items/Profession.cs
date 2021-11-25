@@ -15,7 +15,7 @@ public class Profession : IEffectAdder
     {
         itemEffect = new List<ItemEffect>();
         for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
-            itemEffect.Add(WorldSystem.instance.itemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], this, professionData.professionName, true));
+            itemEffect.Add(WorldSystem.instance.itemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], this, true));
     }
     public void RemoveEffects()
     {
@@ -32,5 +32,15 @@ public class Profession : IEffectAdder
         Profession profession = new Profession(aProfessionData);
         profession.AddEffects();
         return profession;
+    }
+
+    public int GetValue()
+    {
+        return 0;
+    }
+
+    public string GetName()
+    {
+        return null;
     }
 }

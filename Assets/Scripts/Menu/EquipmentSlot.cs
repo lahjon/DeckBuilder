@@ -16,8 +16,16 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!image.enabled) image.enabled = true;
         equipmentData = data;
         image.sprite = data.artwork;
-        itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct, this, data.itemName);
+        itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(equipmentData.itemEffectStruct, this);
     }
+
+    public string GetName()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public int GetValue() => itemEffect.itemEffectStruct.value;
+
     public void NotifyUsed()
     {
         

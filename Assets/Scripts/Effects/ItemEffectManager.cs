@@ -6,13 +6,14 @@ using System;
 
 public class ItemEffectManager : Manager
 {
-    public HashSet<ItemEffect> allAddedItemEffects = new HashSet<ItemEffect>();
+    public HashSet<ItemEffect> allActiveItemEffects = new HashSet<ItemEffect>();
+    //public HashSet<ItemEffect> allItemStructs = new HashSet<ItemEffect>();
     protected override void Awake()
     {
         base.Awake();
         world.itemEffectManager = this;
     }
-    public ItemEffect CreateItemEffect(ItemEffectStruct itemEffectStruct, IEffectAdder itemEffectAdder, string sourceName, bool triggerInstant = true)
+    public ItemEffect CreateItemEffect(ItemEffectStruct itemEffectStruct, IEffectAdder itemEffectAdder, bool triggerInstant = true)
     {
         string effectName = itemEffectStruct.type.ToString();
         if (itemEffectStruct.type == ItemEffectType.Custom)
@@ -89,7 +90,7 @@ public enum ItemEffectType
 {
     None = 0,
     Custom,
-    AddStat, // parm = StatType | value = value
+    AddStat,                // parm = StatType | value = value
     AddCombatEffect,
     TakeDamage,
     Heal
@@ -98,10 +99,29 @@ public enum ItemEffectType
 public interface IEffectAdder
 {
     public void NotifyUsed();
+    public int GetValue();
+    public string GetName();
 }
 
 public interface IEffect
 {
     public IEnumerator TriggerEffect();
     public IEffectAdder EffectAdder();
+}
+
+public struct IEffectAdderStruct : IEffectAdder
+{
+    string name;
+    int value;
+    public IEffectAdderStruct(string aName, int aValue)
+    {
+        name = aName;
+        value = aValue;
+    }
+    public string GetName() => name;
+    public int GetValue() => value;
+    public void NotifyUsed()
+    {
+
+    }
 }

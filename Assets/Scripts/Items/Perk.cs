@@ -20,6 +20,8 @@ public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
         get => _activated;
         set 
         {
+            //Debug.Log("Set");
+            //Debug.Log(value);
             _activated = value;
             if (_activated && (characterClassType == WorldSystem.instance.characterManager.selectedCharacterClassType || characterClassType == CharacterClassType.None)) 
                 ActivatePerk();
@@ -38,8 +40,9 @@ public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
             initialized = true;
             image.sprite = perkData.artwork;
             characterClassType = perkData.characterClassType;
-            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(perkData.itemEffectStruct, this, data.itemName);
+            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(perkData.itemEffectStruct, this, false);
             perkName.text = data.itemName;
+            itemName = data.itemName;
             Activated = true;
         }
     }
@@ -57,7 +60,9 @@ public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
     void DeactivePerk()
     {
         if (appliedEffect) itemEffect?.RemoveItemEffect();
-
+        // Debug.Log(itemEffect);
+        // Debug.Log(appliedEffect);
+        // Debug.Log("Deavtve");
         appliedEffect = false;
         image.sprite = perkData.inactiveArtwork;
         //button.interactable = false;

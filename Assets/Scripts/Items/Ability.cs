@@ -60,7 +60,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
         image.sprite = abilityData.artwork;
         if (allData)
         {
-            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, this, abilityData.itemName);
+            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, this);
             abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             abilityCondition.Subscribe();
             charges = 1;

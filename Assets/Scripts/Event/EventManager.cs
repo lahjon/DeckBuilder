@@ -21,6 +21,9 @@ public class EventManager : Manager
     public delegate void EnemyKilledEvent(EnemyData enemy);
     public static event EnemyKilledEvent OnEnemyKilledEvent;
 
+    public delegate void StatModifiedEvent();
+    public static event StatModifiedEvent OnStatModifiedEvent;
+
     public delegate void EnemyKilledNoArgEvent();
     public static event EnemyKilledNoArgEvent OnEnemyKilledNoArgEvent;
 
@@ -88,6 +91,10 @@ public class EventManager : Manager
     {
         if(OnNewWorldStateEvent != null)
             EventManager.OnNewWorldStateEvent(state);
+    }
+    public static void StatModified()
+    {
+        OnStatModifiedEvent?.Invoke();
     }
 
     public static void NewOverlayState(OverlayState state)

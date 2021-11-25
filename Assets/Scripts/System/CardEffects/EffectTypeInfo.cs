@@ -55,8 +55,8 @@ public class EffectTypeInfo : IEquatable<EffectTypeInfo>
 
     public static EffectTypeInfo GetEffectTypeInfo(EffectType type){
 
-        Debug.Log(type.ToString());
-        Debug.Log(TypeToStruct.ContainsKey(type));
+        //Debug.Log(type.ToString());
+        //Debug.Log(TypeToStruct.ContainsKey(type));
         return TypeToStruct[type];
     }
 

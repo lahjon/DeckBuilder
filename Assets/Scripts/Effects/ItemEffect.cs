@@ -8,11 +8,11 @@ public abstract class ItemEffect
     public ItemEffectStruct itemEffectStruct;
     public virtual void AddItemEffect()
     {
-        world.itemEffectManager.allAddedItemEffects.Add(this);
+        world.itemEffectManager.allActiveItemEffects.Add(this);
         effectAdder.NotifyUsed();
     }
     public virtual void RemoveItemEffect()
     {
-        world.itemEffectManager.allAddedItemEffects.Remove(this);
+        world.itemEffectManager.allActiveItemEffects.Remove(this);
     }
 }

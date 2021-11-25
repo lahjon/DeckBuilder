@@ -20,8 +20,8 @@ MonoBehaviour:
   itemEffectStruct:
     type: 2
     parameter: Health
-    instant: 0
-    value: 5
+    addOnStart: 0
+    value: 12
   level: 1
   inactiveArtwork: {fileID: 21300000, guid: c83a6ac096c3c954b94f533ead1bf73d, type: 3}
   effect: LionsBlood

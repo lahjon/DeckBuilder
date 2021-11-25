@@ -253,27 +253,24 @@ public enum EncounterHexStatus
     Unreachable,
     Idle
 }
-
-public enum GameEventStatus
-{
-    NotStarted,
-    Started,
-    Done
-}
-
-public enum CharacterAbility
-{
-    Objective,
-    Mission
-};
-
 public enum StatType
 {
-    Health,
-    Strength,   
-    Endurance,  
-    Wit,        
-    Energy
+    None = 0,
+
+    // main stats
+    Health,                     // HP
+    Power,                      // damage to attacks
+    Wit,                        // cards to draw each turn
+    Amplitude,                  // energy max
+    Syphon,                     // energy / turn
+    Endurance,                  // armor / block ??
+
+    // hidden stats
+    OptionalEnergyMax = 10,
+    OptionalEnergyTurn,
+    DraftAmount,
+    MaxCardsOnHand
+    
 }
 
 public enum EncounterRoadStatus

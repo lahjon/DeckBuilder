@@ -36,9 +36,9 @@ public class CardEffectCarrier: ICardTextElement
     public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnConditionFlip = null)
     {
         this.card = card;
-        Debug.Log(data.Type);
+        //Debug.Log(data.Type);
+        //Debug.Log(Type);
         Type = data.Type.GetEffectTypeStruct();
-        Debug.Log(Type);
         Value = CardInt.Factory(data.Value,card, ForceTextRefresh);
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;
@@ -94,7 +94,7 @@ public class CardEffectCarrier: ICardTextElement
             if (Value is CardIntLinkedProperty cip)
                 sb.Append(cip.GetTextForValue());
             else
-                sb.Append(Helpers.ValueColorWrapper(Value.value + WorldSystem.instance.characterManager.characterStats.GetStat(StatType.Strength), CombatSystem.instance.CalculateDisplayDamage(Value)));
+                sb.Append(Helpers.ValueColorWrapper(Value.value + WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Power), CombatSystem.instance.CalculateDisplayDamage(Value)));
         }
         else
             sb.Append(Value.GetTextForValue());
