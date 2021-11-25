@@ -81,8 +81,6 @@ public class MissionManager : Manager, ISaveableWorld
             innerList.aList = mission.countingConditions.Select(x => x.currentAmount).ToList();
             allGoals.Add(innerList);
         }
-
-        Debug.Log("goal: " + allGoals.Count);
         a_SaveData.currentMissionGoals = allGoals;
     }
 

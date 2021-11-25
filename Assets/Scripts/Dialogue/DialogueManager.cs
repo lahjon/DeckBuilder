@@ -81,7 +81,6 @@ public class DialogueManager : Manager, ISaveableWorld
 
     public void StartDialogue()
     {
-        Debug.Log(WorldStateSystem.instance.currentWorldState);
         if (availableDialogues.Any() && DatabaseSystem.instance.dialogues.FirstOrDefault(x => x.index == availableDialogues[0]) is DialogueData aDialogueData)
         {
             dialogueData = aDialogueData; 

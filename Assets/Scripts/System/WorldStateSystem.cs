@@ -161,7 +161,6 @@ public class WorldStateSystem : MonoBehaviour
     public static void SetInTransition(bool aBool)
     {
         overlayAnimator.SetBool("InTransition", aBool);
-        Debug.Log("trans");
     }
     public static void SetInDisplay()
     {

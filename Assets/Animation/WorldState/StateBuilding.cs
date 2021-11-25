@@ -20,7 +20,6 @@ public class StateBuilding : WorldStateAnimator
 
     WorldState StateSwitch()
     {
-        Debug.Log(world.townManager.currentBuilding);
         switch (world.townManager.currentBuilding)
         {
             case BuildingType.Scribe:
