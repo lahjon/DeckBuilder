@@ -18,7 +18,7 @@ MonoBehaviour:
   singleFieldProperties: []
   effects: []
   activities:
-  - type: 11
+  - type: 6
     strParameter: 
     val: -1
     conditionStruct:

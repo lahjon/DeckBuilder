@@ -37,6 +37,7 @@ public class HealtUINotification : MonoBehaviour
         label.text = newLabel;
         animationDuration = duration;
         timePassed = 0;
+        label.fontSize = 900;
         gameObject.SetActive(true);
     }
 

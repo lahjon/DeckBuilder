@@ -194,7 +194,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         if (this == CombatSystem.instance.Hero)
             WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
 
-        healthEffectsUI.StartLifeLossNotification(lifeToLose);
+        healthEffectsUI.StartNotificationLifeLoss(lifeToLose);
 
         if (hitPoints <= 0)
             CombatSystem.instance.ReportDeath(this);
