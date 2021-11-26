@@ -26,9 +26,9 @@ public abstract class Reward : MonoBehaviour, IToolTipable
     }
     public void SetWorldReward()
     {
-        rewardCountText.text = rewardAmount.ToString();
-        rewardCountText.gameObject.SetActive(true);
-        rewardText.gameObject.SetActive(false);
+        //rewardCountText.text = rewardAmount.ToString();
+        //rewardCountText.gameObject.SetActive(true);
+        //rewardText.gameObject.SetActive(false);
     }
     public abstract void AddReward();
     public abstract void RemoveReward();

@@ -102,13 +102,6 @@ public interface IEffectAdder
     public int GetValue();
     public string GetName();
 }
-
-public interface IEffect
-{
-    public IEnumerator TriggerEffect();
-    public IEffectAdder EffectAdder();
-}
-
 public struct IEffectAdderStruct : IEffectAdder
 {
     string name;

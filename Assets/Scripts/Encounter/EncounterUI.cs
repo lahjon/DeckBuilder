@@ -113,11 +113,11 @@ public class EncounterUI : MonoBehaviour
                 WorldSystem.instance.characterManager.characterCurrency.gold += x;
                 break;
             case EncounterEventChoiceEffect.Artifact:
-                WorldSystem.instance.rewardManager.CreateRewardCombat(RewardCombatType.Artifact, null);
+                WorldSystem.instance.combatRewardManager.CreateRewardCombat(RewardCombatType.Artifact, null);
                 break;
             case EncounterEventChoiceEffect.GetCards:
                 CardClassType cardClassType = (CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType;
-                WorldSystem.instance.rewardManager.CreateRewardCombat(RewardCombatType.Card, effectStruct.parameter);
+                WorldSystem.instance.combatRewardManager.CreateRewardCombat(RewardCombatType.Card, effectStruct.parameter);
                 break;
         }
     }

@@ -6,39 +6,36 @@ using System.Linq;
 
 public class RewardScreenCombat : MonoBehaviour
 {
-    public GameObject content;
+    public Transform content;
     public int rewardCount;
-    public GameObject rewardScreenCard;
     public GameObject rewardScreenCardContent;
     public GameObject canvas;
     public GameObject canvasCard;
     public System.Action callback;
-    public RewardCombatStruct[] combatRewardNormal;
-    public RewardCombatStruct[] combatRewardElite;
-    public RewardCombatStruct[] combatRewardBoss;
     public GameObject cardDisplayPrefab;
     public void SetupRewards()
     {
         canvas.SetActive(true);
         CombatEncounterType type;
+        Debug.Log("Setup Rewards");
         if (CombatSystem.instance.encounterData != null)
             type = CombatSystem.instance.encounterData.type;
         else
             type = CombatEncounterType.Normal;
 
-        while (content.transform.childCount > 0)
-            Destroy(content.transform.GetChild(0).gameObject);
+        while (content.childCount > 0)
+            Destroy(content.GetChild(0).gameObject);
 
         switch (type)
         {
             case CombatEncounterType.Normal:
-                CreateCombatRewards(combatRewardNormal);
+                CreateCombatRewards(WorldSystem.instance.combatRewardManager.combatRewardNormal);
                 break;
             case CombatEncounterType.Elite:
-                CreateCombatRewards(combatRewardElite);
+                CreateCombatRewards(WorldSystem.instance.combatRewardManager.combatRewardElite);
                 break;
             case CombatEncounterType.Boss:
-                CreateCombatRewards(combatRewardBoss);
+                CreateCombatRewards(WorldSystem.instance.combatRewardManager.combatRewardBoss);
                 break;
             default:
                 break;
@@ -66,7 +63,7 @@ public class RewardScreenCombat : MonoBehaviour
     {
         foreach (RewardCombatStruct reward in rewards)
         {
-            Reward newReward = WorldSystem.instance.rewardManager.CreateRewardCombat(reward.type, reward.value, content.transform);
+            Reward newReward = WorldSystem.instance.combatRewardManager.CreateRewardCombat(reward.type, reward.value);
             newReward.gameObject.SetActive(true);
             rewardCount++;
         }
@@ -86,9 +83,9 @@ public class RewardScreenCombat : MonoBehaviour
 
         WorldStateSystem.SetInCombatReward(false);
 
-        for (int i = 0; i < content.transform.childCount; i++)
+        for (int i = 0; i < content.childCount; i++)
         {
-            Destroy(content.transform.GetChild(i).gameObject);
+            Destroy(content.GetChild(i).gameObject);
         }
     }
 }

@@ -60,7 +60,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
         image.sprite = abilityData.artwork;
         if (allData)
         {
-            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, this);
+            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, this, false);
             abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             abilityCondition.Subscribe();
             charges = 1;
@@ -123,6 +123,6 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     }
     public override void NotifyUsed()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Used Item");
     }
 }

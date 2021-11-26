@@ -116,14 +116,14 @@ public static class DatabaseUpdateOnStart
     {
         GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
         DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
-        dbs.allHexTiles.Clear();
+        dbs.hexTiles.Clear();
 
         string[] lGuids = AssetDatabase.FindAssets("t:Prefab", new string[] { "Assets/Prefab/HexTiles" });
 
         for (int i = 0; i < lGuids.Length; i++)
         {
             string lAssetPath = AssetDatabase.GUIDToAssetPath(lGuids[i]);
-            dbs.allHexTiles.Add(AssetDatabase.LoadAssetAtPath<GameObject>(lAssetPath).GetComponent<HexTile>());
+            dbs.hexTiles.Add(AssetDatabase.LoadAssetAtPath<GameObject>(lAssetPath).GetComponent<HexTile>());
         }
 
         EditorUtility.SetDirty(dbs);

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbc414863b12254b9fb394194d32a52, type: 3}
   m_Name: New Ability
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: ASD
   itemId: 0
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 1e78eaf26ad39404f91372b170f3150b, type: 3}
   description: 
   rarity: 0
   itemEffectStruct:
@@ -27,4 +27,4 @@ MonoBehaviour:
     strParameter: 
     numValue: 0
     strParameters: []
-  statesUsable: 
+  statesUsable: 0b000000

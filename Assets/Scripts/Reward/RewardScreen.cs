@@ -90,6 +90,7 @@ public class RewardScreen : MonoBehaviour
         if (Reward.GetCardData(reward.value) is List<CardData> cardDatas)
         {
             cardPanel.SetActive(true);
+            Debug.Log(cardDatas.Count);
             foreach (var item in displayCards)
             {
                 item.gameObject.SetActive(false);
@@ -146,6 +147,7 @@ public class RewardScreen : MonoBehaviour
     void AddRewardToScreen(Reward aReward)
     {
         aReward.SetWorldReward();
+        //aReward.transform.SetParent(anchor);
         aReward.transform.localScale = Vector3.one * 2;
         aReward.transform.localPosition = new Vector3(aReward.transform.localPosition.x, aReward.transform.localPosition.y, 0);
         aReward.GetComponent<Button>().onClick.RemoveAllListeners();

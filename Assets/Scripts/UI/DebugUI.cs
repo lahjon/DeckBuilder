@@ -175,6 +175,13 @@ public class DebugUI : MonoBehaviour
         world.tokenManager.UnlockNewToken(tokenReward);
     }
 
+    public void DebugInRewardScreen()
+    {
+        //world.rewardManager.CreateRewardNormal(RewardNormalType.UnlockCard, "name=Berserker_DisplayofMight");
+        world.rewardManager.CreateRewardNormal(RewardNormalType.Ability, "0");
+        WorldStateSystem.SetInTownReward(true);
+    }
+
     public void DebugGetShards()
     {
         world.characterManager.characterCurrency.shard += 5;

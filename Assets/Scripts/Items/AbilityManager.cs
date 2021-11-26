@@ -8,7 +8,7 @@ public class AbilityManager : Manager
     public GameObject abilityPrefab;
     public Canvas canvas;
     public Transform content;
-    public List<AbilityData> allAbilities = new List<AbilityData>(); 
+    public List<AbilityData> allAbilities { get => DatabaseSystem.instance.abilityDatas; }
     public List<Ability> currentAbilities = new List<Ability>(); 
     public int maxAbilitySlots;
     public int usedAbilitySlots;
@@ -22,7 +22,7 @@ public class AbilityManager : Manager
         base.Start();
     }
 
-    public AbilityData GetAbilityData(int anId = -1)
+    public AbilityData GetAbilityDataById(int anId = -1)
     {
         if (anId >= 0)
             return allAbilities.Except(currentAbilities.Select(x => x.abilityData)).FirstOrDefault(x => x.itemId == anId);
@@ -68,7 +68,7 @@ public class AbilityManager : Manager
         if (anId >= 0)
             data = allAbilities.Except(currentAbilities.Select(x => x.abilityData)).FirstOrDefault(x => x.itemId == anId);
         else
-            data = GetAbilityData();
+            data = GetAbilityDataById();
 
         if (data == null)
             return;

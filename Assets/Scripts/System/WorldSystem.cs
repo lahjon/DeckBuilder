@@ -31,6 +31,7 @@ public class WorldSystem : MonoBehaviour
     public WorldMapManager worldMapManager;
     public DialogueManager dialogueManager;
     public RewardManager rewardManager;
+    public CombatRewardManager combatRewardManager;
     //public LevelManager levelManager;
     public ScenarioMapManager gridManager;
     public AbilityManager abilityManager;

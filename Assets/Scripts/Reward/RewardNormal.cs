@@ -13,9 +13,11 @@ public class RewardNormal : Reward
     public override void AddReward()
     {
         transform.SetParent(WorldSystem.instance.rewardManager.rewardParent);
+        WorldSystem.instance.rewardManager.uncollectedReward.Add(this);
     }
     public override void RemoveReward()
     {
+        WorldSystem.instance.rewardManager.uncollectedReward.Remove(this);
         Destroy(gameObject);
         WorldSystem.instance.rewardManager.CollectRewards();
     }
@@ -73,7 +75,7 @@ public class RewardNormal : Reward
     }
     public void RewardAbility(string value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.abilityManager.GetAbilityData(Int32.Parse(value)) : WorldSystem.instance.abilityManager.GetAbilityData();
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.abilityManager.GetAbilityDataById(Int32.Parse(value)) : WorldSystem.instance.abilityManager.GetAbilityDataById();
 
         if (itemData == null)
         {

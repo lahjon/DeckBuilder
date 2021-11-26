@@ -38,7 +38,7 @@ public class CharacterStats : MonoBehaviour
 
     void RemoveStatsFromCharacter()
     {
-        stats.ForEach(s => s.RemoveStatModifier(s.StatModifers.FirstOrDefault(x => x.effectAdder.GetName() == "Character"))); 
+        stats.ForEach(s => s.RemoveStatModifier(s.StatModifers.FirstOrDefault(x => x.GetName() == "Character"))); 
     }
 
     public int GetStatValue(StatType aStatType)
@@ -68,7 +68,7 @@ public class CharacterStats : MonoBehaviour
         if (characterManager.currentHealth < 1)
             characterManager.currentHealth = 1;
 
-        if (addStat) stat.AddStatModifier(new StatModifer(aValue, effectAdder));
+        if (addStat) stat.AddStatModifier(effectAdder);
         else stat.RemoveStatModifier(effectAdder);
 
         characterManager.characterVariablesUI.UpdateCharacterHUD();
@@ -84,7 +84,7 @@ public class CharacterStats : MonoBehaviour
         Stat stat = GetStat(aStatType);
         if (stat == null) return;
         Debug.Log(aStatType);
-        if (addStat) stat.AddStatModifier(new StatModifer(aValue, effectAdder));
+        if (addStat) stat.AddStatModifier(effectAdder);
         else stat.RemoveStatModifier(effectAdder);
 
         stat.value += aValue;

@@ -13,22 +13,21 @@ public class RewardCombat : Reward
     bool reset;
     public override void AddReward()
     {
-        WorldSystem.instance.rewardManager.uncollectedReward.Add(this);
-        transform.SetParent(WorldSystem.instance.rewardManager.rewardParent);
+        WorldSystem.instance.combatRewardManager.uncollectedReward.Add(this);
     }
     public override void RemoveReward()
     {
-        WorldSystem.instance.rewardManager.uncollectedReward.Remove(this);
+        WorldSystem.instance.combatRewardManager.uncollectedReward.Remove(this);
         Destroy(gameObject);
         WorldSystem.instance.rewardManager.CollectRewards();
     }
     public override void OnClick()
     {
         base.OnClick();
-        WorldSystem.instance.rewardManager.rewardScreenCombat.rewardCount--;
+        WorldSystem.instance.combatRewardManager.rewardScreenCombat.rewardCount--;
 
         if(reset)
-            WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
+            WorldSystem.instance.combatRewardManager.rewardScreenCombat.ResetReward();
     }
     public void SetupReward(RewardCombatType aRewardType, string aValue = null)
     {
@@ -50,7 +49,10 @@ public class RewardCombat : Reward
                 RewardHeal(aValue);
                 break;
             case RewardCombatType.Shard:
-                RewardHeal(aValue);
+                RewardShard(aValue);
+                break;
+            case RewardCombatType.Ember:
+                RewardEmber(aValue);
                 break;
 
             default:
@@ -83,6 +85,17 @@ public class RewardCombat : Reward
         reset = true;
 
         callback = () => WorldSystem.instance.characterManager.characterCurrency.shard += amount;
+    }
+
+    public void RewardEmber(string value)
+    {
+        int amount = (value != null && value.Count() > 0) ? int.Parse(value) : 1;
+        rewardText.text = string.Format("Ember: {0}", amount.ToString());
+        image.sprite = WorldSystem.instance.rewardManager.icons[4];
+        rewardAmount = amount;
+        reset = true;
+
+        callback = () => WorldSystem.instance.characterManager.characterCurrency.ember += amount;
     }
 
     public void RewardArtifact(string value)

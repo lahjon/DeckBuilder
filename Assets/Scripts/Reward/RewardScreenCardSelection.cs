@@ -12,9 +12,10 @@ public class RewardScreenCardSelection : MonoBehaviour
     public void SetupRewards(List<CardData> rewardCards = null)
     {
         cards.Clear();
+        Debug.Log("Card reward");
         WorldStateSystem.SetInCombatReward(true);
 
-        foreach (Transform card in WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform)
+        foreach (Transform card in WorldSystem.instance.combatRewardManager.rewardScreenCombat.rewardScreenCardContent.transform)
         {
             cards.Add(card.GetComponent<CardDisplay>());
         }
@@ -25,11 +26,9 @@ public class RewardScreenCardSelection : MonoBehaviour
         else
             maxCardReward = WorldSystem.instance.characterManager.maxCardReward;
 
-        Debug.Log(cards.Count);
-        Debug.Log(maxCardReward);
         if(cards.Count < maxCardReward)
         {
-            CardDisplay newCard = Instantiate(WorldSystem.instance.rewardManager.rewardScreenCombat.cardDisplayPrefab, WorldSystem.instance.rewardManager.rewardScreenCombat.rewardScreenCardContent.transform).GetComponent<CardDisplay>();
+            CardDisplay newCard = Instantiate(WorldSystem.instance.combatRewardManager.rewardScreenCombat.cardDisplayPrefab, WorldSystem.instance.combatRewardManager.rewardScreenCombat.rewardScreenCardContent.transform).GetComponent<CardDisplay>();
             cards.Add(newCard);
         }
         else if (cards.Count > maxCardReward)
@@ -41,20 +40,21 @@ public class RewardScreenCardSelection : MonoBehaviour
             }
         }
 
-        WorldSystem.instance.rewardManager.rewardScreenCombat.canvasCard.SetActive(true);
+        canvas.SetActive(true);
         if(rewardCards != null && rewardCards.Any())
         {
-            Debug.Log("Yes");
+            Debug.Log("Get Specific Cards");
             SetSpecificCard(rewardCards);
         }
         else
         {
-            Debug.Log("No");
+            Debug.Log("Get Random Cards");
             SetRandomCards();   
         }
     }
     private void SetRandomCards()
     {
+        Debug.Log(cards.Count);
         foreach (CardDisplay card in cards)
         {
             card.cardData = DatabaseSystem.instance.GetRandomCard((CardClassType)WorldSystem.instance.characterManager.selectedCharacterClassType);

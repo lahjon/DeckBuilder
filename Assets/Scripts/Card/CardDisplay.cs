@@ -107,7 +107,7 @@ public class CardDisplay : CardVisual
 
         WorldSystem.instance.characterManager.AddCardToDeck(this);
 
-        WorldSystem.instance.rewardManager.rewardScreenCombat.ResetReward();
+        WorldSystem.instance.combatRewardManager.rewardScreenCombat.ResetReward();
         WorldSystem.instance.rewardManager.rewardScreenCardSelection.canvas.SetActive(false);
         
     }

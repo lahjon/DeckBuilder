@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemEffectAddCombatEffect : ItemEffect, IEffect
+public class ItemEffectAddCombatEffect : ItemEffect
 {
     public override void AddItemEffect()
     {

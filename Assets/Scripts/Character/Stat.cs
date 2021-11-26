@@ -12,29 +12,24 @@ public class Stat
         type = aType;
         visible = aVisible;
     }
-    [SerializeField] List<StatModifer> _statModifers = new List<StatModifer>();
+    [SerializeField] List<IEffectAdder> _statModifers = new List<IEffectAdder>();
     public int value;
     public bool visible;
     public StatType type;
-    public  List<StatModifer> StatModifers
+    public  List<IEffectAdder> StatModifers
     {
         get => _statModifers;
     }
 
-    public void AddStatModifier(StatModifer statModifer)
+    public void AddStatModifier(IEffectAdder statModifer)
     {
         _statModifers.Add(statModifer);
         EventManager.StatModified();
     }
 
-    public void RemoveStatModifier(StatModifer statModifer)
+    public void RemoveStatModifier(IEffectAdder statModifer)
     {
         _statModifers.Remove(statModifer);
         EventManager.StatModified();
-    }
-
-    public void RemoveStatModifier(IEffectAdder effectAdder)
-    {
-        RemoveStatModifier(_statModifers.FirstOrDefault(x => x.effectAdder == effectAdder));
     }
 }

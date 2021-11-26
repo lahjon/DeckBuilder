@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class Artifact : Item, IToolTipable
 {
     public int id;
     protected Image image;
     public Button button;
-    protected ArtifactData _artifactData;
     public Transform tooltipAnchor;
     bool initialized;
     public ArtifactData artifactData;
+    Tween tween;
     protected void Awake()
     {
         Initialize();
@@ -46,7 +47,7 @@ public class Artifact : Item, IToolTipable
     public virtual void BindData(ArtifactData anArtifactData)
     {   
         Initialize();
-        if (artifactData != null)
+        if (anArtifactData != null)
         {
             artifactData = anArtifactData;
             image.sprite = artifactData.artwork;
@@ -56,7 +57,8 @@ public class Artifact : Item, IToolTipable
     }
     public override void NotifyUsed()
     {
-        throw new System.NotImplementedException();
+        if (tween != null) tween.Kill();
+        tween = transform.DOScale(1.2f * Vector3.one, .3f).SetLoops(2, LoopType.Yoyo).OnKill(() => transform.localScale = Vector3.one);
     }
 }
 

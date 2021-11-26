@@ -177,7 +177,8 @@ public enum RewardCombatType
     Card = 2,
     Heal = 3,
     Shard,
-    Artifact
+    Artifact,
+    Ember
 }
 
 public enum RewardNormalType
@@ -186,7 +187,8 @@ public enum RewardNormalType
     UnlockCard = 1,
     Ability = 2,
     Perk = 4,
-    Shard
+    Shard,
+    FullEmber
 }
 
 public enum CurrencyType

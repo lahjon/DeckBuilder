@@ -34,8 +34,8 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
         string statText = "";
         for (int i = 0; i < stat.StatModifers.Count; i++)
         {
-            string source = stat.StatModifers[i].effectAdder.GetName();
-            int value = stat.StatModifers[i].effectAdder.GetValue();
+            string source = stat.StatModifers[i].GetName();
+            int value = stat.StatModifers[i].GetValue();
             string valueStr = value >= 0 ? string.Format("+ {0}", value) : string.Format("- {0}", System.Math.Abs(value));
             if (i < stat.StatModifers.Count)
                 statText = string.Format("{0}: {1}\n", source, valueStr);

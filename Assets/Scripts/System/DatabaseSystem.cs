@@ -19,14 +19,16 @@ public class DatabaseSystem : MonoBehaviour
 
     [Header("=========== Character ============")]
     public List<ProfessionData> professionDatas = new List<ProfessionData>();
-    public List<AbilityData> abilityDatas = new List<AbilityData>();
-    public List<ArtifactData> arifactDatas = new List<ArtifactData>();
     public List<PlayableCharacterData> allCharacterDatas = new List<PlayableCharacterData>();
 
     [Header("=========== Icons ============")]
     public List<Sprite> allOverworldIcons = new List<Sprite>();
     public List<Sprite> allCurrencyIcons = new List<Sprite>();
-    public List<HexTile> allHexTiles = new List<HexTile>();
+    public List<HexTile> hexTiles = new List<HexTile>();
+
+    [Header("=========== Items ============")]
+    public List<AbilityData> abilityDatas = new List<AbilityData>();
+    public List<ArtifactData> arifactDatas = new List<ArtifactData>();
 
     [Header("=========== Progression ============")]
     public List<ScenarioData> scenarios = new List<ScenarioData>();
