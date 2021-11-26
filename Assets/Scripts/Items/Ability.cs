@@ -105,7 +105,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     public void OnClick()
     {
         itemEffect?.AddItemEffect();
-        Debug.Log("Using Item!");
+        Debug.Log("Using Ability!");
         counterText.text = (abilityCondition.requiredAmount - abilityCondition.currentAmount).ToString();
         charges--;
     }

@@ -53,16 +53,12 @@ public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
 
         appliedEffect = true;
         image.sprite = perkData.artwork;
-        //button.interactable = true;
         image.material.SetInt("Active", 1);
     }
 
     void DeactivePerk()
     {
         if (appliedEffect) itemEffect?.RemoveItemEffect();
-        // Debug.Log(itemEffect);
-        // Debug.Log(appliedEffect);
-        // Debug.Log("Deavtve");
         appliedEffect = false;
         image.sprite = perkData.inactiveArtwork;
         //button.interactable = false;
