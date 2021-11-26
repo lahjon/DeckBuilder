@@ -92,7 +92,7 @@ public class CardEffectCarrier: ICardTextElement
             if (Value is CardIntLinkedProperty cip)
                 sb.Append(cip.GetTextForValue());
             else
-                sb.Append(Helpers.ValueColorWrapper(Value.value + WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Power), CombatSystem.instance.CalculateDisplayDamage(Value)));
+                sb.Append(Helpers.ValueColorWrapper(Value.value + CharacterStats.Power, CombatSystem.instance.CalculateDisplayDamage(Value)));
         }
         else
             sb.Append(Value.GetTextForValue());

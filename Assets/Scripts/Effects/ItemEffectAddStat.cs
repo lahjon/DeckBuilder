@@ -4,21 +4,16 @@ using UnityEngine;
 
 public class ItemEffectAddStat : ItemEffect
 {
+    public int GetValue() => itemEffectStruct.value;
+    public string GetName() => effectAdder.GetName();
+
     public override void AddItemEffect()
     {
-        base.AddItemEffect();
-        StatSwitch(itemEffectStruct.parameter.ToEnum<StatType>(), itemEffectStruct.value, true);
+        CharacterStats.stats[itemEffectStruct.parameter.ToEnum<StatType>()].AddStatModifier(this);
     }
     public override void RemoveItemEffect()
     {
-        base.RemoveItemEffect();
-        StatSwitch(itemEffectStruct.parameter.ToEnum<StatType>(), -itemEffectStruct.value, false);
+        CharacterStats.stats[itemEffectStruct.parameter.ToEnum<StatType>()].RemoveStatModifier(this);
     }
-    void StatSwitch(StatType statType, int amount, bool add)
-    {
-        if (statType == StatType.Health)
-            WorldSystem.instance.characterManager.characterStats.ModifyHealth(amount, effectAdder, add);
-        else
-            WorldSystem.instance.characterManager.characterStats.ModifyStat(statType, amount, effectAdder, add);
-    }
+
 }

@@ -42,7 +42,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         if (currentHealth <= 0)
         {
-            currentHealth = characterStats.GetStatValue(StatType.Health);
+            currentHealth = CharacterStats.Health;
             characterVariablesUI.UpdateCharacterHUD();
         }
 
@@ -121,9 +121,9 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         currentHealth += amount;
         Debug.Log("healing for: " + amount);
 
-        if (currentHealth > characterStats.GetStatValue(StatType.Health))
+        if (currentHealth > CharacterStats.Health)
         {
-            currentHealth = characterStats.GetStatValue(StatType.Health);
+            currentHealth = CharacterStats.Health;
         }
 
         characterVariablesUI.UpdateCharacterHUD();
@@ -133,7 +133,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)selectedCharacterClassType];
         characterStats.Init();
 
-        if (fromTown) currentHealth = characterStats.GetStatValue(StatType.Health);
+        if (fromTown) currentHealth = CharacterStats.Health;
 
         characterVariablesUI.UpdateCharacterHUD();
     }
@@ -201,7 +201,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
         a_SaveData.currentHealth = currentHealth;
-        a_SaveData.addedHealth = characterStats.GetStatValue(StatType.Health) - characterData.stats.Where(x => x.statType == StatType.Health).FirstOrDefault().value;
+        a_SaveData.addedHealth = CharacterStats.Health - characterData.stats.Where(x => x.statType == StatType.Health).FirstOrDefault().value;
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

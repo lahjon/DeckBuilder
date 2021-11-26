@@ -99,7 +99,6 @@ public enum ItemEffectType
 public interface IEffectAdder
 {
     public void NotifyUsed();
-    public int GetValue();
     public string GetName();
 }
 public struct IEffectAdderStruct : IEffectAdder
