@@ -18,7 +18,7 @@ MonoBehaviour:
   description: 
   artworkAnimated: {fileID: 0}
   stats:
-  - value: 60
+  - value: 62
     statType: 1
   - value: 1
     statType: 2

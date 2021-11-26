@@ -17,7 +17,7 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
 
     void Start()
     {
-        stat = WorldSystem.instance.characterManager.characterStats.GetStat(statType);
+        stat = CharacterStats.stats[statType];
         GetAllStatModifiers();
         Subscribe();
     }
@@ -32,12 +32,12 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
         StringBuilder sb = new StringBuilder();
         sb.Append(string.Format("<b>{0}</b>\n", statType.ToString()));
         string statText = "";
-        for (int i = 0; i < stat.StatModifers.Count; i++)
+        for (int i = 0; i < stat.statModifers.Count; i++)
         {
-            string source = stat.StatModifers[i].GetName();
-            int value = stat.StatModifers[i].GetValue();
+            string source = stat.statModifers[i].GetName();
+            int value = stat.statModifers[i].GetValue();
             string valueStr = value >= 0 ? string.Format("+ {0}", value) : string.Format("- {0}", System.Math.Abs(value));
-            if (i < stat.StatModifers.Count)
+            if (i < stat.statModifers.Count)
                 statText = string.Format("{0}: {1}\n", source, valueStr);
             else
                 statText = string.Format("{0}: {1}", source, valueStr);

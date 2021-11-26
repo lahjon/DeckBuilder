@@ -42,7 +42,7 @@ public class CharacterVariablesUI : MonoBehaviour
         if (WorldSystem.instance.characterManager != null)
         {
             int currentHealth = WorldSystem.instance.characterManager.currentHealth;
-            int maxHealth = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Health);
+            int maxHealth = CharacterStats.Health;
             healthValue.text = currentHealth.ToString() + "/" + maxHealth.ToString();
             classValue.text = WorldSystem.instance.characterManager.selectedCharacterClassType.ToString();
             
@@ -60,8 +60,7 @@ public class CharacterVariablesUI : MonoBehaviour
 
     void SetStat(StatType statType, Image statImage, TMP_Text statText)
     {
-        CharacterStats stats = WorldSystem.instance.characterManager.characterStats;
-        int value = stats.GetStatValue(statType);
+        int value = CharacterStats.stats[statType];
         
         if (value == 0)
         {

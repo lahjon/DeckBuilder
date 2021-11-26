@@ -57,8 +57,5 @@ public class CombatActorHero : CombatActor
         CombatSystem.instance.RecalcAllCardsDamage();
     }
 
-    public override int GetStat(StatType stat)
-    {
-        return WorldSystem.instance.characterManager.characterStats.GetStatValue(stat);
-    }
+    public override int GetStat(StatType stat) => CharacterStats.stats[stat];
 }
