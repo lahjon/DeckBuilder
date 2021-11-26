@@ -21,11 +21,11 @@ MonoBehaviour:
   - value: 60
     statType: 1
   - value: 1
-    statType: 0
+    statType: 2
+  - value: 1
+    statType: 3
   - value: 0
-    statType: 0
-  - value: 0
-    statType: 0
+    statType: 4
   - value: 3
     statType: 0
   classType: 1
