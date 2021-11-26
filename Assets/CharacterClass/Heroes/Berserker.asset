@@ -27,7 +27,7 @@ MonoBehaviour:
   - value: 0
     statType: 4
   - value: 3
-    statType: 0
+    statType: 5
   classType: 1
   startingItem: HealingPotion
   unlocked: 1
