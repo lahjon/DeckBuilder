@@ -99,7 +99,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
             display.AddModifierToCard(data.upgrades[i]);
 
         display.idx = cw.idx;
-        display.shopCost.SetCost(CurrencyType.FullEmber, cw.timesUpgraded < data.maxUpgrades ? int.Parse(display.cardData.upgradeCostFullEmber) * (cw.timesUpgraded + 1) : 0);
+        display.shopCost.SetCost(CurrencyType.FullEmber, CostType.FullyUpgraded, cw.timesUpgraded < data.maxUpgrades ? int.Parse(display.cardData.upgradeCostFullEmber) * (cw.timesUpgraded + 1) : 0);
     }
 
     void PreviewUpgradeCard(CardDisplay card)
@@ -139,7 +139,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         //selectedCard.UpgradeCard();
         selectedCard.UpgradeCard();
         if ((CardDisplay)selectedCard is CardDisplay display)
-            display.shopCost.SetCost(CurrencyType.FullEmber, display.timesUpgraded < display.cardData.maxUpgrades ? int.Parse(display.cardData.upgradeCostFullEmber) * (display.timesUpgraded + 1) : 0);
+            display.shopCost.SetCost(CurrencyType.FullEmber, CostType.FullyUpgraded, display.timesUpgraded < display.cardData.maxUpgrades ? int.Parse(display.cardData.upgradeCostFullEmber) * (display.timesUpgraded + 1) : 0);
         ButtonCloseUpgrade();
         WorldSystem.instance.SaveProgression();
     }

@@ -191,6 +191,12 @@ public enum RewardNormalType
     FullEmber
 }
 
+public enum CostType
+{
+    FullyUpgraded,
+    OutOfStock
+}
+
 public enum CurrencyType
 {
     None, 
