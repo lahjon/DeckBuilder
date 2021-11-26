@@ -14,7 +14,7 @@ public class CardActivityModifyEnergy : CardActivity
 
     public override string GetDescription(CardActivitySetting data)
     {
-        return (data.val < 0 ? "Loose " : "Gain ") + data.val + " " + data.strParameter + " Energy";
+        return (data.val < 0 ? "Loose " : "Gain ") + data.val + " energy";
     }
 
     public override string GetToolTip(CardActivitySetting data)
