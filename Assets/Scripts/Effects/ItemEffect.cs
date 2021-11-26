@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public abstract class ItemEffect
 {
-    public WorldSystem world;
+    public WorldSystem world;  
     public IEffectAdder effectAdder;
     public ItemEffectStruct itemEffectStruct;
     public virtual void AddItemEffect()

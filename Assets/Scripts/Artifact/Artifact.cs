@@ -56,7 +56,6 @@ public class Artifact : Item, IToolTipable
     }
     public override void NotifyUsed()
     {
-        throw new System.NotImplementedException();
     }
 }
 
