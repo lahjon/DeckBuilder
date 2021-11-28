@@ -156,6 +156,10 @@ public class WorldStateSystem : MonoBehaviour
     {
         worldAnimator.SetBool("InBonfire", aBool);
     }
+    public static void SetInBlacksmith(bool aBool)
+    {
+        worldAnimator.SetBool("InBlacksmith", aBool);
+    }
 
     // overlay states
     public static void SetInTransition(bool aBool)

@@ -19,6 +19,7 @@ public class HexOptimizer
         OverworldEncounterType.Choice,
         OverworldEncounterType.CombatNormal,
         OverworldEncounterType.CombatElite,
+        OverworldEncounterType.Blacksmith,
         OverworldEncounterType.Bonfire,
         OverworldEncounterType.Shop
     };
@@ -34,7 +35,8 @@ public class HexOptimizer
     public List<OverworldEncounterType> uncommons = new List<OverworldEncounterType>() {
         OverworldEncounterType.CombatElite,
         OverworldEncounterType.Shop,
-        OverworldEncounterType.Bonfire
+        OverworldEncounterType.Bonfire,
+        OverworldEncounterType.Blacksmith
     };
 
     public Dictionary<OverworldEncounterType, float> proportions = new Dictionary<OverworldEncounterType, float>();

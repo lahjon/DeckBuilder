@@ -51,6 +51,7 @@ public class BonfireManager : Manager
     }
     public void ButtonUpgrade()
     {
+        world.characterManager.characterCurrency.ember += 1;
         world.deckDisplayManager.OpenUpgrade(ButtonLeave);
     }
 
