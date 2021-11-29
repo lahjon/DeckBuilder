@@ -17,7 +17,7 @@ public class HPBar : MonoBehaviour, IEventSubscriber
     public void UpdateHealth(int amount)
     {
         int current = WorldSystem.instance.characterManager.CurrentHealth;
-        int max = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Health);
+        int max = CharacterStats.Health;
         if (max > 0)
         {
             slider.value = (float)current / (float)max;

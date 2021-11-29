@@ -33,11 +33,9 @@ public class StatHealth : Stat
         if (value <= 1)
             value = 1;
 
-        charMan.currentHealth += val;
+        charMan.CurrentHealth += val;
 
-        if (charMan.currentHealth < 1)
-            charMan.currentHealth = 1;
-
-        charMan.characterVariablesUI.UpdateCharacterHUD();
+        if (charMan.CurrentHealth < 1)
+            charMan.CurrentHealth = 1;
     }
 }
