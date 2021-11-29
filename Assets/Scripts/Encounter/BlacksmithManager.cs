@@ -50,6 +50,6 @@ public class BlacksmithManager : Manager
 
     public void ButtonLeave()
     {
-        WorldStateSystem.SetInBonfire(false);
+        WorldStateSystem.SetInBlacksmith(false);
     }
 }
