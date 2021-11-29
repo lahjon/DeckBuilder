@@ -20,9 +20,20 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterStats characterStats;
     public CharacterCurrency characterCurrency;
     public List<Profession> professions = new List<Profession>();
-    public int currentHealth;
+    [SerializeField]int _currentHealth;
+
     public Transform cardParent;
     public GameObject cardPrefab;
+    public int CurrentHealth
+    {
+        get => _currentHealth;
+        set
+        {
+            int previousCurrent = _currentHealth;
+            _currentHealth = value;
+            EventManager.HealthChanged(value - previousCurrent);
+        }
+    }
 
 
     protected override void Awake()
@@ -40,11 +51,11 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         SetupCharacterData();
 
-        if (currentHealth <= 0)
-        {
-            currentHealth = characterStats.GetStatValue(StatType.Health);
-            characterVariablesUI.UpdateCharacterHUD();
-        }
+        // if (CurrentHealth <= 0)
+        // {
+        //     CurrentHealth = characterStats.GetStatValue(StatType.Health);
+        //     characterVariablesUI.UpdateCharacterHUD();
+        // }
 
         if (unlockedCharacters.Count == 0)
         {
@@ -96,15 +107,15 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void TakeDamage(int amount)
     {
-        currentHealth -= Mathf.Abs(amount);
+        CurrentHealth -= Mathf.Abs(amount);
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
         {
-            currentHealth = 0;
+            CurrentHealth = 0;
             KillCharacter();
         }
 
-        characterVariablesUI.UpdateCharacterHUD();
+        //characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void ResetDeck()
@@ -118,24 +129,21 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
     public void Heal(int amount)
     {
-        currentHealth += amount;
-        Debug.Log("healing for: " + amount);
+        CurrentHealth += amount;
 
-        if (currentHealth > characterStats.GetStatValue(StatType.Health))
+        if (CurrentHealth > characterStats.GetStatValue(StatType.Health))
         {
-            currentHealth = characterStats.GetStatValue(StatType.Health);
+            CurrentHealth = characterStats.GetStatValue(StatType.Health);
         }
 
-        characterVariablesUI.UpdateCharacterHUD();
+        //characterVariablesUI.UpdateCharacterHUD();
     }
     public void SetupCharacterData(bool fromTown = false)
     {
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)selectedCharacterClassType];
         characterStats.Init();
 
-        if (fromTown) currentHealth = characterStats.GetStatValue(StatType.Health);
-
-        characterVariablesUI.UpdateCharacterHUD();
+        if (fromTown) CurrentHealth = characterStats.GetStatValue(StatType.Health);
     }
     public void ClearDeck()
     {
@@ -200,8 +208,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         deck.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
-        a_SaveData.currentHealth = currentHealth;
-        a_SaveData.addedHealth = characterStats.GetStatValue(StatType.Health) - characterData.stats.Where(x => x.statType == StatType.Health).FirstOrDefault().value;
+        a_SaveData.damageTaken = CurrentHealth - characterStats.GetStatValue(StatType.Health);
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
@@ -214,7 +221,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         else
             selectedCharacterClassType = CharacterClassType.Berserker;
 
-        currentHealth = a_SaveData.currentHealth - a_SaveData.addedHealth;
+        CurrentHealth = a_SaveData.damageTaken;
+        //Debug.Log(CurrentHealth);
     }
 }
 

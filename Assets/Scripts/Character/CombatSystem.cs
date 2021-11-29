@@ -223,7 +223,7 @@ public class CombatSystem : MonoBehaviour
         playHistory.Clear();
         createdCards.Clear();
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Health);
-        Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
+        Hero.hitPoints = WorldSystem.instance.characterManager.CurrentHealth;
         
         animator.SetBool("CompanionTurnStartedByPlayer", false);
         if (WorldSystem.instance.companionManager.currentCompanionData is CompanionData companionData)
@@ -325,7 +325,7 @@ public class CombatSystem : MonoBehaviour
 
         drawCount =  WorldSystem.instance.characterManager.defaultDrawCardAmount + WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Wit);
         Hero.maxHitPoints = WorldSystem.instance.characterManager.characterStats.GetStatValue(StatType.Health);
-        Hero.hitPoints = WorldSystem.instance.characterManager.currentHealth;
+        Hero.hitPoints = WorldSystem.instance.characterManager.CurrentHealth;
     }
 
     public void EndTurn()

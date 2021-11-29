@@ -104,7 +104,6 @@ public class ShopOverworld : MonoBehaviour
     public void DebugAddGold()
     {
         WorldSystem.instance.characterManager.characterCurrency.gold += 100;
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void ButtonLeave()

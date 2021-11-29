@@ -29,6 +29,8 @@ public class EventManager : Manager
 
     public delegate void StatsTrackerUpdatedEvent();
     public static event StatsTrackerUpdatedEvent OnStatsTrackerUpdatedEvent;
+    public delegate void HealthChangedEvent(int amount);
+    public static event HealthChangedEvent OnHealthChangedEvent;
 
     public delegate void CompleteSpecialEventEvent(int eventId);
     public static event CompleteSpecialEventEvent OnCompleteSpecialEventEvent;
@@ -113,6 +115,7 @@ public class EventManager : Manager
         OnCompleteWorldEncounterEvent?.Invoke();
     
     }
+
     public static void CompleteSpecialEvent(int eventId)
     {
         if(OnCompleteSpecialEventEvent != null)
@@ -133,6 +136,11 @@ public class EventManager : Manager
     public static void TileCompleted(HexTile tile)
     {
         OnCompleteTileEvent?.Invoke(tile);
+    }
+
+    public static void HealthChanged(int amount)
+    {
+        OnHealthChangedEvent?.Invoke(amount);
     }
 
     public static void CardFinished(Card card)

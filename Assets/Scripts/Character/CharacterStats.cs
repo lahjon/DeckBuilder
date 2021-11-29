@@ -60,18 +60,16 @@ public class CharacterStats : MonoBehaviour
         if (stat == null) return;
         stat.value += aValue;
 
-        characterManager.currentHealth += aValue;
+        characterManager.CurrentHealth += aValue;
 
         if (GetStatValue(StatType.Health) < 1)
             stat.value = 1;
 
-        if (characterManager.currentHealth < 1)
-            characterManager.currentHealth = 1;
+        if (characterManager.CurrentHealth < 1)
+            characterManager.CurrentHealth = 1;
 
         if (addStat) stat.AddStatModifier(effectAdder);
         else stat.RemoveStatModifier(effectAdder);
-
-        characterManager.characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void ModifyStat(StatType aStatType, int aValue, IEffectAdder effectAdder, bool addStat)
@@ -88,7 +86,6 @@ public class CharacterStats : MonoBehaviour
         else stat.RemoveStatModifier(effectAdder);
 
         stat.value += aValue;
-        characterManager.characterVariablesUI.UpdateCharacterHUD();
     }
 }
 

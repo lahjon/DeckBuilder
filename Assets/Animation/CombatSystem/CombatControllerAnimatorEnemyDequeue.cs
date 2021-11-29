@@ -20,7 +20,6 @@ public class CombatControllerAnimatorEnemyDequeue: CombatControllerAnimator
 
     public IEnumerator EnemyTurn()
     {
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         yield return new WaitForSeconds(1f);
         enemy.ShowMoveDisplay(false);
         for (int i = 0; i < enemy.actionsNewTurn.Count; i++)

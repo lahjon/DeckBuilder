@@ -55,7 +55,6 @@ public class BuildingBarracks : Building
     {
         characterArtwork.sprite = currentSelectedCharacter.GetComponent<Image>().sprite;
         UpdateCharacterManager();
-        WorldSystem.instance.characterManager.characterVariablesUI.UpdateCharacterHUD();
         StepBack();
     }
 

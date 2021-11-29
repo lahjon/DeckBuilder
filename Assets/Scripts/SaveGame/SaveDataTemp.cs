@@ -12,8 +12,11 @@ public class SaveDataTemp
     public List<int> allActiveArtifactsNames = new List<int>();
     public List<int> selectedUseItems = new List<int>(); 
     public int gold;
-    public int currentHealth;
-    public int addedHealth;
+    public int embers;
+    //public int currentHealth;
+    //public int addedHealth;
+    
+    public int damageTaken;
     public string ToJson()
     {
         return JsonUtility.ToJson(this);
