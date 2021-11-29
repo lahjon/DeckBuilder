@@ -312,6 +312,7 @@ public enum WorldState
     MainMenu,
     OverworldEvent,
     OverworldBonfire,
+    OverworldBlacksmith,
     OverworldShop,
     CombatReward,
     EventReward,

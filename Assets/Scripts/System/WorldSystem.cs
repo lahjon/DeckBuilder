@@ -29,6 +29,7 @@ public class WorldSystem : MonoBehaviour
     public ArtifactManager artifactManager;
     public BonfireManager bonfireManager;
     public WorldMapManager worldMapManager;
+    public BlacksmithManager blacksmithManager;
     public DialogueManager dialogueManager;
     public RewardManager rewardManager;
     public CombatRewardManager combatRewardManager;

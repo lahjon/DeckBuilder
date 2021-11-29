@@ -12,6 +12,7 @@ public class DebugManager : MonoBehaviour
     public static DebugCommand SaveGame, LoadGame, Help;
     public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn;
     public static DebugCommand<string> AddCard, RemoveCard, UnlockProfession;
+    public static DebugCommand<string> SetInState;
     public List<object> commandList;
     public string lastCommand;
     public Dictionary<string, string> words = new Dictionary<string, string>();
@@ -55,6 +56,15 @@ public class DebugManager : MonoBehaviour
             {
                 world.characterManager.Heal(x);
                 Debug.Log("Heal: " + x);
+            }
+        );
+        SetInState = new DebugCommand<string>("state", "set game to new state.", "state <state_name>", (x) =>
+            {
+                if (x.ToLowerFirstChar() == "overworld" || x == "worldMap" || x == "town") 
+                    WorldStateSystem.worldAnimator.SetTrigger(string.Format("Trigger{0}", x.ToUpperFirstChar()));
+                else
+                    WorldStateSystem.worldAnimator.SetBool(string.Format("In{0}", x.ToUpperFirstChar()), true);
+                Debug.Log("Set In new State: " + x);
             }
         );
         AddCard = new DebugCommand<string>("add_card", "add card to deck", "add_card <card_name>", (x) =>
@@ -134,7 +144,8 @@ public class DebugManager : MonoBehaviour
             AddEnergy,
             AddEnergyTurn,
             AddRageTurn,
-            UnlockProfession
+            UnlockProfession,
+            SetInState
 
         };
 

@@ -27,7 +27,7 @@ public class BonfireManager : Manager
         tween?.Kill();
         tween = bonfireImage.transform.DOScale(1.3f, 2f).SetLoops(-1, LoopType.Yoyo);
         canvas.gameObject.SetActive(true);
-        float hp = ((float)world.characterManager.characterStats.GetStatValue(StatType.Health)) * healPercentage;
+        float hp = ((float)CharacterStats.Health) * healPercentage;
         text.text = string.Format("Rest to heal {0} HP", hp.ToString());
     }
 
@@ -40,7 +40,7 @@ public class BonfireManager : Manager
     {
         // heal % of max hp?
 
-        float hp = ((float)world.characterManager.characterStats.GetStatValue(StatType.Health)) * healPercentage;
+        float hp = CharacterStats.Health * healPercentage;
         world.characterManager.Heal((int)hp);
         WorldStateSystem.SetInBonfire(false);
     }
@@ -51,6 +51,7 @@ public class BonfireManager : Manager
     }
     public void ButtonUpgrade()
     {
+        world.characterManager.characterCurrency.ember += 1;
         world.deckDisplayManager.OpenUpgrade(ButtonLeave);
     }
 

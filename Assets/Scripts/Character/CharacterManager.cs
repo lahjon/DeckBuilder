@@ -51,11 +51,10 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
 
         SetupCharacterData();
 
-        // if (CurrentHealth <= 0)
-        // {
-        //     CurrentHealth = characterStats.GetStatValue(StatType.Health);
-        //     characterVariablesUI.UpdateCharacterHUD();
-        // }
+        if (CurrentHealth <= 0)
+        {
+            CurrentHealth = CharacterStats.Health;
+        }
 
         if (unlockedCharacters.Count == 0)
         {
@@ -131,9 +130,9 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         CurrentHealth += amount;
 
-        if (CurrentHealth > characterStats.GetStatValue(StatType.Health))
+        if (CurrentHealth > CharacterStats.Health)
         {
-            CurrentHealth = characterStats.GetStatValue(StatType.Health);
+            CurrentHealth = CharacterStats.Health;
         }
 
         //characterVariablesUI.UpdateCharacterHUD();
@@ -143,7 +142,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)selectedCharacterClassType];
         characterStats.Init();
 
-        if (fromTown) CurrentHealth = characterStats.GetStatValue(StatType.Health);
+        if (fromTown) CurrentHealth = CharacterStats.Health;
     }
     public void ClearDeck()
     {
@@ -208,7 +207,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         deck.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
-        a_SaveData.damageTaken = CurrentHealth - characterStats.GetStatValue(StatType.Health);
+        a_SaveData.damageTaken = CurrentHealth - CharacterStats.Health;
     }
 
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)

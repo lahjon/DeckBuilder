@@ -6,30 +6,38 @@ using System.Linq;
 [System.Serializable]
 public class Stat
 {
-    public Stat(int aValue, StatType aType, bool aVisible)
+    public static implicit operator int(Stat s) => s.value;
+    public Stat() { }
+    
+    public Stat(StatType aType, bool aVisible)
     {
-        value = aValue;
         type = aType;
         visible = aVisible;
     }
-    [SerializeField] List<IEffectAdder> _statModifers = new List<IEffectAdder>();
+    [SerializeField] public List<ItemEffectAddStat> statModifers = new List<ItemEffectAddStat>();
+    
     public int value;
     public bool visible;
     public StatType type;
-    public  List<IEffectAdder> StatModifers
-    {
-        get => _statModifers;
-    }
 
-    public void AddStatModifier(IEffectAdder statModifer)
+    public virtual void AddStatModifier(ItemEffectAddStat statModifer)
     {
-        _statModifers.Add(statModifer);
+        statModifers.Add(statModifer);
+        value += statModifer.GetValue();
         EventManager.StatModified();
     }
 
-    public void RemoveStatModifier(IEffectAdder statModifer)
+    public virtual void RemoveStatModifier(ItemEffectAddStat statModifer)
     {
-        _statModifers.Remove(statModifer);
+        statModifers.Remove(statModifer);
+        value -= statModifer.GetValue();
         EventManager.StatModified();
     }
+
+    public void RemoveModifierFromOwner(IEffectAdder owner)
+    {
+        ItemEffectAddStat modder = statModifers.Where(x => x.effectAdder == owner).FirstOrDefault();
+        if (modder != null) RemoveStatModifier(modder);
+    }
+
 }

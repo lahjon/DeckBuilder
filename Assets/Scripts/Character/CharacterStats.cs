@@ -6,94 +6,57 @@ using System.Linq;
 public class CharacterStats : MonoBehaviour
 {
     CharacterManager characterManager;
-    [SerializeField][NonReorderable]
-    public List<Stat> stats;
+
+    public static Stat Health = new StatHealth(true);
+    public static Stat Power = new Stat(StatType.Power, true);
+    public static Stat Endurance = new Stat(StatType.Endurance, true);
+    public static Stat Wit = new Stat(StatType.Wit, true);
+    public static Stat Amplitude = new Stat(StatType.Amplitude, true);
+    public static Stat Syphon = new Stat(StatType.Syphon, false);
+    public static Stat DraftAmount = new Stat(StatType.DraftAmount, false);
+    public static Stat OptionalEnergyMax = new Stat(StatType.OptionalEnergyMax, false);
+    public static Stat OptionalEnergyTurn = new Stat(StatType.OptionalEnergyTurn, false);
+    public static Stat MaxCardsOnHand = new Stat(StatType.MaxCardsOnHand, false);
+
+    public static Dictionary<StatType, Stat> stats = new Dictionary<StatType, Stat> { 
+        { StatType.Health, Health }, 
+        { StatType.Power, Power }, 
+        { StatType.Endurance, Endurance}, 
+        { StatType.Wit, Wit}, 
+        { StatType.Amplitude, Amplitude}, 
+        { StatType.Syphon, Syphon}, 
+        { StatType.DraftAmount,DraftAmount}, 
+        { StatType.OptionalEnergyMax, OptionalEnergyMax}, 
+        { StatType.OptionalEnergyTurn, OptionalEnergyTurn}, 
+        { StatType.MaxCardsOnHand, MaxCardsOnHand}, 
+    };
+
     public void Init()
     {
         characterManager = WorldSystem.instance.characterManager;
         AddStatsFromCharacter();
     }
 
-    void Awake()
-    {
-        stats = new List<Stat>
-                            {
-                                new Stat(0, StatType.Health, true),
-                                new Stat(0, StatType.Power, true), 
-                                new Stat(0, StatType.Endurance, true), 
-                                new Stat(0, StatType.Wit, true), 
-                                new Stat(0, StatType.Amplitude, true), 
-                                new Stat(0, StatType.Syphon, false), 
-                                new Stat(0, StatType.DraftAmount, false),
-                                new Stat(0, StatType.OptionalEnergyMax, false),
-                                new Stat(0, StatType.OptionalEnergyTurn, false),
-                                new Stat(0, StatType.MaxCardsOnHand, false)
-                            };
-    }
-
     void AddStatsFromCharacter()
     {
-        characterManager.characterData.stats.ForEach(x => ModifyStat(x.statType, x.value, new IEffectAdderStruct("Character", x.value), true));
+        characterManager.characterData.stats.ForEach(x =>
+        {
+            if (x.statType == StatType.None) return;
+            ItemEffectAddStat effect = new ItemEffectAddStat();
+            effect.effectAdder = characterManager.characterData;
+            effect.world = WorldSystem.instance;
+            effect.itemEffectStruct = new ItemEffectStruct(ItemEffectType.AddStat, x.statType.ToString(), x.value,true);
+            stats[x.statType].AddStatModifier(effect);
+        }
+        );
     }
 
     void RemoveStatsFromCharacter()
     {
-        stats.ForEach(s => s.RemoveStatModifier(s.StatModifers.FirstOrDefault(x => x.GetName() == "Character"))); 
-    }
-
-    public int GetStatValue(StatType aStatType)
-    {
-        if (stats?.Any() == true && aStatType != StatType.None)
-            return stats.Where(x => x.type == aStatType).FirstOrDefault().value;;
-        return 0;
-    }
-    public Stat GetStat(StatType aStatType)
-    {
-        if (stats?.Any() == true)
-            return stats.Where(x => x.type == aStatType).FirstOrDefault();
-        return null;
-    }
-
-    public void ModifyHealth(int aValue, IEffectAdder effectAdder, bool addStat)
-    {
-        Stat stat = GetStat(StatType.Health);
-        if (stat == null) return;
-        stat.value += aValue;
-
-        characterManager.CurrentHealth += aValue;
-
-        if (GetStatValue(StatType.Health) < 1)
-            stat.value = 1;
-
-        if (characterManager.CurrentHealth < 1)
-            characterManager.CurrentHealth = 1;
-
-        if (addStat) stat.AddStatModifier(effectAdder);
-        else stat.RemoveStatModifier(effectAdder);
-    }
-
-    public void ModifyStat(StatType aStatType, int aValue, IEffectAdder effectAdder, bool addStat)
-    {
-        if (aStatType == StatType.Health) 
-        {
-            ModifyHealth(aValue, effectAdder, addStat);
-            return;
-        }
-        Stat stat = GetStat(aStatType);
-        if (stat == null) return;
-        Debug.Log(aStatType);
-        if (addStat) stat.AddStatModifier(effectAdder);
-        else stat.RemoveStatModifier(effectAdder);
-
-        stat.value += aValue;
+        stats.Values.ToList().ForEach(s => s.RemoveModifierFromOwner(characterManager.characterData)); 
     }
 }
 
-public interface IStatsAdder
-{
-    public int GetValue();
-    public string GetSource();
-}
 
 [System.Serializable]
 public struct StatStruct

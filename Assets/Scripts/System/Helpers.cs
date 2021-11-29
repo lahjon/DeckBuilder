@@ -42,6 +42,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 1f},
                     {OverworldEncounterType.CombatElite, 1f},
                     {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Blacksmith, 1f},
                     {OverworldEncounterType.Bonfire, 1f}
         }},
         {TileType.Forest, new Dictionary<OverworldEncounterType, float>{
@@ -49,6 +50,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 1f},
                     {OverworldEncounterType.CombatElite, 1f},
                     {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Blacksmith, 1f},
                     {OverworldEncounterType.Bonfire, 1f}
         }},
         {TileType.Cave, new Dictionary<OverworldEncounterType, float>{
@@ -56,6 +58,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 1f},
                     {OverworldEncounterType.CombatElite, 1f},
                     {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Blacksmith, 1f},
                     {OverworldEncounterType.Bonfire, 1f}
         }},
         {TileType.BanditCamp, new Dictionary<OverworldEncounterType, float>{
@@ -63,6 +66,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 1f},
                     {OverworldEncounterType.CombatElite, 1f},
                     {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Blacksmith, 1f},
                     {OverworldEncounterType.Bonfire, 1f}
         }},
         {TileType.Caravan, new Dictionary<OverworldEncounterType, float>{
@@ -70,6 +74,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 1f},
                     {OverworldEncounterType.CombatElite, 1f},
                     {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Blacksmith, 1f},
                     {OverworldEncounterType.Bonfire, 1f}
         }},
         {TileType.Town, new Dictionary<OverworldEncounterType, float>{
@@ -77,6 +82,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 1f},
                     {OverworldEncounterType.CombatElite, 0f},
                     {OverworldEncounterType.Shop, 1f},
+                    {OverworldEncounterType.Blacksmith, 1f},
                     {OverworldEncounterType.Bonfire, 1f}
         }}
     };
@@ -86,6 +92,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 0},
                     {OverworldEncounterType.CombatElite, 0},
                     {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Blacksmith, 0},
                     {OverworldEncounterType.Bonfire, 0}
         }},
         {TileType.Forest, new Dictionary<OverworldEncounterType, int>{
@@ -93,6 +100,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 0},
                     {OverworldEncounterType.CombatElite, 0},
                     {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Blacksmith, 0},
                     {OverworldEncounterType.Bonfire, 0}
         }},
         {TileType.Cave, new Dictionary<OverworldEncounterType, int>{
@@ -100,6 +108,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 0},
                     {OverworldEncounterType.CombatElite, 0},
                     {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Blacksmith, 0},
                     {OverworldEncounterType.Bonfire, 0}
         }},
         {TileType.BanditCamp, new Dictionary<OverworldEncounterType, int>{
@@ -107,6 +116,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 0},
                     {OverworldEncounterType.CombatElite, 2},
                     {OverworldEncounterType.Shop, 0},
+                    {OverworldEncounterType.Blacksmith, 0},
                     {OverworldEncounterType.Bonfire, 0}
         }},
         {TileType.Caravan, new Dictionary<OverworldEncounterType, int>{
@@ -114,6 +124,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 0},
                     {OverworldEncounterType.CombatElite, 0},
                     {OverworldEncounterType.Shop, 1},
+                    {OverworldEncounterType.Blacksmith, 1},
                     {OverworldEncounterType.Bonfire, 1}
         }},
         {TileType.Town, new Dictionary<OverworldEncounterType, int>{
@@ -121,6 +132,7 @@ public static class Helpers
                     {OverworldEncounterType.Choice, 0},
                     {OverworldEncounterType.CombatElite, 0},
                     {OverworldEncounterType.Shop, 1},
+                    {OverworldEncounterType.Blacksmith, 1},
                     {OverworldEncounterType.Bonfire, 1}
         }}
     };
@@ -139,6 +151,13 @@ public static class Helpers
             return input;
 
         return char.ToLower(input[0]) + input.Substring(1);
+    }
+    public static string ToUpperFirstChar(this string input)
+    {
+        if(string.IsNullOrEmpty(input))
+            return input;
+
+        return char.ToUpper(input[0]) + input.Substring(1);
     }
 
     public static void SetDictionaryFromLists<T1, T2>(this Dictionary<T1, T2> dict, List<T1> keys, List<T2> values)

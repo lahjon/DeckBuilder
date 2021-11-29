@@ -208,9 +208,9 @@ public class DebugUI : MonoBehaviour
         }
     }
 
-    public void DebugTriggerDeathScreen()
+    public void DebugSetInBonfire()
     {
-        WorldStateSystem.SetInDeathScreen();
+        WorldStateSystem.SetInBonfire(true);
     }
 
     public void DebugGenerateWorld()

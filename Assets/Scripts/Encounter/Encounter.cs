@@ -331,6 +331,7 @@ public class Encounter : MonoBehaviour
                 break;
             case OverworldEncounterType.Blacksmith:
                 //NOTHING YET
+                Debug.LogWarning("Implement me!");
                 break;
             case OverworldEncounterType.Exit:
                 WorldSystem.instance.gridManager.CompleteCurrentTile();
@@ -339,6 +340,7 @@ public class Encounter : MonoBehaviour
                 WorldStateSystem.SetInBonfire(true);
                 break;
             default:
+                Debug.LogWarning(string.Format("Implement a case for: {0}", encounterType.ToString()));
                 break;
         }
 

@@ -47,7 +47,7 @@ public class DeckDisplayManager : Manager
 
     public void OpenUpgrade(System.Action callback)
     {
-        titleText.text = "Pick a card to upgrade";
+        titleText.text = "Pick a card to upgrade. Costs 1 ember";
         confirmCallback = callback;
         WorldStateSystem.SetInDisplay();
         deckDisplay.SetActive(true);
@@ -103,7 +103,20 @@ public class DeckDisplayManager : Manager
     public void DisplayCard(CardVisual aCard, bool upgrade = false)
     {
         aCard.OnMouseExit();
-
+        if (upgrade)
+        {
+            if (world.characterManager.characterCurrency.ember <= 0)
+            {
+                world.uiManager.UIWarningController.CreateWarning("Not enought Ember!");
+                return;
+            }
+            if (!aCard.upgradable)
+            {
+                world.uiManager.UIWarningController.CreateWarning("Card is fully upgraded!");
+                return;
+            }
+        }
+        
         previousPosition = aCard.transform.position;
         selectedCard = aCard;
 
@@ -128,7 +141,10 @@ public class DeckDisplayManager : Manager
     public void ButtonConfirm()
     {
         selectedCard.UpgradeCard();
+        if (!selectedCard.upgradable) selectedCard.gameObject.SetActive(false);
+        world.characterManager.characterCurrency.ember--;
         DeactivateDisplayCard();
+        if (world.characterManager.characterCurrency.ember <= 0) ButtonClose();
     }
 
     public void ResetPlaceHolderCard()
