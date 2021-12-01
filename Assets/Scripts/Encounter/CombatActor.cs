@@ -137,7 +137,6 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         deck.Insert(index, card);
     }
 
-
     public IEnumerator GetAttacked(int damage, CombatActor sourceActor)
     {
         int unblockedDamage = TakeDamage(damage);

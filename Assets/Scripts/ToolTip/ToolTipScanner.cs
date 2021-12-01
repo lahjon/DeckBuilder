@@ -30,7 +30,6 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnMouseEnter()
     {
-        Debug.Log("Entered");
         EnterAction();
     }
 

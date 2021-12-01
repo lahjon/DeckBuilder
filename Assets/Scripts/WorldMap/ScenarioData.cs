@@ -6,12 +6,16 @@ using UnityEngine;
 public class ScenarioData : ScriptableObject
 {
     public int id;
+    public int minTier;
+    public int maxTier;
     public string ScenarioName;
     public ScenarioDifficulty difficulty;
     public RewardNormalStruct rewardStruct;
     public WorldEncounterType type;
     public List<int> unlocksScenarios = new List<int>();
-
+    public EncounterTag[] includeEncounters;
+    public EncounterTag[] excludeEncounters;
+    public Encounter[] encounters;
     public string DescriptionShort;
     public string Description; 
 

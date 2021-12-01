@@ -34,6 +34,14 @@ public class ScenarioMapManager : Manager
     [HideInInspector]
     public Encounter finishedEncounterToReport;
     public ObjectiveDisplayer objectiveDisplayer;
+
+    public List<EncounterDataCombat> allCombatEncounters = new List<EncounterDataCombat>();
+    public List<EncounterDataCombat> availableCombatEncounters = new List<EncounterDataCombat>();
+    public List<EncounterDataCombat> completedCombatEncounters = new List<EncounterDataCombat>();
+    public List<EncounterDataRandomEvent> allChoiceEncounters = new List<EncounterDataRandomEvent>();
+    public List<EncounterDataRandomEvent> availableChoiceEncounters = new List<EncounterDataRandomEvent>();
+    public List<EncounterDataRandomEvent> completedChoiceEncounters = new List<EncounterDataRandomEvent>();
+    public ScenarioData scenarioData;
     
     
     public int rotateCounter;
@@ -51,6 +59,51 @@ public class ScenarioMapManager : Manager
     {
         base.Start();
     } 
+    
+    public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
+    {
+        if (!availableCombatEncounters.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
+        int id = Random.Range(0, availableCombatEncounters.Count);
+        EncounterDataCombat data = availableCombatEncounters[id];
+        availableCombatEncounters.RemoveAt(id);
+        completedCombatEncounters.Add(data);
+        return data;
+    }
+
+    public EncounterDataRandomEvent GetRndEncounterChoice()
+    {
+        if (!availableChoiceEncounters.Any()) ResetEncountersEventToDraw();
+        int id = Random.Range(0, availableChoiceEncounters.Count);
+        EncounterDataRandomEvent data = availableChoiceEncounters[id];
+        availableChoiceEncounters.RemoveAt(id);
+        completedChoiceEncounters.Add(data);
+        return data;
+    }
+
+    public void ResetEncounters()
+    {
+        completedCombatEncounters.Clear();
+        completedChoiceEncounters.Clear();
+        EncounterFilter ef = new EncounterFilter(scenarioData);
+        allChoiceEncounters = DatabaseSystem.instance.GetChoiceEncounters(ef).ToList();
+        allCombatEncounters = DatabaseSystem.instance.GetCombatEncounters(ef).ToList();
+        availableCombatEncounters = allCombatEncounters.ToList();
+        availableChoiceEncounters = allChoiceEncounters.ToList();
+    }
+
+    public void ResetEncountersCombatToDraw(CombatEncounterType? type)
+    {
+        if (type != null)
+        {
+            availableCombatEncounters = allCombatEncounters.Where(e => e.type != type).ToList(); //paranoia;
+            availableCombatEncounters.AddRange(allCombatEncounters.Where(e => e.type == type));
+        }
+    }
+
+    public void ResetEncountersEventToDraw()
+    {
+        availableChoiceEncounters.AddRange(allChoiceEncounters);
+    }
 
     public void GenerateMap()
     {
