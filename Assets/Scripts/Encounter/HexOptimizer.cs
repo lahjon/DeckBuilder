@@ -15,31 +15,31 @@ public class HexOptimizer
     private int iteration;
     public int targetScore = 0;
 
-    public OverworldEncounterType[] types = {
-        OverworldEncounterType.Choice,
-        OverworldEncounterType.CombatNormal,
-        OverworldEncounterType.CombatElite,
-        OverworldEncounterType.Blacksmith,
-        OverworldEncounterType.Bonfire,
-        OverworldEncounterType.Shop
+    public ScenarioEncounterType[] types = {
+        ScenarioEncounterType.Choice,
+        ScenarioEncounterType.CombatNormal,
+        ScenarioEncounterType.CombatElite,
+        ScenarioEncounterType.Blacksmith,
+        ScenarioEncounterType.Bonfire,
+        ScenarioEncounterType.Shop
     };
 
-    Dictionary<OverworldEncounterType, int> totalCounts = new Dictionary<OverworldEncounterType, int>();
-    Dictionary<OverworldEncounterType, int> fixedCounts = new Dictionary<OverworldEncounterType, int>();
+    Dictionary<ScenarioEncounterType, int> totalCounts = new Dictionary<ScenarioEncounterType, int>();
+    Dictionary<ScenarioEncounterType, int> fixedCounts = new Dictionary<ScenarioEncounterType, int>();
 
-    public List<OverworldEncounterType> commons = new List<OverworldEncounterType>() {
-        OverworldEncounterType.CombatNormal,
-        OverworldEncounterType.Choice
+    public List<ScenarioEncounterType> commons = new List<ScenarioEncounterType>() {
+        ScenarioEncounterType.CombatNormal,
+        ScenarioEncounterType.Choice
     };
 
-    public List<OverworldEncounterType> uncommons = new List<OverworldEncounterType>() {
-        OverworldEncounterType.CombatElite,
-        OverworldEncounterType.Shop,
-        OverworldEncounterType.Bonfire,
-        OverworldEncounterType.Blacksmith
+    public List<ScenarioEncounterType> uncommons = new List<ScenarioEncounterType>() {
+        ScenarioEncounterType.CombatElite,
+        ScenarioEncounterType.Shop,
+        ScenarioEncounterType.Bonfire,
+        ScenarioEncounterType.Blacksmith
     };
 
-    public Dictionary<OverworldEncounterType, float> proportions = new Dictionary<OverworldEncounterType, float>();
+    public Dictionary<ScenarioEncounterType, float> proportions = new Dictionary<ScenarioEncounterType, float>();
 
 
 
@@ -48,8 +48,9 @@ public class HexOptimizer
         this.encounters = new List<Encounter>(encounters);
         this.tileType = tileType;
         Debug.Log(tileType);
-        foreach (OverworldEncounterType type in types)
+        foreach (ScenarioEncounterType type in types)
         {
+            Debug.Log("Optimizer getting values for type" + type);
             fixedCounts[type] = Helpers.tileTypeToFixedAmounts[tileType][type];
             proportions[type] = Helpers.TileTypeToProportions[tileType][type];
         }
@@ -59,7 +60,7 @@ public class HexOptimizer
         //init with correct targets
         ShuffleEncounters();
         int cursor = 0;
-        foreach(OverworldEncounterType type in types)
+        foreach(ScenarioEncounterType type in types)
             for(int i = 0; i < totalCounts[type]; i++)
                 this.encounters[cursor++].encounterType = type;
 
@@ -76,7 +77,7 @@ public class HexOptimizer
             int idEnc = Random.Range(0, encounters.Count);
             Encounter chosenEnc = encounters[idEnc];
             Encounter bestSwap = null;
-            OverworldEncounterType origType = chosenEnc.encounterType;
+            ScenarioEncounterType origType = chosenEnc.encounterType;
 
             int maxScore = cScore;
 
@@ -127,13 +128,13 @@ public class HexOptimizer
         return cScore + retScore;
     }
 
-    public int NeighPenalty(OverworldEncounterType type1, OverworldEncounterType type2)
+    public int NeighPenalty(ScenarioEncounterType type1, ScenarioEncounterType type2)
     {
         if (commons.Contains(type1) || commons.Contains(type2)) return 0;
         return type1 == type2 ? -10 : 0;
     }
 
-    public int ScorePartial(Encounter enc, OverworldEncounterType testType)
+    public int ScorePartial(Encounter enc, ScenarioEncounterType testType)
     {
         int retScore = 0;
         if (enc.encounterType == testType) return retScore;
@@ -193,7 +194,7 @@ public class HexOptimizer
             totalCounts[types[i]]+= fixedCounts[types[i]];
     }
 
-    private void InitTargetGroup(List<OverworldEncounterType> group, int slots)
+    private void InitTargetGroup(List<ScenarioEncounterType> group, int slots)
     {
         float[] rands = new float[group.Count];
         float sum = 0;

@@ -368,7 +368,7 @@ public enum BuildingType
     None
 }
 
-public enum OverworldEncounterType
+public enum ScenarioEncounterType
 {
     None,
     Exit,
@@ -377,11 +377,11 @@ public enum OverworldEncounterType
     CombatNormal = 4,
     CombatElite = 5,
     CombatBoss = 6,
-    Cave,
     Bonfire,
     Story,
     Start,
-    Blacksmith
+    Blacksmith,
+    Random
 }
 
 public enum CombatEncounterType

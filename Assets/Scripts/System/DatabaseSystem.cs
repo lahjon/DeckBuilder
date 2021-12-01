@@ -125,7 +125,7 @@ public class DatabaseSystem : MonoBehaviour
         }
     }
 
-    public Sprite GetOverWorldIcon(OverworldEncounterType type)
+    public Sprite GetOverWorldIcon(ScenarioEncounterType type)
     {
         return allOverworldIcons.Where(x => x.name == string.Format("Overworld{0}",type.ToString())).First();
     }
@@ -167,7 +167,7 @@ public class DatabaseSystem : MonoBehaviour
         encountersEventToDraw.AddRange(encounterEvent.Where(e => e.FindInRandom));
     }
 
-    public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
+    public EncounterDataCombat GetRndEncounterCombat(ScenarioEncounterType type)
     {
         if (!encountersCombatToDraw.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
         List<EncounterDataCombat> encounters = encountersCombatToDraw.Where(e => e.type == (CombatEncounterType)type).ToList();

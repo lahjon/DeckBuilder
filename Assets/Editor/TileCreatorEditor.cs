@@ -156,11 +156,11 @@ public class TileCreatorEditor : Editor
                 Handles.color = Color.green;
                 Handles.DrawLine(tileCreator.allEncounters[i].position, tileCreator.allEncounters[idx].position, 5f);
             }
-            if (tileCreator.allEncounters[i].overworldEncounterType == OverworldEncounterType.Exit)
+            if (tileCreator.allEncounters[i].overworldEncounterType == ScenarioEncounterType.Exit)
                 Handles.color = Color.red;
-            else if(tileCreator.allEncounters[i].overworldEncounterType == OverworldEncounterType.Start)
+            else if(tileCreator.allEncounters[i].overworldEncounterType == ScenarioEncounterType.Start)
                 Handles.color = Color.green;
-            else if(tileCreator.allEncounters[i].overworldEncounterType == OverworldEncounterType.Story)
+            else if(tileCreator.allEncounters[i].overworldEncounterType == ScenarioEncounterType.Story)
                 Handles.color = Color.blue;
             else
                 Handles.color = Color.white;

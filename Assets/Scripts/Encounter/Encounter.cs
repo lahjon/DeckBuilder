@@ -11,7 +11,7 @@ public class Encounter : MonoBehaviour
     public HexTile tile;
     public List<Encounter> neighboors;
     public List<EncounterRoad> roads = new List<EncounterRoad>();
-    public OverworldEncounterType _encounterType;
+    public ScenarioEncounterType _encounterType;
 
     public Vector3Int coordinates;
     public Vector3 startingScale;
@@ -27,7 +27,7 @@ public class Encounter : MonoBehaviour
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     bool _highlighted;
-    public OverworldEncounterType encounterType
+    public ScenarioEncounterType encounterType
     {
         get
         {
@@ -40,7 +40,7 @@ public class Encounter : MonoBehaviour
         }
     }
 
-    public void SetEncounterType(OverworldEncounterType type)
+    public void SetEncounterType(ScenarioEncounterType type)
     {
         _encounterType = type;
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -141,7 +141,7 @@ public class Encounter : MonoBehaviour
         status = EncounterHexStatus.Visited;
         Encounter previous = WorldSystem.instance.encounterManager.currentEncounter;
 
-        if (encounterType == OverworldEncounterType.Start)
+        if (encounterType == ScenarioEncounterType.Start)
         {
             HexTile prevTile = HexTile.mapManager.GetTile(tile.coord + tile.directionEntry);
             Encounter prevEnc = prevTile.encountersExits.Where(x => prevTile.exitEncToDirection[x].IsOpposing(tile.directionEntry)).FirstOrDefault();
@@ -160,7 +160,7 @@ public class Encounter : MonoBehaviour
         
         WorldSystem.instance.encounterManager.currentEncounter = this;
 
-        if (!WorldSystem.instance.debugMode || encounterType == OverworldEncounterType.Exit)
+        if (!WorldSystem.instance.debugMode || encounterType == ScenarioEncounterType.Exit)
             StartEncounter();
     }
 
@@ -198,7 +198,7 @@ public class Encounter : MonoBehaviour
     {
         HashSet<Encounter> hs = new HashSet<Encounter>();
 
-        if (enc.encounterType == OverworldEncounterType.Exit)
+        if (enc.encounterType == ScenarioEncounterType.Exit)
         {
             hs.Add(enc);
             return hs;
@@ -224,10 +224,10 @@ public class Encounter : MonoBehaviour
         if (tile.exitEncToDirection[this].Equals(tile.directionEntry))
         {
             tile.encounterEntry = this;
-            encounterType = OverworldEncounterType.Start;
+            encounterType = ScenarioEncounterType.Start;
         }
         else
-            encounterType = OverworldEncounterType.Exit;
+            encounterType = ScenarioEncounterType.Exit;
     }
 
 
@@ -287,14 +287,14 @@ public class Encounter : MonoBehaviour
     {
         encData = enc;
         storyID = ID;
-        encounterType = OverworldEncounterType.Story;
+        encounterType = ScenarioEncounterType.Story;
     }
 
     public void RemoveStoryEncounter()
     {
         storyID = null;
         encData = null;
-        encounterType = OverworldEncounterType.Choice;
+        encounterType = ScenarioEncounterType.Choice;
     }
 
     public void StartEncounter()
@@ -316,27 +316,26 @@ public class Encounter : MonoBehaviour
 
         switch (encounterType)
         {
-            case OverworldEncounterType.CombatNormal:
-            case OverworldEncounterType.CombatElite:
-            case OverworldEncounterType.CombatBoss:
+            case ScenarioEncounterType.CombatNormal:
+            case ScenarioEncounterType.CombatElite:
+            case ScenarioEncounterType.CombatBoss:
                 encData = CombatSystem.instance.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(encounterType);
                 WorldStateSystem.SetInCombat(true);
                 break;
-            case OverworldEncounterType.Shop:
+            case ScenarioEncounterType.Shop:
                 WorldStateSystem.SetInOverworldShop(true);
                 break;
-            case OverworldEncounterType.Choice:
+            case ScenarioEncounterType.Choice:
                 encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterChoice();
                 WorldStateSystem.SetInChoice(true);
                 break;
-            case OverworldEncounterType.Blacksmith:
-                //NOTHING YET
+            case ScenarioEncounterType.Blacksmith:
                 Debug.LogWarning("Implement me!");
                 break;
-            case OverworldEncounterType.Exit:
+            case ScenarioEncounterType.Exit:
                 WorldSystem.instance.gridManager.CompleteCurrentTile();
                 break;
-            case OverworldEncounterType.Bonfire:
+            case ScenarioEncounterType.Bonfire:
                 WorldStateSystem.SetInBonfire(true);
                 break;
             default:

@@ -47625,7 +47625,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93b9c1a5ace9201488f728de8468f766, type: 2}
   - {fileID: 11400000, guid: b7e17f8faf6fe9944bb6b4e02d8a9edf, type: 2}
   enemies:
-  - {fileID: 11400000, guid: 9df804e94164b2745a47f8074c4fa458, type: 2}
+  - {fileID: 11400000, guid: 544d475b2bb39454c903ff79245321bd, type: 2}
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
   - {fileID: 11400000, guid: e40b70d693ad4304eb11d8b0429bc331, type: 2}
   - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
@@ -47658,6 +47658,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 25997bc101f9b854fbb78c1087e94cf4, type: 3}
   - {fileID: 21300000, guid: c588478c88cabda4cb84f56d6b438182, type: 3}
   - {fileID: 21300000, guid: 3c52793fdbbdb8243b7afd5927c1d02a, type: 3}
+  - {fileID: 21300000, guid: aae1c4df74f40b645925419ff5a1dbab, type: 3}
   allCurrencyIcons:
   - {fileID: 21300000, guid: e54665ffb9b077f4593fc994dc66e993, type: 3}
   - {fileID: 21300000, guid: 488d23d021ad492409357db2e1f5cf9f, type: 3}

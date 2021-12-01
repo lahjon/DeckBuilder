@@ -78,7 +78,7 @@ public class EncounterManager : Manager
             enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit :OverworldEncounterType.Start;
+            enc.encounterType = i < tile.availableDirections.Count ? ScenarioEncounterType.Exit :ScenarioEncounterType.Start;
             enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             enc.status = EncounterHexStatus.Visited;
@@ -139,7 +139,7 @@ public class EncounterManager : Manager
             enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = i < tile.availableDirections.Count ? OverworldEncounterType.Exit : OverworldEncounterType.CombatNormal;
+            enc.encounterType = i < tile.availableDirections.Count ? ScenarioEncounterType.Exit : ScenarioEncounterType.CombatNormal;
             enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             tile.AddEncounter(enc, i < tile.availableDirections.Count);

@@ -72,13 +72,13 @@ public class TileCreatorWindow : EditorWindow
     void SetStartEncounters()
     {
         tileCreator.allEncounters = new List<TileCreatorEncounter>();
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.6f, 0, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.East), 0));
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.3f, 0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.NorthEast), 1));
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.3f, 0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.NorthWest), 2));
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.6f, 0, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.West), 3));
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.3f, -0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.SouthWest), 4));
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.3f, -0.6f, 0), OverworldEncounterType.Exit, new GridDirection(GridDirection.DirectionName.SouthEast), 5));
-        tileCreator.allEncounters.Add(new TileCreatorEncounter(Vector3.zero, OverworldEncounterType.Start, new GridDirection(GridDirection.DirectionName.East), 6));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.6f, 0, 0), ScenarioEncounterType.Exit, new GridDirection(GridDirection.DirectionName.East), 0));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.3f, 0.6f, 0), ScenarioEncounterType.Exit, new GridDirection(GridDirection.DirectionName.NorthEast), 1));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.3f, 0.6f, 0), ScenarioEncounterType.Exit, new GridDirection(GridDirection.DirectionName.NorthWest), 2));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.6f, 0, 0), ScenarioEncounterType.Exit, new GridDirection(GridDirection.DirectionName.West), 3));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(-0.3f, -0.6f, 0), ScenarioEncounterType.Exit, new GridDirection(GridDirection.DirectionName.SouthWest), 4));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(new Vector3(0.3f, -0.6f, 0), ScenarioEncounterType.Exit, new GridDirection(GridDirection.DirectionName.SouthEast), 5));
+        tileCreator.allEncounters.Add(new TileCreatorEncounter(Vector3.zero, ScenarioEncounterType.Start, new GridDirection(GridDirection.DirectionName.East), 6));
     }
 
     void ShowTextLabels()
@@ -108,7 +108,7 @@ public class TileCreatorWindow : EditorWindow
             for (int i = 0; i < tileCreator.allEncounters.Count; i++)
             {
                 newEncs[i].neighboors = tileCreator.allEncounters[i].neighbourIndex.Select(x => newEncs[x]).ToList();
-                if (newEncs[i].encounterType == OverworldEncounterType.Exit)
+                if (newEncs[i].encounterType == ScenarioEncounterType.Exit)
                     tileCreator.hexTile.encountersExits.Add(newEncs[i]);
             }
             tileCreator.hexTile.encounters = newEncs;
@@ -139,7 +139,7 @@ public class TileCreatorWindow : EditorWindow
             foreach (var item in edges)
                 encounterManager.AddRoad(item.n1, item.n2, false, 1f / 0.392f, true);
             
-            foreach (TileCreatorEncounter exit in tileCreator.allEncounters.Where(x => x.overworldEncounterType  == OverworldEncounterType.Exit))
+            foreach (TileCreatorEncounter exit in tileCreator.allEncounters.Where(x => x.overworldEncounterType  == ScenarioEncounterType.Exit))
                 tileCreator.hexTile.availableDirections.Add(exit.direction);
 
             bool success;

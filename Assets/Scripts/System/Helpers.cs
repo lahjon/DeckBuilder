@@ -36,104 +36,104 @@ public static class Helpers
         {Rarity.Rare,       new Color(.67f, .16f, .55f, 1f) }
      };
 
-    public static Dictionary<TileType, Dictionary<OverworldEncounterType, float>> TileTypeToProportions    = new Dictionary<TileType, Dictionary<OverworldEncounterType, float>> {
-        {TileType.Plains, new Dictionary<OverworldEncounterType, float>{
-                    {OverworldEncounterType.CombatNormal, 1f},
-                    {OverworldEncounterType.Choice, 1f},
-                    {OverworldEncounterType.CombatElite, 1f},
-                    {OverworldEncounterType.Shop, 1f},
-                    {OverworldEncounterType.Blacksmith, 1f},
-                    {OverworldEncounterType.Bonfire, 1f}
+    public static Dictionary<TileType, Dictionary<ScenarioEncounterType, float>> TileTypeToProportions    = new Dictionary<TileType, Dictionary<ScenarioEncounterType, float>> {
+        {TileType.Plains, new Dictionary<ScenarioEncounterType, float>{
+                    {ScenarioEncounterType.CombatNormal, 1f},
+                    {ScenarioEncounterType.Choice, 1f},
+                    {ScenarioEncounterType.CombatElite, 1f},
+                    {ScenarioEncounterType.Shop, 1f},
+                    {ScenarioEncounterType.Blacksmith, 1f},
+                    {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Forest, new Dictionary<OverworldEncounterType, float>{
-                    {OverworldEncounterType.CombatNormal, 1f},
-                    {OverworldEncounterType.Choice, 1f},
-                    {OverworldEncounterType.CombatElite, 1f},
-                    {OverworldEncounterType.Shop, 1f},
-                    {OverworldEncounterType.Blacksmith, 1f},
-                    {OverworldEncounterType.Bonfire, 1f}
+        {TileType.Forest, new Dictionary<ScenarioEncounterType, float>{
+                    {ScenarioEncounterType.CombatNormal, 1f},
+                    {ScenarioEncounterType.Choice, 1f},
+                    {ScenarioEncounterType.CombatElite, 1f},
+                    {ScenarioEncounterType.Shop, 1f},
+                    {ScenarioEncounterType.Blacksmith, 1f},
+                    {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Cave, new Dictionary<OverworldEncounterType, float>{
-                    {OverworldEncounterType.CombatNormal, 1f},
-                    {OverworldEncounterType.Choice, 1f},
-                    {OverworldEncounterType.CombatElite, 1f},
-                    {OverworldEncounterType.Shop, 1f},
-                    {OverworldEncounterType.Blacksmith, 1f},
-                    {OverworldEncounterType.Bonfire, 1f}
+        {TileType.Cave, new Dictionary<ScenarioEncounterType, float>{
+                    {ScenarioEncounterType.CombatNormal, 1f},
+                    {ScenarioEncounterType.Choice, 1f},
+                    {ScenarioEncounterType.CombatElite, 1f},
+                    {ScenarioEncounterType.Shop, 1f},
+                    {ScenarioEncounterType.Blacksmith, 1f},
+                    {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.BanditCamp, new Dictionary<OverworldEncounterType, float>{
-                    {OverworldEncounterType.CombatNormal, 1f},
-                    {OverworldEncounterType.Choice, 1f},
-                    {OverworldEncounterType.CombatElite, 1f},
-                    {OverworldEncounterType.Shop, 1f},
-                    {OverworldEncounterType.Blacksmith, 1f},
-                    {OverworldEncounterType.Bonfire, 1f}
+        {TileType.BanditCamp, new Dictionary<ScenarioEncounterType, float>{
+                    {ScenarioEncounterType.CombatNormal, 1f},
+                    {ScenarioEncounterType.Choice, 1f},
+                    {ScenarioEncounterType.CombatElite, 1f},
+                    {ScenarioEncounterType.Shop, 1f},
+                    {ScenarioEncounterType.Blacksmith, 1f},
+                    {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Caravan, new Dictionary<OverworldEncounterType, float>{
-                    {OverworldEncounterType.CombatNormal, 1f},
-                    {OverworldEncounterType.Choice, 1f},
-                    {OverworldEncounterType.CombatElite, 1f},
-                    {OverworldEncounterType.Shop, 1f},
-                    {OverworldEncounterType.Blacksmith, 1f},
-                    {OverworldEncounterType.Bonfire, 1f}
+        {TileType.Caravan, new Dictionary<ScenarioEncounterType, float>{
+                    {ScenarioEncounterType.CombatNormal, 1f},
+                    {ScenarioEncounterType.Choice, 1f},
+                    {ScenarioEncounterType.CombatElite, 1f},
+                    {ScenarioEncounterType.Shop, 1f},
+                    {ScenarioEncounterType.Blacksmith, 1f},
+                    {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Town, new Dictionary<OverworldEncounterType, float>{
-                    {OverworldEncounterType.CombatNormal, 0f},
-                    {OverworldEncounterType.Choice, 1f},
-                    {OverworldEncounterType.CombatElite, 0f},
-                    {OverworldEncounterType.Shop, 1f},
-                    {OverworldEncounterType.Blacksmith, 1f},
-                    {OverworldEncounterType.Bonfire, 1f}
+        {TileType.Town, new Dictionary<ScenarioEncounterType, float>{
+                    {ScenarioEncounterType.CombatNormal, 0f},
+                    {ScenarioEncounterType.Choice, 1f},
+                    {ScenarioEncounterType.CombatElite, 0f},
+                    {ScenarioEncounterType.Shop, 1f},
+                    {ScenarioEncounterType.Blacksmith, 1f},
+                    {ScenarioEncounterType.Bonfire, 1f}
         }}
     };
-    public static Dictionary<TileType, Dictionary<OverworldEncounterType, int>> tileTypeToFixedAmounts      = new Dictionary<TileType, Dictionary<OverworldEncounterType, int>> {
-        {TileType.Plains, new Dictionary<OverworldEncounterType, int>{
-                    {OverworldEncounterType.CombatNormal, 0},
-                    {OverworldEncounterType.Choice, 0},
-                    {OverworldEncounterType.CombatElite, 0},
-                    {OverworldEncounterType.Shop, 0},
-                    {OverworldEncounterType.Blacksmith, 0},
-                    {OverworldEncounterType.Bonfire, 0}
+    public static Dictionary<TileType, Dictionary<ScenarioEncounterType, int>> tileTypeToFixedAmounts      = new Dictionary<TileType, Dictionary<ScenarioEncounterType, int>> {
+        {TileType.Plains, new Dictionary<ScenarioEncounterType, int>{
+                    {ScenarioEncounterType.CombatNormal, 0},
+                    {ScenarioEncounterType.Choice, 0},
+                    {ScenarioEncounterType.CombatElite, 0},
+                    {ScenarioEncounterType.Shop, 0},
+                    {ScenarioEncounterType.Blacksmith, 0},
+                    {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.Forest, new Dictionary<OverworldEncounterType, int>{
-                    {OverworldEncounterType.CombatNormal, 0},
-                    {OverworldEncounterType.Choice, 0},
-                    {OverworldEncounterType.CombatElite, 0},
-                    {OverworldEncounterType.Shop, 0},
-                    {OverworldEncounterType.Blacksmith, 0},
-                    {OverworldEncounterType.Bonfire, 0}
+        {TileType.Forest, new Dictionary<ScenarioEncounterType, int>{
+                    {ScenarioEncounterType.CombatNormal, 0},
+                    {ScenarioEncounterType.Choice, 0},
+                    {ScenarioEncounterType.CombatElite, 0},
+                    {ScenarioEncounterType.Shop, 0},
+                    {ScenarioEncounterType.Blacksmith, 0},
+                    {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.Cave, new Dictionary<OverworldEncounterType, int>{
-                    {OverworldEncounterType.CombatNormal, 0},
-                    {OverworldEncounterType.Choice, 0},
-                    {OverworldEncounterType.CombatElite, 0},
-                    {OverworldEncounterType.Shop, 0},
-                    {OverworldEncounterType.Blacksmith, 0},
-                    {OverworldEncounterType.Bonfire, 0}
+        {TileType.Cave, new Dictionary<ScenarioEncounterType, int>{
+                    {ScenarioEncounterType.CombatNormal, 0},
+                    {ScenarioEncounterType.Choice, 0},
+                    {ScenarioEncounterType.CombatElite, 0},
+                    {ScenarioEncounterType.Shop, 0},
+                    {ScenarioEncounterType.Blacksmith, 0},
+                    {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.BanditCamp, new Dictionary<OverworldEncounterType, int>{
-                    {OverworldEncounterType.CombatNormal, 0},
-                    {OverworldEncounterType.Choice, 0},
-                    {OverworldEncounterType.CombatElite, 2},
-                    {OverworldEncounterType.Shop, 0},
-                    {OverworldEncounterType.Blacksmith, 0},
-                    {OverworldEncounterType.Bonfire, 0}
+        {TileType.BanditCamp, new Dictionary<ScenarioEncounterType, int>{
+                    {ScenarioEncounterType.CombatNormal, 0},
+                    {ScenarioEncounterType.Choice, 0},
+                    {ScenarioEncounterType.CombatElite, 2},
+                    {ScenarioEncounterType.Shop, 0},
+                    {ScenarioEncounterType.Blacksmith, 0},
+                    {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.Caravan, new Dictionary<OverworldEncounterType, int>{
-                    {OverworldEncounterType.CombatNormal, 0},
-                    {OverworldEncounterType.Choice, 0},
-                    {OverworldEncounterType.CombatElite, 0},
-                    {OverworldEncounterType.Shop, 1},
-                    {OverworldEncounterType.Blacksmith, 1},
-                    {OverworldEncounterType.Bonfire, 1}
+        {TileType.Caravan, new Dictionary<ScenarioEncounterType, int>{
+                    {ScenarioEncounterType.CombatNormal, 0},
+                    {ScenarioEncounterType.Choice, 0},
+                    {ScenarioEncounterType.CombatElite, 0},
+                    {ScenarioEncounterType.Shop, 1},
+                    {ScenarioEncounterType.Blacksmith, 1},
+                    {ScenarioEncounterType.Bonfire, 1}
         }},
-        {TileType.Town, new Dictionary<OverworldEncounterType, int>{
-                    {OverworldEncounterType.CombatNormal, 0},
-                    {OverworldEncounterType.Choice, 0},
-                    {OverworldEncounterType.CombatElite, 0},
-                    {OverworldEncounterType.Shop, 1},
-                    {OverworldEncounterType.Blacksmith, 1},
-                    {OverworldEncounterType.Bonfire, 1}
+        {TileType.Town, new Dictionary<ScenarioEncounterType, int>{
+                    {ScenarioEncounterType.CombatNormal, 0},
+                    {ScenarioEncounterType.Choice, 0},
+                    {ScenarioEncounterType.CombatElite, 0},
+                    {ScenarioEncounterType.Shop, 1},
+                    {ScenarioEncounterType.Blacksmith, 1},
+                    {ScenarioEncounterType.Bonfire, 1}
         }}
     };
 

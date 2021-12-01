@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class TileCreatorEncounter
 {
-    public TileCreatorEncounter(Vector3 aPos, OverworldEncounterType aType, GridDirection aDir, int anIdx)
+    public TileCreatorEncounter(Vector3 aPos, ScenarioEncounterType aType, GridDirection aDir, int anIdx)
     {
         position = aPos;
         idx = anIdx;
@@ -17,5 +17,5 @@ public class TileCreatorEncounter
     public GridDirection direction;
     public List<int> neighbourIndex;
     public int idx;
-    public OverworldEncounterType overworldEncounterType;
+    public ScenarioEncounterType overworldEncounterType;
 }

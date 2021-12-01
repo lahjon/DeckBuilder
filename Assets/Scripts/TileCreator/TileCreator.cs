@@ -38,20 +38,20 @@ public class TileCreator : MonoBehaviour
         return allEncounters.IndexOf(allEncounters.FirstOrDefault(x => x.position == encounterPosition));
     }
 
-    OverworldEncounterType GetEncounterType()
+    ScenarioEncounterType GetEncounterType()
     {
         switch (optionType)
         {
             case 0:
-                return OverworldEncounterType.None;
+                return ScenarioEncounterType.None;
             case 1:
-                return OverworldEncounterType.Exit;
+                return ScenarioEncounterType.Exit;
             case 2:
-                return OverworldEncounterType.Start;
+                return ScenarioEncounterType.Start;
             case 3:
-                return OverworldEncounterType.Story;
+                return ScenarioEncounterType.Story;
             default:
-                return OverworldEncounterType.None;
+                return ScenarioEncounterType.None;
         }
     }
     public GridDirection GetGridDirection()
@@ -119,7 +119,7 @@ public class TileCreator : MonoBehaviour
         if (PositionToObject(encPos) is TileCreatorEncounter obj)
         {
             obj.overworldEncounterType = GetEncounterType();
-            if (obj.overworldEncounterType == OverworldEncounterType.Exit)
+            if (obj.overworldEncounterType == ScenarioEncounterType.Exit)
                 obj.direction = GetGridDirection();
             
         }

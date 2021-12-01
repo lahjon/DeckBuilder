@@ -163,7 +163,7 @@ public class Condition : IEventSubscriber
 
     public void OnEventNotification(Encounter enc)
     {
-        OverworldEncounterType type;
+        ScenarioEncounterType type;
         Enum.TryParse(conditionData.strParameter, out type);
         if(type == enc.encounterType || enc.storyID == conditionData.strParameter)
             OnEventNotification();
