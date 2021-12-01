@@ -319,18 +319,18 @@ public class Encounter : MonoBehaviour
             case ScenarioEncounterType.CombatNormal:
             case ScenarioEncounterType.CombatElite:
             case ScenarioEncounterType.CombatBoss:
-                encData = CombatSystem.instance.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(encounterType);
+                encData = CombatSystem.instance.encounterData = WorldSystem.instance.gridManager.GetRndEncounterCombat(encounterType);
                 WorldStateSystem.SetInCombat(true);
                 break;
             case ScenarioEncounterType.Shop:
                 WorldStateSystem.SetInOverworldShop(true);
                 break;
             case ScenarioEncounterType.Choice:
-                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterChoice();
+                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = WorldSystem.instance.gridManager.GetRndEncounterChoice();
                 WorldStateSystem.SetInChoice(true);
                 break;
             case ScenarioEncounterType.Blacksmith:
-                Debug.LogWarning("Implement me!");
+                WorldStateSystem.SetInBlacksmith(true);
                 break;
             case ScenarioEncounterType.Exit:
                 WorldSystem.instance.gridManager.CompleteCurrentTile();
