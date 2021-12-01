@@ -9,21 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f0da7bd508578488ffaa618db12b8b, type: 3}
-  m_Name: Berserker_NewCard_1
+  m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
+  m_Name: Enemy_LifeTaint
   m_EditorClassIdentifier: 
-  id: 53_1
+  id: 69
   costDatas: []
   costOptionalDatas: []
-  singleFieldProperties:
-  - Name: Immediate, True
-    prop: -3
-    val: 1
+  singleFieldProperties: []
   effects:
-  - Type: 9
+  - Type: 0
     Value:
       linkedProp: 0
-      baseVal: 40
+      baseVal: 6
       scalar: 1
       inverseScalar: 0
     Times:
@@ -31,7 +28,7 @@ MonoBehaviour:
       baseVal: 1
       scalar: 1
       inverseScalar: 0
-    Target: 0
+    Target: 3
     conditionStruct:
       type: 0
       strParameter: 
@@ -39,12 +36,24 @@ MonoBehaviour:
       strParameters: []
     execTime: 0
   activities:
-  - type: 4
-    strParameter: 
-    val: 40
+  - type: 11
+    strParameter: -1_1
+    val: 2
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
       strParameters: []
     execTime: 0
+  cardName: Life Taint
+  cardType: 0
+  artwork: {fileID: 21300000, guid: 937e77aea3c27db48921cd58c4928217, type: 3}
+  visibleCost: 1
+  upgradeCostFullEmber: 1
+  maxUpgrades: 0
+  upgrades: []
+  rarity: 13
+  cardClass: 8
+  animationPrefab: {fileID: 0}
+  audio: {fileID: 0}
+  goldValue: 35

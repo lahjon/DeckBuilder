@@ -17,13 +17,13 @@ public class CardActivityEN_AddCardModifier : CardActivity
             List<Card> cardPile = Hero.deck.Count != 0 ? Hero.deck : Hero.discard;
             card = cardPile[UnityEngine.Random.Range(0, cardPile.Count)];
 
-            CardFunctionalityData lifeLooseComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
-            if (lifeLooseComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
+            CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
+            if (addingComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
             else
             {
                 for(int i = 0; i < data.val-1;i++)
-                    card.AddModifierToCard(lifeLooseComponent, ModifierType.Cursed, true);
-                card.AddModifierToCard(lifeLooseComponent, ModifierType.Cursed);
+                    card.AddModifierToCard(addingComponent, ModifierType.Cursed, true);
+                card.AddModifierToCard(addingComponent, ModifierType.Cursed);
             }
 
             yield return null;

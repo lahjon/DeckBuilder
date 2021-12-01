@@ -74,19 +74,29 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         });
     }
 
-    public void UpdateAfterModifier(ModifierType type)
+    public void UpdateAfterModifier()
     {
         string newCardName = timesUpgraded > 0 ? string.Format("{0} +{1}", cardData.cardName, timesUpgraded)  : cardData.cardName;
         nameText.text = newCardName;
         cardName = newCardName;
-        cardBackground.color = type == ModifierType.Cursed ? Helpers.cursedCardColor : Helpers.upgradeCardColor;
 
         CheckEnergyIcons();
         cost.UpdateTextsForCosts();
 
-        ResetCardTextElementsList();
-        RefreshDescriptionText(true);
-        SetToolTips();
+        RunVisualSetters();
+    }
+
+    private void SetInnerColor()
+    {
+        Color col;
+        if (!modifiedTypes.Any())
+            col = new Color(0.7f, 0.7f, 0.7f);
+        else if (modifiedTypes.Contains(ModifierType.Cursed))
+            col = Helpers.cursedCardColor;
+        else
+            col = Helpers.upgradeCardColor;
+
+        cardBackground.color = col;
     }
 
     public void BindCardVisualData()
@@ -99,9 +109,15 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         CheckEnergyIcons();
         cost.UpdateTextsForCosts();
 
+        RunVisualSetters();
+    }
+
+    private void RunVisualSetters()
+    {
         ResetCardTextElementsList();
         SetBorderColor();
-        RefreshDescriptionText();
+        SetInnerColor();
+        RefreshDescriptionText(true);
         SetToolTips();
     }
 
@@ -112,7 +128,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         nameText.text = card.cardName;
         artworkImage.sprite = card.artwork;
         typeText.text = card.typeText.text;
-        cardBackground.color = card.cardBackground.color;
         
         foreach (EnergyType eType in cost.energyCosts.Keys)
         {
@@ -126,10 +141,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
             energyToCostOptionalUI[eType].lblEnergy.text = card.energyToCostOptionalUI[eType].lblEnergy.text;
         }
 
-        ResetCardTextElementsList();
-        SetBorderColor();
-        RefreshDescriptionText(true);
-        SetToolTips();
+        RunVisualSetters();
     }
 
     private void RegisterCostUI(EnergyType eType, bool mandatory)
@@ -244,7 +256,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     void SetBorderColor()
     {
-        if (timesUpgraded < 1) cardBackground.color = new Color(0.7f, 0.7f, 0.7f);
         border.color = Helpers.borderColors[classType];
         rarityBorder.color = Helpers.rarityBorderColors[rarity];
     }

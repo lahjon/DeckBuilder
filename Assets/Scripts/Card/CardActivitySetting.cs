@@ -5,7 +5,7 @@ using System;
 
 
 [System.Serializable]
-public class CardActivitySetting : ICardTextElement
+public class CardActivitySetting : ICardTextElement, ICardUpgradableComponent 
 {
     public CardActivityType type;
     public string strParameter;
@@ -37,16 +37,21 @@ public class CardActivitySetting : ICardTextElement
         return CardActivitySystem.instance.ToolTipByCardActivity(this);
     }
 
-    public bool CanAbsorb(CardActivityData data)
+    public bool CanAbsorb<T>(T modifier)
     {
-        return      type == data.type && 
-                    strParameter == data.strParameter && 
-                    condition.conditionData.type == data.conditionStruct.type; 
+        if(modifier is CardActivityData data)
+        {
+            return type == data.type &&
+                   strParameter == data.strParameter &&
+                   condition.conditionData.type == data.conditionStruct.type;
+        }
+        return false;
     }
 
-    public void AbsorbModifierData(CardActivityData data)
+    public void AbsorbModifier<T>(T modifier)
     {
-        val += data.val;
+        if (modifier is CardActivityData data)
+            val += data.val;
     }
 }
 

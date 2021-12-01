@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [Serializable]
-public struct CardActivityData
+public struct CardActivityData : ICardUpgradingData
 {
     public CardActivityType type;
     public string strParameter;

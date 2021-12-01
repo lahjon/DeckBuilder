@@ -25,7 +25,7 @@ MonoBehaviour:
       inverseScalar: 0
     Times:
       linkedProp: 0
-      baseVal: 0
+      baseVal: 1
       scalar: 1
       inverseScalar: 0
     Target: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
       inverseScalar: 0
     Times:
       linkedProp: 0
-      baseVal: 0
+      baseVal: 1
       scalar: 1
       inverseScalar: 0
     Target: 0
