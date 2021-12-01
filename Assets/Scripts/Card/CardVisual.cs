@@ -155,6 +155,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         toolTipTextBits.Insert(0, tip);
     }
 
+
     private void RegisterCostUI(EnergyType eType, bool mandatory)
     {
         Dictionary<EnergyType, CardCostDisplay> dickie = mandatory ? energyToCostUI : energyToCostOptionalUI;
