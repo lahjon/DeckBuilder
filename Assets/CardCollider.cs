@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardCollider : MonoBehaviour, IPointerClickHandler
+public class CardCollider : MonoBehaviour, IPointerClickHandler, IToolTipable
 {
     public CardCombat card;
 
@@ -39,5 +39,13 @@ public class CardCollider : MonoBehaviour, IPointerClickHandler
             card.OnMouseClick();
         else if (eventData.button == PointerEventData.InputButton.Right)
             card.OnMouseRightClick();
+    }
+
+    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        if (card == null)
+            return (new List<string>(), Vector3.zero);
+        else
+            return card.GetTipInfo();
     }
 }

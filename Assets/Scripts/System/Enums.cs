@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public static class EnumExtenstions
 {
-    public static EffectTypeInfo GetEffectTypeStruct(this EffectType type) => EffectTypeInfo.GetEffectTypeInfo(type);
-
     public static string GetDescription(this ProfessionType type)
     {
         switch (type)

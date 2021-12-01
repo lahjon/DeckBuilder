@@ -268,12 +268,11 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         return strengthCombat;
     }
 
-
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
-        effectTypeToRule.Keys.ToList().ForEach(x => { toolTipTextBits.Add(x.GetEffectTypeStruct().toolTipCard); });
-        return (toolTipTextBits, AnchorToolTip.position);
+        effectTypeToRule.Values.ToList().ForEach(x => { toolTipTextBits.Add(x.type.toolTipCard); });
+        return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorToolTip.position));
     }
 
     public void ModifyStrength(int x) => strengthCombat += x;

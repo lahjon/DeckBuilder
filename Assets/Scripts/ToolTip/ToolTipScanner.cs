@@ -10,7 +10,6 @@ using DG.Tweening;
 
 public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 { 
-    private static LTDescr delayAction;
     public float timeDelay = 0.5f;
     public Tween delayTween;
 
@@ -31,6 +30,7 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     public void OnMouseEnter()
     {
+        Debug.Log("Entered");
         EnterAction();
     }
 

@@ -110,7 +110,7 @@ public class CombatActorEnemy : CombatActor
         }
 
         target.transform.localPosition += new Vector3(0, collision.size.y / 2, 0);
-        AnchorToolTip.transform.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.75f);
+        AnchorToolTip.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.75f);
         intentDisplay.SetPosition();
        
         maxHitPoints = enemyData.StartingHP;

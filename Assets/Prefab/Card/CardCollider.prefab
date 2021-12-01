@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2938065937023747233}
   - component: {fileID: 2425150945828166681}
   - component: {fileID: -1979613337925097113}
+  - component: {fileID: 4887468810777518969}
   m_Layer: 0
   m_Name: CardCollider
   m_TagString: Untagged
@@ -162,3 +163,16 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4887468810777518969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130489016394698252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97338f21000cccb46aa75e715796a449, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeDelay: 0.5

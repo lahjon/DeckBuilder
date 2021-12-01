@@ -25,7 +25,7 @@ public class CardEffectCarrier: ICardTextElement
     public CardEffectCarrier(EffectType type, int value, int times = 1, CardTargetType target = CardTargetType.EnemySingle, Card card = null)
     {
         this.card = card;
-        Type = type.GetEffectTypeStruct();
+        Type = EffectTypeInfo.GetEffectTypeInfo(type);
         Value = new CardInt(value);
         Times = new CardInt(times);
         Target = target;
@@ -36,7 +36,7 @@ public class CardEffectCarrier: ICardTextElement
     public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnConditionFlip = null)
     {
         this.card = card;
-        Type = data.Type.GetEffectTypeStruct();
+        Type = EffectTypeInfo.GetEffectTypeInfo(data.Type);
         Value = CardInt.Factory(data.Value,card, ForceTextRefresh);
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;

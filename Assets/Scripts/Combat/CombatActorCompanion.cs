@@ -83,7 +83,7 @@ public class CombatActorCompanion : CombatActor
             collision = gameObject.AddComponent<BoxCollider2D>();
         }
 
-        AnchorToolTip.transform.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.75f);
+        AnchorToolTip.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.75f);
         intentDisplay.SetPosition();
        
         if(companionData.shuffleInit) ShuffleDeck();
