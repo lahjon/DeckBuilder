@@ -8,6 +8,7 @@ using UnityEngine.Animations;
 
 public class Encounter : MonoBehaviour
 {
+    public int id { get => encData != null ? encData.id : -1; }
     public HexTile tile;
     public List<Encounter> neighboors;
     public List<EncounterRoad> roads = new List<EncounterRoad>();
@@ -319,14 +320,14 @@ public class Encounter : MonoBehaviour
             case OverworldEncounterType.CombatNormal:
             case OverworldEncounterType.CombatElite:
             case OverworldEncounterType.CombatBoss:
-                encData = CombatSystem.instance.encounterData = DatabaseSystem.instance.GetRndEncounterCombat(encounterType);
+                encData = CombatSystem.instance.encounterData = WorldSystem.instance.gridManager.GetRndEncounterCombat(encounterType);
                 WorldStateSystem.SetInCombat(true);
                 break;
             case OverworldEncounterType.Shop:
                 WorldStateSystem.SetInOverworldShop(true);
                 break;
             case OverworldEncounterType.Choice:
-                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = DatabaseSystem.instance.GetRndEncounterChoice();
+                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = WorldSystem.instance.gridManager.GetRndEncounterChoice();
                 WorldStateSystem.SetInChoice(true);
                 break;
             case OverworldEncounterType.Blacksmith:

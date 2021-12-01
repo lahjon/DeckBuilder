@@ -34,9 +34,9 @@ public class DatabaseSystem : MonoBehaviour
     public List<ScenarioData> scenarios = new List<ScenarioData>();
     public List<MissionData> missions = new List<MissionData>();
 
-    [Header("=========== CurrentScenario ============")]
-    public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
-    public List<EncounterDataRandomEvent> encountersEventToDraw = new List<EncounterDataRandomEvent>();
+    // [Header("=========== CurrentScenario ============")]
+    // public List<EncounterDataCombat> encountersCombatToDraw = new List<EncounterDataCombat>();
+    // public List<EncounterDataRandomEvent> encountersEventToDraw = new List<EncounterDataRandomEvent>();
 
     [Header("=========== Dialogue ============")]
     public List<DialogueData> dialogues = new List<DialogueData>();
@@ -146,44 +146,16 @@ public class DatabaseSystem : MonoBehaviour
         }
     }
 
-
-    public void ResetEncountersCombatToDraw(CombatEncounterType? type)
+    public List<EncounterDataCombat> GetCombatEncounters(EncounterFilter encounterFilter)
     {
-        if (type is null)
-        {
-            encountersCombatToDraw.Clear();
-            encountersCombatToDraw.AddRange(encountersCombat);
-        }
-        else
-        {
-            encountersCombatToDraw = encountersCombatToDraw.Where(e => e.type != type).ToList(); //paranoia;
-            encountersCombatToDraw.AddRange(encountersCombat.Where(e => e.type == type));
-        }
+        List<EncounterDataCombat> encounters = encountersCombat.Where(x => EncounterFilter.Filterer(x, encounterFilter)).ToList();
+        return encounters;
     }
 
-    public void ResetEncountersEventToDraw()
+    public List<EncounterDataRandomEvent> GetChoiceEncounters(EncounterFilter encounterFilter)
     {
-        encountersEventToDraw.Clear(); //Paranoia
-        encountersEventToDraw.AddRange(encounterEvent.Where(e => e.FindInRandom));
-    }
-
-    public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
-    {
-        if (!encountersCombatToDraw.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
-        List<EncounterDataCombat> encounters = encountersCombatToDraw.Where(e => e.type == (CombatEncounterType)type).ToList();
-        int id = Random.Range(0, encounters.Count);
-        EncounterDataCombat data = encounters[id];
-        encounters.RemoveAt(id);
-        return data;
-    }
-
-    public EncounterDataRandomEvent GetRndEncounterChoice()
-    {
-        if (!encountersEventToDraw.Any()) ResetEncountersEventToDraw();
-        int id = Random.Range(0, encountersEventToDraw.Count);
-        EncounterDataRandomEvent data = encountersEventToDraw[id];
-        encountersEventToDraw.RemoveAt(id);
-        return data;
+        List<EncounterDataRandomEvent> encounters = encounterEvent.Where(x => EncounterFilter.Filterer(x, encounterFilter)).ToList();
+        return encounters;
     }
 }
 

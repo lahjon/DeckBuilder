@@ -61,6 +61,13 @@ public enum Rarity
     Epic = 14
 };
 
+public enum EncounterTag
+{
+    None,
+    General,
+    Tinkerbots
+}
+
 public enum ZoomState
 {
     Inner, 

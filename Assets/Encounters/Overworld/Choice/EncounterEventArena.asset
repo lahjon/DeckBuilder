@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693a02abb8cc62d47b5100a11313836c, type: 3}
   m_Name: EncounterEventArena
   m_EditorClassIdentifier: 
+  id: 0
   encounterName: Colosseum
+  encounterTags: 02000000
   tier: 0
   layoutType: 1
   FindInRandom: 1

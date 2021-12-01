@@ -13,14 +13,18 @@ MonoBehaviour:
   m_Name: The Forgotten Necromancer
   m_EditorClassIdentifier: 
   id: 0
+  minTier: 0
+  maxTier: 0
   ScenarioName: The Forgotten Necromancer
   difficulty: 1
   rewardStruct:
     type: 2
-    value:
-    - 20
+    value: 
   type: 1
   unlocksScenarios: 
+  includeEncounters: 
+  excludeEncounters: 02000000
+  encounters: []
   DescriptionShort: If you could find the remains of the Necromancer, you could find
     his cache of shards!
   Description: kk
