@@ -125,7 +125,7 @@ public class DatabaseSystem : MonoBehaviour
         }
     }
 
-    public Sprite GetOverWorldIcon(OverworldEncounterType type)
+    public Sprite GetOverWorldIcon(ScenarioEncounterType type)
     {
         return allOverworldIcons.Where(x => x.name == string.Format("Overworld{0}",type.ToString())).First();
     }

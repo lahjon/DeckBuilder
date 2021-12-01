@@ -60,7 +60,7 @@ public class ScenarioMapManager : Manager
         base.Start();
     } 
     
-    public EncounterDataCombat GetRndEncounterCombat(OverworldEncounterType type)
+    public EncounterDataCombat GetRndEncounterCombat(ScenarioEncounterType type)
     {
         if (!availableCombatEncounters.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
         int id = Random.Range(0, availableCombatEncounters.Count);
