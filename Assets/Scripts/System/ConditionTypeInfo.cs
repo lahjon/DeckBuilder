@@ -13,7 +13,7 @@ public class ConditionTypeInfo
     public static ConditionTypeInfo CardsPlayedAtLeast = new ConditionTypeInfo { conditionChecker = CheckCardsPlayedAtLeast, baseText = "If you played at least <val> cards" };
     public static ConditionTypeInfo CardsPlayedAtMost = new ConditionTypeInfo { conditionChecker = CheckCardsPlayedAtMost, baseText = "If you played less than <val> cards" };
     public static ConditionTypeInfo LastCardPlayedTurnType = new ConditionTypeInfo { conditionChecker = CheckLastTypePlayedThisTurn, baseText = "If the last card you played was <param>" };
-    public static ConditionTypeInfo OptionalCardCostPaid = new ConditionTypeInfo { conditionChecker = CheckOptionalCardCostPaid, baseText = "If you paid the ()-cost" };
+    public static ConditionTypeInfo OptionalCardCostPaid = new ConditionTypeInfo { conditionChecker = CheckOptionalCardCostPaid, baseText = "(Optional)" };
     public static ConditionTypeInfo NotConfigured = new ConditionTypeInfo { conditionChecker = (ConditionData data) => { return false; }, baseText = "This Conditiontype is not configured for anything other than CountingCondition" };
 
     private static Dictionary<ConditionType, ConditionTypeInfo> ConditionInfos = new Dictionary<ConditionType, ConditionTypeInfo> {
