@@ -268,7 +268,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         return strengthCombat;
     }
 
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
         effectTypeToRule.Values.ToList().ForEach(x => { toolTipTextBits.Add(x.type.toolTipCard); });

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
-  m_Name: NullcasterMageApprentice
+  m_Name: ViodCasterMageApprentice
   m_EditorClassIdentifier: 
   StartingHP: 28
   enemyId: 1
@@ -19,7 +19,11 @@ MonoBehaviour:
   characterArt: {fileID: 7908035891764426735, guid: 9b6934dcc74555c4fadcec6f0828dd5f, type: 3}
   tier: 1
   experience: 0
-  deck: []
+  deck:
+  - {fileID: 11400000, guid: f821df087d75e2d40abf79bbd14ce960, type: 2}
+  - {fileID: 11400000, guid: 64d13cd39e49f1447ad19eeee2eaa8c1, type: 2}
+  - {fileID: 11400000, guid: f821df087d75e2d40abf79bbd14ce960, type: 2}
+  - {fileID: 11400000, guid: 64d13cd39e49f1447ad19eeee2eaa8c1, type: 2}
   startingEffects: []
   shuffleInit: 1
   stochasticReshuffle: 1

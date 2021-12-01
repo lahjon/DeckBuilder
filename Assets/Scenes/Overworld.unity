@@ -47611,6 +47611,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df5c1d0277a6d0946aae6dd54d58396c, type: 2}
   - {fileID: 11400000, guid: bcb2c0f5caa02064299e21b81506144e, type: 2}
   - {fileID: 11400000, guid: 3dd7e481bcdac90418f7a131e18204e7, type: 2}
+  - {fileID: 11400000, guid: b0a8b54917f0baa4395aa1de8c38a752, type: 2}
   encounterEvent:
   - {fileID: 11400000, guid: 2e96d5d7c9dd18644a2be4c4a64df655, type: 2}
   - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
@@ -47624,7 +47625,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93b9c1a5ace9201488f728de8468f766, type: 2}
   - {fileID: 11400000, guid: b7e17f8faf6fe9944bb6b4e02d8a9edf, type: 2}
   enemies:
-  - {fileID: 11400000, guid: c62dd14c0b6784f46b96ee4a354f1d02, type: 2}
+  - {fileID: 11400000, guid: 9df804e94164b2745a47f8074c4fa458, type: 2}
   - {fileID: 11400000, guid: 53cb7944b1496254b965f0a7667318c5, type: 2}
   - {fileID: 11400000, guid: e40b70d693ad4304eb11d8b0429bc331, type: 2}
   - {fileID: 11400000, guid: 8c24026324111074589ada04548be3cc, type: 2}
