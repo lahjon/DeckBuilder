@@ -41,6 +41,7 @@ public class Card : MonoBehaviour
 
     public List<Condition> registeredConditions = new List<Condition>();
     public List<IEventSubscriber> registeredSubscribers = new List<IEventSubscriber>();
+    public HashSet<ModifierType> modifiedTypes = new HashSet<ModifierType>();
 
     public bool upgradable { get => timesUpgraded < cardData.maxUpgrades; }
 
@@ -82,29 +83,12 @@ public class Card : MonoBehaviour
         PostSingleFieldSetup();
 
         foreach (CardEffectCarrierData effect in cardData.effects) 
-        {
-            CardEffectCarrier carrier = SetupEffectcarrier(effect);
-            if (effect.Type == EffectType.Damage)
-                Attacks.Add(carrier);
-            else if (effect.Type == EffectType.Block)
-                Blocks.Add(carrier);
-            else if(effect.execTime == CardComponentExecType.OnPlay)
-                effectsOnPlay.Add(carrier);
-            else if(effect.execTime == CardComponentExecType.OnDraw)
-                effectsOnDraw.Add(carrier);
-        }
+            SetupComponentFromData(effect);
 
         foreach (CardActivityData activity in cardData.activities)
-        {
-            CardActivitySetting carrier = SetupActivitySetting(activity);
-            if (activity.execTime == CardComponentExecType.OnPlay)
-                activitiesOnPlay.Add(carrier);
-            else if (activity.execTime == CardComponentExecType.OnDraw)
-                activitiesOnDraw.Add(carrier);
-        }
+            SetupComponentFromData(activity);
 
         animationPrefab = cardData.animationPrefab;
-
         classType       = cardData.cardClass;
     }
 
@@ -119,62 +103,49 @@ public class Card : MonoBehaviour
     {
         if(type != ModifierType.Cursed) timesUpgraded++;
         cardModifiers.Add(data);
+        modifiedTypes.Add(type);
 
         for (int i = 0; i < data.singleFieldProperties.Count; i++)
             RegisterSingleField(data.singleFieldProperties[i]);
 
         foreach(CardEffectCarrierData effect in data.effects)
         {
-            if(effect.Type == EffectType.Damage)
-                AddUpgradeEffectToList(Attacks, effect);
+            List<CardEffectCarrier> targetList;
+            if (effect.Type == EffectType.Damage)
+                targetList = Attacks;
             else if (effect.Type == EffectType.Block)
-                AddUpgradeEffectToList(Blocks, effect);
-            else if (effect.execTime == CardComponentExecType.OnPlay)
-                AddUpgradeEffectToList(effectsOnPlay, effect);
+                targetList = Blocks;
             else if (effect.execTime == CardComponentExecType.OnDraw)
-                AddUpgradeEffectToList(effectsOnDraw, effect);
+                targetList = effectsOnDraw;
+            else
+                targetList = effectsOnPlay;
+
+            if(!AddUpgradeComponent(targetList, effect))
+                SetupComponentFromData(effect);
         }
 
         foreach (CardActivityData activity in data.activities)
-        {
-            if (activity.execTime == CardComponentExecType.OnPlay)
-                AddUpgradeActivityToList(activitiesOnPlay, activity);
-            else if (activity.execTime == CardComponentExecType.OnDraw)
-                AddUpgradeActivityToList(activitiesOnDraw, activity);            
-        }
+            if (!AddUpgradeComponent(activity.execTime == CardComponentExecType.OnPlay ? activitiesOnPlay : activitiesOnDraw, activity))
+                SetupComponentFromData(activity);
 
         cost.AbsorbModifier(data.costDatas, data.costOptionalDatas);
 
         if (this is CardVisual card && !supressVisualUpdate)
-            card.UpdateAfterModifier(type);
+            card.UpdateAfterModifier();
     }
 
-    void AddUpgradeEffectToList(List<CardEffectCarrier> targetList, CardEffectCarrierData data)
+    public bool AddUpgradeComponent<T1,T2>(List<T1> targetList, T2 data) where T1: ICardUpgradableComponent where T2 : ICardUpgradingData
     {
         for (int i = 0; i < targetList.Count; i++)
         {
             if (targetList[i].CanAbsorb(data))
             {
                 targetList[i].AbsorbModifier(data);
-                return;
-            }
-            targetList.Add(SetupEffectcarrier(data));
-        }
-    }
-
-    void AddUpgradeActivityToList(List<CardActivitySetting> targetList, CardActivityData data)
-    {
-        for(int i = 0; i < targetList.Count; i++)
-        {
-            if (targetList[i].CanAbsorb(data))
-            {
-                targetList[i].AbsorbModifierData(data);
-                return;
+                return true;
             }
         }
-        targetList.Add(SetupActivitySetting(data));
+        return false;
     }
-
 
     public bool HasProperty(CardSingleFieldPropertyType prop) => singleFieldProperties.Any(x => x.type == prop);
     public void Exhaust()
@@ -197,6 +168,7 @@ public class Card : MonoBehaviour
 
     public void Mimic(Card card)
     {
+        Reset();
         name = card.cardName;
         cardData = card.cardData;
         cardId = card.cardId;
@@ -215,24 +187,41 @@ public class Card : MonoBehaviour
         effectsOnDraw               = new List<CardEffectCarrier>(card.effectsOnDraw);
         activitiesOnPlay            = new List<CardActivitySetting>(card.activitiesOnPlay);
         activitiesOnDraw            = new List<CardActivitySetting>(card.activitiesOnDraw);
+        modifiedTypes.UnionWith(card.modifiedTypes);
         animationPrefab             = card.animationPrefab;
         classType = card.classType;
     }
 
-    public CardEffectCarrier SetupEffectcarrier(CardEffectCarrierData data)
+    public void SetupComponentFromData(CardEffectCarrierData data)
     {
+        CardEffectCarrier carrier;
         if (this is CardCombat cardCombat)
-            return new CardEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
+            carrier =  new CardEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
-            return new CardEffectCarrier(data, this);
+            carrier = new CardEffectCarrier(data, this);
+
+        if (data.Type == EffectType.Damage)
+            Attacks.Add(carrier);
+        else if (data.Type == EffectType.Block)
+            Blocks.Add(carrier);
+        else if (data.execTime == CardComponentExecType.OnPlay)
+            effectsOnPlay.Add(carrier);
+        else if (data.execTime == CardComponentExecType.OnDraw)
+            effectsOnDraw.Add(carrier);
     }
 
-    public CardActivitySetting SetupActivitySetting(CardActivityData data)
+    public void SetupComponentFromData(CardActivityData data)
     {
+        CardActivitySetting setting;
         if (this is CardCombat cardCombat)
-            return new CardActivitySetting(data, this, cardCombat.EvaluateHighlightNotSelected);
+            setting =  new CardActivitySetting(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
-            return new CardActivitySetting(data, this);
+            setting =  new CardActivitySetting(data, this);
+
+        if (data.execTime == CardComponentExecType.OnPlay)
+            activitiesOnPlay.Add(setting);
+        else if (data.execTime == CardComponentExecType.OnDraw)
+            activitiesOnDraw.Add(setting);
     }
 
     public void RegisterSingleField(CardSingleFieldPropertyTypeWrapper typeWrapper)

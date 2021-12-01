@@ -6,7 +6,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class CardEffectCarrier: ICardTextElement
+public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
 {
     internal Card card; 
 
@@ -57,23 +57,33 @@ public class CardEffectCarrier: ICardTextElement
         if (card is CardCombat c)
             c.OnDamageRecalcEvent += ForceTextRefresh;
     }
-
-    public bool CanAbsorb(CardEffectCarrierData data)
+    public bool CanAbsorb<T>(T modifier)
     {
-        return
+        if(modifier is CardEffectCarrierData data)
+        {
+            return
             Type.Equals(data.Type)
             && condition.conditionData.type == data.conditionStruct.type
             && (int)Target <= (int)data.Target
+            && (data.Value.baseVal == 0 || data.Times.baseVal == Times.baseVal)
             && (Times.propertyType == data.Times.linkedProp || data.Times.linkedProp == CardLinkablePropertyType.None)
             && (Value.propertyType == data.Value.linkedProp || data.Value.linkedProp == CardLinkablePropertyType.None);
+        }
+        return false;
     }
 
-    public void AbsorbModifier(CardEffectCarrierData data)
+    public void AbsorbModifier<T>(T modifier)
     {
-        Target = data.Target;
-        Times.AbsorbModifier(data.Times);
-        Value.AbsorbModifier(data.Value);
-        description = string.Empty;
+        if (modifier is CardEffectCarrierData data)
+        {
+            Target = data.Target;
+            if (data.Value.baseVal == 0)
+                Times.AbsorbModifier(data.Times);
+            else
+                Value.AbsorbModifier(data.Value);
+
+            description = string.Empty;
+        }
     }
 
     public string GetElementText()
@@ -116,6 +126,7 @@ public class CardEffectCarrier: ICardTextElement
             c.RefreshDescriptionText(true);
         }
     }
+
     public static CardEffectCarrier operator+(CardEffectCarrier a, CardEffectCarrier b)
     {
         if (a == null)

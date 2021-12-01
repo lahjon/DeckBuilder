@@ -7,13 +7,15 @@ using System.Linq;
 public class Condition : IEventSubscriber
 {
     public ConditionData conditionData;
+    public ConditionTypeInfo info;
     public bool value;
-    public Func<ConditionData, bool> ConditionEvaluator;
 
     public Action OnPreConditionUpdate;
     public Action OnConditionFlipTrue;
     public Action OnConditionFlipFalse;
     public Action OnConditionFlip;
+
+    public Func<ConditionData, bool> ConditionEvaluator;
 
     public static implicit operator bool(Condition c) => c.value;
 
@@ -26,7 +28,8 @@ public class Condition : IEventSubscriber
             return;
         }
 
-        ConditionEvaluator = ConditionSystem.GetConditionChecker(conditionData.type);
+        info = ConditionTypeInfo.GetConditionInfo(conditionData.type);
+        ConditionEvaluator = info.conditionChecker;
         this.OnPreConditionUpdate = OnPreConditionUpdate;
         this.OnConditionFlip = OnConditionFlip;
         this.OnConditionFlipTrue = OnConditionFlipTrue;
@@ -39,15 +42,7 @@ public class Condition : IEventSubscriber
         value = true;
     }
 
-    public string GetTextCard()
-    {
-        string retString = "";
-        if (conditionData.type != ConditionType.None) retString += "If " + conditionData.type.ToString() + " " + conditionData.strParameter
-                + (conditionData.numValue == 0 ? "" : conditionData.numValue.ToString())
-                    + " then: ";
-
-        return retString;
-    }
+    public string GetTextCard() => conditionData.type == ConditionType.None ? "" : (info.GetTextInfo(conditionData) + ":\n");
 
     public void Subscribe()
     {
@@ -176,7 +171,6 @@ public class Condition : IEventSubscriber
 
     public void OnEventNotification(ScenarioSegment segment)
     {
-        Debug.Log("Responded to complete segment");
         if (segment.data.SegmentName == conditionData.strParameter || conditionData.strParameters.Contains(segment.data.SegmentName))
             OnEventNotification();
     }

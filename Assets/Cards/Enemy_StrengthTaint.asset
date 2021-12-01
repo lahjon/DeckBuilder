@@ -9,21 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f0da7bd508578488ffaa618db12b8b, type: 3}
-  m_Name: Berserker_NewCard_1
+  m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
+  m_Name: Enemy_StrengthTaint
   m_EditorClassIdentifier: 
-  id: 53_1
+  id: 70
   costDatas: []
   costOptionalDatas: []
-  singleFieldProperties:
-  - Name: Immediate, True
-    prop: -3
-    val: 1
+  singleFieldProperties: []
   effects:
-  - Type: 9
+  - Type: 2
     Value:
       linkedProp: 0
-      baseVal: 40
+      baseVal: 10
       scalar: 1
       inverseScalar: 0
     Times:
@@ -39,12 +36,24 @@ MonoBehaviour:
       strParameters: []
     execTime: 0
   activities:
-  - type: 4
-    strParameter: 
-    val: 40
+  - type: 11
+    strParameter: -1_3
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 
       numValue: 0
       strParameters: []
     execTime: 0
+  cardName: Strength Taint
+  cardType: 0
+  artwork: {fileID: 21300000, guid: d38187cd5d378644e984345e7a17590a, type: 3}
+  visibleCost: 1
+  upgradeCostFullEmber: 1
+  maxUpgrades: 0
+  upgrades: []
+  rarity: 13
+  cardClass: 8
+  animationPrefab: {fileID: 0}
+  audio: {fileID: 0}
+  goldValue: 35

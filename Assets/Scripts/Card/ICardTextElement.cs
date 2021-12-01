@@ -9,3 +9,15 @@ public interface ICardTextElement
     public string GetElementToolTip();
 
 }
+
+public interface ICardUpgradableComponent
+{
+    public bool CanAbsorb<T>(T modifier);
+
+    public void AbsorbModifier<T>(T modifier);
+}
+
+public interface ICardUpgradingData
+{
+
+}

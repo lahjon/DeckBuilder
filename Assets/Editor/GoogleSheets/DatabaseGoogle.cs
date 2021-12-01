@@ -503,6 +503,7 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
+
             EnemyData enemy = dbs.enemies.Where(x => x.name == databaseName).FirstOrDefault();
             if (enemy == null)
             {
@@ -510,12 +511,11 @@ public class DatabaseGoogle
                 continue;
             }
 
-            string CardName = (string)gt[i, "CardName"];
-
-            CardData card = dbs.cards.Where(x => x.name == CardName).FirstOrDefault();
+            string id = (string)gt[i, "CardId"];
+            CardData card = dbs.cards.Where(x => x.id == id).FirstOrDefault();
             if (card == null)
             {
-                Debug.LogError("SKIPPED: Enemy assigned non-existant card: " + CardName);
+                Debug.LogError("SKIPPED: Enemy assigned non-existant cardId: " + id);
                 continue;
             }
 
@@ -569,6 +569,11 @@ public class DatabaseGoogle
     public void ReadEntriesEncounter(string sheetName, string lastCol, string sheet)
     {
         GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+
+        dbs.encountersCombat.Clear();
+
 
         for (int i = 1; i < gt.values.Count; i++)
         {
@@ -593,6 +598,8 @@ public class DatabaseGoogle
             data.startEffectsTargets.Clear();
             data.startingEffects.Clear();
 
+
+            dbs.encountersCombat.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

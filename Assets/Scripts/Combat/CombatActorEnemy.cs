@@ -268,4 +268,11 @@ public class CombatActorEnemy : CombatActor
     }
 
     public override int GetStat(StatType stat) => 0;
+
+    public override (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    {
+        (List<string> tips, Vector3 worldPosition) baseInfo = base.GetTipInfo();
+        baseInfo.tips.Insert(0, enemyData.name);
+        return baseInfo;
+    }
 }

@@ -32,25 +32,6 @@ public enum EquipmentType
     Feet
 }
 
-public enum ConditionType
-{
-    None,
-    KillEnemy,
-    ClearTile,
-    EnterBuilding,
-    WinCombat,
-    CardsPlayedAtLeast,
-    CardsPlayedAtMost,
-    LastCardPlayedTurnType,
-    Discharge,
-    KillBoss,
-    StoryTileCompleted,
-    EncounterDataCompleted,
-    EncounterCompleted,
-    StorySegmentCompleted,
-    OptionalCardCostPaid
-}
-
 public enum Rarity
 {
     None = 0,

@@ -249,6 +249,12 @@ public class CombatSystem : MonoBehaviour
         foreach (EnergyType type in energyTypes)
             RegisterEnergyType(type);
 
+        foreach (EnergyType type in displayEnergies.Keys.Except(energyTypes))
+        {
+            Destroy(displayEnergies[type]);
+            displayEnergies.Remove(type);
+        }
+
         foreach(CardVisual cv in deckData)
         {
             CardCombat card = CardCombat.Factory(cv);
@@ -277,6 +283,7 @@ public class CombatSystem : MonoBehaviour
 
     private void RegisterEnergyType(EnergyType type)
     {
+        if (displayEnergies.ContainsKey(type)) return;
         displayEnergies[type] = Instantiate(templateEnergyDisplay, energyParent).GetComponent<CardCostDisplay>();
         displayEnergies[type].SetType(type);
         displayEnergies[type].lblEnergy.text = "0";
