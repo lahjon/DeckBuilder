@@ -66,6 +66,7 @@ public class Card : MonoBehaviour
 
             cv.energyToCostUI.Clear();
             cv.energyToCostOptionalUI.Clear();
+            cv.manualToolTips.Clear();
         }
     }
     public void BindCardData()

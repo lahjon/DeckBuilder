@@ -6,16 +6,17 @@ using System.Linq;
 
 public class CardActivityEN_AddCardModifier : CardActivity
 {
+    string toolTip = "<b>Cursed<b>This card has adverse effects added to it.";
     public override IEnumerator Execute(CardActivitySetting data)
     {
-        Card card;
+        CardCombat card;
         CombatActor Hero = CombatSystem.instance.Hero;
         if (Hero.deck.Count == 0 && Hero.discard.Count == 0)
             card = null;
         else
         {
             List<Card> cardPile = Hero.deck.Count != 0 ? Hero.deck : Hero.discard;
-            card = cardPile[UnityEngine.Random.Range(0, cardPile.Count)];
+            card = (CardCombat)cardPile[UnityEngine.Random.Range(0, cardPile.Count)];
 
             CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
             if (addingComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
@@ -25,7 +26,7 @@ public class CardActivityEN_AddCardModifier : CardActivity
                     card.AddModifierToCard(addingComponent, ModifierType.Cursed, true);
                 card.AddModifierToCard(addingComponent, ModifierType.Cursed);
             }
-
+            card.SetManualToolTip(toolTip);
             yield return null;
         }
     }

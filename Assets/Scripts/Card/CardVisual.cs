@@ -34,7 +34,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public GameObject templateCostUI;
     public Dictionary<EnergyType, CardCostDisplay> energyToCostUI = new Dictionary<EnergyType, CardCostDisplay>();
     public Dictionary<EnergyType, CardCostDisplay> energyToCostOptionalUI = new Dictionary<EnergyType, CardCostDisplay>();
-    
+    internal List<string> manualToolTips = new List<string>();
+
+
     CardHighlightType _cardHighlightType;
 
     public CardHighlightType cardHighlightType
@@ -128,7 +130,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         nameText.text = card.cardName;
         artworkImage.sprite = card.artwork;
         typeText.text = card.typeText.text;
-        
+
+        card.manualToolTips.ForEach(t => SetManualToolTip(t));
+
         foreach (EnergyType eType in cost.energyCosts.Keys)
         {
             RegisterCostUI(eType, true);
@@ -142,6 +146,13 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         }
 
         RunVisualSetters();
+    }
+
+    public void SetManualToolTip(string tip)
+    {
+        if (manualToolTips.Contains(tip)) return;
+        manualToolTips.Add(tip);
+        toolTipTextBits.Insert(0, tip);
     }
 
     private void RegisterCostUI(EnergyType eType, bool mandatory)
@@ -206,7 +217,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
         List<CardFunctionalityData> mods = new List<CardFunctionalityData>(card.cardModifiers);
         if (explicitMods != null) mods.AddRange(explicitMods);
-
+        card.manualToolTips.ForEach(t => SetManualToolTip(t));
         foreach (CardFunctionalityData mod in mods)
             AddModifierToCard(mod);
     }
@@ -294,7 +305,6 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
 
     public (List<string> tips, Vector3 worldPosition) GetTipInfo()
     {
-        //activitiesOnPlay.ForEach(x => Debug.Log(x));
         return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(TooltipAnchor.position));
     }
 
