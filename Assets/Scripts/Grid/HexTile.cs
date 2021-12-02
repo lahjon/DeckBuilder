@@ -216,7 +216,7 @@ public class HexTile : MonoBehaviour
     }
     public void Init()
     {
-        mapManager = WorldSystem.instance.gridManager;
+        mapManager = WorldSystem.instance.scenarioMapManager;
         hexMapController = mapManager.GetComponent<HexMapController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         EncountersInitializePositions(gridWidth);

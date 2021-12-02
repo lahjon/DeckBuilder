@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class ItemEffectTakeDamage : ItemEffect
 {
-    public override void AddItemEffect()
+    public override void ApplyEffect()
     {
-        base.AddItemEffect();
+        base.ApplyEffect();
         //WorldSystem.instance.characterManager.Heal(itemEffectStruct.value);
-    }
-    public override void RemoveItemEffect()
-    {
-        base.AddItemEffect();
-        //WorldSystem.instance.characterManager.Heal(-itemEffectStruct.value);
     }
 }

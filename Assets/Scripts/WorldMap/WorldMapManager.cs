@@ -25,7 +25,7 @@ public class WorldMapManager : Manager, ISaveableWorld
             enc.gameObject.SetActive(false);
             if (DatabaseSystem.instance.scenarios.FirstOrDefault(x => x.id.ToString() == enc.name) is ScenarioData scenarioData)
             {
-                enc.worldScenarioData = scenarioData;
+                enc.data = scenarioData;
                 worldScenarios.Add(enc);
             }
         }
@@ -68,16 +68,15 @@ public class WorldMapManager : Manager, ISaveableWorld
         {
             world.characterManager.ResetDeck();
             WorldStateSystem.SetInTown(true);
+            WorldSystem.instance.scenarioMapManager.DeleteMap();
         }
     }
 
     public void UpdateMap()
     {
         foreach (Scenario enc in worldScenarios)
-        {
-            if (enc.worldScenarioData != null && availableScenarios.Contains(enc.worldScenarioData.id))
+            if (enc.data != null && availableScenarios.Contains(enc.data.id))
                 enc.BindData();
-        }
     }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)

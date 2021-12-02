@@ -18,8 +18,8 @@ MonoBehaviour:
   description: +1 strength
   rarity: 12
   itemEffectStruct:
-    type: 2
-    parameter: Power
+    type: 3
+    parameter: Strength
     addOnStart: 0
     value: 1
   goldValue: 0

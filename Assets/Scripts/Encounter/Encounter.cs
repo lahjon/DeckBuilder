@@ -319,21 +319,21 @@ public class Encounter : MonoBehaviour
             case ScenarioEncounterType.CombatNormal:
             case ScenarioEncounterType.CombatElite:
             case ScenarioEncounterType.CombatBoss:
-                encData = CombatSystem.instance.encounterData = WorldSystem.instance.gridManager.GetRndEncounterCombat(encounterType);
+                encData = CombatSystem.instance.encounterData = WorldSystem.instance.scenarioMapManager.GetRndEncounterCombat(encounterType);
                 WorldStateSystem.SetInCombat(true);
                 break;
             case ScenarioEncounterType.Shop:
                 WorldStateSystem.SetInOverworldShop(true);
                 break;
             case ScenarioEncounterType.Choice:
-                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = WorldSystem.instance.gridManager.GetRndEncounterChoice();
+                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = WorldSystem.instance.scenarioMapManager.GetRndEncounterChoice();
                 WorldStateSystem.SetInChoice(true);
                 break;
             case ScenarioEncounterType.Blacksmith:
                 WorldStateSystem.SetInBlacksmith(true);
                 break;
             case ScenarioEncounterType.Exit:
-                WorldSystem.instance.gridManager.CompleteCurrentTile();
+                WorldSystem.instance.scenarioMapManager.CompleteCurrentTile();
                 break;
             case ScenarioEncounterType.Bonfire:
                 WorldStateSystem.SetInBonfire(true);
@@ -343,7 +343,7 @@ public class Encounter : MonoBehaviour
                 break;
         }
 
-        WorldSystem.instance.gridManager.finishedEncounterToReport = this;
+        WorldSystem.instance.scenarioMapManager.finishedEncounterToReport = this;
     }
 
 

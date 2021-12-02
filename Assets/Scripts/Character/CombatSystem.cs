@@ -299,8 +299,8 @@ public class CombatSystem : MonoBehaviour
         GameObject env = null;
         TileBiome biome = TileBiome.None;
 
-        if (WorldSystem.instance.gridManager.currentTile != null)
-            biome = WorldSystem.instance.gridManager.currentTile.tileBiome;
+        if (WorldSystem.instance.scenarioMapManager.currentTile != null)
+            biome = WorldSystem.instance.scenarioMapManager.currentTile.tileBiome;
 
         if (biome != TileBiome.None)
         {

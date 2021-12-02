@@ -72,7 +72,7 @@ public class ScenarioSegment
                 break;
         }
 
-        txt_description = WorldSystem.instance.gridManager.objectiveDisplayer.GetDescriptionSlot();
+        txt_description = WorldSystem.instance.scenarioMapManager.objectiveDisplayer.GetDescriptionSlot();
         RefreshDescription();
         yield return null;
     }
@@ -80,7 +80,7 @@ public class ScenarioSegment
     private void SetupClearTiles()
     {
         foreach (Vector3Int vec in data.gridCoordinates)
-            WorldSystem.instance.gridManager.GetTile(vec).SetStoryInfo(data.SegmentName, data.color);
+            WorldSystem.instance.scenarioMapManager.GetTile(vec).SetStoryInfo(data.SegmentName, data.color);
 
         conditionClear = new ConditionCounting(
             new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
@@ -93,7 +93,7 @@ public class ScenarioSegment
     public void SetupClearEncounters()
     {
         for(int i = 0; i < data.gridCoordinates.Count; i++)
-            WorldSystem.instance.gridManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.SegmentName, data.color, data.encounters[i]);
+            WorldSystem.instance.scenarioMapManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.SegmentName, data.color, data.encounters[i]);
 
         conditionClear = new ConditionCounting(
             new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName , numValue = data.encounters.Count- data.nrSkippableTiles},
@@ -112,7 +112,7 @@ public class ScenarioSegment
         {
             Vector3Int coord = coords[UnityEngine.Random.Range(0, coords.Count)];
             coords.Remove(coord);
-            HexTile tile = WorldSystem.instance.gridManager.GetTile(coord);
+            HexTile tile = WorldSystem.instance.scenarioMapManager.GetTile(coord);
             if (misses++ < data.nrDecoys)
                 tile.SetStoryInfo(data.SegmentName + "_miss", data.color, data.missEncounters[i % data.missEncounters.Count]);
             else
@@ -133,7 +133,7 @@ public class ScenarioSegment
         Debug.Log("segment finishi");
         EventManager.StorySegmentCompleted(this);
         ClearRemnants();
-        WorldSystem.instance.gridManager.StartCoroutine(scenario.SetupNextSegments());
+        WorldSystem.instance.scenarioMapManager.StartCoroutine(scenario.SetupNextSegments());
     }
 
     private void ClearRemnants()
@@ -141,11 +141,11 @@ public class ScenarioSegment
         conditionClear.Unsubscribe();
         foreach (Vector3Int vec in data.gridCoordinates)
         {
-            HexTile tile = WorldSystem.instance.gridManager.GetTile(vec);
+            HexTile tile = WorldSystem.instance.scenarioMapManager.GetTile(vec);
             if (tile.tileState != TileState.Completed)
                 tile.RemoveStoryInfo();
         }
-        WorldSystem.instance.gridManager.objectiveDisplayer.ReturnDescriptionSlot(txt_description);
+        WorldSystem.instance.scenarioMapManager.objectiveDisplayer.ReturnDescriptionSlot(txt_description);
     }
 
     private void CancelPrevious()

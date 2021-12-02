@@ -234,9 +234,9 @@ public static class Helpers
         return (T)Enum.Parse(typeof(T), str);
     }
 
-    public static int ToInt(this string str) 
+    public static int ToInt(this string str, int EmptyDefaultsTo = 0) 
     { 
-        return String.IsNullOrEmpty(str) ? 0 : int.Parse(str);
+        return String.IsNullOrEmpty(str) ? EmptyDefaultsTo : int.Parse(str);
     }
 
     public static bool ToBool(this string str) 
@@ -254,5 +254,12 @@ public static class Helpers
         return ((v - a) / (b - a));
     }
 
+    public static T InstanceObject<T>(string aName) where T : class
+    {
+        if (Type.GetType(aName) is Type type && (T)Activator.CreateInstance(type, WorldSystem.instance) is T itemEffect)
+            return itemEffect;
+        else
+            return null;
+    }
 
 }

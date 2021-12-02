@@ -15,12 +15,12 @@ public class Profession : IEffectAdder
     {
         itemEffect = new List<ItemEffect>();
         for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
-            itemEffect.Add(WorldSystem.instance.itemEffectManager.CreateItemEffect(professionData.itemEffectStructs[i], this, true));
+            itemEffect.Add(ItemEffect.Factory(professionData.itemEffectStructs[i], this));
     }
     public void RemoveEffects()
     {
         for (int i = 0; i < itemEffect.Count; i++)
-            itemEffect[i].RemoveItemEffect();
+            itemEffect[i].DeRegister();
     }
     public void NotifyUsed()
     {

@@ -7,13 +7,18 @@ public class ItemEffectAddStat : ItemEffect
     public int GetValue() => itemEffectStruct.value;
     public string GetName() => effectAdder.GetName();
 
-    public override void AddItemEffect()
+    public override void Register()
     {
+        base.Register();
         CharacterStats.stats[itemEffectStruct.parameter.ToEnum<StatType>()].AddStatModifier(this);
     }
-    public override void RemoveItemEffect()
+
+    public override void DeRegister()
     {
+        base.DeRegister();
         CharacterStats.stats[itemEffectStruct.parameter.ToEnum<StatType>()].RemoveStatModifier(this);
     }
+
+
 
 }

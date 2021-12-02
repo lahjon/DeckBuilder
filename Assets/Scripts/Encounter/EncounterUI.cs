@@ -106,7 +106,7 @@ public class EncounterUI : MonoBehaviour
                 break;
             case EncounterEventChoiceEffect.LifeMax:
                 x = int.Parse(effectStruct.parameter);
-                WorldSystem.instance.itemEffectManager.CreateItemEffect(new ItemEffectStruct(ItemEffectType.AddStat, "Health", x, true), new IEffectAdderStruct(encounterTitle.text, x));
+                ItemEffect.Factory(new ItemEffectStruct(ItemEffectType.AddStat, "Health", x,true), new IEffectAdderStruct(encounterTitle.text, x));
                 break;
             case EncounterEventChoiceEffect.Gold:
                 x = int.Parse(effectStruct.parameter);

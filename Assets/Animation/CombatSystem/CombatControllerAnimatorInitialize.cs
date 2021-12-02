@@ -28,7 +28,7 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
             yield return combat.StartCoroutine(func.Invoke());
 
         foreach (ItemEffectAddCombatEffect effect in combat.effectOnCombatStart)
-            yield return combat.StartCoroutine(effect.TriggerEffect());
+            yield return combat.StartCoroutine(effect.RunEffectEnumerator());
 
         yield return new WaitForSeconds(0.5f);
 

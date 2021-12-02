@@ -84,7 +84,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugAddStat(int amount)
     {
-        WorldSystem.instance.itemEffectManager.CreateItemEffect(new ItemEffectStruct(ItemEffectType.AddStat, "Health", amount, true), new IEffectAdderStruct("Debug", amount));
+        ItemEffect.Factory(new ItemEffectStruct(ItemEffectType.AddStat, "Health", amount, true), new IEffectAdderStruct("Debug", amount));
     }
 
     public void DebugAddSpecficArtifact()
@@ -217,7 +217,7 @@ public class DebugUI : MonoBehaviour
     {
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInOverworld();
-        world.gridManager.GenerateMap();
+        world.scenarioMapManager.GenerateMap();
     }
 
     public void DebugWinCombat()

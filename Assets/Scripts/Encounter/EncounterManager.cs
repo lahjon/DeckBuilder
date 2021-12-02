@@ -28,7 +28,7 @@ public class EncounterManager : Manager
     protected override void Start()
     {
         base.Start();
-        tileSizeInverse = 1 / world.gridManager.hexScale;
+        tileSizeInverse = 1 / world.scenarioMapManager.hexScale;
     }
    
     private Vector3 getPositionNoise(float amplitude)
@@ -53,14 +53,14 @@ public class EncounterManager : Manager
 
     IEnumerator AnimateRoad(GameObject parent)
     {
-        GridState state = world.gridManager.gridState;
-        world.gridManager.animator.SetBool("IsAnimating", true);
+        GridState state = world.scenarioMapManager.gridState;
+        world.scenarioMapManager.animator.SetBool("IsAnimating", true);
         for (int i = 0; i < parent.transform.childCount; i++)
         {
             parent.transform.GetChild(i).gameObject.SetActive(true);
             yield return new WaitForSeconds(.15f);
         }
-        world.gridManager.animator.SetBool("IsAnimating", false);
+        world.scenarioMapManager.animator.SetBool("IsAnimating", false);
     }
 
     public void GenerateFirstHexEncounters(HexTile tile)

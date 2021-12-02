@@ -126,17 +126,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         world.townManager.scribe.UpdateScribe();
     }
 
-    public void Heal(int amount)
-    {
-        CurrentHealth += amount;
+    public void Heal(int amount) => CurrentHealth = Mathf.Clamp(CurrentHealth+amount,0,CharacterStats.Health);
 
-        if (CurrentHealth > CharacterStats.Health)
-        {
-            CurrentHealth = CharacterStats.Health;
-        }
-
-        //characterVariablesUI.UpdateCharacterHUD();
-    }
     public void SetupCharacterData(bool fromTown = false)
     {
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)selectedCharacterClassType];

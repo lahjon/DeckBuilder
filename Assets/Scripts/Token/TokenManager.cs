@@ -80,7 +80,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
     {
         if (SceneManager.GetActiveScene().buildIndex != 0)
         {
-            token.itemEffect.AddItemEffect();
+            token.itemEffect.ApplyEffect();
         }
         if (!init)
         {
@@ -95,7 +95,7 @@ public class TokenManager : Manager, ISaveableWorld, ISaveableTemp
         {
             if (SceneManager.GetActiveScene().buildIndex != 0)
             {
-                token.itemEffect.RemoveItemEffect();
+                token.itemEffect.DeRegister();
             }
             selectedTokens.Remove(token.id);
             tokenMenu.UnselectToken(token.id);

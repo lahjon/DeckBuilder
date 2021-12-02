@@ -77,13 +77,13 @@ public class EncounterRoad : MonoBehaviour
 
     IEnumerator AnimateRoad()
     {
-        WorldSystem.instance.gridManager.animator.SetBool("IsAnimating", true);
+        WorldSystem.instance.scenarioMapManager.animator.SetBool("IsAnimating", true);
         for (int i = 0; i < roadSprites.Count; i++)
         {
             roadSprites[i].gameObject.SetActive(true);
             yield return new WaitForSeconds(.15f);
         }
-        WorldSystem.instance.gridManager.animator.SetBool("IsAnimating", false);
+        WorldSystem.instance.scenarioMapManager.animator.SetBool("IsAnimating", false);
     }
 
     public Encounter OtherEnd(Encounter OneEnd)

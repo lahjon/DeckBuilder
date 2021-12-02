@@ -52,7 +52,7 @@ public class Artifact : Item, IToolTipable
             artifactData = anArtifactData;
             image.sprite = artifactData.artwork;
             id = artifactData.itemId;
-            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(artifactData.itemEffectStruct, this); 
+            itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this); 
         }
     }
     public override void NotifyUsed()

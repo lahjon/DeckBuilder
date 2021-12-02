@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class ItemEffectHeal : ItemEffect
 {
-    public override void AddItemEffect()
+    public override void ApplyEffect()
     {
-        base.AddItemEffect();
+        base.ApplyEffect();
         WorldSystem.instance.characterManager.Heal(itemEffectStruct.value);
     }
-    public override void RemoveItemEffect()
+
+    public override void Register()
     {
-        base.AddItemEffect();
-        WorldSystem.instance.characterManager.Heal(-itemEffectStruct.value);
+        if (itemEffectStruct.addImmediately)
+            ApplyEffect();
     }
 }

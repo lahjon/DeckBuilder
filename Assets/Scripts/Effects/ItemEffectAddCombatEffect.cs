@@ -4,32 +4,34 @@ using UnityEngine;
 
 public class ItemEffectAddCombatEffect : ItemEffect
 {
-    public override void AddItemEffect()
+    public override void ApplyEffect()
     {
-        base.AddItemEffect();
-        if (!itemEffectStruct.addOnStart)
-            CombatSystem.instance.StartCoroutine(TriggerEffect());
-        else
-            CombatSystem.instance.effectOnCombatStart.Add(this);
+        base.ApplyEffect();
+        if (itemEffectStruct.addImmediately)
+            CombatSystem.instance.StartCoroutine(RunEffectEnumerator());
     }
-    public override void RemoveItemEffect()
-    {
-        base.RemoveItemEffect();
-        if (!itemEffectStruct.addOnStart)
-            CombatSystem.instance.StartCoroutine(RemoveEffect());
-        else
-            CombatSystem.instance.effectOnCombatStart.Remove(this);
-    }
-    public IEnumerator TriggerEffect()
+
+    public IEnumerator RunEffectEnumerator()
     {
         effectAdder.NotifyUsed();
         CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value)));
         yield return null;
     }
 
-    public IEnumerator RemoveEffect()
+    public override void Register()
     {
-        CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), -itemEffectStruct.value)));
-        yield return null;
+        base.Register();
+        if (itemEffectStruct.addImmediately)
+            ApplyEffect();
+        else
+            CombatSystem.instance.effectOnCombatStart.Add(this);
+    }
+
+    public override void DeRegister()
+    {
+        base.DeRegister();
+        if (!itemEffectStruct.addImmediately)
+            CombatSystem.instance.effectOnCombatStart.Remove(this);
+
     }
 }

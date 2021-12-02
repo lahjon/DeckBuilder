@@ -60,7 +60,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
         image.sprite = abilityData.artwork;
         if (allData)
         {
-            itemEffect = WorldSystem.instance.itemEffectManager.CreateItemEffect(abilityData.itemEffectStruct, this, false);
+            itemEffect = ItemEffect.Factory(abilityData.itemEffectStruct, this);
             abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
             abilityCondition.Subscribe();
             charges = 1;
@@ -104,7 +104,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     }
     public void OnClick()
     {
-        itemEffect?.AddItemEffect();
+        itemEffect?.ApplyEffect();
         Debug.Log("Using Ability!");
         counterText.text = (abilityCondition.requiredAmount - abilityCondition.currentAmount).ToString();
         charges--;

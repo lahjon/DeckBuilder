@@ -51,7 +51,7 @@ public class ScenarioMapManager : Manager
     protected override void Awake()
     {
         base.Awake();
-        world.gridManager = this;
+        world.scenarioMapManager = this;
         animator = GetComponent<Animator>();
         hexMapController = GetComponent<HexMapController>();
     }

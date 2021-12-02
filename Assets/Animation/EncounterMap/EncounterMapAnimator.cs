@@ -10,7 +10,7 @@ public class EncounterMapAnimator : StateMachineBehaviour
     {
         if (gridManager == null)
         {
-            gridManager = WorldSystem.instance.gridManager;
+            gridManager = WorldSystem.instance.scenarioMapManager;
         }
         tile = gridManager.currentTile;
     }

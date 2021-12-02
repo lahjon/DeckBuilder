@@ -12,16 +12,16 @@ public class WorldMapConfirmWindow : MonoBehaviour
     public void OpenConfirmWindow(Scenario worldEncounter)
     {
         gameObject.SetActive(true);
-        if (encounterName.text != worldEncounter.worldScenarioData.ScenarioName)
+        if (encounterName.text != worldEncounter.data.ScenarioName)
         {
             if (encounterReward != null) Destroy(encounterReward.gameObject);
 
-            encounterName.text = worldEncounter.worldScenarioData.ScenarioName;
+            encounterName.text = worldEncounter.data.ScenarioName;
             encounterReward = Instantiate(worldEncounter.scenarioReward, rewardAnchor).GetComponent<Reward>();
             encounterReward.SetWorldReward();
             encounterReward.transform.localPosition = Vector3.zero;
             encounterReward.transform.localScale *= 1.85f;
-            difficultyText.text = worldEncounter.worldScenarioData.difficulty.ToString();
+            difficultyText.text = worldEncounter.data.difficulty.ToString();
             encounterReward.gameObject.SetActive(true);
         }
     }
@@ -33,9 +33,9 @@ public class WorldMapConfirmWindow : MonoBehaviour
     public void Confirm()
     {
         WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
-        WorldSystem.instance.gridManager.scenarioData = WorldSystem.instance.worldMapManager.currentWorldScenario.worldScenarioData;
-        WorldSystem.instance.gridManager.ResetEncounters();
-        Helpers.DelayForSeconds(1f, () => WorldSystem.instance.gridManager.GenerateMap());
+        WorldSystem.instance.scenarioMapManager.scenarioData = WorldSystem.instance.worldMapManager.currentWorldScenario.data;
+        WorldSystem.instance.scenarioMapManager.ResetEncounters();
+        Helpers.DelayForSeconds(1f, () => WorldSystem.instance.scenarioMapManager.GenerateMap());
         WorldStateSystem.SetInOverworld();
     }
 

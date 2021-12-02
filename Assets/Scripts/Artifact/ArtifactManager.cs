@@ -97,7 +97,7 @@ public class ArtifactManager : Manager, ISaveableTemp
         {
             if (artifact.id == artifactId)
             {
-                artifact.itemEffect.RemoveItemEffect();
+                artifact.itemEffect.DeRegister();
                 artifactMenu.RemoveUIArtifact(artifact);
                 allActiveArtifactsIds.Remove(artifactId);
                 break;

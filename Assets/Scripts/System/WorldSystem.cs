@@ -11,7 +11,6 @@ public class WorldSystem : MonoBehaviour
     private Dictionary<string, int> characterStats;
     private GameObject characterPrefab;
     private PlayableCharacterData characterData;
-    public ItemEffectManager itemEffectManager;
     public EncounterManager encounterManager;
     public CharacterManager characterManager;
     public ShopManager shopManager;
@@ -34,7 +33,7 @@ public class WorldSystem : MonoBehaviour
     public RewardManager rewardManager;
     public CombatRewardManager combatRewardManager;
     //public LevelManager levelManager;
-    public ScenarioMapManager gridManager;
+    public ScenarioMapManager scenarioMapManager;
     public AbilityManager abilityManager;
     public ToolTipManager toolTipManager;
     public int act;
@@ -101,7 +100,7 @@ public class WorldSystem : MonoBehaviour
 
     public void BossDefeated()
     {
-        gridManager.currentTile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
+        scenarioMapManager.currentTile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
 
         if (subAct < 3)
             subAct++;
