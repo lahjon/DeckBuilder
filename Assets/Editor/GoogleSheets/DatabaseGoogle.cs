@@ -1125,7 +1125,7 @@ public class DatabaseGoogle
             data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
             data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
             data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
-            data.itemEffectStruct.addOnStart = (string)gt[i, "EffectValue"] == "TRUE";
+            data.itemEffectStruct.addOnStart = (string)gt[i, "EffectAddOnStart"] == "TRUE";
             data.goldValue = ((string)gt[i, "GoldValue"]).ToInt();
             data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
             BindArt(data);
@@ -1169,7 +1169,7 @@ public class DatabaseGoogle
             data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
             data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
             data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
-            data.itemEffectStruct.addOnStart = (string)gt[i, "EffectValue"] == "TRUE";
+            data.itemEffectStruct.addOnStart = (string)gt[i, "EffectAddOnStart"] == "TRUE";
             data.level = ((string)gt[i, "Level"]).ToInt();
             data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
             BindArt(data);

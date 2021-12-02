@@ -324,7 +324,7 @@ public class ScenarioMapManager : Manager
         HexTile tile = obj.GetComponent<HexTile>();
         tile.coord = coord;
         tile.Init();
-        tile.type = (TileType)tileTypes.GetValue(Random.Range(0, tileTypes.Length));
+        tile.type = (TileType)tileTypes.GetValue(Random.Range(1, tileTypes.Length));
 
         tiles[coord] = tile;
 
