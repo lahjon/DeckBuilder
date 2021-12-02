@@ -22,8 +22,13 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         if (combat.hasCompanion)
             combat.companion.InitializeCombat();
 
+        yield return new WaitForSeconds(1f);
+
         foreach (Func<IEnumerator> func in combat.Hero.actionsStartCombat)
             yield return combat.StartCoroutine(func.Invoke());
+
+        foreach (ItemEffectAddCombatEffect effect in combat.effectOnCombatStart)
+            yield return combat.StartCoroutine(effect.TriggerEffect());
 
         yield return new WaitForSeconds(0.5f);
 
