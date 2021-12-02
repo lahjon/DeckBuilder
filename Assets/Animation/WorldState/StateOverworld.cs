@@ -26,12 +26,6 @@ public class StateOverworld : WorldStateAnimator
         {
             hexMapController.PanCamera();
             hexMapController.ZoomCamera();
-            // if (!hexMapController.disablePanning)
-            // {
-            // }
-            // if(!hexMapController.disableZoom)
-            // {
-            // }
             if (hexMapController.cam.transform.position != hexMapController.newPosition)
             {
                 hexMapController.MoveCamera();

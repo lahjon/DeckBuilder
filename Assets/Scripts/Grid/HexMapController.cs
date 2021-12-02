@@ -29,7 +29,6 @@ public class HexMapController : MonoBehaviour
         set
         {
             _enableInput = value;
-            Debug.Log(_enableInput);
         }
     }
 
@@ -48,8 +47,7 @@ public class HexMapController : MonoBehaviour
     {
         if (focusTile != null)
         {
-            Debug.Log(focusTile.transform.position);
-            Zoom(ZoomState.Mid, focusTile.transform.position);
+            Zoom(ZoomState.Inner, focusTile.transform.position);
         }
     }
 
@@ -59,7 +57,6 @@ public class HexMapController : MonoBehaviour
         float panSpeed = 1f;
         timer = 0.5f;
         Vector3 zoomPosition;
-        Debug.Log(pos);
         if (pos != null)
         {
             zoomPosition = (Vector3)pos;
@@ -73,7 +70,7 @@ public class HexMapController : MonoBehaviour
             zoomPosition = cam.transform.position;
         }
 
-        if (gridManager.gridState == GridState.Placing) zoomPosition = cam.transform.position;
+        //if (gridManager.gridState == GridState.Placing) zoomPosition = cam.transform.position;
         
         if (zoomState == ZoomState.Inner)
         {
@@ -135,11 +132,11 @@ public class HexMapController : MonoBehaviour
                 zoomStep++;
                 Zoom((ZoomState)zoomStep);
             }
-            else if (enableInput && zoomStep < 2)
-            {
-                zoomStep++;
-                Zoom((ZoomState)zoomStep);
-            }
+            // else if (enableInput && zoomStep < 2)
+            // {
+            //     zoomStep++;
+            //     Zoom((ZoomState)zoomStep);
+            // }
         }
     }
 
