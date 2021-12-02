@@ -48,26 +48,18 @@ public class HexMapController : MonoBehaviour
     {
         if (focusTile != null)
         {
-            if (zoomstate == ZoomState.Inner)
-            {
-                Zoom(ZoomState.Inner, focusTile.transform.position);
-            }
-            else if (zoomstate == ZoomState.Mid)
-            {
-                Zoom(ZoomState.Mid, focusTile.transform.position);
-            }
+            Debug.Log(focusTile.transform.position);
+            Zoom(ZoomState.Mid, focusTile.transform.position);
         }
     }
 
-    public void Zoom(ZoomState zoomState = ZoomState.Mid, Vector3? pos = null)
+    public void Zoom(ZoomState zoomState = ZoomState.Mid, Vector3? pos = null, bool resetInput = true)
     {
-        //if (!endDisable) endDisable = disablePanning;
-
-        //disablePanning = true;
         enableInput = false;
         float panSpeed = 1f;
         timer = 0.5f;
         Vector3 zoomPosition;
+        Debug.Log(pos);
         if (pos != null)
         {
             zoomPosition = (Vector3)pos;
@@ -89,7 +81,7 @@ public class HexMapController : MonoBehaviour
             zoomPosition.z = zoomOut + zoomIn;
 
             cam.transform.DOMove(zoomPosition, panSpeed).SetEase(Ease.InExpo).OnComplete(() => {
-                ZoomCallback(3f);
+                ZoomCallback(3f, resetInput);
                 if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)
                 {
                     gridManager.currentTile.StopFadeInOutColor();
@@ -101,7 +93,7 @@ public class HexMapController : MonoBehaviour
             zoomStep = 1;
             zoomPosition.z = zoomOut;
             cam.transform.DOMove(zoomPosition, panSpeed).SetEase(Ease.InExpo).OnComplete(() => {
-                ZoomCallback(5f);
+                ZoomCallback(5f, resetInput);
                 if (gridManager.currentTile != null && gridManager.currentTile.tileState != TileState.Completed)
                 {
                     gridManager.currentTile.StartFadeInOutColor();
@@ -112,14 +104,14 @@ public class HexMapController : MonoBehaviour
         {
             zoomStep = 2;
             cam.transform.DOMoveZ(zoomOut - zoomIn, panSpeed).SetEase(Ease.InExpo).OnComplete(() => {
-                ZoomCallback(5f);
+                ZoomCallback(5f, resetInput);
             });
         }
     }
 
-    void ZoomCallback(float panSensitivity)
+    void ZoomCallback(float panSensitivity, bool anEnableInput)
     {
-        enableInput = true;
+        enableInput = anEnableInput;
         panSensitivity = 5f;
         newPosition = cam.transform.position;
         timer = 0;
