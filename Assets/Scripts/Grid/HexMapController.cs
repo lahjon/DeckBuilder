@@ -21,7 +21,17 @@ public class HexMapController : MonoBehaviour
     //public bool disableZoom;
     Vector3 cameraPosition;
     public int zoomStep = 1;
-    public bool enableInput = true;
+    [SerializeField] bool _enableInput = true;
+
+    public bool enableInput
+    {
+        get => _enableInput;
+        set
+        {
+            _enableInput = value;
+            Debug.Log(_enableInput);
+        }
+    }
 
 
     void Start()

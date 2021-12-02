@@ -47668,15 +47668,17 @@ MonoBehaviour:
   hexTiles: []
   abilityDatas:
   - {fileID: 11400000, guid: 827459e06557ac641a930668f74cedbc, type: 2}
-  arifactDatas: []
+  arifactDatas:
+  - {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
+  - {fileID: 11400000, guid: 84ec7dad53ad7e542a93ed3f63d8ad1d, type: 2}
+  - {fileID: 11400000, guid: 173c177d050afff4587662a691f4677f, type: 2}
+  perkDatas: []
   scenarios:
   - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
   - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
   - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
   missions:
   - {fileID: 11400000, guid: d898c3c755efecb468e5f3ee5e9cb98c, type: 2}
-  encountersCombatToDraw: []
-  encountersEventToDraw: []
   dialogues:
   - {fileID: 11400000, guid: f3ba3166ee04f5a4f9590fef8e56747b, type: 2}
   - {fileID: 11400000, guid: 1523bca06ad66e44eb1a6fe44c131d75, type: 2}
@@ -58887,6 +58889,13 @@ MonoBehaviour:
   conditionText: {fileID: 0}
   finishedEncounterToReport: {fileID: 0}
   objectiveDisplayer: {fileID: 342744266}
+  allCombatEncounters: []
+  availableCombatEncounters: []
+  completedCombatEncounters: []
+  allChoiceEncounters: []
+  availableChoiceEncounters: []
+  completedChoiceEncounters: []
+  scenarioData: {fileID: 0}
   rotateCounter: 0
   rotationAmount: 0
   buttonRotateLeft: {fileID: 2037849953}
@@ -78719,28 +78728,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: allArtifacts.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: allArtifacts.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 173c177d050afff4587662a691f4677f, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: allArtifacts.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 17c70f991f2f42b49992d81cfb67995f, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: allArtifacts.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 84ec7dad53ad7e542a93ed3f63d8ad1d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: allArtifacts.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982481, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: allArtifacts.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 66956957b828c25489388f1ea8b5e385, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332178346982482, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: m_RootOrder
       value: 13

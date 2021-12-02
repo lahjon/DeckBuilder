@@ -5,7 +5,7 @@ using System.Linq;
 
 public class ArtifactManager : Manager, ISaveableTemp
 {
-    public List<ArtifactData> allArtifacts = new List<ArtifactData>();
+    public List<ArtifactData> allArtifacts {get => DatabaseSystem.instance.arifactDatas;}
     List<int> allArtifactsIds = new List<int>();
     public List<int> allActiveArtifactsIds = new List<int>();
     public HashSet<int> allUnavailableArtifactsNames = new HashSet<int>();
