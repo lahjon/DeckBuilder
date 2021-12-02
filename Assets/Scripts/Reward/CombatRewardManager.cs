@@ -16,6 +16,7 @@ public class CombatRewardManager : Manager, IEventSubscriber
     public RewardCombatStruct[] combatRewardNormal;
     public RewardCombatStruct[] combatRewardElite;
     public RewardCombatStruct[] combatRewardBoss;
+    RewardScreen rewardScreen {get => WorldSystem.instance.rewardManager.rewardScreen;}
     protected override void Awake()
     {
         base.Awake();
@@ -36,8 +37,38 @@ public class CombatRewardManager : Manager, IEventSubscriber
         reward.gameObject.SetActive(false);
         reward.SetupReward(type, value);
         reward.AddReward();
+        Debug.Log("AddedReward");
         return reward;
     }
+
+    public void CollectRewards()
+    {
+        if (uncollectedReward?.Any() == true) 
+        {
+            OpenRewardScreen();
+            rewardScreen.CollectReward(uncollectedReward[0]);
+        }
+        else  ClearRewardScreen();
+    }
+
+    public void OpenRewardScreen()
+    {
+        Debug.Log("Open Reward Screen");
+        rewardScreen.canvas.gameObject.SetActive(true);
+    }
+
+    public void ClearRewardScreen()
+    {
+        Debug.Log("Clear Reward Screen");
+        if (rewardScreen.currentReward != null)
+            Destroy(rewardScreen.currentReward.gameObject);
+            
+        WorldStateSystem.SetInTownReward(false);
+        WorldStateSystem.SetInEventReward(false);
+
+        rewardScreen.canvas.gameObject.SetActive(false);
+    }
+
 
     public void OpenDraftMode()
     {

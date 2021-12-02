@@ -29,7 +29,6 @@ public class HexMapController : MonoBehaviour
         set
         {
             _enableInput = value;
-            Debug.Log(_enableInput);
         }
     }
 
@@ -58,7 +57,6 @@ public class HexMapController : MonoBehaviour
         float panSpeed = 1f;
         timer = 0.5f;
         Vector3 zoomPosition;
-        Debug.Log(pos);
         if (pos != null)
         {
             zoomPosition = (Vector3)pos;

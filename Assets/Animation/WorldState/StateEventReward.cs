@@ -8,7 +8,7 @@ public class StateEventReward : WorldStateAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(TransitionType.Normal, WorldState.EventReward);
-        world.rewardManager.CollectRewards();
+        world.combatRewardManager.CollectRewards();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

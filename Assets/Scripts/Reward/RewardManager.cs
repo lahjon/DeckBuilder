@@ -9,7 +9,7 @@ public class RewardManager : Manager
 {
     public GameObject rewardNormalPrefab;
     public Sprite[] icons;
-    [SerializeField] RewardScreen rewardScreen;
+    public RewardScreen rewardScreen;
     public RewardScreenCardSelection rewardScreenCardSelection;
     public List<RewardNormal> uncollectedReward;
     public Transform rewardParent;
