@@ -1078,7 +1078,8 @@ public class DatabaseGoogle
             if (databaseName.Equals(""))
                 break;
 
-            ArtifactData data = TDataNameToAsset<ArtifactData>(databaseName, new string[] { ArtifactPath });
+            int id = ((string)gt[i, "Id"]).ToInt();
+            ArtifactData data = dbs.arifactDatas.Where(a => a.itemId == id).FirstOrDefault();
             if (data is null)
             {
                 data = ScriptableObject.CreateInstance<ArtifactData>();
@@ -1086,6 +1087,7 @@ public class DatabaseGoogle
                 AssetDatabase.CreateAsset(data, ArtifactPath + @"\" + databaseName + ".asset");
             }
 
+            data.itemId = id;
             data.name = (string)gt[i, "DatabaseName"];
             data.itemName = (string)gt[i, "ItemName"];
             data.rarity = ((string)gt[i, "Rarity"]).ToEnum<Rarity>();
