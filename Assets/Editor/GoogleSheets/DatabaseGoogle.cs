@@ -1064,13 +1064,13 @@ public class DatabaseGoogle
     }
 
 
-    public void ReadEntriesArtifacts()
+    public void ReadEntriesArtifacts(string sheetName, string lastCol)
     {
-        string sheetName = "Artifact";
-        string lastCol = "H";
-        string sheet = "Main";
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.arifactDatas.Clear();
 
-        GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
         for (int i = 1; i < gt.values.Count; i++)
         {
             AssetDatabase.SaveAssets();
@@ -1088,11 +1088,17 @@ public class DatabaseGoogle
 
             data.name = (string)gt[i, "DatabaseName"];
             data.itemName = (string)gt[i, "ItemName"];
-            Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
+            data.rarity = ((string)gt[i, "Rarity"]).ToEnum<Rarity>();
             data.description = (string)gt[i, "Description"];
+            data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
+            data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
+            data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
+            data.itemEffectStruct.addOnStart = (string)gt[i, "EffectValue"] == "TRUE";
+            data.goldValue = ((string)gt[i, "GoldValue"]).ToInt();
+            data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
 
             //BindArt(data, databaseName);
-
+            dbs.arifactDatas.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

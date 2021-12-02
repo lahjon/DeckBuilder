@@ -288,7 +288,7 @@ public static class DatabaseUpdateOnStart
     public static void UpdateFromGoogleArtifacts()
     {
         DatabaseGoogle google = new DatabaseGoogle();
-        google.ReadEntriesArtifacts();
+        google.ReadEntriesArtifacts("Artifact","Z");
 
         Debug.Log("Googled the artifacts bro!");
     }
