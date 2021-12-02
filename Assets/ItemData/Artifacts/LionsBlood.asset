@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Lions Blood
   itemId: 2
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 4bf48b3d55e8bdb49836c463923090bb, type: 3}
   description: +7 Health
   rarity: 12
   itemEffectStruct:

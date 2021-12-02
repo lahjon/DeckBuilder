@@ -372,7 +372,36 @@ public class DatabaseGoogle
         }
 
         cardData.artwork = artWork;
+    }
 
+    public void BindArt(ItemData data)
+    {
+        string folder;
+        if(data is ArtifactData aData)
+        {
+            folder = @"Assets/Art/Artwork/Artifacts/";
+            Sprite artWork = AssetDatabase.LoadAssetAtPath<Sprite>(folder + data.itemId.ToString() + ".png");
+            if(artWork == null)
+            {
+                Debug.LogWarning("No such artwork for Artifact " + data.itemId.ToString());
+                return;
+            }
+            data.artwork = artWork;
+        }
+        else
+        {
+            folder = @"Assets/Art/Artwork/Perks/";
+            Sprite artWorkActive = AssetDatabase.LoadAssetAtPath<Sprite>(folder + data.itemId.ToString() + "Active.png");
+            Sprite artWorkInactive = AssetDatabase.LoadAssetAtPath<Sprite>(folder + data.itemId.ToString() + "Inactive.png");
+            if (artWorkActive == null || artWorkInactive== null)
+            {
+                Debug.LogWarning("No such artwork for Perk " + data.itemId.ToString());
+                return;
+            }
+
+            data.artwork = artWorkActive;
+            ((PerkData)data).inactiveArtwork = artWorkInactive;
+        }
     }
 
     public void BindCharacterModel(EnemyData enemyData)
@@ -1099,7 +1128,7 @@ public class DatabaseGoogle
             data.itemEffectStruct.addOnStart = (string)gt[i, "EffectValue"] == "TRUE";
             data.goldValue = ((string)gt[i, "GoldValue"]).ToInt();
             data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
-
+            BindArt(data);
             //BindArt(data, databaseName);
             dbs.arifactDatas.Add(data);
             EditorUtility.SetDirty(data);
@@ -1143,7 +1172,7 @@ public class DatabaseGoogle
             data.itemEffectStruct.addOnStart = (string)gt[i, "EffectValue"] == "TRUE";
             data.level = ((string)gt[i, "Level"]).ToInt();
             data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
-
+            BindArt(data);
             //BindArt(data, databaseName);
             dbs.perkDatas.Add(data);
             EditorUtility.SetDirty(data);
