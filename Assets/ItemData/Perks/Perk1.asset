@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Perk1
   itemId: 1
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 47dafed5ccbfb6a42bac825b658e1b8e, type: 3}
   description: "Start the first turn extra hard! \n+2 Energy for the first turn"
   rarity: 11
   itemEffectStruct:
@@ -23,5 +23,5 @@ MonoBehaviour:
     addOnStart: 0
     value: 0
   level: 1
-  inactiveArtwork: {fileID: 0}
+  inactiveArtwork: {fileID: 21300000, guid: c83a6ac096c3c954b94f533ead1bf73d, type: 3}
   characterClassType: 0

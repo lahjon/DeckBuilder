@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af4f463819841664b9c993d594b0265d, type: 3}
-  m_Name: LionsBlood
+  m_Name: Power Glove
   m_EditorClassIdentifier: 
-  itemName: Lions Blood
-  itemId: 2
-  artwork: {fileID: 0}
-  description: +7 Health
+  itemName: Power Glove
+  itemId: 1
+  artwork: {fileID: 21300000, guid: ae3cf9cbb86273f4dba54eca2bfd0de9, type: 3}
+  description: +1 strength
   rarity: 12
   itemEffectStruct:
-    type: 0
-    parameter: 
+    type: 2
+    parameter: Power
     addOnStart: 0
-    value: 0
+    value: 1
   goldValue: 0
   characterClassType: 0
