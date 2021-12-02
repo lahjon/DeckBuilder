@@ -99,7 +99,6 @@ MonoBehaviour:
   artwork: {fileID: 0}
   cardModifiers: []
   cardType: 0
-  visibleCost: 1
   cardData: {fileID: 0}
   idx: 0
   Attacks: []
@@ -122,12 +121,9 @@ MonoBehaviour:
   border: {fileID: 7695902140003894457}
   cardBackground: {fileID: 7782639723755105423}
   rarityBorder: {fileID: 1349982126223333926}
-  energyColor: {fileID: 0}
   TooltipAnchor: {fileID: 5262464430781879494}
   toolTipTextBits: []
   cardPrefab: {fileID: 0}
-  energyObjects: {fileID: 0}
-  costText: {fileID: 0}
   permanentUpgrade: 0
   isBroken: 0
   costParent: {fileID: 3706565610332188154}
@@ -278,6 +274,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5402730520789720186}
     m_Modifications:
+    - target: {fileID: 199486994335503526, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+      propertyPath: m_text
+      value: 'This is a <i>description</i> with
+
+        lots of <b>text</b>.
+
+        <sprite
+        name="Cursed"> Deal  <color=#000000>6</color> <sprite name="Attack"> Damage '
+      objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

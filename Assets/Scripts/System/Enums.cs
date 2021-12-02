@@ -288,6 +288,7 @@ public enum OverlayState
 
 public enum ModifierType
 {
+    None,
     Upgrade,
     UpgradePermanent,
     Cursed

@@ -121,12 +121,12 @@ public class Card : MonoBehaviour
             else
                 targetList = effectsOnPlay;
 
-            if(!AddUpgradeComponent(targetList, effect))
+            if(!AddUpgradeComponent(targetList, effect, type))
                 SetupComponentFromData(effect);
         }
 
         foreach (CardActivityData activity in data.activities)
-            if (!AddUpgradeComponent(activity.execTime == CardComponentExecType.OnPlay ? activitiesOnPlay : activitiesOnDraw, activity))
+            if (!AddUpgradeComponent(activity.execTime == CardComponentExecType.OnPlay ? activitiesOnPlay : activitiesOnDraw, activity, type))
                 SetupComponentFromData(activity);
 
         cost.AbsorbModifier(data.costDatas, data.costOptionalDatas);
@@ -135,13 +135,14 @@ public class Card : MonoBehaviour
             card.UpdateAfterModifier();
     }
 
-    public bool AddUpgradeComponent<T1,T2>(List<T1> targetList, T2 data) where T1: ICardUpgradableComponent where T2 : ICardUpgradingData
+    public bool AddUpgradeComponent<T1,T2>(List<T1> targetList, T2 data, ModifierType type) where T1: ICardUpgradableComponent where T2 : ICardUpgradingData
     {
         for (int i = 0; i < targetList.Count; i++)
         {
             if (targetList[i].CanAbsorb(data))
             {
                 targetList[i].AbsorbModifier(data);
+                targetList[i].RegisterModified(type);
                 return true;
             }
         }
@@ -193,13 +194,15 @@ public class Card : MonoBehaviour
         classType = card.classType;
     }
 
-    public void SetupComponentFromData(CardEffectCarrierData data)
+    public void SetupComponentFromData(CardEffectCarrierData data, ModifierType type = ModifierType.None)
     {
         CardEffectCarrier carrier;
         if (this is CardCombat cardCombat)
             carrier =  new CardEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
             carrier = new CardEffectCarrier(data, this);
+
+        carrier.RegisterModified(type);
 
         if (data.Type == EffectType.Damage)
             Attacks.Add(carrier);
@@ -211,13 +214,15 @@ public class Card : MonoBehaviour
             effectsOnDraw.Add(carrier);
     }
 
-    public void SetupComponentFromData(CardActivityData data)
+    public void SetupComponentFromData(CardActivityData data, ModifierType type = ModifierType.None)
     {
         CardActivitySetting setting;
         if (this is CardCombat cardCombat)
             setting =  new CardActivitySetting(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
             setting =  new CardActivitySetting(data, this);
+
+        setting.RegisterModified(type);
 
         if (data.execTime == CardComponentExecType.OnPlay)
             activitiesOnPlay.Add(setting);

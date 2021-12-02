@@ -20,6 +20,8 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
     public CardTargetType Target;
     public Condition condition;
 
+    HashSet<ModifierType> modifiedTypes = new HashSet<ModifierType>();
+
     public CardEffectCarrier() { }
 
     public CardEffectCarrier(EffectType type, int value, int times = 1, CardTargetType target = CardTargetType.EnemySingle, Card card = null)
@@ -93,6 +95,9 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
 
         StringBuilder sb = new StringBuilder(100);
 
+        foreach (ModifierType mod in modifiedTypes)
+            sb.Append(Helpers.ModifierToIconName[mod]);
+
         sb.Append(condition.GetTextCard());
         sb.Append(Type.verb);
         sb.Append(" ");
@@ -127,6 +132,11 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
         }
     }
 
+    public void RegisterModified(ModifierType type)
+    {
+        if (type != ModifierType.None)
+            modifiedTypes.Add(type);
+    }
     public static CardEffectCarrier operator+(CardEffectCarrier a, CardEffectCarrier b)
     {
         if (a == null)

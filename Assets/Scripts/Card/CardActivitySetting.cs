@@ -12,6 +12,7 @@ public class CardActivitySetting : ICardTextElement, ICardUpgradableComponent
     public int val;
     public Condition condition;
 
+    HashSet<ModifierType> modifiedTypes = new HashSet<ModifierType>();
     public CardActivitySetting(CardActivityData data, Card card = null, Action OnPreConditionUpdate = null)
     {
         type = data.type;
@@ -29,7 +30,11 @@ public class CardActivitySetting : ICardTextElement, ICardUpgradableComponent
 
     public string GetElementText()
     {
-        return CardActivitySystem.instance.DescriptionByCardActivity(this);
+        string retString = "";
+
+        foreach (ModifierType mod in modifiedTypes)
+            retString += Helpers.ModifierToIconName[mod];
+        return retString + CardActivitySystem.instance.DescriptionByCardActivity(this);
     }
 
     public string GetElementToolTip()
@@ -52,6 +57,12 @@ public class CardActivitySetting : ICardTextElement, ICardUpgradableComponent
     {
         if (modifier is CardActivityData data)
             val += data.val;
+    }
+
+    public void RegisterModified(ModifierType type)
+    {
+        if(type != ModifierType.None)
+            modifiedTypes.Add(type);
     }
 }
 

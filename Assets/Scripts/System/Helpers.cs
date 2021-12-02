@@ -26,7 +26,14 @@ public static class Helpers
         {CardClassType.Enemy,               Color.white }, 
         {CardClassType.Burden,              Color.white }, 
         {CardClassType.Torment,             Color.black }
-     }; 
+     };
+
+    public static Dictionary<ModifierType, string> ModifierToIconName = new Dictionary<ModifierType, string>
+    {
+        {ModifierType.Cursed, "<sprite name=\"Cursed\">" },
+        {ModifierType.Upgrade, "" },
+        {ModifierType.UpgradePermanent, "" },
+    };
 
      public static Dictionary<Rarity,Color> rarityBorderColors = new Dictionary<Rarity, Color>{
         {Rarity.None,       Color.gray }, 

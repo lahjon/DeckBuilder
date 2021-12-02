@@ -6,7 +6,7 @@ using System.Linq;
 
 public class CardActivityEN_AddCardModifier : CardActivity
 {
-    readonly string toolTip = "<b>Cursed</b>\nThis card has adverse effects added to it.";
+    readonly string toolTip = "<b><sprite name=\"Cursed\"> Cursed</b>\nThis card has adverse effects added to it.";
     public override IEnumerator Execute(CardActivitySetting data)
     {
         CardCombat card;
