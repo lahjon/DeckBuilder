@@ -165,7 +165,7 @@ public class ScenarioMapManager : Manager
         // flip it up
         float timer = 0.3f * timeMultiplier;
 
-        hexMapController.Zoom(ZoomState.Outer, null);
+        hexMapController.Zoom(ZoomState.Outer, null, false);
         yield return new WaitForSeconds(1);
 
         for (int i = 0; i <= gridWidth; i++)
