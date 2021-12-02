@@ -22,6 +22,7 @@ public class ItemEffectAddCombatEffect : ItemEffect
     }
     public IEnumerator TriggerEffect()
     {
+        effectAdder.NotifyUsed();
         CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value)));
         yield return null;
     }
@@ -31,5 +32,4 @@ public class ItemEffectAddCombatEffect : ItemEffect
         CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), -itemEffectStruct.value)));
         yield return null;
     }
-    public IEffectAdder EffectAdder() => effectAdder;
 }
