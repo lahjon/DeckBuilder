@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GiantsBane
   m_EditorClassIdentifier: 
   itemName: Giant's Bane
-  itemId: 0
+  itemId: 1
   artwork: {fileID: 0}
   description: +3 strength
   rarity: 12

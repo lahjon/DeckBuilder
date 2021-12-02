@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LionsBlood
   m_EditorClassIdentifier: 
   itemName: Lions Blood
-  itemId: 0
+  itemId: 2
   artwork: {fileID: 0}
   description: +7 Health
   rarity: 12

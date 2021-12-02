@@ -24,6 +24,7 @@ public class DatabaseGoogle
     readonly public static string EnemyPath = @"Assets\Enemies";
     readonly public static string EncounterPath = @"Assets\Encounters\Overworld\Combat";
     readonly public static string ArtifactPath = @"Assets\ItemData\Artifacts";
+    readonly public static string PerkPath = @"Assets\ItemData\Perks";
     readonly public static string ModifierPath = @"Assets\CardModifier";
     readonly public static string ScenarioPath = @"Assets\Scenarios";
     readonly public static string DialoguePath = @"Assets\Dialogues";
@@ -1101,6 +1102,50 @@ public class DatabaseGoogle
 
             //BindArt(data, databaseName);
             dbs.arifactDatas.Add(data);
+            EditorUtility.SetDirty(data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+    }
+
+    public void ReadEntriesPerks(string sheetName, string lastCol)
+    {
+        GoogleTable gt = getGoogleTable(sheetName, lastCol);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
+        dbs.perkDatas.Clear();
+
+        for (int i = 1; i < gt.values.Count; i++)
+        {
+            AssetDatabase.SaveAssets();
+            string databaseName = (string)gt[i, "DatabaseName"];
+            if (databaseName.Equals(""))
+                break;
+
+            int id = ((string)gt[i, "Id"]).ToInt();
+            PerkData data = dbs.perkDatas.Where(a => a.itemId == id).FirstOrDefault();
+            if (data is null)
+            {
+                data = ScriptableObject.CreateInstance<PerkData>();
+                AssetDatabase.SaveAssets();
+                AssetDatabase.CreateAsset(data, PerkPath + @"\" + databaseName + ".asset");
+            }
+
+            data.itemId = id;
+            data.name = (string)gt[i, "DatabaseName"];
+            data.itemName = (string)gt[i, "ItemName"];
+            data.rarity = ((string)gt[i, "Rarity"]).ToEnum<Rarity>();
+            data.description = (string)gt[i, "Description"];
+            data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
+            data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
+            data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
+            data.itemEffectStruct.addOnStart = (string)gt[i, "EffectValue"] == "TRUE";
+            data.level = ((string)gt[i, "Level"]).ToInt();
+            data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
+
+            //BindArt(data, databaseName);
+            dbs.perkDatas.Add(data);
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

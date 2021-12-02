@@ -29,6 +29,7 @@ public class DatabaseSystem : MonoBehaviour
     [Header("=========== Items ============")]
     public List<AbilityData> abilityDatas = new List<AbilityData>();
     public List<ArtifactData> arifactDatas = new List<ArtifactData>();
+    public List<PerkData> perkDatas = new List<PerkData>();
 
     [Header("=========== Progression ============")]
     public List<ScenarioData> scenarios = new List<ScenarioData>();

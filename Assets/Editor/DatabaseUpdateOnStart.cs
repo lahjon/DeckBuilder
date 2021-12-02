@@ -292,4 +292,14 @@ public static class DatabaseUpdateOnStart
 
         Debug.Log("Googled the artifacts bro!");
     }
+
+
+    [MenuItem("Edit/Download GooglePerks %#R")]
+    public static void UpdateFromGooglePerks()
+    {
+        DatabaseGoogle google = new DatabaseGoogle();
+        google.ReadEntriesPerks("Perk", "Z");
+
+        Debug.Log("Googled the perks bro!");
+    }
 }

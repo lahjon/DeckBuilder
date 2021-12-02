@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpikeyTail
   m_EditorClassIdentifier: 
   itemName: Spikey Tail
-  itemId: 0
+  itemId: 3
   artwork: {fileID: 0}
   description: Enemies take 3 damage when attacking
   rarity: 12

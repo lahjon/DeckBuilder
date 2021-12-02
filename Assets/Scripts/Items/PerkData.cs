@@ -9,6 +9,5 @@ public class PerkData : ItemData
 {
     public int level;
     public Sprite inactiveArtwork;
-    public string effect;
     public CharacterClassType characterClassType;
 }
