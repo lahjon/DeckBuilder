@@ -71,6 +71,9 @@ public class EventManager : Manager
     public delegate void WorldEncounterSegmentProgressEvent(string id);
     public static event WorldEncounterSegmentProgressEvent OnWorldEncounterSegmentProgressEvent;
 
+    public delegate void TurnEndEvent();
+    public static event TurnEndEvent OnTurnEndEvent;
+
     public static void EnterBuilding(BuildingType building)
     {
         if(OnEnterBuildingEvent != null)
@@ -186,6 +189,10 @@ public class EventManager : Manager
         OnCompleteStorySegmentEvent?.Invoke(segment);
     }
 
+    public static void TurnEnded()
+    {
+        OnTurnEndEvent?.Invoke();
+    }
 
 }
 

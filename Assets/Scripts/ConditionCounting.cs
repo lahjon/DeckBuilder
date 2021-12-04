@@ -6,13 +6,17 @@ using System;
 public class ConditionCounting : Condition
 {
     public int currentAmount = 0;
-
+    public ConditionCountingOnTrueType onTrueType;
+    public ConditionType resetCondition;
+ 
     public int requiredAmount => conditionData.numValue;
 
-    public ConditionCounting(ConditionData conditionData, Action OnPreConditionUpdate, Action OnConditionFlipTrue) 
+    public ConditionCounting(ConditionData conditionData, Action OnPreConditionUpdate, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None) 
         : base(conditionData,OnPreConditionUpdate, null, OnConditionFlipTrue)
     {
         ConditionEvaluator = GreaterThanComparer;
+        this.resetCondition = resetCondition;
+        this.onTrueType = onTrueType;
     }
 
     public bool GreaterThanComparer(ConditionData conditionData)
@@ -20,11 +24,25 @@ public class ConditionCounting : Condition
         return currentAmount >= conditionData.numValue;
     }
 
+    private void Reset() => currentAmount = 0;
+
     public override void OnEventNotification()
     {
+        Debug.Log("notified");
         if (ConditionEvaluator == null) return; //dodges initial notification OnCreation
         currentAmount++;
+        bool preVal = value;
         base.OnEventNotification();
+        if(!preVal && value)
+        {
+            if (onTrueType == ConditionCountingOnTrueType.Reset)
+            {
+                currentAmount = 0;
+                value = false;
+            }
+            else if (onTrueType == ConditionCountingOnTrueType.Unsubscribe)
+                Unsubscribe();
+        }
     }
 
     public string GetDescription(bool getCurrentAmount) => conditionData.type switch
@@ -36,4 +54,45 @@ public class ConditionCounting : Condition
         _ => null
     };
 
+    public override void Subscribe()
+    {
+        base.Subscribe();
+        SubscribeResetEvent();
+    }
+
+    private void SubscribeResetEvent()
+    {
+        switch (conditionData.type)
+        {
+            case ConditionType.None:
+                return;
+            case ConditionType.TurnEnded:
+                EventManager.OnTurnEndEvent += Reset;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void UnsubscribeResetEvent()
+    {
+        switch (conditionData.type)
+        {
+            case ConditionType.None:
+                return;
+            case ConditionType.TurnEnded:
+                EventManager.OnTurnEndEvent -= Reset;
+                break;
+            default:
+                break;
+        }
+    }
+
+}
+
+public enum ConditionCountingOnTrueType
+{
+    Nothing,
+    Reset,
+    Unsubscribe
 }

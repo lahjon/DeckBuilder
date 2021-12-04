@@ -20,7 +20,14 @@ MonoBehaviour:
   itemEffectStruct:
     type: 3
     parameter: Thorns
-    addOnStart: 1
+    addImmediately: 1
     value: 3
   goldValue: 0
   characterClassType: 0
+  conditionCounting:
+    type: 0
+    strParameter: 
+    numValue: 0
+    strParameters: []
+  conditionCountingOnTrueType: 0
+  conditionResetEvent: 0

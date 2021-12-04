@@ -42,6 +42,7 @@ public enum Rarity
     Epic = 14
 };
 
+
 public enum EncounterTag
 {
     None,

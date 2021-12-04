@@ -73,7 +73,8 @@ public enum ConditionType
     EncounterDataCompleted,
     EncounterCompleted,
     StorySegmentCompleted,
-    OptionalCardCostPaid
+    OptionalCardCostPaid,
+    TurnEnded
 }
 
 

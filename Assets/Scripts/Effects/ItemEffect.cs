@@ -10,6 +10,7 @@ public abstract class ItemEffect
     public ItemEffectStruct itemEffectStruct;
     public virtual void ApplyEffect()
     {
+
     }
  
     public virtual void Register()

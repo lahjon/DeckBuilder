@@ -14,6 +14,9 @@ public class Artifact : Item, IToolTipable
     bool initialized;
     public ArtifactData artifactData;
     Tween tween;
+
+    public ConditionCounting condition;
+
     protected void Awake()
     {
         Initialize();
@@ -52,9 +55,14 @@ public class Artifact : Item, IToolTipable
             artifactData = anArtifactData;
             image.sprite = artifactData.artwork;
             id = artifactData.itemId;
-            itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this); 
+            itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
+            condition = new ConditionCounting(artifactData.conditionCounting, null, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
+            condition.Subscribe();
         }
     }
+
+
+
     public override void NotifyUsed()
     {
         if (tween != null) tween.Kill();

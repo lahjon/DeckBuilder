@@ -208,13 +208,11 @@ public class CardCombat : CardVisual, IEventSubscriber
 
     public override void OnMouseEnter()
     {
-        Debug.Log("Mouse is over card " + cardName);
         animator.SetBool("MouseIsOver", true);
     }
 
     public override void OnMouseExit()
     {
-        Debug.Log("Mouse left card " + cardName);
         animator.SetBool("MouseIsOver", false);
         if(CombatSystem.instance.deSelectOnMouseLeave && selected) CombatSystem.instance.CancelCardSelection();
     }

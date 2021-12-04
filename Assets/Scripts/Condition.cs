@@ -44,7 +44,7 @@ public class Condition : IEventSubscriber
 
     public string GetTextCard() => conditionData.type == ConditionType.None ? "" : (info.GetTextInfo(conditionData) + ":\n");
 
-    public void Subscribe()
+    public virtual void Subscribe()
     {
         switch (conditionData.type)
         {
@@ -85,7 +85,7 @@ public class Condition : IEventSubscriber
         OnEventNotification();
     }
 
-    public void Unsubscribe()
+    public virtual void Unsubscribe()
     {
         switch (conditionData.type)
         {

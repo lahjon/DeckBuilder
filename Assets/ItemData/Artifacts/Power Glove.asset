@@ -20,7 +20,14 @@ MonoBehaviour:
   itemEffectStruct:
     type: 3
     parameter: Strength
-    addOnStart: 0
+    addImmediately: 1
     value: 1
   goldValue: 0
   characterClassType: 0
+  conditionCounting:
+    type: 0
+    strParameter: 
+    numValue: 0
+    strParameters: []
+  conditionCountingOnTrueType: 0
+  conditionResetEvent: 0

@@ -1126,7 +1126,16 @@ public class DatabaseGoogle
             data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
             data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
             data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
-            data.itemEffectStruct.addImmediately = (string)gt[i, "EffectAddOnStart"] == "TRUE";
+            data.itemEffectStruct.addImmediately = (string)gt[i, "EffectAddImmediately"] == "TRUE";
+
+            data.conditionCounting = new ConditionData();
+            data.conditionCounting.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
+            data.conditionCounting.strParameter = ((string)gt[i, "ConditionStrParam"]);
+            data.conditionCounting.numValue = ((string)gt[i, "ConditionValue"]).ToInt();
+            data.conditionResetEvent = ((string)gt[i, "ConditionReset"]).ToEnum<ConditionType>();
+            data.conditionCountingOnTrueType = ((string)gt[i, "OnConditionTrueType"]).ToEnum<ConditionCountingOnTrueType>();
+
+
             data.goldValue = ((string)gt[i, "GoldValue"]).ToInt();
             data.characterClassType = ((string)gt[i, "CharacterClassType"]).ToEnum<CharacterClassType>();
             BindArt(data);

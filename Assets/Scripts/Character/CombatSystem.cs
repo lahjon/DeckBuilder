@@ -337,6 +337,7 @@ public class CombatSystem : MonoBehaviour
 
     public void EndTurn()
     {
+        EventManager.TurnEnded();
         cardsPlayedThisTurn.Clear();
         Hand.Where(c => c.HasProperty(CardSingleFieldPropertyType.Unstable)).ToList().ForEach(c => { 
             Hand.Remove(c); 
