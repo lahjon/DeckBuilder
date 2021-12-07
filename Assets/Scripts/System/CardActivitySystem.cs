@@ -21,6 +21,7 @@ public class CardActivitySystem : MonoBehaviour
         { CardActivityType.DualWield, new CardActivityDualWield()},
         { CardActivityType.EmptySavedEnergy, new CardActivityEmptySavedEnergy()},
         { CardActivityType.EN_AddCardModifier, new CardActivityEN_AddCardModifier()},
+        { CardActivityType.AddCardModifier, new CardActivityAddCardModifier()},
     };
 
 
@@ -36,7 +37,7 @@ public class CardActivitySystem : MonoBehaviour
         //Debug.Log("Starting card Activity:" + cardActivity.type);
         if (!ActivityTypeToAction.ContainsKey(cardActivity.type))
         {
-            Debug.LogError("No function exists for Activity of type" + cardActivity.type.ToString());
+            Debug.LogError("No function exists for Activity of type " + cardActivity.type.ToString());
         }
         else
             yield return StartCoroutine(ActivityTypeToAction[cardActivity.type].Execute(cardActivity));

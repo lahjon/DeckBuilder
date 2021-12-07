@@ -22,16 +22,7 @@ MonoBehaviour:
   effects: []
   activities:
   - type: 11
-    strParameter: -1_1
-    val: 2
-    conditionStruct:
-      type: 0
-      strParameter: 
-      numValue: 0
-      strParameters: []
-    execTime: 0
-  - type: 11
-    strParameter: -1_1
+    strParameter: 2:-1_1
     val: 2
     conditionStruct:
       type: 0

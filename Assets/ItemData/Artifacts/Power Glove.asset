@@ -20,7 +20,7 @@ MonoBehaviour:
   itemEffectStruct:
     type: 3
     parameter: Strength
-    addImmediately: 1
+    addImmediately: 0
     value: 1
   goldValue: 0
   characterClassType: 0

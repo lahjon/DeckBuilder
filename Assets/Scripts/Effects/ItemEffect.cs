@@ -23,6 +23,12 @@ public abstract class ItemEffect
 
     }
 
+    public virtual IEnumerator RunEffectEnumerator()
+    {
+        yield return null;
+    }
+
+
     public static ItemEffect Factory(ItemEffectStruct itemEffectStruct, IEffectAdder itemEffectAdder)
     {
         string effectName = itemEffectStruct.type != ItemEffectType.Custom ? itemEffectStruct.type.ToString() : itemEffectStruct.parameter;
@@ -93,8 +99,11 @@ public enum ItemEffectType
     Custom,
     AddStat,                // parm = StatType | value = value
     AddCombatEffect,
+    AddCombatActivity,
     TakeDamage,
-    Heal
+    Heal,
+    AddCardDeck,
+    AddCardDeckCombat
 }
 
 public interface IEffectAdder

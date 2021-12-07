@@ -26,7 +26,9 @@ public class CombatSystem : MonoBehaviour
     GameObject currentEnvironment;
     public CombatActorType actorTurn;
     public Button companionButton;
-    public List<ItemEffectAddCombatEffect> effectOnCombatStart = new List<ItemEffectAddCombatEffect>();
+    public List<ItemEffect> effectOnCombatStart = new List<ItemEffect>();
+
+
 
     public CombatCardPresenter cardPresenter;
     public bool deSelectOnMouseLeave = true;
@@ -89,19 +91,14 @@ public class CombatSystem : MonoBehaviour
             displayEnergies[type].lblEnergy.text = cEnergy[type].ToString();
         }
 
-        if (changedAny) EventManager.EnergyChanged();
+        if (changedAny)
+        {
+            EventManager.EnergyChanged();
+            EventManager.EnergyInfoChanged(changes);
+        }
     }
 
-    public void ModifyEnergy(EnergyType type, int change, bool enforceMax = false)
-    {
-        int valPre = (cEnergy.ContainsKey(type) ? cEnergy[type] : 0);
-        cEnergy[type] = change + valPre;
-        if (enforceMax) cEnergy[type] = Mathf.Max(cEnergy[type], energyMax[type]);
-        if (cEnergy[type] - valPre != 0) EventManager.EnergyChanged();
-
-        if (!displayEnergies.ContainsKey(type)) RegisterEnergyType(type);
-        displayEnergies[type].lblEnergy.text = cEnergy[type].ToString();
-    }
+    public void ModifyEnergy(EnergyType type, int change, bool enforceMax = false) => ModifyEnergy(new Dictionary<EnergyType, int> { { type, change } }, enforceMax);
 
     [SerializeField] private CombatActorEnemy _targetedEnemy;
 

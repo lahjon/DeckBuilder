@@ -20,7 +20,7 @@ MonoBehaviour:
   itemEffectStruct:
     type: 2
     parameter: Health
-    addImmediately: 0
+    addImmediately: 1
     value: 7
   goldValue: 0
   characterClassType: 0

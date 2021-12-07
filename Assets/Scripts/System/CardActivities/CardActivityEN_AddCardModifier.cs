@@ -9,24 +9,49 @@ public class CardActivityEN_AddCardModifier : CardActivity
     readonly string toolTip = "<b><sprite name=\"Cursed\"> Cursed</b>\nThis card has adverse effects added to it.";
     public override IEnumerator Execute(CardActivitySetting data)
     {
-        CardCombat card;
         CombatActor Hero = CombatSystem.instance.Hero;
-        if (Hero.deck.Count == 0 && Hero.discard.Count == 0)
-            card = null;
-        else
+        if (!(Hero.deck.Count == 0 && Hero.discard.Count == 0))
         {
-            List<Card> cardPile = Hero.deck.Count != 0 ? Hero.deck : Hero.discard;
-            card = (CardCombat)cardPile[UnityEngine.Random.Range(0, cardPile.Count)];
+            int nrCards;
+            string modId;
 
-            CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
-            if (addingComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
+            if (data.strParameter.Contains(":"))
+            {
+                string[] input = data.strParameter.Split(':');
+                nrCards = input[0].ToInt();
+                modId = input[1];
+            }
             else
             {
-                for(int i = 0; i < data.val-1;i++)
-                    card.AddModifierToCard(addingComponent, ModifierType.Cursed, true);
-                card.AddModifierToCard(addingComponent, ModifierType.Cursed);
+                nrCards = 1;
+                modId = data.strParameter;
             }
-            card.SetManualToolTip(toolTip);
+
+            List<Card> cardPile = new List<Card>(Hero.deck.Count != 0 ? Hero.deck : Hero.discard);
+            List<CardCombat> chosenCards = new List<CardCombat>();
+
+            for (int i = 0; i < nrCards; i++)
+            {
+                int index = UnityEngine.Random.Range(0, cardPile.Count);
+                chosenCards.Add((CardCombat)cardPile[index]);
+                cardPile.RemoveAt(index);
+                if (cardPile.Count == 0)
+                    cardPile.AddRange(Hero.deck.Count != 0 ? Hero.deck : Hero.discard);
+            }
+
+            foreach (CardCombat card in chosenCards)
+            {
+                CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
+                if (addingComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
+                else
+                {
+                    for (int i = 0; i < data.val - 1; i++)
+                        card.AddModifierToCard(addingComponent, ModifierType.Blessed, true);
+                    card.AddModifierToCard(addingComponent, ModifierType.Blessed);
+                }
+                card.SetManualToolTip(toolTip);
+            }
+
             yield return null;
         }
     }

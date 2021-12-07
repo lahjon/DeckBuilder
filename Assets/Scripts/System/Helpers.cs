@@ -33,6 +33,7 @@ public static class Helpers
         {ModifierType.Cursed, "<sprite name=\"Cursed\">" },
         {ModifierType.Upgrade, "" },
         {ModifierType.UpgradePermanent, "" },
+        {ModifierType.Blessed, "" },
     };
 
      public static Dictionary<Rarity,Color> rarityBorderColors = new Dictionary<Rarity, Color>{

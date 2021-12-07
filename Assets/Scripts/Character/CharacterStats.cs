@@ -3,6 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+public enum StatType
+{
+    None = 0,
+
+    // main stats
+    Health,                     // HP
+    Power,                      // damage to attacks
+    Wit,                        // cards to draw each turn
+    Amplitude,                  // energy max
+    Syphon,                     // energy / turn
+    Endurance,                  // armor / block ??
+
+    // hidden stats
+    OptionalEnergyMax = 10,
+    OptionalEnergyTurn,
+    DraftAmount,
+    MaxCardsOnHand
+
+}
+
 public class CharacterStats : MonoBehaviour
 {
     CharacterManager characterManager;

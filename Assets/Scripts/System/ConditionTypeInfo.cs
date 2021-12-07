@@ -10,7 +10,7 @@ public class ConditionTypeInfo
     public string GetTextInfo(ConditionData data) => baseText.Replace("<val>", data.numValue.ToString()).Replace("<param>",data.strParameter);
     public Func<ConditionData, bool> conditionChecker;
 
-    public static ConditionTypeInfo CardsPlayedAtLeast = new ConditionTypeInfo { conditionChecker = CheckCardsPlayedAtLeast, baseText = "If you played at least <val> cards" };
+    public static ConditionTypeInfo CardsPlayedAtLeast = new ConditionTypeInfo { conditionChecker = CheckCardsPlayedAtLeast, baseText = "If you played at least <val> cards"};
     public static ConditionTypeInfo CardsPlayedAtMost = new ConditionTypeInfo { conditionChecker = CheckCardsPlayedAtMost, baseText = "If you played less than <val> cards" };
     public static ConditionTypeInfo LastCardPlayedTurnType = new ConditionTypeInfo { conditionChecker = CheckLastTypePlayedThisTurn, baseText = "If the last card you played was <param>" };
     public static ConditionTypeInfo OptionalCardCostPaid = new ConditionTypeInfo { conditionChecker = CheckOptionalCardCostPaid, baseText = "(Optional)" };
@@ -74,7 +74,8 @@ public enum ConditionType
     EncounterCompleted,
     StorySegmentCompleted,
     OptionalCardCostPaid,
-    TurnEnded
+    EndTurn,
+    SpendEnergySpecific
 }
 
 

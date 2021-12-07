@@ -17,7 +17,7 @@ public class CardActivityModifyLife : CardActivity
 
     public override string GetDescription(CardActivitySetting data)
     {
-        return string.Format("{0} {1} life",data.val >= 0 ? "Heal" : "Loose", -data.val);
+        return string.Format("{0} {1} life",data.val >= 0 ? "Heal" : "Loose", data.val >= 0 ? data.val : -data.val);
     }
 
     public override string GetToolTip(CardActivitySetting data)

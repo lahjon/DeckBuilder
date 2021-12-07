@@ -7,7 +7,7 @@ public class ConditionCounting : Condition
 {
     public int currentAmount = 0;
     public ConditionCountingOnTrueType onTrueType;
-    public ConditionType resetCondition;
+    public ConditionType resetConditionType;
  
     public int requiredAmount => conditionData.numValue;
 
@@ -15,7 +15,7 @@ public class ConditionCounting : Condition
         : base(conditionData,OnPreConditionUpdate, null, OnConditionFlipTrue)
     {
         ConditionEvaluator = GreaterThanComparer;
-        this.resetCondition = resetCondition;
+        this.resetConditionType = resetCondition;
         this.onTrueType = onTrueType;
     }
 
@@ -62,11 +62,11 @@ public class ConditionCounting : Condition
 
     private void SubscribeResetEvent()
     {
-        switch (conditionData.type)
+        switch (resetConditionType)
         {
             case ConditionType.None:
                 return;
-            case ConditionType.TurnEnded:
+            case ConditionType.EndTurn:
                 EventManager.OnTurnEndEvent += Reset;
                 break;
             default:
@@ -76,11 +76,11 @@ public class ConditionCounting : Condition
 
     private void UnsubscribeResetEvent()
     {
-        switch (conditionData.type)
+        switch (resetConditionType)
         {
             case ConditionType.None:
                 return;
-            case ConditionType.TurnEnded:
+            case ConditionType.EndTurn:
                 EventManager.OnTurnEndEvent -= Reset;
                 break;
             default:
