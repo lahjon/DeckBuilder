@@ -24,7 +24,7 @@ public class RewardScreenCardSelection : MonoBehaviour
         if(rewardCards != null && rewardCards.Any())
             maxCardReward = rewardCards.Count;
         else
-            maxCardReward = WorldSystem.instance.characterManager.maxCardReward;
+            maxCardReward = WorldSystem.instance.characterManager.maxCardReward + CharacterStats.DraftAmount;
 
         if(cards.Count < maxCardReward)
         {

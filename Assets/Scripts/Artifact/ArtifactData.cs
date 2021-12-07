@@ -7,7 +7,7 @@ public class ArtifactData : ItemData
 {
     public int goldValue;
     public CharacterClassType characterClassType;
-
+    public bool isBuff;
     public ConditionData conditionCounting = new ConditionData();
     public ConditionCountingOnTrueType conditionCountingOnTrueType = ConditionCountingOnTrueType.Nothing;
     public ConditionType conditionResetEvent = ConditionType.None;
