@@ -248,25 +248,7 @@ public enum EncounterHexStatus
     Unreachable,
     Idle
 }
-public enum StatType
-{
-    None = 0,
 
-    // main stats
-    Health,                     // HP
-    Power,                      // damage to attacks
-    Wit,                        // cards to draw each turn
-    Amplitude,                  // energy max
-    Syphon,                     // energy / turn
-    Endurance,                  // armor / block ??
-
-    // hidden stats
-    OptionalEnergyMax = 10,
-    OptionalEnergyTurn,
-    DraftAmount,
-    MaxCardsOnHand
-    
-}
 
 public enum EncounterRoadStatus
 {
@@ -292,7 +274,8 @@ public enum ModifierType
     None,
     Upgrade,
     UpgradePermanent,
-    Cursed
+    Cursed,
+    Blessed
 }
 
 public enum WorldState
@@ -450,7 +433,8 @@ public enum CardActivityType
     DrawDiscard,
     DualWield,
     EmptySavedEnergy,
-    EN_AddCardModifier
+    EN_AddCardModifier,
+    AddCardModifier
 }
 
 public enum CombatActorType

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af4f463819841664b9c993d594b0265d, type: 3}
+  m_Name: Divine Feather
+  m_EditorClassIdentifier: 
+  itemName: Divine Feather
+  itemId: 13
+  artwork: {fileID: 21300000, guid: 487f9d153ee5f0b4da109218f8c72a59, type: 3}
+  description: At the start of combat, Bless two random cards.
+  rarity: 12
+  itemEffectStruct:
+    type: 4
+    parameter: AddCardModifier|-1_4
+    addImmediately: 0
+    value: 2
+  goldValue: 0
+  characterClassType: 0
+  conditionCounting:
+    type: 0
+    strParameter: 
+    numValue: 0
+    strParameters: []
+  conditionCountingOnTrueType: 0
+  conditionResetEvent: 0

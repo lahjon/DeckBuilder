@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EventManager : Manager
 {
@@ -58,6 +59,9 @@ public class EventManager : Manager
 
     public delegate void EnergyChangedEvent();
     public static event EnergyChangedEvent OnEnergyChangedEvent;
+
+    public delegate void EnergyInfoChangedEvent(Dictionary<EnergyType, int> changes);
+    public static event EnergyInfoChangedEvent OnEnergyInfoChangedEvent;
 
     public delegate void DeckCountChangeEvent();
     public static event DeckCountChangeEvent OnDeckCountChangeEvent;
@@ -155,6 +159,11 @@ public class EventManager : Manager
     public static void EnergyChanged()
     {
         OnEnergyChangedEvent?.Invoke();
+    }
+
+    public static void EnergyInfoChanged(Dictionary<EnergyType, int> changes)
+    {
+        OnEnergyInfoChangedEvent?.Invoke(changes);
     }
 
     public static void DeckCountChanged()

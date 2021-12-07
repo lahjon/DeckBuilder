@@ -55,6 +55,7 @@ public class Artifact : Item, IToolTipable
             artifactData = anArtifactData;
             image.sprite = artifactData.artwork;
             id = artifactData.itemId;
+            itemName = anArtifactData.itemName;
             itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
             condition = new ConditionCounting(artifactData.conditionCounting, null, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
             condition.Subscribe();

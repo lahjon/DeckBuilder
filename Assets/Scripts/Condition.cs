@@ -77,6 +77,9 @@ public class Condition : IEventSubscriber
             case ConditionType.StorySegmentCompleted:
                 EventManager.OnCompleteStorySegmentEvent += OnEventNotification;
                 break;
+            case ConditionType.SpendEnergySpecific:
+                EventManager.OnEnergyInfoChangedEvent += OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -115,6 +118,9 @@ public class Condition : IEventSubscriber
             case ConditionType.EncounterCompleted:
                 EventManager.OnEncounterCompletedEvent -= OnEventNotification;
                 break;
+            case ConditionType.SpendEnergySpecific:
+                EventManager.OnEnergyInfoChangedEvent -= OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -141,6 +147,18 @@ public class Condition : IEventSubscriber
     {
         if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyId == Int32.Parse(conditionData.strParameter) || conditionData.strParameters.Contains(enemy.enemyId.ToString()))
             OnEventNotification();
+    }
+
+    public void OnEventNotification(Dictionary<EnergyType, int> changes)
+    {
+        if (string.IsNullOrEmpty(conditionData.strParameter))
+            OnEventNotification();
+        else
+        {
+            EnergyType type = conditionData.strParameter.ToEnum<EnergyType>();
+            if (changes.ContainsKey(type) && changes[type] >= 0)
+                OnEventNotification();
+        }
     }
 
     public void OnEventNotification(BuildingType buildingType)

@@ -2,6 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*************************************************
+ *************** MANUAL *************************
+ * 1. Utöka enum med din nya funktion 
+ * 2.(a) Gör en ny static effectTypeinfo med alla relevant text osv
+ * 2.(b) Om effekt inte skapad ännu: Använd dummy constructor CardEffectDummmy()
+ * 3. Lägg till i dictionary
+ */
+
+public enum EffectType
+{
+    Damage,
+    Poison,
+    Block,
+    Weak,
+    Vulnerable,
+    Barricade,
+    Thorns,
+    Splice,
+    Challenge,
+    Strength,
+    StrengthTemp,
+    Confused,
+    Envenom,
+    Dazed,
+    Spiked,
+    Barrier,
+    Steaming,
+    Loaded
+}
+
 public class EffectTypeInfo : IEquatable<EffectTypeInfo>
 {
     public EffectType effectType;
@@ -53,6 +83,9 @@ public class EffectTypeInfo : IEquatable<EffectTypeInfo>
         { EffectType.Loaded, Loaded},
     };
 
+
+    #region usually dont touch
+
     public static EffectTypeInfo GetEffectTypeInfo(EffectType type) => TypeToStruct[type];
 
     public bool Equals(EffectType other) => effectType == other;
@@ -61,28 +94,8 @@ public class EffectTypeInfo : IEquatable<EffectTypeInfo>
 
     public static implicit operator EffectType(EffectTypeInfo e) => e.effectType;
 
-    public override string ToString() => effectType.ToString(); 
-}
+    public override string ToString() => effectType.ToString();
 
-public enum EffectType
-{
-    Damage,
-    Poison,
-    Block,
-    Weak,
-    Vulnerable,
-    Barricade,
-    Thorns,
-    Splice,
-    Challenge,
-    Strength,
-    StrengthTemp,
-    Confused,
-    Envenom,
-    Dazed,
-    Spiked,
-    Barrier,
-    Steaming,
-    Loaded
+    #endregion
 }
 
