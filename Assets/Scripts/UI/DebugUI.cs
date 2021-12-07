@@ -71,7 +71,11 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugHeal(int amount)
     {
-        world.characterManager.Heal(amount);
+        if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+            CombatSystem.instance.Hero.HealLife(amount);
+        else
+            world.characterManager.Heal(amount);
+        
     }
 
     public void DebugDraftCards(int amount)

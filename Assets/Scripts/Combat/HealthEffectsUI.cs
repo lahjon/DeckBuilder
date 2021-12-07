@@ -75,7 +75,6 @@ public class HealthEffectsUI : MonoBehaviour
         objShield.SetActive(shield != 0);
 
         shieldIcon.transform.localScale = Vector3.one;
-
         if (shield != 0)
         {
             sldShield.value = sldHealth.value;

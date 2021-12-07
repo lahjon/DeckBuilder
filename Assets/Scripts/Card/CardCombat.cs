@@ -217,7 +217,7 @@ public class CardCombat : CardVisual, IEventSubscriber
         if(CombatSystem.instance.deSelectOnMouseLeave && selected) CombatSystem.instance.CancelCardSelection();
     }
 
-    public override void OnMouseRightClick(bool allowDisplay = true)
+    public override void OnMouseRightClick()
     {
         if (selected)
             CombatSystem.instance.CancelCardSelection();

@@ -207,7 +207,11 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         x = Mathf.Min(x, maxHitPoints - hitPoints);
         hitPoints += x;
         if (this == CombatSystem.instance.Hero)
+        {
             WorldSystem.instance.characterManager.Heal(x);
+            StartCoroutine(healthEffectsUI?.UpdateShield(shield));
+        }
+
     }
 
 
