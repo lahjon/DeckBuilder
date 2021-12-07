@@ -11,6 +11,7 @@ public class CharacterVariablesUI : MonoBehaviour
     Vector3 offset = new Vector3(-0.4f,0,0);
     float moveSpeed = 0.2f;
     bool active;
+    public GameObject debugDeckButton;
 
     void Start()
     {

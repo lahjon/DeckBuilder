@@ -24,7 +24,7 @@ public class DebugUI : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D))
+        if(Input.GetKeyDown(KeyCode.D) && !WorldSystem.instance.displayCardManager.active)
         {
             ToggleDebugMenu();
         }
@@ -64,7 +64,10 @@ public class DebugUI : MonoBehaviour
     }
     public void DebugTakeDamage(int amount)
     {
-        world.characterManager.TakeDamage(amount);
+        if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+            CombatSystem.instance.Hero.TakeDamage(amount);
+        else
+            world.characterManager.TakeDamage(amount);
     }
     public void DebugHeal(int amount)
     {
@@ -230,11 +233,13 @@ public class DebugUI : MonoBehaviour
         if(canvas.activeSelf)
         {
             canvas.SetActive(false);
+            //world.characterManager.characterVariablesUI.debugDeckButton.SetActive(false);
             world.debugMode = false;
         }
         else
         {
             canvas.SetActive(true);
+            //world.characterManager.characterVariablesUI.debugDeckButton.SetActive(true);
             world.debugMode = true;
         }
     }

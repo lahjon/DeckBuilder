@@ -200,7 +200,7 @@ public class DebugManager : MonoBehaviour
     }
     public void OnSKey(InputAction.CallbackContext value)
     {
-        if(!showConsole && value.performed)
+        if(!showConsole && value.performed && !WorldSystem.instance.displayCardManager.active)
         {
             world.SaveProgression();
             Debug.Log("Save Game");
@@ -208,7 +208,7 @@ public class DebugManager : MonoBehaviour
     }
     public void OnLKey(InputAction.CallbackContext value)
     {
-        if(!showConsole && value.performed)
+        if(!showConsole && value.performed && !WorldSystem.instance.displayCardManager.active)
         {
             world.LoadProgression();
         }

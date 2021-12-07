@@ -113,8 +113,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
             CurrentHealth = 0;
             KillCharacter();
         }
-
-        //characterVariablesUI.UpdateCharacterHUD();
     }
 
     public void ResetDeck()

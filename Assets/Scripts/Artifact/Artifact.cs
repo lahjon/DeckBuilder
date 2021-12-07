@@ -61,8 +61,6 @@ public class Artifact : Item, IToolTipable
         }
     }
 
-
-
     public override void NotifyUsed()
     {
         if (tween != null) tween.Kill();
