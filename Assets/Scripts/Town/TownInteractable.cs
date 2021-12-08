@@ -16,6 +16,7 @@ public class TownInteractable : MonoBehaviour, IToolTipable
     Button button;
     Tween tween;
     static Color color = Color.black;
+    static float width = 150;
     [SerializeField] bool _highlighted;
     public bool Highlighted
     {
@@ -77,9 +78,9 @@ public class TownInteractable : MonoBehaviour, IToolTipable
         button.interactable = true;
     }
 
-    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
-        return (new List<string>{buildingName} , pos);
+        return (new List<string>{buildingName} , pos, width);
     }
 }

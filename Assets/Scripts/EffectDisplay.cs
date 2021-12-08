@@ -9,6 +9,7 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
 {
     public TMP_Text effectLabel;
     public Image image;
+    static float width;
     Tween myTween;
     public CardEffect backingEffect;
 
@@ -44,9 +45,9 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
         }
     }
 
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
-        return (new List<string>{ backingEffect.type.toolTipCard}, pos);
+        return (new List<string>{ backingEffect.type.toolTipCard}, pos, width);
     }
 }

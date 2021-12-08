@@ -1506,6 +1506,14 @@ PrefabInstance:
       propertyPath: buildingType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4830632910967983381, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 290
@@ -4799,10 +4807,10 @@ GameObject:
   - component: {fileID: 121436506}
   - component: {fileID: 121436508}
   - component: {fileID: 121436507}
-  - component: {fileID: 121436510}
   - component: {fileID: 121436509}
+  - component: {fileID: 121436510}
   m_Layer: 0
-  m_Name: BossCounter
+  m_Name: TurnCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4825,7 +4833,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 893, y: 457}
+  m_AnchoredPosition: {x: 835, y: 478}
   m_SizeDelta: {x: 66.054, y: 60.155}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &121436507
@@ -4848,7 +4856,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c9f35536b1209a847ba8fd2481607ecf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c588478c88cabda4cb84f56d6b438182, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4888,11 +4896,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 121436505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e047c671183330747be217b65505e462, type: 3}
+  m_Script: {fileID: 11500000, guid: ccd72e1f0f16ffd42a5c550959aaed4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossCounterText: {fileID: 240440558}
-  tilesUntilBoss: 4
+  counterText: {fileID: 240440558}
+  tilesUntilDanger: 0
 --- !u!1001 &129670319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5186,6 +5194,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 30ba79c555f3e2e4e822f72f1443332b, type: 3}
+    - target: {fileID: 639073079437543411, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: buildingType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4830632910967983381, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 290
@@ -9464,7 +9484,7 @@ GameObject:
   - component: {fileID: 240440559}
   - component: {fileID: 240440558}
   m_Layer: 0
-  m_Name: BossCounter
+  m_Name: Counter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9490,7 +9510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 2 / 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9583,8 +9603,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076294, y: -48.8}
-  m_SizeDelta: {x: 54.349, y: 50}
+  m_AnchoredPosition: {x: -0.0000038147, y: -55.2}
+  m_SizeDelta: {x: 133.85, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &241201054
 GameObject:
@@ -28605,18 +28625,18 @@ MonoBehaviour:
   - buildingType: 5
     building: {fileID: 2058087413}
   - buildingType: 0
-    building: {fileID: 0}
-  - buildingType: 2
-    building: {fileID: 0}
+    building: {fileID: 749959094}
   - buildingType: 1
-    building: {fileID: 0}
+    building: {fileID: 1516614394}
   - buildingType: 4
     building: {fileID: 478066833}
   - buildingType: 6
-    building: {fileID: 0}
+    building: {fileID: 78362567}
+  - buildingType: 7
+    building: {fileID: 1695515510}
   unlockedBuildings: 
   startingBuildings: 03000000020000000400000006000000
-  currentBuilding: 0
+  currentBuilding: 21
   townMapCanvas: {fileID: 955117132}
   encounters: {fileID: 51815188}
   worldMapButton: {fileID: 706717438}
@@ -40566,6 +40586,14 @@ PrefabInstance:
       propertyPath: buildingType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4830632910967983381, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 290
@@ -46413,6 +46441,14 @@ PrefabInstance:
       propertyPath: buildingType
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4830632910967983381, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 290
@@ -49526,6 +49562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1516614393}
+  - component: {fileID: 1516614394}
   m_Layer: 0
   m_Name: Tavern
   m_TagString: Untagged
@@ -49553,6 +49590,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1516614394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516614392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f40451530f7ac44930f1f64e1f1073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 0
+  canvas: {fileID: 498809861}
+  currentSelection: []
+  roomMain: {fileID: 0}
 --- !u!1 &1518380587
 GameObject:
   m_ObjectHideFlags: 0
@@ -49922,6 +49975,14 @@ PrefabInstance:
     - target: {fileID: 639073079437543411, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: buildingType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4830632910967983381, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_SizeDelta.x
@@ -51045,6 +51106,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   templateTooltip: {fileID: 4310365005998829878, guid: baac6936b20f6db48968b09ba00b9886, type: 3}
   TipLocation: {fileID: 1696455191}
+  toolTipWidth: 240
   txt_tips:
   - {fileID: 993981891}
   - {fileID: 536194619}
@@ -51452,6 +51514,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3046437800379229741, guid: e47f0a25375de084d8b043524c0d33db, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8009420256223781133, guid: e47f0a25375de084d8b043524c0d33db, type: 3}
+      propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -53610,6 +53676,14 @@ PrefabInstance:
       propertyPath: buildingType
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4316716839505656606, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4830632910967983381, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 290
@@ -53624,7 +53698,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: e894ae4826af24e458f7156b61fefc24, type: 3}
     - target: {fileID: 5947407698638927646, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_Name
-      value: Jeweler
+      value: Smith
       objectReference: {fileID: 0}
     - target: {fileID: 5947407698638927647, guid: e8c873578a60fff4b82da454a06f45c0, type: 3}
       propertyPath: m_Pivot.x
@@ -55316,6 +55390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1695515509}
+  - component: {fileID: 1695515510}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -55343,6 +55418,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1695515510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695515508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3befd901f28ef80458c4acca2246aba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingType: 0
+  canvas: {fileID: 1904880113}
+  currentSelection: []
+  roomMain: {fileID: 0}
 --- !u!1 &1696343841
 GameObject:
   m_ObjectHideFlags: 0
@@ -61028,14 +61119,17 @@ MonoBehaviour:
   gridWidth: 3
   tileSize: 1
   tileGap: 0
+  turnCounter: {fileID: 121436510}
   undiscoveredMaterial: {fileID: 2100000, guid: e419d847beaa16d43852f448c7efea92, type: 2}
   discoveredMaterial: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   currentTile: {fileID: 0}
   completedTiles: []
+  dangerTiles: []
   gridState: 0
   content: {fileID: 1380248318}
   hexMapController: {fileID: 0}
-  currentTurn: 0
+  turnTriggerLimit: 0
+  _currentTurn: 0
   hexScale: 0.392
   initialized: 0
   tileParent: {fileID: 624123282}
@@ -66972,6 +67066,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8009420256223781133, guid: e47f0a25375de084d8b043524c0d33db, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e47f0a25375de084d8b043524c0d33db, type: 3}
 --- !u!1 &2011069081
@@ -68037,7 +68135,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Scribe
+  m_text: Tavern
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -68331,8 +68429,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BuildingScribe, Assembly-CSharp
+      - m_Target: {fileID: 1516614394}
+        m_TargetAssemblyTypeName: BuildingTavern, Assembly-CSharp
         m_MethodName: CloseBuilding
         m_Mode: 1
         m_Arguments:
@@ -81145,9 +81243,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1673503173}
     m_Modifications:
+    - target: {fileID: 8242332177089374101, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: m_CellSize.x
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242332177089374101, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: m_CellSize.y
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 8242332177089374102, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -166.54901
+      value: -199.99994
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242332177089374102, guid: 76787e030f82b4244b3741b45be14018, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 421
       objectReference: {fileID: 0}
     - target: {fileID: 8242332177656918996, guid: 76787e030f82b4244b3741b45be14018, type: 3}
       propertyPath: m_Camera

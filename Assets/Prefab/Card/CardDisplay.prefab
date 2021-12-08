@@ -119,7 +119,7 @@ MonoBehaviour:
   border: {fileID: 7695902140003894457}
   cardBackground: {fileID: 7782639723755105423}
   rarityBorder: {fileID: 1349982126223333926}
-  TooltipAnchor: {fileID: 5262464430781879494}
+  TooltipAnchor: {fileID: 8638292322401667681}
   toolTipTextBits: []
   cardPrefab: {fileID: 0}
   permanentUpgrade: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   templateCostUI: {fileID: 7263350202331094, guid: 40c9fcad6bd08704296409c173854e27, type: 3}
   shopCost: {fileID: 0}
   nonSelectableImage: {fileID: 1948183921060824599}
-  _allowDisplay: 1
+  allowDisplay: 1
   _selectable: 0
 --- !u!114 &7652459339360859076
 MonoBehaviour:
@@ -480,11 +480,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 125758978592051456, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &5262464430781879494 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1566733967387714375, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-  m_PrefabInstance: {fileID: 6680579575582242689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6687956497259364566 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 28793209163757399, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
@@ -499,5 +494,10 @@ MonoBehaviour:
 --- !u!224 &3706565610332188154 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8054250819107183227, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+  m_PrefabInstance: {fileID: 6680579575582242689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &8638292322401667681 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3123051332600298976, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}

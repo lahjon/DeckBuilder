@@ -14,6 +14,7 @@ public class Artifact : Item, IToolTipable
     bool initialized;
     public ArtifactData artifactData;
     Tween tween;
+    static float width = 40;
 
     public ConditionCounting condition;
 
@@ -37,11 +38,11 @@ public class Artifact : Item, IToolTipable
         button.onClick.AddListener(OnClick);
     }
 
-    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
         string desc = string.Format("<b>{0}</b>\n{1}", artifactData.itemName, artifactData.description);
-        return (new List<string>{desc} , pos);
+        return (new List<string>{desc} , pos, width);
     }
     public void OnClick()
     {

@@ -35,7 +35,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     public Dictionary<EnergyType, CardCostDisplay> energyToCostUI = new Dictionary<EnergyType, CardCostDisplay>();
     public Dictionary<EnergyType, CardCostDisplay> energyToCostOptionalUI = new Dictionary<EnergyType, CardCostDisplay>();
     internal List<string> manualToolTips = new List<string>();
-
+    static float width = 153;
 
     CardHighlightType _cardHighlightType;
 
@@ -305,9 +305,9 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         return;
     }
 
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
-        return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(TooltipAnchor.position));
+        return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(TooltipAnchor.position), width);
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)

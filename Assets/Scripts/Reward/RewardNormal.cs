@@ -109,7 +109,7 @@ public class RewardNormal : Reward
         };
     }
     #endregion
-    public override (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public override (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos;
         string desc;
@@ -118,14 +118,14 @@ public class RewardNormal : Reward
             case RewardNormalType.Ability:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
                 desc = string.Format("<b>{0}{1}/<b>", itemData.itemName, itemData.description);
-                return (new List<string>{desc} , pos);
+                return (new List<string>{desc} , pos, width);
             case RewardNormalType.UnlockCard:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
                 desc = "<b>Unlock a new card</b>";
-                return (new List<string>{desc} , pos);
+                return (new List<string>{desc} , pos, width);
             
             default:
-                return (new List<string>{} , Vector3.zero);
+                return (new List<string>{} , Vector3.zero, width);
         }
     }
 }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: The Forgotten Necromancer
   m_EditorClassIdentifier: 
   id: 0
+  turnTriggerLimit: 2
   minTier: 0
   maxTier: 0
   ScenarioName: The Forgotten Necromancer
@@ -60,3 +61,4 @@ MonoBehaviour:
     cancelSegmentsOnStart: []
     nrSkippableTiles: 0
     nrDecoys: 0
+  linkedScenarioId: -1

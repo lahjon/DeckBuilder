@@ -127,7 +127,7 @@ public class RewardCombat : Reward
     }
     #endregion
 
-    public override (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public override (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos;
         string desc;
@@ -136,14 +136,14 @@ public class RewardCombat : Reward
             case RewardCombatType.Artifact:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
                 desc = string.Format("<b>{0}{1}/<b>", itemData.itemName, itemData.description);
-                return (new List<string>{desc} , pos);
+                return (new List<string>{desc} , pos, width);
             case RewardCombatType.Gold:
                 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
                 desc = string.Format("<b>{0} Gold</b>", rewardAmount.ToString());
-                return (new List<string>{desc} , pos);
+                return (new List<string>{desc} , pos, width);
             
             default:
-                return (new List<string>{} , Vector3.zero);
+                return (new List<string>{} , Vector3.zero, width);
         }
     }
 }

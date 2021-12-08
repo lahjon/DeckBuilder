@@ -15,14 +15,34 @@ public class ScenarioMapManager : Manager
     public List<Sprite> activeTilesSprite = new List<Sprite>();
     public int gridWidth;
     public float tileSize, tileGap;
+    public TurnCounter turnCounter;
     public Material undiscoveredMaterial, discoveredMaterial;
     public Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
     public HexTile currentTile;
     public List<HexTile> completedTiles = new List<HexTile>();
+    public List<HexTile> dangerTiles = new List<HexTile>();
     public GridState gridState;
     public GameObject content;
     public HexMapController hexMapController;
-    public int currentTurn;
+    public int turnTriggerLimit;
+    [SerializeField] int _currentTurn;
+    public int currentTurn
+    {
+        get => _currentTurn;
+        set
+        {
+            _currentTurn = value;
+            turnCounter.counter--;
+            if (currentTurn >= turnTriggerLimit)
+            {
+                int row = gridWidth - currentTurn + turnTriggerLimit;
+                if (row >= 0)
+                    dangerTiles.AddRange(GetTilesAtRow(row));
+                dangerTiles.ForEach(x => x.Difficulty++);
+                world.uiManager.UIWarningController.CreateWarning("The void approaches!");
+            }
+        }
+    }
     public float hexScale = 0.392f;
     public bool initialized;
     int furthestRowReached;
@@ -127,8 +147,12 @@ public class ScenarioMapManager : Manager
     {
         initialized = false;
         currentTile = null;
+        currentTurn = 0;
+        dangerTiles.ForEach(x => x.Difficulty = 0);
+        dangerTiles.Clear();
         tiles.Clear();
         completedTiles.Clear();
+        turnCounter.counter = 0;
         gridState = GridState.Creating;
         furthestRowReached = 0;
         for (int i = 0; i < tileParent.childCount; i++)
@@ -149,52 +173,59 @@ public class ScenarioMapManager : Manager
 
     IEnumerator CreateMap()
     {
-        float timeMultiplier = .5f;
-
-        for (int i = 0; i <= gridWidth; i++)
-            CreateRow(i);
-
-        tiles.Values.ToList().ForEach(x => x.AddNeighboors());
-        hexMapController.enableInput = false;
-        gridState = GridState.Creating;
-
-        // create a 0,0,0 start tile and activate it
-        HexTile firstTile = GetTile(Vector3Int.zero);
-        firstTile.transform.localScale = Vector3.one * hexScale;
-        firstTile.gameObject.SetActive(true);
-        // flip it up
-        float timer = 0.3f * timeMultiplier;
-
-        hexMapController.Zoom(ZoomState.Outer, null, false);
-        yield return new WaitForSeconds(1);
-
-        for (int i = 0; i <= gridWidth; i++)
+        if (scenarioData != null)
         {
-            foreach (HexTile tile in GetTilesAtRow(i))
-                tile.transform.DOScale(hexScale, timer).SetEase(Ease.InExpo);
+            turnTriggerLimit = scenarioData.turnTriggerLimit;
+            turnCounter.tilesUntilDanger = turnTriggerLimit;
+            turnCounter.counter = turnTriggerLimit;
+            float timeMultiplier = .5f;
 
+            for (int i = 0; i <= gridWidth; i++)
+                CreateRow(i);
+
+            tiles.Values.ToList().ForEach(x => x.AddNeighboors());
+            hexMapController.enableInput = false;
+            gridState = GridState.Creating;
+
+            // create a 0,0,0 start tile and activate it
+            HexTile firstTile = GetTile(Vector3Int.zero);
+            firstTile.transform.localScale = Vector3.one * hexScale;
+            firstTile.gameObject.SetActive(true);
+            // flip it up
+            float timer = 0.3f * timeMultiplier;
+
+            hexMapController.Zoom(ZoomState.Outer, null, false);
+            yield return new WaitForSeconds(1);
+
+            for (int i = 0; i <= gridWidth; i++)
+            {
+                foreach (HexTile tile in GetTilesAtRow(i))
+                    tile.transform.DOScale(hexScale, timer).SetEase(Ease.InExpo);
+
+                yield return new WaitForSeconds(timer);
+            }
+
+            yield return new WaitForSeconds(timer * timeMultiplier);
+
+            firstTile.RevealTile();
             yield return new WaitForSeconds(timer);
+            yield return StartCoroutine(firstTile.AnimateVisible());
+
+            foreach (GridDirection dir in firstTile.availableDirections)
+            {
+                HexTile tile = GetTile(dir);
+                choosableTiles.Add(tile);
+                tile.directionEntry = dir.GetOpposing();
+            }
+
+            initialized = true;
+
+            HighlightChoosable();
+
+            WorldSystem.instance.worldMapManager.currentWorldScenario?.SetupInitialSegments();
+            hexMapController.enableInput = true;
+            gridState = GridState.Placing;
         }
-
-        yield return new WaitForSeconds(timer * timeMultiplier);
-
-        firstTile.RevealTile();
-        yield return new WaitForSeconds(timer);
-        yield return StartCoroutine(firstTile.AnimateVisible());
-
-        foreach (GridDirection dir in firstTile.availableDirections)
-        {
-            HexTile tile = GetTile(dir);
-            choosableTiles.Add(tile);
-            tile.directionEntry = dir.GetOpposing();
-        }
-
-        initialized = true;
-
-        HighlightChoosable();
-
-        WorldSystem.instance.worldMapManager.currentWorldScenario?.SetupInitialSegments();
-        hexMapController.enableInput = true;
     }
 
     public void ExpandMap()
@@ -214,6 +245,7 @@ public class ScenarioMapManager : Manager
             furthestRowReached = Mathf.Max(furthestRowReached, tileCoords.Select(x => Mathf.Abs(x)).Max());
 
             currentTile.tileState = TileState.Completed;
+            currentTurn++;
 
             Encounter currentEnc = WorldSystem.instance.encounterManager.currentEncounter;
             GridDirection dir = currentTile.exitEncToDirection[currentEnc];

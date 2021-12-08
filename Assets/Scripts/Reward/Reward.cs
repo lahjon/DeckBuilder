@@ -18,6 +18,7 @@ public abstract class Reward : MonoBehaviour, IToolTipable
     public string value;
     public Action callback;
     public int rewardAmount;
+    protected static float width = 50;
     public virtual void OnClick()
     {
         CollectCombatReward();
@@ -96,5 +97,5 @@ public abstract class Reward : MonoBehaviour, IToolTipable
         }
     }
 
-    public abstract (List<string> tips, Vector3 worldPosition) GetTipInfo();
+    public abstract (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo();
 }

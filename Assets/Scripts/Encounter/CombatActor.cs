@@ -22,6 +22,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     }
 
     private int shield = 0;
+    static float width = 150;
 
     public Transform AnchorToolTip;
 
@@ -271,11 +272,11 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         return strengthCombat;
     }
 
-    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
         effectTypeToRule.Values.ToList().ForEach(x => { toolTipTextBits.Add(x.type.toolTipCard); });
-        return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorToolTip.position));
+        return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorToolTip.position), width);
     }
 
     public void ModifyStrength(int x) => strengthCombat += x;

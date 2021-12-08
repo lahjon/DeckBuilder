@@ -6,6 +6,7 @@ using UnityEngine;
 public class ScenarioData : ScriptableObject
 {
     public int id;
+    public int turnTriggerLimit;
     public int minTier;
     public int maxTier;
     public string ScenarioName;

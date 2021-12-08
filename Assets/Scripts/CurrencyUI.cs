@@ -11,6 +11,7 @@ public class CurrencyUI : MonoBehaviour, IToolTipable, IEventSubscriber
     public Image image;
     public TMP_Text text;
     public Transform toolTipAnchor;
+    static float width = 50;
     public string tooltipDescription;
 
     void Start()
@@ -84,10 +85,10 @@ public class CurrencyUI : MonoBehaviour, IToolTipable, IEventSubscriber
             text.text = currentAmount.ToString();
     }
 
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(toolTipAnchor.position);
-        return (new List<string>() {tooltipDescription}, pos);
+        return (new List<string>() {tooltipDescription}, pos, width);
     }
 
     public void Subscribe()

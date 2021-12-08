@@ -297,8 +297,9 @@ public enum WorldState
     BuildingScribe,
     BuildingTownHall,
     BuildingBarracks,
-    BuildingJeweler,
+    BuildingSmith,
     BuildingTavern,
+    BuildingTower,
     Dialogue,
     Overworld,
     Transition,
@@ -349,15 +350,17 @@ public enum ProgressionGoalType
 
 public enum BuildingType
 {
-    Shop = 0,           // buy stuff for permanent progress
+    None = 0,
     Tavern = 1,         // hopefully used for companions
     Church = 2,         // no idea, maybe remove
     TownHall = 3,       // manage town and upgrade town, adding new buildings, story stuff, quests etc
     Scribe = 4,         // manage the side deck, upgrade cards etc
     Barracks = 5,       // manage characters, swap proffession
-    Jeweler = 6,        // manage tokens
+    Smith = 6,          // amange   
+    Tower = 7,
+    Shop = 8,           // buy stuff for permanent progress
     Any = 20,
-    None
+    
 }
 
 public enum ScenarioEncounterType

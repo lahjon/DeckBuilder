@@ -30,8 +30,8 @@ public class StateBuilding : WorldStateAnimator
                 return WorldState.BuildingBarracks;
             case BuildingType.Tavern:
                 return WorldState.BuildingTavern;
-            case BuildingType.Jeweler:
-                return WorldState.BuildingJeweler;
+            case BuildingType.Smith:
+                return WorldState.BuildingSmith;
             default:
                 return WorldState.Building;
         }

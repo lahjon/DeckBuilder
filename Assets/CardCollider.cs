@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class CardCollider : MonoBehaviour, IPointerClickHandler, IToolTipable
 {
     public CardCombat card;
+    static float width = 300;
 
     public void OnMouseEnter() => card.OnMouseEnter();
     public void OnMouseExit() => card.OnMouseExit();
@@ -41,10 +42,10 @@ public class CardCollider : MonoBehaviour, IPointerClickHandler, IToolTipable
             card.OnMouseRightClick();
     }
 
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         if (card == null)
-            return (new List<string>(), Vector3.zero);
+            return (new List<string>(), Vector3.zero, width);
         else
             return card.GetTipInfo();
     }

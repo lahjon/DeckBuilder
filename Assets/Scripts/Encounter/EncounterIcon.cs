@@ -6,9 +6,10 @@ public class EncounterIcon : MonoBehaviour, IToolTipable
 {
     [TextArea(5, 5)]
     public string description;
-    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    static float width = 50;
+    public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
-        return (new List<string>{description} , pos);
+        return (new List<string>{description} , pos, width);
     }
 }

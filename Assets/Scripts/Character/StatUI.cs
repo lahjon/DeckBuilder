@@ -14,6 +14,7 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
     public Transform tooltipAnchor;
     string displayText;
     public TMP_Text valueText;
+    static float width = 50;
 
     void Start()
     {
@@ -46,10 +47,10 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
         displayText = sb.ToString();
         valueText.text = stat.value.ToString();
     }
-    public virtual (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.position);
-        return (new List<string>{displayText} , pos);
+        return (new List<string>{displayText} , pos, width);
     }
 
     public void Subscribe()

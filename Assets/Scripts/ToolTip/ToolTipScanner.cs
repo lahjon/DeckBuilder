@@ -17,8 +17,8 @@ public class ToolTipScanner : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         WorldSystem.instance.toolTipManager.currentScanner = this;
         (delayTween = DOTween.To(() => 0, x => { }, 0, timeDelay)).OnComplete(() => {
-            (List<string> tips, Vector3 worldPos) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
-            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, tipInfo.worldPos, this);
+            (List<string> tips, Vector3 worldPos, float offset) tipInfo = GetComponent<IToolTipable>().GetTipInfo();
+            WorldSystem.instance.toolTipManager.Tips(tipInfo.tips, tipInfo.worldPos, tipInfo.offset, this);
         }); 
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class HexTile : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class HexTile : MonoBehaviour
     static Color completedColor = new Color(.8f, .8f, .8f, 1f);
     static Color inactiveColor = new Color(.8f, .8f, .8f, 1f);
     static Color normalColor = new Color(1f, 1f, 1f, 1f);
+    static Color dangerColor = new Color(.7f, 0.1f, 0.7f, .25f);
     Tween colorTween;
     bool _highlightedPrimary;
     bool _highlightedSecondary;
@@ -51,11 +53,32 @@ public class HexTile : MonoBehaviour
     };
 
     public static List<Vector3Int> positionsInner = new List<Vector3Int>();
+    public SpriteRenderer dangerZone;
 
     public static float radiusInverse = 0.90f;
     public static float encounterNoiseAllowed = 0.1f;
     public static float zRadFactor = Mathf.Sqrt(3/2);
     private int gridWidth = 2;
+    [SerializeField] int _difficulty;
+    public int Difficulty
+    {  
+        get => _difficulty;
+        set
+        {
+            _difficulty = value;
+            if (_difficulty > 0)
+            {
+                if (_difficulty == 1) dangerZone.color = new Color(dangerZone.color.r, dangerZone.color.g, dangerZone.color.b, 0.25f);
+                else if (_difficulty == 2) dangerZone.color = new Color(dangerZone.color.r, dangerZone.color.g, dangerZone.color.b, 0.35f);
+                else dangerZone.color = new Color(dangerZone.color.r, dangerZone.color.g, dangerZone.color.b, 0.50f);
+                dangerZone.gameObject.SetActive(true);
+            }
+            else
+            {
+                dangerZone.gameObject.SetActive(false);
+            }
+        }
+    }
     Color tempColor;
 
     public List<Encounter> encounters;

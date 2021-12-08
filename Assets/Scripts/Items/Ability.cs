@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+public enum AbilityType
+{
+    None,
+    Minor,
+    Major
+}
 public class Ability : Item, IEventSubscriber, IToolTipable
 {
     bool _usable;
     public ConditionCounting abilityCondition;
-    AbilityData _abilityData;
+    public AbilityData abilityData;
     public TMP_Text counterText; 
     public int id;
     public Image image;
@@ -15,15 +22,8 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     public Transform tooltipAnchor;
     bool initialized;
     int _charges;
-    public AbilityData abilityData 
-    {
-        get => _abilityData;
-        set 
-        {
-            _abilityData = value;
-            BindData();
-        }
-    }
+    static float width = 100;
+    public AbilityType abilityType;
     public int charges
     { 
         get => _charges; 
@@ -75,22 +75,17 @@ public class Ability : Item, IEventSubscriber, IToolTipable
         Destroy(gameObject);
     }
 
-    public void ConditionPass()
-    {
-
-    }
-
     public void CheckAbilityUseCondition(WorldState state)
     {
         usable = (abilityData.statesUsable.Contains(state) && charges > 0);
     }
 
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(tooltipAnchor.transform.position);
         string desc = string.Format("<b>" + abilityData.itemName + "</b>\n" + abilityData.description);
         string condition = abilityCondition.GetDescription(false);
-        return (new List<string>{desc, condition} , pos);
+        return (new List<string>{desc, condition} , pos, width);
     }
 
     public void Subscribe()

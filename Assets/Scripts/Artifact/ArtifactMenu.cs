@@ -29,7 +29,7 @@ public class ArtifactMenu : MonoBehaviour
 
     public Artifact AddUIArtifact(ArtifactData artifactData)
     {
-        Debug.Log("Adding artifact!");
+        Debug.Log(string.Format("Adding artifact: {0}", artifactData.itemName));
         Artifact artifact = Instantiate(artifactUIPrefab, artifactContent).GetComponent<Artifact>();
         artifact.BindData(artifactData);
         artifact.gameObject.name = artifactData.itemName;

@@ -39,7 +39,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -33.41408, y: -55.28319}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 281.2128, y: 390.9217}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6439972570343669351
@@ -121,7 +121,7 @@ MonoBehaviour:
   border: {fileID: 7695902140003894457}
   cardBackground: {fileID: 7782639723755105423}
   rarityBorder: {fileID: 1349982126223333926}
-  TooltipAnchor: {fileID: 5262464430781879494}
+  TooltipAnchor: {fileID: 8638292322401667681}
   toolTipTextBits: []
   cardPrefab: {fileID: 0}
   permanentUpgrade: 0
@@ -282,6 +282,14 @@ PrefabInstance:
 
         <sprite
         name="Cursed"> Deal  <color=#000000>6</color> <sprite name="Attack"> Damage '
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566733967387714375, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1566733967387714375, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1577957614717447408, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
       propertyPath: m_Pivot.x
@@ -482,11 +490,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 125758978592051456, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &5262464430781879494 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1566733967387714375, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
-  m_PrefabInstance: {fileID: 6680579575582242689}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6687956497259364566 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 28793209163757399, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
@@ -501,5 +504,10 @@ MonoBehaviour:
 --- !u!224 &3706565610332188154 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8054250819107183227, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
+  m_PrefabInstance: {fileID: 6680579575582242689}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &8638292322401667681 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3123051332600298976, guid: 34c29c0e013aae54fb005801f815887d, type: 3}
   m_PrefabInstance: {fileID: 6680579575582242689}
   m_PrefabAsset: {fileID: 0}

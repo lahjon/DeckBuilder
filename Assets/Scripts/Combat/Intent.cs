@@ -31,9 +31,9 @@ public class Intent : MonoBehaviour, IToolTipable
         myTween?.Kill();
         rect.anchoredPosition = new Vector2(0, startOffset);
     }
-    public (List<string> tips, Vector3 worldPosition) GetTipInfo()
+    public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(toolTipAnchor.position);
-        return (new List<string>() {tooltipDescription}, pos);
+        return (new List<string>() {tooltipDescription}, pos, 50);
     }
 }
