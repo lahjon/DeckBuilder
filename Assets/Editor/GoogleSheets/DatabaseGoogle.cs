@@ -1126,7 +1126,6 @@ public class DatabaseGoogle
             data.itemEffectStruct.type = ((string)gt[i, "EffectType"]).ToEnum<ItemEffectType>();
             data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
             data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
-            data.itemEffectStruct.addImmediately = (string)gt[i, "EffectAddImmediately"] == "TRUE";
             data.type = ((string)gt[i, "Type"]).ToEnum<ArtifactType>();
 
             data.condition = new ConditionData();

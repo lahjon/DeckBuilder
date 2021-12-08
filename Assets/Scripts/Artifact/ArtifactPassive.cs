@@ -9,7 +9,9 @@ public class ArtifactPassive : Artifact
 {
     public override void BindData(ArtifactData anArtifactData)
     {
+        if (anArtifactData is null) return;
         base.BindData(anArtifactData);
+        itemEffect.itemEffectStruct.addImmediately = true;
         itemEffect.Register();
     }
 }

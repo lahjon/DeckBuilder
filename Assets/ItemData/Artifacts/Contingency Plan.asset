@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af4f463819841664b9c993d594b0265d, type: 3}
-  m_Name: Transforming Orb I
+  m_Name: Contingency Plan
   m_EditorClassIdentifier: 
-  itemName: Transforming Orb
-  itemId: 9
-  artwork: {fileID: 21300000, guid: 320b7bd5a615de64eaf395251dac6329, type: 3}
-  description: 
+  itemName: Emergency Scroll
+  itemId: 17
+  artwork: {fileID: 0}
+  description: If you have less than 30% life, draw two additonal cards each turn.
   rarity: 12
   itemEffectStruct:
-    type: 4
-    parameter: ModifyEnergy|Standard
+    type: 2
+    parameter: Wit
     addImmediately: 0
-    value: 1
-  type: 0
+    value: 2
+  type: 2
   goldValue: 0
   characterClassType: 0
   isBuff: 0
   condition:
-    type: 0
+    type: 1
     strParameter: 
-    numValue: 0
+    numValue: 30
     strParameters: []
   conditionCountingOnTrueType: 0
   conditionResetEvent: 0

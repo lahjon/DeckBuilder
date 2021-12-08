@@ -27,7 +27,7 @@ public class CombatSystem : MonoBehaviour
     public CombatActorType actorTurn;
     public Button companionButton;
     public List<ItemEffect> effectOnCombatStart = new List<ItemEffect>();
-    public Queue<ItemEffect> queuedEffects = new Queue<ItemEffect>();
+    Queue<ItemEffect> queuedEffects = new Queue<ItemEffect>();
 
     public CombatCardPresenter cardPresenter;
     public bool deSelectOnMouseLeave = true;
@@ -769,6 +769,21 @@ public class CombatSystem : MonoBehaviour
         Debug.Log("Clicky");
         ActiveCard.animator.SetTrigger("Confirmed");
         ActiveCard = null;
+    }
+
+    public void QueueEffect(ItemEffect effect)
+    {
+        queuedEffects.Enqueue(effect);
+        animator.SetBool("EffectsQueued", true);
+    }
+
+    public IEnumerator EmptyEffectQueue()
+    {
+        Debug.Log("Effects queued count:" + queuedEffects.Count);
+        while(queuedEffects.Count !=0)
+            yield return StartCoroutine(queuedEffects.Dequeue().RunEffectEnumerator());
+
+        animator.SetBool("EffectsQueued", false);
     }
 
     #endregion , user input

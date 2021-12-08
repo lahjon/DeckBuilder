@@ -27,6 +27,10 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
         }
 
         card.owner.CardResolved(card);
+
+        if(combat.animator.GetBool("EffectsQueued"))
+            yield return combat.StartCoroutine(combat.EmptyEffectQueue());
+
         combat.animator.SetTrigger("CardFinished");
     }
         

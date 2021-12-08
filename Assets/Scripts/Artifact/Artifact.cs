@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class Artifact : Item, IToolTipable
+public abstract class Artifact : Item, IToolTipable
 {
     public int id;
     protected Image image;
@@ -48,14 +48,11 @@ public class Artifact : Item, IToolTipable
     public virtual void BindData(ArtifactData anArtifactData)
     {   
         Initialize();
-        if (anArtifactData != null)
-        {
-            artifactData = anArtifactData;
-            image.sprite = artifactData.artwork;
-            id = artifactData.itemId;
-            itemName = anArtifactData.itemName;
-            itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
-        }
+        artifactData = anArtifactData;
+        image.sprite = artifactData.artwork;
+        id = artifactData.itemId;
+        itemName = anArtifactData.itemName;
+        itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
     }
 
     public override void NotifyUsed()

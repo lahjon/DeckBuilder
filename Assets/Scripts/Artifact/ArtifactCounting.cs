@@ -10,14 +10,14 @@ public class ArtifactCounting : Artifact
 
     public ConditionCounting condition;
     public override void BindData(ArtifactData anArtifactData)
-    {   
-        if (anArtifactData != null)
-        {
-            base.BindData(anArtifactData);
-            itemEffect.Register();
-            condition = new ConditionCounting(artifactData.condition, null, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
-            condition.Subscribe();
-        }
+    {
+        if (anArtifactData is null) return;
+        base.BindData(anArtifactData);
+        itemEffect.itemEffectStruct.addImmediately = false;
+
+        itemEffect.Register();
+        condition = new ConditionCounting(artifactData.condition, null, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
+        condition.Subscribe();
     }
 }
 

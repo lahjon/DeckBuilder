@@ -9,8 +9,8 @@ public class ItemEffectAddCombatActivity : ItemEffect
     public override void ApplyEffect()
     {
         base.ApplyEffect();
-        if (WorldSystem.instance.worldState == WorldState.Combat)
-            CombatSystem.instance.queuedEffects.Enqueue(this);
+        if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+            CombatSystem.instance.QueueEffect(this);
     }
 
     public override IEnumerator RunEffectEnumerator()
@@ -24,11 +24,9 @@ public class ItemEffectAddCombatActivity : ItemEffect
     {
         base.Register();
         string[] settings = itemEffectStruct.parameter.Split('|');
-        CardActivity = new CardActivitySetting(new CardActivityData() { type = settings[0].ToEnum<CardActivityType>(), strParameter = settings[1], val = itemEffectStruct.value });
+        CardActivity = new CardActivitySetting(new CardActivityData() { type = settings[0].ToEnum<CardActivityType>(), strParameter = settings.Length > 1 ? settings[1] : string.Empty, val = itemEffectStruct.value });
 
-        if (itemEffectStruct.addImmediately)
-            ApplyEffect();
-        else
+        if (!itemEffectStruct.addImmediately)
             CombatSystem.instance.effectOnCombatStart.Add(this);
     }
 

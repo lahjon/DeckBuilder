@@ -64,7 +64,6 @@ public class ConditionTypeInfo
 
     public static bool HealthBelowPercent(ConditionData conditionStruct)
     {
-        Debug.Log(string.Format("Checking health {0},{1}", WorldSystem.instance.characterManager.CurrentHealth, CharacterStats.Health));
         return 100*WorldSystem.instance.characterManager.CurrentHealth / CharacterStats.Health < conditionStruct.numValue;
     }
 
@@ -92,6 +91,7 @@ public enum ConditionType
     StorySegmentCompleted = 110,
     EndTurn = 111,
     SpendEnergySpecific = 112,
+    CardPlayType = 113
 }
 
 

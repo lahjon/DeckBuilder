@@ -60,6 +60,9 @@ public class EventManager : Manager
     public delegate void CardPlayEvent(Card card);
     public static event CardPlayEvent OnCardPlayEvent;
 
+    public delegate void CardPlayTypeEvent(CardType type);
+    public static event CardPlayTypeEvent OnCardPlayTypeEvent;
+
     public delegate void EnergyChangedEvent();
     public static event EnergyChangedEvent OnEnergyChangedEvent;
 
@@ -158,6 +161,7 @@ public class EventManager : Manager
     public static void CardFinished(Card card)
     {
         OnCardPlayEvent?.Invoke(card);
+        OnCardPlayTypeEvent?.Invoke(card.cardType);
         OnCardPlayNoArgEvent?.Invoke();
     }
 

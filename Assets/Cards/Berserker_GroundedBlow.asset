@@ -54,7 +54,7 @@ MonoBehaviour:
       inverseScalar: 0
     Target: 3
     conditionStruct:
-      type: 7
+      type: 4
       strParameter: Order
       numValue: 0
       strParameters: []

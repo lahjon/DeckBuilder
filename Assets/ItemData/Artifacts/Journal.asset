@@ -20,7 +20,7 @@ MonoBehaviour:
   itemEffectStruct:
     type: 2
     parameter: Wit
-    addImmediately: 1
+    addImmediately: 0
     value: 1
   type: 0
   goldValue: 0
