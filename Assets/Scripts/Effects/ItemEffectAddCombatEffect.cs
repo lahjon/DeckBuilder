@@ -7,8 +7,8 @@ public class ItemEffectAddCombatEffect : ItemEffect
     public override void ApplyEffect()
     {
         base.ApplyEffect();
-        if (itemEffectStruct.addImmediately)
-            CombatSystem.instance.StartCoroutine(RunEffectEnumerator());
+        if (WorldSystem.instance.worldState == WorldState.Combat)
+            CombatSystem.instance.queuedEffects.Enqueue(this);
     }
 
     public override IEnumerator RunEffectEnumerator()

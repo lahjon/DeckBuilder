@@ -22,10 +22,11 @@ MonoBehaviour:
     parameter: Thorns
     addImmediately: 0
     value: 3
+  type: 0
   goldValue: 0
   characterClassType: 0
   isBuff: 0
-  conditionCounting:
+  condition:
     type: 0
     strParameter: 
     numValue: 0

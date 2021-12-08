@@ -33,6 +33,9 @@ public class EventManager : Manager
     public delegate void HealthChangedEvent(int amount);
     public static event HealthChangedEvent OnHealthChangedEvent;
 
+    public delegate void HealthChangedEventNoArg();
+    public static event HealthChangedEventNoArg OnHealthChangedEventnoArg;
+
     public delegate void CompleteSpecialEventEvent(int eventId);
     public static event CompleteSpecialEventEvent OnCompleteSpecialEventEvent;
 
@@ -147,7 +150,9 @@ public class EventManager : Manager
 
     public static void HealthChanged(int amount)
     {
+        Debug.Log("Event HealthChanged");
         OnHealthChangedEvent?.Invoke(amount);
+        OnHealthChangedEventnoArg?.Invoke();
     }
 
     public static void CardFinished(Card card)

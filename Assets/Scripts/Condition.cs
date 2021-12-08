@@ -80,6 +80,9 @@ public class Condition : IEventSubscriber
             case ConditionType.SpendEnergySpecific:
                 EventManager.OnEnergyInfoChangedEvent += OnEventNotification;
                 break;
+            case ConditionType.HealthPercentLessThan:
+                EventManager.OnHealthChangedEventnoArg += OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -121,6 +124,9 @@ public class Condition : IEventSubscriber
             case ConditionType.SpendEnergySpecific:
                 EventManager.OnEnergyInfoChangedEvent -= OnEventNotification;
                 break;
+            case ConditionType.HealthPercentLessThan:
+                EventManager.OnHealthChangedEventnoArg -= OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -129,7 +135,7 @@ public class Condition : IEventSubscriber
     {
         if (ConditionEvaluator == null) return;
         bool oldVal = value;
-        value = ConditionEvaluator(conditionData);
+        value = ConditionEvaluator.Invoke(conditionData);
 
         OnPreConditionUpdate?.Invoke();
 

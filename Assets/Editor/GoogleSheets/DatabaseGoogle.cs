@@ -1127,11 +1127,12 @@ public class DatabaseGoogle
             data.itemEffectStruct.parameter = (string)gt[i, "EffectParameter"];
             data.itemEffectStruct.value = ((string)gt[i, "EffectValue"]).ToInt();
             data.itemEffectStruct.addImmediately = (string)gt[i, "EffectAddImmediately"] == "TRUE";
+            data.type = ((string)gt[i, "Type"]).ToEnum<ArtifactType>();
 
-            data.conditionCounting = new ConditionData();
-            data.conditionCounting.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
-            data.conditionCounting.strParameter = ((string)gt[i, "ConditionStrParam"]);
-            data.conditionCounting.numValue = ((string)gt[i, "ConditionValue"]).ToInt();
+            data.condition = new ConditionData();
+            data.condition.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
+            data.condition.strParameter = ((string)gt[i, "ConditionStrParam"]);
+            data.condition.numValue = ((string)gt[i, "ConditionValue"]).ToInt();
             data.conditionResetEvent = ((string)gt[i, "ConditionReset"]).ToEnum<ConditionType>();
             data.conditionCountingOnTrueType = ((string)gt[i, "OnConditionTrueType"]).ToEnum<ConditionCountingOnTrueType>();
 

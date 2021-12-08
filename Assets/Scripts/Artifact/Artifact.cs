@@ -15,8 +15,6 @@ public class Artifact : Item, IToolTipable
     public ArtifactData artifactData;
     Tween tween;
 
-    public ConditionCounting condition;
-
     protected void Awake()
     {
         Initialize();
@@ -57,8 +55,6 @@ public class Artifact : Item, IToolTipable
             id = artifactData.itemId;
             itemName = anArtifactData.itemName;
             itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
-            condition = new ConditionCounting(artifactData.conditionCounting, null, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
-            condition.Subscribe();
         }
     }
 
@@ -67,5 +63,11 @@ public class Artifact : Item, IToolTipable
         if (tween != null) tween.Kill();
         tween = transform.DOScale(1.2f * Vector3.one, .3f).SetLoops(2, LoopType.Yoyo).OnKill(() => transform.localScale = Vector3.one);
     }
+}
+
+public enum ArtifactType{
+    Passive,
+    Counting,
+    ConditionalPassive
 }
 
