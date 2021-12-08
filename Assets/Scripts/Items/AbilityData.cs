@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AbilityData : ItemData
 {
     public ConditionData itemCondition;
+    public AbilityType abilityType;
     public List<WorldState> statesUsable = new List<WorldState>();
 
 }

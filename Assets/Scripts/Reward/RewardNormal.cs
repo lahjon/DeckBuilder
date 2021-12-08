@@ -82,11 +82,11 @@ public class RewardNormal : Reward
             Debug.LogWarning("No Item found!");
             return;
         }
-        if (WorldSystem.instance.abilityManager.currentAbilities.Select(x => x.id).Contains(itemData.itemId))
-        {
-            Debug.LogWarning("Already have that item!");
-            return;
-        }
+        // if (WorldSystem.instance.abilityManager.currentAbilities.Select(x => x.id).Contains(itemData.itemId))
+        // {
+        //     Debug.LogWarning("Already have that item!");
+        //     return;
+        // }
 
         rewardText.text = itemData.itemName;
         image.sprite = itemData.artwork;

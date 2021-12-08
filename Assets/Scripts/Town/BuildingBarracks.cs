@@ -134,17 +134,16 @@ public class BuildingBarracks : Building
                 currentSelectedCharacter = aCharacter;
         }
 
-        selectedAbilities = WorldSystem.instance.abilityManager.currentAbilities;
         selectedProfession.BindData(DatabaseSystem.instance.professionDatas.FirstOrDefault(x => x.professionType == WorldSystem.instance.characterManager.professionType));
 
-        abilities.ForEach(x => x.gameObject.SetActive(false));
-        for (int i = 0; i < selectedAbilities.Count; i++)
-        {
-            Debug.Log(selectedAbilities[i]);
-            abilities[i].gameObject.SetActive(true);
-            abilities[i] = selectedAbilities[i];
-            abilities[i].BindData(false);
-        }
+        // selectedAbilities = WorldSystem.instance.abilityManager.currentAbilities;
+        // abilities.ForEach(x => x.gameObject.SetActive(false));
+        // for (int i = 0; i < selectedAbilities.Count; i++)
+        // {
+        //     abilities[i].gameObject.SetActive(true);
+        //     abilities[i] = selectedAbilities[i];
+        //     abilities[i].BindData();
+        // }
     }
 
     void UpdateProfessions()

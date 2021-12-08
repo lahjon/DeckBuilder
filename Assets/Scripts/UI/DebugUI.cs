@@ -196,7 +196,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugRemoveRandomItem()
     {
-        world.abilityManager.RemoveAbility();
+        //world.abilityManager.RemoveAbility();
     }
 
     public void DebugUnlockCardInScribe()

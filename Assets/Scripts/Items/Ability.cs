@@ -44,35 +44,32 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     }
     void Initialize()
     {
-        if (!initialized)
-        {
-            image = GetComponent<Image>();
-            button = GetComponent<Button>();
-            initialized = true;   
-        }
+        image = GetComponent<Image>();
+        button = GetComponent<Button>();
+        initialized = true;   
+        gameObject.SetActive(true);
     }
 
-    public void BindData(bool allData = true)
+    public void BindData(AbilityData data)
     {
-        if (abilityData == null) return;
-        Initialize();
+        if (data == null) return;
+        if (initialized) RemoveAbility();
+        else Initialize();
+
+        abilityData = data;
         
         image.sprite = abilityData.artwork;
-        if (allData)
-        {
-            itemEffect = ItemEffect.Factory(abilityData.itemEffectStruct, this);
-            abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
-            abilityCondition.Subscribe();
-            charges = 1;
-            Subscribe();
-        }
+        itemEffect = ItemEffect.Factory(abilityData.itemEffectStruct, this);
+        abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
+        abilityCondition.Subscribe();
+        charges = 1;
+        Subscribe();
+        
     }
     public void RemoveAbility()
     {
-        WorldSystem.instance.abilityManager.usedAbilitySlots--;
         abilityCondition.Unsubscribe();
         Unsubscribe();
-        Destroy(gameObject);
     }
 
     public void CheckAbilityUseCondition(WorldState state)
