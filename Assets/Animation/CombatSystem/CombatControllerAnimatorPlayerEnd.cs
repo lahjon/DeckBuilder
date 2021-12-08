@@ -22,6 +22,8 @@ public class CombatControllerAnimatorPlayerEnd : CombatControllerAnimator
         combat.EndTurn();
         yield return new WaitForSeconds(0.05f);
 
+        if (combat.animator.GetBool("EffectsQueued"))
+            yield return combat.StartCoroutine(combat.EmptyEffectQueue());
 
         combat.enemiesWaiting.Clear();
         combat.EnemiesInScene.ForEach(x => combat.enemiesWaiting.Enqueue(x));

@@ -22,11 +22,12 @@ MonoBehaviour:
     parameter: 
     addImmediately: 0
     value: 2
+  type: 1
   goldValue: 0
   characterClassType: 1
   isBuff: 0
-  conditionCounting:
-    type: 16
+  condition:
+    type: 112
     strParameter: Rage
     numValue: 1
     strParameters: []

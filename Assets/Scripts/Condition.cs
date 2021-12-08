@@ -80,6 +80,12 @@ public class Condition : IEventSubscriber
             case ConditionType.SpendEnergySpecific:
                 EventManager.OnEnergyInfoChangedEvent += OnEventNotification;
                 break;
+            case ConditionType.HealthPercentLessThan:
+                EventManager.OnHealthChangedEventnoArg += OnEventNotification;
+                break;
+            case ConditionType.CardPlayType:
+                EventManager.OnCardPlayTypeEvent += OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -121,6 +127,12 @@ public class Condition : IEventSubscriber
             case ConditionType.SpendEnergySpecific:
                 EventManager.OnEnergyInfoChangedEvent -= OnEventNotification;
                 break;
+            case ConditionType.HealthPercentLessThan:
+                EventManager.OnHealthChangedEventnoArg -= OnEventNotification;
+                break;
+            case ConditionType.CardPlayType:
+                EventManager.OnCardPlayTypeEvent -= OnEventNotification;
+                break;
             default:
                 break;
         }
@@ -129,7 +141,7 @@ public class Condition : IEventSubscriber
     {
         if (ConditionEvaluator == null) return;
         bool oldVal = value;
-        value = ConditionEvaluator(conditionData);
+        value = ConditionEvaluator.Invoke(conditionData);
 
         OnPreConditionUpdate?.Invoke();
 
@@ -164,6 +176,12 @@ public class Condition : IEventSubscriber
     public void OnEventNotification(BuildingType buildingType)
     {
         if (string.IsNullOrEmpty(conditionData.strParameter) || buildingType.ToString() == conditionData.strParameter)
+            OnEventNotification();
+    }
+
+    public void OnEventNotification(CardType cardType)
+    {
+        if (conditionData.strParameter == cardType.ToString())
             OnEventNotification();
     }
 

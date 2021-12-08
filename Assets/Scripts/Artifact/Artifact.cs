@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class Artifact : Item, IToolTipable
+public abstract class Artifact : Item, IToolTipable
 {
     public int id;
     protected Image image;
@@ -15,8 +15,6 @@ public class Artifact : Item, IToolTipable
     public ArtifactData artifactData;
     Tween tween;
     static float width = 40;
-
-    public ConditionCounting condition;
 
     protected void Awake()
     {
@@ -51,16 +49,11 @@ public class Artifact : Item, IToolTipable
     public virtual void BindData(ArtifactData anArtifactData)
     {   
         Initialize();
-        if (anArtifactData != null)
-        {
-            artifactData = anArtifactData;
-            image.sprite = artifactData.artwork;
-            id = artifactData.itemId;
-            itemName = anArtifactData.itemName;
-            itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
-            condition = new ConditionCounting(artifactData.conditionCounting, null, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
-            condition.Subscribe();
-        }
+        artifactData = anArtifactData;
+        image.sprite = artifactData.artwork;
+        id = artifactData.itemId;
+        itemName = anArtifactData.itemName;
+        itemEffect = ItemEffect.Factory(artifactData.itemEffectStruct, this);
     }
 
     public override void NotifyUsed()
@@ -68,5 +61,11 @@ public class Artifact : Item, IToolTipable
         if (tween != null) tween.Kill();
         tween = transform.DOScale(1.2f * Vector3.one, .3f).SetLoops(2, LoopType.Yoyo).OnKill(() => transform.localScale = Vector3.one);
     }
+}
+
+public enum ArtifactType{
+    Passive,
+    Counting,
+    ConditionalPassive
 }
 

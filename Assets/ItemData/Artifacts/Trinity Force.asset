@@ -20,12 +20,13 @@ MonoBehaviour:
   itemEffectStruct:
     type: 7
     parameter: 1;2;3
-    addImmediately: 1
+    addImmediately: 0
     value: 1
+  type: 0
   goldValue: 0
   characterClassType: 0
   isBuff: 0
-  conditionCounting:
+  condition:
     type: 0
     strParameter: 
     numValue: 0

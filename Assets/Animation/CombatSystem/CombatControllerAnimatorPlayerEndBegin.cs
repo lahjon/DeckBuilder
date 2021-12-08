@@ -24,6 +24,7 @@ public class CombatControllerAnimatorPlayerEndBegin : CombatControllerAnimator
 
         combat.animator.SetBool("CardsQueued", combat.CardQueue.Count != 0);
         combat.animator.SetTrigger("PlayerTurnEnded");
+
     }
 
 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ArtifactMenu : MonoBehaviour
 {
     public List<Artifact> allUIArtifacts = new List<Artifact>();
-    public GameObject artifactUIPrefab;
+    public List<GameObject> artifactUIPrefabs;
     public Transform artifactContent;
     public Canvas canvas;
 
@@ -30,7 +30,7 @@ public class ArtifactMenu : MonoBehaviour
     public Artifact AddUIArtifact(ArtifactData artifactData)
     {
         Debug.Log(string.Format("Adding artifact: {0}", artifactData.itemName));
-        Artifact artifact = Instantiate(artifactUIPrefab, artifactContent).GetComponent<Artifact>();
+        Artifact artifact = Instantiate(artifactUIPrefabs[(int)artifactData.type], artifactContent).GetComponent<Artifact>();
         artifact.BindData(artifactData);
         artifact.gameObject.name = artifactData.itemName;
         allUIArtifacts.Add(artifact);

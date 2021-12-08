@@ -46,11 +46,11 @@ GameObject:
   - component: {fileID: 5509232008216800760}
   - component: {fileID: 5476099969056252354}
   - component: {fileID: 6765568079925392776}
-  - component: {fileID: 1833046960561614783}
   - component: {fileID: 4681029210955590777}
   - component: {fileID: 7591755236973656701}
+  - component: {fileID: -2433765114547714347}
   m_Layer: 0
-  m_Name: Artifact
+  m_Name: ArtifactConditionalPassive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,3 +188,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-2433765114547714347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5848172435122048814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5e5564445f8a144b5b8cb1f781c572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: 
+  id: 0
+  button: {fileID: 0}
+  tooltipAnchor: {fileID: 0}
+  artifactData: {fileID: 0}

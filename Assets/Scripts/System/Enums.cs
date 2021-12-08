@@ -280,6 +280,8 @@ public enum ModifierType
 
 public enum WorldState
 {
+    None,
+    All,
     MainMenu,
     OverworldEvent,
     OverworldBonfire,

@@ -60,7 +60,7 @@ MonoBehaviour:
       inverseScalar: 0
     Target: 0
     conditionStruct:
-      type: 14
+      type: 5
       strParameter: 
       numValue: 0
       strParameters: []

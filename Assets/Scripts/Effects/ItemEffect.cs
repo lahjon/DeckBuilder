@@ -8,6 +8,7 @@ public abstract class ItemEffect
     public WorldSystem world;  
     public IEffectAdder effectAdder;
     public ItemEffectStruct itemEffectStruct;
+
     public virtual void ApplyEffect()
     {
 
@@ -16,6 +17,7 @@ public abstract class ItemEffect
     public virtual void Register()
     {
         effectAdder.NotifyUsed();
+        Debug.Log("Registering effect from source " + effectAdder.GetName());
     }
 
     public virtual void DeRegister()
@@ -38,7 +40,6 @@ public abstract class ItemEffect
             itemEffect.world = WorldSystem.instance;
             itemEffect.effectAdder = itemEffectAdder;
             itemEffect.itemEffectStruct = itemEffectStruct;
-            itemEffect.Register();
             return itemEffect;
         }
         return null;
@@ -53,6 +54,7 @@ public struct ItemEffectStruct
     public string parameter;
     public bool addImmediately;
     public int value;
+
     public ItemEffectStruct(ItemEffectType aType, string aParm, int aValue, bool anInstant)
     {
         type = aType;

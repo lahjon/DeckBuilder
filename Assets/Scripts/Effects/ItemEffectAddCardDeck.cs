@@ -18,7 +18,7 @@ public class ItemEffectAddCardDeck : ItemEffect
     public override void DeRegister()
     {
         base.DeRegister();
-        
+        //Borde inte kunna bli av med korten?
     }
 
 }

@@ -4,26 +4,30 @@ using UnityEngine;
 
 public class ItemEffectAddCombatEffect : ItemEffect
 {
-    public override void ApplyEffect()
-    {
-        base.ApplyEffect();
-        if (itemEffectStruct.addImmediately)
-            CombatSystem.instance.StartCoroutine(RunEffectEnumerator());
-    }
+    CardEffectCarrier effect;
+    CardEffectCarrier effectReversed;
+
+    Queue<CardEffectCarrier> effectQueue = new Queue<CardEffectCarrier>();
 
     public override IEnumerator RunEffectEnumerator()
     {
         effectAdder.NotifyUsed();
-        yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value)));
+        yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(effectQueue.Dequeue()));
     }
 
     public override void Register()
     {
-        base.Register();
-        if (itemEffectStruct.addImmediately)
-            ApplyEffect();
-        else
+        //base.Register(); No, we want to trigger icon when effect is resolved;
+        if(effect == null) effect = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value);
+        if (effect == null) effectReversed = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), -itemEffectStruct.value);
+        if (!itemEffectStruct.addImmediately)
             CombatSystem.instance.effectOnCombatStart.Add(this);
+
+        if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+        {
+            effectQueue.Enqueue(effect);
+            CombatSystem.instance.QueueEffect(this);
+        }
     }
 
     public override void DeRegister()
@@ -32,5 +36,10 @@ public class ItemEffectAddCombatEffect : ItemEffect
         if (!itemEffectStruct.addImmediately)
             CombatSystem.instance.effectOnCombatStart.Remove(this);
 
+        if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
+        {
+            effectQueue.Enqueue(effectReversed);
+            CombatSystem.instance.QueueEffect(this);
+        }
     }
 }
