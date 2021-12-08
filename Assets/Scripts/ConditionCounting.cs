@@ -5,16 +5,30 @@ using System;
 
 public class ConditionCounting : Condition
 {
-    public int currentAmount = 0;
+    private int _currentAmount = 0;
+
+    public int currentAmount
+    {
+        get => _currentAmount;
+        set
+        {
+            _currentAmount = value;
+            onCurrentAmountChanged?.Invoke();
+        }
+    }
+
     public ConditionCountingOnTrueType onTrueType;
     public ConditionType resetConditionType;
+
+    public Action onCurrentAmountChanged;
  
     public int requiredAmount => conditionData.numValue;
 
-    public ConditionCounting(ConditionData conditionData, Action OnPreConditionUpdate, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None) 
-        : base(conditionData,OnPreConditionUpdate, null, OnConditionFlipTrue)
+    public ConditionCounting(ConditionData conditionData, Action onCurrentAmountChanged, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None) 
+        : base(conditionData,null, null, OnConditionFlipTrue)
     {
         ConditionEvaluator = GreaterThanComparer;
+        this.onCurrentAmountChanged = onCurrentAmountChanged;
         this.resetConditionType = resetCondition;
         this.onTrueType = onTrueType;
     }
@@ -58,6 +72,12 @@ public class ConditionCounting : Condition
     {
         base.Subscribe();
         SubscribeResetEvent();
+    }
+
+    public override void Unsubscribe()
+    {
+        base.Unsubscribe();
+        UnsubscribeResetEvent();
     }
 
     private void SubscribeResetEvent()

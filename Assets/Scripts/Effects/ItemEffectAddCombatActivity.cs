@@ -16,7 +16,6 @@ public class ItemEffectAddCombatActivity : ItemEffect
     public override IEnumerator RunEffectEnumerator()
     {
         effectAdder.NotifyUsed();
-
         yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(CardActivity));
     }
 
