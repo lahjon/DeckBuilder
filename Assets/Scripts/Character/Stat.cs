@@ -6,7 +6,10 @@ using System.Linq;
 [System.Serializable]
 public class Stat
 {
-    public static implicit operator int(Stat s) => s.value;
+    public static implicit operator int(Stat s) 
+    {
+        return s.value;
+    }
     public Stat() { }
     
     public Stat(StatType aType, bool aVisible)
@@ -19,6 +22,12 @@ public class Stat
     public int value;
     public bool visible;
     public StatType type;
+
+    public int GetStatAndNotify()
+    {
+        statModifers.ForEach(x => x.effectAdder.NotifyUsed());
+        return value;
+    }
 
     public virtual void AddStatModifier(ItemEffectAddStat statModifer)
     {

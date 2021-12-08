@@ -54,6 +54,7 @@ public class DisplayCardManager : Manager
             cardDisplay.cardData = card;
             cardDisplay.BindCardData();
             cardDisplay.BindCardVisualData();
+            cardDisplay.allowDisplay = false;
             if ((int)card.cardClass < 5)
             {
                 cardDisplay.OnClick = () =>  {

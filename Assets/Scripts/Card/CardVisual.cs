@@ -300,7 +300,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         return;
     }
 
-    public virtual void OnMouseRightClick(bool allowDisplay = true)
+    public virtual void OnMouseRightClick()
     {
         return;
     }

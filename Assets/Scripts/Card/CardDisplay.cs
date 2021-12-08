@@ -11,7 +11,8 @@ public class CardDisplay : CardVisual
     public ShopCost shopCost;
     Tween tween;
     public GameObject nonSelectableImage;
-    public bool _selectable;
+    public bool allowDisplay = true;
+    [SerializeField] bool _selectable;
     public bool selectable
     {
         get => _selectable;
@@ -48,6 +49,11 @@ public class CardDisplay : CardVisual
             }
         }
     }
+
+    // void Start()
+    // {
+    //     allowDisplay = true;
+    // }
 
     void OnEnable()
     {
@@ -143,9 +149,12 @@ public class CardDisplay : CardVisual
         animateCard.gameObject.SetActive(false);
     }
 
-    public override void OnMouseRightClick(bool allowDisplay = true)
+    public override void OnMouseRightClick()
     {
-        WorldSystem.instance.deckDisplayManager.DisplayCard(this);
+        Debug.Log("Displatme1");
+        if (allowDisplay)
+            WorldSystem.instance.deckDisplayManager.DisplayCard(this);
+
     }
 
 
