@@ -24,6 +24,7 @@ MonoBehaviour:
     value: 2
   goldValue: 0
   characterClassType: 0
+  isBuff: 0
   conditionCounting:
     type: 1
     strParameter: 

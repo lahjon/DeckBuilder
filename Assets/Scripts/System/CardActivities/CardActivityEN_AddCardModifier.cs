@@ -41,8 +41,8 @@ public class CardActivityEN_AddCardModifier : CardActivity
 
             foreach (CardCombat card in chosenCards)
             {
-                CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
-                if (addingComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
+                CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == modId).FirstOrDefault();
+                if (addingComponent == null) Debug.Log("No cardmodder with id " + modId);
                 else
                 {
                     for (int i = 0; i < data.val - 1; i++)
@@ -52,7 +52,7 @@ public class CardActivityEN_AddCardModifier : CardActivity
                 card.SetManualToolTip(toolTip);
             }
 
-            yield return null;
+            yield return new WaitForSeconds(0.4f);
         }
     }
 

@@ -198,7 +198,6 @@ public class CombatSystem : MonoBehaviour
         {
             instance = this;
             EventManager.OnDeckCountChangeEvent += UpdateDeckTexts;
-            deckData = WorldSystem.instance.characterManager.deck.ToList();
         }
         else
         {

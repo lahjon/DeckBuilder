@@ -19,11 +19,12 @@ MonoBehaviour:
   rarity: 12
   itemEffectStruct:
     type: 4
-    parameter: AddCardModifier|-1_4
+    parameter: AddCardModifier|2:-1_4
     addImmediately: 0
     value: 2
   goldValue: 0
   characterClassType: 0
+  isBuff: 0
   conditionCounting:
     type: 0
     strParameter: 

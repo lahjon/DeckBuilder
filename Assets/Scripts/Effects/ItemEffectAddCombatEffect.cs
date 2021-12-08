@@ -14,8 +14,7 @@ public class ItemEffectAddCombatEffect : ItemEffect
     public override IEnumerator RunEffectEnumerator()
     {
         effectAdder.NotifyUsed();
-        CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value)));
-        yield return null;
+        yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value)));
     }
 
     public override void Register()

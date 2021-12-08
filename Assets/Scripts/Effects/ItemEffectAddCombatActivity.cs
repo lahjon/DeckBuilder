@@ -17,8 +17,7 @@ public class ItemEffectAddCombatActivity : ItemEffect
     {
         effectAdder.NotifyUsed();
 
-        CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(CardActivity));
-        yield return null;
+        yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(CardActivity));
     }
 
     public override void Register()

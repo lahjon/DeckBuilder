@@ -258,6 +258,7 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
     protected void SetToolTips()
     {
         toolTipTextBits.Clear();
+        toolTipTextBits.AddRange(manualToolTips);
         for (int i = 0; i < cardTextElements.Count; i++)
         {
             string element = cardTextElements[i].GetElementToolTip();

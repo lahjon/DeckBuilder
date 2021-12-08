@@ -103,9 +103,9 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 4
-    m_Scale: 1
-    m_Name: IconografiSheet_4
-    m_HashCode: -1387800357
+    m_Scale: 1.2
+    m_Name: Blessed
+    m_HashCode: -694841654
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 5
@@ -183,8 +183,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 100
       m_Height: 100
-      m_HorizontalBearingX: -50
-      m_HorizontalBearingY: 50
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 100
     m_GlyphRect:
       m_X: 0

@@ -20,7 +20,7 @@ MonoBehaviour:
   activities:
   - type: 6
     strParameter: 
-    val: 2
+    val: 1
     conditionStruct:
       type: 0
       strParameter: 

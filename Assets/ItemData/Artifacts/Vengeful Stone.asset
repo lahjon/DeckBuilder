@@ -24,6 +24,7 @@ MonoBehaviour:
     value: 2
   goldValue: 0
   characterClassType: 1
+  isBuff: 0
   conditionCounting:
     type: 16
     strParameter: Rage

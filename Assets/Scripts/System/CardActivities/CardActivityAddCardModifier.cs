@@ -10,12 +10,14 @@ public class CardActivityAddCardModifier : CardActivity
     public override IEnumerator Execute(CardActivitySetting data)
     {
         CombatActor Hero = CombatSystem.instance.Hero;
-        if (!(Hero.deck.Count == 0 && Hero.discard.Count == 0))
+        if (Hero.deck.Count == 0 && Hero.discard.Count == 0)
+            Debug.LogWarning("No cards to bless!");
+        else
         {
             int nrCards;
             string modId;
 
-            if (data.strParameter.Contains(":"))
+            if (data.strParameter.Contains(':'))
             {
                 string[] input = data.strParameter.Split(':');
                 nrCards = input[0].ToInt();
@@ -41,18 +43,18 @@ public class CardActivityAddCardModifier : CardActivity
 
             foreach(CardCombat card in chosenCards)
             {
-                CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == data.strParameter).FirstOrDefault();
-                if (addingComponent == null) Debug.Log("No cardmodder with id " + data.strParameter);
+                CardFunctionalityData addingComponent = DatabaseSystem.instance.cardModifiers.Where(x => x.id == modId).FirstOrDefault();
+                if (addingComponent == null) Debug.Log("No cardmodder with id " + modId);
                 else
                 {
                     for(int i = 0; i < data.val-1;i++)
                         card.AddModifierToCard(addingComponent, ModifierType.Blessed, true);
                     card.AddModifierToCard(addingComponent, ModifierType.Blessed);
+                    card.SetManualToolTip(toolTip);
                 }
-                card.SetManualToolTip(toolTip);
             }
 
-            yield return null;
+            yield return new WaitForSeconds(0.4f);
         }
     }
 
