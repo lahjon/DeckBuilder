@@ -10,7 +10,7 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
 {
     internal Card card; 
 
-    public EffectTypeInfo Type;
+    public StatusEffectTypeInfo Type;
 
     public CardInt Value;
     public CardInt Times;
@@ -24,21 +24,21 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
 
     public CardEffectCarrier() { }
 
-    public CardEffectCarrier(EffectType type, int value, int times = 1, CardTargetType target = CardTargetType.EnemySingle, Card card = null)
+    public CardEffectCarrier(StatusEffectType type, int value, int times = 1, CardTargetType target = CardTargetType.EnemySingle, Card card = null)
     {
         this.card = card;
-        Type = EffectTypeInfo.GetEffectTypeInfo(type);
+        Type = StatusEffectTypeInfo.GetEffectTypeInfo(type);
         Value = new CardInt(value);
         Times = new CardInt(times);
         Target = target;
         condition = new Condition();
-        if (Type.Equals(EffectType.Damage)) RegisterDamageComponent();
+        if (Type.Equals(StatusEffectType.Damage)) RegisterDamageComponent();
     }
 
     public CardEffectCarrier(CardEffectCarrierData data, Card card, Action OnConditionFlip = null)
     {
         this.card = card;
-        Type = EffectTypeInfo.GetEffectTypeInfo(data.Type);
+        Type = StatusEffectTypeInfo.GetEffectTypeInfo(data.Type);
         Value = CardInt.Factory(data.Value,card, ForceTextRefresh);
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;
@@ -51,7 +51,7 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
             card.registeredSubscribers.Add(condition);
         }
 
-        if (Type.effectType == EffectType.Damage) RegisterDamageComponent();
+        if (Type.type == StatusEffectType.Damage) RegisterDamageComponent();
     }
 
     public void RegisterDamageComponent()
@@ -102,7 +102,7 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
         sb.Append(Type.verb);
         sb.Append(" ");
 
-        if (Type.Equals(EffectType.Damage))
+        if (Type.Equals(StatusEffectType.Damage))
         {
             if (Value is CardIntLinkedProperty cip)
                 sb.Append(cip.GetTextForValue());
@@ -150,7 +150,7 @@ public class CardEffectCarrier: ICardTextElement, ICardUpgradableComponent
             return null;
         }
 
-        return new CardEffectCarrier(a.Type.effectType, 
+        return new CardEffectCarrier(a.Type.type, 
                                   a.Value * a.Times + b.Value * b.Times, 
                                   1, 
                                   (CardTargetType)Mathf.Max((int)a.Target, (int)b.Target)

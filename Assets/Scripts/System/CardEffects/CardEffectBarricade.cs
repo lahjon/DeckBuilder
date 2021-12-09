@@ -6,7 +6,6 @@ using UnityEngine;
 public class CardEffectBarricade : CardEffect
 {
     Func<IEnumerator> stolenFunction;
-    public override bool isBuff { get { return true; } }
     public override bool stackable { get { return false; } }
 
     public CardEffectBarricade() : base()

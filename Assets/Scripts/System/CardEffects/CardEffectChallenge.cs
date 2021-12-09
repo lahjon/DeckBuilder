@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CardEffectChallenge : CardEffect
 {
-    public override bool isBuff { get { return false; } }
     public override bool triggerRecalcDamageSelf { get { return true; } }
 
     public List<CombatActor> challengedActors = new List<CombatActor>();
@@ -29,9 +28,9 @@ public class CardEffectChallenge : CardEffect
                 challengedActors.Add(challenger);
 
                 yield return CombatSystem.instance.StartCoroutine(
-                    challenger.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Challenge,1))
+                    challenger.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(StatusEffectType.Challenge,1))
                     );
-                ((CardEffectChallenge)challenger.effectTypeToRule[EffectType.Challenge]).challengedActors.Add(actor);
+                ((CardEffectChallenge)challenger.effectTypeToRule[StatusEffectType.Challenge]).challengedActors.Add(actor);
                 challenger.dealAttackActorMods[actor].Add(AttackEffect);
             }
 
@@ -43,8 +42,8 @@ public class CardEffectChallenge : CardEffect
     {
         foreach(CombatActor actor in challengedActors)
         {
-            ((CardEffectChallenge)actor.effectTypeToRule[EffectType.Challenge]).challengedActors.Remove(actor);
-            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Challenge, -1)));
+            ((CardEffectChallenge)actor.effectTypeToRule[StatusEffectType.Challenge]).challengedActors.Remove(actor);
+            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(StatusEffectType.Challenge, -1)));
         }
     }
 

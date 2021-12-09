@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CardEffectSpiked : CardEffect
 {
-    public override bool isBuff { get { return true; } }
     public override bool triggerRecalcDamageSelf { get { return false; } }
 
     public CardEffectSpiked() : base()
@@ -26,7 +25,7 @@ public class CardEffectSpiked : CardEffect
 
     protected override IEnumerator _OnNewTurn()
     {
-        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Spiked, -nrStacked)));
+        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(StatusEffectType.Spiked, -nrStacked)));
     }
 
     public IEnumerator SpikeIt(CombatActor source)

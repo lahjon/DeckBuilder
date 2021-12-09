@@ -22,8 +22,8 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public void SetBackingEffect(CardEffect effect)
     {
         backingEffect = effect;
-        image.sprite = WorldSystem.instance.uiManager.GetSpriteByName(effect.type.ToString());
-        image.color = effect.isBuff ? Color.green : Color.red; // REMOVE WHEN FINAL ICON;
+        image.sprite = WorldSystem.instance.uiManager.GetSpriteByName(effect.info.ToString());
+        image.color = effect.info.category == StatusEffectCategory.Buff ? Color.green : Color.red; // REMOVE WHEN FINAL ICON;
     }
 
     public void RefreshLabel()
@@ -48,6 +48,6 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
-        return (new List<string>{ backingEffect.type.toolTipCard}, pos, width);
+        return (new List<string>{ backingEffect.info.toolTipCard}, pos, width);
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardEffectDazed : CardEffect
 {
-    public override bool isBuff { get { return false; } }
     public override bool triggerRecalcDamageEnemy { get { return false; } }
 
     public override void AddFunctionToRules()
@@ -26,12 +25,12 @@ public class CardEffectDazed : CardEffect
 
     protected override IEnumerator _OnEndTurn()
     {
-        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Dazed, -nrStacked)));
+        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(StatusEffectType.Dazed, -nrStacked)));
     }
 
     public IEnumerator RemoveOnGain()
     {
-        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Dazed, -1)));
+        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(StatusEffectType.Dazed, -1)));
     }
 
 

@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class CardEffectConfused : CardEffect
 {
-    public override bool isBuff { get { return false; } }
-
-
     public override void AddFunctionToRules()
     {
         actor.targetDistorter[CardTargetType.EnemySingle] = CardTargetType.EnemyRandom;

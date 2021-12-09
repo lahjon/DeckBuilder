@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CardEffectEnvenom : CardEffect
-{
-    public override bool isBuff { get { return true; } }
-
+{ 
     public CardEffectEnvenom() : base()
     {
         OnEndTurn = null;
@@ -24,7 +22,7 @@ public class CardEffectEnvenom : CardEffect
 
     IEnumerator FeelThePoisonDagger(CombatActor hurtEnemy)
     {
-        yield return CombatSystem.instance.StartCoroutine(hurtEnemy.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(EffectType.Poison,nrStacked)));
+        yield return CombatSystem.instance.StartCoroutine(hurtEnemy.RecieveEffectNonDamageNonBlock(new CardEffectCarrier(StatusEffectType.Poison,nrStacked)));
     }
 
 }

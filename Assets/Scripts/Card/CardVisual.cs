@@ -245,11 +245,11 @@ public abstract class CardVisual : Card, IPointerClickHandler, IToolTipable, IPo
         displayText = textDeriver.ToString();
     }
 
-    public static string EffectTypeToIconCode(EffectType type)
+    public static string EffectTypeToIconCode(StatusEffectType type)
     {
-        if (type == EffectType.Damage)
+        if (type == StatusEffectType.Damage)
             return " <sprite name=\"Attack\">";
-        else if (type == EffectType.Block)
+        else if (type == StatusEffectType.Block)
             return " <sprite name=\"Block\">";
         else
             return "";

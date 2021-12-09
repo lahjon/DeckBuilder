@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CardEffectSteaming : CardEffect
 {
-    public override bool isBuff { get { return true; } }
     public override bool triggerRecalcDamageSelf { get { return false; } }
 
     public CardEffectSteaming() : base()

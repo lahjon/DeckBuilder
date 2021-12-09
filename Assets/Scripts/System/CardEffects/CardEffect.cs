@@ -6,7 +6,6 @@ public abstract class CardEffect
 {
     public CombatActor actor;
     public string effectName { get { return GetType().ToString().Substring(10); } }
-    public abstract bool isBuff { get; }
     public virtual bool triggerRecalcDamageSelf { get { return false; } }
     public virtual bool triggerRecalcDamageEnemy { get { return false; } }
     public virtual bool stackable { get { return true; } }
@@ -17,7 +16,7 @@ public abstract class CardEffect
     public Func<IEnumerator> OnEndTurn;
 
     public EffectDisplay UI;
-    public EffectTypeInfo type;
+    public StatusEffectTypeInfo info;
 
     private int _nrStacked;
     public int nrStacked { get => _nrStacked; set
@@ -100,7 +99,7 @@ public abstract class CardEffect
                 enemy.RecalcDamage();
 
 
-        actor.effectTypeToRule.Remove(type);
+        actor.effectTypeToRule.Remove(info);
     }
 
     public void UpdateEffectUI()

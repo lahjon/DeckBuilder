@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CardEffectThorns : CardEffect
 {
-    public override bool isBuff { get { return true; } }
 
     public CardEffectThorns() : base()
     {

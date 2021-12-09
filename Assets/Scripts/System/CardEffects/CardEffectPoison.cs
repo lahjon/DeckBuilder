@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardEffectPoison : CardEffect
 {
-    public override bool isBuff { get { return false; } }
 
     private float poisonAnimationTime = 0.7f;
 

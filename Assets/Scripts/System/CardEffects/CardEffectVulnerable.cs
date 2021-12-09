@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CardEffectVulnerable : CardEffect
 {
-    public override bool isBuff { get { return false; } }
     public override bool triggerRecalcDamageEnemy { get { return true; } }
 
     public override void AddFunctionToRules()

@@ -79,7 +79,7 @@ public struct ItemEffectStruct
                     parameter.ToEnum<StatType>();
                     break;
                 case ItemEffectType.AddCombatEffect:
-                    parameter.ToEnum<EffectType>();
+                    parameter.ToEnum<StatusEffectType>();
                     break;
 
                 default:

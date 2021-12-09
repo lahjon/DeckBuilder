@@ -112,9 +112,9 @@ public class Card : MonoBehaviour
         foreach(CardEffectCarrierData effect in data.effects)
         {
             List<CardEffectCarrier> targetList;
-            if (effect.Type == EffectType.Damage)
+            if (effect.Type == StatusEffectType.Damage)
                 targetList = Attacks;
-            else if (effect.Type == EffectType.Block)
+            else if (effect.Type == StatusEffectType.Block)
                 targetList = Blocks;
             else if (effect.execTime == CardComponentExecType.OnDraw)
                 targetList = effectsOnDraw;
@@ -204,9 +204,9 @@ public class Card : MonoBehaviour
 
         carrier.RegisterModified(type);
 
-        if (data.Type == EffectType.Damage)
+        if (data.Type == StatusEffectType.Damage)
             Attacks.Add(carrier);
-        else if (data.Type == EffectType.Block)
+        else if (data.Type == StatusEffectType.Block)
             Blocks.Add(carrier);
         else if (data.execTime == CardComponentExecType.OnPlay)
             effectsOnPlay.Add(carrier);
@@ -258,7 +258,7 @@ public class Card : MonoBehaviour
         }
     }
 
-    public List<CardEffectCarrier> GetEffectsByType(EffectType type)
+    public List<CardEffectCarrier> GetEffectsByType(StatusEffectType type)
     {
         return effectsOnPlay.Where(x => x.Type.Equals(type)).ToList();
     }
@@ -270,7 +270,7 @@ public class Card : MonoBehaviour
 
     public static void SpliceCards(Card Target, Card a, Card b)
     {
-        HashSet<EffectType> effectTypes = new HashSet<EffectType>();
+        HashSet<StatusEffectType> effectTypes = new HashSet<StatusEffectType>();
         HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
 
         Target.classType = a.classType;
@@ -286,10 +286,10 @@ public class Card : MonoBehaviour
         //Target.Damage = a.Damage + b.Damage;
         //Target.Block = a.Block + b.Block;
 
-        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.effectType));
-        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.effectType));
+        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.type));
+        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.type));
 
-        foreach(EffectType type in effectTypes)
+        foreach(StatusEffectType type in effectTypes)
         {
             List<CardEffectCarrier> aE = a.GetEffectsByType(type);
             List<CardEffectCarrier> bE = b.GetEffectsByType(type);

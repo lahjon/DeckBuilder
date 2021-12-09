@@ -18,8 +18,8 @@ public class ItemEffectAddCombatEffect : ItemEffect
     public override void Register()
     {
         //base.Register(); No, we want to trigger icon when effect is resolved;
-        if(effect == null) effect = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), itemEffectStruct.value);
-        if (effect == null) effectReversed = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<EffectType>(), -itemEffectStruct.value);
+        if(effect == null) effect = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<StatusEffectType>(), itemEffectStruct.value);
+        if (effect == null) effectReversed = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<StatusEffectType>(), -itemEffectStruct.value);
         if (!itemEffectStruct.addImmediately)
             CombatSystem.instance.effectOnCombatStart.Add(this);
 
