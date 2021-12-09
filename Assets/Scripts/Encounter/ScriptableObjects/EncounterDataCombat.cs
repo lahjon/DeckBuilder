@@ -12,6 +12,6 @@ public class EncounterDataCombat : EncounterData
   
     public List<CardEffectCarrierData> startingEffects = new List<CardEffectCarrierData>();
     public List<int> startEffectsTargets = new List<int>();
-    public List<CardActivity> startingActivities = new List<CardActivity>();
+    public List<CombatActivity> startingActivities = new List<CombatActivity>();
 
 }

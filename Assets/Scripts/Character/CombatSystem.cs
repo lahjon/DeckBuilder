@@ -630,16 +630,16 @@ public class CombatSystem : MonoBehaviour
         while(drawnToResolve.Count != 0)
         {
             object obj = drawnToResolve.Dequeue();
-            if(obj is CardEffectCarrier cardEffect)
+            if(obj is StatusEffectCarrier cardEffect)
             {
                 List<CombatActor> targets = GetTargets(Hero, cardEffect.Target, null);
                 for (int i = 0; i < cardEffect.Times; i++)
                     foreach (CombatActor actor in targets)
                         yield return StartCoroutine(actor.RecieveEffectNonDamageNonBlock(cardEffect));
             }
-            else if(obj is CardActivitySetting a)
+            else if(obj is CombatActivitySetting a)
             {
-                yield return StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
+                yield return StartCoroutine(CombatActivitySystem.instance.StartByCardActivity(a));
             }
             else if(obj is CardCombat card)
             {

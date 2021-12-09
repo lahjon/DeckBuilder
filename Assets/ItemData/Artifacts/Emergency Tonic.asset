@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Emergency Tonic
   itemId: 16
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 022be21754820ff479aad460f29e8e97, type: 3}
   description: If you have less than 40% life, gain 2 strength.
   rarity: 12
   itemEffectStruct:

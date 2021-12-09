@@ -25,13 +25,13 @@ public class Card : MonoBehaviour
 
     public List<CardSingleFieldProperty> singleFieldProperties = new List<CardSingleFieldProperty>();
 
-    public List<CardEffectCarrier> Attacks = new List<CardEffectCarrier>();
-    public List<CardEffectCarrier> Blocks = new List<CardEffectCarrier>();
+    public List<StatusEffectCarrier> Attacks = new List<StatusEffectCarrier>();
+    public List<StatusEffectCarrier> Blocks = new List<StatusEffectCarrier>();
 
-    public List<CardEffectCarrier> effectsOnPlay = new List<CardEffectCarrier>();
-    public List<CardEffectCarrier> effectsOnDraw = new List<CardEffectCarrier>();
-    public List<CardActivitySetting> activitiesOnPlay = new List<CardActivitySetting>();
-    public List<CardActivitySetting> activitiesOnDraw = new List<CardActivitySetting>();
+    public List<StatusEffectCarrier> effectsOnPlay = new List<StatusEffectCarrier>();
+    public List<StatusEffectCarrier> effectsOnDraw = new List<StatusEffectCarrier>();
+    public List<CombatActivitySetting> activitiesOnPlay = new List<CombatActivitySetting>();
+    public List<CombatActivitySetting> activitiesOnDraw = new List<CombatActivitySetting>();
 
     public GameObject animationPrefab;
     public CombatActor owner; 
@@ -111,7 +111,7 @@ public class Card : MonoBehaviour
 
         foreach(CardEffectCarrierData effect in data.effects)
         {
-            List<CardEffectCarrier> targetList;
+            List<StatusEffectCarrier> targetList;
             if (effect.Type == StatusEffectType.Damage)
                 targetList = Attacks;
             else if (effect.Type == StatusEffectType.Block)
@@ -183,12 +183,12 @@ public class Card : MonoBehaviour
         timesUpgraded = card.timesUpgraded;
         cardModifiers               = new List<CardFunctionalityData>(card.cardModifiers);
         singleFieldProperties       = new List<CardSingleFieldProperty>(card.singleFieldProperties);
-        Attacks                     = new List<CardEffectCarrier>(card.Attacks);
-        Blocks                      = new List<CardEffectCarrier>(card.Blocks);
-        effectsOnPlay               = new List<CardEffectCarrier>(card.effectsOnPlay);
-        effectsOnDraw               = new List<CardEffectCarrier>(card.effectsOnDraw);
-        activitiesOnPlay            = new List<CardActivitySetting>(card.activitiesOnPlay);
-        activitiesOnDraw            = new List<CardActivitySetting>(card.activitiesOnDraw);
+        Attacks                     = new List<StatusEffectCarrier>(card.Attacks);
+        Blocks                      = new List<StatusEffectCarrier>(card.Blocks);
+        effectsOnPlay               = new List<StatusEffectCarrier>(card.effectsOnPlay);
+        effectsOnDraw               = new List<StatusEffectCarrier>(card.effectsOnDraw);
+        activitiesOnPlay            = new List<CombatActivitySetting>(card.activitiesOnPlay);
+        activitiesOnDraw            = new List<CombatActivitySetting>(card.activitiesOnDraw);
         modifiedTypes.UnionWith(card.modifiedTypes);
         animationPrefab             = card.animationPrefab;
         classType = card.classType;
@@ -196,11 +196,11 @@ public class Card : MonoBehaviour
 
     public void SetupComponentFromData(CardEffectCarrierData data, ModifierType type = ModifierType.None)
     {
-        CardEffectCarrier carrier;
+        StatusEffectCarrier carrier;
         if (this is CardCombat cardCombat)
-            carrier =  new CardEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
+            carrier =  new StatusEffectCarrier(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
-            carrier = new CardEffectCarrier(data, this);
+            carrier = new StatusEffectCarrier(data, this);
 
         carrier.RegisterModified(type);
 
@@ -216,11 +216,11 @@ public class Card : MonoBehaviour
 
     public void SetupComponentFromData(CardActivityData data, ModifierType type = ModifierType.None)
     {
-        CardActivitySetting setting;
+        CombatActivitySetting setting;
         if (this is CardCombat cardCombat)
-            setting =  new CardActivitySetting(data, this, cardCombat.EvaluateHighlightNotSelected);
+            setting =  new CombatActivitySetting(data, this, cardCombat.EvaluateHighlightNotSelected);
         else
-            setting =  new CardActivitySetting(data, this);
+            setting =  new CombatActivitySetting(data, this);
 
         setting.RegisterModified(type);
 
@@ -258,12 +258,12 @@ public class Card : MonoBehaviour
         }
     }
 
-    public List<CardEffectCarrier> GetEffectsByType(StatusEffectType type)
+    public List<StatusEffectCarrier> GetEffectsByType(StatusEffectType type)
     {
-        return effectsOnPlay.Where(x => x.Type.Equals(type)).ToList();
+        return effectsOnPlay.Where(x => x.info.Equals(type)).ToList();
     }
 
-    public CardActivitySetting GetactivityByType(CardActivityType type)
+    public CombatActivitySetting GetactivityByType(CombatActivityType type)
     {
         return activitiesOnPlay.Where(x => x.type == type).FirstOrDefault();
     }
@@ -271,7 +271,7 @@ public class Card : MonoBehaviour
     public static void SpliceCards(Card Target, Card a, Card b)
     {
         HashSet<StatusEffectType> effectTypes = new HashSet<StatusEffectType>();
-        HashSet<CardActivityType> activityTypes = new HashSet<CardActivityType>();
+        HashSet<CombatActivityType> activityTypes = new HashSet<CombatActivityType>();
 
         Target.classType = a.classType;
         Target.cardType = (CardType)Mathf.Min((int)a.cardType, (int)b.cardType);
@@ -286,13 +286,13 @@ public class Card : MonoBehaviour
         //Target.Damage = a.Damage + b.Damage;
         //Target.Block = a.Block + b.Block;
 
-        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.type));
-        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.Type.type));
+        a.effectsOnPlay.ForEach(e => effectTypes.Add(e.info.type));
+        b.effectsOnPlay.ForEach(e => effectTypes.Add(e.info.type));
 
         foreach(StatusEffectType type in effectTypes)
         {
-            List<CardEffectCarrier> aE = a.GetEffectsByType(type);
-            List<CardEffectCarrier> bE = b.GetEffectsByType(type);
+            List<StatusEffectCarrier> aE = a.GetEffectsByType(type);
+            List<StatusEffectCarrier> bE = b.GetEffectsByType(type);
 
             if (aE.Count == 0)
                 Target.effectsOnPlay.AddRange(bE);
@@ -306,20 +306,20 @@ public class Card : MonoBehaviour
 
         a.activitiesOnPlay.ForEach(x => activityTypes.Add(x.type));
         b.activitiesOnPlay.ForEach(x => activityTypes.Add(x.type));
-        List<CardActivityType> activityTypesList = activityTypes.OrderBy(x => x).ToList();
+        List<CombatActivityType> activityTypesList = activityTypes.OrderBy(x => x).ToList();
 
-        foreach(CardActivityType type in activityTypesList)
+        foreach(CombatActivityType type in activityTypesList)
         {
-            if(type != CardActivityType.Splice)
+            if(type != CombatActivityType.Splice)
             {
                 Target.activitiesOnPlay.AddRange(a.activitiesOnPlay.Where(x => x.type == type));
                 Target.activitiesOnPlay.AddRange(b.activitiesOnPlay.Where(x => x.type == type));
             }
             else
             {
-                int aParam = int.Parse(a.GetactivityByType(CardActivityType.Splice).strParameter) - 1;
+                int aParam = int.Parse(a.GetactivityByType(CombatActivityType.Splice).strParameter) - 1;
                 if (aParam > 1)
-                    Target.activitiesOnPlay.Add(new CardActivitySetting(new CardActivityData() { type = CardActivityType.Splice, strParameter = aParam.ToString() },Target));
+                    Target.activitiesOnPlay.Add(new CombatActivitySetting(new CardActivityData() { type = CombatActivityType.Splice, strParameter = aParam.ToString() },Target));
             }
         }
     }

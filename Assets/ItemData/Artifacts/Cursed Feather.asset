@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Cursed Feather
   itemId: 15
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 801c65eb5b7c6e24bbf479a265d59794, type: 3}
   description: At the start of combat, Curse one Random card.
   rarity: 12
   itemEffectStruct:

@@ -117,4 +117,12 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     {
         Debug.Log("Used Item");
     }
+
+    public override void NotifyDeregister()
+    {
+    }
+
+    public override void NotifyRegister()
+    {
+    }
 }

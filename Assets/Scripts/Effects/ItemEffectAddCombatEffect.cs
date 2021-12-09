@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ItemEffectAddCombatEffect : ItemEffect
 {
-    CardEffectCarrier effect;
-    CardEffectCarrier effectReversed;
+    StatusEffectCarrier effect;
+    StatusEffectCarrier effectReversed;
 
-    Queue<CardEffectCarrier> effectQueue = new Queue<CardEffectCarrier>();
+    Queue<StatusEffectCarrier> effectQueue = new Queue<StatusEffectCarrier>();
 
     public override IEnumerator RunEffectEnumerator()
     {
@@ -17,9 +17,9 @@ public class ItemEffectAddCombatEffect : ItemEffect
 
     public override void Register()
     {
-        //base.Register(); No, we want to trigger icon when effect is resolved;
-        if(effect == null) effect = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<StatusEffectType>(), itemEffectStruct.value);
-        if (effect == null) effectReversed = new CardEffectCarrier(itemEffectStruct.parameter.ToEnum<StatusEffectType>(), -itemEffectStruct.value);
+        base.Register();
+        if(effect == null) effect = new StatusEffectCarrier(itemEffectStruct.parameter.ToEnum<StatusEffectType>(), itemEffectStruct.value);
+        if (effectReversed == null) effectReversed = new StatusEffectCarrier(itemEffectStruct.parameter.ToEnum<StatusEffectType>(), -itemEffectStruct.value);
         if (!itemEffectStruct.addImmediately)
             CombatSystem.instance.effectOnCombatStart.Add(this);
 

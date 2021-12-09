@@ -5,7 +5,7 @@ using System.Linq;
 
 public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 {
-    List<CardEffectCarrier> attacks;
+    List<StatusEffectCarrier> attacks;
 
     CombatActor activeActor { get { return combat.ActiveActor; } }
 
@@ -29,7 +29,7 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
     IEnumerator PerformAttack()
     {
         activeActor.AttackAnimation();
-        foreach (CardEffectCarrier attack in attacks)
+        foreach (StatusEffectCarrier attack in attacks)
         {
             List<CombatActor> targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
 

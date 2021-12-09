@@ -83,7 +83,7 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public EffectDisplay GetEffectDisplay(CardEffect effect) 
+    public EffectDisplay GetEffectDisplay(StatusEffect effect) 
     {
         Transform parent = effect.info.category == StatusEffectCategory.Oath ? EffectsAnchorOath : EffectsAnchorOther;
         parent.gameObject.SetActive(true);

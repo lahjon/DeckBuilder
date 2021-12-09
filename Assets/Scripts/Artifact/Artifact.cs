@@ -13,7 +13,7 @@ public abstract class Artifact : Item, IToolTipable
     public Transform tooltipAnchor;
     bool initialized;
     public ArtifactData artifactData;
-    Tween tween;
+    internal Tween tween;
     static float width = 40;
 
     protected void Awake()
@@ -60,6 +60,15 @@ public abstract class Artifact : Item, IToolTipable
     {
         if (tween != null) tween.Kill();
         tween = transform.DOScale(1.2f * Vector3.one, .3f).SetLoops(2, LoopType.Yoyo).OnKill(() => transform.localScale = Vector3.one);
+    }
+
+    public override void NotifyDeregister()
+    {
+
+    }
+    public override void NotifyRegister()
+    {
+
     }
 }
 

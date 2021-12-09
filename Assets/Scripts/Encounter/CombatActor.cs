@@ -28,7 +28,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public HealthEffectsUI healthEffectsUI;
 
-    public Dictionary<StatusEffectType, CardEffect> effectTypeToRule = new Dictionary<StatusEffectType, CardEffect>();
+    public Dictionary<StatusEffectType, StatusEffect> effectTypeToRule = new Dictionary<StatusEffectType, StatusEffect>();
 
 
     public List<Func<float>> dealAttackMult = new List<Func<float>>();
@@ -216,16 +216,16 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     }
 
 
-    public IEnumerator RecieveEffectNonDamageNonBlock(CardEffectCarrier effectInfo)
+    public IEnumerator RecieveEffectNonDamageNonBlock(StatusEffectCarrier carrier)
     {
-        if (!effectTypeToRule.ContainsKey(effectInfo.Type))
+        if (!effectTypeToRule.ContainsKey(carrier.info))
         {
-            effectTypeToRule[effectInfo.Type] = effectInfo.Type.Constructor();
-            effectTypeToRule[effectInfo.Type].info = effectInfo.Type;
-            effectTypeToRule[effectInfo.Type].actor = this;
+            effectTypeToRule[carrier.info] = carrier.info.Constructor();
+            effectTypeToRule[carrier.info].info = carrier.info;
+            effectTypeToRule[carrier.info].actor = this;
         }
 
-        yield return StartCoroutine(effectTypeToRule[effectInfo.Type].RecieveInput(effectInfo.Value));
+        yield return StartCoroutine(effectTypeToRule[carrier.info].RecieveInput(carrier.Value));
     }
 
     public IEnumerator EffectsOnNewTurnBehavior()

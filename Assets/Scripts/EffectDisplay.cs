@@ -11,7 +11,7 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public Image image;
     static float width;
     Tween myTween;
-    public CardEffect backingEffect;
+    public StatusEffect backingEffect;
 
     private void OnEnable()
     {
@@ -19,7 +19,7 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
         transform.DOScale(1, 0.2f);
     }
 
-    public void SetBackingEffect(CardEffect effect)
+    public void SetBackingEffect(StatusEffect effect)
     {
         backingEffect = effect;
         image.sprite = WorldSystem.instance.uiManager.GetSpriteByName(effect.info.ToString());

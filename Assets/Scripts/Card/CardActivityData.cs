@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 [Serializable]
 public struct CardActivityData : ICardUpgradingData
 {
-    public CardActivityType type;
+    public CombatActivityType type;
     public string strParameter;
     public int val;
 

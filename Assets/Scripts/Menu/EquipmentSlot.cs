@@ -31,6 +31,11 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         
     }
 
+    public void NotifyDeregister()
+    {
+
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         WorldSystem.instance.menuManager.menuCharacter.ActivateToolTip(equipmentData);
@@ -43,6 +48,9 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void RemoveEffect()
     {
-        throw new System.NotImplementedException();
+    }
+
+    public void NotifyRegister()
+    {
     }
 }

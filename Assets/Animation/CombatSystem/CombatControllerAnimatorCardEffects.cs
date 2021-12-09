@@ -16,7 +16,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
         //Debug.Log("Starting effets transmittion");
         List<CombatActor> targets;
 
-        foreach (CardEffectCarrier e in card.effectsOnPlay)
+        foreach (StatusEffectCarrier e in card.effectsOnPlay)
         {
             e.condition.OnEventNotification();
             if (!e.condition) continue;
