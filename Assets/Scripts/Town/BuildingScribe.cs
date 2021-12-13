@@ -43,8 +43,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     void UpdateDeck()
     {
-        List<CardDisplay> cards = new List<CardDisplay>();
-
         foreach(CardDisplay card in allSideCards.Concat(allDeckCards))
         {
             if(card.rarity == Rarity.Starting)
@@ -53,13 +51,17 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
                 card.OnClick = () => MoveCard(card);
             card.selectable = card.rarity != Rarity.Starting;
         }
-        
-        foreach (CardDisplay c in allSideCards)
-            foreach (CardWrapper cw in deckCards)
-                if (cw.idx == c.idx && cw.cardId == c.cardId)
-                    cards.Add(c);
 
-        cards.ForEach(c => MoveToDeck(c, false));
+        allSideCards.Where(c => deckCards.Select(x => x.idx).Contains(c.idx) && deckCards.Select(y => y.cardId).Contains(c.cardId)).ToList().ForEach(cd => MoveToDeck(cd, false));
+        // List<CardDisplay> cards = new List<CardDisplay>();
+        // foreach (CardDisplay c in allSideCards)
+        //     foreach (CardWrapper cw in deckCards)
+        //         if (cw.idx == c.idx && cw.cardId == c.cardId)
+        //         {
+        //             cards.Add(c);
+        //             break;
+        //         }
+        // cards.ForEach(c => MoveToDeck(c, false));
 
         SortDeck();
     }
@@ -80,10 +82,11 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
 
     public void UnlockCard(CardData data, bool save = true)
     {
-        int idx = unlockedCards?.Any() == true ? unlockedCards[0].idx++ : 0;
+        int idx = unlockedCards?.Any() == true ? (unlockedCards.Max(x => x.idx) + 1) : 0;
 
         CardWrapper cw = new CardWrapper(data.id, idx);
         unlockedCards.Add(cw);
+        CreateCardManage(CreateSideCard(), cw);
 
         if (save) WorldSystem.instance.SaveProgression();
         
@@ -233,10 +236,7 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         
         while (allSideCards.Count < subsetCharacterCards.Count)
         {
-            display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
-            display.shopCost = Instantiate(upgradeCostPrefab, display.transform).GetComponent<ShopCost>();
-            display.shopCost.gameObject.SetActive(false);
-            allSideCards.Add(display);
+            display = CreateSideCard();
         }
         while (allSideCards.Count > subsetCharacterCards.Count)
         {
@@ -248,6 +248,15 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
         {
             CreateCardManage(allSideCards[i], subsetCharacterCards[i]);
         }
+    }
+
+    CardDisplay CreateSideCard()
+    {
+        CardDisplay display = Instantiate(cardPrefab, sideParent).GetComponent<CardDisplay>();
+        display.shopCost = Instantiate(upgradeCostPrefab, display.transform).GetComponent<ShopCost>();
+        display.shopCost.gameObject.SetActive(false);
+        allSideCards.Add(display);
+        return display;
     }
 
     public void UpdateUpgradeManagement()
@@ -340,7 +349,10 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         if (a_SaveData.deckCards?.Any() == true)
         {
+
             deckCards = a_SaveData.deckCards;
+            //deckCards.ForEach(x => Debug.Log(x.cardId));
+
         }
     }
 

@@ -91,7 +91,7 @@ public class RewardNormal : Reward
         rewardText.text = itemData.itemName;
         image.sprite = itemData.artwork;
 
-        callback = () => WorldSystem.instance.abilityManager.AddAbility(itemData.itemId);
+        callback = () => WorldSystem.instance.abilityManager.EquipAbility(itemData.itemId);
     }
 
     public void RewardUnlockCard(string value)

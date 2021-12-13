@@ -8,7 +8,7 @@ public class AbilityManager : Manager
     public AbilitySlot minorSlot;
     public AbilitySlot majorSlot;
     public List<AbilityData> allAbilities { get => DatabaseSystem.instance.abilityDatas; }
-    //public List<AbilityData> currentAbilities = new List<AbilityData>(); 
+    public List<AbilityData> unlockedAbilities = new List<AbilityData>(); 
     protected override void Awake()
     {
         base.Awake();
@@ -32,27 +32,16 @@ public class AbilityManager : Manager
             return null;
         }
     }
+    public void UnlockAbility(int anId = -1)
+    {
+        if (anId >= 0 && allAbilities.Except(new List<AbilityData>{minorSlot.ability.abilityData, majorSlot.ability.abilityData}).FirstOrDefault(x => x.itemId == anId) is AbilityData data)
+        {
+            unlockedAbilities.Add(data);
+            WorldSystem.instance.SaveProgression();
+        }
+    }
 
-    // public void RemoveAbility(Ability ability)
-    // {
-    //     if (currentAbilities.Contains(ability))
-    //     {
-    //         currentAbilities.Remove(ability);
-    //         ability.RemoveAbility();
-    //     }
-    // }
-
-    // public void RemoveAbility()
-    // {
-    //     Ability ability = currentAbilities[Random.Range(0, currentAbilities.Count - 1)];
-    //     if (ability != null)
-    //     {
-    //         currentAbilities.Remove(ability);
-    //         ability.RemoveAbility();
-    //     }
-    // }
-
-    public void AddAbility(int anId = -1)
+    public void EquipAbility(int anId = -1)
     {
         AbilityData data;
 

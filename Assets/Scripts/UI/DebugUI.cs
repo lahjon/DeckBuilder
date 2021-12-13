@@ -60,7 +60,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugCreateNewItem()
     {
-        world.abilityManager.AddAbility();
+        world.abilityManager.UnlockAbility(1);
     }
     public void DebugTakeDamage(int amount)
     {
