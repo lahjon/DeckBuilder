@@ -88,4 +88,14 @@ public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
     {
         
     }
+
+    public override void NotifyDeregister()
+    {
+
+    }
+
+    public override void NotifyRegister()
+    {
+
+    }
 }

@@ -11,7 +11,7 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public Image image;
     static float width;
     Tween myTween;
-    public CardEffect backingEffect;
+    public StatusEffect backingEffect;
 
     private void OnEnable()
     {
@@ -19,11 +19,11 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
         transform.DOScale(1, 0.2f);
     }
 
-    public void SetBackingEffect(CardEffect effect)
+    public void SetBackingEffect(StatusEffect effect)
     {
         backingEffect = effect;
-        image.sprite = WorldSystem.instance.uiManager.GetSpriteByName(effect.type.ToString());
-        image.color = effect.isBuff ? Color.green : Color.red; // REMOVE WHEN FINAL ICON;
+        image.sprite = WorldSystem.instance.uiManager.GetSpriteByName(effect.info.ToString());
+        image.color = effect.info.category == StatusEffectCategory.Buff ? Color.green : Color.red; // REMOVE WHEN FINAL ICON;
     }
 
     public void RefreshLabel()
@@ -48,6 +48,6 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
-        return (new List<string>{ backingEffect.type.toolTipCard}, pos, width);
+        return (new List<string>{ backingEffect.info.toolTipCard}, pos, width);
     }
 }

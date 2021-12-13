@@ -18,6 +18,8 @@ public abstract class Item : MonoBehaviour, IEffectAdder
 
 
     public abstract void NotifyUsed();
+    public abstract void NotifyRegister();
+    public abstract void NotifyDeregister();
 
     protected void OnDestroy()
     {
@@ -34,4 +36,5 @@ public abstract class Item : MonoBehaviour, IEffectAdder
     }
 
     public string GetName() => itemName;
+
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Dreidel
   itemId: 18
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: bdcfe468158050a47b1c263e86fc6d39, type: 3}
   description: Whenever you play two Orders, draw a card
   rarity: 12
   itemEffectStruct:
@@ -29,7 +29,7 @@ MonoBehaviour:
   condition:
     type: 113
     strParameter: Order
-    numValue: 2
+    numValue: 3
     strParameters: []
   conditionCountingOnTrueType: 1
   conditionResetEvent: 111

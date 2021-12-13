@@ -425,7 +425,7 @@ public enum CardHighlightType
     PlayableSpecial
 }
 
-public enum CardActivityType
+public enum CombatActivityType
 {
     DrawCard,
     AddCardToCombat,

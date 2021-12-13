@@ -28,7 +28,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
     public HealthEffectsUI healthEffectsUI;
 
-    public Dictionary<EffectType, CardEffect> effectTypeToRule = new Dictionary<EffectType, CardEffect>();
+    public Dictionary<StatusEffectType, StatusEffect> effectTypeToRule = new Dictionary<StatusEffectType, StatusEffect>();
 
 
     public List<Func<float>> dealAttackMult = new List<Func<float>>();
@@ -216,30 +216,30 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     }
 
 
-    public IEnumerator RecieveEffectNonDamageNonBlock(CardEffectCarrier effectInfo)
+    public IEnumerator RecieveEffectNonDamageNonBlock(StatusEffectCarrier carrier)
     {
-        if (!effectTypeToRule.ContainsKey(effectInfo.Type))
+        if (!effectTypeToRule.ContainsKey(carrier.info))
         {
-            effectTypeToRule[effectInfo.Type] = effectInfo.Type.constructor.Invoke();
-            effectTypeToRule[effectInfo.Type].type = effectInfo.Type;
-            effectTypeToRule[effectInfo.Type].actor = this;
+            effectTypeToRule[carrier.info] = carrier.info.Constructor();
+            effectTypeToRule[carrier.info].info = carrier.info;
+            effectTypeToRule[carrier.info].actor = this;
         }
 
-        yield return StartCoroutine(effectTypeToRule[effectInfo.Type].RecieveInput(effectInfo.Value));
+        yield return StartCoroutine(effectTypeToRule[carrier.info].RecieveInput(carrier.Value));
     }
 
     public IEnumerator EffectsOnNewTurnBehavior()
     {
-        List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
-        foreach (EffectType effect in effects)
+        List<StatusEffectType> effects = new List<StatusEffectType>(effectTypeToRule.Keys);
+        foreach (StatusEffectType effect in effects)
             if (effectTypeToRule[effect].OnNewTurn != null)
                 yield return StartCoroutine(effectTypeToRule[effect].OnNewTurn());
     }
 
     public IEnumerator EffectsOnEndTurnBehavior()
     {
-        List<EffectType> effects = new List<EffectType>(effectTypeToRule.Keys);
-        foreach (EffectType effect in effects)
+        List<StatusEffectType> effects = new List<StatusEffectType>(effectTypeToRule.Keys);
+        foreach (StatusEffectType effect in effects)
             if(effectTypeToRule.ContainsKey(effect) && effectTypeToRule[effect].OnEndTurn != null)
                 yield return StartCoroutine(effectTypeToRule[effect].OnEndTurn());
     }
@@ -275,7 +275,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         List<string> toolTipTextBits = new List<string>();
-        effectTypeToRule.Values.ToList().ForEach(x => { toolTipTextBits.Add(x.type.toolTipCard); });
+        effectTypeToRule.Values.ToList().ForEach(x => { toolTipTextBits.Add(x.info.toolTipCard); });
         return (toolTipTextBits, WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(AnchorToolTip.position), width);
     }
 

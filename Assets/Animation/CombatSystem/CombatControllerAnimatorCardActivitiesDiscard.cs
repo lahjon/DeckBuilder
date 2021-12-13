@@ -21,9 +21,9 @@ public class CombatControllerAnimatorCardActivitiesDiscard : CombatControllerAni
 
     IEnumerator ActivitiesDiscard()
     {
-        foreach(CardActivitySetting a in card.activitiesOnPlay)
+        foreach(CombatActivitySetting a in card.activitiesOnPlay)
         {
-            yield return combat.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(a));
+            yield return combat.StartCoroutine(CombatActivitySystem.instance.StartByCardActivity(a));
         }
 
         card.owner.CardResolved(card);

@@ -22,5 +22,5 @@ MonoBehaviour:
     sentence: Cuttrefish?
   - dialogueParticipant: 1
     sentence: MMMMM!!!!
-  stateToTriggerIn: 11
+  stateToTriggerIn: 0
   endEvent: []

@@ -176,11 +176,11 @@ public class CombatActorEnemy : CombatActor
         collision.enabled = false;
         Debug.Log("Enemy Dead!");
 
-        foreach (CardEffect re in effectTypeToRule.Values)
+        foreach (StatusEffect re in effectTypeToRule.Values)
             re.OnActorDeath();
 
-        List<EffectType> effects = effectTypeToRule.Keys.ToList();
-        foreach (EffectType e in effects)
+        List<StatusEffectType> effects = effectTypeToRule.Keys.ToList();
+        foreach (StatusEffectType e in effects)
         {
             effectTypeToRule[e]?.Dismantle();
         }

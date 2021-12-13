@@ -11,18 +11,17 @@ public abstract class ItemEffect
 
     public virtual void ApplyEffect()
     {
-
+        effectAdder.NotifyUsed();
     }
  
     public virtual void Register()
     {
-        effectAdder.NotifyUsed();
-        Debug.Log("Registering effect from source " + effectAdder.GetName());
+        effectAdder.NotifyRegister();
     }
 
     public virtual void DeRegister()
     {
-
+        effectAdder.NotifyDeregister();
     }
 
     public virtual IEnumerator RunEffectEnumerator()
@@ -79,7 +78,7 @@ public struct ItemEffectStruct
                     parameter.ToEnum<StatType>();
                     break;
                 case ItemEffectType.AddCombatEffect:
-                    parameter.ToEnum<EffectType>();
+                    parameter.ToEnum<StatusEffectType>();
                     break;
 
                 default:
@@ -112,6 +111,9 @@ public interface IEffectAdder
 {
     public void NotifyUsed();
     public string GetName();
+
+    public void NotifyRegister();
+    public void NotifyDeregister();
 }
 public struct IEffectAdderStruct : IEffectAdder
 {
@@ -124,6 +126,15 @@ public struct IEffectAdderStruct : IEffectAdder
     }
     public string GetName() => name;
     public int GetValue() => value;
+
+    public void NotifyDeregister()
+    {
+    }
+
+    public void NotifyRegister()
+    {
+    }
+
     public void NotifyUsed()
     {
 

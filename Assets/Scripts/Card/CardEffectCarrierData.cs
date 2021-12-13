@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct CardEffectCarrierData : ICardUpgradingData
 {
-    public EffectType Type;
+    public StatusEffectType Type;
     public CardIntData Value;
     public CardIntData Times;
     public CardTargetType Target;

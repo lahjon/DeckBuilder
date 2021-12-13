@@ -45,10 +45,10 @@ public class CombatActorHero : CombatActor
 
     public void ClearAllEffects()
     {
-        List<CardEffect> effects = effectTypeToRule.Values.ToList();
+        List<StatusEffect> effects = effectTypeToRule.Values.ToList();
         effectTypeToRule.Clear();
 
-        foreach(CardEffect effect in effects)
+        foreach(StatusEffect effect in effects)
             effect.Dismantle();
     }
 

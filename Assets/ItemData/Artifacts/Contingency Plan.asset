@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Emergency Scroll
   itemId: 17
-  artwork: {fileID: 0}
-  description: If you have less than 30% life, draw two additonal cards each turn.
+  artwork: {fileID: 21300000, guid: 84b2ff83063b78045989bedd4d42f718, type: 3}
+  description: If you have less than 30% life, draw one additonal card each turn.
   rarity: 12
   itemEffectStruct:
     type: 2
     parameter: Wit
     addImmediately: 0
-    value: 2
+    value: 1
   type: 2
   goldValue: 0
   characterClassType: 0

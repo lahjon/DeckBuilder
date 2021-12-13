@@ -27,6 +27,11 @@ public class Profession : IEffectAdder
         
     }
 
+    public void NotifyDeregister()
+    {
+
+    }
+
     public static Profession AddProfession(ProfessionData aProfessionData)
     {
         Profession profession = new Profession(aProfessionData);
@@ -42,5 +47,9 @@ public class Profession : IEffectAdder
     public string GetName()
     {
         return null;
+    }
+
+    public void NotifyRegister()
+    {
     }
 }

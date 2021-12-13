@@ -25,5 +25,11 @@ public class PlayableCharacterData : CharacterData, IEffectAdder
 
     public string GetName() => "Character";
 
+    public void NotifyDeregister() { }
+
+    public void NotifyRegister()
+    {
+    }
+
     public void NotifyUsed() { }
 }

@@ -6,7 +6,7 @@ using System;
 
 public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 {
-    List<CardEffectCarrier> blocks;
+    List<StatusEffectCarrier> blocks;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -29,7 +29,7 @@ public class CombatControllerAnimatorCardBlock : CombatControllerAnimatorCard
 
     IEnumerator ApplyBlock()
     {
-        foreach(CardEffectCarrier block in blocks) { 
+        foreach(StatusEffectCarrier block in blocks) { 
             List<CombatActor> targets = combat.GetTargets(combat.ActiveActor, block.Target, suppliedTarget);
             for (int i = 0; i < block.Times; i++)
             {

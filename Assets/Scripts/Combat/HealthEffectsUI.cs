@@ -83,13 +83,13 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public EffectDisplay GetEffectDisplay(CardEffect effect) 
+    public EffectDisplay GetEffectDisplay(StatusEffect effect) 
     {
-        Transform parent = effect.type.isOath ? EffectsAnchorOath : EffectsAnchorOther;
+        Transform parent = effect.info.category == StatusEffectCategory.Oath ? EffectsAnchorOath : EffectsAnchorOther;
         parent.gameObject.SetActive(true);
         EffectDisplay display = Instantiate(templateEffectDisplay, parent).GetComponent<EffectDisplay>();
         display.SetBackingEffect(effect);
-        StartNotificationEffect(effect.type.effectType.ToString());
+        StartNotificationEffect(effect.info.type.ToString());
         return display;
     }
 
@@ -97,10 +97,10 @@ public class HealthEffectsUI : MonoBehaviour
     {
         display.CancelAnimation();
         Destroy(display.gameObject);
-        Transform parent = display.backingEffect.type.isOath ? EffectsAnchorOath : EffectsAnchorOther;
+        Transform parent = display.backingEffect.info.category == StatusEffectCategory.Oath ? EffectsAnchorOath : EffectsAnchorOther;
         if (parent.childCount == 0)
         {
-            StartNotificationEffect(string.Format("{0} wore off", display.backingEffect.type.effectType));
+            StartNotificationEffect(string.Format("{0} wore off", display.backingEffect.info.type));
             parent.gameObject.SetActive(false);
         }
     }

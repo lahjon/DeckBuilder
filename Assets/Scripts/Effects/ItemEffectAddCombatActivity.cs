@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemEffectAddCombatActivity : ItemEffect
 {
-    CardActivitySetting CardActivity;
+    CombatActivitySetting CardActivity;
 
     public override void ApplyEffect()
     {
@@ -16,15 +16,14 @@ public class ItemEffectAddCombatActivity : ItemEffect
     public override IEnumerator RunEffectEnumerator()
     {
         effectAdder.NotifyUsed();
-
-        yield return CombatSystem.instance.StartCoroutine(CardActivitySystem.instance.StartByCardActivity(CardActivity));
+        yield return CombatSystem.instance.StartCoroutine(CombatActivitySystem.instance.StartByCardActivity(CardActivity));
     }
 
     public override void Register()
     {
         base.Register();
         string[] settings = itemEffectStruct.parameter.Split('|');
-        CardActivity = new CardActivitySetting(new CardActivityData() { type = settings[0].ToEnum<CardActivityType>(), strParameter = settings.Length > 1 ? settings[1] : string.Empty, val = itemEffectStruct.value });
+        CardActivity = new CombatActivitySetting(new CardActivityData() { type = settings[0].ToEnum<CombatActivityType>(), strParameter = settings.Length > 1 ? settings[1] : string.Empty, val = itemEffectStruct.value });
 
         if (!itemEffectStruct.addImmediately)
             CombatSystem.instance.effectOnCombatStart.Add(this);
