@@ -55,7 +55,7 @@ public class DisplayCardManager : Manager
             cardDisplay.BindCardData();
             cardDisplay.BindCardVisualData();
             cardDisplay.allowDisplay = false;
-            if ((int)card.cardClass < 5)
+            if ((int)card.cardClass < 6)
             {
                 cardDisplay.OnClick = () =>  {
                     world.characterManager.AddCardToDeck(cardDisplay);
