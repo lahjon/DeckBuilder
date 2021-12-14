@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
+  m_Name: 53_Berserker_NewCard
+  m_EditorClassIdentifier: 
+  id: 53
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
+  singleFieldProperties:
+  - Name: Exhaust, True
+    prop: 0
+    val: 1
+  effects:
+  - Type: 9
+    Value:
+      linkedProp: 0
+      baseVal: -20
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+    Target: 0
+    ConditionData:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
+  activities:
+  - type: 4
+    strParameter: 
+    val: -20
+    conditionStruct:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
+  cardName: New Card
+  cardType: 0
+  artwork: {fileID: 21300000, guid: 39ca3e0ae21b28f41a4993169826d33d, type: 3}
+  visibleCost: 1
+  upgradeCostFullEmber: 1
+  maxUpgrades: 2
+  upgrades:
+  - {fileID: 11400000, guid: bcd4d670ec054824ca4d25cd16cda5b7, type: 2}
+  - {fileID: 11400000, guid: 3edfb3129e6b59148a532d7af131a4c0, type: 2}
+  rarity: 11
+  cardClass: 1
+  animationPrefab: {fileID: 0}
+  audio: {fileID: 0}
+  goldValue: 35

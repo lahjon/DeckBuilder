@@ -19,7 +19,7 @@ MonoBehaviour:
   type: 4
   formation: 3
   enemyData:
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
+  - {fileID: 11400000, guid: 58af66780fbf1244d8631198ef0a834e, type: 2}
+  - {fileID: 11400000, guid: 58af66780fbf1244d8631198ef0a834e, type: 2}
   startingEffects: []
   startEffectsTargets: 

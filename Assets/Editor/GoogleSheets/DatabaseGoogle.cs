@@ -124,15 +124,17 @@ public class DatabaseGoogle
         {
             AssetDatabase.SaveAssets();
             string databaseName = (string)gt[i, "DatabaseName"];
+            string id = (string)gt[i, "ID"];
+
             if (databaseName.Equals(""))
                 break;
 
-            CardData data = TDataNameToAsset<CardData>(databaseName, new string[] { CardPath});
+            CardData data = TDataNameToAsset<CardData>(id + "_" + databaseName, new string[] { CardPath});
             if (data is null)
             {
                 data = ScriptableObject.CreateInstance<CardData>();
                 AssetDatabase.SaveAssets();
-                AssetDatabase.CreateAsset(data, CardPath + @"\" + databaseName + ".asset");
+                AssetDatabase.CreateAsset(data, CardPath + @"\" + id + "_" + databaseName + ".asset");
             }
 
             data.ResetFunctionality();
@@ -141,7 +143,7 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "Class"], out data.cardClass);
             Enum.TryParse((string)gt[i, "Rarity"], out data.rarity);
 
-            data.id = (string)gt[i, "ID"];
+            data.id = id;
             data.name = (string)gt[i, "DatabaseName"];
             data.cardName = (string)gt[i, "Name"];
             data.goldValue = int.Parse((string)gt[i, "GoldValue"]);
@@ -348,7 +350,7 @@ public class DatabaseGoogle
                 scs = new StartingCardSet() { profession = profession, characterClass = classType, name = classType.ToString() + ", " + profession.ToString() };
                 dbs.StartingCards.Add(scs);
             }
-            scs.startingCards.AddRange(dbs.GetCardsByName(new List<string>() { databaseName }));
+            scs.startingCards.Add(dbs.cards.FirstOrDefault(c=> c.id == (string)gt[i, "Id"]));
 
             EditorUtility.SetDirty(dbs);
             AssetDatabase.SaveAssets();

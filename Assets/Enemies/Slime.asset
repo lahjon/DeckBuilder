@@ -20,26 +20,8 @@ MonoBehaviour:
   tier: 1
   experience: 10
   deck:
-  - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
-  - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
-  startingEffects:
-  - Type: 19
-    Value:
-      linkedProp: 0
-      baseVal: 9
-      scalar: 0
-      inverseScalar: 0
-    Times:
-      linkedProp: 0
-      baseVal: 0
-      scalar: 0
-      inverseScalar: 0
-    Target: 0
-    ConditionData:
-      type: 0
-      strParameter: 
-      numValue: 0
-      strParameters: []
-    execTime: 0
+  - {fileID: 11400000, guid: 7fb9cde9c57722646a546ef6dd4f6cd8, type: 2}
+  - {fileID: 11400000, guid: 899d8a0b6a9aa2a4c9822638e8c9a606, type: 2}
+  startingEffects: []
   shuffleInit: 1
   stochasticReshuffle: 1

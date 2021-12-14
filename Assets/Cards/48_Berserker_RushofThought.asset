@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
+  m_Name: 48_Berserker_RushofThought
+  m_EditorClassIdentifier: 
+  id: 48
+  costDatas:
+  - type: 0
+    data:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+  costOptionalDatas: []
+  singleFieldProperties:
+  - Name: Exhaust, True
+    prop: 0
+    val: 1
+  effects: []
+  activities:
+  - type: 0
+    strParameter: 
+    val: 3
+    conditionStruct:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
+  cardName: Rush of Thought
+  cardType: 2
+  artwork: {fileID: 21300000, guid: 81cc2096260fe1b4288f75ea4f29c4be, type: 3}
+  visibleCost: 1
+  upgradeCostFullEmber: 1
+  maxUpgrades: 1
+  upgrades:
+  - {fileID: 11400000, guid: 97aaf66b548f6c04bbdd50f14a5c1d6f, type: 2}
+  rarity: 13
+  cardClass: 1
+  animationPrefab: {fileID: 0}
+  audio: {fileID: 0}
+  goldValue: 40

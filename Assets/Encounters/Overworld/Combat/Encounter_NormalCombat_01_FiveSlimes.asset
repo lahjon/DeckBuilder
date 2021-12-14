@@ -19,10 +19,10 @@ MonoBehaviour:
   type: 4
   formation: 3
   enemyData:
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
-  - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
+  - {fileID: 11400000, guid: ba2777a3914bcef4fb64fcea8ff345dc, type: 2}
+  - {fileID: 11400000, guid: ba2777a3914bcef4fb64fcea8ff345dc, type: 2}
+  - {fileID: 11400000, guid: ba2777a3914bcef4fb64fcea8ff345dc, type: 2}
+  - {fileID: 11400000, guid: ba2777a3914bcef4fb64fcea8ff345dc, type: 2}
+  - {fileID: 11400000, guid: ba2777a3914bcef4fb64fcea8ff345dc, type: 2}
   startingEffects: []
   startEffectsTargets: 

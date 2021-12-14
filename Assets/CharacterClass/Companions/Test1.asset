@@ -18,8 +18,8 @@ MonoBehaviour:
   rarity: 0
   characterArt: {fileID: 6630824432419820787, guid: 9c48eafa09a487a4d9a6ebe0aae11916, type: 3}
   deck:
-  - {fileID: 11400000, guid: 7ba767c72536d7741a3c3158254a7b93, type: 2}
-  - {fileID: 11400000, guid: ceb8b4a1933ca4045888a5f1644d43ce, type: 2}
+  - {fileID: 11400000, guid: bb6a38095a001944bb90e871d61df20c, type: 2}
+  - {fileID: 11400000, guid: e8e7961a4db05fe44b85331703f4b994, type: 2}
   startingEffects: []
   shuffleInit: 1
   stochasticReshuffle: 1

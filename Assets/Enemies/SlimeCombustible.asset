@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
+  m_Name: SlimeCombustible
+  m_EditorClassIdentifier: 
+  StartingHP: 22
+  enemyId: 14
+  enemyName: Combustible Slime
+  artwork: {fileID: 0}
+  characterArt: {fileID: 6630824432419820787, guid: 9c48eafa09a487a4d9a6ebe0aae11916, type: 3}
+  tier: 1
+  experience: 10
+  deck:
+  - {fileID: 11400000, guid: c7b8bda49b8958645b7081ca217bc8ed, type: 2}
+  - {fileID: 11400000, guid: 7a4a9f0b75cec1745999d981c1852987, type: 2}
+  - {fileID: 11400000, guid: c7518052c81257747a8cc3b93f6cbac1, type: 2}
+  startingEffects: []
+  shuffleInit: 1
+  stochasticReshuffle: 0

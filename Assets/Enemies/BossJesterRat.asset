@@ -20,10 +20,10 @@ MonoBehaviour:
   tier: 1
   experience: 100
   deck:
-  - {fileID: 11400000, guid: cd9b2f429f3c10b40a8ea4cb016163dc, type: 2}
-  - {fileID: 11400000, guid: 32c1dc222ba28294cb8cbc7b77ddccc8, type: 2}
-  - {fileID: 11400000, guid: 287147d5854f5244bbd22d6861711ce5, type: 2}
-  - {fileID: 11400000, guid: 4b7a75b0842c4734ca0629c691a0b231, type: 2}
+  - {fileID: 11400000, guid: ee4af74e673aa9140ace98023e55522c, type: 2}
+  - {fileID: 11400000, guid: 2e3d3ffe95823a24e8cebd8ebea35c9d, type: 2}
+  - {fileID: 11400000, guid: a29c527cc9e8f024a8fb03cdc2c6a945, type: 2}
+  - {fileID: 11400000, guid: 99877d001b10d784db6e7c186ee4cab8, type: 2}
   startingEffects: []
   shuffleInit: 0
   stochasticReshuffle: 0
