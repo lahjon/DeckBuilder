@@ -6,6 +6,10 @@ using System.Linq;
 
 public class ConditionNotConfigured : Condition
 {
+    public ConditionNotConfigured()
+    {
+        value = true;
+    }
     public override void Subscribe(){}
     public override void Unsubscribe() { }
     public override bool ConditionEvaluator()

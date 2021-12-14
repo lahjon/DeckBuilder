@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
+  m_Name: Beasty
+  m_EditorClassIdentifier: 
+  StartingHP: 35
+  enemyId: 13
+  enemyName: Beast
+  artwork: {fileID: 0}
+  characterArt: {fileID: 1124974458796065111, guid: 4773c588612df2d42aa59fd7d1bd10c7, type: 3}
+  tier: 1
+  experience: 10
+  deck:
+  - {fileID: 11400000, guid: a6ac8f0cf5b427841a593736e6f93d67, type: 2}
+  - {fileID: 11400000, guid: a6ac8f0cf5b427841a593736e6f93d67, type: 2}
+  - {fileID: 11400000, guid: 3c51210708dd9294bae0e1936062c780, type: 2}
+  startingEffects: []
+  shuffleInit: 0
+  stochasticReshuffle: 0

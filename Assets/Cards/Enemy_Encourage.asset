@@ -10,20 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_SuperSolid
+  m_Name: Enemy_Encourage
   m_EditorClassIdentifier: 
-  id: 71
+  id: 75
   costDatas: []
   costOptionalDatas: []
-  singleFieldProperties:
-  - Name: Exhaust, True
-    prop: 0
-    val: 1
+  singleFieldProperties: []
   effects:
   - Type: 2
     Value:
       linkedProp: 0
-      baseVal: 40
+      baseVal: 10
       scalar: 1
       inverseScalar: 0
     Times:
@@ -31,25 +28,7 @@ MonoBehaviour:
       baseVal: 1
       scalar: 1
       inverseScalar: 0
-    Target: 0
-    ConditionData:
-      type: 0
-      strParameter: 
-      numValue: 0
-      strParameters: []
-    execTime: 0
-  - Type: 18
-    Value:
-      linkedProp: 0
-      baseVal: 5
-      scalar: 1
-      inverseScalar: 0
-    Times:
-      linkedProp: 0
-      baseVal: 1
-      scalar: 1
-      inverseScalar: 0
-    Target: 0
+    Target: 2
     ConditionData:
       type: 0
       strParameter: 
@@ -57,9 +36,9 @@ MonoBehaviour:
       strParameters: []
     execTime: 0
   activities: []
-  cardName: Super Solid
+  cardName: Encourage
   cardType: 2
-  artwork: {fileID: 21300000, guid: 2c1d63f55c4748640a0b906aa1696673, type: 3}
+  artwork: {fileID: 21300000, guid: c15f158ec91073943bf9df72a09496b8, type: 3}
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

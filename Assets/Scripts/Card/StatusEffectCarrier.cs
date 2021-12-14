@@ -43,7 +43,7 @@ public class StatusEffectCarrier: ICardTextElement, ICardUpgradableComponent
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;
 
-        condition = Condition.Factory(data.ConditionData, null, OnConditionFlip );
+        condition = Condition.Factory(data.ConditionData, card, null, OnConditionFlip );
 
         if (data.ConditionData.type != ConditionType.None)
         {

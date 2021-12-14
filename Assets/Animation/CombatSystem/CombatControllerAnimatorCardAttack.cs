@@ -28,26 +28,29 @@ public class CombatControllerAnimatorCardAttack : CombatControllerAnimatorCard
 
     IEnumerator PerformAttack()
     {
-        activeActor.AttackAnimation();
         foreach (StatusEffectCarrier attack in attacks)
         {
-            List<CombatActor> targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
-
-            for (int i = 0; i < attack.Times; i++)
+            if (attack.condition)
             {
-                foreach (CombatActor actor in targets)
+                activeActor.AttackAnimation();
+                List<CombatActor> targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
+
+                for (int i = 0; i < attack.Times; i++)
                 {
-                    int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
-                    if (actor != null)
-                        yield return combat.StartCoroutine(actor.GetAttacked(damage, activeActor));
-                }
+                    foreach (CombatActor actor in targets)
+                    {
+                        int damage = RulesSystem.instance.CalculateDamage(attack.Value, activeActor, actor);
+                        if (actor != null)
+                            yield return combat.StartCoroutine(actor.GetAttacked(damage, activeActor));
+                    }
                 
-                if ((activeActor.hitPoints == 0 && attack.Target != CardTargetType.EnemyRandom) || !CombatSystem.instance.EnemiesInScene.Any()) break;
+                    if ((activeActor.hitPoints == 0 && attack.Target != CardTargetType.EnemyRandom) || !CombatSystem.instance.EnemiesInScene.Any()) break;
 
-                if (attack.Target == CardTargetType.EnemyRandom && i != attack.Times - 1) // redraw enemy if target is random
-                    targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
+                    if (attack.Target == CardTargetType.EnemyRandom && i != attack.Times - 1) // redraw enemy if target is random
+                        targets = combat.GetTargets(activeActor, attack.Target, suppliedTarget);
 
-                yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.1f);
+                }
             }
 
             if (!combat.animator.GetBool("HasWon"))

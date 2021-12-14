@@ -30,6 +30,7 @@ public class ConditionCounting : Condition
         ConditionCounting cond = Helpers.InstanceObject<ConditionCounting>(string.Format("ConditionCounting{0}", conditionData.type));
         if (cond is null) return new ConditionCountingNotConfigured();
 
+        cond.conditionData = conditionData;
         cond.owner = owner;
         cond.OnConditionFlipTrue = OnConditionFlipTrue;
         cond.onCurrentAmountChanged = onCurrentAmountChanged;

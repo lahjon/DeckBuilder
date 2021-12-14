@@ -26,6 +26,7 @@ public abstract class Condition : IEventSubscriber
         Condition cond = Helpers.InstanceObject<Condition>(string.Format("Condition{0}", conditionData.type));
         if (cond == null) return new ConditionNotConfigured();
 
+        cond.conditionData = conditionData;
         cond.info = ConditionTypeInfo.GetConditionInfo(conditionData.type);
         cond.OnPreConditionUpdate = OnPreConditionUpdate;
         cond.owner = owner;
