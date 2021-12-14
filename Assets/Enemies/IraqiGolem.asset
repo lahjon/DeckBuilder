@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
+  m_Name: IraqiGolem
+  m_EditorClassIdentifier: 
+  StartingHP: 10
+  enemyId: 11
+  enemyName: Rock Golem
+  artwork: {fileID: 0}
+  characterArt: {fileID: 1124974458796065111, guid: 4773c588612df2d42aa59fd7d1bd10c7, type: 3}
+  tier: 1
+  experience: 10
+  deck:
+  - {fileID: 11400000, guid: 4982ee5a82c88144e8e85445e15dd086, type: 2}
+  - {fileID: 11400000, guid: 6afde77ee989f9a4dbceb34795b6f3c4, type: 2}
+  - {fileID: 11400000, guid: 1d6c92aa6fadc664b8bd127010400ea4, type: 2}
+  - {fileID: 11400000, guid: 46f8f719be864134fb36c959aafa144f, type: 2}
+  startingEffects:
+  - Type: 5
+    Value:
+      linkedProp: 0
+      baseVal: 1
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+    Target: 0
+    ConditionData:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
+  - Type: 2
+    Value:
+      linkedProp: 0
+      baseVal: 20
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+    Target: 0
+    ConditionData:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
+  shuffleInit: 0
+  stochasticReshuffle: 1

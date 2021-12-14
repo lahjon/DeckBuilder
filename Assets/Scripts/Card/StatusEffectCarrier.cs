@@ -31,7 +31,7 @@ public class StatusEffectCarrier: ICardTextElement, ICardUpgradableComponent
         Value = new CardInt(value);
         Times = new CardInt(times);
         Target = target;
-        condition = new Condition();
+        condition = new ConditionNotConfigured();
         if (info.Equals(StatusEffectType.Damage)) RegisterDamageComponent();
     }
 
@@ -43,9 +43,9 @@ public class StatusEffectCarrier: ICardTextElement, ICardUpgradableComponent
         Times = CardInt.Factory(data.Times,card, ForceTextRefresh);
         Target = data.Target;
 
-        condition = new Condition(data.conditionStruct, null, OnConditionFlip );
+        condition = Condition.Factory(data.ConditionData, card, null, OnConditionFlip );
 
-        if (data.conditionStruct.type != ConditionType.None)
+        if (data.ConditionData.type != ConditionType.None)
         {
             card.registeredConditions.Add(condition);
             card.registeredSubscribers.Add(condition);
@@ -65,7 +65,7 @@ public class StatusEffectCarrier: ICardTextElement, ICardUpgradableComponent
         {
             return
             info.Equals(data.Type)
-            && condition.conditionData.type == data.conditionStruct.type
+            && condition.conditionData.type == data.ConditionData.type
             && (int)Target <= (int)data.Target
             && (data.Value.baseVal == 0 || data.Times.baseVal == Times.baseVal)
             && (Times.propertyType == data.Times.linkedProp || data.Times.linkedProp == CardLinkablePropertyType.None)

@@ -10,7 +10,7 @@ public enum AbilityType
     Minor,
     Major
 }
-public class Ability : Item, IEventSubscriber, IToolTipable
+public class Ability : Item, IEventSubscriber, IToolTipable, IConditionOwner
 {
     bool _usable;
     public ConditionCounting abilityCondition;
@@ -60,7 +60,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
         
         image.sprite = abilityData.artwork;
         itemEffect = ItemEffect.Factory(abilityData.itemEffectStruct, this);
-        abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
+        abilityCondition = ConditionCounting.Factory(abilityData.itemCondition, this, OnPreconditionUpdate, OnConditionTrue);
         abilityCondition.Subscribe();
         charges = 1;
         Subscribe();
@@ -125,4 +125,6 @@ public class Ability : Item, IEventSubscriber, IToolTipable
     public override void NotifyRegister()
     {
     }
+
+    public CombatActor GetOwningActor() => CombatSystem.instance.Hero;
 }

@@ -23,7 +23,7 @@ public class CardCombat : CardVisual, IEventSubscriber
     public float fanDegreeCurrent;
     public float fanDegreeTarget;
 
-    public Condition playCondition = new Condition();
+    public Condition playCondition = new ConditionNotConfigured();
 
     public delegate void DamageRecalcEvent();
     public event DamageRecalcEvent OnDamageRecalcEvent;
@@ -131,7 +131,7 @@ public class CardCombat : CardVisual, IEventSubscriber
 
         CombatSystem.instance.createdCards.Add(card);
 
-        if (card.singleFieldProperties.Any(s => s == CardSingleFieldPropertyType.Unplayable)) card.playCondition = new Condition() { value = false };
+        if (card.singleFieldProperties.Any(s => s == CardSingleFieldPropertyType.Unplayable)) card.playCondition = new ConditionNotConfigured() { value = false };
 
         card.Subscribe();
         card.RefreshConditions();

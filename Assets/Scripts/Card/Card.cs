@@ -7,7 +7,7 @@ using TMPro;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour, IConditionOwner
 {
     public Rarity rarity;  
     public string cardName;
@@ -324,8 +324,6 @@ public class Card : MonoBehaviour
         }
     }
 
-
-
-
+    public CombatActor GetOwningActor() => owner;
 }
 

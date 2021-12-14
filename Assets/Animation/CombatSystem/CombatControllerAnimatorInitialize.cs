@@ -48,8 +48,8 @@ public class CombatControllerAnimatorInitialize : CombatControllerAnimator
         */
 
         for (int i = 0; i < encounterData.enemyData.Count; i++)
-            foreach (StatusEffectCarrier e in encounterData.enemyData[i].startingEffects)
-                yield return combat.StartCoroutine(combat.EnemiesInScene[i].RecieveEffectNonDamageNonBlock(e));
+            foreach (CardEffectCarrierData d in encounterData.enemyData[i].startingEffects)
+                yield return combat.StartCoroutine(combat.EnemiesInScene[i].RecieveEffectNonDamage(new StatusEffectCarrier(d,null)));
 
         combat.animator.SetTrigger("SetupComplete");
     }

@@ -22,7 +22,7 @@ public class StatusEffectEnvenom : StatusEffect
 
     IEnumerator FeelThePoisonDagger(CombatActor hurtEnemy)
     {
-        yield return CombatSystem.instance.StartCoroutine(hurtEnemy.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Poison,nrStacked)));
+        yield return CombatSystem.instance.StartCoroutine(hurtEnemy.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Poison,nrStacked)));
     }
 
 }

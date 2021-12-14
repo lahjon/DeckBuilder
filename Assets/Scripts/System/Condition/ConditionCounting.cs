@@ -24,16 +24,22 @@ public class ConditionCounting : Condition
  
     public int requiredAmount => conditionData.numValue;
 
-    public ConditionCounting(ConditionData conditionData, Action onCurrentAmountChanged, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None) 
-        : base(conditionData,null, null, OnConditionFlipTrue)
+    public static ConditionCounting Factory(ConditionData conditionData, IConditionOwner owner, Action onCurrentAmountChanged, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None)
     {
-        ConditionEvaluator = GreaterThanComparer;
-        this.onCurrentAmountChanged = onCurrentAmountChanged;
-        this.resetConditionType = resetCondition;
-        this.onTrueType = onTrueType;
+        if (conditionData == null) return new ConditionCountingNotConfigured();
+        ConditionCounting cond = Helpers.InstanceObject<ConditionCounting>(string.Format("ConditionCounting{0}", conditionData.type));
+        if (cond is null) return new ConditionCountingNotConfigured();
+
+        cond.conditionData = conditionData;
+        cond.owner = owner;
+        cond.OnConditionFlipTrue = OnConditionFlipTrue;
+        cond.onCurrentAmountChanged = onCurrentAmountChanged;
+        cond.resetConditionType = resetCondition;
+        cond.onTrueType = onTrueType;
+        return cond;
     }
 
-    public bool GreaterThanComparer(ConditionData conditionData)
+    public override bool ConditionEvaluator()
     {
         return currentAmount >= conditionData.numValue;
     }
@@ -42,8 +48,6 @@ public class ConditionCounting : Condition
 
     public override void OnEventNotification()
     {
-        Debug.Log("notified");
-        if (ConditionEvaluator == null) return; //dodges initial notification OnCreation
         currentAmount++;
         bool preVal = value;
         base.OnEventNotification();
@@ -68,17 +72,9 @@ public class ConditionCounting : Condition
         _ => null
     };
 
-    public override void Subscribe()
-    {
-        base.Subscribe();
-        SubscribeResetEvent();
-    }
-
-    public override void Unsubscribe()
-    {
-        base.Unsubscribe();
-        UnsubscribeResetEvent();
-    }
+    public override void Subscribe() => SubscribeResetEvent();
+    public override void Unsubscribe() => UnsubscribeResetEvent();
+  
 
     private void SubscribeResetEvent()
     {

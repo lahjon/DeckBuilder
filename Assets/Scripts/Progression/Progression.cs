@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public abstract class Progression : MonoBehaviour
+public abstract class Progression : MonoBehaviour, IConditionOwner
 {
     public int id;
     public string aName;
@@ -16,7 +16,7 @@ public abstract class Progression : MonoBehaviour
         if (aData == null) return;
         foreach (ConditionData x in aData.conditionStructs)
         {
-            ConditionCounting countingCondition = new ConditionCounting(x, ConditionOnUpdate, ConditionOnTrue);
+            ConditionCounting countingCondition = ConditionCounting.Factory(x, this, ConditionOnUpdate, ConditionOnTrue);
             countingCondition.Subscribe();
             countingConditions.Add(countingCondition);
         }
@@ -42,4 +42,5 @@ public abstract class Progression : MonoBehaviour
         Debug.Log("Progression Done");
     }
 
+    public CombatActor GetOwningActor() => CombatSystem.instance.Hero;
 }

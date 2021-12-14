@@ -8,6 +8,11 @@ using TMPro;
 using System.Threading.Tasks;
 using System;
 
+public interface ICombatEffect
+{
+    public IEnumerator RunEffectEnumerator();
+}
+
 public class CombatSystem : MonoBehaviour
 {
     public static CombatSystem instance;
@@ -26,8 +31,10 @@ public class CombatSystem : MonoBehaviour
     GameObject currentEnvironment;
     public CombatActorType actorTurn;
     public Button companionButton;
+
     public List<ItemEffect> effectOnCombatStart = new List<ItemEffect>();
     Queue<ItemEffect> queuedEffects = new Queue<ItemEffect>();
+
 
     public CombatCardPresenter cardPresenter;
     public bool deSelectOnMouseLeave = true;
@@ -635,7 +642,7 @@ public class CombatSystem : MonoBehaviour
                 List<CombatActor> targets = GetTargets(Hero, cardEffect.Target, null);
                 for (int i = 0; i < cardEffect.Times; i++)
                     foreach (CombatActor actor in targets)
-                        yield return StartCoroutine(actor.RecieveEffectNonDamageNonBlock(cardEffect));
+                        yield return StartCoroutine(actor.RecieveEffectNonDamage(cardEffect));
             }
             else if(obj is CombatActivitySetting a)
             {
