@@ -48,7 +48,7 @@ public class CombatActivitySetting : ICardTextElement, ICardUpgradableComponent
         {
             return type == data.type &&
                    strParameter == data.strParameter &&
-                   condition.conditionData.type == data.conditionStruct.type;
+                   condition.GetCondType() == data.conditionStruct.type;
         }
         return false;
     }

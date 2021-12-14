@@ -11,21 +11,22 @@ public class CombatActivityAddCardToCombat : CombatActivity
     {
         //Debug.Log("Starting AddCard");
         string[] inputSplit = data.strParameter.Split(';');
-        List<string> cardNames = new List<string>();
+        List<string> ids = new List<string>();
         List<CardCombat> cards = new List<CardCombat>();
         List<CardLocation> targetLocations = new List<CardLocation>();
 
         foreach(string s in inputSplit)
         {
             string[] cardData = s.Split(',');
-            cardNames.Add(cardData[0]);
+            ids.Add(cardData[0]);
             CardLocation locale;
             Enum.TryParse(cardData[1], out locale);
             targetLocations.Add(locale);
         }
 
         List<CardData> cd = new List<CardData>();
-        cd.AddRange(DatabaseSystem.instance.GetCardsByName(cardNames));
+        foreach(string id in ids)
+            cd.Add(DatabaseSystem.instance.cards.FirstOrDefault(c=> c.id == id));
         cd.ForEach(d => cards.Add(CardCombat.Factory(d)));
         CombatSystem.instance.cardPresenter.DisplayCards(cards, targetLocations);
 

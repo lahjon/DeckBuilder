@@ -7,7 +7,7 @@ using System.Linq;
 
 public abstract class Condition : IEventSubscriber
 {
-    public ConditionData conditionData;
+    internal ConditionData conditionData;
     public ConditionTypeInfo info;
     public bool value;
 
@@ -38,6 +38,8 @@ public abstract class Condition : IEventSubscriber
     }
 
     public string GetTextCard() => (conditionData == null || conditionData.type == ConditionType.None) ? "" : (info.GetTextInfo(conditionData) + ":\n");
+
+    public ConditionType GetCondType() => (conditionData == null ? ConditionType.None : conditionData.type);
 
     public virtual void Subscribe()
     {

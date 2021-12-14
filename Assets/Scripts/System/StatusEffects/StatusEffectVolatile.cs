@@ -6,7 +6,8 @@ public class StatusEffectVolatile : StatusEffect, ICombatEffect
 {
     public StatusEffectVolatile() : base()
     {
-        OnNewTurn = null;
+        OnEndTurn = null;
+        OnNewTurn = _OnNewTurn;
     }
 
     public override void AddFunctionToRules()
@@ -15,6 +16,11 @@ public class StatusEffectVolatile : StatusEffect, ICombatEffect
 
     public override void RemoveFunctionFromRules()
     {
+    }
+
+    protected override IEnumerator _OnNewTurn()
+    {
+        yield return CombatSystem.instance.StartCoroutine(RecieveInput(-1));
     }
 
     public override void OnActorDeath()
@@ -31,8 +37,8 @@ public class StatusEffectVolatile : StatusEffect, ICombatEffect
         {
             if (otherActor != null)
             {
-                otherActor.TakeDamage(actor.maxHitPoints / 2);
-                yield return new WaitForSeconds(0.4f);
+                otherActor.TakeDamage((actor.maxHitPoints+1) / 2);
+                yield return new WaitForSeconds(0.3f);
             }
         }
     }

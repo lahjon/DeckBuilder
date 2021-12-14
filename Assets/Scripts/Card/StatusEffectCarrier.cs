@@ -65,7 +65,7 @@ public class StatusEffectCarrier: ICardTextElement, ICardUpgradableComponent
         {
             return
             info.Equals(data.Type)
-            && condition.conditionData.type == data.ConditionData.type
+            && condition.GetCondType() == data.ConditionData.type
             && (int)Target <= (int)data.Target
             && (data.Value.baseVal == 0 || data.Times.baseVal == Times.baseVal)
             && (Times.propertyType == data.Times.linkedProp || data.Times.linkedProp == CardLinkablePropertyType.None)
