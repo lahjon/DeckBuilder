@@ -17,9 +17,9 @@ public class ConditionCountingKillEnemy : ConditionCounting
         EventManager.OnEnemyKilledEvent -= CheckValid;
     }
 
-    public void CheckValid(EnemyData enemy)
+    public void CheckValid(CombatActorEnemy enemy)
     {
-        if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyId == conditionData.strParameter.ToInt())
+        if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyData.enemyId == conditionData.strParameter.ToInt())
             OnEventNotification();
     }
 

@@ -12,7 +12,7 @@ public class ConditionHasAlly: Condition
     }
     public override void Unsubscribe() => EventManager.OnEnemyKilledEvent -= NoteEnemyKilled;
 
-    public void NoteEnemyKilled(EnemyData data) => OnEventNotification();
+    public void NoteEnemyKilled(CombatActorEnemy data) => OnEventNotification();
 
 
     public override bool ConditionEvaluator()

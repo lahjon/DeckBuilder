@@ -32,7 +32,7 @@ public class CombatActorEnemy : CombatActor
     float toolTiptimer = 0;
     float toolTipDelay = 1f;
     bool toolTipShowing = false;
-    [SerializeField] Enemy enemyScript;
+    [SerializeField] EnemyGraphics enemyScript;
     public GameObject targetRing;
 
 
@@ -94,10 +94,10 @@ public class CombatActorEnemy : CombatActor
             collision.size = enemyArt.GetComponent<BoxCollider2D>().size;
             collision.offset = enemyArt.GetComponent<BoxCollider2D>().offset;
 
-            Enemy enemy;
+            EnemyGraphics enemy;
             for (int i = 0; i < transform.childCount; i++)
             {
-                if (transform.GetChild(i).TryGetComponent<Enemy>(out enemy))
+                if (transform.GetChild(i).TryGetComponent<EnemyGraphics>(out enemy))
                 {
                     enemyScript = enemy;
                 }
@@ -201,7 +201,7 @@ public class CombatActorEnemy : CombatActor
 
         StartDeathAnimation();
     
-        EventManager.EnemyKilled(enemyData);
+        EventManager.EnemyKilled(this);
     }
 
     void StartDeathAnimation()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemEffectAddCombatActivity : ItemEffect
+public class ItemEffectAddCombatActivity : ItemEffect, ICombatEffect
 {
     CombatActivitySetting CardActivity;
 

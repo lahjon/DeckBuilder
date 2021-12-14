@@ -46,14 +46,14 @@ public class StatsTrackerSystem : MonoBehaviour, IEventSubscriber, ISaveableWorl
 
     public void Subscribe()
     {
-        EventManager.OnEnemyKilledEvent += EnemyKilled;
+        //EventManager.OnEnemyKilledEvent += EnemyKilled;
         EventManager.OnEnterBuildingEvent += EnterBuilding;
         EventManager.OnLevelUpEvent += LevelUp;
         EventManager.OnCompleteSpecialEventEvent += CompleteSpecialEvent;
     }
     public void Unsubscribe()
     {
-        EventManager.OnEnemyKilledEvent -= EnemyKilled;
+        //EventManager.OnEnemyKilledEvent -= EnemyKilled;
         EventManager.OnEnterBuildingEvent -= EnterBuilding;
         EventManager.OnLevelUpEvent -= LevelUp;
         EventManager.OnCompleteSpecialEventEvent -= CompleteSpecialEvent;

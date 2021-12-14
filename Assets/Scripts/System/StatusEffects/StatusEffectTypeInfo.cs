@@ -30,7 +30,8 @@ public enum StatusEffectType
     Barrier,
     Steaming,
     Loaded,
-    RockSkin
+    RockSkin,
+    Volatile
 }
 
 public enum StatusEffectCategory
@@ -70,6 +71,7 @@ public class StatusEffectTypeInfo : IEquatable<StatusEffectTypeInfo>
     public static StatusEffectTypeInfo Steaming = new StatusEffectTypeInfo { type = StatusEffectType.Steaming, verb = "Gain",  toolTipIcon = $"<b>Steaming</b>\nUntil next turn, gain Rage when attacked.", toolTipCard = $"<b>Steaming</b>\nUntil next turn, gain Rage when attacked." };
     public static StatusEffectTypeInfo Loaded = new StatusEffectTypeInfo { type = StatusEffectType.Loaded, toolTipIcon = $"<b>Loaded</b>\nNext attack deals double damage.", txtOverride = "Your next attack deals double damage" };
     public static StatusEffectTypeInfo RockSkin = new StatusEffectTypeInfo { type = StatusEffectType.RockSkin, toolTipIcon = $"<b>Indestructible</b>\nGain block whenever shield is broken."};
+    public static StatusEffectTypeInfo Volatile = new StatusEffectTypeInfo { type = StatusEffectType.Volatile, toolTipIcon = $"<b>Volatile</b>\nDeals half of total life to everyone on death."};
 
     static Dictionary<StatusEffectType, StatusEffectTypeInfo> TypeToStruct = new Dictionary<StatusEffectType, StatusEffectTypeInfo>
     {
@@ -92,6 +94,7 @@ public class StatusEffectTypeInfo : IEquatable<StatusEffectTypeInfo>
         { StatusEffectType.Steaming, Steaming },
         { StatusEffectType.Loaded, Loaded},
         { StatusEffectType.RockSkin, RockSkin},
+        { StatusEffectType.Volatile, Volatile},
     };
 
     #region usually dont touch

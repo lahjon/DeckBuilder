@@ -19,7 +19,7 @@ public class EventManager : Manager
     public delegate void EncounterDataCompletedEvent(EncounterData data);
     public static event EncounterDataCompletedEvent OnEncounterDataCompletedEvent;
 
-    public delegate void EnemyKilledEvent(EnemyData enemy);
+    public delegate void EnemyKilledEvent(CombatActorEnemy enemy);
     public static event EnemyKilledEvent OnEnemyKilledEvent;
 
     public delegate void StatModifiedEvent();
@@ -96,7 +96,7 @@ public class EventManager : Manager
             EventManager.OnCurrencyChanged(currencyType, currentAmount);
     }
 
-    public static void EnemyKilled(EnemyData enemy)
+    public static void EnemyKilled(CombatActorEnemy enemy)
     {
         OnEnemyKilledEvent?.Invoke(enemy);
         OnEnemyKilledNoArgEvent?.Invoke();

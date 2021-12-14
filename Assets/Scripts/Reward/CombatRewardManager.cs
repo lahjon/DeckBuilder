@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 
 
-public class CombatRewardManager : Manager, IEventSubscriber
+public class CombatRewardManager : Manager
 {
     
     public RewardScreenCombat rewardScreenCombat;
@@ -27,10 +27,6 @@ public class CombatRewardManager : Manager, IEventSubscriber
         rewardScreenCombat.SetupRewards();
     }
 
-    public void EnemyKilled(EnemyData enemyData)
-    {
-        rewardScreenCombat.callback = () => Enemy.EnemyKilledCallback(enemyData);
-    }
     public RewardCombat CreateRewardCombat(RewardCombatType type, string value = null)
     {
         RewardCombat reward = Instantiate(rewardCombatPrefab, rewardParent).GetComponent<RewardCombat>();
@@ -74,17 +70,7 @@ public class CombatRewardManager : Manager, IEventSubscriber
     {
         rewardScreenCardSelection.SetupRewards();
     }
-    
-    public void Subscribe()
-    {
-        EventManager.OnEnemyKilledEvent += EnemyKilled;
-    }
-
-    
-    public void Unsubscribe()
-    {
-        EventManager.OnEnemyKilledEvent -= EnemyKilled;
-    }
+ 
 }
 
 [System.Serializable] public struct RewardCombatStruct

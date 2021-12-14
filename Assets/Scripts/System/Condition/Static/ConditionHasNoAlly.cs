@@ -12,7 +12,7 @@ public class ConditionHasNoAlly: Condition
     }
     public override void Unsubscribe() => EventManager.OnEnemyKilledEvent -= NoteEnemyKilled;
 
-    public void NoteEnemyKilled(EnemyData data) => OnEventNotification();
+    public void NoteEnemyKilled(CombatActor data) => OnEventNotification();
 
     public override bool ConditionEvaluator() => owner.GetOwningActor().allies.Count == 0;
 }
