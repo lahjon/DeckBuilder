@@ -32,8 +32,8 @@ public class CombatSystem : MonoBehaviour
     public CombatActorType actorTurn;
     public Button companionButton;
 
-    public List<ItemEffect> effectOnCombatStart = new List<ItemEffect>();
-    Queue<ItemEffect> queuedEffects = new Queue<ItemEffect>();
+    public List<ICombatEffect> effectOnCombatStart = new List<ICombatEffect>();
+    Queue<ICombatEffect> queuedEffects = new Queue<ICombatEffect>();
 
 
     public CombatCardPresenter cardPresenter;
@@ -778,7 +778,7 @@ public class CombatSystem : MonoBehaviour
         ActiveCard = null;
     }
 
-    public void QueueEffect(ItemEffect effect)
+    public void QueueEffect(ICombatEffect effect)
     {
         queuedEffects.Enqueue(effect);
         animator.SetBool("EffectsQueued", true);

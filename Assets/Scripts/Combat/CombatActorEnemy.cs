@@ -200,8 +200,8 @@ public class CombatActorEnemy : CombatActor
             actor.enemies.Remove(this);
 
         StartDeathAnimation();
-    
         EventManager.EnemyKilled(this);
+    
     }
 
     void StartDeathAnimation()
