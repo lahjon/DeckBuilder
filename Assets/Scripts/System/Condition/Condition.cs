@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class Condition : IEventSubscriber
+public abstract class Condition : IEventSubscriber
 {
     public ConditionData conditionData;
     public ConditionTypeInfo info;
@@ -15,11 +15,18 @@ public class Condition : IEventSubscriber
     public Action OnConditionFlipFalse;
     public Action OnConditionFlip;
 
-    public Func<ConditionData, bool> ConditionEvaluator;
-
     public static implicit operator bool(Condition c) => c.value;
 
-    public Condition(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
+    public static Condition Factory(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
+    {
+        if(conditionData == null) return new ConditionNotConfigured();
+        Condition cond = Helpers.InstanceObject<Condition>(string.Format("Condition{0}", conditionData.type));
+        if (cond == null) return new ConditionNotConfigured();
+        cond.SetParameters(conditionData, OnPreConditionUpdate, OnConditionFlip, OnConditionFlipTrue, OnConditionFlipFalse);
+        return cond;
+    }
+
+    public void SetParameters(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
     {
         this.conditionData = conditionData;
         if (conditionData == null || conditionData.type == ConditionType.None)
@@ -29,119 +36,26 @@ public class Condition : IEventSubscriber
         }
 
         info = ConditionTypeInfo.GetConditionInfo(conditionData.type);
-        ConditionEvaluator = info.conditionChecker;
         this.OnPreConditionUpdate = OnPreConditionUpdate;
         this.OnConditionFlip = OnConditionFlip;
         this.OnConditionFlipTrue = OnConditionFlipTrue;
         this.OnConditionFlipFalse = OnConditionFlipFalse;
     }
 
-    public Condition()
-    {
-        conditionData = new ConditionData() { type = ConditionType.None };
-        value = true;
-    }
-
-    public string GetTextCard() => conditionData.type == ConditionType.None ? "" : (info.GetTextInfo(conditionData) + ":\n");
+    public string GetTextCard() => (conditionData == null || conditionData.type == ConditionType.None) ? "" : (info.GetTextInfo(conditionData) + ":\n");
 
     public virtual void Subscribe()
     {
-        switch (conditionData.type)
-        {
-            case ConditionType.None:
-                return;
-            case ConditionType.CardsPlayedAtLeast:
-            case ConditionType.CardsPlayedAtMost:
-            case ConditionType.LastCardPlayedTurnType:
-                EventManager.OnCardPlayNoArgEvent       += OnEventNotification;
-                break;
-            case ConditionType.WinCombat:
-                EventManager.OnCombatWonEvent           += OnEventNotification;
-                break;
-            case ConditionType.ClearTile:
-            case ConditionType.StoryTileCompleted:
-                EventManager.OnCompleteTileEvent        += OnEventNotification;
-                break;
-            case ConditionType.KillEnemy:
-                EventManager.OnEnemyKilledEvent         += OnEventNotification;
-                break;
-            case ConditionType.EnterBuilding:
-                EventManager.OnEnterBuildingEvent       += OnEventNotification;
-                break;
-            case ConditionType.EncounterDataCompleted:
-                EventManager.OnEncounterDataCompletedEvent += OnEventNotification;
-                break;
-            case ConditionType.EncounterCompleted:
-                EventManager.OnEncounterCompletedEvent += OnEventNotification;
-                break;
-            case ConditionType.StorySegmentCompleted:
-                EventManager.OnCompleteStorySegmentEvent += OnEventNotification;
-                break;
-            case ConditionType.SpendEnergySpecific:
-                EventManager.OnEnergyInfoChangedEvent += OnEventNotification;
-                break;
-            case ConditionType.HealthPercentLessThan:
-                EventManager.OnHealthChangedEventnoArg += OnEventNotification;
-                break;
-            case ConditionType.CardPlayType:
-                EventManager.OnCardPlayTypeEvent += OnEventNotification;
-                break;
-            default:
-                break;
-        }
-
         if (this is ConditionCounting) return;
         OnEventNotification();
     }
+    public abstract void Unsubscribe();
+    public abstract bool ConditionEvaluator();
 
-    public virtual void Unsubscribe()
-    {
-        switch (conditionData.type)
-        {
-            case ConditionType.None:
-                return;
-            case ConditionType.CardsPlayedAtLeast:
-            case ConditionType.CardsPlayedAtMost:
-            case ConditionType.LastCardPlayedTurnType:
-                EventManager.OnCardPlayNoArgEvent       -= OnEventNotification;
-                break;
-            case ConditionType.WinCombat:
-                EventManager.OnCombatWonEvent           -= OnEventNotification;
-                break;
-            case ConditionType.ClearTile:
-            case ConditionType.StoryTileCompleted:
-                EventManager.OnCompleteTileEvent        -= OnEventNotification;
-                break;
-            case ConditionType.KillEnemy:
-                EventManager.OnEnemyKilledEvent         -= OnEventNotification;
-                break;
-            case ConditionType.EnterBuilding:
-                EventManager.OnEnterBuildingEvent       -= OnEventNotification;
-                break;
-            case ConditionType.EncounterDataCompleted:
-                EventManager.OnEncounterDataCompletedEvent -= OnEventNotification;
-                break;
-            case ConditionType.EncounterCompleted:
-                EventManager.OnEncounterCompletedEvent -= OnEventNotification;
-                break;
-            case ConditionType.SpendEnergySpecific:
-                EventManager.OnEnergyInfoChangedEvent -= OnEventNotification;
-                break;
-            case ConditionType.HealthPercentLessThan:
-                EventManager.OnHealthChangedEventnoArg -= OnEventNotification;
-                break;
-            case ConditionType.CardPlayType:
-                EventManager.OnCardPlayTypeEvent -= OnEventNotification;
-                break;
-            default:
-                break;
-        }
-    }
     public virtual void OnEventNotification()
     {
-        if (ConditionEvaluator == null) return;
         bool oldVal = value;
-        value = ConditionEvaluator.Invoke(conditionData);
+        value = ConditionEvaluator();
 
         OnPreConditionUpdate?.Invoke();
 
@@ -155,61 +69,6 @@ public class Condition : IEventSubscriber
         }
     }
 
-    public void OnEventNotification(EnemyData enemy)
-    {
-        if (string.IsNullOrEmpty(conditionData.strParameter) || enemy.enemyId == Int32.Parse(conditionData.strParameter) || conditionData.strParameters.Contains(enemy.enemyId.ToString()))
-            OnEventNotification();
-    }
-
-    public void OnEventNotification(Dictionary<EnergyType, int> changes)
-    {
-        if (string.IsNullOrEmpty(conditionData.strParameter))
-            OnEventNotification();
-        else
-        {
-            EnergyType type = conditionData.strParameter.ToEnum<EnergyType>();
-            if (changes.ContainsKey(type) && changes[type] >= 0)
-                OnEventNotification();
-        }
-    }
-
-    public void OnEventNotification(BuildingType buildingType)
-    {
-        if (string.IsNullOrEmpty(conditionData.strParameter) || buildingType.ToString() == conditionData.strParameter)
-            OnEventNotification();
-    }
-
-    public void OnEventNotification(CardType cardType)
-    {
-        if (conditionData.strParameter == cardType.ToString())
-            OnEventNotification();
-    }
-
-    public void OnEventNotification(HexTile tile)
-    {
-        if (string.IsNullOrEmpty(conditionData.strParameter) || tile.storyId == conditionData.strParameter)
-            OnEventNotification();
-    }
-
-    public void OnEventNotification(EncounterData data)
-    {
-        if (data.name == conditionData.strParameter || conditionData.strParameters.Contains(data.name))
-            OnEventNotification();
-    }
-
-    public void OnEventNotification(Encounter enc)
-    {
-        ScenarioEncounterType type;
-        Enum.TryParse(conditionData.strParameter, out type);
-        if(type == enc.encounterType || enc.storyID == conditionData.strParameter)
-            OnEventNotification();
-    }
-
-    public void OnEventNotification(ScenarioSegment segment)
-    {
-        if (segment.data.SegmentName == conditionData.strParameter || conditionData.strParameters.Contains(segment.data.SegmentName))
-            OnEventNotification();
-    }
 }
 
 

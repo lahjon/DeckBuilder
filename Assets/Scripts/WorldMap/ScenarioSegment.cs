@@ -26,7 +26,7 @@ public class ScenarioSegment
     {
         if(data.requiredSegmentsAND.Count != 0)
         {
-            conditionStartAnd = new ConditionCounting(
+            conditionStartAnd = ConditionCounting.Factory(
                 new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = data.requiredSegmentsAND.Count, strParameters = data.requiredSegmentsAND },
                 null,
                 () => {
@@ -38,7 +38,7 @@ public class ScenarioSegment
 
         if (data.requiredSegmentsOR.Count != 0)
         {
-            conditionStartOr = new ConditionCounting(
+            conditionStartOr = ConditionCounting.Factory(
                 new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = 1, strParameters = data.requiredSegmentsOR },
                 null,
                 () => {
@@ -82,7 +82,7 @@ public class ScenarioSegment
         foreach (Vector3Int vec in data.gridCoordinates)
             WorldSystem.instance.scenarioMapManager.GetTile(vec).SetStoryInfo(data.SegmentName, data.color);
 
-        conditionClear = new ConditionCounting(
+        conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
             RefreshDescription,
             SegmentFinished);
@@ -95,7 +95,7 @@ public class ScenarioSegment
         for(int i = 0; i < data.gridCoordinates.Count; i++)
             WorldSystem.instance.scenarioMapManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.SegmentName, data.color, data.encounters[i]);
 
-        conditionClear = new ConditionCounting(
+        conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName , numValue = data.encounters.Count- data.nrSkippableTiles},
             RefreshDescription,
             SegmentFinished);
@@ -119,7 +119,7 @@ public class ScenarioSegment
                 tile.SetStoryInfo(data.SegmentName, data.color, data.encounters[(i - data.nrDecoys) % data.encounters.Count]);
         }
 
-        conditionClear = new ConditionCounting(
+        conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count - data.nrDecoys },
             RefreshDescription,
             SegmentFinished);

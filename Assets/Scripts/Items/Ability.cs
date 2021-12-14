@@ -60,7 +60,7 @@ public class Ability : Item, IEventSubscriber, IToolTipable
         
         image.sprite = abilityData.artwork;
         itemEffect = ItemEffect.Factory(abilityData.itemEffectStruct, this);
-        abilityCondition = new ConditionCounting(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
+        abilityCondition = ConditionCounting.Factory(abilityData.itemCondition, OnPreconditionUpdate, OnConditionTrue);
         abilityCondition.Subscribe();
         charges = 1;
         Subscribe();

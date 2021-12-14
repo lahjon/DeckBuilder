@@ -38,7 +38,7 @@ MonoBehaviour:
       scalar: 1
       inverseScalar: 0
     Target: 2
-    conditionStruct:
+    ConditionData:
       type: 0
       strParameter: 
       numValue: 0

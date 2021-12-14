@@ -16,7 +16,7 @@ public abstract class Progression : MonoBehaviour
         if (aData == null) return;
         foreach (ConditionData x in aData.conditionStructs)
         {
-            ConditionCounting countingCondition = new ConditionCounting(x, ConditionOnUpdate, ConditionOnTrue);
+            ConditionCounting countingCondition = ConditionCounting.Factory(x, ConditionOnUpdate, ConditionOnTrue);
             countingCondition.Subscribe();
             countingConditions.Add(countingCondition);
         }

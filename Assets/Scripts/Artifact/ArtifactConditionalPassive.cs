@@ -14,7 +14,7 @@ public class ArtifactConditionalPassive : Artifact
         base.BindData(anArtifactData);
         itemEffect.itemEffectStruct.addImmediately = false;
 
-        condition = new Condition(artifactData.condition, null, null,itemEffect.Register ,itemEffect.DeRegister);
+        condition = Condition.Factory(artifactData.condition, null, null,itemEffect.Register ,itemEffect.DeRegister);
         condition.Subscribe();
     }
     public override void NotifyRegister()
