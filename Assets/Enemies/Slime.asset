@@ -22,6 +22,24 @@ MonoBehaviour:
   deck:
   - {fileID: 11400000, guid: b2bcbc689c8d90247bace9828ff6cf80, type: 2}
   - {fileID: 11400000, guid: ef4c9ef309fcd834e9f0c44aa7e9a8c2, type: 2}
-  startingEffects: []
+  startingEffects:
+  - Type: 19
+    Value:
+      linkedProp: 0
+      baseVal: 9
+      scalar: 0
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 0
+      inverseScalar: 0
+    Target: 0
+    ConditionData:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
   shuffleInit: 1
   stochasticReshuffle: 1

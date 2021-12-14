@@ -11,21 +11,29 @@ public class StatusEffectVolatile : StatusEffect, ICombatEffect
 
     public override void AddFunctionToRules()
     {
-        EventManager.OnEnemyKilledEvent += QueueMeUp;
     }
 
     public override void RemoveFunctionFromRules()
     {
-        EventManager.OnEnemyKilledEvent -= QueueMeUp;
     }
 
-    public void QueueMeUp(CombatActorEnemy enemy)
+    public override void OnActorDeath()
     {
-
+        CombatSystem.instance.QueueEffect(this);
     }
 
     public IEnumerator RunEffectEnumerator()
     {
-        yield return null;
+        List<CombatActor> actors = new List<CombatActor>(actor.allies);
+        actors.AddRange(actor.enemies);
+
+        foreach(CombatActor otherActor in actors)
+        {
+            if (otherActor != null)
+            {
+                otherActor.TakeDamage(actor.maxHitPoints / 2);
+                yield return new WaitForSeconds(0.4f);
+            }
+        }
     }
 }
