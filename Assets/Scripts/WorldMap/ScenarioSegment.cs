@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System;
 
-public class ScenarioSegment
+public class ScenarioSegment : IConditionOwner 
 {
     public Scenario scenario;
     public ScenarioSegmentData data;
@@ -28,6 +28,7 @@ public class ScenarioSegment
         {
             conditionStartAnd = ConditionCounting.Factory(
                 new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = data.requiredSegmentsAND.Count, strParameters = data.requiredSegmentsAND },
+                this,
                 null,
                 () => {
                     scenario.nextStorySegments.Add(this);
@@ -40,6 +41,7 @@ public class ScenarioSegment
         {
             conditionStartOr = ConditionCounting.Factory(
                 new ConditionData() { type = ConditionType.StorySegmentCompleted, numValue = 1, strParameters = data.requiredSegmentsOR },
+                this,
                 null,
                 () => {
                     scenario.nextStorySegments.Add(this);
@@ -83,7 +85,8 @@ public class ScenarioSegment
             WorldSystem.instance.scenarioMapManager.GetTile(vec).SetStoryInfo(data.SegmentName, data.color);
 
         conditionClear = ConditionCounting.Factory(
-            new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count-data.nrSkippableTiles }, 
+            new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count-data.nrSkippableTiles },
+            this,
             RefreshDescription,
             SegmentFinished);
 
@@ -97,6 +100,7 @@ public class ScenarioSegment
 
         conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName , numValue = data.encounters.Count- data.nrSkippableTiles},
+            this,
             RefreshDescription,
             SegmentFinished);
 
@@ -121,6 +125,7 @@ public class ScenarioSegment
 
         conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count - data.nrDecoys },
+            this,
             RefreshDescription,
             SegmentFinished);
 
@@ -166,4 +171,5 @@ public class ScenarioSegment
             : ""); 
     }
 
+    public CombatActor GetOwningActor() => CombatSystem.instance.Hero;
 }

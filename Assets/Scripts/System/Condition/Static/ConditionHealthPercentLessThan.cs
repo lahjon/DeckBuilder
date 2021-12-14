@@ -15,7 +15,11 @@ public class ConditionHealthPercentLessThan : Condition
     public override void Unsubscribe() => EventManager.OnHealthChangedEventnoArg -= OnEventNotification;
     public override bool ConditionEvaluator()
     {
-        return 100 * WorldSystem.instance.characterManager.CurrentHealth / CharacterStats.Health < conditionData.numValue;
+        if (owner.GetOwningActor() == CombatSystem.instance.Hero)
+            return 100 * WorldSystem.instance.characterManager.CurrentHealth / CharacterStats.Health < conditionData.numValue;
+        else
+            return 100 * owner.GetOwningActor().hitPoints / owner.GetOwningActor().maxHitPoints < conditionData.numValue;
+
     }
     
 }

@@ -19,7 +19,7 @@ public class CombatActivitySetting : ICardTextElement, ICardUpgradableComponent
         strParameter = data.strParameter;
         val = data.val;
 
-        condition = Condition.Factory(data.conditionStruct, OnPreConditionUpdate);
+        condition = Condition.Factory(data.conditionStruct, card, OnPreConditionUpdate);
 
         if (data.conditionStruct != null && data.conditionStruct.type != ConditionType.None)
         {

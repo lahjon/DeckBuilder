@@ -5,12 +5,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public abstract class Artifact : Item, IToolTipable
+public abstract class Artifact : Item, IToolTipable, IConditionOwner
 {
     public int id;
     protected Image image;
     public Button button;
-    public Transform tooltipAnchor;
+    public Transform tooltipAnchor; 
     bool initialized;
     public ArtifactData artifactData;
     internal Tween tween;
@@ -70,6 +70,8 @@ public abstract class Artifact : Item, IToolTipable
     {
 
     }
+
+    public CombatActor GetOwningActor() => CombatSystem.instance.Hero;
 }
 
 public enum ArtifactType{

@@ -15,9 +15,14 @@ public class ConditionOptionalCardCostPaid : Condition
     public override void Unsubscribe() => EventManager.OnCardPlayNoArgEvent -= OnEventNotification;
     public override bool ConditionEvaluator()
     {
-        return
-            WorldStateSystem.instance.currentWorldState == WorldState.Combat &&
-            CombatSystem.instance.InProcessCard is Card card ? card.cost.optionalPaid : false;
+        if(owner is Card card)
+        {
+            if (CombatSystem.instance.InProcessCard == card)
+                return card.cost.optionalPaid;
+            else
+                return card.cost.PayableOptional();
+        }
+        return false;
     }
 
 }

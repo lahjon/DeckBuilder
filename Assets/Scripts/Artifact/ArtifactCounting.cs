@@ -20,7 +20,7 @@ public class ArtifactCounting : Artifact
         itemEffect.itemEffectStruct.addImmediately = true;
 
         itemEffect.Register();
-        condition = ConditionCounting.Factory(artifactData.condition, UpdateText, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
+        condition = ConditionCounting.Factory(artifactData.condition, this, UpdateText, itemEffect.ApplyEffect, artifactData.conditionCountingOnTrueType, artifactData.conditionResetEvent);
         condition.Subscribe();
         UpdateText();
     }

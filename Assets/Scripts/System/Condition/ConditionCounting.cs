@@ -24,21 +24,18 @@ public class ConditionCounting : Condition
  
     public int requiredAmount => conditionData.numValue;
 
-    public static ConditionCounting Factory(ConditionData conditionData, Action onCurrentAmountChanged, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None)
+    public static ConditionCounting Factory(ConditionData conditionData, IConditionOwner owner, Action onCurrentAmountChanged, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None)
     {
         if (conditionData == null) return new ConditionCountingNotConfigured();
         ConditionCounting cond = Helpers.InstanceObject<ConditionCounting>(string.Format("ConditionCounting{0}", conditionData.type));
         if (cond is null) return new ConditionCountingNotConfigured();
-        cond.SetParameters(conditionData, onCurrentAmountChanged, OnConditionFlipTrue, onTrueType, resetCondition);
-        return cond;
-    }
 
-    public void SetParameters(ConditionData conditionData, Action onCurrentAmountChanged, Action OnConditionFlipTrue, ConditionCountingOnTrueType onTrueType = ConditionCountingOnTrueType.Nothing, ConditionType resetCondition = ConditionType.None)
-    {
-        base.SetParameters(conditionData, null, null, OnConditionFlipTrue);
-        this.onCurrentAmountChanged = onCurrentAmountChanged;
-        this.resetConditionType = resetCondition;
-        this.onTrueType = onTrueType;
+        cond.owner = owner;
+        cond.OnConditionFlipTrue = OnConditionFlipTrue;
+        cond.onCurrentAmountChanged = onCurrentAmountChanged;
+        cond.resetConditionType = resetCondition;
+        cond.onTrueType = onTrueType;
+        return cond;
     }
 
     public override bool ConditionEvaluator()

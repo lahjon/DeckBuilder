@@ -1,8 +1,9 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+
 
 public abstract class Condition : IEventSubscriber
 {
@@ -15,31 +16,24 @@ public abstract class Condition : IEventSubscriber
     public Action OnConditionFlipFalse;
     public Action OnConditionFlip;
 
+    public IConditionOwner owner;
+
     public static implicit operator bool(Condition c) => c.value;
 
-    public static Condition Factory(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
+    public static Condition Factory(ConditionData conditionData, IConditionOwner owner, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
     {
         if(conditionData == null) return new ConditionNotConfigured();
         Condition cond = Helpers.InstanceObject<Condition>(string.Format("Condition{0}", conditionData.type));
         if (cond == null) return new ConditionNotConfigured();
-        cond.SetParameters(conditionData, OnPreConditionUpdate, OnConditionFlip, OnConditionFlipTrue, OnConditionFlipFalse);
+
+        cond.info = ConditionTypeInfo.GetConditionInfo(conditionData.type);
+        cond.OnPreConditionUpdate = OnPreConditionUpdate;
+        cond.owner = owner;
+        cond.OnConditionFlip = OnConditionFlip;
+        cond.OnConditionFlipTrue = OnConditionFlipTrue;
+        cond.OnConditionFlipFalse = OnConditionFlipFalse;
+
         return cond;
-    }
-
-    public void SetParameters(ConditionData conditionData, Action OnPreConditionUpdate = null, Action OnConditionFlip = null, Action OnConditionFlipTrue = null, Action OnConditionFlipFalse = null)
-    {
-        this.conditionData = conditionData;
-        if (conditionData == null || conditionData.type == ConditionType.None)
-        {
-            value = true;
-            return;
-        }
-
-        info = ConditionTypeInfo.GetConditionInfo(conditionData.type);
-        this.OnPreConditionUpdate = OnPreConditionUpdate;
-        this.OnConditionFlip = OnConditionFlip;
-        this.OnConditionFlipTrue = OnConditionFlipTrue;
-        this.OnConditionFlipFalse = OnConditionFlipFalse;
     }
 
     public string GetTextCard() => (conditionData == null || conditionData.type == ConditionType.None) ? "" : (info.GetTextInfo(conditionData) + ":\n");
@@ -68,7 +62,12 @@ public abstract class Condition : IEventSubscriber
                 OnConditionFlipTrue?.Invoke();
         }
     }
-
 }
+
+public interface IConditionOwner
+{
+    public CombatActor GetOwningActor();
+}
+
 
 

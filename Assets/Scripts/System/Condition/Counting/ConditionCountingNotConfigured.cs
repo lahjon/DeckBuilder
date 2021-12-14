@@ -5,6 +5,11 @@ using System;
 
 public class ConditionCountingNotConfigured : ConditionCounting
 {
+    public ConditionCountingNotConfigured()
+    {
+        value = true;
+    }
+
     public override void Subscribe() {
 
     }

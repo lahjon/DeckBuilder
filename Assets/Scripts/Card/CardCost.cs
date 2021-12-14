@@ -44,6 +44,18 @@ public class CardCost
         return true;
     }
 
+    public bool PayableOptional()
+    {
+        foreach (EnergyType type in energyCosts.Keys.Union(energyCostsOptional.Keys))
+            if (
+                    ((energyCosts.ContainsKey(type) ? energyCosts[type] : 0) +
+                    (energyCostsOptional.ContainsKey(type) ? energyCostsOptional[type] : 0))       
+                > CombatSystem.instance.GetEnergy(type))
+                return false;
+
+        return true;
+    }
+
     public void Pay()
     {
         if (!(card.owner == CombatSystem.instance.Hero)) return;
@@ -58,11 +70,14 @@ public class CardCost
             paidEnergy[type] = energyCosts[type];
         }
 
-        foreach (EnergyType type in energyCostsOptional.Keys)
+        if (PayableOptional())
         {
-            if (energyCostsOptional[type] > CombatSystem.instance.GetEnergy(type) + (frozenCost.ContainsKey(type) ? frozenCost[type] : 0) ) continue;
-            frozenCost[type]            = (frozenCost.ContainsKey(type) ? frozenCost[type] : 0) - energyCostsOptional[type];
-            paidEnergyOptional[type]    = energyCostsOptional[type];
+            foreach (EnergyType type in energyCostsOptional.Keys)
+            {
+                if (energyCostsOptional[type] > CombatSystem.instance.GetEnergy(type) + (frozenCost.ContainsKey(type) ? frozenCost[type] : 0) ) continue;
+                frozenCost[type]            = (frozenCost.ContainsKey(type) ? frozenCost[type] : 0) - energyCostsOptional[type];
+                paidEnergyOptional[type]    = energyCostsOptional[type];
+            }
         }
 
         CombatSystem.instance.ModifyEnergy(frozenCost);
