@@ -9289,7 +9289,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53696efd4d625404ab5e8238931b2b39, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d91ed98785977498fd6479d47aba17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &239663718
@@ -15074,7 +15074,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1240770642}
   m_HandleRect: {fileID: 0}
@@ -16166,7 +16166,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53696efd4d625404ab5e8238931b2b39, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d91ed98785977498fd6479d47aba17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &440266334
@@ -33802,7 +33802,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53696efd4d625404ab5e8238931b2b39, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d91ed98785977498fd6479d47aba17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1032358014
@@ -44472,7 +44472,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53696efd4d625404ab5e8238931b2b39, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d91ed98785977498fd6479d47aba17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1400099522
@@ -44860,6 +44860,7 @@ MonoBehaviour:
   characterData: {fileID: 0}
   characterStats: {fileID: 1402112391}
   characterCurrency: {fileID: 1402112392}
+  characterName: Character
   _currentHealth: 0
   cardParent: {fileID: 1230108496119582112}
   cardPrefab: {fileID: 130489016394698252, guid: 248babe840a04174b92feffd40320a2f, type: 3}
@@ -48429,6 +48430,8 @@ MonoBehaviour:
   abilityDatas:
   - {fileID: 11400000, guid: 827459e06557ac641a930668f74cedbc, type: 2}
   - {fileID: 11400000, guid: b6c377a2836a21c45880f909905f9095, type: 2}
+  - {fileID: 11400000, guid: c694dfa0862ee624cbefc859da952e96, type: 2}
+  - {fileID: 11400000, guid: ace374dd698667246be9275bb1b0a856, type: 2}
   arifactDatas:
   - {fileID: 11400000, guid: 26fedce453aa1ae438033ad6fe04429d, type: 2}
   - {fileID: 11400000, guid: fe7ffcd4e8f83e74cba86c81c6301ccb, type: 2}
@@ -48450,6 +48453,7 @@ MonoBehaviour:
   scenarios:
   - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
   - {fileID: 11400000, guid: bdb7521b5b8d9804088f93795f96c629, type: 2}
+  - {fileID: 11400000, guid: 6429022be50aa1a40b8c4fefbdf5c2ad, type: 2}
   - {fileID: 11400000, guid: 54404419fac537e458da80a692c05a55, type: 2}
   missions:
   - {fileID: 11400000, guid: d898c3c755efecb468e5f3ee5e9cb98c, type: 2}
@@ -48617,7 +48621,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53696efd4d625404ab5e8238931b2b39, type: 3}
+  m_Script: {fileID: 11500000, guid: 36d91ed98785977498fd6479d47aba17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1508429933 stripped
@@ -52202,11 +52206,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1901636189}
   actIndex: 0
+  availableScenarios: 
+  availableHiddenScenarios: 
+  completedScenarios: 
   scenarioParent: {fileID: 1161349374}
   worldScenarios: []
   worldScenarioTooltip: {fileID: 2016413690}
   worldMapConfirmWindow: {fileID: 922834138}
-  currentWorldScenario: {fileID: 0}
+  currentWorldScenarioData: {fileID: 0}
+  currentScenarioUI: {fileID: 0}
 --- !u!1001 &1640278736
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75073,6 +75081,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1047283865, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1749920092, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
       propertyPath: worldEncounter
       value: 
@@ -75081,9 +75093,29 @@ PrefabInstance:
       propertyPath: worldEncounterNameText
       value: 
       objectReference: {fileID: 1960904971}
+    - target: {fileID: 1749920093, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
+      propertyPath: m_Animation
+      value: 
+      objectReference: {fileID: 7400000, guid: 6e715eb4f9743e143a376121b3bd9d47, type: 2}
+    - target: {fileID: 1749920093, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
+      propertyPath: m_Animations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749920093, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
+      propertyPath: m_Animations.Array.data[3]
+      value: 
+      objectReference: {fileID: 7400000, guid: 73c78737587e5354589251698d9e95f1, type: 2}
     - target: {fileID: 1760303551, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
       propertyPath: m_text
       value: Entering Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 1760303551, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 16777215
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837335861, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 3187671039
       objectReference: {fileID: 0}
     - target: {fileID: 2892930361162888086, guid: 6fa82a5a8c6206643a80a36c42cf8b92, type: 3}
       propertyPath: m_Name

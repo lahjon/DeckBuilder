@@ -15,15 +15,15 @@ public class StatHealth : Stat
     public override void AddStatModifier(ItemEffectAddStat statModifer)
     {
         statModifers.Add(statModifer);
-        EventManager.StatModified();
         HandleHealth(statModifer.GetValue());
+        EventManager.StatModified(StatType.Health);
     }
 
     public override void RemoveStatModifier(ItemEffectAddStat statModifer)
     {
         statModifers.Remove(statModifer);
-        EventManager.StatModified();
         HandleHealth(-statModifer.GetValue());
+        EventManager.StatModified(StatType.Health);
     }
 
     public void HandleHealth(int val)

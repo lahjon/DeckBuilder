@@ -17,5 +17,15 @@ MonoBehaviour:
   professionDescription: yo
   artwork: {fileID: 21300000, guid: e1c7eeb970103b14cab2773b477027d5, type: 3}
   professionType: 11
-  abilityDatas: []
-  itemEffectStructs: []
+  abilityDatas:
+  - {fileID: 11400000, guid: 827459e06557ac641a930668f74cedbc, type: 2}
+  - {fileID: 11400000, guid: b6c377a2836a21c45880f909905f9095, type: 2}
+  itemEffectStructs:
+  - type: 2
+    parameter: Power
+    addImmediately: 1
+    value: 1
+  - type: 2
+    parameter: Health
+    addImmediately: 1
+    value: 5

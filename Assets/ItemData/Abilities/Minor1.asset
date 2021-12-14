@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fbc414863b12254b9fb394194d32a52, type: 3}
-  m_Name: New Ability
+  m_Name: Minor1
   m_EditorClassIdentifier: 
-  itemName: ASD
-  itemId: 0
-  artwork: {fileID: 21300000, guid: 1e78eaf26ad39404f91372b170f3150b, type: 3}
+  itemName: 11
+  itemId: 2
+  artwork: {fileID: 21300000, guid: 19f0259dca8e8724c9699a66f1242a62, type: 3}
   description: 
   rarity: 0
   itemEffectStruct:
     type: 3
     parameter: TempStrength
-    addOnStart: 0
+    addImmediately: 0
     value: 2
   itemCondition:
-    type: 0
+    type: 101
     strParameter: 
-    numValue: 0
+    numValue: 3
     strParameters: []
+  abilityType: 1
   statesUsable: 0b000000

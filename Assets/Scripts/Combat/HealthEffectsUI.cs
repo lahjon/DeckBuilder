@@ -83,17 +83,17 @@ public class HealthEffectsUI : MonoBehaviour
         yield return null;
     }
 
-    public EffectDisplay GetEffectDisplay(StatusEffect effect) 
+    public StatusEffectDisplay GetEffectDisplay(StatusEffect effect) 
     {
         Transform parent = effect.info.category == StatusEffectCategory.Oath ? EffectsAnchorOath : EffectsAnchorOther;
         parent.gameObject.SetActive(true);
-        EffectDisplay display = Instantiate(templateEffectDisplay, parent).GetComponent<EffectDisplay>();
+        StatusEffectDisplay display = Instantiate(templateEffectDisplay, parent).GetComponent<StatusEffectDisplay>();
         display.SetBackingEffect(effect);
         StartNotificationEffect(effect.info.type.ToString());
         return display;
     }
 
-    public void RetireEffectDisplay(EffectDisplay display)
+    public void RetireEffectDisplay(StatusEffectDisplay display)
     {
         display.CancelAnimation();
         Destroy(display.gameObject);

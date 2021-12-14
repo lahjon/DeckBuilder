@@ -9,7 +9,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
     public TMP_Text difficultyText;
     public Reward encounterReward;
     public Transform rewardAnchor;
-    public void OpenConfirmWindow(Scenario worldEncounter)
+    public void OpenConfirmWindow(ScenarioUI worldEncounter)
     {
         gameObject.SetActive(true);
         if (encounterName.text != worldEncounter.data.ScenarioName)
@@ -27,13 +27,15 @@ public class WorldMapConfirmWindow : MonoBehaviour
     }
     public void CloseConfirmWindow()
     {
+        //WorldSystem.instance.worldMapManager.currentWorldScenarioData = null;
+        //WorldSystem.instance.worldMapManager.currentScenarioUI = null;
         gameObject.SetActive(false);
     }
 
     public void Confirm()
     {
         WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
-        WorldSystem.instance.scenarioMapManager.scenarioData = WorldSystem.instance.worldMapManager.currentWorldScenario.data;
+        WorldSystem.instance.scenarioMapManager.scenarioData = WorldSystem.instance.worldMapManager.currentWorldScenarioData;
         WorldSystem.instance.scenarioMapManager.ResetEncounters();
         Helpers.DelayForSeconds(1f, () => WorldSystem.instance.scenarioMapManager.GenerateMap());
         WorldStateSystem.SetInOverworld();

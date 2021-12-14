@@ -10,6 +10,7 @@ public class ItemEffectAddStat : ItemEffect
     public override void Register()
     {
         base.Register();
+        Debug.Log("Register New Addstat Effect");
         CharacterStats.stats[itemEffectStruct.parameter.ToEnum<StatType>()].AddStatModifier(this);
     }
 

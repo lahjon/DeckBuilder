@@ -19,7 +19,7 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
     void Start()
     {
         stat = CharacterStats.stats[statType];
-        GetAllStatModifiers();
+        GetStatModifier(statType);
         Subscribe();
     }
 
@@ -28,7 +28,7 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
         Unsubscribe();
     }
 
-    void GetAllStatModifiers()
+    void GetStatModifier(StatType aStatType)
     {
         StringBuilder sb = new StringBuilder();
         sb.Append(string.Format("<b>{0}</b>\n", statType.ToString()));
@@ -55,11 +55,11 @@ public class StatUI : MonoBehaviour, IToolTipable, IEventSubscriber
 
     public void Subscribe()
     {
-        EventManager.OnStatModifiedEvent += GetAllStatModifiers;
+        EventManager.OnStatModifiedEvent += GetStatModifier;
     }
 
     public void Unsubscribe()
     {
-        EventManager.OnStatModifiedEvent -= GetAllStatModifiers;
+        EventManager.OnStatModifiedEvent -= GetStatModifier;
     }
 }

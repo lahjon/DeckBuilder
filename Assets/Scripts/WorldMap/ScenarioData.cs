@@ -21,6 +21,5 @@ public class ScenarioData : ScriptableObject
     public string Description; 
 
     public List<ScenarioSegmentData> SegmentDatas = new List<ScenarioSegmentData>();
-
     public int linkedScenarioId = -1;
 }

@@ -33,14 +33,14 @@ public class Stat
     {
         statModifers.Add(statModifer);
         value += statModifer.GetValue();
-        EventManager.StatModified();
+        EventManager.StatModified(type);
     }
 
     public virtual void RemoveStatModifier(ItemEffectAddStat statModifer)
     {
         statModifers.Remove(statModifer);
         value -= statModifer.GetValue();
-        EventManager.StatModified();
+        EventManager.StatModified(type);
     }
 
     public void RemoveModifierFromOwner(IEffectAdder owner)

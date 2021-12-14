@@ -84,6 +84,7 @@ public enum GridState
     Play,
     Panning,
     Complete,
+    Transition
 }
 
 public enum CardType

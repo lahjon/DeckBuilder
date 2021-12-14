@@ -62,7 +62,7 @@ public class ScenarioMapManager : Manager
     public List<EncounterDataRandomEvent> availableChoiceEncounters = new List<EncounterDataRandomEvent>();
     public List<EncounterDataRandomEvent> completedChoiceEncounters = new List<EncounterDataRandomEvent>();
     public ScenarioData scenarioData;
-    
+    public Scenario scenario;
     
     public int rotateCounter;
     public float rotationAmount;
@@ -129,14 +129,6 @@ public class ScenarioMapManager : Manager
     {
         if (!initialized) StartCoroutine(CreateMap());
     }
-
-    public void CheckClearCondition()
-    {
-        // each time the map enters idle this checks to see if the condition from the world encounter is completed
-        if (WorldSystem.instance.worldMapManager.currentWorldScenario is Scenario enc && enc.completed)
-            DeleteMap();
-    }
-
     public void ButtonCompleteCurrentTile()
     {
         CompleteCurrentTile();
@@ -149,6 +141,8 @@ public class ScenarioMapManager : Manager
         currentTile = null;
         currentTurn = 0;
         dangerTiles.ForEach(x => x.Difficulty = 0);
+        choosableTiles.ToList().ForEach(x => x.tileState = TileState.Inactive);
+        choosableTiles.Clear();
         dangerTiles.Clear();
         tiles.Clear();
         completedTiles.Clear();
@@ -177,7 +171,7 @@ public class ScenarioMapManager : Manager
         {
             turnTriggerLimit = scenarioData.turnTriggerLimit;
             turnCounter.tilesUntilDanger = turnTriggerLimit;
-            turnCounter.counter = turnTriggerLimit;
+            turnCounter.counter = turnTriggerLimit > 0 ? turnTriggerLimit : 1;
             float timeMultiplier = .5f;
 
             for (int i = 0; i <= gridWidth; i++)
@@ -222,11 +216,13 @@ public class ScenarioMapManager : Manager
 
             HighlightChoosable();
 
-            WorldSystem.instance.worldMapManager.currentWorldScenario?.SetupInitialSegments();
+            scenario = new Scenario(scenarioData);
+            scenario.SetupInitialSegments();
             hexMapController.enableInput = true;
             gridState = GridState.Placing;
         }
     }
+
 
     public void ExpandMap()
     {
@@ -244,32 +240,47 @@ public class ScenarioMapManager : Manager
             List<int> tileCoords = new List<int>() { currentTile.coord.x, currentTile.coord.y, currentTile.coord.z };
             furthestRowReached = Mathf.Max(furthestRowReached, tileCoords.Select(x => Mathf.Abs(x)).Max());
 
-            currentTile.tileState = TileState.Completed;
-            currentTurn++;
-
             Encounter currentEnc = WorldSystem.instance.encounterManager.currentEncounter;
             GridDirection dir = currentTile.exitEncToDirection[currentEnc];
+
             if (currentEnc != null && GetTile(currentTile.coord + dir) is HexTile targetTile)
             {
                 choosableTiles.Add(targetTile);
                 targetTile.directionEntry = dir.GetOpposing();
             }
 
+            currentTile.tileState = TileState.Completed;
+            currentTurn++;
             animator.SetBool("IsPlaying", false);
         }
     }
-    
-    public void AddRandomExit(int row)
-    {
-        Debug.Log("stranger danger!");
-        if (row == 0) return;
 
-        HexTile tile = GetRandomTile(row);
-        if (tile == null) 
-            AddRandomExit(row + 1);
-        else 
-            choosableTiles.Add(tile);
+    public void StartLinkedScenario()
+    {
+        WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
+        scenarioData = DatabaseSystem.instance.scenarios.Where(s => s.id == scenario.data.linkedScenarioId).FirstOrDefault();
+        ResetEncounters();
+        animator.SetBool("InTransition", true);
+        Helpers.DelayForSeconds(1f, () => { 
+            hexMapController.ResetCamera();
+            
+            animator.SetBool("InTransition", false);
+            DeleteMap();
+            GenerateMap();
+        });
     }
+    
+    // public void AddRandomExit(int row)
+    // {
+    //     Debug.Log("stranger danger!");
+    //     if (row == 0) return;
+
+    //     HexTile tile = GetRandomTile(row);
+    //     if (tile == null) 
+    //         AddRandomExit(row + 1);
+    //     else 
+    //         choosableTiles.Add(tile);
+    // }
     public void HighlightChoosable()
     {
         foreach(HexTile tile in choosableTiles)

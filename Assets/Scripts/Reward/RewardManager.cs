@@ -27,14 +27,14 @@ public class RewardManager : Manager
         }
         else  ClearRewardScreen();
     }
-    public RewardNormal CreateRewardNormal(RewardNormalType type, string value = null, Transform parent = null)
+    public RewardNormal CreateRewardNormal(RewardNormalType type, string value = null, Transform parent = null, bool addReward = true)
     {
         if (parent == null) parent = rewardParent;
 
         RewardNormal reward = Instantiate(rewardNormalPrefab, parent).GetComponent<RewardNormal>();
         reward.gameObject.SetActive(false);
         reward.SetupReward(type, value);
-        reward.AddReward();
+        if (addReward) reward.AddReward();
         return reward;
     }
 
