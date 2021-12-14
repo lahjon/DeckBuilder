@@ -13,7 +13,7 @@ public class CombatActivitySplice : CombatActivity
 
         if (!hero.effectTypeToRule.ContainsKey(StatusEffectType.Splice)) {
             cardEffect = new StatusEffectCarrier(StatusEffectType.Splice, data.val);
-            yield return CombatSystem.instance.StartCoroutine(hero.RecieveEffectNonDamageNonBlock(cardEffect));
+            yield return CombatSystem.instance.StartCoroutine(hero.RecieveEffectNonDamage(cardEffect));
         }
         else
         {
@@ -30,7 +30,7 @@ public class CombatActivitySplice : CombatActivity
             if (discardedCard != null)
             {
                 cardEffect = new StatusEffectCarrier(StatusEffectType.Splice, -1);
-                yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamageNonBlock(cardEffect));
+                yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.ActiveActor.RecieveEffectNonDamage(cardEffect));
                 CardCombat splicedCard = CardCombat.Combine((CardCombat)CombatSystem.instance.InProcessCard, discardedCard);
                 CombatSystem.instance.InProcessCard.RegisterSingleField(new CardSingleFieldPropertyTypeWrapper() {prop = CardSingleFieldPropertyType.Exhaust, val = true});
 

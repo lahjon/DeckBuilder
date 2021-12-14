@@ -562,35 +562,36 @@ public class DatabaseGoogle
 
     public void ReadEntriesEnemyEffects(string sheetName, string lastCol, string sheet)
     {
-        /*
         GoogleTable gt = getGoogleTable(sheetName, lastCol, sheet);
+        GameObject GO_DatabaseSystem = GameObject.Find("DatabaseSystem");
+        DatabaseSystem dbs = GO_DatabaseSystem.GetComponent<DatabaseSystem>();
 
         for (int i = 1; i < gt.values.Count; i++)
         {
             string databaseName = (string)gt[i, "DatabaseName"];
-            if (databaseName.Equals(""))
+            int id = ((string)gt[i, "Id"]).ToInt();
+            if (id == 0)
                 break;
 
-            EnemyData data = TDataNameToAsset<EnemyData>(databaseName, new string[] { EnemyPath });
+            EnemyData data = dbs.enemies.FirstOrDefault(x => x.enemyId == id);
             if (data == null)
             {
                 Debug.LogError("SKIPPED: Effect assigned to non-existant enemy named: " + databaseName);
                 continue;
             }
 
-            CardEffectCarrier cardEffect = new CardEffectCarrier();
-            cardEffect.Target = CardTargetType.Self;
-            Enum.TryParse((string)gt[i, "EffectType"], out cardEffect.Type);
-            cardEffect.Value = int.Parse((string)gt[i, "Value"]);
-            cardEffect.Times = int.Parse((string)gt[i, "Times"]);
-
-            data.startingEffects.Add(cardEffect);
+            CardEffectCarrierData statusEffect = new CardEffectCarrierData();
+            statusEffect.Target = CardTargetType.Self;
+            statusEffect.Type = ((string)gt[i, "EffectType"]).ToEnum<StatusEffectType>();
+            statusEffect.Value = CardInt.ParseInput((string)gt[i, "Value"]);
+            
+            data.startingEffects.Add(statusEffect);
 
             EditorUtility.SetDirty(data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-        */
+        
     }
 
     #endregion

@@ -9,15 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e9cb3bf80809d49baf41809bc0404f, type: 3}
-  m_Name: Enemy_RockSlide
+  m_Script: {fileID: 11500000, guid: 6ae6c173d6387dd4c851c5864dcb4674, type: 3}
+  m_Name: IraqiGolem
   m_EditorClassIdentifier: 
-  id: 73
-  costDatas: []
-  costOptionalDatas: []
-  singleFieldProperties: []
-  effects:
-  - Type: 0
+  StartingHP: 10
+  enemyId: 11
+  enemyName: Rock Golem
+  artwork: {fileID: 0}
+  characterArt: {fileID: 1124974458796065111, guid: 4773c588612df2d42aa59fd7d1bd10c7, type: 3}
+  tier: 1
+  experience: 10
+  deck:
+  - {fileID: 11400000, guid: 4982ee5a82c88144e8e85445e15dd086, type: 2}
+  - {fileID: 11400000, guid: 6afde77ee989f9a4dbceb34795b6f3c4, type: 2}
+  - {fileID: 11400000, guid: 1d6c92aa6fadc664b8bd127010400ea4, type: 2}
+  - {fileID: 11400000, guid: 46f8f719be864134fb36c959aafa144f, type: 2}
+  startingEffects:
+  - Type: 5
     Value:
       linkedProp: 0
       baseVal: 1
@@ -25,25 +33,7 @@ MonoBehaviour:
       inverseScalar: 0
     Times:
       linkedProp: 0
-      baseVal: 5
-      scalar: 1
-      inverseScalar: 0
-    Target: 3
-    ConditionData:
-      type: 0
-      strParameter: 
-      numValue: 0
-      strParameters: []
-    execTime: 0
-  - Type: 9
-    Value:
-      linkedProp: 0
-      baseVal: 2
-      scalar: 1
-      inverseScalar: 0
-    Times:
-      linkedProp: 0
-      baseVal: 1
+      baseVal: 0
       scalar: 1
       inverseScalar: 0
     Target: 0
@@ -53,16 +43,23 @@ MonoBehaviour:
       numValue: 0
       strParameters: []
     execTime: 0
-  activities: []
-  cardName: Rock Slide
-  cardType: 0
-  artwork: {fileID: 21300000, guid: 7571ff9806984e54f855baa2c9980e77, type: 3}
-  visibleCost: 1
-  upgradeCostFullEmber: 1
-  maxUpgrades: 0
-  upgrades: []
-  rarity: 13
-  cardClass: 8
-  animationPrefab: {fileID: 0}
-  audio: {fileID: 0}
-  goldValue: 0
+  - Type: 2
+    Value:
+      linkedProp: 0
+      baseVal: 20
+      scalar: 1
+      inverseScalar: 0
+    Times:
+      linkedProp: 0
+      baseVal: 0
+      scalar: 1
+      inverseScalar: 0
+    Target: 0
+    ConditionData:
+      type: 0
+      strParameter: 
+      numValue: 0
+      strParameters: []
+    execTime: 0
+  shuffleInit: 0
+  stochasticReshuffle: 1

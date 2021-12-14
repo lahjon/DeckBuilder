@@ -635,7 +635,7 @@ public class CombatSystem : MonoBehaviour
                 List<CombatActor> targets = GetTargets(Hero, cardEffect.Target, null);
                 for (int i = 0; i < cardEffect.Times; i++)
                     foreach (CombatActor actor in targets)
-                        yield return StartCoroutine(actor.RecieveEffectNonDamageNonBlock(cardEffect));
+                        yield return StartCoroutine(actor.RecieveEffectNonDamage(cardEffect));
             }
             else if(obj is CombatActivitySetting a)
             {

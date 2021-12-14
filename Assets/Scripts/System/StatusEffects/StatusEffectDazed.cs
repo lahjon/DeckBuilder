@@ -25,12 +25,12 @@ public class StatusEffectDazed : StatusEffect
 
     protected override IEnumerator _OnEndTurn()
     {
-        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Dazed, -nrStacked)));
+        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Dazed, -nrStacked)));
     }
 
     public IEnumerator RemoveOnGain()
     {
-        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Dazed, -1)));
+        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Dazed, -1)));
     }
 
 

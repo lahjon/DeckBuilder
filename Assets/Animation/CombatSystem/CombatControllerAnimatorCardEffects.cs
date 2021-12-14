@@ -26,7 +26,7 @@ public class CombatControllerAnimatorCardEffects : CombatControllerAnimatorCard
             for (int i = 0; i < e.Times; i++)
             {
                 foreach (CombatActor actor in targets)
-                    yield return combat.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(e));
+                    yield return combat.StartCoroutine(actor.RecieveEffectNonDamage(e));
 
                 //Redraw enemy if random
                 if(e.Target == CardTargetType.EnemyRandom && i != e.Times-1)

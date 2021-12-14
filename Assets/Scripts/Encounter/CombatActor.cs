@@ -216,16 +216,21 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     }
 
 
-    public IEnumerator RecieveEffectNonDamageNonBlock(StatusEffectCarrier carrier)
+    public IEnumerator RecieveEffectNonDamage(StatusEffectCarrier carrier)
     {
-        if (!effectTypeToRule.ContainsKey(carrier.info))
+        if(carrier.info.type == StatusEffectType.Block)
+            yield return StartCoroutine(GainBlock(carrier.Value));
+        else
         {
-            effectTypeToRule[carrier.info] = carrier.info.Constructor();
-            effectTypeToRule[carrier.info].info = carrier.info;
-            effectTypeToRule[carrier.info].actor = this;
-        }
+            if (!effectTypeToRule.ContainsKey(carrier.info))
+            {
+                effectTypeToRule[carrier.info] = carrier.info.Constructor();
+                effectTypeToRule[carrier.info].info = carrier.info;
+                effectTypeToRule[carrier.info].actor = this;
+            }
 
-        yield return StartCoroutine(effectTypeToRule[carrier.info].RecieveInput(carrier.Value));
+            yield return StartCoroutine(effectTypeToRule[carrier.info].RecieveInput(carrier.Value));
+        }
     }
 
     public IEnumerator EffectsOnNewTurnBehavior()
@@ -271,6 +276,9 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     {
         return strengthCombat;
     }
+
+    public int GetBlock() => shield;
+
 
     public virtual (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {

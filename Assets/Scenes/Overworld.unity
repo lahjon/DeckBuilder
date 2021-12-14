@@ -27621,6 +27621,8 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: f0c0c19f0a03ed04ba55b7fa9480e2ce, type: 3}
   - name: Loaded
     sprite: {fileID: 21300000, guid: 8e875cada1a86894a93ba464a0fc5889, type: 3}
+  - name: RockSkin
+    sprite: {fileID: 21300000, guid: e36209c797977d54594f9e59d6610b87, type: 3}
 --- !u!1001 &814897256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42092,6 +42094,36 @@ Transform:
   m_Father: {fileID: 1673503173}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1302496428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1302496429}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1302496429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302496428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.24605, y: -4.4890823, z: 23.411192}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1304102173
 GameObject:
   m_ObjectHideFlags: 0
@@ -48331,6 +48363,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2d5a17ed511e602428d1a7eed35e2773, type: 2}
   - {fileID: 11400000, guid: 5d4674d763793c944a9137abef09c3ca, type: 2}
   - {fileID: 11400000, guid: 81e22d92b765cff4bbfaec6bf3368c06, type: 2}
+  - {fileID: 11400000, guid: 4982ee5a82c88144e8e85445e15dd086, type: 2}
+  - {fileID: 11400000, guid: 6afde77ee989f9a4dbceb34795b6f3c4, type: 2}
+  - {fileID: 11400000, guid: 1d6c92aa6fadc664b8bd127010400ea4, type: 2}
+  - {fileID: 11400000, guid: 46f8f719be864134fb36c959aafa144f, type: 2}
   cardModifiers:
   - {fileID: 11400000, guid: 159f3efcf3e543244b0c632adef75d89, type: 2}
   - {fileID: 11400000, guid: 0a6dda9cc0509eb40b898f8d46c61c10, type: 2}
@@ -48372,6 +48408,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bcb2c0f5caa02064299e21b81506144e, type: 2}
   - {fileID: 11400000, guid: 3dd7e481bcdac90418f7a131e18204e7, type: 2}
   - {fileID: 11400000, guid: b0a8b54917f0baa4395aa1de8c38a752, type: 2}
+  - {fileID: 11400000, guid: ddfd52f217520c24cba82209e5a5e9bf, type: 2}
   encounterEvent:
   - {fileID: 11400000, guid: 2e96d5d7c9dd18644a2be4c4a64df655, type: 2}
   - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
@@ -48395,6 +48432,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57b05d113da7a40428b990bf4c7e77ad, type: 2}
   - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
   - {fileID: 11400000, guid: c64eb5ce6a4a1e84499dff3b4ab1e5d7, type: 2}
+  - {fileID: 11400000, guid: e962258d8f10da0429a21e89236fb77a, type: 2}
   professionDatas:
   - {fileID: 11400000, guid: 863283f25e616a9439c7922b5c0ad124, type: 2}
   - {fileID: 11400000, guid: ac5610fe296b6334e818a7bdefa528a0, type: 2}

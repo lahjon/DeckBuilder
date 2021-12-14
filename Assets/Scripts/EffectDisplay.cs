@@ -48,6 +48,6 @@ public class EffectDisplay : MonoBehaviour, IToolTipable
     public (List<string> tips, Vector3 worldPosition, float offset) GetTipInfo()
     {
         Vector3 pos = WorldSystem.instance.cameraManager.currentCamera.WorldToScreenPoint(transform.position);
-        return (new List<string>{ backingEffect.info.toolTipCard}, pos, width);
+        return (new List<string>{ backingEffect.info.toolTipIcon}, pos, width);
     }
 }

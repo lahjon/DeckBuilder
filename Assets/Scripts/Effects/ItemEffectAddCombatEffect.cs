@@ -12,7 +12,7 @@ public class ItemEffectAddCombatEffect : ItemEffect
     public override IEnumerator RunEffectEnumerator()
     {
         effectAdder.NotifyUsed();
-        yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamageNonBlock(effectQueue.Dequeue()));
+        yield return CombatSystem.instance.StartCoroutine(CombatSystem.instance.Hero.RecieveEffectNonDamage(effectQueue.Dequeue()));
     }
 
     public override void Register()

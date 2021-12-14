@@ -13,7 +13,7 @@ public class StatusEffectStrengthTemp : StatusEffect
 
     public override void RespondStackUpdate(int update)
     {
-       CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Strength, update, 1)));
+       CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Strength, update, 1)));
     }
 
     

@@ -25,7 +25,7 @@ public class StatusEffectSpiked : StatusEffect
 
     protected override IEnumerator _OnNewTurn()
     {
-        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Spiked, -nrStacked)));
+        yield return CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Spiked, -nrStacked)));
     }
 
     public IEnumerator SpikeIt(CombatActor source)

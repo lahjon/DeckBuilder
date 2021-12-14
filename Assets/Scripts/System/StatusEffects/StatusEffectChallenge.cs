@@ -28,7 +28,7 @@ public class StatusEffectChallenge : StatusEffect
                 challengedActors.Add(challenger);
 
                 yield return CombatSystem.instance.StartCoroutine(
-                    challenger.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Challenge,1))
+                    challenger.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Challenge,1))
                     );
                 ((StatusEffectChallenge)challenger.effectTypeToRule[StatusEffectType.Challenge]).challengedActors.Add(actor);
                 challenger.dealAttackActorMods[actor].Add(AttackEffect);
@@ -43,7 +43,7 @@ public class StatusEffectChallenge : StatusEffect
         foreach(CombatActor actor in challengedActors)
         {
             ((StatusEffectChallenge)actor.effectTypeToRule[StatusEffectType.Challenge]).challengedActors.Remove(actor);
-            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamageNonBlock(new StatusEffectCarrier(StatusEffectType.Challenge, -1)));
+            CombatSystem.instance.StartCoroutine(actor.RecieveEffectNonDamage(new StatusEffectCarrier(StatusEffectType.Challenge, -1)));
         }
     }
 
