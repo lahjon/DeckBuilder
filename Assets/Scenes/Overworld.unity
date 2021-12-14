@@ -48414,6 +48414,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3dd7e481bcdac90418f7a131e18204e7, type: 2}
   - {fileID: 11400000, guid: b0a8b54917f0baa4395aa1de8c38a752, type: 2}
   - {fileID: 11400000, guid: ddfd52f217520c24cba82209e5a5e9bf, type: 2}
+  - {fileID: 11400000, guid: 7221668d44cdac54c9abb30635d46135, type: 2}
   encounterEvent:
   - {fileID: 11400000, guid: 2e96d5d7c9dd18644a2be4c4a64df655, type: 2}
   - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
@@ -48438,6 +48439,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60df802b9af39474e87a11fc3f1b7a30, type: 2}
   - {fileID: 11400000, guid: c64eb5ce6a4a1e84499dff3b4ab1e5d7, type: 2}
   - {fileID: 11400000, guid: e962258d8f10da0429a21e89236fb77a, type: 2}
+  - {fileID: 11400000, guid: 62d18c2bb9ae70b42b3c686ae1a5bbdd, type: 2}
+  - {fileID: 11400000, guid: e3a654b4a82e9c141b25b1e4bb4c4bad, type: 2}
   professionDatas:
   - {fileID: 11400000, guid: 863283f25e616a9439c7922b5c0ad124, type: 2}
   - {fileID: 11400000, guid: ac5610fe296b6334e818a7bdefa528a0, type: 2}
@@ -48488,7 +48491,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59625b253424fa74e9e19c48c39c09ca, type: 2}
   - {fileID: 11400000, guid: 08776abcaab28404abda9a924d21aba8, type: 2}
   - {fileID: 11400000, guid: 94e4e325eba66104ebff1faf6ac0c942, type: 2}
-  - {fileID: 11400000, guid: 9fa18b7777e991143b082c1012b038b1, type: 2}
+  - {fileID: 11400000, guid: 2ba92e1d2e545134e960c6e09d86a40e, type: 2}
+  - {fileID: 11400000, guid: 841c32b56f28b694fbfc0a19741e7d3e, type: 2}
+  - {fileID: 11400000, guid: 535fb370ec0a3d341b8e708f19704191, type: 2}
   perkDatas: []
   scenarios:
   - {fileID: 11400000, guid: 98a3ee88909d4f64eb7475e9d8f7a4a5, type: 2}
