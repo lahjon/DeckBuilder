@@ -27623,6 +27623,8 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 8e875cada1a86894a93ba464a0fc5889, type: 3}
   - name: RockSkin
     sprite: {fileID: 21300000, guid: e36209c797977d54594f9e59d6610b87, type: 3}
+  - name: Volatile
+    sprite: {fileID: 21300000, guid: 144b8951c38161948924574f59e74aea, type: 3}
 --- !u!1001 &814897256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48231,35 +48233,67 @@ MonoBehaviour:
   - name: Berserker, Base
     characterClass: 1
     profession: 0
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: 7fb9cde9c57722646a546ef6dd4f6cd8, type: 2}
+    - {fileID: 11400000, guid: 7fb9cde9c57722646a546ef6dd4f6cd8, type: 2}
+    - {fileID: 11400000, guid: bb6a38095a001944bb90e871d61df20c, type: 2}
+    - {fileID: 11400000, guid: bb6a38095a001944bb90e871d61df20c, type: 2}
   - name: Berserker, Berserker1
     characterClass: 1
     profession: 11
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: 899d8a0b6a9aa2a4c9822638e8c9a606, type: 2}
+    - {fileID: 11400000, guid: e8e7961a4db05fe44b85331703f4b994, type: 2}
+    - {fileID: 11400000, guid: 60fa8df1f5247434ea86d0a6479dafdb, type: 2}
+    - {fileID: 11400000, guid: ab96de3131f11ba4c9f0ceea8eda4bf6, type: 2}
   - name: Berserker, Berserker2
     characterClass: 1
     profession: 12
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: 899d8a0b6a9aa2a4c9822638e8c9a606, type: 2}
+    - {fileID: 11400000, guid: 899d8a0b6a9aa2a4c9822638e8c9a606, type: 2}
+    - {fileID: 11400000, guid: 899d8a0b6a9aa2a4c9822638e8c9a606, type: 2}
+    - {fileID: 11400000, guid: 899d8a0b6a9aa2a4c9822638e8c9a606, type: 2}
   - name: Berserker, Berserker3
     characterClass: 1
     profession: 13
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: ab96de3131f11ba4c9f0ceea8eda4bf6, type: 2}
+    - {fileID: 11400000, guid: ab96de3131f11ba4c9f0ceea8eda4bf6, type: 2}
+    - {fileID: 11400000, guid: ab96de3131f11ba4c9f0ceea8eda4bf6, type: 2}
+    - {fileID: 11400000, guid: ab96de3131f11ba4c9f0ceea8eda4bf6, type: 2}
   - name: Splicer, Base
     characterClass: 3
     profession: 0
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: 59fec77117d631646a092844fb8a4ccf, type: 2}
+    - {fileID: 11400000, guid: 59fec77117d631646a092844fb8a4ccf, type: 2}
+    - {fileID: 11400000, guid: 871aff14c8898e84eb168c8a90b09eab, type: 2}
+    - {fileID: 11400000, guid: 871aff14c8898e84eb168c8a90b09eab, type: 2}
   - name: Splicer, Splicer1
     characterClass: 3
     profession: 31
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: b74f1624da6161843afd98183435028a, type: 2}
+    - {fileID: 11400000, guid: 2d71bd4662d2cc849881ea160a53dc20, type: 2}
+    - {fileID: 11400000, guid: 87aae2f59e9cd994583d5d24afa412c7, type: 2}
+    - {fileID: 11400000, guid: 85dce08213ef2f743929fcee0ca3c376, type: 2}
   - name: Splicer, Splicer2
     characterClass: 3
     profession: 32
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: 2d71bd4662d2cc849881ea160a53dc20, type: 2}
+    - {fileID: 11400000, guid: 2d71bd4662d2cc849881ea160a53dc20, type: 2}
+    - {fileID: 11400000, guid: 2d71bd4662d2cc849881ea160a53dc20, type: 2}
+    - {fileID: 11400000, guid: 2d71bd4662d2cc849881ea160a53dc20, type: 2}
   - name: Splicer, Splicer3
     characterClass: 3
     profession: 33
-    startingCards: []
+    startingCards:
+    - {fileID: 11400000, guid: 87aae2f59e9cd994583d5d24afa412c7, type: 2}
+    - {fileID: 11400000, guid: 87aae2f59e9cd994583d5d24afa412c7, type: 2}
+    - {fileID: 11400000, guid: 87aae2f59e9cd994583d5d24afa412c7, type: 2}
+    - {fileID: 11400000, guid: 87aae2f59e9cd994583d5d24afa412c7, type: 2}
   cards:
   - {fileID: 11400000, guid: e8e7961a4db05fe44b85331703f4b994, type: 2}
   - {fileID: 11400000, guid: 7fb9cde9c57722646a546ef6dd4f6cd8, type: 2}
