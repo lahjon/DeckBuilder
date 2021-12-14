@@ -24,6 +24,7 @@ public class Mission : Progression
     protected override void Complete()
     {
         base.Complete();
+        WorldSystem.instance.uiManager.UIWarningController.CreateWarning(string.Format("Mission {0} completed!", data.aName));
         for (int i = 0; i < data.gameEventsOnEnd.Count(); i++)
             GameEventManager.CreateEvent(data.gameEventsOnEnd[i]);
 

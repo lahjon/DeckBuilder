@@ -142,6 +142,7 @@ public class WorldStateSystem : MonoBehaviour
     }
     public static void SetInOverworld()
     {
+        Debug.Log("INOVER");
         worldAnimator.SetTrigger("TriggerOverworld");
     }
     public static void SetInTown(bool aBool)

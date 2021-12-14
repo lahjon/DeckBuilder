@@ -173,6 +173,7 @@ public class HexTile : MonoBehaviour
     public void StartFadeInOutColor()
     {
         colorTween?.Kill();
+
         if (undiscoveredSpriteRenderer.color != inactiveColor)
         {
             undiscoveredSpriteRenderer.color = highlightColorSecondary;
@@ -182,7 +183,8 @@ public class HexTile : MonoBehaviour
 
             undiscoveredSpriteRenderer.color = inactiveColor;
             colorTween = undiscoveredSpriteRenderer.DOColor(highlightColorPrimary, 1f).SetEase(Ease.InSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => tempColor = undiscoveredSpriteRenderer.color);
-        });
+        }); 
+        
     }
 
     public IEnumerator AnimateVisible()

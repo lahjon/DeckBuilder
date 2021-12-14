@@ -15,9 +15,9 @@ public class ScenarioSegment : IConditionOwner
 
     private TMP_Text txt_description;
 
-    public ScenarioSegment(ScenarioSegmentData data, Scenario encounter)
+    public ScenarioSegment(ScenarioSegmentData data, Scenario aScenario)
     {
-        this.scenario = encounter;
+        this.scenario = aScenario;
         this.data = data;
         SetupStartConditions();
     }
@@ -162,7 +162,7 @@ public class ScenarioSegment : IConditionOwner
 
     private void RefreshDescription()
     {
-        Debug.Log(ColorUtility.ToHtmlStringRGB(data.color).ToString());
+        //Debug.Log(ColorUtility.ToHtmlStringRGB(data.color).ToString());
         if (txt_description == null) return;
         txt_description.text = 
             data.description.Replace("<color>","<color=#" + ColorUtility.ToHtmlStringRGB(data.color) + ">")

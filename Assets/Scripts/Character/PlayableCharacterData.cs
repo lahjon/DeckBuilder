@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewPlayableCharacterData", menuName = "CardGame/PlayableCharacterData")]
-public class PlayableCharacterData : CharacterData, IEffectAdder
+public class PlayableCharacterData : CharacterData
 {
     public GameObject artworkAnimated;
     public List<StatStruct> stats = new List<StatStruct>()
@@ -22,14 +22,4 @@ public class PlayableCharacterData : CharacterData, IEffectAdder
     public CharacterClassType classType;
     public string startingItem;
     public bool unlocked;
-
-    public string GetName() => "Character";
-
-    public void NotifyDeregister() { }
-
-    public void NotifyRegister()
-    {
-    }
-
-    public void NotifyUsed() { }
 }

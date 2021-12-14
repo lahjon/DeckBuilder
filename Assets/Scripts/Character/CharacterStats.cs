@@ -63,7 +63,7 @@ public class CharacterStats : MonoBehaviour
         {
             if (x.statType == StatType.None) return;
             ItemEffectAddStat effect = new ItemEffectAddStat();
-            effect.effectAdder = characterManager.characterData;
+            effect.effectAdder = characterManager;
             effect.world = WorldSystem.instance;
             effect.itemEffectStruct = new ItemEffectStruct(ItemEffectType.AddStat, x.statType.ToString(), x.value,true);
             stats[x.statType].AddStatModifier(effect);
@@ -73,7 +73,7 @@ public class CharacterStats : MonoBehaviour
 
     void RemoveStatsFromCharacter()
     {
-        stats.Values.ToList().ForEach(s => s.RemoveModifierFromOwner(characterManager.characterData)); 
+        stats.Values.ToList().ForEach(s => s.RemoveModifierFromOwner(characterManager)); 
     }
 }
 

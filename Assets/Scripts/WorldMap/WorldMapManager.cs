@@ -8,20 +8,22 @@ public class WorldMapManager : Manager, ISaveableWorld
 {
     public Canvas canvas;
     public int actIndex;
-    public HashSet<int> availableScenarios = new HashSet<int>();
-    public HashSet<int> completedScenarios = new HashSet<int>();
+    public List<int> availableScenarios = new List<int>();
+    public List<int> availableHiddenScenarios = new List<int>();
+    public List<int> completedScenarios = new List<int>();
     public Transform scenarioParent;
-    public List<Scenario> worldScenarios;
+    public List<ScenarioUI> worldScenarios;
     public WorldScenarioTooltip worldScenarioTooltip;
     public WorldMapConfirmWindow worldMapConfirmWindow;
-    public Scenario currentWorldScenario;
+    public ScenarioData currentWorldScenarioData;
+    public ScenarioUI currentScenarioUI;
     protected override void Awake()
     {
         base.Awake();
         world.worldMapManager = this;
         for (int i = 0; i < scenarioParent.childCount; i++)
         {
-            Scenario enc = scenarioParent.GetChild(i).GetComponent<Scenario>();
+            ScenarioUI enc = scenarioParent.GetChild(i).GetComponent<ScenarioUI>();
             enc.gameObject.SetActive(false);
             if (DatabaseSystem.instance.scenarios.FirstOrDefault(x => x.id.ToString() == enc.name) is ScenarioData scenarioData)
             {
@@ -60,21 +62,41 @@ public class WorldMapManager : Manager, ISaveableWorld
 
     public void CompleteScenario(bool toTown = true)
     {
-        //if(aScenario != currentWorldScenario) return;
-        currentWorldScenario.completed = true;
         EventManager.CompleteWorldScenario();
-        currentWorldScenario?.CollectReward();
+        CollectReward();
+        RemoveScenario();
         if(toTown) 
         {
             world.characterManager.ResetDeck();
+            WorldStateSystem.SetInTownReward(true);
             WorldStateSystem.SetInTown(true);
             WorldSystem.instance.scenarioMapManager.DeleteMap();
         }
     }
+    void CollectReward()
+    {
+        Debug.Log("Collect Reward");
+        if (currentWorldScenarioData.rewardStruct.type != RewardNormalType.None)
+            WorldSystem.instance.rewardManager.CreateRewardNormal(currentWorldScenarioData.rewardStruct.type, currentWorldScenarioData.rewardStruct.value);
+    }
+    void RemoveScenario()
+    {
+        availableScenarios.Remove(currentScenarioUI.data.id);
+        completedScenarios.Add(currentScenarioUI.data.id);
+        if (currentScenarioUI.data.unlocksScenarios?.Any() == true)
+            foreach (int id in currentScenarioUI.data.unlocksScenarios)
+                UnlockScenario(id);
 
+
+        worldScenarios.Remove(currentScenarioUI);
+        currentScenarioUI.gameObject.SetActive(false);
+        currentScenarioUI = null;
+        
+        WorldSystem.instance.worldMapManager.currentWorldScenarioData = null;
+    }
     public void UpdateMap()
     {
-        foreach (Scenario enc in worldScenarios)
+        foreach (ScenarioUI enc in worldScenarios)
             if (enc.data != null && availableScenarios.Contains(enc.data.id))
                 enc.BindData();
     }

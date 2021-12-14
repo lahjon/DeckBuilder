@@ -10,26 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
-  m_Name: Test1
+  m_Name: Linked2
   m_EditorClassIdentifier: 
-  id: 1
-  ScenarioName: Test1
+  id: 2
+  turnTriggerLimit: 3
+  minTier: 0
+  maxTier: 0
+  ScenarioName: Test2
   difficulty: 1
   rewardStruct:
-    type: 2
-    value:
-    - 10
+    type: 5
+    value: 
   type: 1
-  unlocksScenarios: 03000000
-  DescriptionShort: Quick Scenario!
-  Description: This is a very quick scenario
+  unlocksScenarios: 04000000
+  includeEncounters: 
+  excludeEncounters: 
+  encounters: []
+  DescriptionShort: asdasd
+  Description: kk
   SegmentDatas:
-  - SegmentName: Start
+  - SegmentName: asd
     segmentType: 0
-    color: {r: 0, g: 0.6, b: 1, a: 1}
-    description: Find the <color>necromancers</color> remains
+    color: {r: 0.15569918, g: 0.85882354, b: 0.01960782, a: 1}
+    description: asd
     gridCoordinates:
-    - {x: -1, y: 0, z: 1}
+    - {x: 1, y: 0, z: -1}
     encounters: []
     missEncounters: []
     requiredSegmentsOR: []
@@ -37,3 +42,4 @@ MonoBehaviour:
     cancelSegmentsOnStart: []
     nrSkippableTiles: 0
     nrDecoys: 0
+  linkedScenarioId: -1

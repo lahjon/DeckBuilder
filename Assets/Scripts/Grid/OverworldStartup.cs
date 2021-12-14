@@ -32,5 +32,9 @@ public class OverworldStartup : MonoBehaviour
         WorldSystem.instance.missionManager.StartMission(0);
 
         WorldSystem.instance.worldMapManager.UnlockScenario(0);
+        WorldSystem.instance.worldMapManager.UnlockScenario(1);
+        WorldSystem.instance.worldMapManager.UnlockScenario(3);
+
+        WorldSystem.instance.characterManager.UnlockProfession(ProfessionType.Berserker2);
     }
 }

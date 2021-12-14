@@ -34,6 +34,8 @@ public abstract class ItemEffect
     {
         string effectName = itemEffectStruct.type != ItemEffectType.Custom ? itemEffectStruct.type.ToString() : itemEffectStruct.parameter;
 
+        Debug.Log(effectName);
+
         if (Helpers.InstanceObject<ItemEffect>(string.Format("ItemEffect{0}", effectName)) is ItemEffect itemEffect)
         {
             itemEffect.world = WorldSystem.instance;

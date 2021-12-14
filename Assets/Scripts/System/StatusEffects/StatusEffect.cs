@@ -15,7 +15,7 @@ public abstract class StatusEffect
     public Func<IEnumerator> OnNewTurn;
     public Func<IEnumerator> OnEndTurn;
 
-    public EffectDisplay UI;
+    public StatusEffectDisplay UI;
     public StatusEffectTypeInfo info;
 
     private int _nrStacked;

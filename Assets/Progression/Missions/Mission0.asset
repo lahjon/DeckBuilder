@@ -16,15 +16,15 @@ MonoBehaviour:
   aName: First Mission
   description: This is nr 1!
   conditionStructs:
-  - type: 3
+  - type: 103
     strParameter: TownHall
     numValue: 1
     strParameters: []
   mainMission: 0
   gameEventsOnStart: []
   gameEventsOnEnd:
-  - type: 2
-    parameter: TownHall
-    value: 1
+  - type: 10
+    parameter: Berserker1
+    value: true
   addDialogueIdx: 00000000
   nextMissionId: -1

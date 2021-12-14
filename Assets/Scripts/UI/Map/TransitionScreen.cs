@@ -19,7 +19,7 @@ public class TransitionScreen : MonoBehaviour
 
     public void EnterActTransitionStart()
     {
-        string actName = WorldSystem.instance.worldMapManager.currentWorldScenario != null ? WorldSystem.instance.worldMapManager.currentWorldScenario.data.ScenarioName : "Default Encounter";
+        string actName = WorldSystem.instance.worldMapManager.currentWorldScenarioData != null ? WorldSystem.instance.worldMapManager.currentWorldScenarioData.ScenarioName : "Default Encounter";
 
         WorldStateSystem.SetInTransition(true);
         worldEncounterNameText.text = string.Format("{0}", actName);
@@ -38,6 +38,12 @@ public class TransitionScreen : MonoBehaviour
     {
         WorldStateSystem.SetInTransition(true);
         transition.Play("NormalTransition");
+    }
+
+    public void InOutTransitionStart() 
+    {
+        WorldStateSystem.SetInTransition(true);
+        transition.Play("InOutTransition");
     }
 
     public void EnterTownTransition() 

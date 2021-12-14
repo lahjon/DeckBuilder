@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class EffectDisplay : MonoBehaviour, IToolTipable
+public class StatusEffectDisplay : MonoBehaviour, IToolTipable
 {
     public TMP_Text effectLabel;
     public Image image;

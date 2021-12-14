@@ -10,7 +10,7 @@ public class WorldScenarioTooltip : MonoBehaviour
     public TMP_Text descriptionText;
     Reward scenarioReward;
     public Transform rewardAnchor;
-    public void EnableTooltip(Scenario scenario)
+    public void EnableTooltip(ScenarioUI scenario)
     {
         gameObject.SetActive(true);
         if (scenarioName.text != scenario.data.ScenarioName)

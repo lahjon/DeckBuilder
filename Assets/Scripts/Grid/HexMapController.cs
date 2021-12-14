@@ -31,8 +31,6 @@ public class HexMapController : MonoBehaviour
             _enableInput = value;
         }
     }
-
-
     void Start()
     {
         cameraOrigin = cam.transform.position;
@@ -41,6 +39,11 @@ public class HexMapController : MonoBehaviour
         zoomIn = 7;
         zoomOut = cam.transform.localPosition.z;
         zoomStep = 1;
+    }
+
+    public void ResetCamera()
+    {
+        cam.transform.position = cameraOrigin;
     }
 
     public void FocusTile(HexTile focusTile, ZoomState zoomstate)

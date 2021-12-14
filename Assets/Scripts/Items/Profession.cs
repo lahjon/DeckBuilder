@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Profession : IEffectAdder
 {
@@ -11,11 +12,20 @@ public class Profession : IEffectAdder
     {
         professionData = aProfessionData;
     }
-    public void AddEffects()
+    void AddEffects()
     {
         itemEffect = new List<ItemEffect>();
         for (int i = 0; i < professionData.itemEffectStructs.Count; i++)
-            itemEffect.Add(ItemEffect.Factory(professionData.itemEffectStructs[i], this));
+        {
+            ItemEffect newItemEffect = ItemEffect.Factory(professionData.itemEffectStructs[i], this);
+            newItemEffect.Register();
+            itemEffect.Add(newItemEffect);
+        }
+    }
+
+    void AddAbilities()
+    {
+        professionData.abilityDatas.ForEach(x => WorldSystem.instance.abilityManager.EquipAbility(x.itemId));
     }
     public void RemoveEffects()
     {
@@ -36,6 +46,7 @@ public class Profession : IEffectAdder
     {
         Profession profession = new Profession(aProfessionData);
         profession.AddEffects();
+        profession.AddAbilities();
         return profession;
     }
 
@@ -46,7 +57,7 @@ public class Profession : IEffectAdder
 
     public string GetName()
     {
-        return null;
+        return professionData.professionName;
     }
 
     public void NotifyRegister()

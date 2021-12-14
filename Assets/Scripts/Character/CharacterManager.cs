@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
+public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, IEffectAdder
 {
     [HideInInspector] public int maxCardReward;
     [HideInInspector] public int defaultDrawCardAmount;
@@ -20,6 +20,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     public CharacterStats characterStats;
     public CharacterCurrency characterCurrency;
     public List<Profession> professions = new List<Profession>();
+    public string characterName = "Character";
     [SerializeField]int _currentHealth;
 
     public Transform cardParent;
@@ -72,11 +73,13 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         }
     }
 
-    public void UnlockProfession(ProfessionType profession)
+    public void UnlockProfession(ProfessionType profession, bool swapTo = false)
     {
         if (!unlockedProfessions.Contains(profession))
         {
             unlockedProfessions.Add(profession);    
+            if (swapTo) SwapProfession(profession);
+            //WorldSystem.instance.SaveProgression();
         }
     }
 
@@ -130,6 +133,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         characterData = WorldSystem.instance.characterManager.allCharacterData[(int)selectedCharacterClassType];
         characterStats.Init();
+        SwapProfession(professionType);
 
         if (fromTown) CurrentHealth = CharacterStats.Health;
     }
@@ -177,6 +181,14 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
     {
         WorldStateSystem.SetInDeathScreen();
     }
+    public string GetName() => characterName;
+
+    public void NotifyDeregister() { }
+
+    public void NotifyRegister()
+    {
+    }
+    public void NotifyUsed() { }
 
     public void PopulateSaveDataWorld(SaveDataWorld a_SaveData)
     {
@@ -196,6 +208,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
         deck.ForEach(x => cwList.Add(new CardWrapper(x.cardId, x.idx, x.cardModifiers.Select(x => x.id).ToList(), x.timesUpgraded)));
         a_SaveData.playerCards = cwList;
         a_SaveData.selectedCharacterClassType = selectedCharacterClassType;
+        a_SaveData.currentProfessionType = professionType;
         a_SaveData.damageTaken = CurrentHealth - CharacterStats.Health;
     }
 
@@ -210,6 +223,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp
             selectedCharacterClassType = CharacterClassType.Berserker;
 
         CurrentHealth = a_SaveData.damageTaken;
+        professionType = a_SaveData.currentProfessionType;
         //Debug.Log(CurrentHealth);
     }
 }
