@@ -19,13 +19,14 @@ public class CardCombatAnimatorSelected : CardCombatAnimator
         TargetTransInfo = (new Vector3(CombatSystem.instance.GetPositionInHand(card).Position.x, 200, 0), 1.1f * Vector3.one, Vector3.zero);
         time = 0;
 
+        card.cardCollider.transform.SetAsLastSibling();
         WorldSystem.instance.toolTipManager.canShow = false;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         time += Time.deltaTime;
-
+        card.cardCollider.transform.SetAsLastSibling();
         if (time < duration)
             CardLerp(StartTransInfo, TargetTransInfo, card.transitionCurveReturn.Evaluate(time / duration)); //fucking time.Deltatime??? messed up.
         else
