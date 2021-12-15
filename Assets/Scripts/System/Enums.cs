@@ -426,23 +426,6 @@ public enum CardHighlightType
     PlayableSpecial
 }
 
-public enum CombatActivityType
-{
-    DrawCard,
-    AddCardToCombat,
-    Splice,
-    ExhaustDiscard,
-    CombatCostChange,
-    SetRandomBroken,
-    ModifyLife,
-    ModifyEnergy,
-    DrawDiscard,
-    DualWield,
-    EmptySavedEnergy,
-    EN_AddCardModifier,
-    AddCardModifier
-}
-
 public enum CombatActorType
 {
     Hero,
