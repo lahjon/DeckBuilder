@@ -167,7 +167,7 @@ public class CombatSystem : MonoBehaviour
 
             if (!(ActiveCard is null))
             {
-                ActiveCard.animator.SetBool("HasTarget", !(value is null));
+                //ActiveCard.animator.SetBool("HasTarget", !(value is null));
                 ActiveCard.DamageNeedsRecalc();
             }
 

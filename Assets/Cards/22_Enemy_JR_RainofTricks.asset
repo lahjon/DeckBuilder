@@ -25,7 +25,7 @@ MonoBehaviour:
   effects: []
   activities:
   - type: 1
-    strParameter: Burden_StickyGoo,Deck;Burden_CheapScare,Deck;Burden_Disarm,Deck
+    strParameter: 19,Deck;20,Deck;21,Deck
     val: 1
     conditionStruct:
       type: 0

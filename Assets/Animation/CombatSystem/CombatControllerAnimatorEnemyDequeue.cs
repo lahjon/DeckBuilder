@@ -20,8 +20,8 @@ public class CombatControllerAnimatorEnemyDequeue: CombatControllerAnimator
 
     public IEnumerator EnemyTurn()
     {
-        yield return new WaitForSeconds(1f);
         enemy.ShowMoveDisplay(false);
+        yield return new WaitForSeconds(1f);
         for (int i = 0; i < enemy.actionsNewTurn.Count; i++)
             yield return combat.StartCoroutine(enemy.actionsNewTurn[i].Invoke());
 

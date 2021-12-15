@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f81e2c6b2a02e4aa5b92a9f99ad3db, type: 3}
+  m_Name: The Forgotten Necromancer
+  m_EditorClassIdentifier: 
+  id: 0
+  turnTriggerLimit: 0
+  minTier: 0
+  maxTier: 0
+  ScenarioName: 
+  difficulty: 0
+  rewardStruct:
+    type: 0
+    value: 
+  type: 0
+  unlocksScenarios: 
+  includeEncounters: 
+  excludeEncounters: 
+  encounters: []
+  DescriptionShort: 
+  Description: 
+  SegmentDatas: []
+  linkedScenarioId: -1

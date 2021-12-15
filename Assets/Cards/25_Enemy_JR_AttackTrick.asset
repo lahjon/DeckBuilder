@@ -43,7 +43,7 @@ MonoBehaviour:
     execTime: 0
   activities:
   - type: 1
-    strParameter: Burden_CheapScare,Deck
+    strParameter: 20,Deck
     val: 1
     conditionStruct:
       type: 0
