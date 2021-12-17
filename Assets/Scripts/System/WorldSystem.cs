@@ -36,6 +36,7 @@ public class WorldSystem : MonoBehaviour
     public ScenarioMapManager scenarioMapManager;
     public AbilityManager abilityManager;
     public ToolTipManager toolTipManager;
+    public HUDManager hudManager;
     public int act;
     public int subAct;
     public int saveAmount;

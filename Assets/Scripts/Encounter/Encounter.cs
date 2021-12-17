@@ -162,7 +162,7 @@ public class Encounter : MonoBehaviour
         
         WorldSystem.instance.encounterManager.currentEncounter = this;
 
-        if (!WorldSystem.instance.debugMode || encounterType == ScenarioEncounterType.Exit)
+        if (!WorldSystem.instance.uiManager.debugUI.debugActive || encounterType == ScenarioEncounterType.Exit)
             StartEncounter();
     }
 

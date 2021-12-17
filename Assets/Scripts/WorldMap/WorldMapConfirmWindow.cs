@@ -43,7 +43,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
 
     public void ButtonOnClick()
     {
-        if (!WorldSystem.instance.debugMode)
+        if (!WorldSystem.instance.uiManager.debugUI.debugActive)
         {
             Confirm();
         }

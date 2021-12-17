@@ -19,12 +19,13 @@ public class DebugUI : MonoBehaviour
     public TMP_Dropdown dropdownEnemies;
     public TMP_Dropdown dropdownEncounter;
     public TMP_Dropdown dropdownCard;
+    public bool debugActive;
 
     WorldSystem world;
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D) && !WorldSystem.instance.displayCardManager.active)
+        if(world.debugMode && Input.GetKeyDown(KeyCode.D) && !WorldSystem.instance.displayCardManager.active)
         {
             ToggleDebugMenu();
         }
@@ -237,14 +238,12 @@ public class DebugUI : MonoBehaviour
         if(canvas.activeSelf)
         {
             canvas.SetActive(false);
-            //world.characterManager.characterVariablesUI.debugDeckButton.SetActive(false);
-            world.debugMode = false;
+            debugActive = false;
         }
         else
         {
             canvas.SetActive(true);
-            //world.characterManager.characterVariablesUI.debugDeckButton.SetActive(true);
-            world.debugMode = true;
+            debugActive = true;
         }
     }
 
