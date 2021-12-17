@@ -32173,7 +32173,7 @@ MonoBehaviour:
   scenarioHUD: {fileID: 172998592}
   combatHUD: {fileID: 1407152600}
   abilityHUD: {fileID: 2146220832}
-  debugHUD: {fileID: 0}
+  debugHUD: {fileID: 1661400414}
 --- !u!1 &948706039
 GameObject:
   m_ObjectHideFlags: 0
@@ -48982,6 +48982,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3832d872aca023e45bb34f6b6dd6b2e3, type: 2}
   - {fileID: 11400000, guid: 67d96c77cccf3984db6d166275d6071c, type: 2}
   - {fileID: 11400000, guid: 3599c9499cba4e44a99a4153fb7e5976, type: 2}
+  - {fileID: 11400000, guid: d1b02ccafde9fa545b96a39271fee371, type: 2}
+  - {fileID: 11400000, guid: f299b72e9727ba84a898609b141dc4fd, type: 2}
+  - {fileID: 11400000, guid: 10c37ac202e396940a34654a635f5c0e, type: 2}
+  - {fileID: 11400000, guid: ab6fc0417498d694ab35717fc44cb648, type: 2}
+  - {fileID: 11400000, guid: dfd85162af3099e448dabd048dbe3dbf, type: 2}
+  - {fileID: 11400000, guid: 41653fd8e82b9404bb8ad265c5dcddf0, type: 2}
+  - {fileID: 11400000, guid: 339f84f3127014e45a7e74515f527d68, type: 2}
+  - {fileID: 11400000, guid: e71936eb6e14a474a94b49b0d8a5b418, type: 2}
+  - {fileID: 11400000, guid: db3d3a9861510354d8d2bceaf14d1be5, type: 2}
+  - {fileID: 11400000, guid: 0ae4ec0257296674cb08fb672fb7204b, type: 2}
+  - {fileID: 11400000, guid: ee1c9d4c15ed94c4fb84c7507e556dcd, type: 2}
+  - {fileID: 11400000, guid: d3b1eadb2f82db44eb77f213c152fe93, type: 2}
+  - {fileID: 11400000, guid: 20fadc825e7a39641b90107ef4a99324, type: 2}
+  - {fileID: 11400000, guid: 32e0dc070177cc442be12463384d30b7, type: 2}
   cardModifiers:
   - {fileID: 11400000, guid: 159f3efcf3e543244b0c632adef75d89, type: 2}
   - {fileID: 11400000, guid: 0a6dda9cc0509eb40b898f8d46c61c10, type: 2}
@@ -49027,6 +49041,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7221668d44cdac54c9abb30635d46135, type: 2}
   - {fileID: 11400000, guid: ee3cd558a061b93419f41d95de7ec7db, type: 2}
   - {fileID: 11400000, guid: d9f640d0966eaec458ec1c65cc67e502, type: 2}
+  - {fileID: 11400000, guid: 61b7c4c1262817d42a83b6a194923bdb, type: 2}
+  - {fileID: 11400000, guid: 23b1e646170013e47802f6d82b37fb1a, type: 2}
   encounterEvent:
   - {fileID: 11400000, guid: 2e96d5d7c9dd18644a2be4c4a64df655, type: 2}
   - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
