@@ -4,6 +4,25 @@ using UnityEngine;
 using System;
 using System.Linq;
 
+public enum CombatActivityType
+{
+    DrawCard,
+    AddCardToCombat,
+    Splice,
+    ExhaustDiscard,
+    CombatCostChange,
+    SetRandomBroken,
+    ModifyLife,
+    ModifyEnergy,
+    DrawDiscard,
+    DualWield,
+    EmptySavedEnergy,
+    EN_AddCardModifier,
+    AddCardModifier,
+    AddEnemyToCombat
+}
+
+
 public class CombatActivitySystem : MonoBehaviour
 {
     public static CombatActivitySystem instance = null;
@@ -22,6 +41,7 @@ public class CombatActivitySystem : MonoBehaviour
         { CombatActivityType.EmptySavedEnergy, new CombatActivityEmptySavedEnergy()},
         { CombatActivityType.EN_AddCardModifier, new CombatActivityEN_AddCardModifier()},
         { CombatActivityType.AddCardModifier, new CombatActivityAddCardModifier()},
+        { CombatActivityType.AddEnemyToCombat, new CombatActivityAddEnemyToCombat()},
     };
 
 

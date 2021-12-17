@@ -65,7 +65,7 @@ public class CombatSystem : MonoBehaviour
     public Animator animator;
 
     public List<Formation> formations = new List<Formation>();
-    public List<Vector3> formationPositions;
+    private Formation currentFormation;
 
     Queue<object> drawnToResolve = new Queue<object>();
 
@@ -266,22 +266,24 @@ public class CombatSystem : MonoBehaviour
         Hero.ShuffleDeck();
 
         enemyDatas = encounterData.enemyData;
-        formations.Where(x => x.FormationType == encounterData.formation).First().transforms.ForEach(x=> formationPositions.Add(x.position));
+        currentFormation = formations.Where(x => x.FormationType == encounterData.formation).First();
 
         for (int i = 0; i < enemyDatas.Count; i++)
-        {
-            GameObject EnemyObject = Instantiate(TemplateEnemy, transform);
-            EnemyObject.transform.position = formationPositions[i];
-            CombatActorEnemy combatActorEnemy = EnemyObject.GetComponent<CombatActorEnemy>();
-            combatActorEnemy.ReadEnemyData(enemyDatas[i]);
-            EnemiesInScene.Add(combatActorEnemy);
-            if (i == 0)
-            {
-                TargetedEnemy = EnemiesInScene[0];
-            }
-        }
+            AddEnemy(enemyDatas[i]);
+
         animator.SetTrigger("StartSetup");
     }
+
+    public void AddEnemy(EnemyData data)
+    {
+        GameObject EnemyObject = Instantiate(TemplateEnemy, transform);
+        CombatActorEnemy enemy = EnemyObject.GetComponent<CombatActorEnemy>();
+        currentFormation.RegisterOccupant(enemy);
+        enemy.ReadEnemyData(data);
+        EnemiesInScene.Add(enemy);
+        if (TargetedEnemy == null) TargetedEnemy = enemy;
+    }
+
 
     private void RegisterEnergyType(EnergyType type)
     {
@@ -361,6 +363,7 @@ public class CombatSystem : MonoBehaviour
         enemy.OnDeath();
         DeadEnemiesInScene.Add(enemy);
         EnemiesInScene.Remove(enemy);
+        currentFormation.DeregisterOccupant(enemy);
         TargetedEnemy = null;
         ToggleTargetForward();
     }
