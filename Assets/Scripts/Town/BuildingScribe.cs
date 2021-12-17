@@ -280,7 +280,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     {
         ConfirmDeck();
         base.CloseBuilding();
-        WorldSystem.instance.characterManager.characterVariablesUI.currencyBar.SetActive(false);
     }
 
     void PromptWarning()
@@ -290,7 +289,6 @@ public class BuildingScribe : Building, ISaveableCharacter, ISaveableWorld
     public override void EnterBuilding()
     {
         base.EnterBuilding();
-        WorldSystem.instance.characterManager.characterVariablesUI.currencyBar.SetActive(true);
         UpdateScribe();
         UpdateDeck();
         StepInto(scribe);

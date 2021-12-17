@@ -13,6 +13,7 @@ public class StateCombat : WorldStateAnimator
 
         world.cameraManager.SwapToCombat();
         CombatSystem.instance.StartCombat();
+        world.hudManager.ToggleCombatHUD();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

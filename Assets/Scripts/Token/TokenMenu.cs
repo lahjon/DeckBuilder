@@ -110,15 +110,8 @@ public class TokenMenu : MonoBehaviour
     }
     public void UnselectToken(int tokenId)
     {
-        // List<GameObject> tokens = new List<GameObject>();
-
-        // for (int i = 0; i < contentActive.transform.childCount; i++)
-        //     tokens.Add(contentActive.transform.GetChild(i).gameObject);
-
-        GameObject token = tokenManager.GetTokenById(tokenId)?.gameObject;
-
-        if (token != null)
-            Destroy(token);
+        if (tokenManager.GetTokenById(tokenId) is Token aToken && aToken.gameObject != null)
+            Destroy(aToken.gameObject);
 
     }
 

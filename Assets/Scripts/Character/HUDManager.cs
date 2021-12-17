@@ -7,15 +7,6 @@ using TMPro;
 public class HUDManager : Manager
 {
     public GameObject townHUD, scenarioHUD, combatHUD, abilityHUD, debugHUD;
-    void ToggleBar(WorldState worldState)
-    {
-        if (worldState == WorldState.Overworld)
-            ToggleScenarioHUD();
-        else if (worldState == WorldState.Town)
-            ToggleTownHUD();
-        else if (worldState == WorldState.Combat)
-            ToggleCombatHUD();
-    }
 
     protected override void Awake()
     {
@@ -27,27 +18,34 @@ public class HUDManager : Manager
     {
         base.Start(); 
         if (world.debugMode) debugHUD.SetActive(true);
-        EventManager.OnNewWorldStateEvent += ToggleBar;
     }
 
-    void ToggleTownHUD()
+    public void ToggleTownHUD()
     {
         townHUD.SetActive(true);
         scenarioHUD.SetActive(false);
         abilityHUD.SetActive(false);
         combatHUD.SetActive(false);
     }
-    void ToggleScenarioHUD()
+    public void ToggleScenarioHUD()
     {
         scenarioHUD.SetActive(true);
         abilityHUD.SetActive(true);
         townHUD.SetActive(false);
         combatHUD.SetActive(false);
     }
-    void ToggleCombatHUD()
+    public void ToggleCombatHUD()
     {
         combatHUD.SetActive(true);
         abilityHUD.SetActive(true);
+        townHUD.SetActive(false);
+        scenarioHUD.SetActive(false);
+    }
+
+    public void DisableHUD()
+    {
+        combatHUD.SetActive(false);
+        abilityHUD.SetActive(false);
         townHUD.SetActive(false);
         scenarioHUD.SetActive(false);
     }

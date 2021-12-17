@@ -11,12 +11,11 @@ public class StateOverworld : WorldStateAnimator
         if(hexMapController == null) hexMapController = world.scenarioMapManager.hexMapController;
         world.scenarioMapManager.content.SetActive(true);
         world.scenarioMapManager.ReportEncounter();
-        Debug.Log("Entering Overworld");
+        world.hudManager.ToggleScenarioHUD();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exit Overworld");
         world.scenarioMapManager.content.SetActive(false);
     }
 
