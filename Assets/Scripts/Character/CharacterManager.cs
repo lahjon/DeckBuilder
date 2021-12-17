@@ -8,8 +8,6 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, IEffectA
 {
     [HideInInspector] public int maxCardReward;
     [HideInInspector] public int defaultDrawCardAmount;
-
-    public CharacterVariablesUI characterVariablesUI;
     public List<CardVisual> deck = new List<CardVisual>();
     public CharacterClassType selectedCharacterClassType;
     public List<PlayableCharacterData> allCharacterData { get => DatabaseSystem.instance.allCharacterDatas; }

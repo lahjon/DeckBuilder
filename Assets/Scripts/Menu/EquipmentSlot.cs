@@ -16,12 +16,15 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!image.enabled) image.enabled = true;
         equipmentData = data;
         image.sprite = data.artwork;
+        itemEffect?.DeRegister();
         itemEffect = ItemEffect.Factory(equipmentData.itemEffectStruct, this);
+        itemEffect?.Register();
+        
     }
 
     public string GetName()
     {
-        throw new System.NotImplementedException();
+        return equipmentData.itemName;
     }
 
     public int GetValue() => itemEffect.itemEffectStruct.value;

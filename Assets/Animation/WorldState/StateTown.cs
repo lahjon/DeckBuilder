@@ -9,6 +9,7 @@ public class StateTown : WorldStateAnimator
     {
         Init(TransitionType.Town, WorldState.Town);
         WorldSystem.instance.townManager.EnterTown();
+        world.hudManager.ToggleTownHUD();
         if (world.rewardManager.uncollectedReward?.Any() == true) WorldStateSystem.SetInTownReward(true);
     }
 

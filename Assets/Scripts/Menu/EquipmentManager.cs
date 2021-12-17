@@ -18,29 +18,28 @@ public class EquipmentManager : Manager, ISaveableTemp
     {
         base.Start();
     }
-    public void UpgradeEquipment(EquipmentType equipmentType)
+    public void UpgradeEquipment(EquipmentType equipmentType, bool increment = true)
     {
-        //Debug.Log(equipmentStruct);
         switch (equipmentType)
         {
             case EquipmentType.Head:
-                equipmentStruct.headLevel++;
+                if (increment) equipmentStruct.headLevel++;
                 headSlot.BindData(equipmentDatas.Where(x => x.classType == world.characterManager.selectedCharacterClassType && x.equipmentType == equipmentType).FirstOrDefault(x => x.level == equipmentStruct.headLevel));
                 break;
             case EquipmentType.Chest:
-                equipmentStruct.chestLevel++;
+                if (increment) equipmentStruct.chestLevel++;
                 chestSlot.BindData(equipmentDatas.Where(x => x.classType == world.characterManager.selectedCharacterClassType && x.equipmentType == equipmentType).FirstOrDefault(x => x.level == equipmentStruct.chestLevel));
                 break;
             case EquipmentType.Hands:
-                equipmentStruct.handsLevel++;
+                if (increment) equipmentStruct.handsLevel++;
                 handsSlot.BindData(equipmentDatas.Where(x => x.classType == world.characterManager.selectedCharacterClassType && x.equipmentType == equipmentType).FirstOrDefault(x => x.level == equipmentStruct.handsLevel));
                 break;
             case EquipmentType.Legs:
-                equipmentStruct.legsLevel++;
+                if (increment) equipmentStruct.legsLevel++;
                 legsSlot.BindData(equipmentDatas.Where(x => x.classType == world.characterManager.selectedCharacterClassType && x.equipmentType == equipmentType).FirstOrDefault(x => x.level == equipmentStruct.legsLevel));
                 break;
             case EquipmentType.Feet:
-                equipmentStruct.feetLevel++;
+                if (increment) equipmentStruct.feetLevel++;
                 feetSlots.BindData(equipmentDatas.Where(x => x.classType == world.characterManager.selectedCharacterClassType && x.equipmentType == equipmentType).FirstOrDefault(x => x.level == equipmentStruct.feetLevel));
                 break;
             default:
@@ -49,7 +48,7 @@ public class EquipmentManager : Manager, ISaveableTemp
     }
     public void LoadFromSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        a_SaveData.equipmentStruct = equipmentStruct;
+        equipmentStruct = a_SaveData.equipmentStruct = equipmentStruct;
 
         if (equipmentStruct == null)
         {
@@ -60,40 +59,22 @@ public class EquipmentManager : Manager, ISaveableTemp
             UpgradeEquipment(EquipmentType.Legs);
             UpgradeEquipment(EquipmentType.Feet);
         }
+        else
+        {
+            UpgradeEquipment(EquipmentType.Head, false);
+            UpgradeEquipment(EquipmentType.Chest, false);
+            UpgradeEquipment(EquipmentType.Hands, false);
+            UpgradeEquipment(EquipmentType.Legs, false);
+            UpgradeEquipment(EquipmentType.Feet, false);
+        }
         
     }
 
     public void PopulateSaveDataTemp(SaveDataTemp a_SaveData)
     {
-        equipmentStruct = a_SaveData.equipmentStruct;
+        a_SaveData.equipmentStruct = equipmentStruct;
     }
 }
-
-// public class EquipmentCharacter
-// {
-//     public CharacterClassType classType;
-//     public List<EquipmentStruct> equipmentStructs;
-//     public EquipmentCharacter()
-//     {
-//         equipmentStructs = new List<EquipmentStruct>();
-//         equipmentStructs.Add(new EquipmentStruct(EquipmentType.Head, 1));
-//         equipmentStructs.Add(new EquipmentStruct(EquipmentType.Chest, 1));
-//         equipmentStructs.Add(new EquipmentStruct(EquipmentType.Hands, 1));
-//         equipmentStructs.Add(new EquipmentStruct(EquipmentType.Legs, 1));
-//         equipmentStructs.Add(new EquipmentStruct(EquipmentType.Feet, 1));
-//     }
-// }
-
-// public class EquipmentStruct
-// {
-//     public EquipmentType equipmentType;
-//     public int level;
-//     public EquipmentStruct(EquipmentType anEquipmentType, int aLevel)
-//     {
-//         equipmentType = anEquipmentType;
-//         level = aLevel;
-//     }
-// }
 
 public class EquipmentStruct
 {
