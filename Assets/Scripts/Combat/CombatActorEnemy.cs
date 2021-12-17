@@ -67,16 +67,8 @@ public class CombatActorEnemy : CombatActor
         deck = new ListEventReporter<Card>();
         discard = new ListEventReporter<Card>();
 
-        foreach(CardData cardData in enemyData.deck)
-        {
-            GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0));
-            cardObject.transform.SetParent(gameObject.transform);
-            Card card = cardObject.GetComponent<Card>();
-            card.owner = this; 
-            card.cardData = cardData;
-            card.BindCardData();
-            deck.Add(card);
-        }
+        foreach (CardData cardData in enemyData.deck)
+            AddEnemyCardFromData(cardData);
 
         enemyName = enemyData.enemyName;
         stochasticReshuffle = enemyData.stochasticReshuffle;
@@ -118,6 +110,17 @@ public class CombatActorEnemy : CombatActor
         if(enemyData.shuffleInit) ShuffleDeck();
     }
 
+    public void AddEnemyCardFromData(CardData data)
+    {
+        GameObject cardObject = Instantiate(cardTemplate, new Vector3(-10000, -10000, -10000), Quaternion.Euler(0, 0, 0));
+        cardObject.transform.SetParent(gameObject.transform);
+        Card card = cardObject.GetComponent<Card>();
+        card.owner = this;
+        card.cardData = data;
+        card.BindCardData();
+        deck.Add(card);
+    }
+
     public void SetupCamera()
     {
         canvasIntent.worldCamera = WorldSystem.instance.cameraManager.combatCamera;
@@ -130,6 +133,7 @@ public class CombatActorEnemy : CombatActor
     public void UpdateIntentDisplay(Card card)
     {
         int displayDamage = 0;
+        if (card == null) return;
         if (card.Attacks.Any()) displayDamage = RulesSystem.instance.CalculateDamage(card.Attacks[0].Value.value, this, CombatSystem.instance.Hero);
         intentDisplay.RecieveIntent(card, displayDamage);   
     }

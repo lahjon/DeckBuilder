@@ -280,7 +280,19 @@ public class CombatSystem : MonoBehaviour
         CombatActorEnemy enemy = EnemyObject.GetComponent<CombatActorEnemy>();
         currentFormation.RegisterOccupant(enemy);
         enemy.ReadEnemyData(data);
+
+        foreach (CombatActorEnemy ally in EnemiesInScene)
+            ally.allies.Add(enemy);
+
+
         EnemiesInScene.Add(enemy);
+        ActorsInScene.Add(enemy);
+
+        ActorsInScene.ForEach(a => a.RefreshActors());
+        companion.RefreshActors();
+
+        enemy.InitializeCombat();
+    
         if (TargetedEnemy == null) TargetedEnemy = enemy;
     }
 

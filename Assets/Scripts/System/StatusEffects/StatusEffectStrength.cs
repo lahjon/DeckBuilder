@@ -11,10 +11,10 @@ public class StatusEffectStrength : StatusEffect
         OnEndTurn = null;
     }
 
-    public override void RespondStackUpdate(int update)
-    {
-        actor.strengthCombat = nrStacked;
-        CombatSystem.instance.RecalcAllCardsDamage();
-    }
+    public override void AddFunctionToRules() => actor.dealAttackLinear.Add(DealAttackLinear);
+    public override void RemoveFunctionFromRules() => actor.dealAttackLinear.Remove(DealAttackLinear);
+    public int DealAttackLinear() => nrStacked;
 
+
+    public override void RespondStackUpdate(int update) => CombatSystem.instance.RecalcAllCardsDamage();
 }

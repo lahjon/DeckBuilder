@@ -30,8 +30,12 @@ public class EventManager : Manager
 
     public delegate void StatsTrackerUpdatedEvent();
     public static event StatsTrackerUpdatedEvent OnStatsTrackerUpdatedEvent;
+
     public delegate void HealthChangedEvent(int amount);
     public static event HealthChangedEvent OnHealthChangedEvent;
+
+    public delegate void ActorLostLifeEvent(CombatActor actor, int amount);
+    public static event ActorLostLifeEvent OnActorLostLifeEvent;
 
     public delegate void HealthChangedEventNoArg();
     public static event HealthChangedEventNoArg OnHealthChangedEventnoArg;
@@ -146,6 +150,8 @@ public class EventManager : Manager
             EventManager.OnCombatWonEvent();
     }
 
+    public static void ActorLostLife(CombatActor actor, int amount) => OnActorLostLifeEvent?.Invoke(actor, amount);
+    
     public static void TileCompleted(HexTile tile)
     {
         OnCompleteTileEvent?.Invoke(tile);

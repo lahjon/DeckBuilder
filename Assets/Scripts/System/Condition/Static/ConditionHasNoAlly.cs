@@ -14,7 +14,7 @@ public class ConditionHasNoAlly: Condition
 
     public void NoteEnemyKilled(CombatActor data) => OnEventNotification();
 
-    public override bool ConditionEvaluator() => owner.GetOwningActor().allies.Count == 0;
+    public override bool ConditionEvaluator() => owner.GetOwningActor().allies.Count <= conditionData.numValue;
 }
 
 

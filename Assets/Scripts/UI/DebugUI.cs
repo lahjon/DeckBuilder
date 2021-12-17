@@ -67,7 +67,7 @@ public class DebugUI : MonoBehaviour
         if (WorldStateSystem.instance.currentWorldState == WorldState.Combat)
             CombatSystem.instance.Hero.TakeDamage(amount);
         else
-            world.characterManager.TakeDamage(amount);
+            world.characterManager.LooseLife(amount);
     }
     public void DebugHeal(int amount)
     {

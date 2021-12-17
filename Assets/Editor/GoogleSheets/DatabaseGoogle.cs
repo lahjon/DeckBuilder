@@ -263,9 +263,9 @@ public class DatabaseGoogle
             Enum.TryParse((string)gt[i, "TargetType"], out cardEffect.Target);
 
             cardEffect.ConditionData = new ConditionData();
-            Enum.TryParse((string)gt[i, "ConditionType"], out cardEffect.ConditionData.type);
+            cardEffect.ConditionData.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
             cardEffect.ConditionData.strParameter = (string)gt[i, "ConditionStrParam"];
-            cardEffect.ConditionData.numValue = (string)gt[i, "ConditionValue"] == "" ? 0 : Int32.Parse((string)gt[i, "ConditionValue"]);
+            cardEffect.ConditionData.numValue = ((string)gt[i, "ConditionValue"]).ToInt();
 
             Enum.TryParse((string)gt[i, "ExecutionTime"], out cardEffect.execTime);
 
@@ -302,6 +302,11 @@ public class DatabaseGoogle
             CardActivityData activity = new CardActivityData();
             Enum.TryParse((string)gt[i, "Activity"], out activity.type);
             Enum.TryParse((string)gt[i, "ExecutionTime"], out activity.execTime);
+
+            activity.conditionStruct = new ConditionData();
+            activity.conditionStruct.type = ((string)gt[i, "ConditionType"]).ToEnum<ConditionType>();
+            activity.conditionStruct.strParameter = (string)gt[i, "ConditionStrParam"];
+            activity.conditionStruct.numValue = ((string)gt[i, "ConditionValue"]).ToInt();
 
             activity.strParameter = (string)gt[i, "strParameter"];
             activity.val = Int32.Parse((string)gt[i, "val"]);

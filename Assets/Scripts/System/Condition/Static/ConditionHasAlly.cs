@@ -17,9 +17,6 @@ public class ConditionHasAlly: Condition
 
     public override bool ConditionEvaluator()
     {
-        Debug.Log(owner);
-        Debug.Log(owner.GetOwningActor());
-        Debug.Log(conditionData);
         return owner.GetOwningActor().allies.Count >= conditionData.numValue;
     }
 }

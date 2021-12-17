@@ -35,6 +35,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     public List<Func<float>> takeAttackMult = new List<Func<float>>();
 
     public List<Func<int>> dealAttackLinear = new List<Func<int>>();
+    public List<Func<int>> takeAttackLinear = new List<Func<int>>();
     public List<Func<int,int>> looseLifeTransform = new List<Func<int,int>>();
 
     public Dictionary<CombatActor, List<Func<float>>> dealAttackActorMods = new Dictionary<CombatActor, List<Func<float>>>();
@@ -75,7 +76,7 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
     {
         AnchorToolTip.localPosition = new Vector3(collision.size.x / 2, collision.size.y * 0.9f);
 
-        if (!typeof(CombatActorCompanion).IsAssignableFrom(this.GetType()))
+        if (!typeof(CombatActorCompanion).IsAssignableFrom(GetType()))
         {
             healthEffectsUI.UpdateShield(shield);
             actionsNewTurn.Add(RemoveAllBlock);
@@ -84,10 +85,16 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
 
         dealAttackLinear.Add(ApplyCombatStrength);
 
-        foreach (CombatActor actor in CombatSystem.instance.ActorsInScene)
-            dealAttackActorMods[actor] = new List<Func<float>>(); //technically includes oneself but who cares?
+        RefreshActors();
 
         SetupAlliesEnemies();
+    }
+
+    public void RefreshActors()
+    {
+        foreach (CombatActor actor in CombatSystem.instance.ActorsInScene)
+            if(!dealAttackActorMods.ContainsKey(actor))
+                dealAttackActorMods[actor] = new List<Func<float>>(); //technically includes oneself but who cares?
     }
 
     public abstract void SetupAlliesEnemies();
@@ -192,7 +199,9 @@ public abstract class CombatActor : MonoBehaviour, IToolTipable
         hitPoints -= lifeToLose;
 
         if (this == CombatSystem.instance.Hero)
-            WorldSystem.instance.characterManager.TakeDamage(lifeToLose);
+            WorldSystem.instance.characterManager.LooseLife(lifeToLose);
+
+        EventManager.ActorLostLife(this, lifeToLose);
 
         healthEffectsUI.StartNotificationLifeLoss(lifeToLose);
 

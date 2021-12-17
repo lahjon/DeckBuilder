@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CombatControllerAnimatorEnemyEnd: CombatControllerAnimator
 {
@@ -19,7 +20,10 @@ public class CombatControllerAnimatorEnemyEnd: CombatControllerAnimator
             yield return combat.StartCoroutine(enemy.actionsEndTurn[i].Invoke());
 
         yield return combat.StartCoroutine(enemy.EffectsOnEndTurnBehavior());
-        
+
+        while (combat.enemiesWaiting.Count > 0 && combat.enemiesWaiting.Peek() == null)
+            combat.enemiesWaiting.Dequeue();
+
         combat.animator.SetBool("EnemyQueued", combat.enemiesWaiting.Count != 0);
         combat.animator.SetTrigger("EnemyFinished");
     }

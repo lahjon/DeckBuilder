@@ -342,7 +342,7 @@ public enum FormationType
     Duo,
     Trio,
     AlternatingFive,
-    HoveringAroundLeader
+    CenteredFive
 }
 
 public enum ProgressionGoalType

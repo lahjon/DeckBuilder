@@ -31,7 +31,10 @@ public enum StatusEffectType
     Steaming,
     Loaded,
     RockSkin,
-    Volatile
+    Volatile,
+    EN_BombObBlowUp,
+    Tyrant,
+    Wound
 }
 
 public enum StatusEffectCategory
@@ -72,6 +75,9 @@ public class StatusEffectTypeInfo : IEquatable<StatusEffectTypeInfo>
     public static StatusEffectTypeInfo Loaded = new StatusEffectTypeInfo { type = StatusEffectType.Loaded, toolTipIcon = $"<b>Loaded</b>\nNext attack deals double damage.", txtOverride = "Your next attack deals double damage" };
     public static StatusEffectTypeInfo RockSkin = new StatusEffectTypeInfo { type = StatusEffectType.RockSkin, toolTipIcon = $"<b>Indestructible</b>\nGain block whenever shield is broken."};
     public static StatusEffectTypeInfo Volatile = new StatusEffectTypeInfo { type = StatusEffectType.Volatile, toolTipIcon = $"<b>Volatile</b>\nDeals half of total life to everyone on death."};
+    public static StatusEffectTypeInfo EN_BombObBlowUp = new StatusEffectTypeInfo { type = StatusEffectType.EN_BombObBlowUp, toolTipIcon = $"<b>Self Destructor</b>\nMaybe this should be hidden?"};
+    public static StatusEffectTypeInfo Tyrant = new StatusEffectTypeInfo { type = StatusEffectType.Tyrant, category = StatusEffectCategory.Oath, toolTipIcon = $"<b>Tyrant</b>\nUnblocked damage will be redirected to a random ally."};
+    public static StatusEffectTypeInfo Wound = new StatusEffectTypeInfo { type = StatusEffectType.Wound, category = StatusEffectCategory.Oath, toolTipIcon = $"<b>Wound</b>\nAll attacks deal bonus damage."};
 
     static Dictionary<StatusEffectType, StatusEffectTypeInfo> TypeToStruct = new Dictionary<StatusEffectType, StatusEffectTypeInfo>
     {
@@ -95,6 +101,9 @@ public class StatusEffectTypeInfo : IEquatable<StatusEffectTypeInfo>
         { StatusEffectType.Loaded, Loaded},
         { StatusEffectType.RockSkin, RockSkin},
         { StatusEffectType.Volatile, Volatile},
+        { StatusEffectType.EN_BombObBlowUp, EN_BombObBlowUp},
+        { StatusEffectType.Tyrant, Tyrant},
+        { StatusEffectType.Wound, Wound},
     };
 
     #region usually dont touch

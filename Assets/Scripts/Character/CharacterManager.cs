@@ -107,7 +107,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, IEffectA
         professionType = professionData.professionType;
     }
 
-    public void TakeDamage(int amount)
+    public void LooseLife(int amount)
     {
         CurrentHealth -= Mathf.Abs(amount);
 
