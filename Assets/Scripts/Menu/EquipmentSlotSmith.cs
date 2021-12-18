@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IEffectAdder
+public class EquipmentSlotSmith : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public EquipmentData equipmentData;
     public Image image;
-    public ItemEffect itemEffect;
     public int level;
-    public void BindData(EquipmentData data, int aLevel, bool addEffect)
+    public void BindData(EquipmentData data, int aLevel)
     {
         if (data == null) return;
         level = aLevel;
@@ -18,28 +17,11 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (!image.enabled) image.enabled = true;
         equipmentData = data;
         image.sprite = data.artwork;
-        if (addEffect)
-        {
-            itemEffect?.DeRegister();
-            itemEffect = ItemEffect.Factory(equipmentData.itemEffectStruct, this);
-            itemEffect?.Register();
-        }
     }
 
-    public string GetName()
+    public void ButtonUpgrade()
     {
-        return equipmentData.itemName;
-    }
-    public int GetValue() => itemEffect.itemEffectStruct.value;
-
-    public void NotifyUsed()
-    {
-        
-    }
-
-    public void NotifyDeregister()
-    {
-
+        WorldSystem.instance.townManager.smith.Upgrade(equipmentData.equipmentType);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -50,13 +32,5 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void OnPointerExit(PointerEventData eventData)
     {
         WorldSystem.instance.menuManager.menuCharacter.DeactivateToolTip();
-    }
-
-    public void RemoveEffect()
-    {
-    }
-
-    public void NotifyRegister()
-    {
     }
 }

@@ -30,6 +30,7 @@ public class OverworldStartup : MonoBehaviour
         }
         //WorldSystem.instance.worldMapManager.UpdateMap();
         WorldSystem.instance.missionManager.StartMission(0);
+        WorldSystem.instance.characterManager.characterCurrency.armorShard = 6;
 
         WorldSystem.instance.worldMapManager.UnlockScenario(0);
         WorldSystem.instance.worldMapManager.UnlockScenario(1);

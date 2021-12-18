@@ -905,7 +905,7 @@ public class DatabaseGoogle
 
             data.Description = (string)gt[i, "Description"];
             data.DescriptionShort = (string)gt[i, "DescriptionShort"];
-            data.linkedScenarioId = ((string)gt[i, "ScenarioType"]).ToInt(-1);
+            data.linkedScenarioId = ((string)gt[i, "LinkedScenarioId"]).ToInt(-1);
 
             data.SegmentDatas.Clear();
             dbs.scenarios.Add(data);

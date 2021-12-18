@@ -237,6 +237,7 @@ public static class Helpers
 
     public static int ToInt(this string str, int EmptyDefaultsTo = 0) 
     { 
+        Debug.Log(str);
         return String.IsNullOrEmpty(str) ? EmptyDefaultsTo : int.Parse(str);
     }
 

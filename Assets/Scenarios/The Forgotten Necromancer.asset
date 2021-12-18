@@ -16,17 +16,49 @@ MonoBehaviour:
   turnTriggerLimit: 0
   minTier: 0
   maxTier: 0
-  ScenarioName: 
-  difficulty: 0
+  ScenarioName: The Forgotten Necromancer
+  difficulty: 1
   rewardStruct:
-    type: 0
-    value: 
-  type: 0
+    type: 5
+    value: 20
+  type: 1
   unlocksScenarios: 
   includeEncounters: 
   excludeEncounters: 
   encounters: []
-  DescriptionShort: 
-  Description: 
-  SegmentDatas: []
-  linkedScenarioId: -1
+  DescriptionShort: If you could find the remains of the Necromancer, you could find
+    his cache of shards!
+  Description: kk
+  SegmentDatas:
+  - SegmentName: Start
+    segmentType: 2
+    color: {r: 0, g: 0.6, b: 1, a: 1}
+    description: Find the <color>necromancers</color> remains
+    gridCoordinates:
+    - {x: 1, y: -1, z: 0}
+    - {x: -1, y: 1, z: 0}
+    - {x: 0, y: -1, z: 1}
+    encounters:
+    - {fileID: 11400000, guid: 8108d142ba8baf94a983de317c4be4e7, type: 2}
+    missEncounters:
+    - {fileID: 11400000, guid: df348c3538e09404ca6ebed13fe8928f, type: 2}
+    requiredSegmentsOR: []
+    requiredSegmentsAND: []
+    cancelSegmentsOnStart: []
+    nrSkippableTiles: 0
+    nrDecoys: 1
+  - SegmentName: End
+    segmentType: 0
+    color: {r: 1, g: 1, b: 1, a: 1}
+    description: Clear the necromancers tile
+    gridCoordinates:
+    - {x: -2, y: 2, z: 0}
+    encounters: []
+    missEncounters: []
+    requiredSegmentsOR:
+    - Start
+    requiredSegmentsAND: []
+    cancelSegmentsOnStart: []
+    nrSkippableTiles: 0
+    nrDecoys: 0
+  linkedScenarioId: 1

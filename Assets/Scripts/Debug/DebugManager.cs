@@ -10,7 +10,7 @@ public class DebugManager : MonoBehaviour
     bool showHelp;
     string input;
     public static DebugCommand SaveGame, LoadGame, Help;
-    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn;
+    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn, AddArmorShards;
     public static DebugCommand<string> AddCard, RemoveCard, UnlockProfession;
     public static DebugCommand<string> SetInState;
     public List<object> commandList;
@@ -40,10 +40,16 @@ public class DebugManager : MonoBehaviour
                 Debug.Log("Load");
             }
         );
-        AddGold = new DebugCommand<int>("add_gold", "add x gold", "add_gold <shard_amount>", (x) =>
+        AddGold = new DebugCommand<int>("add_gold", "add x gold", "add_gold <gold_amount>", (x) =>
             {
                 world.characterManager.characterCurrency.gold += x;
                 Debug.Log("Gold: " + x);
+            }
+        );
+        AddArmorShards = new DebugCommand<int>("add_armor_shards", "add x armor shards", "add_armor_shards <shard_amount>", (x) =>
+            {
+                world.characterManager.characterCurrency.armorShard += x;
+                Debug.Log("Armor Shards: " + x);
             }
         );
         AddShards = new DebugCommand<int>("add_shards", "add x shards.", "add_shards <gold_amount>", (x) =>
@@ -142,6 +148,7 @@ public class DebugManager : MonoBehaviour
             AddCard,
             RemoveCard,
             AddEnergy,
+            AddArmorShards,
             AddEnergyTurn,
             AddRageTurn,
             UnlockProfession,

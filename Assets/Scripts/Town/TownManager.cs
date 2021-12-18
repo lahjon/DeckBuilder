@@ -10,6 +10,7 @@ public class TownManager : Manager, ISaveableWorld
     [HideInInspector] public List<TownInteractable> townInteractables;
     [HideInInspector] public BuildingScribe scribe;
     [HideInInspector] public BuildingBarracks barracks;
+    [HideInInspector] public BuildingSmith smith;
     public List<BuildingStruct> buildings;
     public List<BuildingType> unlockedBuildings = new List<BuildingType>();
     public List<BuildingType> startingBuildings = new List<BuildingType>();
@@ -34,6 +35,7 @@ public class TownManager : Manager, ISaveableWorld
         townMapCanvas.gameObject.SetActive(true);
         scribe = (BuildingScribe)GetBuildingByType(BuildingType.Scribe);
         barracks = (BuildingBarracks)GetBuildingByType(BuildingType.Barracks);
+        smith = (BuildingSmith)GetBuildingByType(BuildingType.Smith);
         for (int i = 0; i < encounters.childCount ; i++)
         {
             townInteractables.Add(encounters.GetChild(i).GetComponent<TownInteractable>());
