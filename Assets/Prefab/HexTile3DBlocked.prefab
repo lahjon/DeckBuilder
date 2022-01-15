@@ -72,34 +72,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3686289683668390500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5158f17e467f61a4bb1f2bcea5bc4f31, type: 3}
+  m_Script: {fileID: 11500000, guid: fc335c8b3c277484d978e988760e3701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  _tileState: 0
   coord: {x: 0, y: 0, z: 0}
-  availableDirections: []
   neighbours: []
+  cost: 0
   encounter: {fileID: 0}
-  directionEntry:
-    coords: {x: 0, y: 0, z: 0}
-    Name: 0
-    nr: 0
-  storyMark: {fileID: 0}
   encounterParent: {fileID: 0}
   roadParent: {fileID: 0}
-  tileMesh: {fileID: 0}
-  type: 0
   fog: {fileID: 3612239073834600966}
-  Blocked: 1
-  encountersSelectable: 0
-  dangerZone: {fileID: 0}
-  _difficulty: 0
-  encounters: []
-  encounterEntry: {fileID: 0}
-  encountersExits: []
-  storyId: 
-  storyEncounter: {fileID: 0}
 --- !u!64 &2268135026206701475
 MeshCollider:
   m_ObjectHideFlags: 0

@@ -64,7 +64,7 @@ public class EncounterManager : Manager
         world.scenarioMapManager.animator.SetBool("IsAnimating", false);
     }
 
-    public void GenerateFirstHexEncounters(HexTile tile)
+    public void GenerateFirstHexEncounters(HexTileOverworld tile)
     {
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
 

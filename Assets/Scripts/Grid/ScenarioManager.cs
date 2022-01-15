@@ -18,8 +18,8 @@ public class ScenarioManager : Manager
     public GameObject content;
     public Animator animator;
     public bool initialized;
-    public Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
-    public HexTile currentTile;
+    public Dictionary<Vector3Int, HexTileOverworld> tiles = new Dictionary<Vector3Int, HexTileOverworld>();
+    public HexTileOverworld currentTile;
     public float tileSize, tileGap;
     public int width;
     public List<EncounterDataCombat> allCombatEncounters = new List<EncounterDataCombat>();
@@ -81,7 +81,7 @@ public class ScenarioManager : Manager
         for (int i = 0; i <= width; i++)
             CreateRow(i);
         List<Encounter> encountersToOptimize = new List<Encounter>();
-        foreach (HexTile tile in tiles.Values)
+        foreach (HexTileOverworld tile in tiles.Values)
         {
             tile.AssignNeighboors();
             if (tile.coord != Vector3Int.zero && !tile.Blocked && Random.Range(0, 10) < 2)
@@ -121,7 +121,7 @@ public class ScenarioManager : Manager
     {
         yield return null;
     }
-    public HexTile GetTile(Vector3Int cellCoordinate) => tiles.ContainsKey(cellCoordinate) ? tiles[cellCoordinate] : null;
+    public HexTileOverworld GetTile(Vector3Int cellCoordinate) => tiles.ContainsKey(cellCoordinate) ? tiles[cellCoordinate] : null;
 
     void CreateRow(int row)
     {
@@ -139,10 +139,10 @@ public class ScenarioManager : Manager
             }
     }
 
-    List<HexTile> GetTilesAtRow(int row)
+    List<HexTileOverworld> GetTilesAtRow(int row)
     {
-        if (row == 0) return new List<HexTile>() {GetTile(Vector3Int.zero)};
-        List<HexTile> retList = new List<HexTile>();
+        if (row == 0) return new List<HexTileOverworld>() {GetTile(Vector3Int.zero)};
+        List<HexTileOverworld> retList = new List<HexTileOverworld>();
         
         Vector3Int currentCoord = (Vector3Int.zero + GridDirection.SouthWest) * row;
         foreach (GridDirection dir in GridDirection.Directions)
@@ -163,7 +163,7 @@ public class ScenarioManager : Manager
         return new Vector3(x, transform.position.y, z);
     }
 
-    public HexTile AddTile(Vector3Int coord, bool randomBlocked = false)
+    public HexTileOverworld AddTile(Vector3Int coord, bool randomBlocked = false)
     {
         System.Array tileTypes = System.Enum.GetValues(typeof(TileType));
 
@@ -181,10 +181,9 @@ public class ScenarioManager : Manager
 
         obj.name = string.Format("Tile_{0}_{1}_{2}", coord.x, coord.y, coord.z);
     
-        HexTile tile = obj.GetComponent<HexTile>();
+        HexTileOverworld tile = obj.GetComponent<HexTileOverworld>();
         tile.coord = coord;
         tile.Init();
-        tile.type = (TileType)tileTypes.GetValue(Random.Range(1, tileTypes.Length));
 
         tiles[coord] = tile;
 
@@ -192,7 +191,6 @@ public class ScenarioManager : Manager
         //     world.encounterManager.GenerateFirstHexEncounters(tile);
 
         //tile.tileState = TileState.Inactive;
-        tile.ContentVisible(false);
         tile.transform.localScale = Vector3.one * hexScale;
 
         return tile;

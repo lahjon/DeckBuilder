@@ -7,5 +7,30 @@ using UnityEngine.UI;
 
 public class HexTileCombat : HexTile
 {
-    
+    public override void AssignNeighboors()
+    {
+        foreach (GridDirection dir in GridDirection.Directions)
+            if (CombatGrid.GetTile(coord + dir) is HexTile neigh)
+                neighbours.Add(neigh);
+    }
+
+    public override void Init()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnMouseEnter()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnMouseExit()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void OnMouseUp()
+    {
+        throw new System.NotImplementedException();
+    }
 }

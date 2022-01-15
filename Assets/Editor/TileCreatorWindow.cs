@@ -36,16 +36,13 @@ public class TileCreatorWindow : EditorWindow
 
     void ResetTile()
     {
-        HexTile tile = tileCreator.hexTile;
+        HexTileOverworld tile = tileCreator.hexTile;
         // tile.encounters.ForEach(x => DestroyImmediate(x.gameObject));
-        for (int i = 0; i < tile.roadParent.childCount; i++)
-            DestroyImmediate(tile.roadParent.GetChild(i).gameObject);
             
         // tile.encounters.Clear();
         // tile.encountersExits.Clear();
         tile.neighbours.Clear();
         // tile.encounterEntry = null;
-        tile.type = TileType.None;
         //tileCreator.hexTile.availableDirections.Clear();
     }
 

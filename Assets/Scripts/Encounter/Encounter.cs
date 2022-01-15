@@ -10,7 +10,7 @@ using UnityEngine.Animations;
 
 public class Encounter : MonoBehaviour
 {
-    public HexTile tile;
+    public HexTileOverworld tile;
     public List<Encounter> neighboors;
     public List<EncounterRoad> roads = new List<EncounterRoad>();
     public ScenarioEncounterType _encounterType;

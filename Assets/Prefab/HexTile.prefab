@@ -104,7 +104,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 2.56}
+    oldSize: {x: 5.12, y: 5.12}
     newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -127,33 +127,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1220606617167381971}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5158f17e467f61a4bb1f2bcea5bc4f31, type: 3}
+  m_Script: {fileID: 11500000, guid: fc335c8b3c277484d978e988760e3701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  _tileState: 0
   coord: {x: 0, y: 0, z: 0}
-  availableDirections: []
   neighbours: []
-  spriteRenderer: {fileID: 0}
-  directionEntry:
-    coords: {x: 0, y: 0, z: 0}
-    Name: 0
-    nr: 0
-  storyMark: {fileID: 0}
-  undiscoveredSpriteRenderer: {fileID: 0}
-  encounterParent: {fileID: 1022666182270178936}
-  roadParent: {fileID: 6047280407079951247}
-  tileBiome: 0
-  type: 0
-  encountersSelectable: 0
-  dangerZone: {fileID: 0}
-  _difficulty: 0
-  encounters: []
-  encounterEntry: {fileID: 0}
-  encountersExits: []
-  storyId: 
-  storyEncounter: {fileID: 0}
+  cost: 0
+  encounter: {fileID: 0}
+  encounterParent: {fileID: 0}
+  roadParent: {fileID: 0}
+  fog: {fileID: 0}
 --- !u!1 &6031723452255119654
 GameObject:
   m_ObjectHideFlags: 0

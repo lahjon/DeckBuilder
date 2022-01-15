@@ -58,34 +58,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3686289683668390500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5158f17e467f61a4bb1f2bcea5bc4f31, type: 3}
+  m_Script: {fileID: 11500000, guid: fc335c8b3c277484d978e988760e3701, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  _tileState: 0
   coord: {x: 0, y: 0, z: 0}
-  availableDirections: []
   neighbours: []
+  cost: 0
   encounter: {fileID: 0}
-  directionEntry:
-    coords: {x: 0, y: 0, z: 0}
-    Name: 0
-    nr: 0
-  storyMark: {fileID: 0}
   encounterParent: {fileID: 0}
   roadParent: {fileID: 0}
-  tileMesh: {fileID: 1169085115203475946}
-  type: 0
   fog: {fileID: 3612239073834600966}
-  Blocked: 0
-  encountersSelectable: 0
-  dangerZone: {fileID: 0}
-  _difficulty: 0
-  encounters: []
-  encounterEntry: {fileID: 0}
-  encountersExits: []
-  storyId: 
-  storyEncounter: {fileID: 0}
 --- !u!64 &2268135026206701475
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -259,11 +242,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3451118302482216456, guid: 3855167c67cfb6244bce3811a1a60c0d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3855167c67cfb6244bce3811a1a60c0d, type: 3}
---- !u!1 &1169085115203475946 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3855167c67cfb6244bce3811a1a60c0d, type: 3}
-  m_PrefabInstance: {fileID: 2087424364003419323}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1977850011615363920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3855167c67cfb6244bce3811a1a60c0d, type: 3}

@@ -6,14 +6,14 @@ using System.Linq;
 
 public class PlayerPawn : MonoBehaviour
 {
-    public HexTile currentTile;
+    public HexTileOverworld currentTile;
     public float moveSpeed;
     ScenarioManager scenarioManager;
     void Start()
     {
         scenarioManager = WorldSystem.instance.scenarioManager;
     }
-    public bool MoveToLocation(HexTile nextTile)
+    public bool MoveToLocation(HexTileOverworld nextTile)
     {
         ScenarioManager.MouseInputEnabled = false;
         List<HexTile> path = AStarSearch.StartAStarSearch(currentTile, nextTile);
@@ -29,7 +29,7 @@ public class PlayerPawn : MonoBehaviour
         return true;
     }
 
-    IEnumerator Move(List<HexTile> path, HexTile tileReached)
+    IEnumerator Move(List<HexTile> path, HexTileOverworld tileReached)
     {
         foreach (HexTile tile in path)
         {

@@ -240,15 +240,10 @@ public class ScenarioMapManager : Manager
         HexTile tile = obj.GetComponent<HexTile>();
         tile.coord = coord;
         tile.Init();
-        tile.type = (TileType)tileTypes.GetValue(Random.Range(1, tileTypes.Length));
 
         tiles[coord] = tile;
 
-        if (coord == Vector3.zero)
-            world.encounterManager.GenerateFirstHexEncounters(tile);
-
         SetRandomTileImage(tile);
-        tile.ContentVisible(false);
         tile.transform.localScale = Vector3.zero;
 
         return tile;

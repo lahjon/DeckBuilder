@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class HexTileFog : MonoBehaviour
 {
-    public HexTile hexTile;
+    public HexTileOverworld hexTile;
     public MeshCollider meshCollider;
     public MeshRenderer meshRenderer;
     static ScenarioManager scenarioManager;
@@ -51,7 +51,7 @@ public class HexTileFog : MonoBehaviour
         {
             for (int i = 0; i < hexTile.neighbours.Count; i++)
             {
-                if (hexTile.neighbours[i] is HexTile tile && !tile.Revealed) tile.Revealed = true;
+                if (hexTile.neighbours[i] is HexTileOverworld tile && !tile.Revealed) tile.Revealed = true;
             }
             hexTile.Revealed = true; 
             Deselect();

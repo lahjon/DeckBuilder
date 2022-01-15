@@ -66,7 +66,6 @@ public static class RandomGenerator
     public static Rarity GetRandomRarity(int rarityAdd = 0)
     {
         int random = Random.Range(0, 101);
-        Debug.Log(random);
         if (random >= RarityLookup[Rarity.Uncommon] + rarityAdd) return Rarity.Common;
         else if (random >= RarityLookup[Rarity.Rare] + rarityAdd) return Rarity.Uncommon;
         else if (random >= RarityLookup[Rarity.Epic] + rarityAdd) return Rarity.Rare;

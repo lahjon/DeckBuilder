@@ -19,7 +19,7 @@ public class TileCreator : MonoBehaviour
     [HideInInspector]public TileCreatorEncounter currentEnc;
     public GameObject encounterPrefab;
     public Transform encounterParent;
-    public HexTile hexTile;
+    public HexTileOverworld hexTile;
 
 
     public void AddEncounter(Vector3 encPos)
