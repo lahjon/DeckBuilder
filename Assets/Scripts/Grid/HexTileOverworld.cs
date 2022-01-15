@@ -13,7 +13,6 @@ public class HexTileOverworld : HexTile
     public Transform roadParent;
     public HexTileFog fog;
     public override bool Traverseable => (!Blocked && Revealed && encounter == null);
-    
     public override bool Revealed
     {
         get => _revealed;
@@ -66,7 +65,7 @@ public class HexTileOverworld : HexTile
     }
     public Encounter AddEncounter()
     {
-        encounter = Instantiate(scenarioManager.encounterPrefab, transform).GetComponent<Encounter>();
+        encounter = Instantiate(scenarioManager.hexGridOverworld.encounterPrefab, transform).GetComponent<Encounter>();
         encounter.Init();
         return encounter;
     }
@@ -74,7 +73,7 @@ public class HexTileOverworld : HexTile
     public override void AssignNeighboors()
     {
         foreach (GridDirection dir in GridDirection.Directions)
-            if (scenarioManager.GetTile(coord + dir) is HexTile neigh)
+            if (scenarioManager.hexGridOverworld.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }
 }

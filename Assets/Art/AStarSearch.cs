@@ -50,13 +50,12 @@ public static class AStarSearch
         while (frontier.Count > 0)
         {
             counter++; if (counter > 500) break;  // DEBUG: remove when done testing
-
             HexTile current = frontier.Dequeue();
 
-            if (current.Equals(goal))
+            if (current == goal)
                 break;
 
-            foreach (HexTile next in current.neighbours.Where(x => x.Traverseable))
+            foreach (HexTile next in current.neighbours.Where(x => x.Traverseable || x == goal)) // kanske skipa goal check för opti
             {
                 int newCost = costSoFar[current] + next.cost;
                 if (!costSoFar.ContainsKey(next) || newCost < costSoFar[next])
@@ -74,8 +73,10 @@ public static class AStarSearch
     static List<HexTile> ReconstructPath(HexTile start, HexTile goal, Dictionary<HexTile, HexTile> cameFrom)
     {
         List<HexTile> path = new List<HexTile>();
-        HexTile current = goal;
+        HexTile current = goal; 
         int counter = 0;
+        //Debug.Log(cameFrom.Count);
+        cameFrom.Keys.ToList().ForEach(x => Debug.Log(x));
         while (current.coord != start.coord)
         {
             counter++; if (counter > 500) break; // DEBUG: remove when done testing

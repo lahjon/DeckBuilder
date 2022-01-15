@@ -8,20 +8,13 @@ using UnityEngine.UI;
 
 public class ScenarioManager : Manager
 {
-    //public float hexScale = 0.392f;
-    public float hexScale = 0.365f;
-    public List<TileGraphics> tileGraphics;
+    public HexGridOverworld hexGridOverworld;
     public PlayerPawn playerPawn;
-    public Transform tileParent;
-    public GameObject hexTilePrefab, hexTileBlockedPrefab, encounterPrefab;
     public GridSelector gridSelector;
     public GameObject content;
     public Animator animator;
     public bool initialized;
-    public Dictionary<Vector3Int, HexTileOverworld> tiles = new Dictionary<Vector3Int, HexTileOverworld>();
     public HexTileOverworld currentTile;
-    public float tileSize, tileGap;
-    public int width;
     public List<EncounterDataCombat> allCombatEncounters = new List<EncounterDataCombat>();
     public List<EncounterDataCombat> availableCombatEncounters = new List<EncounterDataCombat>();
     public List<EncounterDataCombat> completedCombatEncounters = new List<EncounterDataCombat>();
@@ -68,37 +61,26 @@ public class ScenarioManager : Manager
     protected override void Start()
     {
         base.Start();
-        CreateGrid();
+        GenerateScenario();
     } 
+
+    void GenerateScenario()
+    {
+        hexGridOverworld.CreateGrid();
+        ResetEncounters();
+
+        playerPawn.currentTile = hexGridOverworld.tiles[Vector3Int.zero];
+        ActionPoints = 20;
+        ControlsEnabled = true;
+
+    }
 
     public void ButtonRest()
     {
         ActionPoints += Random.Range(1,4);
     }
 
-    void CreateGrid()
-    {
-        for (int i = 0; i <= width; i++)
-            CreateRow(i);
-        List<Encounter> encountersToOptimize = new List<Encounter>();
-        foreach (HexTileOverworld tile in tiles.Values)
-        {
-            tile.AssignNeighboors();
-            if (tile.coord != Vector3Int.zero && !tile.Blocked && Random.Range(0, 10) < 2)
-            {
-                encountersToOptimize.Add(tile.AddEncounter());
-            }
-        }
-        HexOptimizer optimizer = new HexOptimizer();
-        optimizer.SetEncounters(encountersToOptimize);
-        optimizer.Run();
-        ResetEncounters();
 
-        playerPawn.currentTile = tiles.Values.FirstOrDefault(x => x.coord == Vector3Int.zero);
-
-        ActionPoints = 20;
-        ControlsEnabled = true;
-    }
     public bool RequestActionPoints(int amount)
     {
         if (amount <= ActionPoints)
@@ -112,91 +94,7 @@ public class ScenarioManager : Manager
         }
     }
 
-    public void GenerateMap()
-    {
-        if (!initialized) StartCoroutine(CreateMap());
-    }
-
-    IEnumerator CreateMap()
-    {
-        yield return null;
-    }
-    public HexTileOverworld GetTile(Vector3Int cellCoordinate) => tiles.ContainsKey(cellCoordinate) ? tiles[cellCoordinate] : null;
-
-    void CreateRow(int row)
-    {
-        if(row == 0) AddTile(Vector3Int.zero).Revealed = true;
-
-        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.SouthWest) * row;
-        foreach (GridDirection dir in GridDirection.Directions)
-            for (int i = 0; i < row; i++)
-            {
-                if (row <= 2)
-                    AddTile(currentCoord += dir).Revealed = true;
-                
-                else
-                    AddTile(currentCoord += dir, true);
-            }
-    }
-
-    List<HexTileOverworld> GetTilesAtRow(int row)
-    {
-        if (row == 0) return new List<HexTileOverworld>() {GetTile(Vector3Int.zero)};
-        List<HexTileOverworld> retList = new List<HexTileOverworld>();
-        
-        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.SouthWest) * row;
-        foreach (GridDirection dir in GridDirection.Directions)
-            for(int i = 0; i < row; i++)
-                retList.Add(GetTile(currentCoord += dir));
-
-        return retList;
-    }
-
-    public Vector3 CellPosToWorldPos(Vector3Int coord)
-    {
-        // get world position of the coord
-        float width = Mathf.Sqrt(3) * (tileSize + tileGap);
-        float height = 1.5f * (tileSize + tileGap);
-        float x = (width * coord.x * 0.5f) - (width * coord.y * 0.5f);
-        float z = height * coord.z * -1;
-
-        return new Vector3(x, transform.position.y, z);
-    }
-
-    public HexTileOverworld AddTile(Vector3Int coord, bool randomBlocked = false)
-    {
-        System.Array tileTypes = System.Enum.GetValues(typeof(TileType));
-
-        if (coord.x + coord.y + coord.z != 0)
-        {
-            Debug.LogWarning("Invalid coord");
-            return null;
-        }
-
-        GameObject obj;
-        if (randomBlocked && Random.Range(0, 10) < 2)
-            obj = Instantiate(hexTileBlockedPrefab, CellPosToWorldPos(coord), Quaternion.identity, tileParent);
-        else
-            obj = Instantiate(hexTilePrefab, CellPosToWorldPos(coord), Quaternion.identity, tileParent);
-
-        obj.name = string.Format("Tile_{0}_{1}_{2}", coord.x, coord.y, coord.z);
-    
-        HexTileOverworld tile = obj.GetComponent<HexTileOverworld>();
-        tile.coord = coord;
-        tile.Init();
-
-        tiles[coord] = tile;
-
-        // if (coord == Vector3.zero)
-        //     world.encounterManager.GenerateFirstHexEncounters(tile);
-
-        //tile.tileState = TileState.Inactive;
-        tile.transform.localScale = Vector3.one * hexScale;
-
-        return tile;
-    }
-
-        public EncounterDataCombat GetRndEncounterCombat(ScenarioEncounterType type)
+    public EncounterDataCombat GetRndEncounterCombat(ScenarioEncounterType type)
     {
         if (!availableCombatEncounters.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
         int id = Random.Range(0, availableCombatEncounters.Count);

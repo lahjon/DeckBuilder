@@ -10,7 +10,7 @@ public class HexTileCombat : HexTile
     public override void AssignNeighboors()
     {
         foreach (GridDirection dir in GridDirection.Directions)
-            if (CombatGrid.GetTile(coord + dir) is HexTile neigh)
+            if (HexGridCombat.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }
 

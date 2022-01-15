@@ -10,7 +10,7 @@ public abstract class HexTile : MonoBehaviour
     public int id;
     public Vector3Int coord;
     public List<HexTile> neighbours = new List<HexTile>();
-    protected bool _blocked;
+    [SerializeField]protected bool _blocked;
     public virtual bool Blocked
     {
         get => _blocked;
@@ -22,7 +22,7 @@ public abstract class HexTile : MonoBehaviour
         get => _revealed;
         set => _revealed = value;
     }
-    protected bool _revealed;
+    [SerializeField]protected bool _revealed;
     public int cost;
     public abstract void Init();
     protected abstract void OnMouseEnter();
