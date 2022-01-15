@@ -42,13 +42,13 @@ public abstract class Reward : MonoBehaviour, IToolTipable
         {
             CardFilter cardFilter = new CardFilter();
 
-            if (value.Contains("name"))
+            if (value.Contains("id"))
             {
                 cardDatas.Clear();
-                string[] cardNames = value.Split('=')[1].Split(';');
-                foreach (string card in cardNames)
+                string[] cardIDs = value.Split('=')[1].Split(';');
+                foreach (string card in cardIDs)
                 {
-                    cardFilter.name = card;
+                    cardFilter.id = card;
                     cardDatas.Add(DatabaseSystem.instance.GetRandomCard(cardFilter));
                 }
             }

@@ -7,6 +7,9 @@ using TMPro;
 public class HUDManager : Manager
 {
     public GameObject townHUD, scenarioHUD, combatHUD, abilityHUD, debugHUD;
+    public TMP_Text actionPointsText;
+    public HPBar healthBar;
+    public ExperienceBar experienceBar;
 
     protected override void Awake()
     {

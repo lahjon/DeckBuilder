@@ -178,6 +178,7 @@ public class CombatActorEnemy : CombatActor
     public void OnDeath()
     {
         collision.enabled = false;
+        WorldSystem.instance.levelManager.AddExperience(enemyData.experience);
         Debug.Log("Enemy Dead!");
 
         foreach (StatusEffect re in effectTypeToRule.Values)

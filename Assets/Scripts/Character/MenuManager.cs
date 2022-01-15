@@ -10,6 +10,7 @@ public class MenuManager : Manager
     public MenuSettings menuSettings;
     public MenuDeck menuDeck;
     public MenuProgression menuProgression;
+    public MenuInventory menuInventory;
     public List<GameObject> tabs;
     GameObject _currentTab;
     GameObject currentTab
@@ -41,10 +42,20 @@ public class MenuManager : Manager
 
     public void ToggleMenu()
     {
-        if (canvas.activeSelf)
-            canvas.SetActive(false);
-        else
-            canvas.SetActive(true);
+        if (canvas.activeSelf) CloseMenu();
+        else OpenMenu();
+    }
+
+    void CloseMenu()
+    {
+        canvas.SetActive(false);
+        ScenarioManager.ControlsEnabled = true;
+    }
+
+    void OpenMenu()
+    {
+        canvas.SetActive(true);
+        ScenarioManager.ControlsEnabled = false;
     }
 
     public void ButtonCloseMenu()

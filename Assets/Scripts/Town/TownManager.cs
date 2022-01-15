@@ -23,10 +23,11 @@ public class TownManager : Manager, ISaveableWorld
         base.Awake();
         Init();
     }
-    public void OpenWorldMap()
+    public void ButtonOpenScenarioSelection()
     {
         WorldStateSystem.SetInTown(false);
         WorldStateSystem.SetInWorldMap();
+        world.scenarioSelectionManager.Open();
     }
 
     void Init()

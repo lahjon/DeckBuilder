@@ -43,7 +43,7 @@ public class HexOptimizer
 
 
 
-    public void SetEncounters(List<Encounter> encounters, TileType tileType)
+    public void SetEncounters(List<Encounter> encounters, TileType tileType = TileType.Forest)
     {
         this.encounters = new List<Encounter>(encounters);
         this.tileType = tileType;

@@ -10,7 +10,7 @@ public class DebugManager : MonoBehaviour
     bool showHelp;
     string input;
     public static DebugCommand SaveGame, LoadGame, Help;
-    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn, AddArmorShards;
+    public static DebugCommand<int> AddGold, AddShards, Heal, AddEnergy, AddEnergyTurn, AddRageTurn, AddArmorShards, AddActionPoints;
     public static DebugCommand<string> AddCard, RemoveCard, UnlockProfession;
     public static DebugCommand<string> SetInState;
     public List<object> commandList;
@@ -38,6 +38,12 @@ public class DebugManager : MonoBehaviour
             {
                 world.LoadProgression();
                 Debug.Log("Load");
+            }
+        );
+        AddActionPoints = new DebugCommand<int>("add_ap", "add x ap", "add_ap <ap amount>", (x) =>
+            {
+                world.scenarioManager.ActionPoints += x;
+                Debug.Log("Save");
             }
         );
         AddGold = new DebugCommand<int>("add_gold", "add x gold", "add_gold <gold_amount>", (x) =>
@@ -152,8 +158,8 @@ public class DebugManager : MonoBehaviour
             AddEnergyTurn,
             AddRageTurn,
             UnlockProfession,
-            SetInState
-
+            SetInState,
+            AddActionPoints
         };
 
         for (int i = 0; i < commandList.Count; i++)

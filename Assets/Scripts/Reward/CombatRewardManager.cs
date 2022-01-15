@@ -27,13 +27,14 @@ public class CombatRewardManager : Manager
         rewardScreenCombat.SetupRewards();
     }
 
-    public RewardCombat CreateRewardCombat(RewardCombatType type, string value = null)
+    public RewardCombat CreateRewardCombat(RewardCombatType type, string value = null, bool showText = true)
     {
         RewardCombat reward = Instantiate(rewardCombatPrefab, rewardParent).GetComponent<RewardCombat>();
+        reward.GetComponent<RectTransform>().rotation = Quaternion.identity;
+        reward.rewardText.gameObject.SetActive(showText);
         reward.gameObject.SetActive(false);
         reward.SetupReward(type, value);
         reward.AddReward();
-        Debug.Log("AddedReward");
         return reward;
     }
 

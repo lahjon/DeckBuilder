@@ -50,7 +50,7 @@ public class RewardNormal : Reward
 
     public void RewardPerk(string value)
     {
-        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.menuManager.menuCharacter.GetPerkById(Int32.Parse(value)) : null;
+        itemData = (value != null && value.Count() > 0) ? WorldSystem.instance.menuManager.menuInventory.GetPerkById(Int32.Parse(value)) : null;
         if (itemData == null)
         {
             Debug.LogWarning("No Perk found!");
@@ -60,7 +60,7 @@ public class RewardNormal : Reward
         rewardText.text = "Perk";
         image.sprite = itemData.artwork;
 
-        callback = () => WorldSystem.instance.menuManager.menuCharacter.UnlockPerk(itemData.itemId);
+        callback = () => WorldSystem.instance.menuManager.menuInventory.UnlockPerk(itemData.itemId);
     }
     public void RewardShard(string value)
     {

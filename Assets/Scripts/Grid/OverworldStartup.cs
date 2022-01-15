@@ -7,8 +7,10 @@ using System.Linq;
 
 public class OverworldStartup : MonoBehaviour
 {
+    WorldSystem world;
     void Start()
     {
+        world = WorldSystem.instance;
         // if (WorldSystem.instance.missionManager != null && WorldSystem.instance.missionManager.mission == null)
         // {
         //     WorldSystem.instance.missionManager.NewMission("Mission001", false);
@@ -32,10 +34,19 @@ public class OverworldStartup : MonoBehaviour
         WorldSystem.instance.missionManager.StartMission(0);
         WorldSystem.instance.characterManager.characterCurrency.armorShard = 6;
 
-        WorldSystem.instance.worldMapManager.UnlockScenario(0);
-        WorldSystem.instance.worldMapManager.UnlockScenario(1);
-        WorldSystem.instance.worldMapManager.UnlockScenario(3);
+        // WorldSystem.instance.worldMapManager.UnlockScenario(0);
+        // WorldSystem.instance.worldMapManager.UnlockScenario(1);
+        // WorldSystem.instance.worldMapManager.UnlockScenario(3);
 
         WorldSystem.instance.characterManager.UnlockProfession(ProfessionType.Berserker2);
+
+        WorldStateSystem.SetInTown(false);
+        WorldStateSystem.SetInOverworld();
+        world.scenarioMapManager.GenerateMap();
+        world.uiManager.debugUI.DebugAddEquipmentToInventory();
+        world.uiManager.debugUI.DebugAddEquipmentToInventory();
+
+
     }
 }
+

@@ -36,7 +36,7 @@ public class WorldMapConfirmWindow : MonoBehaviour
     {
         WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
         WorldSystem.instance.scenarioMapManager.scenarioData = WorldSystem.instance.worldMapManager.currentWorldScenarioData;
-        WorldSystem.instance.scenarioMapManager.ResetEncounters();
+        //WorldSystem.instance.scenarioMapManager.ResetEncounters();
         Helpers.DelayForSeconds(1f, () => WorldSystem.instance.scenarioMapManager.GenerateMap());
         WorldStateSystem.SetInOverworld();
     }

@@ -34,6 +34,7 @@ public class ShopOverworld : MonoBehaviour
         foreach (Artifact a in artifactsInStock)
         {
             ArtifactData artifactData = WorldSystem.instance.artifactManager.GetRandomAvailableArtifact();
+            Debug.Log(artifactData);
             if (artifactData == null)
             {
                 a.gameObject.SetActive(false);

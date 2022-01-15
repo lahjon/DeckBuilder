@@ -4,32 +4,23 @@ using UnityEngine;
 
 public class StateOverworld : WorldStateAnimator
 {
-    HexMapController hexMapController;
+    ScenarioCameraController hexMapController;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Init(TransitionType.Normal, WorldState.Overworld);
         if(hexMapController == null) hexMapController = world.scenarioMapManager.hexMapController;
-        world.scenarioMapManager.content.SetActive(true);
-        world.scenarioMapManager.ReportEncounter();
+        world.scenarioManager.content.SetActive(true);
         world.hudManager.ToggleScenarioHUD();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        world.scenarioMapManager.content.SetActive(false);
+        world.scenarioManager.content.SetActive(false);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (hexMapController.enableInput)
-        {
-            hexMapController.PanCamera();
-            hexMapController.ZoomCamera();
-            if (hexMapController.cam.transform.position != hexMapController.newPosition)
-            {
-                hexMapController.MoveCamera();
-            }
-        }
+        hexMapController.HandleMovementInput();
     }
 
 }

@@ -19,6 +19,8 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, IEffectA
     public CharacterCurrency characterCurrency;
     public List<Profession> professions = new List<Profession>();
     public string characterName = "Character";
+    public int Experience => world.levelManager.CurrentExperience;
+    public int Level => world.levelManager.CurrentLevel;
     [SerializeField]int _currentHealth;
 
     public Transform cardParent;
@@ -60,7 +62,7 @@ public class CharacterManager : Manager, ISaveableWorld, ISaveableTemp, IEffectA
             unlockedCharacters = allCharacterData.Where(x => x.unlocked == true).Select(x => x.classType).ToList();
         }
 
-        world.menuManager.menuCharacter.Init();
+            world.menuManager.menuInventory.Init();
     }
 
     public void UnlockCharacter(CharacterClassType aCharacterClassType)

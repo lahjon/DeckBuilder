@@ -33,6 +33,8 @@ public class EventManager : Manager
 
     public delegate void HealthChangedEvent(int amount);
     public static event HealthChangedEvent OnHealthChangedEvent;
+    public delegate void ExperienceChangedEvent(int amount);
+    public static event ExperienceChangedEvent OnExperienceChangedEvent;
 
     public delegate void ActorLostLifeEvent(CombatActor actor, int amount);
     public static event ActorLostLifeEvent OnActorLostLifeEvent;
@@ -43,7 +45,7 @@ public class EventManager : Manager
     public delegate void CompleteSpecialEventEvent(int eventId);
     public static event CompleteSpecialEventEvent OnCompleteSpecialEventEvent;
 
-    public delegate void LevelUpEvent(CharacterClassType classType, int level);
+    public delegate void LevelUpEvent(int level);
     public static event LevelUpEvent OnLevelUpEvent;
 
     public delegate void CurrencyChangedEvent(CurrencyType classType, int currentAmount);
@@ -116,6 +118,11 @@ public class EventManager : Manager
         OnStatModifiedEvent?.Invoke(statType);
     }
 
+        public static void ExperiencedChanged(int amount)
+    {
+        OnExperienceChangedEvent?.Invoke(amount);
+    }
+
     public static void NewOverlayState(OverlayState state)
     {
         if(OnNewOverlayStateEvent != null)
@@ -138,10 +145,10 @@ public class EventManager : Manager
         if(OnCompleteSpecialEventEvent != null)
             EventManager.OnCompleteSpecialEventEvent(eventId);
     }
-    public static void LevelUp(CharacterClassType classType, int level)
+    public static void LevelUp(int level)
     {
         if(OnLevelUpEvent != null)
-            EventManager.OnLevelUpEvent(classType, level);
+            EventManager.OnLevelUpEvent(level);
     }
     public static void CombatWon()
     {

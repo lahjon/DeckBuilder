@@ -23,7 +23,7 @@ public class ScenarioMapManager : Manager
     public List<HexTile> dangerTiles = new List<HexTile>();
     public GridState gridState;
     public GameObject content;
-    public HexMapController hexMapController;
+    public ScenarioCameraController hexMapController;
     public int turnTriggerLimit;
     [SerializeField] int _currentTurn;
     public int currentTurn
@@ -38,7 +38,6 @@ public class ScenarioMapManager : Manager
                 int row = gridWidth - currentTurn + turnTriggerLimit;
                 if (row >= 0)
                     dangerTiles.AddRange(GetTilesAtRow(row));
-                dangerTiles.ForEach(x => x.Difficulty++);
                 world.uiManager.UIWarningController.CreateWarning("The void approaches!");
             }
         }
@@ -55,12 +54,7 @@ public class ScenarioMapManager : Manager
     public Encounter finishedEncounterToReport;
     public ObjectiveDisplayer objectiveDisplayer;
 
-    public List<EncounterDataCombat> allCombatEncounters = new List<EncounterDataCombat>();
-    public List<EncounterDataCombat> availableCombatEncounters = new List<EncounterDataCombat>();
-    public List<EncounterDataCombat> completedCombatEncounters = new List<EncounterDataCombat>();
-    public List<EncounterDataRandomEvent> allChoiceEncounters = new List<EncounterDataRandomEvent>();
-    public List<EncounterDataRandomEvent> availableChoiceEncounters = new List<EncounterDataRandomEvent>();
-    public List<EncounterDataRandomEvent> completedChoiceEncounters = new List<EncounterDataRandomEvent>();
+
     public ScenarioData scenarioData;
     public Scenario scenario;
     
@@ -73,57 +67,13 @@ public class ScenarioMapManager : Manager
         base.Awake();
         world.scenarioMapManager = this;
         animator = GetComponent<Animator>();
-        hexMapController = GetComponent<HexMapController>();
     }
     protected override void Start()
     {
         base.Start();
     } 
     
-    public EncounterDataCombat GetRndEncounterCombat(ScenarioEncounterType type)
-    {
-        if (!availableCombatEncounters.Any(e => (int)e.type == (int)type)) ResetEncountersCombatToDraw((CombatEncounterType)type);
-        int id = Random.Range(0, availableCombatEncounters.Count);
-        EncounterDataCombat data = availableCombatEncounters[id];
-        availableCombatEncounters.RemoveAt(id);
-        completedCombatEncounters.Add(data);
-        return data;
-    }
 
-    public EncounterDataRandomEvent GetRndEncounterChoice()
-    {
-        if (!availableChoiceEncounters.Any()) ResetEncountersEventToDraw();
-        int id = Random.Range(0, availableChoiceEncounters.Count);
-        EncounterDataRandomEvent data = availableChoiceEncounters[id];
-        availableChoiceEncounters.RemoveAt(id);
-        completedChoiceEncounters.Add(data);
-        return data;
-    }
-
-    public void ResetEncounters()
-    {
-        completedCombatEncounters.Clear();
-        completedChoiceEncounters.Clear();
-        EncounterFilter ef = new EncounterFilter(scenarioData);
-        allChoiceEncounters = DatabaseSystem.instance.GetChoiceEncounters(ef).ToList();
-        allCombatEncounters = DatabaseSystem.instance.GetCombatEncounters(ef).ToList();
-        availableCombatEncounters = allCombatEncounters.ToList();
-        availableChoiceEncounters = allChoiceEncounters.ToList();
-    }
-
-    public void ResetEncountersCombatToDraw(CombatEncounterType? type)
-    {
-        if (type != null)
-        {
-            availableCombatEncounters = allCombatEncounters.Where(e => e.type != type).ToList(); //paranoia;
-            availableCombatEncounters.AddRange(allCombatEncounters.Where(e => e.type == type));
-        }
-    }
-
-    public void ResetEncountersEventToDraw()
-    {
-        availableChoiceEncounters.AddRange(allChoiceEncounters);
-    }
 
     public void GenerateMap()
     {
@@ -133,15 +83,13 @@ public class ScenarioMapManager : Manager
     {
         CompleteCurrentTile();
     }
-    public void ButtonConfirm() => currentTile.EndPlacement();
+    //public void ButtonConfirm() => currentTile.EndPlacement();
   
     public void DeleteMap()
     {
         initialized = false;
         currentTile = null;
         currentTurn = 0;
-        dangerTiles.ForEach(x => x.Difficulty = 0);
-        choosableTiles.ToList().ForEach(x => x.tileState = TileState.Inactive);
         choosableTiles.Clear();
         dangerTiles.Clear();
         tiles.Clear();
@@ -161,66 +109,14 @@ public class ScenarioMapManager : Manager
 
     public void SetRandomTileImage(HexTile tile)
     {
-        tile.spriteRenderer.sprite = activeTilesSprite[Random.Range(0, activeTilesSprite.Count())];
-        tile.undiscoveredSpriteRenderer.sprite = inactiveTilesSprite[Random.Range(0, inactiveTilesSprite.Count())];
+        
+        //tile.undiscoveredSpriteRenderer.sprite = inactiveTilesSprite[Random.Range(0, inactiveTilesSprite.Count())];
     }
 
     IEnumerator CreateMap()
     {
-        if (scenarioData != null)
-        {
-            turnTriggerLimit = scenarioData.turnTriggerLimit;
-            turnCounter.tilesUntilDanger = turnTriggerLimit;
-            turnCounter.counter = turnTriggerLimit > 0 ? turnTriggerLimit : 1;
-            float timeMultiplier = .5f;
-
-            for (int i = 0; i <= gridWidth; i++)
-                CreateRow(i);
-
-            tiles.Values.ToList().ForEach(x => x.AddNeighboors());
-            hexMapController.enableInput = false;
-            gridState = GridState.Creating;
-
-            // create a 0,0,0 start tile and activate it
-            HexTile firstTile = GetTile(Vector3Int.zero);
-            firstTile.transform.localScale = Vector3.one * hexScale;
-            firstTile.gameObject.SetActive(true);
-            // flip it up
-            float timer = 0.3f * timeMultiplier;
-
-            hexMapController.Zoom(ZoomState.Outer, null, false);
-            yield return new WaitForSeconds(1);
-
-            for (int i = 0; i <= gridWidth; i++)
-            {
-                foreach (HexTile tile in GetTilesAtRow(i))
-                    tile.transform.DOScale(hexScale, timer).SetEase(Ease.InExpo);
-
-                yield return new WaitForSeconds(timer);
-            }
-
-            yield return new WaitForSeconds(timer * timeMultiplier);
-
-            firstTile.RevealTile();
-            yield return new WaitForSeconds(timer);
-            yield return StartCoroutine(firstTile.AnimateVisible());
-
-            foreach (GridDirection dir in firstTile.availableDirections)
-            {
-                HexTile tile = GetTile(dir);
-                choosableTiles.Add(tile);
-                tile.directionEntry = dir.GetOpposing();
-            }
-
-            initialized = true;
-
-            HighlightChoosable();
-
-            scenario = new Scenario(scenarioData);
-            scenario.SetupInitialSegments();
-            hexMapController.enableInput = true;
-            gridState = GridState.Placing;
-        }
+        //content.SetActive(true);
+        yield return null;
     }
 
 
@@ -229,7 +125,7 @@ public class ScenarioMapManager : Manager
         gridWidth++;
         CreateRow(gridWidth);
         GetTilesAtRow(gridWidth).ForEach(x => 
-            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo).OnComplete(() => hexMapController.enableInput = false)
+            x.transform.DOScale(hexScale, 1).SetEase(Ease.InExpo).SetLoops(1, LoopType.Yoyo)
         );
     }
 
@@ -241,15 +137,6 @@ public class ScenarioMapManager : Manager
             furthestRowReached = Mathf.Max(furthestRowReached, tileCoords.Select(x => Mathf.Abs(x)).Max());
 
             Encounter currentEnc = WorldSystem.instance.encounterManager.currentEncounter;
-            GridDirection dir = currentTile.exitEncToDirection[currentEnc];
-
-            if (currentEnc != null && GetTile(currentTile.coord + dir) is HexTile targetTile)
-            {
-                choosableTiles.Add(targetTile);
-                targetTile.directionEntry = dir.GetOpposing();
-            }
-
-            currentTile.tileState = TileState.Completed;
             currentTurn++;
             animator.SetBool("IsPlaying", false);
         }
@@ -259,10 +146,10 @@ public class ScenarioMapManager : Manager
     {
         WorldStateSystem.instance.overrideTransitionType = TransitionType.EnterMap;
         scenarioData = DatabaseSystem.instance.scenarios.Where(s => s.id == scenario.data.linkedScenarioId).FirstOrDefault();
-        ResetEncounters();
+        //ResetEncounters();
         animator.SetBool("InTransition", true);
         Helpers.DelayForSeconds(1f, () => { 
-            hexMapController.ResetCamera();
+            //hexMapController.ResetCamera();
             
             animator.SetBool("InTransition", false);
             DeleteMap();
@@ -283,15 +170,7 @@ public class ScenarioMapManager : Manager
     // }
     public void HighlightChoosable()
     {
-        foreach(HexTile tile in choosableTiles)
-            tile.tileState = TileState.InactiveHighlight;
-    }
 
-    public void ExitPlacement()
-    {
-        currentTile.tileState = TileState.Current;
-        hexMapController.enableInput = true;
-        animator.SetBool("Confirm", true);
     }
 
     void CreateRow(int row)
@@ -310,13 +189,6 @@ public class ScenarioMapManager : Manager
         buttonRotateLeft.interactable = val;
         buttonRotateRight.interactable = val;
     }
-
-    public void ButtonRotate(bool clockwise)
-    {
-        if (currentTile != null) currentTile.RotateTile(clockwise);
-    }
-
-    public bool TilePlacementValid(HexTile tile) => tile.availableDirections.Contains(tile.directionEntry);
 
     public HexTile GetTile(Vector3Int cellCoordinate) => tiles.ContainsKey(cellCoordinate) ? tiles[cellCoordinate] : null;
     HexTile GetRandomTile(int row = 0)
@@ -362,6 +234,7 @@ public class ScenarioMapManager : Manager
         }
         
         GameObject obj = Instantiate(HexTilePrefab, CellPosToWorldPos(coord), transform.rotation, tileParent);
+        obj.transform.Rotate(Vector3.forward, 90);
         obj.name = string.Format("Tile_{0}_{1}_{2}", coord.x, coord.y, coord.z);
     
         HexTile tile = obj.GetComponent<HexTile>();
@@ -375,7 +248,6 @@ public class ScenarioMapManager : Manager
             world.encounterManager.GenerateFirstHexEncounters(tile);
 
         SetRandomTileImage(tile);
-        tile.tileState = TileState.Inactive;
         tile.ContentVisible(false);
         tile.transform.localScale = Vector3.zero;
 

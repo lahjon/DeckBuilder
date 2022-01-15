@@ -7,17 +7,6 @@ public class EncounterMapPlacement : EncounterMapAnimator
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.Init();
-        
-        gridManager.gridState = GridState.Placing;
-        //gridManager.hexMapController.disablePanning = true;
-        //gridManager.hexMapController.disableZoom = true;
-        foreach (HexTile tile in gridManager.choosableTiles)
-        {
-            if (tile.tileState == TileState.InactiveHighlight)
-            {
-                tile.tileState = TileState.Inactive;
-            }
-        }
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

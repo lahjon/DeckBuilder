@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
+public class Perk : Item
 {
     public Image image;
     public Button button;
@@ -68,16 +68,6 @@ public class Perk : Item, IPointerEnterHandler, IPointerExitHandler
     {
         DeactivePerk();
         Destroy(gameObject);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        WorldSystem.instance.menuManager.menuCharacter.ActivateToolTip(perkData);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        WorldSystem.instance.menuManager.menuCharacter.DeactivateToolTip();
     }
 
     public void DebugButton()

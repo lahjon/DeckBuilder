@@ -29,6 +29,8 @@ public class WorldSystem : MonoBehaviour
     public ArtifactManager artifactManager;
     public BonfireManager bonfireManager;
     public WorldMapManager worldMapManager;
+    public ScenarioSelectionManager scenarioSelectionManager;
+    public ScenarioManager scenarioManager;
     public BlacksmithManager blacksmithManager;
     public DialogueManager dialogueManager;
     public RewardManager rewardManager;
@@ -37,6 +39,7 @@ public class WorldSystem : MonoBehaviour
     public AbilityManager abilityManager;
     public ToolTipManager toolTipManager;
     public HUDManager hudManager;
+    public LevelManager levelManager;
     public int act;
     public int subAct;
     public int saveAmount;
@@ -97,21 +100,6 @@ public class WorldSystem : MonoBehaviour
 
         loadAmount++;
         Debug.Log("Amount loaded: " + loadAmount);
-    }
-
-    public void BossDefeated()
-    {
-        scenarioMapManager.currentTile.encounters.ForEach(x => x.status = EncounterHexStatus.Visited);
-
-        if (subAct < 3)
-            subAct++;
-        else
-        {
-            subAct = 1;
-            act++;
-        }
-
-        SaveProgression();
     }
     private void UpdateStartScene()
     {

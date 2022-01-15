@@ -20,12 +20,13 @@ public class DebugUI : MonoBehaviour
     public TMP_Dropdown dropdownEncounter;
     public TMP_Dropdown dropdownCard;
     public bool debugActive;
+    public List<Sprite> gearImages;
 
     WorldSystem world;
 
     void Update()
     {
-        if(world.debugMode && Input.GetKeyDown(KeyCode.D) && !WorldSystem.instance.displayCardManager.active)
+        if(world.debugMode && Input.GetKeyDown(KeyCode.R) && !WorldSystem.instance.displayCardManager.active)
         {
             ToggleDebugMenu();
         }
@@ -76,7 +77,14 @@ public class DebugUI : MonoBehaviour
             CombatSystem.instance.Hero.HealLife(amount);
         else
             world.characterManager.Heal(amount);
-        
+    }
+
+    public void DebugAddEquipmentToInventory()
+    {
+        Equipment equipment = world.equipmentManager.CreateEquipment();
+        equipment.image.sprite = gearImages[Random.Range(0, gearImages.Count)];
+        equipment.name = string.Format("Equipment{0}", Random.Range(0,500));
+        world.menuManager.menuInventory.AddEquipmentToInventory(equipment);
     }
 
     public void DebugDraftCards(int amount)
@@ -86,7 +94,7 @@ public class DebugUI : MonoBehaviour
 
     public void DebugUpgradeGearHead()
     {
-        world.equipmentManager.UpgradeEquipment(EquipmentType.Head);
+        //world.equipmentManager.UpgradeEquipment(EquipmentType.Head);
     }
 
 
@@ -99,19 +107,19 @@ public class DebugUI : MonoBehaviour
     {
         world.artifactManager.AddArtifact(artifactReward);
     }
-    // public void DebugAddExperience(int amount)
-    // {
-    //     world.levelManager.AddExperience(amount);
-    // }
+    public void DebugAddExperience()
+    {
+        world.levelManager.AddExperience(5);
+    }
     public void DebugUnlockPerk()
     {
-        PerkData data = world.menuManager.menuCharacter.allPerkDatas[Random.Range(0, world.menuManager.menuCharacter.allPerkDatas.Except(world.menuManager.menuCharacter.allEquippedPerks.Select(x => x.perkData)).ToList().Count)];
-        world.menuManager.menuCharacter.UnlockPerk(data);
+        PerkData data = world.menuManager.menuInventory.allPerkDatas[Random.Range(0, world.menuManager.menuInventory.allPerkDatas.Except(world.menuManager.menuInventory.allEquippedPerks.Select(x => x.perkData)).ToList().Count)];
+        world.menuManager.menuInventory.UnlockPerk(data);
     }
-    // public void DebugAddLevel()
-    // {
-    //     world.levelManager.AddLevel();
-    // }
+    public void DebugLevelUp()
+    {
+        world.levelManager.LevelUp();
+    }
 
     public void DebugStartCombat()
     {

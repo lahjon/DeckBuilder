@@ -8,7 +8,6 @@ public class EncounterMapTransition : EncounterMapAnimator
     {
         base.Init();
         gridManager.gridState = GridState.Transition;
-        WorldSystem.instance.scenarioMapManager.hexMapController.enableInput = false;
         WorldStateSystem.instance.transitionScreen.InOutTransitionStart();
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

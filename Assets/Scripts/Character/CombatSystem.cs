@@ -266,6 +266,7 @@ public class CombatSystem : MonoBehaviour
         Hero.ShuffleDeck();
 
         enemyDatas = encounterData.enemyData;
+        Debug.Log(enemyDatas);
         currentFormation = formations.Where(x => x.FormationType == encounterData.formation).First();
 
         for (int i = 0; i < enemyDatas.Count; i++)
@@ -314,9 +315,6 @@ public class CombatSystem : MonoBehaviour
 
         GameObject env = null;
         TileBiome biome = TileBiome.None;
-
-        if (WorldSystem.instance.scenarioMapManager.currentTile != null)
-            biome = WorldSystem.instance.scenarioMapManager.currentTile.tileBiome;
 
         if (biome != TileBiome.None)
         {

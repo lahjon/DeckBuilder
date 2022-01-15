@@ -81,9 +81,6 @@ public class ScenarioSegment : IConditionOwner
 
     private void SetupClearTiles()
     {
-        foreach (Vector3Int vec in data.gridCoordinates)
-            WorldSystem.instance.scenarioMapManager.GetTile(vec).SetStoryInfo(data.SegmentName, data.color);
-
         conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.StoryTileCompleted, strParameter = data.SegmentName, numValue = data.gridCoordinates.Count-data.nrSkippableTiles },
             this,
@@ -95,9 +92,6 @@ public class ScenarioSegment : IConditionOwner
 
     public void SetupClearEncounters()
     {
-        for(int i = 0; i < data.gridCoordinates.Count; i++)
-            WorldSystem.instance.scenarioMapManager.GetTile(data.gridCoordinates[i]).SetStoryInfo(data.SegmentName, data.color, data.encounters[i]);
-
         conditionClear = ConditionCounting.Factory(
             new ConditionData() { type = ConditionType.EncounterCompleted, strParameter = data.SegmentName , numValue = data.encounters.Count- data.nrSkippableTiles},
             this,
@@ -110,17 +104,12 @@ public class ScenarioSegment : IConditionOwner
     public void SetupFindEncounters()
     {
         List<Vector3Int> coords = new List<Vector3Int>(data.gridCoordinates);
-        int misses = 0;
 
         for (int i = 0; i < data.gridCoordinates.Count; i++)
         {
             Vector3Int coord = coords[UnityEngine.Random.Range(0, coords.Count)];
             coords.Remove(coord);
             HexTile tile = WorldSystem.instance.scenarioMapManager.GetTile(coord);
-            if (misses++ < data.nrDecoys)
-                tile.SetStoryInfo(data.SegmentName + "_miss", data.color, data.missEncounters[i % data.missEncounters.Count]);
-            else
-                tile.SetStoryInfo(data.SegmentName, data.color, data.encounters[(i - data.nrDecoys) % data.encounters.Count]);
         }
 
         conditionClear = ConditionCounting.Factory(
@@ -147,8 +136,6 @@ public class ScenarioSegment : IConditionOwner
         foreach (Vector3Int vec in data.gridCoordinates)
         {
             HexTile tile = WorldSystem.instance.scenarioMapManager.GetTile(vec);
-            if (tile.tileState != TileState.Completed)
-                tile.RemoveStoryInfo();
         }
         WorldSystem.instance.scenarioMapManager.objectiveDisplayer.ReturnDescriptionSlot(txt_description);
     }

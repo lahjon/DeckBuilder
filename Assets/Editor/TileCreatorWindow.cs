@@ -37,16 +37,16 @@ public class TileCreatorWindow : EditorWindow
     void ResetTile()
     {
         HexTile tile = tileCreator.hexTile;
-        tile.encounters.ForEach(x => DestroyImmediate(x.gameObject));
+        // tile.encounters.ForEach(x => DestroyImmediate(x.gameObject));
         for (int i = 0; i < tile.roadParent.childCount; i++)
             DestroyImmediate(tile.roadParent.GetChild(i).gameObject);
             
-        tile.encounters.Clear();
-        tile.encountersExits.Clear();
+        // tile.encounters.Clear();
+        // tile.encountersExits.Clear();
         tile.neighbours.Clear();
-        tile.encounterEntry = null;
+        // tile.encounterEntry = null;
         tile.type = TileType.None;
-        tileCreator.hexTile.availableDirections.Clear();
+        //tileCreator.hexTile.availableDirections.Clear();
     }
 
     void ButtonStart()
@@ -108,10 +108,8 @@ public class TileCreatorWindow : EditorWindow
             for (int i = 0; i < tileCreator.allEncounters.Count; i++)
             {
                 newEncs[i].neighboors = tileCreator.allEncounters[i].neighbourIndex.Select(x => newEncs[x]).ToList();
-                if (newEncs[i].encounterType == ScenarioEncounterType.Exit)
-                    tileCreator.hexTile.encountersExits.Add(newEncs[i]);
             }
-            tileCreator.hexTile.encounters = newEncs;
+            // tileCreator.hexTile.encounters = newEncs;
 
 
             bool add;
@@ -139,8 +137,8 @@ public class TileCreatorWindow : EditorWindow
             foreach (var item in edges)
                 encounterManager.AddRoad(item.n1, item.n2, false, 1f / 0.392f, true);
             
-            foreach (TileCreatorEncounter exit in tileCreator.allEncounters.Where(x => x.overworldEncounterType  == ScenarioEncounterType.Exit))
-                tileCreator.hexTile.availableDirections.Add(exit.direction);
+            // foreach (TileCreatorEncounter exit in tileCreator.allEncounters.Where(x => x.overworldEncounterType  == ScenarioEncounterType.Exit))
+            //     tileCreator.hexTile.availableDirections.Add(exit.direction);
 
             bool success;
             int tileNumber = id;

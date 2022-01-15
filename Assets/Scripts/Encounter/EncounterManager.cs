@@ -17,6 +17,7 @@ public class EncounterManager : Manager
 
     public GameObject templateEncounter; 
     public GameObject templateRoad;
+    public List<EncounterSetup> encounterSetups;
 
     [HideInInspector] public GameObject encounterParent; 
 
@@ -67,7 +68,7 @@ public class EncounterManager : Manager
     {
         List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
 
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
+        //tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
 
         chosenEncountersSlots.Add(Vector3Int.zero);
 
@@ -78,134 +79,134 @@ public class EncounterManager : Manager
             enc.Init();
             enc.coordinates = chosenEncountersSlots[i];
             enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = i < tile.availableDirections.Count ? ScenarioEncounterType.Exit :ScenarioEncounterType.Start;
-            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
+            //enc.encounterType = i < tile.availableDirections.Count ? ScenarioEncounterType.Exit :ScenarioEncounterType.Start;
+            //enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i]) + getPositionNoise(HexTile.encounterNoiseAllowed);
             enc.tile = tile;
             enc.status = EncounterHexStatus.Visited;
-            tile.AddEncounter(enc, i < tile.availableDirections.Count);
+            //tile.AddEncounter(enc, i < tile.availableDirections.Count);
         }
 
-        Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
-        foreach(Encounter enc in tile.encountersExits)
-        {
-            enc.neighboors.Add(middleEnc);
-            middleEnc.neighboors.Add(enc);
-            EncounterRoad road = AddRoad(enc, middleEnc);
-            road.status = EncounterRoadStatus.Traversed;
-        }
-        tile.OffsetRotation(true);
+        // Encounter middleEnc = tile.posToEncounter[Vector3Int.zero];
+        // foreach(Encounter enc in tile.encountersExits)
+        // {
+        //     enc.neighboors.Add(middleEnc);
+        //     middleEnc.neighboors.Add(enc);
+        //     EncounterRoad road = AddRoad(enc, middleEnc);
+        //     road.status = EncounterRoadStatus.Traversed;
+        // }
+        //tile.OffsetRotation(true);
     }
 
-    public void GenerateHexEncounters(HexTile tile, EncounterData storyEncounter = null)
-    {
-        List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
-        List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
-        List<EncounterEdge> edges;
+    // public void GenerateHexEncounters(HexTile tile, EncounterData storyEncounter = null)
+    // {
+    //     List<Vector3Int> EncounterSlots = new List<Vector3Int>(HexTile.positionsInner);
+    //     List<Vector3Int> chosenEncountersSlots = new List<Vector3Int>();
+    //     List<EncounterEdge> edges;
 
-        Debug.Log("Starting Hex generate for tile " + tile.name + ", nr directions " + tile.availableDirections.Count);
-        for (int i = 0; i < 6; i++)
-        {
-            if (!tile.availableDirections.Any(x => x == i))
-            {
-                Vector3Int v = HexTile.DirectionToDoorEncounter(i);
-                EncounterSlots.Add(v);
-            }
-        }
+    //     Debug.Log("Starting Hex generate for tile " + tile.name + ", nr directions " + tile.availableDirections.Count);
+    //     for (int i = 0; i < 6; i++)
+    //     {
+    //         if (!tile.availableDirections.Any(x => x == i))
+    //         {
+    //             Vector3Int v = HexTile.DirectionToDoorEncounter(i);
+    //             EncounterSlots.Add(v);
+    //         }
+    //     }
 
-        tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
+    //     tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(HexTile.DirectionToDoorEncounter(x)));
 
-        if (storyEncounter == null)
-        {
-            int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count * 2);
-            //int nrAdditional = 100;
+    //     if (storyEncounter == null)
+    //     {
+    //         int nrAdditional = Random.Range(tile.availableDirections.Count, tile.availableDirections.Count * 2);
+    //         //int nrAdditional = 100;
 
-            for (int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
-            {
-                int index = Random.Range(0, EncounterSlots.Count);
-                chosenEncountersSlots.Add(EncounterSlots[index]);
-                EncounterSlots.RemoveAt(index);
-            }
-        }
-        else
-        {
-            chosenEncountersSlots.Add(new Vector3Int(0, 0, 0));
-            tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(GridDirection.Directions[x]));
-        }
+    //         for (int i = 0; i < nrAdditional && EncounterSlots.Count != 0; i++)
+    //         {
+    //             int index = Random.Range(0, EncounterSlots.Count);
+    //             chosenEncountersSlots.Add(EncounterSlots[index]);
+    //             EncounterSlots.RemoveAt(index);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         chosenEncountersSlots.Add(new Vector3Int(0, 0, 0));
+    //         tile.availableDirections.ForEach(x => chosenEncountersSlots.Add(GridDirection.Directions[x]));
+    //     }
 
-        for (int i = 0; i < chosenEncountersSlots.Count; i++)
-        {
-            GameObject obj = Instantiate(templateEncounter, tile.encounterParent);
-            Encounter enc = obj.GetComponent<Encounter>();
-            enc.Init();
-            enc.coordinates = chosenEncountersSlots[i];
-            enc.name = chosenEncountersSlots[i].ToString();
-            enc.encounterType = i < tile.availableDirections.Count ? ScenarioEncounterType.Exit : ScenarioEncounterType.CombatNormal;
-            enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
-            enc.tile = tile;
-            tile.AddEncounter(enc, i < tile.availableDirections.Count);
+    //     for (int i = 0; i < chosenEncountersSlots.Count; i++)
+    //     {
+    //         GameObject obj = Instantiate(templateEncounter, tile.encounterParent);
+    //         Encounter enc = obj.GetComponent<Encounter>();
+    //         enc.Init();
+    //         enc.coordinates = chosenEncountersSlots[i];
+    //         enc.name = chosenEncountersSlots[i].ToString();
+    //         enc.encounterType = i < tile.availableDirections.Count ? ScenarioEncounterType.Exit : ScenarioEncounterType.CombatNormal;
+    //         enc.transform.localPosition = HexTile.EncounterPosToLocalCoord(chosenEncountersSlots[i])+ getPositionNoise(HexTile.encounterNoiseAllowed);
+    //         enc.tile = tile;
+    //         //tile.AddEncounter(enc, i < tile.availableDirections.Count);
 
-            if (enc.coordinates == new Vector3Int(0, 0, 0) && storyEncounter != null)
-                enc.SetStoryEncounter(storyEncounter,tile.storyId);
-        }
+    //         // if (enc.coordinates == new Vector3Int(0, 0, 0) && storyEncounter != null)
+    //         //     enc.SetStoryEncounter(storyEncounter,tile.storyId);
+    //     }
 
-        if (storyEncounter == null)
-        {
-            HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
-            // Create initital non-crossing Paths. Taking copy since arguments is destructive
-            edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
+    //     if (storyEncounter == null)
+    //     {
+    //         HashSet<Vector3Int> occupiedSpaces = new HashSet<Vector3Int>(tile.posToEncounter.Keys);
+    //         // Create initital non-crossing Paths. Taking copy since arguments is destructive
+    //         edges = AssignNonCrossingEdges(tile.posToEncounter, tile.encountersExits);
 
-            // Time to check if all nodes are connected to the same graph
-            List<List<Encounter>> graphs = FindBiGraphs(new List<Encounter>(tile.encounters));
-            if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, occupiedSpaces);
+    //         // Time to check if all nodes are connected to the same graph
+    //         List<List<Encounter>> graphs = FindBiGraphs(new List<Encounter>(tile.encounters));
+    //         if (graphs.Count > 1) ConnectBiGraphsNoCrosses(graphs, edges, occupiedSpaces);
 
-            //Finally, time to see if it is possible to back into a corner
+    //         //Finally, time to see if it is possible to back into a corner
 
-            List<Encounter> foundSubGraph = new List<Encounter>();
-            foreach (Encounter n in tile.encounters)
-            {
-                n.status = EncounterHexStatus.Visited;
-                List<Encounter> neighs = new List<Encounter>(n.neighboors);
-                foreach (Encounter neigh in neighs)
-                {
-                    if (!CanReachExitNode(neigh, tile.encountersExits.ToList(), foundSubGraph))
-                    {
-                        Connect2Graphs(foundSubGraph, tile.encounters.Except(foundSubGraph).ToList(), edges, occupiedSpaces);
-                        foundSubGraph.Clear();
-                    }
-                }
+    //         List<Encounter> foundSubGraph = new List<Encounter>();
+    //         foreach (Encounter n in tile.encounters)
+    //         {
+    //             n.status = EncounterHexStatus.Visited;
+    //             List<Encounter> neighs = new List<Encounter>(n.neighboors);
+    //             foreach (Encounter neigh in neighs)
+    //             {
+    //                 if (!CanReachExitNode(neigh, tile.encountersExits.ToList(), foundSubGraph))
+    //                 {
+    //                     Connect2Graphs(foundSubGraph, tile.encounters.Except(foundSubGraph).ToList(), edges, occupiedSpaces);
+    //                     foundSubGraph.Clear();
+    //                 }
+    //             }
 
-                n.status = EncounterHexStatus.Idle;
-            }
-        }
-        else
-        {
-            edges = new List<EncounterEdge>();
-            Encounter middle = tile.posToEncounter[new Vector3Int(0, 0, 0)];
-            tile.availableDirections.ForEach(x =>
-           {
-               Encounter n1 = tile.posToEncounter[HexTile.positionsExit[x]];
-               Encounter n2 = tile.posToEncounter[GridDirection.Directions[x]];
-               n1.neighboors.Add(n2); n2.neighboors.Add(n1);
-               middle.neighboors.Add(n2); n2.neighboors.Add(middle);
-               edges.Add(new EncounterEdge(n1, n2));
-               edges.Add(new EncounterEdge(middle, n2));
-           }
-            );
-        }
+    //             n.status = EncounterHexStatus.Idle;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         edges = new List<EncounterEdge>();
+    //         Encounter middle = tile.posToEncounter[new Vector3Int(0, 0, 0)];
+    //         tile.availableDirections.ForEach(x =>
+    //        {
+    //            Encounter n1 = tile.posToEncounter[HexTile.positionsExit[x]];
+    //            Encounter n2 = tile.posToEncounter[GridDirection.Directions[x]];
+    //            n1.neighboors.Add(n2); n2.neighboors.Add(n1);
+    //            middle.neighboors.Add(n2); n2.neighboors.Add(middle);
+    //            edges.Add(new EncounterEdge(n1, n2));
+    //            edges.Add(new EncounterEdge(middle, n2));
+    //        }
+    //         );
+    //     }
 
-        foreach (EncounterEdge e in edges)
-        {
-            AddRoad(e.n1, e.n2);
-        }
+    //     foreach (EncounterEdge e in edges)
+    //     {
+    //         AddRoad(e.n1, e.n2);
+    //     }
 
-        HexOptimizer optimizer = new HexOptimizer();
-        List<Encounter> encountersToOptimize = tile.encounters.Except(tile.encountersExits).ToList();
-        if (storyEncounter != null) encountersToOptimize = encountersToOptimize.Where(x => x.coordinates != new Vector3Int(0, 0, 0)).ToList();
+    //     HexOptimizer optimizer = new HexOptimizer();
+    //     List<Encounter> encountersToOptimize = tile.encounters.Except(tile.encountersExits).ToList();
+    //     if (storyEncounter != null) encountersToOptimize = encountersToOptimize.Where(x => x.coordinates != new Vector3Int(0, 0, 0)).ToList();
 
-        optimizer.SetEncounters(encountersToOptimize, tile.type);
-        optimizer.Run();
-        tile.OffsetRotation(true);
-    }
+    //     optimizer.SetEncounters(encountersToOptimize, tile.type);
+    //     optimizer.Run();
+    //     //tile.OffsetRotation(true);
+    // }
 
     private List<EncounterEdge> AssignNonCrossingEdges(Dictionary<Vector3Int, Encounter> nodes, List<Encounter> doorNodes)
     {

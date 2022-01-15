@@ -93,16 +93,8 @@ public class StatsTrackerSystem : MonoBehaviour, IEventSubscriber, ISaveableWorl
         EventManager.StatsTrackerUpdated();
     }
 
-    void LevelUp(CharacterClassType classType, int level)
+    void LevelUp(int level)
     {
-        if (characterLevels.ContainsKey(classType))
-        {
-            characterLevels[classType] = level;
-        }
-        else
-        {
-            characterLevels.Add(classType, level);
-        }
         EventManager.StatsTrackerUpdated();
     }
 }

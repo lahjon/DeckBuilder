@@ -32,7 +32,7 @@ public class BuildingSmith : Building
     public void ButtonConfirmUpgrade()
     {
         WorldSystem.instance.characterManager.characterCurrency.armorShard--;
-        WorldSystem.instance.equipmentManager.UpgradeEquipment(selectedEquipment);
+        //WorldSystem.instance.equipmentManager.UpgradeEquipment(selectedEquipment);
         ButtonCloseUpgrade();
     }
 
@@ -41,19 +41,19 @@ public class BuildingSmith : Building
         selectedEquipment = EquipmentType.None;
         confirmWindow.SetActive(false);
     }
-    public void Upgrade(EquipmentType equipmentType)
-    {
-        if (WorldSystem.instance.characterManager.characterCurrency.armorShard > 0)
-        {
-            if (WorldSystem.instance.equipmentManager.allEquipment[equipmentType].level < WorldSystem.instance.equipmentManager.maxUpgradeLevel)
-            {
-                confirmWindow.SetActive(true);
-                selectedEquipment = equipmentType;
-            }
-            else
-                WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough armor shards!");
-        }
-        else 
-            WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough armor shards!");
-    }
+    // public void Upgrade(EquipmentType equipmentType)
+    // {
+    //     if (WorldSystem.instance.characterManager.characterCurrency.armorShard > 0)
+    //     {
+    //         if (WorldSystem.instance.equipmentManager.allEquipment[equipmentType].level < WorldSystem.instance.equipmentManager.maxUpgradeLevel)
+    //         {
+    //             confirmWindow.SetActive(true);
+    //             selectedEquipment = equipmentType;
+    //         }
+    //         else
+    //             WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough armor shards!");
+    //     }
+    //     else 
+    //         WorldSystem.instance.uiManager.UIWarningController.CreateWarning("Not enough armor shards!");
+    // }
 }

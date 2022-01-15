@@ -69,6 +69,7 @@ public class RewardScreen : MonoBehaviour
                 cardDisplay.OnClick = null;
 
                 cardDisplay.cardData = cardDatas[i];
+                Debug.Log(cardDisplay.cardData);
                 cardDisplay.BindCardData();
                 cardDisplay.BindCardVisualData();
                 cardDisplay.gameObject.SetActive(true);

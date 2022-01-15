@@ -29,7 +29,10 @@ public enum EquipmentType
     Chest,
     Hands,
     Legs, 
-    Feet
+    Feet,
+    LeftHand,
+    RightHand,
+    Neck
 }
 
 public enum Rarity

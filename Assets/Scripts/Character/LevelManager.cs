@@ -1,106 +1,76 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// public class LevelManager : Manager
-// {
-//     int _currentLevel;
-//     int _currentExperience;
-//     int _unusedLevelPoints;
-//     int _maxLevel = 20;
-//     public int currentExperience => _currentExperience;
-//     public int currentLevel => _currentLevel;
-//     public int unusedLevelPoints => _unusedLevelPoints;
-//     public List<int> requiredExperience = new List<int>();
-    
-//     public List<LevelReward> bruteLevelReward = new List<LevelReward>();
-//     public List<LevelReward> rogueLevelReward = new List<LevelReward>();
-//     public List<LevelReward> splicerLevelReward = new List<LevelReward>();
-//     public List<LevelReward> beastmasterLevelReward = new List<LevelReward>();
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+public class LevelManager : Manager
+{
+    [SerializeField] int _currentLevel;
+    public int CurrentLevel => _currentLevel;
+    [SerializeField] int _currentExperience;
+    public int CurrentExperience => _currentExperience;
+    public int requiredExperience;
+    int MaxLevel => requiredExperiences.Count;
+    [SerializeField] int _unusedLevelPoints;
+    [SerializeField] int promptLevel;
+    public List<int> requiredExperiences = new List<int>();
 
-//     protected override void Awake()
-//     {
-//         base.Awake();
-//         world.levelManager = this;
-//     }
+    protected override void Awake()
+    {
+        base.Awake();
+        world.levelManager = this;
+    }
 
-//     protected override void Start()
-//     {
-//         base.Start();
-//         _currentLevel = world.characterManager.character.level;
-//         world.characterManager.characterSheet.Init();
-//     }
+    protected override void Start()
+    {
+        base.Start();
+        requiredExperience = requiredExperiences[0];
+        _currentLevel = 1;
+        promptLevel = 1;
+        AddExperience(0);
+    }
 
-//     void SetMaxLevel()
-//     {
+    public void AddExperience(int exp)
+    {
+        if (_currentLevel >= MaxLevel) return;
 
-//     }
+        _currentExperience += exp;
+        EventManager.ExperiencedChanged(exp);
 
-//     public void AddExperience(int exp)
-//     {
-//         if (_currentLevel >= _maxLevel)
-//         {
-//             return;
-//         }
-//         _currentExperience += exp;
-//         if (_currentExperience >= requiredExperience[_currentLevel])
-//         {
-//             _currentExperience -= requiredExperience[_currentLevel];
-//             LevelUp();
-//         }
-//         world.characterManager.character.experience = _currentExperience;
-//     }
+        if (_currentExperience >= requiredExperiences[_currentLevel - 1] && _currentLevel >= promptLevel)
+        {
+            promptLevel++;
+            PromptLevelUp();
+        }
+        
+    }
 
-//     public LevelReward GetLevelReward(int level)
-//     {
-//         int index = level - 2 - _unusedLevelPoints;
+    void PromptLevelUp()
+    {
+        _unusedLevelPoints++;
+        world.hudManager.experienceBar.Flash();
+    }
 
-//         switch (world.characterManager.character.classType)
-//         {
-//             case CharacterClassType.Berserker:
-//                 return bruteLevelReward[index];
-//             case CharacterClassType.Rogue:
-//                 return rogueLevelReward[index];
-//             case CharacterClassType.Splicer:
-//                 return splicerLevelReward[index];
-//             case CharacterClassType.Beastmaster:
-//                 return beastmasterLevelReward[index]; 
-//             default:
-//                 return null;
-//         }
-//     }
+    public void GetLevelReward(int level)
+    {
+        int index = level - 2 - _unusedLevelPoints;
+    }
 
-//     public LevelReward SpendLevelPoint()
-//     {
-//         if (_unusedLevelPoints > 0)
-//         {
-//             _unusedLevelPoints--;
-//             world.characterManager.characterVariablesUI.DisableLevelUp();
-//             LevelReward levelReward = GetLevelReward(_currentLevel);
-//             return levelReward;
-//         }
-//         else
-//         {
-//             return null;
-//         }
-//     }
-    
+    public void AddLevel()
+    {
+        AddExperience(requiredExperiences[_currentLevel]);
+    }
 
-//     public void AddLevel()
-//     {
-//         AddExperience(requiredExperience[_currentLevel]);
-//     }
-
-//     public void LevelUp()
-//     {
-//         _currentLevel++;
-//         _unusedLevelPoints++;
-//         world.characterManager.character.level = _currentLevel;
-//         world.characterManager.characterSheet.OnLevelUp();
-//         world.characterManager.characterVariablesUI.ActivateLevelUp();
-//         EventManager.LevelUp(world.characterManager.character.classType, _currentLevel);
-//         if (_currentLevel >= _maxLevel)
-//         {
-//             SetMaxLevel();
-//         }
-//     }
-// }
+    public void LevelUp()
+    {
+        if (_unusedLevelPoints > 0)
+        {
+            _unusedLevelPoints--;
+            _currentLevel++;
+            _currentExperience -= requiredExperience;
+            requiredExperience = requiredExperiences[_currentLevel - 1];
+            AddExperience(0);
+            EventManager.LevelUp(_currentLevel);
+            if (_unusedLevelPoints <= 0)
+                world.hudManager.experienceBar.StopFlash();
+        }
+    }
+}

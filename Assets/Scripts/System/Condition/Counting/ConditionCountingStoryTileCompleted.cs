@@ -18,8 +18,8 @@ public class ConditionCountingStoryTileCompleted : ConditionCounting
 
     public void CheckValid(HexTile tile)
     {
-        if (tile.storyId == conditionData.strParameter)
-            OnEventNotification();
+        // if (tile.storyId == conditionData.strParameter)
+        //     OnEventNotification();
     }
 
 }

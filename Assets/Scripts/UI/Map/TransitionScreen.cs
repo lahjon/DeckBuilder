@@ -19,7 +19,7 @@ public class TransitionScreen : MonoBehaviour
 
     public void EnterActTransitionStart()
     {
-        string actName = WorldSystem.instance.worldMapManager.currentWorldScenarioData != null ? WorldSystem.instance.worldMapManager.currentWorldScenarioData.ScenarioName : "Default Encounter";
+        string actName = "Default Scenario";
 
         WorldStateSystem.SetInTransition(true);
         worldEncounterNameText.text = string.Format("{0}", actName);

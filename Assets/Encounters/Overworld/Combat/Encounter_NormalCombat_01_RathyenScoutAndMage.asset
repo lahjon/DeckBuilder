@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 0
   encounterName: 
   encounterTags: 
-  tier: 1
+  tier: 0
   type: 4
   formation: 1
   enemyData:

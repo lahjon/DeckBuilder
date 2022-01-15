@@ -18,7 +18,7 @@ MonoBehaviour:
   artwork: {fileID: 0}
   characterArt: {fileID: 3954587266090507931, guid: 36e774003f4cd864c82714970f7f5235, type: 3}
   tier: 1
-  experience: 0
+  experience: 10
   deck:
   - {fileID: 11400000, guid: 871aff14c8898e84eb168c8a90b09eab, type: 2}
   - {fileID: 11400000, guid: e8e7961a4db05fe44b85331703f4b994, type: 2}

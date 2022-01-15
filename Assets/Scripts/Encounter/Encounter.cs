@@ -14,6 +14,7 @@ public class Encounter : MonoBehaviour
     public List<Encounter> neighboors;
     public List<EncounterRoad> roads = new List<EncounterRoad>();
     public ScenarioEncounterType _encounterType;
+    public int actionPointCost;
 
     public Vector3Int coordinates;
     public Vector3 startingScale;
@@ -26,6 +27,7 @@ public class Encounter : MonoBehaviour
 
     public string storyID;
     public EncounterData encData;
+    public bool oneTime;
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     bool _highlighted;
@@ -38,7 +40,11 @@ public class Encounter : MonoBehaviour
         set
         {
             _encounterType = value;
-            spriteRenderer.sprite = DatabaseSystem.instance.GetOverWorldIcon(value);
+            EncounterSetup setup = WorldSystem.instance.encounterManager.encounterSetups.FirstOrDefault(x => x.encounterType == _encounterType);
+            oneTime = setup.oneTime;
+            actionPointCost = setup.cost;
+            if (setup.encounterMesh != null)
+                Instantiate(setup.encounterMesh, transform);
         }
     }
 
@@ -53,32 +59,7 @@ public class Encounter : MonoBehaviour
             sprite = allSprites.FirstOrDefault(x => x.name == "OverworldPlain");
         spriteRenderer.sprite = sprite;
     }
-    public bool highlighted
-    {
-        get
-        {
-            return _highlighted;
-        }
-        set
-        {
-            _highlighted = value;
-            CancelAnimation();
-            if (_highlighted)
-            {
-                if (_status == EncounterHexStatus.Selectable)
-                    AnimateEncounterHighlight();
-                else
-                    transform.localScale = startingScale * 1.35f;
-            }
-            else
-            {
-                if (_status == EncounterHexStatus.Selectable)
-                    AnimateEncounter();
-                else
-                    transform.localScale = startingScale;
-            }
-        }
-    }
+
     public EncounterHexStatus status
     {
         get
@@ -88,12 +69,10 @@ public class Encounter : MonoBehaviour
         set
         {
             _status = value;
-            CancelAnimation();
 
             if (_status == EncounterHexStatus.Selectable)
             {
                 spriteRenderer.color = Color.white;
-                AnimateEncounter();
             }
             else if (_status == EncounterHexStatus.Visited)
                 spriteRenderer.color = new Color(.6f, .6f, .6f);
@@ -113,190 +92,6 @@ public class Encounter : MonoBehaviour
     {
         startingScale = transform.localScale;
         spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    public void AnimateEncounter()
-    {
-        //Debug.Log("Start animation " + this);
-        transform.localScale *= 1.3f;
-        tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
-        tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
-    }
-
-    public void AnimateEncounterHighlight()
-    {
-        //Debug.Log("Start animation " + this);
-        transform.localScale *= 1.5f;
-        tweenAction1 = transform.DOScale(startingScale * .9f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => transform.localScale = startingScale);
-        tweenAction2 = spriteRenderer.DOColor(highlightColor, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).OnKill(() => spriteRenderer.color = Color.white);
-    }
-
-    public void CancelAnimation()
-    {
-        tweenAction1?.Kill();
-        tweenAction2?.Kill();
-    }
-
-    public IEnumerator Entering()
-    {
-        transform.localScale = startingScale*1.5f;
-        status = EncounterHexStatus.Visited;
-        Encounter previous = WorldSystem.instance.encounterManager.currentEncounter;
-
-        if (encounterType == ScenarioEncounterType.Start)
-        {
-            HexTile prevTile = HexTile.mapManager.GetTile(tile.coord + tile.directionEntry);
-            Encounter prevEnc = prevTile.encountersExits.Where(x => prevTile.exitEncToDirection[x].IsOpposing(tile.directionEntry)).FirstOrDefault();
-            EncounterRoad intraHexRoad = WorldSystem.instance.encounterManager.AddRoad(prevEnc, this, true);
-            yield return StartCoroutine(intraHexRoad.AnimateTraverseRoad(this));
-        }
-        else if (previous != null)
-        {
-            previous.SetLeaving();
-            foreach (EncounterRoad road in roads)
-                if ((road.fromEnc == this && road.toEnc == previous) || (road.fromEnc == previous && road.toEnc == this))
-                    yield return StartCoroutine(road.AnimateTraverseRoad(this));
-        }
-
-        HighlightReachable();
-        
-        WorldSystem.instance.encounterManager.currentEncounter = this;
-
-        if (!WorldSystem.instance.uiManager.debugUI.debugActive || encounterType == ScenarioEncounterType.Exit)
-            StartEncounter();
-    }
-
-    public void HighlightReachable(bool silentCheck = false)
-    {
-        EncounterHexStatus origStatus = status;
-        _status = EncounterHexStatus.Visited; // needed when overworld map is just testing rotations
-        HashSet<Encounter> reachable = FindAllReachableNodes(this);
-
-        foreach (Encounter enc in tile.encounters)
-        {
-            if (enc == this) continue; 
-
-            if (reachable.Contains(enc))
-                enc.status = !silentCheck && neighboors.Contains(enc) ? EncounterHexStatus.Selectable : EncounterHexStatus.Idle;
-            else if (enc.status != EncounterHexStatus.Unreachable)
-                enc.status = EncounterHexStatus.Unreachable;
-        }
-
-        foreach (Encounter enc in reachable)
-        {
-            foreach (EncounterRoad road in enc.roads)
-            {
-                if (road.status == EncounterRoadStatus.Traversed) continue;
-                Encounter otherEnc = road.OtherEnd(enc);
-                if (otherEnc.status == EncounterHexStatus.Visited && otherEnc != this)
-                    road.status = EncounterRoadStatus.Unreachable;
-            }
-        }
-
-        _status = origStatus;
-    }
-
-    public static HashSet<Encounter> FindAllReachableNodes(Encounter enc)
-    {
-        HashSet<Encounter> hs = new HashSet<Encounter>();
-
-        if (enc.encounterType == ScenarioEncounterType.Exit)
-        {
-            hs.Add(enc);
-            return hs;
-        }
-
-        List<Encounter> neighs = enc.neighboors.Where(e => e.status == EncounterHexStatus.Idle || e.status == EncounterHexStatus.Selectable).ToList();
-        foreach (Encounter neigh in neighs)
-        {
-            //avoiding animationtriggers
-            EncounterHexStatus originalStatus = neigh.status;
-            neigh._status = EncounterHexStatus.Visited;
-            hs.UnionWith(FindAllReachableNodes(neigh));
-            neigh._status = originalStatus;
-        }
-
-        if (hs.Any()) hs.Add(enc);
-        return hs;
-    }
-
-
-    public void MarkEntryEncounter()
-    {
-        if (tile.exitEncToDirection[this].Equals(tile.directionEntry))
-        {
-            tile.encounterEntry = this;
-            encounterType = ScenarioEncounterType.Start;
-        }
-        else
-            encounterType = ScenarioEncounterType.Exit;
-    }
-
-
-    public void SetLeaving()
-    {
-        transform.localScale = startingScale;
-        foreach (Encounter e in neighboors)
-        {
-            e.neighboors.Remove(this);
-            if (e.status == EncounterHexStatus.Selectable) e.status = EncounterHexStatus.Idle;
-        }
-        neighboors.Clear();
-    }
-
-    private void OnMouseDown()
-    {
-        if (tile.tileState != TileState.Current || status != EncounterHexStatus.Selectable) return;
-        //Debug.Log("starting click");
-        StartCoroutine(Entering());
-    }
-
-    void OnMouseEnter()
-    {
-        highlighted = true;
-
-    }
-
-    void OnMouseExit()
-    {
-        highlighted = false;
-    }
-
-
-    public bool CheckConnection(Encounter target)
-    {
-        if (this == target) return true;
-        List<Encounter> visited = new List<Encounter>();
-        List<Encounter> frontier = new List<Encounter>(neighboors);
-
-        while(frontier.Count != 0)
-        {
-            List<Encounter> newFrontier = new List<Encounter>();
-            foreach(Encounter enc in frontier)
-            {
-                if (enc == target) return true;
-                visited.Add(enc);
-                newFrontier.AddRange(enc.neighboors.Except(visited));
-            }
-
-            frontier = newFrontier;
-        }
-
-        return false;
-    }
-
-    public void SetStoryEncounter(EncounterData enc, string ID)
-    {
-        encData = enc;
-        storyID = ID;
-        encounterType = ScenarioEncounterType.Story;
-    }
-
-    public void RemoveStoryEncounter()
-    {
-        storyID = null;
-        encData = null;
-        encounterType = ScenarioEncounterType.Choice;
     }
 
     public void StartEncounter()
@@ -321,14 +116,14 @@ public class Encounter : MonoBehaviour
             case ScenarioEncounterType.CombatNormal:
             case ScenarioEncounterType.CombatElite:
             case ScenarioEncounterType.CombatBoss:
-                encData = CombatSystem.instance.encounterData = WorldSystem.instance.scenarioMapManager.GetRndEncounterCombat(encounterType);
+                encData = CombatSystem.instance.encounterData = WorldSystem.instance.scenarioManager.GetRndEncounterCombat(encounterType);
                 WorldStateSystem.SetInCombat(true);
                 break;
             case ScenarioEncounterType.Shop:
                 WorldStateSystem.SetInOverworldShop(true);
                 break;
             case ScenarioEncounterType.Choice:
-                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = WorldSystem.instance.scenarioMapManager.GetRndEncounterChoice();
+                encData = WorldSystem.instance.uiManager.encounterUI.encounterData = WorldSystem.instance.scenarioManager.GetRndEncounterChoice();
                 WorldStateSystem.SetInChoice(true);
                 break;
             case ScenarioEncounterType.Blacksmith:
@@ -348,5 +143,15 @@ public class Encounter : MonoBehaviour
         WorldSystem.instance.scenarioMapManager.finishedEncounterToReport = this;
     }
 
+
+}
+
+[System.Serializable]
+public struct EncounterSetup
+{
+    public ScenarioEncounterType encounterType;
+    public GameObject encounterMesh;
+    public bool oneTime;
+    public int cost;
 
 }
