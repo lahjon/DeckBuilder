@@ -61,18 +61,18 @@ public class ScenarioManager : Manager
     protected override void Start()
     {
         base.Start();
-        GenerateScenario();
+        //GenerateScenario();
     } 
 
     void GenerateScenario()
     {
-        hexGridOverworld.CreateGrid();
+        hexGridOverworld.Init();
         ResetEncounters();
 
-        playerPawn.currentTile = hexGridOverworld.tiles[Vector3Int.zero];
+        playerPawn.currentTile = HexGridOverworld.tiles[Vector3Int.zero];
+
         ActionPoints = 20;
         ControlsEnabled = true;
-
     }
 
     public void ButtonRest()

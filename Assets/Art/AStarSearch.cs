@@ -75,8 +75,6 @@ public static class AStarSearch
         List<HexTile> path = new List<HexTile>();
         HexTile current = goal; 
         int counter = 0;
-        //Debug.Log(cameFrom.Count);
-        cameFrom.Keys.ToList().ForEach(x => Debug.Log(x));
         while (current.coord != start.coord)
         {
             counter++; if (counter > 500) break; // DEBUG: remove when done testing

@@ -5,8 +5,16 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class HexGridCombat : MonoBehaviour
+public class HexGridCombat : HexGrid
 {
     public static Dictionary<Vector3Int, HexTileCombat> tiles = new Dictionary<Vector3Int, HexTileCombat>();
-    public static HexTileCombat GetTile(Vector3Int coord) => tiles.ContainsKey(coord) ? tiles[coord] : null;
+    void Start()
+    {
+        Init();
+    }
+    public override void Init()
+    {
+        CreateGrid();
+        tiles = _tiles.ToDictionary(x => x.Key, x => (HexTileCombat)x.Value);
+    }
 }

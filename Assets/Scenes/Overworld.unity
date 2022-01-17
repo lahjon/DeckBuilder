@@ -36398,6 +36398,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7123768}
+  - {fileID: 2087698612}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56801,7 +56802,6 @@ GameObject:
   - component: {fileID: 1848971788}
   - component: {fileID: 1848971787}
   - component: {fileID: 1848971791}
-  - component: {fileID: 1848971792}
   - component: {fileID: 1848971793}
   - component: {fileID: 1848971794}
   - component: {fileID: 1848971795}
@@ -56934,21 +56934,6 @@ MonoBehaviour:
   maxX: 50
   maxY: 30
   maxZ: 20
---- !u!114 &1848971792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1848971786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70b99f8824bb9f240babb5886087a2a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shakeObject: {fileID: 2024262895}
-  magnitude: 0.5
-  duration: 1
 --- !u!114 &1848971793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57005,7 +56990,8 @@ MonoBehaviour:
   gridWidth: 10
   tileParent: {fileID: 624123282}
   hexTilePrefab: {fileID: 3686289683668390500, guid: 38bea65b63c10d9489de17e1a36492e7, type: 3}
-  hexTileBlockedPrefab: {fileID: 3686289683668390500, guid: 41bbee52dffe83f42a92a7d7629602ad, type: 3}
+  blockedGraphics: {fileID: 919132149155446097, guid: 7e8e49296d3e7a94f811fe2050438fb9, type: 3}
+  normalGraphics: {fileID: 919132149155446097, guid: 3855167c67cfb6244bce3811a1a60c0d, type: 3}
   encounterPrefab: {fileID: 1009950570611518448, guid: 8e50233794ed3e84a9d9f24d14bcc980, type: 3}
 --- !u!224 &1850766404 stripped
 RectTransform:
@@ -64543,6 +64529,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2083557588}
   m_CullTransparentMesh: 1
+--- !u!1 &2087698611
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087698612}
+  - component: {fileID: 2087698613}
+  m_Layer: 0
+  m_Name: CombatGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2087698612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087698611}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1204896295}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2087698613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087698611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f773abd2d35b94743b32c310fcae69f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexScale: 1
+  tileSize: 3
+  tileGap: 0
+  gridWidth: 4
+  tileParent: {fileID: 2087698612}
+  hexTilePrefab: {fileID: 3686289683668390500, guid: 0f0c3f45f2bd8f74a960f9a8e2b9d52a, type: 3}
+  blockedGraphics: {fileID: 919132149155446097, guid: 7e8e49296d3e7a94f811fe2050438fb9, type: 3}
+  normalGraphics: {fileID: 919132149155446097, guid: 3855167c67cfb6244bce3811a1a60c0d, type: 3}
 --- !u!1 &2090429111
 GameObject:
   m_ObjectHideFlags: 0

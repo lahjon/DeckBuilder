@@ -73,7 +73,7 @@ public class HexTileOverworld : HexTile
     public override void AssignNeighboors()
     {
         foreach (GridDirection dir in GridDirection.Directions)
-            if (scenarioManager.hexGridOverworld.GetTile(coord + dir) is HexTile neigh)
+            if (HexGridOverworld.GetTile(coord + dir) is HexTile neigh)
                 neighbours.Add(neigh);
     }
 }
