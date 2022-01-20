@@ -8,7 +8,21 @@ using UnityEngine.UI;
 public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
+    public GameObject debug;
     public MeshCollider meshCollider;
+    public bool Blocked;
+    int distance;
+    public int Distance{get; set;}
+    public HexCell PathFrom{get; set;}
+    public int SearchHeuristic{get; set;}
+    public int SearchPriority => distance + SearchHeuristic;
+    public int SearchPhase { get; set; }
+    public HexCell NextWithSamePriority { get; set; }
+    public int TerrainTypeIndex
+    {
+        get => HexGrid.instance.meshColors.IndexOf(color);
+        set => color = HexGrid.instance.meshColors[value];
+    }
     public Color color;
     int _elevation;
     public int Elevation 
@@ -24,14 +38,31 @@ public class HexCell : MonoBehaviour
     {
         meshCollider = gameObject.AddComponent<MeshCollider>();
         if (hexGrid == null) hexGrid = HexGrid.instance;
+        TerrainTypeIndex = 0;
     }
     void OnMouseEnter() 
     {
         hexGrid.tileSelector.Show(this);
+        if (hexGrid.FindPath(hexGrid.currentCell, this)) hexGrid.ShowPath();
     }
     void OnMouseExit() 
     {
         hexGrid.tileSelector.Hide();
+        hexGrid.ClearPath();
+    }
+
+    void OnMouseUp()
+    {
+        hexGrid.currentCell = this;
+    }
+
+    public void EnableHighlight()
+    {
+        debug.SetActive(true);
+    }
+    public void DisableHighlight()
+    {
+        debug.SetActive(false);
     }
     public Vector3 Position
     {

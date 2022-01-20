@@ -7,9 +7,9 @@ public static class HexMetrics
 	public const float outerRadius = 10f;
 	public const float innerRadius = outerRadius * 0.866025404f;
     public const float solidFactor = 0.8f;
-	public const float elevationStep = 3f;
+	public const float elevationStep = 5f;
 	public const float blendFactor = 1f - solidFactor;
-	public const int terracesPerSlope = 2;
+	public const int terracesPerSlope = 1;
 	public const float horizontalTerraceStepSize = 1f / terraceSteps;
 	public const float verticalTerraceStepSize = 1f / (terracesPerSlope + 1);
 	public const int terraceSteps = terracesPerSlope * 2 + 1;
@@ -118,6 +118,10 @@ public static class HexMetrics
     {
 		return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
 	}
+	public int DistanceTo(HexCoordinates other)
+	{
+		return ((X < other.X ? other.X - X : X - other.X) +(Y < other.Y ? other.Y - Y : Y - other.Y) +(Z < other.Z ? other.Z - Z : Z - other.Z)) / 2;
+	}
 }
 
 public enum HexDirection 
@@ -189,5 +193,62 @@ public static class ListPool<T>
 	{
 		list.Clear();
 		stack.Push(list);
+	}
+}
+
+public class HexCellPriorityQueue 
+{
+	int count = 0;
+	public int Count => count;
+	int minimum = int.MaxValue;
+
+	List<HexCell> list = new List<HexCell>();
+
+	public void Enqueue(HexCell cell) 
+	{
+		int priority = cell.SearchPriority;
+		if (priority < minimum) {
+			minimum = priority;
+		}
+		while (priority >= list.Count) 
+		{
+			list.Add(null);
+		}
+		cell.NextWithSamePriority = list[priority];
+		list[priority] = cell;
+		count += 1;
+	}
+	public HexCell Dequeue () {
+		count -= 1;
+		for (; minimum < list.Count; minimum++) {
+			HexCell cell = list[minimum];
+			if (cell != null) {
+				list[minimum] = cell.NextWithSamePriority;
+				return cell;
+			}
+		}
+		return null;
+	}
+	public void Change (HexCell cell, int oldPriority) 
+	{
+		HexCell current = list[oldPriority];
+		HexCell next = current.NextWithSamePriority;
+		if (current == cell) {
+			list[oldPriority] = next;
+		}
+		else {
+			while (next != cell) {
+				current = next;
+				next = current.NextWithSamePriority;
+			}
+			current.NextWithSamePriority = cell.NextWithSamePriority;
+		}
+		Enqueue(cell);
+		count -= 1;
+	}
+	public void Clear() 
+	{
+		list.Clear();
+		count = 0;
 	}
 }

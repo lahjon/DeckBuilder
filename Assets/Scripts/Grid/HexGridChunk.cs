@@ -2,21 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class HexGridChunk : MonoBehaviour 
 {
 	HexCell[] cells;
-	public HexMesh terrain, water;
-	static List<Vector3> colliderVertices = new List<Vector3>();
-	static List<int> colliderTriangles= new List<int>();
+	public HexMesh terrain;
 	void Awake() 
 	{
 		cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
-	}
-	
-	void Start() 
-	{
-		Triangulate();
 	}
 	public void AddCell(int index, HexCell cell) 
 	{
@@ -26,15 +20,14 @@ public class HexGridChunk : MonoBehaviour
 	public void Triangulate() 
     {
 		terrain.Clear();
-		water.Clear();
+		//water.Clear();
 		for (int i = 0; i < cells.Length; i++) {
             
 			Triangulate(cells[i]);
             TriangulateCollider(cells[i]);
 		}
 		terrain.Apply();
-		water.Apply();
-		water.PlanarUVProjection();
+		terrain.PlanarUVProjection();
 	}
     void Triangulate(HexCell cell) 
     {
@@ -46,22 +39,28 @@ public class HexGridChunk : MonoBehaviour
 
     void TriangulateCollider(HexCell cell)
     {
-        Vector3 centerZero = new Vector3(0, HexMetrics.elevationStep, 0);
+        Vector3 centerZero = new Vector3(0, HexMetrics.elevationStep *2, 0);
         Mesh newMesh = new Mesh();
         newMesh.name = "ColliderMesh";
-        colliderVertices.Clear();
-	    colliderTriangles.Clear();
+        List<Vector3> colliderVertices = new List<Vector3>();
+	    List<int> colliderTriangles = new List<int>();
         
 		for (int i = 0; i < 6; i++) 
         {
-            AddColliderTriangles(centerZero, centerZero + HexMetrics.corners[i], centerZero + HexMetrics.corners[i + 1]);
+			int vertexIndex = colliderVertices.Count;
+			colliderVertices.Add(centerZero);
+			colliderVertices.Add(centerZero + HexMetrics.corners[i]);
+			colliderVertices.Add(centerZero + HexMetrics.corners[i + 1]);
+			colliderTriangles.Add(vertexIndex);
+			colliderTriangles.Add(vertexIndex + 1);
+			colliderTriangles.Add(vertexIndex + 2);
 		}
+
         newMesh.vertices = colliderVertices.ToArray();
 		newMesh.triangles = colliderTriangles.ToArray();
         newMesh.RecalculateNormals();
         cell.meshCollider.sharedMesh = newMesh;
     }
-
     void Triangulate(HexDirection direction, HexCell cell) 
     {
 		Vector3 center = cell.Position;
@@ -72,42 +71,7 @@ public class HexGridChunk : MonoBehaviour
 
 		if (direction <= HexDirection.SE) 
 			TriangulateConnection(direction, cell, e);
-
-		if (cell.IsUnderwater)
-		{
-			TriangulateWater(direction, cell, center);
-		}
-
 	} 
-	void TriangulateWater(HexDirection direction, HexCell cell, Vector3 center) 
-	{
-		center.y = HexMetrics.waterSurfaceLevel;
-		Vector3 c1 = center + HexMetrics.GetFirstSolidCorner(direction);
-		Vector3 c2 = center + HexMetrics.GetSecondSolidCorner(direction);
-
-		water.AddTriangle(center, c1, c2);
-
-		if (direction <= HexDirection.SE) 
-		{
-			HexCell neighbor = cell.GetNeighbor(direction);
-			if (neighbor == null || !neighbor.IsUnderwater)
-				return;
-
-			Vector3 bridge = HexMetrics.GetBridge(direction);
-			Vector3 e1 = c1 + bridge;
-			Vector3 e2 = c2 + bridge;
-
-			water.AddQuad(c1, c2, e1, e2);
-
-			if (direction <= HexDirection.E) 
-			{
-				HexCell nextNeighbor = cell.GetNeighbor(direction.Next());
-				if (nextNeighbor == null || !nextNeighbor.IsUnderwater)
-					return;
-				water.AddTriangle(c2, e2, c2 + HexMetrics.GetBridge(direction.Next()));
-			}
-		}
-	}
 	void TriangulateConnection(HexDirection direction, HexCell cell, EdgeVertices e1) 
 	{
 		HexCell neighbor = cell.GetNeighbor(direction);
@@ -292,15 +256,5 @@ public class HexGridChunk : MonoBehaviour
 
 		terrain.AddTriangleUnperturbed(v2, HexMetrics.Perturb(left), boundary);
 		terrain.AddTriangleColor(c2, leftCell.color, boundaryColor);
-	}
-	public void AddColliderTriangles(Vector3 v1, Vector3 v2, Vector3 v3) 
-    {
-		int vertexIndex = colliderVertices.Count;
-		colliderVertices.Add(v1);
-		colliderVertices.Add(v2);
-		colliderVertices.Add(v3);
-		colliderTriangles.Add(vertexIndex);
-		colliderTriangles.Add(vertexIndex + 1);
-		colliderTriangles.Add(vertexIndex + 2);
 	}
 }
