@@ -196,7 +196,7 @@ public class HexGrid : MonoBehaviour
 		water.hexMesh.triangles = triangles;
 		water.hexMesh.name = "WaterMesh";
 		water.hexMesh.RecalculateNormals();
-		water.transform.localPosition = new Vector3(-30, 7, -30);
+		water.transform.localPosition = new Vector3(-30, -3, -30);
 		water.PlanarUVProjection();
     }
 	public void ShowPath () 
@@ -259,10 +259,7 @@ public class HexGrid : MonoBehaviour
 				{
 					continue;
 				}
-				// if (neighbour.IsUnderwater) {
-				// 	continue;
-				// }
-				if (current.GetEdgeType(neighbour) == HexEdgeType.Cliff) {
+				if (neighbour.Blocked) {
 					continue;
 				}
 				int distance = current.Distance;
