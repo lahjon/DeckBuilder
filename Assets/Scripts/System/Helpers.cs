@@ -61,7 +61,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 1f},
                     {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Cave, new Dictionary<ScenarioEncounterType, float>{
+        {TileType.Sand, new Dictionary<ScenarioEncounterType, float>{
                     {ScenarioEncounterType.CombatNormal, 1f},
                     {ScenarioEncounterType.Choice, 1f},
                     {ScenarioEncounterType.CombatElite, 1f},
@@ -69,7 +69,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 1f},
                     {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.BanditCamp, new Dictionary<ScenarioEncounterType, float>{
+        {TileType.Grass, new Dictionary<ScenarioEncounterType, float>{
                     {ScenarioEncounterType.CombatNormal, 1f},
                     {ScenarioEncounterType.Choice, 1f},
                     {ScenarioEncounterType.CombatElite, 1f},
@@ -77,7 +77,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 1f},
                     {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Caravan, new Dictionary<ScenarioEncounterType, float>{
+        {TileType.Snow, new Dictionary<ScenarioEncounterType, float>{
                     {ScenarioEncounterType.CombatNormal, 1f},
                     {ScenarioEncounterType.Choice, 1f},
                     {ScenarioEncounterType.CombatElite, 1f},
@@ -85,7 +85,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 1f},
                     {ScenarioEncounterType.Bonfire, 1f}
         }},
-        {TileType.Town, new Dictionary<ScenarioEncounterType, float>{
+        {TileType.Mountain, new Dictionary<ScenarioEncounterType, float>{
                     {ScenarioEncounterType.CombatNormal, 0f},
                     {ScenarioEncounterType.Choice, 1f},
                     {ScenarioEncounterType.CombatElite, 0f},
@@ -111,7 +111,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 0},
                     {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.Cave, new Dictionary<ScenarioEncounterType, int>{
+        {TileType.Sand, new Dictionary<ScenarioEncounterType, int>{
                     {ScenarioEncounterType.CombatNormal, 0},
                     {ScenarioEncounterType.Choice, 0},
                     {ScenarioEncounterType.CombatElite, 0},
@@ -119,7 +119,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 0},
                     {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.BanditCamp, new Dictionary<ScenarioEncounterType, int>{
+        {TileType.Grass, new Dictionary<ScenarioEncounterType, int>{
                     {ScenarioEncounterType.CombatNormal, 0},
                     {ScenarioEncounterType.Choice, 0},
                     {ScenarioEncounterType.CombatElite, 2},
@@ -127,7 +127,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 0},
                     {ScenarioEncounterType.Bonfire, 0}
         }},
-        {TileType.Caravan, new Dictionary<ScenarioEncounterType, int>{
+        {TileType.Snow, new Dictionary<ScenarioEncounterType, int>{
                     {ScenarioEncounterType.CombatNormal, 0},
                     {ScenarioEncounterType.Choice, 0},
                     {ScenarioEncounterType.CombatElite, 0},
@@ -135,7 +135,7 @@ public static class Helpers
                     {ScenarioEncounterType.Blacksmith, 1},
                     {ScenarioEncounterType.Bonfire, 1}
         }},
-        {TileType.Town, new Dictionary<ScenarioEncounterType, int>{
+        {TileType.Mountain, new Dictionary<ScenarioEncounterType, int>{
                     {ScenarioEncounterType.CombatNormal, 0},
                     {ScenarioEncounterType.Choice, 0},
                     {ScenarioEncounterType.CombatElite, 0},

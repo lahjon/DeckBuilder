@@ -24,7 +24,7 @@ public class HexGrid : MonoBehaviour
 	public HexMesh water;
 	public HexGridChunk[] chunks;
 	public Texture2D noiseSource;
-    HexCell[] cells;
+    public HexCell[] cells;
     public static HexGrid instance;
 	public GameObject prefab;
 	public HexCell currentCell;
@@ -196,18 +196,16 @@ public class HexGrid : MonoBehaviour
 		water.hexMesh.triangles = triangles;
 		water.hexMesh.name = "WaterMesh";
 		water.hexMesh.RecalculateNormals();
-		water.transform.localPosition = new Vector3(-30, -3, -30);
+		water.transform.localPosition = new Vector3(-30, HexMetrics.waterSurfaceLevel, -30);
 		water.PlanarUVProjection();
     }
 	public void ShowPath () 
 	{
 		if (currentPathExists) {
-			Debug.Log("SHOWING");
 			HexCell current = currentPathTo;
 			while (current != currentPathFrom) {
 				current.EnableHighlight();
 				current = current.PathFrom;
-				Debug.Log(current.coordinates);
 			}
 		}
 		currentPathFrom.EnableHighlight();

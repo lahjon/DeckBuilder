@@ -48,7 +48,7 @@ MonoBehaviour:
     coords: {x: 0, y: 0, z: 0}
   debug: {fileID: 6836637185932643304}
   meshCollider: {fileID: 0}
-  Blocked: 0
+  _tileType: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   neighbours:
   - {fileID: 0}
@@ -84,7 +84,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6836637185932643304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3642916844034983694}

@@ -21,10 +21,18 @@ public class HexMapGenerator : MonoBehaviour
     HexCellPriorityQueue searchFrontier;
 	int searchFrontierPhase;
 	[Range(0f, 0.5f)] public float jitterProbability = 0.25f;
+	TileType[] tileTypes = new TileType[] {
+		TileType.Sand,
+		TileType.Grass,
+		TileType.Plains,
+		TileType.Forest,
+		TileType.Mountain,
+		TileType.Snow
+	};
 
     void Start()
     {
-        GenerateMap(3, 3);
+        GenerateMap(5,5);
     }
 
 	public void GenerateMap(int x, int z) 
@@ -38,27 +46,96 @@ public class HexMapGenerator : MonoBehaviour
 			searchFrontier = new HexCellPriorityQueue();
 		}
         for (int i = 0; i < cellCount; i++) {
-			grid.GetCell(i).Elevation = -1;
+			grid.GetCell(i).Elevation = 0;
 		}
 
         CreateLand();
+		//SetTerrainType(10);
+		SinkWater(20);
+		RaiseHills(5);
+		SinkHoles(5);
 
         for (int i = 0; i < cellCount; i++) {
 			grid.GetCell(i).SearchPhase = 0;
 		}
-
 
         for (int i = 0; i < grid.chunks.Count(); i++)
         {
             grid.chunks[i].Triangulate();
         }
 	}
-    void CreateLand () {
+    void CreateLand() {
 		int landBudget = Mathf.RoundToInt(cellCount * landPercentage * 0.01f);
         while (landBudget > 0) {
 			landBudget = RaiseTerrain(
 				Random.Range(chunkSizeMin, chunkSizeMax + 1), landBudget
 			);
+		}
+	}
+
+	void SetTerrainType(int percentage)
+	{
+		for (int i = 0; i < percentage; i++) {
+			GetRandomCell().TileType = tileTypes[Random.Range(0, tileTypes.Length - 1) + 1];
+		}
+	}
+	void SinkWater(float percentage)
+	{
+		List<HexCell> waterTiles = new List<HexCell>();
+		for (int i = 0; i < grid.cells.Length; i++)
+		{
+			if (grid.cells[i].Elevation < 1)
+			{
+				waterTiles.Add(grid.cells[i]);
+			}
+		}
+		int limit = (int)(waterTiles.Count * (percentage / 100));
+		while (waterTiles.Count > limit)
+		{
+			waterTiles.RemoveAt(Random.Range(0, waterTiles.Count));
+		}
+		for (int i = 0; i < waterTiles.Count; i++) {
+			waterTiles[i].Elevation = -1;
+		}
+	}
+
+	void SinkHoles(float percentage)
+	{
+		List<HexCell> waterTiles = new List<HexCell>();
+		for (int i = 0; i < grid.cells.Length; i++)
+		{
+			if (grid.cells[i].Elevation == 1)
+			{
+				waterTiles.Add(grid.cells[i]);
+			}
+		}
+		int limit = (int)(waterTiles.Count * (percentage / 100));
+		while (waterTiles.Count > limit)
+		{
+			waterTiles.RemoveAt(Random.Range(0, waterTiles.Count));
+		}
+		for (int i = 0; i < waterTiles.Count; i++) {
+			waterTiles[i].Elevation = 0;
+		}
+	}
+
+	void RaiseHills(float amount)
+	{
+		List<HexCell> hillTiles = new List<HexCell>();
+		for (int i = 0; i < grid.cells.Length; i++)
+		{
+			if (grid.cells[i].Elevation > 0)
+			{
+				hillTiles.Add(grid.cells[i]);
+			}
+		}
+		int limit = (int)(hillTiles.Count * (amount / 100));
+		while (hillTiles.Count > limit)
+		{
+			hillTiles.RemoveAt(Random.Range(0, hillTiles.Count));
+		}
+		for (int i = 0; i < hillTiles.Count; i++) {
+			hillTiles[i].Elevation = 2;
 		}
 	}
 
@@ -77,7 +154,7 @@ public class HexMapGenerator : MonoBehaviour
 		int size = 0;
 		while (size < chunkSize && searchFrontier.Count > 0) {
 			HexCell current = searchFrontier.Dequeue();
-            current.Elevation += 1;
+            current.Elevation = 1;
 			if (current.Elevation == 1 && --budget == 0) {
 				break;
 			}

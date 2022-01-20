@@ -39,7 +39,7 @@ public class HexGridChunk : MonoBehaviour
 
     void TriangulateCollider(HexCell cell)
     {
-        Vector3 centerZero = new Vector3(0, 0, 0);
+        Vector3 centerZero = new Vector3(0, HexMetrics.elevationStep, 0);
         Mesh newMesh = new Mesh();
         newMesh.name = "ColliderMesh";
         List<Vector3> colliderVertices = new List<Vector3>();

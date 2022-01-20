@@ -57004,9 +57004,13 @@ MonoBehaviour:
   - {r: 0.7735849, g: 0.7501287, b: 0.5582948, a: 0}
   - {r: 0.62222004, g: 0.8584906, b: 0.33610713, a: 0}
   - {r: 0.40377322, g: 0.5943396, b: 0.27754536, a: 0}
+  - {r: 0.22654529, g: 0.3490566, b: 0.14653791, a: 0}
+  - {r: 0.4457547, g: 0.49382573, b: 0.5, a: 0}
+  - {r: 0.8632076, g: 0.98045814, b: 1, a: 0}
   water: {fileID: 101869667}
   chunks: []
   noiseSource: {fileID: 2800000, guid: 403e0f825c0aea148b87429bdb4a3270, type: 3}
+  cells: []
   prefab: {fileID: 252069134769431647, guid: 6806351023a57774ca770f35d6f49121, type: 3}
   currentCell: {fileID: 0}
 --- !u!4 &1845619926
@@ -65490,7 +65494,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544f91ce1f1e3344b8ef3088bb502145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chunkSizeMin: 30
+  chunkSizeMax: 100
+  landPercentage: 35
+  highRiseProbability: 0.25
   grid: {fileID: 1845619925}
+  jitterProbability: 0.273
 --- !u!4 &2136733243
 Transform:
   m_ObjectHideFlags: 0

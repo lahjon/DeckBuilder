@@ -469,12 +469,12 @@ public enum EncounterEventLayoutType
 public enum TileType
 {
     None,
-    Forest,
-    Cave,
+    Sand,
+    Grass,
     Plains,
-    BanditCamp,
-    Town,
-    Caravan
+    Forest,
+    Mountain,
+    Snow
 }
 
 public enum EnergyType

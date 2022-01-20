@@ -7,7 +7,7 @@ public static class HexMetrics
 	public const float outerRadius = 10f;
 	public const float innerRadius = outerRadius * 0.866025404f;
     public const float solidFactor = 0.8f;
-	public const float elevationStep = 5f;
+	public const float elevationStep = 3f;
 	public const float blendFactor = 1f - solidFactor;
 	public const int terracesPerSlope = 1;
 	public const float horizontalTerraceStepSize = 1f / terraceSteps;
@@ -18,7 +18,7 @@ public static class HexMetrics
 	public const float elevationPerturbStrength = 1.5f;
 	public const int chunkSizeX = 5, chunkSizeZ = 5;
 	public const float waterElevationOffset = -0.5f;
-	public const float waterSurfaceLevel = 1.6f;
+	public const float waterSurfaceLevel = 0f;
 	public static Texture2D noiseSource;
     public static Vector3[] corners =
     {

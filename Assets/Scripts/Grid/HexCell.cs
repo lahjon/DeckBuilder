@@ -10,9 +10,22 @@ public class HexCell : MonoBehaviour
     public HexCoordinates coordinates;
     public GameObject debug;
     public MeshCollider meshCollider;
+    public TileType _tileType;
+    public TileType TileType
+    {
+        get => _tileType;
+        set
+        {
+            _tileType = value;
+            if (Elevation == 1)
+            {
+                color = HexGrid.instance.meshColors[(int)_tileType];
+            }
+        }
+    }
     public bool Blocked
     {
-        get => Elevation != 0;
+        get => Elevation != 1;
     }
     int distance;
     public int Distance
@@ -46,21 +59,23 @@ public class HexCell : MonoBehaviour
             {
                 color = HexGrid.instance.meshColors[2];
             }
-            else if (_elevation > 0)
+            else if (_elevation == 1)
             {
                 color = HexGrid.instance.meshColors[3];
+            }
+            else if (_elevation == 2)
+            {
+                color = HexGrid.instance.meshColors[4];
             }
         }
 	}
     public bool IsUnderwater => Elevation < 1;
-	
     public static HexGrid hexGrid;
     public HexCell[] neighbours = new HexCell[6];
     void Awake()
     {
         meshCollider = gameObject.AddComponent<MeshCollider>();
         if (hexGrid == null) hexGrid = HexGrid.instance;
-        //color = HexGrid.instance.meshColors[0];
     }
     void OnMouseEnter() 
     {
@@ -75,7 +90,8 @@ public class HexCell : MonoBehaviour
 
     void OnMouseUp()
     {
-        hexGrid.currentCell = this;
+        if (!Blocked && hexGrid.currentCell != this)
+            hexGrid.currentCell = this;
     }
 
     public void EnableHighlight()
