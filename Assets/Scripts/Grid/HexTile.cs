@@ -7,9 +7,7 @@ using UnityEngine.UI;
 
 public abstract class HexTile : MonoBehaviour
 {
-    public int id;
     public Vector3Int coord;
-    public GameObject graphics;
     public List<HexTile> neighbours = new List<HexTile>();
     [SerializeField]protected bool _blocked;
     public virtual bool Blocked

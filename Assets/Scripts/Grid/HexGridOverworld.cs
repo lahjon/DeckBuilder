@@ -5,7 +5,7 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public class HexGridOverworld : HexGrid
+public class HexGridOverworld : HexGridController
 {
     public static Dictionary<Vector3Int, HexTileOverworld> tiles = new Dictionary<Vector3Int, HexTileOverworld>();
     public GameObject encounterPrefab;

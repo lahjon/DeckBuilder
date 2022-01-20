@@ -21,6 +21,7 @@ public class ScenarioManager : Manager
     public List<EncounterDataRandomEvent> allChoiceEncounters = new List<EncounterDataRandomEvent>();
     public List<EncounterDataRandomEvent> availableChoiceEncounters = new List<EncounterDataRandomEvent>();
     public List<EncounterDataRandomEvent> completedChoiceEncounters = new List<EncounterDataRandomEvent>();
+    public ScenarioCameraController scenarioCameraController;
     public ScenarioData scenarioData;
     public static bool ControlsEnabled
     {
@@ -62,6 +63,7 @@ public class ScenarioManager : Manager
     {
         base.Start();
         //GenerateScenario();
+        ControlsEnabled = true;
     } 
 
     void GenerateScenario()

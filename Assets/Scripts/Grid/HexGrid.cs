@@ -5,69 +5,129 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine.UI;
 
-public abstract class HexGrid : MonoBehaviour
+public class HexGrid : MonoBehaviour
 {
-    public float hexScale = 0.365f;
-    public float tileSize, tileGap;
-    public int gridWidth;
-    public Transform tileParent;
-    public GameObject hexTilePrefab, blockedGraphics, normalGraphics;
-    protected static Dictionary<Vector3Int, HexTile> _tiles = new Dictionary<Vector3Int, HexTile>();
-    public static HexTile GetTile(Vector3Int coord) => _tiles.ContainsKey(coord) ? _tiles[coord] : null;
-    public virtual void CreateGrid()
-    {
-        for (int i = 0; i <= gridWidth; i++)
-            CreateRow(i);
-        foreach (HexTile tile in _tiles.Values)
-            tile.AssignNeighboors();
-    }
-    public abstract void Init();
-    void CreateRow(int row)
-    {
-        if(row == 0) AddTile(Vector3Int.zero).Revealed = true;
+    int cellCountX = 15;
+	int cellCountZ = 15;
+	public int chunkCountX = 4;
+	public int chunkCountZ = 3;
+	public HexCell cellPrefab;
+	public HexGridChunk chunkPrefab;
+    public TileSelector tileSelector;
+    public static Color defaultColor = Color.white;
+	public static Color touchedColor = Color.magenta;
+    public List<Color> meshColors = new List<Color>();
+	HexGridChunk[] chunks;
+	public Texture2D noiseSource;
+    HexCell[] cells;
+    public static HexGrid instance;
 
-        Vector3Int currentCoord = (Vector3Int.zero + GridDirection.SouthWest) * row;
-        foreach (GridDirection dir in GridDirection.Directions)
-            for (int i = 0; i < row; i++)
-            {
-                if (row <= 2)
-                    AddTile(currentCoord += dir).Revealed = true;
-                
-                else
-                    AddTile(currentCoord += dir, true);
-            }
-    }
-    public virtual HexTile AddTile(Vector3Int coord, bool randomBlocked = false)
+	void Awake() 
     {
-        if (coord.x + coord.y + coord.z != 0)
-        {
-            Debug.LogWarning("Invalid coord");
-            return null;
+        if (instance == null) 
+            instance = this;
+        else 
+            Destroy(gameObject);
+
+		HexMetrics.noiseSource = noiseSource;
+
+		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
+		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+
+		CreateChunks();
+		CreateCells();
+	}
+
+	void OnEnable () 
+	{
+		HexMetrics.noiseSource = noiseSource;
+	}
+	void Start()
+	{
+		WorldSystem.instance.scenarioManager.scenarioCameraController.SetBounds(ClampPosition());
+		
+	}
+    Vector3 ClampPosition() 
+	{
+		float xMax =(chunkCountX * HexMetrics.chunkSizeX - 0.5f) *(2f * HexMetrics.innerRadius);
+		float zMax =(chunkCountZ * HexMetrics.chunkSizeZ - 1f) *(1.5f * HexMetrics.outerRadius);
+
+		return new Vector3(xMax, 0, zMax);
+	}
+	void CreateChunks() 
+	{
+		chunks = new HexGridChunk[chunkCountX * chunkCountZ];
+
+		for (int z = 0, i = 0; z < chunkCountZ; z++) {
+			for (int x = 0; x < chunkCountX; x++) {
+				HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
+				chunk.transform.SetParent(transform);
+			}
+		}
+	}
+	void CreateCells() 
+	{
+		cells = new HexCell[cellCountZ * cellCountX];
+		for (int z = 0, i = 0; z < cellCountZ; z++) {
+			for (int x = 0; x < cellCountX; x++) {
+				CreateCell(x, z, i++);
+			}
+		}
+	}	
+	
+	void CreateCell(int x, int z, int i) 
+    {
+		Vector3 position;
+		position.x = (x + z * 0.5f - z / 2) * (HexMetrics.innerRadius * 2f);
+		position.y = 0f;
+		position.z = z * (HexMetrics.outerRadius * 1.5f);
+		
+		//position.y += (HexMetrics.SampleNoise(position).y * 2f - 1f) * HexMetrics.elevationPerturbStrength;
+
+		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
+		cell.Elevation = Random.Range(0, 3);
+		
+		//position.y = HexMetrics.elevationStep * 2;
+        cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+        cell.name = string.Format("Tile: ({0}, {1})", x, z);
+		//cell.transform.SetParent(transform, false);
+		cell.transform.localPosition = position;
+        cell.color = meshColors[cell.Elevation];
+
+        if (x > 0) 
+		{
+			cell.SetNeighbour(HexDirection.W, cells[i - 1]);
         }
-        bool blocked = randomBlocked && Random.Range(0, 10) < 2;
-        HexTile tile = Instantiate(hexTilePrefab, CellPosToWorldPos(coord), Quaternion.identity, tileParent).GetComponent<HexTile>();
-        tile.Blocked = blocked;
-        if (blocked)
-            tile.graphics = Instantiate(blockedGraphics, tile.transform);
-        else
-            tile.graphics = Instantiate(normalGraphics, tile.transform);
-        tile.gameObject.name = string.Format("Tile_{0}_{1}_{2}", coord.x, coord.y, coord.z);
-        //tile.graphics.GetComponent<MeshCollider>().enabled = false;
-        tile.coord = coord;
-        tile.Init();
-        _tiles[coord] = tile;
-        tile.transform.localScale = Vector3.one * hexScale;
+        if (z > 0) 
+		{
+			if ((z & 1) == 0) 
+			{
+				cell.SetNeighbour(HexDirection.SE, cells[i - cellCountX]);
+				if (x > 0) 
+				{
+					cell.SetNeighbour(HexDirection.SW, cells[i - cellCountX - 1]);
+				}
+			}
+			else 
+			{
+				cell.SetNeighbour(HexDirection.SW, cells[i - cellCountX]);
+				if (x < cellCountX - 1) 
+				{
+					cell.SetNeighbour(HexDirection.SE, cells[i - cellCountX + 1]);
+				}
+			}
+		}
 
-        return tile;
-    }
+		AddCellToChunk(x, z, cell);
+	}
+	void AddCellToChunk (int x, int z, HexCell cell) 
+	{
+		int chunkX = x / HexMetrics.chunkSizeX;
+		int chunkZ = z / HexMetrics.chunkSizeZ;
+		HexGridChunk chunk = chunks[chunkX + chunkZ * chunkCountX];
 
-    public Vector3 CellPosToWorldPos(Vector3Int coord)
-    {
-        float width = Mathf.Sqrt(3) * (tileSize + tileGap);
-        float height = 1.5f * (tileSize + tileGap);
-        float x = (width * coord.x * 0.5f) - (width * coord.y * 0.5f);
-        float z = height * coord.z * -1;
-
-        return new Vector3(x, transform.position.y, z);
-    }
+		int localX = x - chunkX * HexMetrics.chunkSizeX;
+		int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
+		chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
+	}
 }

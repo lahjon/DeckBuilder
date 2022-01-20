@@ -127,7 +127,6 @@ public class TileCreatorWindow : EditorWindow
             }
 
             int id = System.IO.Directory.GetFiles(Application.dataPath + "/Prefab/HexTiles/").Count() / 2;
-            tileCreator.hexTile.id = id;
             EncounterManager encounterManager = GameObject.Find("EncounterManager")?.GetComponent<EncounterManager>();
             DatabaseSystem db = GameObject.Find("DatabaseSystem")?.GetComponent<DatabaseSystem>();
 

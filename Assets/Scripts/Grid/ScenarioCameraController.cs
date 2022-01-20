@@ -10,10 +10,9 @@ public class ScenarioCameraController : MonoBehaviour
     Vector3 newPosition;
     public float movementSpeed, normalSpeed, fastSpeed, zoomAmount;
     public float movementTime;
-    public int minX, minY, minZ, maxX, maxY, maxZ;
+    public float minY, maxY;
+    [SerializeField] float minX, minZ, maxX, maxZ;
     Vector3 newZoom;
-
-
     void Start()
     {
         newPosition = cameraParent.localPosition;
@@ -25,6 +24,14 @@ public class ScenarioCameraController : MonoBehaviour
         HandleMouseInput();
         HandleMovementInput();
         MoveCamera();
+    }
+
+    public void SetBounds(Vector3 pos)
+    {
+        minX = 0;
+        maxX = pos.x;
+        minZ = -50;
+        maxZ = pos.z;
     }
 
     public void HandleMouseInput()
