@@ -27,15 +27,15 @@ public class HexCell : MonoBehaviour
     {
         get => Elevation != 1;
     }
-    int distance;
+    int _distance;
     public int Distance
     {
-        get => distance;
-        set => distance = value;
+        get => _distance;
+        set => _distance = value;
     }
     public HexCell PathFrom{get; set;}
     public int SearchHeuristic{get; set;}
-    public int SearchPriority => distance + SearchHeuristic;
+    public int SearchPriority => _distance + SearchHeuristic;
     public int SearchPhase { get; set; }
     public HexCell NextWithSamePriority { get; set; }
     // public int TerrainTypeIndex

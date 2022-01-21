@@ -144,7 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 3072023438826055137}
-  water: {fileID: 6315439945583645045}
 --- !u!1 &7642379986470926046
 GameObject:
   m_ObjectHideFlags: 0
