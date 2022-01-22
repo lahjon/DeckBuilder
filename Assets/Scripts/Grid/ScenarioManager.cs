@@ -71,7 +71,7 @@ public class ScenarioManager : Manager
         hexGridOverworld.Init();
         ResetEncounters();
 
-        playerPawn.currentTile = HexGridOverworld.tiles[Vector3Int.zero];
+        //playerPawn.currentTile = HexGridOverworld.tiles[Vector3Int.zero];
 
         ActionPoints = 20;
         ControlsEnabled = true;

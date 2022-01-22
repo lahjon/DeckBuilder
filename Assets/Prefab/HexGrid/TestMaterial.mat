@@ -27,6 +27,26 @@ Material:
         m_Texture: {fileID: 2800000, guid: ce717ab5d3a260740bfbdae18068c6df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Mid1:
+        m_Texture: {fileID: 2800000, guid: ce717ab5d3a260740bfbdae18068c6df, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Mid2:
+        m_Texture: {fileID: 2800000, guid: 77f1b95aab596a846a3a8e9835867f91, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Mid3:
+        m_Texture: {fileID: 2800000, guid: 56c7a4cd58d603a43a8cd80ddd44fc23, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Mid4:
+        m_Texture: {fileID: 2800000, guid: 1966c82569a8d11468997a813e19b1ee, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Noise:
+        m_Texture: {fileID: 2800000, guid: 403e0f825c0aea148b87429bdb4a3270, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_1:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -37,6 +57,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Blend:
+        m_Texture: {fileID: 2800000, guid: 604aa2012d009cd4a94ac69ed69db880, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -97,12 +121,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Contrast: 9.2
     - FadeBot: 0
     - FadeTop: 0
+    - Octave: 3.78
     - Origin: 1.31
-    - OriginBot: -1.6
-    - OriginTop: 4.56
+    - OriginBot: -1.61
+    - OriginTop: 3.13
     - Origin_1: 1.5
+    - Scale: 2.54
+    - Speed: 0
     - Spread: 0
     - Spread_1: 0
     - _AlphaClip: 0

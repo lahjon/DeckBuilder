@@ -40,8 +40,8 @@ public class HexTileOverworld : HexTile
     }
     protected override void OnMouseUp()
     {
-        if (!(ScenarioManager.MouseInputEnabled && !Blocked && Revealed && (encounter == null || scenarioManager.RequestActionPoints(encounter.actionPointCost)) && scenarioManager.playerPawn.MoveToLocation(this)))
-            scenarioManager.gridSelector.FailAction();
+        // if (!(ScenarioManager.MouseInputEnabled && !Blocked && Revealed && (encounter == null || scenarioManager.RequestActionPoints(encounter.actionPointCost)) && scenarioManager.playerPawn.MoveToLocation(this)))
+        //     scenarioManager.gridSelector.FailAction();
     }
     void Select()
     {

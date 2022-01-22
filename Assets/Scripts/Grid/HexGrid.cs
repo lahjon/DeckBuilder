@@ -28,6 +28,7 @@ public class HexGrid : MonoBehaviour
     public static HexGrid instance;
 	public GameObject prefab;
 	public HexCell currentCell;
+	public PlayerPawn playerPawn;
 
 	void Awake() 
     {
@@ -222,6 +223,23 @@ public class HexGrid : MonoBehaviour
 		currentPathFrom.EnableHighlight();
 		currentPathTo.EnableHighlight();
 	}
+	public List<HexCell> ReturnPath () 
+	{
+		List<HexCell> newPath = new List<HexCell>();
+		if (currentPathExists) 
+		{
+			HexCell current = currentPathTo;
+			newPath.Add(current);
+			while (current != currentPathFrom) {
+				current.EnableHighlight();
+				current = current.PathFrom;
+				newPath.Add(current);
+			}
+		}
+		currentPathFrom.EnableHighlight();
+		currentPathTo.EnableHighlight();
+		return newPath;
+	}
 	public void ClearPath () {
 		if (currentPathExists) {
 			HexCell current = currentPathTo;
@@ -238,8 +256,10 @@ public class HexGrid : MonoBehaviour
 		}
 		currentPathFrom = currentPathTo = null;
 	}
-	public bool FindPath(HexCell fromCell, HexCell toCell) 
+	public bool FindPath(HexCell fromCell, HexCell toCell, bool movement = false) 
 	{
+		if (fromCell == toCell) return false;
+
 		ClearPath();
 		currentPathFrom = fromCell;
 		currentPathTo = toCell;
@@ -265,22 +285,26 @@ public class HexGrid : MonoBehaviour
 			for (HexDirection d = HexDirection.NE; d <= HexDirection.NW; d++) {
 				HexCell neighbour = current.GetNeighbor(d);
 				if (neighbour == null ||neighbour.SearchPhase > searchFrontierPhase)
-				{
 					continue;
-				}
-				if (neighbour.Blocked) {
+				
+				if (!neighbour.Reachable)
 					continue;
-				}
+
+				if (movement && (neighbour.encounter != null && current != toCell))
+					continue;
+					
 				int distance = current.Distance;
 
-				if (neighbour.SearchPhase < searchFrontierPhase) {
+				if (neighbour.SearchPhase < searchFrontierPhase) 
+				{
 					neighbour.SearchPhase = searchFrontierPhase;
 					neighbour.Distance = distance;
 					neighbour.PathFrom = current;
 					neighbour.SearchHeuristic = neighbour.coordinates.DistanceTo(toCell.coordinates);
 					searchFrontier.Enqueue(neighbour);
 				}
-				else if (distance < neighbour.Distance) {
+				else if (distance < neighbour.Distance) 
+				{
 					int oldPriority = neighbour.SearchPriority;
 					neighbour.Distance = distance;
 					neighbour.PathFrom = current;

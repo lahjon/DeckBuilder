@@ -24,6 +24,17 @@ public class ScenarioCameraController : MonoBehaviour
         HandleMouseInput();
         HandleMovementInput();
         MoveCamera();
+        if (Input.GetKey(KeyCode.F))
+        {
+            FocusPlayer();
+        }
+    }
+
+    public void FocusPlayer(bool instant = false)
+    {
+        newPosition = new Vector3(Mathf.Clamp(HexGrid.instance.playerPawn.Position.x, minX, maxX), Mathf.Clamp(newPosition.y, minY, maxY), Mathf.Clamp(HexGrid.instance.playerPawn.Position.z - newPosition.y, minZ, maxZ));
+        if (instant)
+            cameraParent.position = newPosition;
     }
 
     public void SetBounds(Vector3 pos)

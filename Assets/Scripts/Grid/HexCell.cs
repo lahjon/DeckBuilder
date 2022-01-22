@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
-    public GameObject debug;
+    public GameObject debug, debugBlock;
     public MeshCollider meshCollider;
     public TileType _tileType;
     public TileType TileType
@@ -23,10 +23,21 @@ public class HexCell : MonoBehaviour
             }
         }
     }
+    public bool Reachable
+    {
+        get => Elevation == 1 && !Blocked;
+    }
+    bool _blocked;
     public bool Blocked
     {
-        get => Elevation != 1;
+        get => _blocked;
+        set
+        {
+            _blocked = value;
+            debugBlock.SetActive(_blocked);
+        }
     }
+    public bool EncounterTile;
     int _distance;
     public int Distance
     {
@@ -38,11 +49,6 @@ public class HexCell : MonoBehaviour
     public int SearchPriority => _distance + SearchHeuristic;
     public int SearchPhase { get; set; }
     public HexCell NextWithSamePriority { get; set; }
-    // public int TerrainTypeIndex
-    // {
-    //     get => HexGrid.instance.meshColors.IndexOf(color);
-    //     set => color = HexGrid.instance.meshColors[value];
-    // }
     public Color color;
     int _elevation;
     public int Elevation 
@@ -72,26 +78,31 @@ public class HexCell : MonoBehaviour
     public bool IsUnderwater => Elevation < 1;
     public static HexGrid hexGrid;
     public HexCell[] neighbours = new HexCell[6];
+    public Encounter encounter;
+    public static ScenarioManager scenarioManager;
     void Awake()
     {
         meshCollider = gameObject.AddComponent<MeshCollider>();
         if (hexGrid == null) hexGrid = HexGrid.instance;
+        if (scenarioManager == null) scenarioManager = WorldSystem.instance.scenarioManager;
     }
     void OnMouseEnter() 
     {
-        hexGrid.tileSelector.Show(this);
-        if (hexGrid.FindPath(hexGrid.currentCell, this)) hexGrid.ShowPath();
+        if (Reachable)
+            hexGrid.tileSelector.Show(this);
     }
     void OnMouseExit() 
     {
         hexGrid.tileSelector.Hide();
-        hexGrid.ClearPath();
     }
 
-    void OnMouseUp()
-    {
-        if (!Blocked && hexGrid.currentCell != this)
-            hexGrid.currentCell = this;
+    void OnMouseDown()
+    {   
+        if (hexGrid.FindPath(hexGrid.currentCell, this, true) && ScenarioManager.ControlsEnabled && (encounter == null || scenarioManager.RequestActionPoints(encounter.actionPointCost)))
+        {
+            hexGrid.playerPawn.MoveToLocation(this);
+            Debug.Log("Mouse Up");
+        }
     }
 
     public void EnableHighlight()

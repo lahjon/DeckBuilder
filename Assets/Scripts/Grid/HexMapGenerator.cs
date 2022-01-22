@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine.UI;
-using System.Linq;
 
 public class HexMapGenerator : MonoBehaviour
 {
@@ -36,6 +35,11 @@ public class HexMapGenerator : MonoBehaviour
 	public int mapSizeZ = 20;
     int cellCount;
     HexCellPriorityQueue searchFrontier;
+	public int seed = 0;
+	[Range(0, 0.2f)]
+	public float encounterProbability = 0.05f;
+	[Range(0, .2f)]
+	public float blockProbability = 0.05f;
 	int searchFrontierPhase;
 	[Range(0f, 0.5f)] public float jitterProbability = 0.25f;
 	TileType[] tileTypes = new TileType[] {
@@ -46,6 +50,7 @@ public class HexMapGenerator : MonoBehaviour
 		TileType.Mountain,
 		TileType.Snow
 	};
+	List<HexCell> playableTiles = new List<HexCell>();
 
     void Start()
     {
@@ -57,9 +62,11 @@ public class HexMapGenerator : MonoBehaviour
 
 	public void GenerateMap(int x, int z) 
     {
+		if (seed < 1) seed = Random.Range(0, 10000);
+		Random.InitState(seed);
         cellCount = x * z;
 		grid.CreateMap(x, z);
-        grid.currentCell = grid.GetCell(0,0);
+        //grid.currentCell = grid.GetCell(0,0);
 
         if (searchFrontier == null) 
         {
@@ -75,26 +82,50 @@ public class HexMapGenerator : MonoBehaviour
 		zMax = z - mapBorderZ;
 
         CreateLand();
-		// foreach (HexCell cell in GetAllBoundryCells())
-		// {
-		// 	cell.Elevation = -1;
-		// }
 
-        for (int i = 0; i < cellCount; i++) {
+        for (int i = 0; i < cellCount; i++) 
+		{
 			grid.GetCell(i).SearchPhase = 0;
 		}
+
+		HexCell center = grid.GetCell(grid.cellCountX / 2, grid.cellCountZ / 2);
+		grid.currentCell = center;
+		
+		for (int i = 0; i < cellCount; i++) 
+		{
+			HexCell cell = grid.GetCell(i);
+			if (cell.Elevation == 1 && grid.FindPath(grid.currentCell, cell))
+				playableTiles.Add(cell);
+		}
+
+		AddBlock(blockProbability);
+		AddEncounters(encounterProbability);
+
+		center.Elevation = 1;
+		center.Blocked = false;
+		for (int i = 0; i < center.neighbours.Length; i++)
+			if (center.neighbours[i] is HexCell neigh)
+			{
+				neigh.Elevation = 1;
+				neigh.Blocked = false;
+			}
 
         for (int i = 0; i < grid.chunks.Count(); i++)
         {
             grid.chunks[i].Triangulate();
         }
+
+		grid.playerPawn.currentTile = grid.currentCell;
+		grid.playerPawn.Position = grid.currentCell.transform.position;
+		WorldSystem.instance.scenarioManager.scenarioCameraController.FocusPlayer(true);
 	}
-	void CreateLand () {
+	void CreateLand () 
+	{
 		int landBudget = Mathf.RoundToInt(cellCount * landPercentage * 0.01f);
 		int counter = 0;
 		while (landBudget > 0) {
 			int chunkSize = Random.Range(chunkSizeMin, chunkSizeMax - 1);
-			counter++; if(counter > 100)
+			counter++; if(counter > 10000)
 			{
 				Debug.LogWarning("Create Error");
 				break;
@@ -106,15 +137,12 @@ public class HexMapGenerator : MonoBehaviour
 				landBudget = RaiseTerrain(chunkSize, landBudget);
 			}
 		}
-		CreateTerrainType(Random.Range(3, 15), 15);
-		CreateTerrainType(Random.Range(3, 15), 15);
-		CreateTerrainType(Random.Range(3, 15), 15);
-		CreateTerrainType(Random.Range(3, 15), 15);
-		CreateTerrainType(Random.Range(3, 15), 15);
-		CreateTerrainType(Random.Range(3, 15), 15);
-		// for (int i = 0; i < 5; i++)
-		// {
-		// }
+		Debug.Log(counter);
+
+		for (int i = 0; i < 10; i++)
+		{
+			CreateTerrainType(Random.Range(3, 15), 15);
+		}
 	}
 
 	void SetTerrainType(int percentage)
@@ -140,6 +168,24 @@ public class HexMapGenerator : MonoBehaviour
 		}
 		for (int i = 0; i < waterTiles.Count; i++) {
 			waterTiles[i].Elevation = -1;
+		}
+	}
+
+	void AddBlock(float percentage)
+	{
+		List<HexCell> removeTiles = new List<HexCell>();
+		for (int i = 0; i < 20; i++)
+		{
+			GetRandomCell().Blocked = true;
+		}
+		playableTiles = playableTiles.Except(removeTiles).ToList();
+	}
+
+	void AddEncounters(float percentage)
+	{
+		for (int i = 0; i < 20; i++)
+		{
+			GetRandomCell().EncounterTile = true;
 		}
 	}
 
@@ -225,7 +271,7 @@ public class HexMapGenerator : MonoBehaviour
     {
 		searchFrontierPhase += 1;
 		HexCell firstCell = GetRandomLandCell();
-		TileType newType = tileTypes[Random.Range(0, tileTypes.Length)];
+		TileType newType = tileTypes[Random.Range(3, tileTypes.Length)];
 
 		firstCell.SearchPhase = searchFrontierPhase;
 		firstCell.Distance = 0;

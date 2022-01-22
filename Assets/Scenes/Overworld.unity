@@ -36416,7 +36416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e60e25eb0e875fc45a8d0a969ced6363, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e60e25eb0e875fc45a8d0a969ced6363, type: 3}
@@ -39194,7 +39194,6 @@ GameObject:
   - component: {fileID: 1276982095}
   - component: {fileID: 1276982098}
   - component: {fileID: 1276982097}
-  - component: {fileID: 1276982096}
   - component: {fileID: 1276982099}
   m_Layer: 0
   m_Name: PlayerPawn
@@ -39211,26 +39210,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1276982094}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children: []
-  m_Father: {fileID: 1380248319}
-  m_RootOrder: 2
+  m_Father: {fileID: 1845619926}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1276982096
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1276982094}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1276982097
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41449,7 +41434,6 @@ RectTransform:
   m_Children:
   - {fileID: 624123282}
   - {fileID: 513358413}
-  - {fileID: 1276982095}
   m_Father: {fileID: 1848971790}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -57078,19 +57062,20 @@ MonoBehaviour:
   chunkPrefab: {fileID: 3072023439598299765, guid: 9c696844e9e1fcc40990e4d932664014, type: 3}
   tileSelector: {fileID: 79380197}
   meshColors:
-  - {r: 0.38679248, g: 0.3663474, b: 0.1550819, a: 0}
-  - {r: 0.7735849, g: 0.7501287, b: 0.5582948, a: 0}
-  - {r: 0.62222004, g: 0.8584906, b: 0.33610713, a: 0}
-  - {r: 0.40377322, g: 0.5943396, b: 0.27754536, a: 0}
-  - {r: 0.22654529, g: 0.3490566, b: 0.14653791, a: 0}
-  - {r: 0.4457547, g: 0.49382573, b: 0.5, a: 0}
-  - {r: 0.8632076, g: 0.98045814, b: 1, a: 0}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0, b: 1, a: 0}
   water: {fileID: 101869667}
   chunks: []
   noiseSource: {fileID: 2800000, guid: 403e0f825c0aea148b87429bdb4a3270, type: 3}
   cells: []
   prefab: {fileID: 252069134769431647, guid: 6806351023a57774ca770f35d6f49121, type: 3}
   currentCell: {fileID: 0}
+  playerPawn: {fileID: 1276982099}
 --- !u!4 &1845619926
 Transform:
   m_ObjectHideFlags: 0
@@ -57105,6 +57090,7 @@ Transform:
   - {fileID: 79380196}
   - {fileID: 101869670}
   - {fileID: 2136733243}
+  - {fileID: 1276982095}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -57247,8 +57233,8 @@ MonoBehaviour:
   fastSpeed: 4
   zoomAmount: 4
   movementTime: 8
-  minY: 10
-  maxY: 50
+  minY: 40
+  maxY: 80
   minX: 0
   minZ: 0
   maxX: 0
@@ -65573,18 +65559,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544f91ce1f1e3344b8ef3088bb502145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkSizeMin: 123
-  chunkSizeMax: 166
-  landPercentage: 56
+  chunkSizeMin: 83
+  chunkSizeMax: 121
+  landPercentage: 60
   highRiseProbability: 0.231
-  sinkProbability: 0.07
+  sinkProbability: 0.092
   waterLevel: 1
   elevationMaximum: 1
-  mapBorderX: 15
-  mapBorderZ: 15
+  mapBorderX: 10
+  mapBorderZ: 10
   grid: {fileID: 1845619925}
   mapSizeX: 40
   mapSizeZ: 40
+  seed: 0
   jitterProbability: 0.161
 --- !u!4 &2136733243
 Transform:

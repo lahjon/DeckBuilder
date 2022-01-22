@@ -6,38 +6,44 @@ using System.Linq;
 
 public class PlayerPawn : MonoBehaviour
 {
-    public HexTileOverworld currentTile;
+    public HexCell currentTile;
     public float moveSpeed;
     ScenarioManager scenarioManager;
+    float heightOffset = 4;
+    public Vector3 Position
+    {
+        get => transform.position;
+        set => transform.position = new Vector3(value.x, heightOffset, value.z);
+    }
     void Start()
     {
         scenarioManager = WorldSystem.instance.scenarioManager;
     }
-    public bool MoveToLocation(HexTileOverworld nextTile)
+    public bool MoveToLocation(HexCell toTile)
     {
-        ScenarioManager.MouseInputEnabled = false;
-        List<HexTile> path = AStarSearch.StartAStarSearch(currentTile, nextTile);
-        if (path == null) 
+        if (HexGrid.instance.ReturnPath() is List<HexCell> path && path.Any())
         {
-            ScenarioManager.MouseInputEnabled = true;
-            return false;
+            currentTile.DisableHighlight();
+            ScenarioManager.MouseInputEnabled = false;
+            path.Reverse();
+            path.RemoveAt(0);
+            StartCoroutine(Move(path, toTile));
+            return true;
         }
-
-        path.Remove(currentTile);
-        StartCoroutine(Move(path, nextTile));
-        currentTile = nextTile;
-        return true;
+        return false;
     }
 
-    IEnumerator Move(List<HexTile> path, HexTileOverworld tileReached)
+    IEnumerator Move(List<HexCell> path, HexCell toTile)
     {
-        foreach (HexTile tile in path)
+        foreach (HexCell tile in path)
         {
             transform.DOMove(new Vector3(tile.transform.position.x, transform.position.y, tile.transform.position.z), moveSpeed);
+            tile.DisableHighlight();
             yield return new WaitForSeconds(moveSpeed);
         }
         ScenarioManager.MouseInputEnabled = true;
-        tileReached.StartEncounter();
+        HexGrid.instance.currentCell = toTile;
+        currentTile = toTile;
     }
     
 }
