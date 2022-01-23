@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class HexCell : MonoBehaviour
 {
     public HexCoordinates coordinates;
-    public GameObject debug, debugBlock;
+    public GameObject debug, debugBlock, debugTile;
     public MeshCollider meshCollider;
     public TileType _tileType;
     public TileType TileType
@@ -35,6 +35,7 @@ public class HexCell : MonoBehaviour
         {
             _blocked = value;
             debugBlock.SetActive(_blocked);
+            debugTile.SetActive(!_blocked);
         }
     }
     public bool EncounterTile;
@@ -44,17 +45,17 @@ public class HexCell : MonoBehaviour
         get => _distance;
         set => _distance = value;
     }
-    public HexCell PathFrom{get; set;}
-    public int SearchHeuristic{get; set;}
+    public HexCell PathFrom { get; set; }
+    public int SearchHeuristic { get; set; }
     public int SearchPriority => _distance + SearchHeuristic;
     public int SearchPhase { get; set; }
     public HexCell NextWithSamePriority { get; set; }
     public Color color;
     int _elevation;
-    public int Elevation 
+    public int Elevation
     {
-		get => _elevation;
-		set
+        get => _elevation;
+        set
         {
             _elevation = value;
             if (_elevation < 0)
@@ -74,7 +75,7 @@ public class HexCell : MonoBehaviour
                 color = HexGrid.instance.meshColors[4];
             }
         }
-	}
+    }
     public bool IsUnderwater => Elevation < 1;
     public static HexGrid hexGrid;
     public HexCell[] neighbours = new HexCell[6];
@@ -86,18 +87,18 @@ public class HexCell : MonoBehaviour
         if (hexGrid == null) hexGrid = HexGrid.instance;
         if (scenarioManager == null) scenarioManager = WorldSystem.instance.scenarioManager;
     }
-    void OnMouseEnter() 
+    void OnMouseEnter()
     {
         if (Reachable)
             hexGrid.tileSelector.Show(this);
     }
-    void OnMouseExit() 
+    void OnMouseExit()
     {
         hexGrid.tileSelector.Hide();
     }
 
     void OnMouseDown()
-    {   
+    {
         if (hexGrid.FindPath(hexGrid.currentCell, this, true) && ScenarioManager.ControlsEnabled && (encounter == null || scenarioManager.RequestActionPoints(encounter.actionPointCost)))
         {
             hexGrid.playerPawn.MoveToLocation(this);
@@ -113,25 +114,47 @@ public class HexCell : MonoBehaviour
     {
         debug.SetActive(false);
     }
+    public void StartEncounter()
+    {
+        if (encounter != null)
+        {
+            encounter.StartEncounter();
+            if (encounter.consumable)
+            {
+                Destroy(encounter.gameObject);
+                encounter = null;
+            }
+        }
+    }
+    public Encounter AddEncounter()
+    {
+        if (encounter == null)
+        {
+            encounter = Instantiate(scenarioManager.hexGridOverworld.encounterPrefab, transform).GetComponent<Encounter>();
+            encounter.Init();
+            return encounter;
+        }
+        return null;
+    }
     public Vector3 Position
     {
         get => new Vector3(transform.localPosition.x, transform.localPosition.y + (Elevation * HexMetrics.elevationStep), transform.localPosition.z);
     }
-    public HexCell GetNeighbor(HexDirection direction) 
+    public HexCell GetNeighbor(HexDirection direction)
     {
-		return neighbours[(int)direction];
-	}
-    public void SetNeighbour(HexDirection direction, HexCell cell) 
+        return neighbours[(int)direction];
+    }
+    public void SetNeighbour(HexDirection direction, HexCell cell)
     {
-		neighbours[(int)direction] = cell;
-		cell.neighbours[(int)direction.Opposite()] = this;
-	}
-    public HexEdgeType GetEdgeType(HexDirection direction) 
-	{
-		return HexMetrics.GetEdgeType(Elevation, neighbours[(int)direction].Elevation);
-	}
-    public HexEdgeType GetEdgeType(HexCell otherCell) 
+        neighbours[(int)direction] = cell;
+        cell.neighbours[(int)direction.Opposite()] = this;
+    }
+    public HexEdgeType GetEdgeType(HexDirection direction)
     {
-		return HexMetrics.GetEdgeType(Elevation, otherCell.Elevation);
-	}
+        return HexMetrics.GetEdgeType(Elevation, neighbours[(int)direction].Elevation);
+    }
+    public HexEdgeType GetEdgeType(HexCell otherCell)
+    {
+        return HexMetrics.GetEdgeType(Elevation, otherCell.Elevation);
+    }
 }

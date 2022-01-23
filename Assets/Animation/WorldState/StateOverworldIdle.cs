@@ -6,7 +6,7 @@
 // {
 //     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
 //     {
-//         Init(TransitionType.Normal, WorldState.Overworld);
+//         //Init(TransitionType.Normal, WorldState.Overworld);
 //     }
 
 //     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

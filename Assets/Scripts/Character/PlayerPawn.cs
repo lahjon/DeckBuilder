@@ -44,6 +44,7 @@ public class PlayerPawn : MonoBehaviour
         ScenarioManager.MouseInputEnabled = true;
         HexGrid.instance.currentCell = toTile;
         currentTile = toTile;
+        currentTile.StartEncounter();
     }
-    
+
 }

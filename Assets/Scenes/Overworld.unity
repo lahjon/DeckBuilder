@@ -65572,6 +65572,8 @@ MonoBehaviour:
   mapSizeX: 40
   mapSizeZ: 40
   seed: 0
+  encounterProbability: 0.05
+  blockProbability: 0.05
   jitterProbability: 0.161
 --- !u!4 &2136733243
 Transform:

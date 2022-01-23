@@ -56,7 +56,7 @@ public class HexTileOverworld : HexTile
         if (encounter != null)
         {
             encounter.StartEncounter();
-            if (encounter.oneTime)
+            if (encounter.consumable)
             {
                 Destroy(encounter.gameObject);
                 encounter = null;

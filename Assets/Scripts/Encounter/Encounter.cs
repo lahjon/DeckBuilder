@@ -27,7 +27,7 @@ public class Encounter : MonoBehaviour
 
     public string storyID;
     public EncounterData encData;
-    public bool oneTime;
+    public bool consumable;
 
     public EncounterHexStatus _status = EncounterHexStatus.Idle;
     bool _highlighted;
@@ -41,7 +41,7 @@ public class Encounter : MonoBehaviour
         {
             _encounterType = value;
             EncounterSetup setup = WorldSystem.instance.encounterManager.encounterSetups.FirstOrDefault(x => x.encounterType == _encounterType);
-            oneTime = setup.oneTime;
+            consumable = setup.oneTime;
             actionPointCost = setup.cost;
             if (setup.encounterMesh != null)
                 Instantiate(setup.encounterMesh, transform);
@@ -80,7 +80,7 @@ public class Encounter : MonoBehaviour
             {
                 spriteRenderer.color = new Color(.8f, .8f, .8f);
                 foreach (EncounterRoad road in roads)
-                    if(road.status == EncounterRoadStatus.Idle)
+                    if (road.status == EncounterRoadStatus.Idle)
                         road.status = EncounterRoadStatus.Unreachable;
             }
             else
@@ -98,13 +98,13 @@ public class Encounter : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(storyID))
         {
-            if(encData is EncounterDataCombat encComb)
+            if (encData is EncounterDataCombat encComb)
             {
                 CombatSystem.instance.encounterData = encComb;
                 WorldStateSystem.SetInCombat(true);
                 return;
             }
-            else if(encData is EncounterDataRandomEvent encEvent)
+            else if (encData is EncounterDataRandomEvent encEvent)
             {
                 WorldSystem.instance.uiManager.encounterUI.encounterData = encEvent;
                 WorldStateSystem.SetInChoice(true);

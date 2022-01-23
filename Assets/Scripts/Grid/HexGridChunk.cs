@@ -20,14 +20,13 @@ public class HexGridChunk : MonoBehaviour
 	public void Triangulate() 
     {
 		terrain.Clear();
-		//water.Clear();
 		for (int i = 0; i < cells.Length; i++) {
             
 			Triangulate(cells[i]);
             TriangulateCollider(cells[i]);
 		}
+		terrain.PlanarUVProjection(false);
 		terrain.Apply();
-		terrain.PlanarUVProjection();
 	}
     void Triangulate(HexCell cell) 
     {

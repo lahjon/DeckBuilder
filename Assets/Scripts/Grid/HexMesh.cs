@@ -47,24 +47,28 @@ public class HexMesh : MonoBehaviour
 
 		if (useUv) 
 		{
+			Debug.Log("Apply UV");
+
 			hexMesh.SetUVs(0, uvs);
 			ListPool<Vector2>.Add(uvs);
 		}
 		hexMesh.RecalculateNormals();
 		hexMesh.Optimize();
 	}
-	public void PlanarUVProjection()
+	public void PlanarUVProjection(bool apply = true)
 	{
 		int i = 0;
 		Bounds bounds = hexMesh.bounds;
 		List<Vector2> newUvs = new List<Vector2>();
-		while(i < hexMesh.vertices.Count())
+
+		while(i < vertices.Count)
 		{
-			//newUvs.Add(new Vector2(hexMesh.vertices[i].x / bounds.size.x, hexMesh.vertices[i].z / bounds.size.x));
-			newUvs.Add(new Vector2(hexMesh.vertices[i].x / 100, hexMesh.vertices[i].z / 100));
+			newUvs.Add(new Vector2(vertices[i].x / 100, vertices[i].z / 100));
 			i++;
 		}
-		hexMesh.SetUVs(0, newUvs);
+		uvs = newUvs;
+		if (apply) hexMesh.SetUVs(0, newUvs);
+		
 	}
 
 	public void AddTriangleUnperturbed (Vector3 v1, Vector3 v2, Vector3 v3) 

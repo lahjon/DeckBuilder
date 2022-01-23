@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexMesh: {fileID: 0}
   useColors: 1
-  useUv: 0
+  useUv: 1
 --- !u!1 &3072023439598299766
 GameObject:
   m_ObjectHideFlags: 0
