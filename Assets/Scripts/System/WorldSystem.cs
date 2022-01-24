@@ -40,6 +40,7 @@ public class WorldSystem : MonoBehaviour
     public ToolTipManager toolTipManager;
     public HUDManager hudManager;
     public LevelManager levelManager;
+    public BuildManager buildManager;
     public int act;
     public int subAct;
     public int saveAmount;

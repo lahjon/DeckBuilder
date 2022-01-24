@@ -64,6 +64,11 @@ public class ScenarioManager : Manager
         base.Start();
     }
 
+    public void ButtonBuildMode()
+    {
+        BuildManager.BuildMode = !BuildManager.BuildMode;
+    }
+
     public void StartScenario()
     {
         ResetEncounters();

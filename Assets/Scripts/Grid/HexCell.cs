@@ -81,16 +81,33 @@ public class HexCell : MonoBehaviour
     public HexCell[] neighbours = new HexCell[6];
     public Encounter encounter;
     public static ScenarioManager scenarioManager;
+    public static BuildManager buildManager;
+    public BuildingOverworld building;
     void Awake()
     {
         meshCollider = gameObject.AddComponent<MeshCollider>();
         if (hexGrid == null) hexGrid = HexGrid.instance;
         if (scenarioManager == null) scenarioManager = WorldSystem.instance.scenarioManager;
+        if (buildManager == null) buildManager = WorldSystem.instance.buildManager;
+    }
+    void Update() 
+    {
+        
     }
     void OnMouseEnter()
     {
-        if (Reachable)
-            hexGrid.tileSelector.Show(this);
+        if (BuildManager.Following)
+        {
+            if (Reachable)
+                buildManager.FollowGhost(Position);
+            else
+                buildManager.HideGhost();
+        }
+        else
+        {
+            if (Reachable)
+                hexGrid.tileSelector.Show(this);
+        }
     }
     void OnMouseExit()
     {
@@ -99,10 +116,17 @@ public class HexCell : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (hexGrid.FindPath(hexGrid.currentCell, this, true) && ScenarioManager.ControlsEnabled && (encounter == null || scenarioManager.RequestActionPoints(encounter.actionPointCost)))
+        if (!BuildManager.Following)
         {
-            hexGrid.playerPawn.MoveToLocation(this);
-            Debug.Log("Mouse Up");
+            if (hexGrid.FindPath(hexGrid.currentCell, this, true) && ScenarioManager.ControlsEnabled && (encounter == null || scenarioManager.RequestActionPoints(encounter.actionPointCost)))
+            {
+                hexGrid.playerPawn.MoveToLocation(this);
+                Debug.Log("Mouse Up");
+            } 
+        }
+        else
+        {
+            buildManager.PlaceBuilding(this);
         }
     }
 
