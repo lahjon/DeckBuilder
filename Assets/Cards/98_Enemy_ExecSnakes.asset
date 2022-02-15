@@ -47,7 +47,7 @@ MonoBehaviour:
     execTime: 0
   cardName: ExecSnakes
   cardType: 2
-  artwork: {fileID: 21300000, guid: 30b7e5bee53a52b42b68509bf97e0de3, type: 3}
+  artwork: {fileID: 21300000, guid: a0e56af960775c8479aa8e9c2673a944, type: 3}
   visibleCost: 1
   upgradeCostFullEmber: 1
   maxUpgrades: 0

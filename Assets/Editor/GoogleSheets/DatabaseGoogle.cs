@@ -36,12 +36,10 @@ public class DatabaseGoogle
 
     public DatabaseGoogle()
     {
-        StreamReader reader = new StreamReader(@"C:\PassKeyGoogleSheets\passkey.csv");
-        SpreadSheetIDs["Main"] = reader.ReadLine();
-
+        SpreadSheetIDs["Main"] = "17GflJ9aZYsEpgOmopd5H1e92KdqSRa22m0zvHU4gxvc";
 
         GoogleCredential credential;
-        using (FileStream stream = new FileStream("GoogleSheets.json", FileMode.Open, FileAccess.Read))
+        using (FileStream stream = new FileStream(@"C:\PassKeyGoogleSheets\GoogleSheets.json", FileMode.Open, FileAccess.Read))
         {
             credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
 
