@@ -36,7 +36,8 @@ public class DatabaseGoogle
 
     public DatabaseGoogle()
     {
-        SpreadSheetIDs["Main"] = "17GflJ9aZYsEpgOmopd5H1e92KdqSRa22m0zvHU4gxvc";
+        StreamReader reader = new StreamReader(@"C:\PassKeyGoogleSheets\passkey.csv");
+        SpreadSheetIDs["Main"] = reader.ReadLine();
 
 
         GoogleCredential credential;
